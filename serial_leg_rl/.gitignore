@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Isaac/Omniverse generated assets and caches.
+assets/generated/*
+!assets/generated/README.md
+logs/
+runs/
+outputs/
+*.usd
+*.usda
+*.usdc
+
+# Training artifacts.
+*.pt
+*.pth
+*.onnx
+events.out.tfevents*
+

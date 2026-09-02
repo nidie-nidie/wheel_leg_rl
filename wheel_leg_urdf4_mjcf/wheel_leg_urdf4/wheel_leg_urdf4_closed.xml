@@ -1,0 +1,217 @@
+<mujoco model="wheel_leg_urdf4">
+  <compiler angle="radian" meshdir="meshes/" />
+  <asset>
+    <mesh name="base_link" file="base_link.STL" />
+    <mesh name="jIO" file="jIO.STL" />
+    <mesh name="jOP" file="jOP.STL" />
+    <mesh name="jwheel_left" file="jwheel_left.STL" />
+    <mesh name="jAG" file="jAG.STL" />
+    <mesh name="jGH" file="jGH.STL" />
+    <mesh name="jwheel_right" file="jwheel_right.STL" />
+    <mesh name="jIJ" file="jIJ.STL" />
+    <mesh name="jJM" file="jJM.STL" />
+    <mesh name="jMK" file="jMK.STL" />
+    <mesh name="jKN" file="jKN.STL" />
+    <mesh name="jAB" file="jAB.STL" />
+    <mesh name="jBE" file="jBE.STL" />
+    <mesh name="jEC" file="jEC.STL" />
+    <mesh name="jCF" file="jCF.STL" />
+    <material name="base_link_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jIO_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jOP_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jwheel_left_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jIO_dummy_child_link1_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jIO_dummy_child_link2_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jAG_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jGH_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jwheel_right_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jAG_dummy_child_link1_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jAG_dummy_child_link2_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jIJ_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jJM_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jMK_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jKN_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jKN_dummy_child_link1_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jKN_dummy_child_link2_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jMK_dummy_child1_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jMK_dummy_child2_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jAB_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jBE_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jEC_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jCF_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jCF_dummy_child_link1_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jCF_dummy_child_link2_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jEC_dummy_child_link1_mat" rgba="1 1 1 1" specular="0" />
+    <material name="jEC_dummy_child_link2_mat" rgba="1 1 1 1" specular="0" />
+  </asset>
+
+  <worldbody>
+    <body name="base_link" pos="0 0 0">
+      <inertial pos="0.0417103 -1.2738845 0.0104467" mass="2.9590077" fullinertia="0.0056482148 0.0050524279 0.0075733097 -0.0000008673 0.0000000444 0.0000040312"/>
+      <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="base_link_mat" type="mesh" mesh="base_link" />
+      <geom pos="0.0421294 -1.3031 0.0062453" rgba="0.4392 0.4392 0.4392 1" group="3" contype="1" conaffinity="1" type="box" size="0.244 0.2952 0.0955" />
+      <body name="jIO" pos="-0.1522986 -1.2700002 0.0619694" quat="0.7071068 0 0 0.7071068">
+        <joint name="jIO" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+        <inertial pos="-0.1054525 -0.012301 0.0159392" mass="0.077344" fullinertia="0.00003351 0.0004740894 0.0004419619 0.0000003193 0.000056068 -0.0000001312"/>
+        <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jIO_mat" type="mesh" mesh="jIO" />
+        <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jIO" />
+        <body name="jOP" pos="-0.213571 0.003372 0.0245218">
+          <joint name="jOP" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+          <inertial pos="0.0856414 -0.0054263 -0.0568953" mass="0.1264652" fullinertia="0.0004127776 0.0011948489 0.0007845886 0 0.0005167124 0"/>
+          <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jOP_mat" type="mesh" mesh="jOP" />
+          <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jOP" />
+          <body name="jwheel_left" pos="0.2135712 0.0402 -0.1447458">
+            <joint name="jwheel_left" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+            <inertial pos="0.0001362 -0.0216832 -0.000319" mass="0.4003533" fullinertia="0.0003491533 0.0005769566 0.0003526795 0.0000004461 -0.0000018384 -0.0000010347"/>
+            <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jwheel_left_mat" type="mesh" mesh="jwheel_left" />
+            <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jwheel_left" />
+          </body>
+        </body>
+        <body name="jIO_dummy_child_link1" pos="-0.0963552 -0.014128 0.0109403">
+          <joint name="jIO_dummy_child_link1" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+          <inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/>
+          <site name="left_rear_loop_1" pos="0 0 0" size="0.008" rgba="1 0 0 1"/>
+        </body>
+        <body name="jIO_dummy_child_link2" pos="-0.0963552 -0.011628 0.0109403">
+          <joint name="jIO_dummy_child_link2" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+          <inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/>
+          <site name="left_rear_loop_2" pos="0 0 0" size="0.008" rgba="1 0.5 0 1"/>
+        </body>
+      </body>
+      <body name="jAG" pos="0.2365575 -1.2699998 0.0619694" quat="0.7071068 0 0 0.7071068">
+        <joint name="jAG" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+        <inertial pos="-0.1054529 0.012301 0.0159392" mass="0.077344" fullinertia="0.00003351 0.0004740894 0.0004419619 -0.0000003193 0.000056068 0.0000001312"/>
+        <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jAG_mat" type="mesh" mesh="jAG" />
+        <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jAG" />
+        <body name="jGH" pos="-0.2135713 -0.003372 0.0245218">
+          <joint name="jGH" type="hinge" axis="0 1 0" damping="0" frictionloss="0"/>
+          <inertial pos="0.0857663 0.0054204 -0.0569782" mass="0.1262811" fullinertia="0.0004127578 0.0011948092 0.0007845687 0 0.0005167124 0"/>
+          <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jGH_mat" type="mesh" mesh="jGH" />
+          <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jGH" />
+          <body name="jwheel_right" pos="0.2135712 -0.0402 -0.1447458">
+            <joint name="jwheel_right" type="hinge" axis="0 1 0" damping="0" frictionloss="0"/>
+            <inertial pos="0.0000988 0.0216832 -0.0003325" mass="0.4003533" fullinertia="0.0003487837 0.0005769566 0.0003530492 -0.0000003172 -0.0000013926 0.0000010812"/>
+            <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jwheel_right_mat" type="mesh" mesh="jwheel_right" />
+            <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jwheel_right" />
+          </body>
+        </body>
+        <body name="jAG_dummy_child_link1" pos="-0.0963555 0.014128 0.0109403">
+          <joint name="jAG_dummy_child_link1" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+          <inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/>
+          <site name="right_rear_loop_1" pos="0 0 0" size="0.008" rgba="1 0 0 1"/>
+        </body>
+        <body name="jAG_dummy_child_link2" pos="-0.0963555 0.019128 0.0109403">
+          <joint name="jAG_dummy_child_link2" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+          <inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/>
+          <site name="right_rear_loop_2" pos="0 0 0" size="0.008" rgba="1 0.5 0 1"/>
+        </body>
+      </body>
+      <body name="jIJ" pos="-0.1522986 -1.2700002 0.0619694" quat="0.7071068 0 0 0.7071068">
+        <joint name="jIJ" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+        <inertial pos="0.0410163 0.0022553 0.0027308" mass="0.0193563" fullinertia="0.0000042559 0.0000283326 0.0000242761 -0.000000021 -0.0000014498 -0.0000000015"/>
+        <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jIJ_mat" type="mesh" mesh="jIJ" />
+        <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jIJ" />
+        <body name="jJM" pos="0.0967494 -0.002628 0.0067459">
+          <joint name="jJM" type="hinge" axis="0 1 0" damping="0" frictionloss="0"/>
+          <inertial pos="-0.05345 -0.0037068 -0.0344676" mass="0.0067699" fullinertia="0.0000023019 0.000008212 0.0000059378 0.0000000001 -0.000003611 -0.0000000002"/>
+          <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jJM_mat" type="mesh" mesh="jJM" />
+          <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jJM" />
+          <body name="jMK" pos="-0.0979082 0.0051 -0.060324">
+            <joint name="jMK" type="hinge" axis="0 1 0" damping="0" frictionloss="0"/>
+            <inertial pos="-0.0759553 -0.0029262 0.0578354" mass="0.0198063" fullinertia="0.000021662 0.0000517936 0.0000302838 0 0.0000240064 0"/>
+            <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jMK_mat" type="mesh" mesh="jMK" />
+            <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jMK" />
+            <body name="jKN" pos="-0.1325826 -0.01135 0.1162168">
+              <joint name="jKN" type="hinge" axis="0 1 0" damping="0" frictionloss="0"/>
+              <inertial pos="-0.0620655 -0.0003389 0.0071913" mass="0.0086212" fullinertia="0.0000002587 0.0000114016 0.0000111992 -0.0000000501 0.0000012849 0.0000000058"/>
+              <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jKN_mat" type="mesh" mesh="jKN" />
+              <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jKN" />
+              <body name="jKN_dummy_child_link1" pos="-0.1172158 -0.00425 0.0135814">
+                <joint name="jKN_dummy_child_link1" type="hinge" axis="0 1 0" damping="0" frictionloss="0"/>
+                <inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/>
+              </body>
+              <body name="jKN_dummy_child_link2" pos="-0.1172158 0.00225 0.0135814">
+                <joint name="jKN_dummy_child_link2" type="hinge" axis="0 1 0" damping="0" frictionloss="0"/>
+                <inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/>
+              </body>
+            </body>
+            <body name="jMK_dummy_child1" pos="-0.0951965 0.0015 0.0645185">
+              <joint name="jMK_dummy_child1" type="hinge" axis="0 1 0" damping="0" frictionloss="0"/>
+              <inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/>
+              <site name="left_front_loop_1" pos="0 0 0" size="0.008" rgba="0 1 0 1"/>
+            </body>
+            <body name="jMK_dummy_child2" pos="-0.0951965 -0.0031 0.0645185">
+              <joint name="jMK_dummy_child2" type="hinge" axis="0 1 0" damping="0" frictionloss="0"/>
+              <inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/>
+              <site name="left_front_loop_2" pos="0 0 0" size="0.008" rgba="0 0.7 1 1"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="jAB" pos="0.2365575 -1.2699998 0.0619694" quat="0.7071068 0 0 0.7071068">
+        <joint name="jAB" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+        <inertial pos="0.0410159 -0.0022553 0.0027308" mass="0.0193563" fullinertia="0.0000042559 0.0000283326 0.0000242761 0.000000021 -0.0000014498 0.0000000015"/>
+        <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jAB_mat" type="mesh" mesh="jAB" />
+        <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jAB" />
+        <body name="jBE" pos="0.0967491 0.002628 0.0067459">
+          <joint name="jBE" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+          <inertial pos="-0.05345 0.0042068 -0.0344676" mass="0.0067699" fullinertia="0.0000023019 0.000008212 0.0000059378 -0.0000000001 -0.000003611 0.0000000002"/>
+          <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jBE_mat" type="mesh" mesh="jBE" />
+          <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jBE" />
+          <body name="jEC" pos="-0.0979082 -0.0046 -0.060324">
+            <joint name="jEC" type="hinge" axis="0 1 0" damping="0" frictionloss="0"/>
+            <inertial pos="-0.0759553 0.0024262 0.0578354" mass="0.0198063" fullinertia="0.000021662 0.0000517936 0.0000302838 0 0.0000240064 0"/>
+            <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jEC_mat" type="mesh" mesh="jEC" />
+            <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jEC" />
+            <body name="jCF" pos="-0.1325826 0.01085 0.1162168">
+              <joint name="jCF" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+              <inertial pos="-0.0620655 0.0003389 0.0071913" mass="0.0086212" fullinertia="0.0000002587 0.0000114016 0.0000111992 0.0000000501 0.0000012849 -0.0000000058"/>
+              <geom pos="0 0 0" group="1" contype="0" conaffinity="0" material="jCF_mat" type="mesh" mesh="jCF" />
+              <geom pos="0 0 0" rgba="0.9373 0.2667 0.2667 1" group="3" contype="1" conaffinity="1" type="mesh" mesh="jCF" />
+              <body name="jCF_dummy_child_link1" pos="-0.1172158 0.00425 0.0135814">
+                <joint name="jCF_dummy_child_link1" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+                <inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/>
+              </body>
+              <body name="jCF_dummy_child_link2" pos="-0.1172158 -0.00225 0.0135814">
+                <joint name="jCF_dummy_child_link2" type="hinge" axis="0 -1 0" damping="0" frictionloss="0"/>
+                <inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/>
+              </body>
+            </body>
+            <body name="jEC_dummy_child_link1" pos="-0.0951965 -0.002 0.0645185">
+              <joint name="jEC_dummy_child_link1" type="hinge" axis="0 1 0" damping="0" frictionloss="0"/>
+              <inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/>
+              <site name="right_front_loop_1" pos="0 0 0" size="0.008" rgba="0 1 0 1"/>
+            </body>
+            <body name="jEC_dummy_child_link2" pos="-0.0951965 0.002 0.0645185">
+              <joint name="jEC_dummy_child_link2" type="hinge" axis="0 1 0" damping="0" frictionloss="0"/>
+              <inertial pos="0 0 0" mass="0.001" diaginertia="0.000001 0.000001 0.000001"/>
+              <site name="right_front_loop_2" pos="0 0 0" size="0.008" rgba="0 0.7 1 1"/>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <equality>
+    <connect name="left_loop_1" site1="left_rear_loop_1" site2="left_front_loop_1" solref="0.002 1" solimp="0.99 0.999 0.001"/>
+    <connect name="left_loop_2" site1="left_rear_loop_2" site2="left_front_loop_2" solref="0.002 1" solimp="0.99 0.999 0.001"/>
+    <connect name="right_loop_1" site1="right_rear_loop_1" site2="right_front_loop_1" solref="0.002 1" solimp="0.99 0.999 0.001"/>
+    <connect name="right_loop_2" site1="right_rear_loop_2" site2="right_front_loop_2" solref="0.002 1" solimp="0.99 0.999 0.001"/>
+  </equality>
+  <actuator>
+    <position name="jIO_servo" joint="jIO" kp="100" />
+    <position name="jOP_servo" joint="jOP" kp="100" />
+    <position name="jwheel_left_servo" joint="jwheel_left" kp="100" />
+    <position name="jAG_servo" joint="jAG" kp="100" />
+    <position name="jGH_servo" joint="jGH" kp="100" />
+    <position name="jwheel_right_servo" joint="jwheel_right" kp="100" />
+    <position name="jIJ_servo" joint="jIJ" kp="100" />
+    <position name="jJM_servo" joint="jJM" kp="100" />
+    <position name="jMK_servo" joint="jMK" kp="100" />
+    <position name="jKN_servo" joint="jKN" kp="100" />
+    <position name="jAB_servo" joint="jAB" kp="100" />
+    <position name="jBE_servo" joint="jBE" kp="100" />
+    <position name="jEC_servo" joint="jEC" kp="100" />
+    <position name="jCF_servo" joint="jCF" kp="100" />
+  </actuator>
+</mujoco>

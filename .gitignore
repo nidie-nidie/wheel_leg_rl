@@ -1,0 +1,117 @@
+# OS and editor noise
+.DS_Store
+Thumbs.db
+*~
+.agents/
+.codex/
+.git_root_backup/
+**/.agents/
+**/.codex/
+**/.git/
+**/.git_backup/
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Python caches and build products
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Local Python environments and package caches
+.venv/
+.venv_*/
+venv/
+env/
+.uv-cache/
+.pip-cache/
+
+# Isaac Lab / Omniverse local runtime state
+**/.runtime_cache/
+**/.runtime_config/
+**/.runtime_data/
+**/.runtime_home/
+**/.nvidia-omniverse/
+**/.matplotlib-cache/
+**/.torch_extensions/
+**/kit/cache/
+**/omni/logs/
+
+# Heavy local environments inside vendored tools
+wheel_leg/WheelLeg_RL_IsaacLab/IsaacLab/.venv/
+wheel_leg/WheelLeg_RL_IsaacLab/IsaacLab/.uv-cache/
+wheel_leg/WheelLeg_RL_IsaacLab/IsaacLab/.tools/
+wheel_leg/WheelLeg_RL_IsaacLab/Wheel-Legged-Gym/
+wheel_leg/WheelLeg_RL_IsaacLab/papers/
+
+# Training, Hydra, TensorBoard, and simulation outputs
+logs/
+outputs/
+runs/
+**/logs/
+**/outputs/
+**/runs/
+events.out.tfevents*
+*.log
+*.hydra/
+
+# RL checkpoints and exported policies
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.engine
+*.jit
+
+# Rendered videos and captured frames
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.gif
+screenshots/
+captures/
+videos/
+
+# Archives and bulky transfer artifacts
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+
+# Large generated/data artifacts
+*.bag
+*.db3
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.csv
+!serial_leg_rl/**/*.csv
+wheel_leg/WheelLeg_RL_IsaacLab/IsaacLab/vmcr_data.csv
+
+# ROS / colcon generated directories
+install/
+devel/
+log/
+
+# Generated Isaac assets that can be recreated
+serial_leg_rl/assets/generated/*
+!serial_leg_rl/assets/generated/README.md
+
+# Legacy or external workspaces not required by this Isaac Lab project
+mevius2-master/
+wheel_leg/third_party/

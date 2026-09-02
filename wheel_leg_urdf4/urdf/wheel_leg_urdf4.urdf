@@ -1,0 +1,1425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="wheel_leg_urdf4">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.0417103203611099 -1.27388449249164 0.0104466638996164"
+        rpy="0 0 0" />
+      <mass
+        value="2.95900767288669" />
+      <inertia
+        ixx="0.00564821484497837"
+        ixy="-8.67327771195511E-07"
+        ixz="4.43710335940438E-08"
+        iyy="0.00505242789744662"
+        iyz="4.03121947642724E-06"
+        izz="0.00757330965851875" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="jIO">
+    <inertial>
+      <origin
+        xyz="-0.10545251872028 -0.0123010033000107 0.0159392444079148"
+        rpy="0 0 0" />
+      <mass
+        value="0.0773440177859889" />
+      <inertia
+        ixx="3.35100338960917E-05"
+        ixy="3.19337540166465E-07"
+        ixz="5.60679890597341E-05"
+        iyy="0.000474089435340881"
+        iyz="-1.31217486782756E-07"
+        izz="0.000441961905697285" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jIO.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jIO.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jIO"
+    type="continuous">
+    <origin
+      xyz="-0.152298612320918 -1.27000017746789 0.0619693908644082"
+      rpy="0 0 1.5707963267949" />
+    <parent
+      link="base_link" />
+    <child
+      link="jIO" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jOP">
+    <inertial>
+      <origin
+        xyz="0.0856414065246804 -0.00542634955118387 -0.0568952960961922"
+        rpy="0 0 0" />
+      <mass
+        value="0.126465217133379" />
+      <inertia
+        ixx="0.000412777627089861"
+        ixy="6.26938341366129E-19"
+        ixz="0.000516712382409134"
+        iyy="0.00119484888145927"
+        iyz="-3.48947579005574E-19"
+        izz="0.00078458856414343" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jOP.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jOP.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jOP"
+    type="continuous">
+    <origin
+      xyz="-0.21357099037258 0.00337196090229192 0.0245217656620774"
+      rpy="0 0 0" />
+    <parent
+      link="jIO" />
+    <child
+      link="jOP" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jwheel_left">
+    <inertial>
+      <origin
+        xyz="0.000136224876013724 -0.021683188837513 -0.000318963349613781"
+        rpy="0 0 0" />
+      <mass
+        value="0.400353261502345" />
+      <inertia
+        ixx="0.00034915332861238"
+        ixy="4.46065784418877E-07"
+        ixz="-1.83836286102846E-06"
+        iyy="0.000576956644744147"
+        iyz="-1.03473547359132E-06"
+        izz="0.000352679506382096" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jwheel_left.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jwheel_left.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jwheel_left"
+    type="continuous">
+    <origin
+      xyz="0.213571167841369 0.0401999999999999 -0.144745833331702"
+      rpy="0 0 0" />
+    <parent
+      link="jOP" />
+    <child
+      link="jwheel_left" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jIO_dummy_child_link1">
+    <inertial>
+      <origin
+        xyz="0.0815927496996169 -0.177682414740819 -0.0663810950575556"
+        rpy="0 0 0" />
+      <mass
+        value="12.6868388381879" />
+      <inertia
+        ixx="0.313222187121336"
+        ixy="0.00199807137524142"
+        ixz="0.0108840784927306"
+        iyy="0.207353013857842"
+        iyz="-0.0021039013382613"
+        izz="0.453714554241995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jIO_dummy_child_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jIO_dummy_child_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jIO_dummy_child_link1"
+    type="continuous">
+    <origin
+      xyz="-0.0963551866275421 -0.0141280390974718 0.0109403315543567"
+      rpy="0 0 0" />
+    <parent
+      link="jIO" />
+    <child
+      link="jIO_dummy_child_link1" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jIO_dummy_child_link2">
+    <inertial>
+      <origin
+        xyz="0.0815927496996169 -0.180182414740819 -0.0663810950575556"
+        rpy="0 0 0" />
+      <mass
+        value="12.6868388381879" />
+      <inertia
+        ixx="0.313222187121336"
+        ixy="0.00199807137524142"
+        ixz="0.0108840784927306"
+        iyy="0.207353013857842"
+        iyz="-0.0021039013382613"
+        izz="0.453714554241995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jIO_dummy_child_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jIO_dummy_child_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jIO_dummy_child_link2"
+    type="continuous">
+    <origin
+      xyz="-0.0963551866275421 -0.0116280390974718 0.0109403315543567"
+      rpy="0 0 0" />
+    <parent
+      link="jIO" />
+    <child
+      link="jIO_dummy_child_link2" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jAG">
+    <inertial>
+      <origin
+        xyz="-0.105452873655738 0.0123010033000046 0.0159392444099737"
+        rpy="0 0 0" />
+      <mass
+        value="0.0773440177859889" />
+      <inertia
+        ixx="3.35100338982816E-05"
+        ixy="-3.19337540163041E-07"
+        ixz="5.60679890677097E-05"
+        iyy="0.000474089435340882"
+        iyz="1.31217486788911E-07"
+        izz="0.000441961905695096" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jAG.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jAG.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jAG"
+    type="continuous">
+    <origin
+      xyz="0.236557465874025 -1.26999982253211 0.0619693908643919"
+      rpy="0 0 1.5707963267949" />
+    <parent
+      link="base_link" />
+    <child
+      link="jAG" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jGH">
+    <inertial>
+      <origin
+        xyz="0.08576625776286 0.00542041083153971 -0.0569782401830898"
+        rpy="0 0 0" />
+      <mass
+        value="0.126281119803877" />
+      <inertia
+        ixx="0.000412757763995183"
+        ixy="1.35806101649027E-18"
+        ixz="0.000516712382412723"
+        iyy="0.00119480918593283"
+        iyz="-8.45792599806471E-19"
+        izz="0.00078456870102878" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jGH.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jGH.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jGH"
+    type="continuous">
+    <origin
+      xyz="-0.213571345307948 -0.00337196090252764 0.024521765664925"
+      rpy="0 0 0" />
+    <parent
+      link="jAG" />
+    <child
+      link="jGH" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="jwheel_right">
+    <inertial>
+      <origin
+        xyz="9.87602118314168E-05 0.021683188837513 -0.000332477449919509"
+        rpy="0 0 0" />
+      <mass
+        value="0.400353261502345" />
+      <inertia
+        ixx="0.000348783661346411"
+        ixy="-3.17193717863815E-07"
+        ixz="-1.3926275976866E-06"
+        iyy="0.000576956644744147"
+        iyz="1.08122168387654E-06"
+        izz="0.000353049173648061" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jwheel_right.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jwheel_right.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jwheel_right"
+    type="continuous">
+    <origin
+      xyz="0.213571167840435 -0.0402000000000004 -0.144745833334183"
+      rpy="0 0 0" />
+    <parent
+      link="jGH" />
+    <child
+      link="jwheel_right" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="jAG_dummy_child_link1">
+    <inertial>
+      <origin
+        xyz="0.0815927496994657 0.182917585259186 -0.0663810950587913"
+        rpy="0 0 0" />
+      <mass
+        value="12.6868388381879" />
+      <inertia
+        ixx="0.313222187121336"
+        ixy="0.00199807137524157"
+        ixz="0.0108840784927306"
+        iyy="0.207353013857842"
+        iyz="-0.00210390133826128"
+        izz="0.453714554241995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jAG_dummy_child_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jAG_dummy_child_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jAG_dummy_child_link1"
+    type="continuous">
+    <origin
+      xyz="-0.0963555415631707 0.0141280390974656 0.0109403315556086"
+      rpy="0 0 0" />
+    <parent
+      link="jAG" />
+    <child
+      link="jAG_dummy_child_link1" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jAG_dummy_child_link2">
+    <inertial>
+      <origin
+        xyz="0.0815927496994657 0.177917585259186 -0.0663810950587913"
+        rpy="0 0 0" />
+      <mass
+        value="12.6868388381879" />
+      <inertia
+        ixx="0.313222187121336"
+        ixy="0.00199807137524157"
+        ixz="0.0108840784927306"
+        iyy="0.207353013857842"
+        iyz="-0.00210390133826128"
+        izz="0.453714554241995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jAG_dummy_child_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jAG_dummy_child_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jAG_dummy_child_link2"
+    type="continuous">
+    <origin
+      xyz="-0.0963555415631707 0.0191280390974656 0.0109403315556086"
+      rpy="0 0 0" />
+    <parent
+      link="jAG" />
+    <child
+      link="jAG_dummy_child_link2" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jIJ">
+    <inertial>
+      <origin
+        xyz="0.0410162999378783 0.00225528388575866 0.0027307863013252"
+        rpy="0 0 0" />
+      <mass
+        value="0.0193563266846231" />
+      <inertia
+        ixx="4.25585771761734E-06"
+        ixy="-2.09684337970067E-08"
+        ixz="-1.4498091634647E-06"
+        iyy="2.83326108078519E-05"
+        iyz="-1.5105928143175E-09"
+        izz="2.42761117763577E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jIJ.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jIJ.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jIJ"
+    type="continuous">
+    <origin
+      xyz="-0.152298612320918 -1.27000017746789 0.0619693908644082"
+      rpy="0 0 1.5707963267949" />
+    <parent
+      link="base_link" />
+    <child
+      link="jIJ" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jJM">
+    <inertial>
+      <origin
+        xyz="-0.0534500338421258 -0.00370676182021418 -0.0344676270861504"
+        rpy="0 0 0" />
+      <mass
+        value="0.00676992433338902" />
+      <inertia
+        ixx="2.3019489371965E-06"
+        ixy="1.06676573834414E-10"
+        ixz="-3.61095016239161E-06"
+        iyy="8.21202595137691E-06"
+        iyz="-1.73140094769087E-10"
+        izz="5.93784710303343E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jJM.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jJM.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jJM"
+    type="continuous">
+    <origin
+      xyz="0.096749440646263 -0.00262803909747222 0.00674587310762054"
+      rpy="0 0 0" />
+    <parent
+      link="jIJ" />
+    <child
+      link="jJM" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="jMK">
+    <inertial>
+      <origin
+        xyz="-0.0759553471404864 -0.00292623051701296 0.0578354007188569"
+        rpy="0 0 0" />
+      <mass
+        value="0.0198062879933056" />
+      <inertia
+        ixx="2.16619781815191E-05"
+        ixy="3.23289312608102E-20"
+        ixz="2.40064030276854E-05"
+        iyy="5.17936077560528E-05"
+        iyz="-2.43474296542752E-20"
+        izz="3.0283843426683E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jMK.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jMK.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jMK"
+    type="continuous">
+    <origin
+      xyz="-0.097908176491873 0.00510000000000019 -0.0603240331552918"
+      rpy="0 0 0" />
+    <parent
+      link="jJM" />
+    <child
+      link="jMK" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="jKN">
+    <inertial>
+      <origin
+        xyz="-0.0620655232939438 -0.000338944712541089 0.00719134099671376"
+        rpy="0 0 0" />
+      <mass
+        value="0.0086212071125919" />
+      <inertia
+        ixx="2.58722863073774E-07"
+        ixy="-5.01047987671961E-08"
+        ixz="1.28489144789946E-06"
+        iyy="1.14016208035401E-05"
+        iyz="5.80548868975698E-09"
+        izz="1.11992190884274E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jKN.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jKN.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jKN"
+    type="continuous">
+    <origin
+      xyz="-0.132582573159565 -0.0113500000002358 0.116216826715501"
+      rpy="0 0 0" />
+    <parent
+      link="jMK" />
+    <child
+      link="jKN" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="jKN_dummy_child_link1">
+    <inertial>
+      <origin
+        xyz="0.236194675822086 -0.178682414740584 -0.131660864279486"
+        rpy="0 0 0" />
+      <mass
+        value="12.6868388381879" />
+      <inertia
+        ixx="0.313222187121336"
+        ixy="0.00199807137524148"
+        ixz="0.0108840784927306"
+        iyy="0.207353013857842"
+        iyz="-0.00210390133826129"
+        izz="0.453714554241995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jKN_dummy_child_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jKN_dummy_child_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jKN_dummy_child_link1"
+    type="continuous">
+    <origin
+      xyz="-0.117215803744836 -0.00424999999999986 0.0135814341084572"
+      rpy="0 0 0" />
+    <parent
+      link="jKN" />
+    <child
+      link="jKN_dummy_child_link1" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="jKN_dummy_child_link2">
+    <inertial>
+      <origin
+        xyz="0.236194675822086 -0.185182414740583 -0.131660864279486"
+        rpy="0 0 0" />
+      <mass
+        value="12.6868388381879" />
+      <inertia
+        ixx="0.313222187121336"
+        ixy="0.00199807137524157"
+        ixz="0.0108840784927306"
+        iyy="0.207353013857842"
+        iyz="-0.00210390133826128"
+        izz="0.453714554241995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jKN_dummy_child_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jKN_dummy_child_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jKN_dummy_child_link2"
+    type="continuous">
+    <origin
+      xyz="-0.117215803744836 0.00225000000000014 0.0135814341084572"
+      rpy="0 0 0" />
+    <parent
+      link="jKN" />
+    <child
+      link="jKN_dummy_child_link2" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="jMK_dummy_child1">
+    <inertial>
+      <origin
+        xyz="0.0815927496996169 -0.195782414740821 -0.0663810950575556"
+        rpy="0 0 0" />
+      <mass
+        value="12.6868388381879" />
+      <inertia
+        ixx="0.313222187121336"
+        ixy="0.00199807137524157"
+        ixz="0.0108840784927306"
+        iyy="0.207353013857842"
+        iyz="-0.00210390133826128"
+        izz="0.453714554241995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jMK_dummy_child1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jMK_dummy_child1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jMK_dummy_child1"
+    type="continuous">
+    <origin
+      xyz="-0.0951964507819318 0.00150000000000211 0.064518491602028"
+      rpy="0 0 0" />
+    <parent
+      link="jMK" />
+    <child
+      link="jMK_dummy_child1" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="jMK_dummy_child2">
+    <inertial>
+      <origin
+        xyz="0.0815927496996167 -0.191182414740821 -0.0663810950575556"
+        rpy="0 0 0" />
+      <mass
+        value="12.6868388381879" />
+      <inertia
+        ixx="0.313222187121336"
+        ixy="0.00199807137524157"
+        ixz="0.0108840784927306"
+        iyy="0.207353013857842"
+        iyz="-0.00210390133826128"
+        izz="0.453714554241995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jMK_dummy_child2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jMK_dummy_child2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jMK_dummy_child2"
+    type="continuous">
+    <origin
+      xyz="-0.0951964507819316 -0.00309999999999783 0.0645184916020279"
+      rpy="0 0 0" />
+    <parent
+      link="jMK" />
+    <child
+      link="jMK_dummy_child2" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="jAB">
+    <inertial>
+      <origin
+        xyz="0.0410159450021017 -0.00225528388575877 0.00273078630136479"
+        rpy="0 0 0" />
+      <mass
+        value="0.0193563266846231" />
+      <inertia
+        ixx="4.25585771762016E-06"
+        ixy="2.09684337970754E-08"
+        ixz="-1.44980916348408E-06"
+        iyy="2.8332610807852E-05"
+        iyz="1.51059281434383E-09"
+        izz="2.42761117763549E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jAB.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jAB.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jAB"
+    type="continuous">
+    <origin
+      xyz="0.236557465874025 -1.26999982253211 0.0619693908643919"
+      rpy="0 0 1.5707963267949" />
+    <parent
+      link="base_link" />
+    <child
+      link="jAB" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jBE">
+    <inertial>
+      <origin
+        xyz="-0.0534500338424408 0.00420676182021415 -0.0344676270850893"
+        rpy="0 0 0" />
+      <mass
+        value="0.00676992433338903" />
+      <inertia
+        ixx="2.30194893714022E-06"
+        ixy="-1.0667657382089E-10"
+        ixz="-3.61095016236328E-06"
+        iyy="8.21202595137691E-06"
+        iyz="1.73140094777388E-10"
+        izz="5.93784710308971E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jBE.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jBE.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jBE"
+    type="continuous">
+    <origin
+      xyz="0.0967490857105286 0.002628039097472 0.00674587310706561"
+      rpy="0 0 0" />
+    <parent
+      link="jAB" />
+    <child
+      link="jBE" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jEC">
+    <inertial>
+      <origin
+        xyz="-0.075955347139937 0.00242623051701504 0.05783540071839"
+        rpy="0 0 0" />
+      <mass
+        value="0.0198062879933056" />
+      <inertia
+        ixx="2.16619781819938E-05"
+        ixy="4.4435185732073E-21"
+        ixz="2.40064030277706E-05"
+        iyy="5.17936077560528E-05"
+        iyz="-1.25764130559186E-21"
+        izz="3.02838434262083E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jEC.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jEC.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jEC"
+    type="continuous">
+    <origin
+      xyz="-0.0979081764923742 -0.00460000000000005 -0.0603240331537777"
+      rpy="0 0 0" />
+    <parent
+      link="jBE" />
+    <child
+      link="jEC" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="jCF">
+    <inertial>
+      <origin
+        xyz="-0.062065523293803 0.000338944712541173 0.00719134099792954"
+        rpy="0 0 0" />
+      <mass
+        value="0.00862120711259191" />
+      <inertia
+        ixx="2.58722863123932E-07"
+        ixy="5.01047987671103E-08"
+        ixz="1.284891448113E-06"
+        iyy="1.14016208035401E-05"
+        iyz="-5.80548869073773E-09"
+        izz="1.11992190883772E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jCF.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jCF.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jCF"
+    type="continuous">
+    <origin
+      xyz="-0.132582573158345 0.0108500000000004 0.11621682671681"
+      rpy="0 0 0" />
+    <parent
+      link="jEC" />
+    <child
+      link="jCF" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jCF_dummy_child_link1">
+    <inertial>
+      <origin
+        xyz="0.23619467582126 0.18391758525918 -0.131660864283055"
+        rpy="0 0 0" />
+      <mass
+        value="12.6868388381879" />
+      <inertia
+        ixx="0.313222187121336"
+        ixy="0.00199807137524157"
+        ixz="0.0108840784927306"
+        iyy="0.207353013857842"
+        iyz="-0.00210390133826128"
+        izz="0.453714554241995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jCF_dummy_child_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jCF_dummy_child_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jCF_dummy_child_link1"
+    type="continuous">
+    <origin
+      xyz="-0.117215803744774 0.00425000000000014 0.0135814341097747"
+      rpy="0 0 0" />
+    <parent
+      link="jCF" />
+    <child
+      link="jCF_dummy_child_link1" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jCF_dummy_child_link2">
+    <inertial>
+      <origin
+        xyz="0.23619467582126 0.19041758525918 -0.131660864283055"
+        rpy="0 0 0" />
+      <mass
+        value="12.6868388381879" />
+      <inertia
+        ixx="0.313222187121336"
+        ixy="0.00199807137524157"
+        ixz="0.0108840784927306"
+        iyy="0.207353013857842"
+        iyz="-0.00210390133826128"
+        izz="0.453714554241995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jCF_dummy_child_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jCF_dummy_child_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jCF_dummy_child_link2"
+    type="continuous">
+    <origin
+      xyz="-0.117215803744774 -0.00224999999999986 0.0135814341097747"
+      rpy="0 0 0" />
+    <parent
+      link="jCF" />
+    <child
+      link="jCF_dummy_child_link2" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+  <link
+    name="jEC_dummy_child_link1">
+    <inertial>
+      <origin
+        xyz="0.0815927496994657 0.20101758525918 -0.0663810950587913"
+        rpy="0 0 0" />
+      <mass
+        value="12.6868388381879" />
+      <inertia
+        ixx="0.313222187121336"
+        ixy="0.00199807137524157"
+        ixz="0.0108840784927306"
+        iyy="0.207353013857842"
+        iyz="-0.00210390133826128"
+        izz="0.453714554241995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jEC_dummy_child_link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jEC_dummy_child_link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jEC_dummy_child_link1"
+    type="continuous">
+    <origin
+      xyz="-0.0951964507813252 -0.00199999999999997 0.0645184916023207"
+      rpy="0 0 0" />
+    <parent
+      link="jEC" />
+    <child
+      link="jEC_dummy_child_link1" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="jEC_dummy_child_link2">
+    <inertial>
+      <origin
+        xyz="0.0815927496994659 0.19701758525918 -0.0663810950587913"
+        rpy="0 0 0" />
+      <mass
+        value="12.6868388381879" />
+      <inertia
+        ixx="0.313222187121336"
+        ixy="0.00199807137524142"
+        ixz="0.0108840784927306"
+        iyy="0.207353013857842"
+        iyz="-0.0021039013382613"
+        izz="0.453714554241995" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jEC_dummy_child_link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://wheel_leg_urdf4/meshes/jEC_dummy_child_link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="jEC_dummy_child_link2"
+    type="continuous">
+    <origin
+      xyz="-0.0951964507813252 0.00200000000000003 0.0645184916023207"
+      rpy="0 0 0" />
+    <parent
+      link="jEC" />
+    <child
+      link="jEC_dummy_child_link2" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+</robot>

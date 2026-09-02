@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "serial-leg-rl"
+version = "0.1.0"
+description = "Clean Isaac Lab scaffold for wheel-leg RL with kinematic-prior CTS."
+requires-python = ">=3.10"
+
+[tool.setuptools.package-dir]
+"" = "source/serial_leg_rl"
+
+[tool.setuptools.packages.find]
+where = ["source/serial_leg_rl"]
+
