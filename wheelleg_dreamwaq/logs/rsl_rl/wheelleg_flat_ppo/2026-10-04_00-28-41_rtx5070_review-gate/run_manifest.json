@@ -1,0 +1,480 @@
+{
+  "architecture_sha256": "547303FE09F3E292911FC26F7AA83645EBEFF4A42EEEB8137A7D106B488E7BAB",
+  "asset_bundle_hash": "30A39684145E3228F275B909FAD8C627D8E10099BF13C23FDF19D77D15D6D084",
+  "canonical_joint_order": [
+    "jIJ",
+    "jIO",
+    "jAB",
+    "jAG",
+    "jwheel_left",
+    "jwheel_right"
+  ],
+  "command": [
+    "scripts/train_ppo.py",
+    "--profile",
+    "rtx5070",
+    "--max-iterations",
+    "2",
+    "--run-name",
+    "review-gate",
+    "--headless"
+  ],
+  "contract": {
+    "action": {
+      "canonical_joint_order": [
+        "jIJ",
+        "jIO",
+        "jAB",
+        "jAG",
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "dimension": 6,
+      "packet_leg_order": [
+        "jIO",
+        "jAG",
+        "jIJ",
+        "jAB"
+      ],
+      "packet_to_policy_leg": [
+        2,
+        0,
+        3,
+        1
+      ],
+      "policy_to_packet_leg": [
+        1,
+        3,
+        0,
+        2
+      ],
+      "wheel_joint_order": [
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "wheel_joint_sign_usd": [
+        1.0,
+        -1.0
+      ]
+    },
+    "asset_bundle_hash": "30A39684145E3228F275B909FAD8C627D8E10099BF13C23FDF19D77D15D6D084",
+    "command": {
+      "dimension": 3,
+      "fields": [
+        "target_vx",
+        "target_yaw_rate",
+        "target_base_height"
+      ]
+    },
+    "contract_hash": "EB1F5521012962FF78E9AB00D1F8CE05C3B3CA8705E7AFB0D782138E38262F79",
+    "frames": {
+      "r_control_from_imu": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "r_control_from_usd": [
+        [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "manifest_version": "Phase1ContractV1",
+    "network": {
+      "activation": "elu",
+      "actor_hidden_dims": [
+        256,
+        128,
+        64
+      ],
+      "actor_obs_normalization": false,
+      "critic_hidden_dims": [
+        256,
+        128,
+        64
+      ],
+      "critic_obs_normalization": false
+    },
+    "normalization": {
+      "angular_velocity_clip": 5.0,
+      "angular_velocity_scale": 0.25,
+      "applied_torque_clip": 5.0,
+      "applied_torque_scale": 0.05,
+      "height_command_span": 0.04,
+      "joint_acceleration_clip": 10.0,
+      "joint_acceleration_scale": 0.002,
+      "joint_velocity_clip": 5.0,
+      "joint_velocity_scale": 0.05,
+      "leg_position_clip": 1.5,
+      "leg_position_scale": 1.0,
+      "nominal_base_height": 0.2,
+      "projected_gravity_clip": 1.0,
+      "root_linear_velocity_clip": 6.0,
+      "root_linear_velocity_scale": 2.0,
+      "vx_max_abs": 1.0,
+      "yaw_rate_max_abs": 1.5
+    },
+    "observation": {
+      "actor_dimension": 25,
+      "actor_slices": {
+        "angular_velocity": [
+          0,
+          3
+        ],
+        "command": [
+          6,
+          9
+        ],
+        "joint_velocity": [
+          13,
+          19
+        ],
+        "leg_position_error": [
+          9,
+          13
+        ],
+        "previous_action": [
+          19,
+          25
+        ],
+        "projected_gravity": [
+          3,
+          6
+        ]
+      },
+      "critic_dimension": 41,
+      "critic_slices": {
+        "actor_observation": [
+          0,
+          25
+        ],
+        "applied_torque": [
+          35,
+          41
+        ],
+        "base_height": [
+          28,
+          29
+        ],
+        "joint_acceleration": [
+          29,
+          35
+        ],
+        "root_linear_velocity": [
+          25,
+          28
+        ]
+      }
+    },
+    "runtime": {
+      "actuators": {
+        "legs": {
+          "armature": 0.05,
+          "damping": 4.0,
+          "dynamic_friction": 0.0,
+          "effort_limit_sim": 18.0,
+          "friction": 0.0,
+          "joint_names_expr": [
+            "jIJ",
+            "jIO",
+            "jAB",
+            "jAG"
+          ],
+          "stiffness": 120.0,
+          "velocity_limit_sim": 45.0,
+          "viscous_friction": 0.0
+        },
+        "passive": {
+          "armature": 0.005,
+          "damping": 0.05,
+          "dynamic_friction": 0.0,
+          "effort_limit_sim": 18.0,
+          "friction": 0.0,
+          "joint_names_expr": [
+            "jOP",
+            "jIO_dummy_child_link1",
+            "jIO_dummy_child_link2",
+            "jGH",
+            "jAG_dummy_child_link1",
+            "jAG_dummy_child_link2",
+            "jJM",
+            "jMK",
+            "jKN",
+            "jKN_dummy_child_link1",
+            "jKN_dummy_child_link2",
+            "jMK_dummy_child1",
+            "jMK_dummy_child2",
+            "jBE",
+            "jEC",
+            "jCF",
+            "jCF_dummy_child_link1",
+            "jCF_dummy_child_link2",
+            "jEC_dummy_child_link1",
+            "jEC_dummy_child_link2"
+          ],
+          "stiffness": 0.0,
+          "velocity_limit_sim": 80.0,
+          "viscous_friction": 0.0
+        },
+        "wheels": {
+          "armature": 0.05,
+          "damping": 0.6,
+          "dynamic_friction": 0.0,
+          "effort_limit_sim": 9.0,
+          "friction": 0.0,
+          "joint_names_expr": [
+            "jwheel_left",
+            "jwheel_right"
+          ],
+          "stiffness": 0.0,
+          "velocity_limit_sim": 45.0,
+          "viscous_friction": 0.0
+        }
+      },
+      "articulation_properties": {
+        "enabled_self_collisions": false,
+        "solver_position_iteration_count": 32,
+        "solver_velocity_iteration_count": 4
+      },
+      "collision_policy": "WheelOnlyCollisionV1",
+      "embedded_ground_collision_disabled": true,
+      "ground": {
+        "dynamic_friction": 1.0,
+        "restitution": 0.0,
+        "size": [
+          100.0,
+          100.0,
+          0.1
+        ],
+        "static_friction": 1.0,
+        "translation": [
+          0.0,
+          0.0,
+          -0.05
+        ]
+      },
+      "robot_initial_state": {
+        "joint_position": {
+          "jAB": -0.33367088,
+          "jAG": 0.33367112,
+          "jAG_dummy_child_link1": -0.00834354,
+          "jAG_dummy_child_link2": -0.00834353,
+          "jBE": 0.37146658,
+          "jCF": 0.37150583,
+          "jCF_dummy_child_link1": 0.01561109,
+          "jCF_dummy_child_link2": 0.01608925,
+          "jEC": 0.07562435,
+          "jEC_dummy_child_link1": 0.00279344,
+          "jEC_dummy_child_link2": 0.0027937,
+          "jGH": 0.37148619,
+          "jIJ": -0.33367151,
+          "jIO": 0.33367157,
+          "jIO_dummy_child_link1": -0.01975457,
+          "jIO_dummy_child_link2": -0.01975455,
+          "jJM": -0.37146848,
+          "jKN": -0.37150618,
+          "jKN_dummy_child_link1": -0.06563117,
+          "jKN_dummy_child_link2": -0.06613248,
+          "jMK": 0.07562718,
+          "jMK_dummy_child1": -0.0689704,
+          "jMK_dummy_child2": -0.06897411,
+          "jOP": -0.37150037,
+          "jwheel_left": 0.0,
+          "jwheel_right": 0.0
+        },
+        "joint_velocity": {
+          ".*": 0.0
+        },
+        "root_position": [
+          0.0,
+          0.0,
+          0.20003
+        ],
+        "root_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "robot_rigid_properties": {
+        "angular_damping": 0.0,
+        "linear_damping": 0.0,
+        "max_angular_velocity": 100.0,
+        "max_depenetration_velocity": 1.0,
+        "max_linear_velocity": 100.0
+      },
+      "scene": {
+        "clone_in_fabric": false,
+        "env_spacing": 1.5,
+        "replicate_physics": true
+      },
+      "simulation": {
+        "enable_external_forces_every_iteration": false,
+        "enable_stabilization": false,
+        "gravity": [
+          0.0,
+          0.0,
+          -9.81
+        ],
+        "solver_type": 1
+      }
+    },
+    "schemas": {
+      "action": "ActionV1",
+      "actor_observation": "ActorObsV1",
+      "command": "CommandV1",
+      "control_frame": "ControlFrameV1",
+      "critic_observation": "CriticObsV1",
+      "normalization": "NormalizationV1"
+    },
+    "task": {
+      "commands": {
+        "base_height": [
+          0.16,
+          0.24
+        ],
+        "resampling_time_s": 5.0,
+        "vx": [
+          -1.0,
+          1.0
+        ],
+        "yaw_rate": [
+          -1.5,
+          1.5
+        ]
+      },
+      "control": {
+        "leg_action_scale": 0.35,
+        "leg_target_lower": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "leg_target_upper": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "wheel_action_scale": 25.0
+      },
+      "control_dt": 0.02,
+      "decimation": 2,
+      "episode_length_s": 10.0,
+      "q_nominal": [
+        -0.33367134,
+        0.33367134,
+        -0.33367134,
+        0.33367134
+      ],
+      "reward_weights": {
+        "action_rate": -0.01,
+        "action_smooth": -0.01,
+        "ang_vel_xy": -0.2,
+        "dof_acc": -2.5e-07,
+        "dof_pos_limits": -1.0,
+        "dof_vel": -5e-05,
+        "height_sigma": 0.001,
+        "lin_vel_z": -1.0,
+        "orientation": -100.0,
+        "soft_leg_limit": 0.95,
+        "termination": -5.0,
+        "torques": -0.0001,
+        "tracking_base_height": 1.0,
+        "tracking_sigma": 0.25,
+        "tracking_vx": 1.0,
+        "tracking_vx_enhance": 1.0,
+        "tracking_yaw_rate": 1.0,
+        "tracking_yaw_rate_enhance": 1.0
+      },
+      "sim_dt": 0.01,
+      "termination": {
+        "grace_steps": 10,
+        "max_base_height": 0.4,
+        "max_joint_velocity": 80.0,
+        "max_root_angular_velocity": 35.0,
+        "max_root_linear_velocity": 20.0,
+        "max_tilt_rad": 0.8,
+        "min_base_height": 0.1
+      }
+    }
+  },
+  "created_at": "2026-10-04T00:28:41.868293+08:00",
+  "cuda_capability": [
+    12,
+    0
+  ],
+  "cuda_device_name": "NVIDIA GeForce RTX 5070",
+  "dependency_manifest_sha256": "6D9EC7AFE6349E6F5DD1E001448C46671BD9602829FCC5F8E56530410806AC73",
+  "device": "cuda:0",
+  "isaac_lab_commit": "37ddf626871758333d6ed89cf64ad702aef127d0",
+  "isaac_sim": "5.1.0.0",
+  "max_iterations": 2,
+  "num_envs": 256,
+  "num_mini_batches": 8,
+  "num_steps_per_env": 24,
+  "profile": {
+    "num_envs": 256,
+    "num_mini_batches": 8
+  },
+  "profile_name": "rtx5070",
+  "project_source_sha256": "1D448CC544A855179663B5136920B50A184EFF403B01B52E4EBD6989FB68D7BA",
+  "pyproject_sha256": "F6B1675F943A133E3BA75DEB16AB0C1D911B4A5E1FE8B069959512DD45166F65",
+  "python": "3.11.16 (main, Sep  1 2026, 14:15:24) [MSC v.1944 64 bit (AMD64)]",
+  "randomness": {
+    "cuda_matmul_allow_tf32": true,
+    "cudnn_allow_tf32": true,
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": false,
+    "effective_process_seed": 42,
+    "global_rank": 0,
+    "local_rank": 0,
+    "master_seed": 42,
+    "world_size": 1
+  },
+  "resolved_config_sha256": {
+    "agent": "B2FA1DC4090A375DFEA8144E03C9A5479C16B0312D17552E40A4DC2705F18744",
+    "environment": "D57D0138637D60B52F5E1BF2FB2F54D924191A32CB2DA883DAD1B52C02B8B4D3",
+    "hardware": "77A59ABE4094F65F85AA07DF6CA97DC9FE54670B3E3CCE94F8B3810BDB61CDF4"
+  },
+  "rsl_rl": "3.1.2",
+  "schemas": {
+    "action": "ActionV1",
+    "actor_observation": "ActorObsV1",
+    "command": "CommandV1",
+    "control_frame": "ControlFrameV1",
+    "critic_observation": "CriticObsV1",
+    "normalization": "NormalizationV1"
+  },
+  "seed": 42,
+  "tensordict": "0.14.2",
+  "torch": "2.7.0+cu128",
+  "torch_cuda_runtime": "12.8",
+  "uv_lock_sha256": "F0011A22798D5799ADCA6DE15986BEBDB40E959CE900F5337E8DF780E308C70D"
+}

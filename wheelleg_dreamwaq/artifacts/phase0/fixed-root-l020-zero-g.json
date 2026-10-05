@@ -1,0 +1,377 @@
+{
+  "applied_torque": {
+    "max": 0.0004966220003552735,
+    "min": -0.00020206443150527775
+  },
+  "asset_bundle_hash": "30A39684145E3228F275B909FAD8C627D8E10099BF13C23FDF19D77D15D6D084",
+  "base_height": {
+    "max": 0.5,
+    "min": 0.5
+  },
+  "body_names": [
+    "base_link",
+    "jIO",
+    "jAG",
+    "jIJ",
+    "jAB",
+    "jOP",
+    "jIO_dummy_child_link1",
+    "jIO_dummy_child_link2",
+    "jGH",
+    "jAG_dummy_child_link1",
+    "jAG_dummy_child_link2",
+    "jJM",
+    "jBE",
+    "jwheel_left",
+    "jwheel_right",
+    "jMK",
+    "jEC",
+    "jKN",
+    "jMK_dummy_child1",
+    "jMK_dummy_child2",
+    "jCF",
+    "jEC_dummy_child_link1",
+    "jEC_dummy_child_link2",
+    "jKN_dummy_child_link1",
+    "jKN_dummy_child_link2",
+    "jCF_dummy_child_link1",
+    "jCF_dummy_child_link2"
+  ],
+  "configured_q_nominal": [
+    -0.33367134,
+    0.33367134,
+    -0.33367134,
+    0.33367134
+  ],
+  "configured_root_height": 0.5,
+  "control_dt": 0.02,
+  "controlled_joint_ids": [
+    2,
+    0,
+    3,
+    1,
+    12,
+    13
+  ],
+  "controlled_joint_names": [
+    "jIJ",
+    "jIO",
+    "jAB",
+    "jAG",
+    "jwheel_left",
+    "jwheel_right"
+  ],
+  "controlled_joint_position": {
+    "max": 0.33367156982421875,
+    "min": -0.333671510219574
+  },
+  "controlled_joint_velocity": {
+    "max": 0.00011049881868530065,
+    "min": -4.040313797304407e-05
+  },
+  "critic_observation_shape": [
+    1,
+    41
+  ],
+  "default_controlled_joint_position": [
+    -0.33367133140563965,
+    0.33367133140563965,
+    -0.33367133140563965,
+    0.33367133140563965,
+    0.0,
+    0.0
+  ],
+  "default_root_state": [
+    0.0,
+    0.0,
+    0.5,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "final_joint_position_by_name": {
+    "jAB": -0.33367088437080383,
+    "jAG": 0.33367112278938293,
+    "jAG_dummy_child_link1": -0.008343541994690895,
+    "jAG_dummy_child_link2": -0.008343534544110298,
+    "jBE": 0.37146657705307007,
+    "jCF": 0.37150582671165466,
+    "jCF_dummy_child_link1": 0.015611094422638416,
+    "jCF_dummy_child_link2": 0.016089247539639473,
+    "jEC": 0.07562435418367386,
+    "jEC_dummy_child_link1": 0.0027934410609304905,
+    "jEC_dummy_child_link2": 0.0027936953119933605,
+    "jGH": 0.37148618698120117,
+    "jIJ": -0.333671510219574,
+    "jIO": 0.33367156982421875,
+    "jIO_dummy_child_link1": -0.019754568114876747,
+    "jIO_dummy_child_link2": -0.019754551351070404,
+    "jJM": -0.3714684844017029,
+    "jKN": -0.3715061843395233,
+    "jKN_dummy_child_link1": -0.06563116610050201,
+    "jKN_dummy_child_link2": -0.06613247841596603,
+    "jMK": 0.07562717795372009,
+    "jMK_dummy_child1": -0.06897039711475372,
+    "jMK_dummy_child2": -0.06897411495447159,
+    "jOP": -0.3715003728866577,
+    "jwheel_left": 0.11687719821929932,
+    "jwheel_right": -0.030584968626499176
+  },
+  "final_joint_velocity_by_name": {
+    "jAB": 0.00011049881868530065,
+    "jAG": -4.040313797304407e-05,
+    "jAG_dummy_child_link1": 8.703983667146531e-07,
+    "jAG_dummy_child_link2": 8.703981393409777e-07,
+    "jBE": -0.0001771490933606401,
+    "jCF": 0.00021398707758635283,
+    "jCF_dummy_child_link1": -1.9923620584449964e-06,
+    "jCF_dummy_child_link2": -1.9926108052459313e-06,
+    "jEC": 4.7524306864943355e-05,
+    "jEC_dummy_child_link1": -2.3132497517508455e-06,
+    "jEC_dummy_child_link2": -2.3134507500799373e-06,
+    "jGH": 0.0002875973004847765,
+    "jIJ": 8.662486652610824e-05,
+    "jIO": -1.980523666134104e-05,
+    "jIO_dummy_child_link1": 4.240770579144737e-07,
+    "jIO_dummy_child_link2": 4.2407728528814914e-07,
+    "jJM": 7.157991785788909e-05,
+    "jKN": 2.353382296860218e-05,
+    "jKN_dummy_child_link1": -5.965923719486455e-07,
+    "jKN_dummy_child_link2": -5.971576229057973e-07,
+    "jMK": 1.2629228876903653e-05,
+    "jMK_dummy_child1": 1.0739688605099218e-07,
+    "jMK_dummy_child2": 1.0766848390630912e-07,
+    "jOP": -0.00017135913367383182,
+    "jwheel_left": 2.3489860723202582e-06,
+    "jwheel_right": -3.816527623712318e-06
+  },
+  "final_projected_gravity": [
+    4.3400848886987475e-11,
+    -8.846337291174011e-13,
+    -1.0
+  ],
+  "final_root_link_pose": [
+    -1.862645149230957e-08,
+    4.76837158203125e-07,
+    0.5,
+    1.0000001192092896,
+    2.1700426178217214e-11,
+    -4.423169187688092e-13,
+    -1.692421203181027e-11
+  ],
+  "final_wheel_center_height": [
+    0.36247143149375916,
+    0.3624744117259979
+  ],
+  "finite": true,
+  "fixed_root_calibration": true,
+  "initial_base_height": 0.5,
+  "initial_wheel_center_height": [
+    0.4483758211135864,
+    0.44837579131126404
+  ],
+  "joint_names": [
+    "jIO",
+    "jAG",
+    "jIJ",
+    "jAB",
+    "jOP",
+    "jIO_dummy_child_link1",
+    "jIO_dummy_child_link2",
+    "jGH",
+    "jAG_dummy_child_link1",
+    "jAG_dummy_child_link2",
+    "jJM",
+    "jBE",
+    "jwheel_left",
+    "jwheel_right",
+    "jMK",
+    "jEC",
+    "jKN",
+    "jMK_dummy_child1",
+    "jMK_dummy_child2",
+    "jCF",
+    "jEC_dummy_child_link1",
+    "jEC_dummy_child_link2",
+    "jKN_dummy_child_link1",
+    "jKN_dummy_child_link2",
+    "jCF_dummy_child_link1",
+    "jCF_dummy_child_link2"
+  ],
+  "max_projected_gravity_xy_norm": 4.340986251016865e-11,
+  "num_envs": 1,
+  "policy_observation_shape": [
+    1,
+    25
+  ],
+  "reset_count": 0,
+  "reward": {
+    "max": 0.004334181547164917,
+    "min": -0.03558635339140892
+  },
+  "startup_trace": [
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.44156205654144287,
+      "right_wheel_center_height": 0.43979448080062866,
+      "step": 1
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.473413348197937,
+      "right_wheel_center_height": 0.5003569722175598,
+      "step": 2
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.494872123003006,
+      "right_wheel_center_height": 0.5070405006408691,
+      "step": 3
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.5126941800117493,
+      "right_wheel_center_height": 0.511374831199646,
+      "step": 4
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.517478883266449,
+      "right_wheel_center_height": 0.5100495219230652,
+      "step": 5
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.5198039412498474,
+      "right_wheel_center_height": 0.5040518641471863,
+      "step": 6
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.5174888372421265,
+      "right_wheel_center_height": 0.48983854055404663,
+      "step": 7
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.5099921822547913,
+      "right_wheel_center_height": 0.4574384391307831,
+      "step": 8
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.49353015422821045,
+      "right_wheel_center_height": 0.4050825238227844,
+      "step": 9
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.44113531708717346,
+      "right_wheel_center_height": 0.3714275062084198,
+      "step": 10
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.4006209671497345,
+      "right_wheel_center_height": 0.35290005803108215,
+      "step": 11
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.3649647533893585,
+      "right_wheel_center_height": 0.3486684560775757,
+      "step": 12
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.34288543462753296,
+      "right_wheel_center_height": 0.3517090976238251,
+      "step": 13
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.33935093879699707,
+      "right_wheel_center_height": 0.3565278947353363,
+      "step": 14
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.34527507424354553,
+      "right_wheel_center_height": 0.36039459705352783,
+      "step": 15
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.3532920777797699,
+      "right_wheel_center_height": 0.3625737428665161,
+      "step": 16
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.3595110774040222,
+      "right_wheel_center_height": 0.3633664846420288,
+      "step": 17
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.3628849983215332,
+      "right_wheel_center_height": 0.36336445808410645,
+      "step": 18
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.3640156388282776,
+      "right_wheel_center_height": 0.3630600571632385,
+      "step": 19
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.3639160692691803,
+      "right_wheel_center_height": 0.36274537444114685,
+      "step": 20
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.36338627338409424,
+      "right_wheel_center_height": 0.3625321388244629,
+      "step": 21
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.3628733158111572,
+      "right_wheel_center_height": 0.3624313175678253,
+      "step": 22
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.3625395596027374,
+      "right_wheel_center_height": 0.3624080717563629,
+      "step": 23
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.36239007115364075,
+      "right_wheel_center_height": 0.36242061853408813,
+      "step": 24
+    },
+    {
+      "base_height": 0.5,
+      "left_wheel_center_height": 0.3623608648777008,
+      "right_wheel_center_height": 0.36244431138038635,
+      "step": 25
+    }
+  ],
+  "steps": 300,
+  "wheel_body_names": [
+    "jwheel_left",
+    "jwheel_right"
+  ],
+  "zero_gravity_calibration": true
+}

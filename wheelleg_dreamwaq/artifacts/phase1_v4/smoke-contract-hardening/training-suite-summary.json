@@ -1,0 +1,18 @@
+{
+  "best_candidate": null,
+  "diagnostic_candidate": null,
+  "evaluation_summaries": [
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\smoke-contract-hardening\\evaluation\\run-01\\summary.json"
+  ],
+  "has_full_survival_candidate": false,
+  "phase1_qualified": false,
+  "qualification_status": "smoke_not_eligible",
+  "schema_version": "TrainingSuiteSmokeV1",
+  "selected": null,
+  "suite_mode": "smoke",
+  "training_monitor_gate": {
+    "hard_anomalies": [],
+    "status": "ok",
+    "warnings": []
+  }
+}

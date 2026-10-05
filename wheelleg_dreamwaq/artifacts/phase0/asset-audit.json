@@ -1,0 +1,412 @@
+{
+  "asset_bundle": {
+    "bundle_hash": "30A39684145E3228F275B909FAD8C627D8E10099BF13C23FDF19D77D15D6D084",
+    "bundle_version": "AssetBundleV1",
+    "entry_file": "wheel_leg_urdf4.usd",
+    "files": [
+      {
+        "absolute_path": "E:\\wheel_leg_rl-main\\wheel_leg_urdf4_usd (1)\\wheel_leg_urdf4\\wheel_leg_urdf4.usd",
+        "actual_sha256": "F371163FF638D3A151B303A202CE9EACD208E04751538FA1BCCBE4F9E5AA7F44",
+        "actual_size": 18571,
+        "exists": true,
+        "expected_sha256": "F371163FF638D3A151B303A202CE9EACD208E04751538FA1BCCBE4F9E5AA7F44",
+        "expected_size": 18571,
+        "relative_path": "wheel_leg_urdf4.usd",
+        "sha256_matches": true,
+        "size_matches": true
+      },
+      {
+        "absolute_path": "E:\\wheel_leg_rl-main\\wheel_leg_urdf4_usd (1)\\wheel_leg_urdf4\\configuration\\wheel_leg_urdf4_base.usd",
+        "actual_sha256": "D980BE2205D0078AA7845AEE7C22B5C7F04FD5A05E79D327FC7E3ED28066C28E",
+        "actual_size": 35535228,
+        "exists": true,
+        "expected_sha256": "D980BE2205D0078AA7845AEE7C22B5C7F04FD5A05E79D327FC7E3ED28066C28E",
+        "expected_size": 35535228,
+        "relative_path": "configuration/wheel_leg_urdf4_base.usd",
+        "sha256_matches": true,
+        "size_matches": true
+      },
+      {
+        "absolute_path": "E:\\wheel_leg_rl-main\\wheel_leg_urdf4_usd (1)\\wheel_leg_urdf4\\configuration\\wheel_leg_urdf4_physics.usd",
+        "actual_sha256": "A8F67B6BDD1210D13AE4BD1254BE8BB87662312BC713046E5CB9478A8C0A2CE5",
+        "actual_size": 5371,
+        "exists": true,
+        "expected_sha256": "A8F67B6BDD1210D13AE4BD1254BE8BB87662312BC713046E5CB9478A8C0A2CE5",
+        "expected_size": 5371,
+        "relative_path": "configuration/wheel_leg_urdf4_physics.usd",
+        "sha256_matches": true,
+        "size_matches": true
+      },
+      {
+        "absolute_path": "E:\\wheel_leg_rl-main\\wheel_leg_urdf4_usd (1)\\wheel_leg_urdf4\\configuration\\wheel_leg_urdf4_robot.usd",
+        "actual_sha256": "81415C4FB375DAEC1A8DDFD0FE5CEAB6A1904FB77F29050149DED24C1F3436A1",
+        "actual_size": 2452,
+        "exists": true,
+        "expected_sha256": "81415C4FB375DAEC1A8DDFD0FE5CEAB6A1904FB77F29050149DED24C1F3436A1",
+        "expected_size": 2452,
+        "relative_path": "configuration/wheel_leg_urdf4_robot.usd",
+        "sha256_matches": true,
+        "size_matches": true
+      },
+      {
+        "absolute_path": "E:\\wheel_leg_rl-main\\wheel_leg_urdf4_usd (1)\\wheel_leg_urdf4\\configuration\\wheel_leg_urdf4_sensor.usd",
+        "actual_sha256": "D31E77E5C105470304DE4F5D8CAA9B3DB2A4D70ECC245510AD96C53F185A8314",
+        "actual_size": 655,
+        "exists": true,
+        "expected_sha256": "D31E77E5C105470304DE4F5D8CAA9B3DB2A4D70ECC245510AD96C53F185A8314",
+        "expected_size": 655,
+        "relative_path": "configuration/wheel_leg_urdf4_sensor.usd",
+        "sha256_matches": true,
+        "size_matches": true
+      }
+    ],
+    "root": "E:\\wheel_leg_rl-main\\wheel_leg_urdf4_usd (1)\\wheel_leg_urdf4"
+  },
+  "reference_load": {
+    "disabled_robot_collision_paths": [
+      "/World/envs/env_0/Robot/GroundPlane/CollisionPlane",
+      "/World/envs/env_0/Robot/base_link/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jAB/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jAG/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jBE/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jCF/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jEC/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jGH/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jIJ/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jIO/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jJM/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jKN/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jMK/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jOP/collisions/collision_0/child_0"
+    ],
+    "embedded_ground_enabled_after_reset": false,
+    "embedded_ground_enabled_before_reset": false,
+    "embedded_ground_path": "/World/envs/env_0/Robot/GroundPlane/CollisionPlane",
+    "enabled_robot_collision_paths_after_reset": [
+      "/World/envs/env_0/Robot/jwheel_left/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jwheel_right/collisions/collision_0/child_0"
+    ],
+    "global_ground_valid": true,
+    "kept_robot_collision_paths": [
+      "/World/envs/env_0/Robot/jwheel_left/collisions/collision_0/child_0",
+      "/World/envs/env_0/Robot/jwheel_right/collisions/collision_0/child_0"
+    ],
+    "physics_scenes_after_reset": [
+      "/physicsScene"
+    ],
+    "physics_scenes_before_reset": [
+      "/physicsScene"
+    ],
+    "referenced_default_prim_valid": true,
+    "robot_namespace_physics_scenes": [],
+    "robot_prim_path": "/World/envs/env_0/Robot"
+  },
+  "source_files_unchanged": true,
+  "source_stage": {
+    "articulation_roots": [
+      "/wheel_leg_urdf4/base_link"
+    ],
+    "collision_paths": [
+      "/wheel_leg_urdf4/GroundPlane/CollisionPlane",
+      "/wheel_leg_urdf4/base_link/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jAB/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jAG/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jBE/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jCF/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jEC/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jGH/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jIJ/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jIO/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jJM/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jKN/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jMK/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jOP/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jwheel_left/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jwheel_right/collisions/collision_0/child_0"
+    ],
+    "controlled_joint_matches": {
+      "jAB": [
+        "/wheel_leg_urdf4/joints/jAB"
+      ],
+      "jAG": [
+        "/wheel_leg_urdf4/joints/jAG"
+      ],
+      "jIJ": [
+        "/wheel_leg_urdf4/joints/jIJ"
+      ],
+      "jIO": [
+        "/wheel_leg_urdf4/joints/jIO"
+      ],
+      "jwheel_left": [
+        "/wheel_leg_urdf4/joints/jwheel_left"
+      ],
+      "jwheel_right": [
+        "/wheel_leg_urdf4/joints/jwheel_right"
+      ]
+    },
+    "default_prim": "/wheel_leg_urdf4",
+    "embedded_ground_collision_enabled": true,
+    "enabled_collision_paths": [
+      "/wheel_leg_urdf4/GroundPlane/CollisionPlane",
+      "/wheel_leg_urdf4/base_link/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jAB/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jAG/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jBE/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jCF/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jGH/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jIJ/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jIO/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jJM/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jKN/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jMK/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jOP/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jwheel_left/collisions/collision_0/child_0",
+      "/wheel_leg_urdf4/jwheel_right/collisions/collision_0/child_0"
+    ],
+    "excluded_joint_paths": [
+      "/wheel_leg_urdf4/jCF/jCF_revolute_joint",
+      "/wheel_leg_urdf4/jEC/jAG_loop_closure",
+      "/wheel_leg_urdf4/jIO/jIO_loop_closure",
+      "/wheel_leg_urdf4/jKN/jKN_loop_closure"
+    ],
+    "joint_count": 30,
+    "joint_paths": [
+      "/wheel_leg_urdf4/jCF/jCF_revolute_joint",
+      "/wheel_leg_urdf4/jEC/jAG_loop_closure",
+      "/wheel_leg_urdf4/jIO/jIO_loop_closure",
+      "/wheel_leg_urdf4/jKN/jKN_loop_closure",
+      "/wheel_leg_urdf4/joints/jAB",
+      "/wheel_leg_urdf4/joints/jAG",
+      "/wheel_leg_urdf4/joints/jAG_dummy_child_link1",
+      "/wheel_leg_urdf4/joints/jAG_dummy_child_link2",
+      "/wheel_leg_urdf4/joints/jBE",
+      "/wheel_leg_urdf4/joints/jCF",
+      "/wheel_leg_urdf4/joints/jCF_dummy_child_link1",
+      "/wheel_leg_urdf4/joints/jCF_dummy_child_link2",
+      "/wheel_leg_urdf4/joints/jEC",
+      "/wheel_leg_urdf4/joints/jEC_dummy_child_link1",
+      "/wheel_leg_urdf4/joints/jEC_dummy_child_link2",
+      "/wheel_leg_urdf4/joints/jGH",
+      "/wheel_leg_urdf4/joints/jIJ",
+      "/wheel_leg_urdf4/joints/jIO",
+      "/wheel_leg_urdf4/joints/jIO_dummy_child_link1",
+      "/wheel_leg_urdf4/joints/jIO_dummy_child_link2",
+      "/wheel_leg_urdf4/joints/jJM",
+      "/wheel_leg_urdf4/joints/jKN",
+      "/wheel_leg_urdf4/joints/jKN_dummy_child_link1",
+      "/wheel_leg_urdf4/joints/jKN_dummy_child_link2",
+      "/wheel_leg_urdf4/joints/jMK",
+      "/wheel_leg_urdf4/joints/jMK_dummy_child1",
+      "/wheel_leg_urdf4/joints/jMK_dummy_child2",
+      "/wheel_leg_urdf4/joints/jOP",
+      "/wheel_leg_urdf4/joints/jwheel_left",
+      "/wheel_leg_urdf4/joints/jwheel_right"
+    ],
+    "loop_attribute_debug": {
+      "/wheel_leg_urdf4/jCF/jCF_revolute_joint": {
+        "physics:excludeFromArticulation": true,
+        "physics:jointEnabled": true
+      },
+      "/wheel_leg_urdf4/jEC/jAG_loop_closure": {
+        "physics:excludeFromArticulation": true,
+        "physics:jointEnabled": true
+      },
+      "/wheel_leg_urdf4/jIO/jIO_loop_closure": {
+        "physics:excludeFromArticulation": true,
+        "physics:jointEnabled": true
+      },
+      "/wheel_leg_urdf4/jKN/jKN_loop_closure": {
+        "physics:excludeFromArticulation": true,
+        "physics:jointEnabled": true
+      }
+    },
+    "loop_joint_count": 4,
+    "mass": {
+      "bodies": [
+        {
+          "dummy": false,
+          "mass_kg": 2.959007978439331,
+          "path": "/wheel_leg_urdf4/base_link"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.07734400033950806,
+          "path": "/wheel_leg_urdf4/jIO"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.12646499276161194,
+          "path": "/wheel_leg_urdf4/jOP"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.40035301446914673,
+          "path": "/wheel_leg_urdf4/jwheel_left"
+        },
+        {
+          "dummy": true,
+          "mass_kg": 0.009999999776482582,
+          "path": "/wheel_leg_urdf4/jIO_dummy_child_link1"
+        },
+        {
+          "dummy": true,
+          "mass_kg": 0.009999999776482582,
+          "path": "/wheel_leg_urdf4/jIO_dummy_child_link2"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.07734400033950806,
+          "path": "/wheel_leg_urdf4/jAG"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.1262809932231903,
+          "path": "/wheel_leg_urdf4/jGH"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.40035301446914673,
+          "path": "/wheel_leg_urdf4/jwheel_right"
+        },
+        {
+          "dummy": true,
+          "mass_kg": 0.009999999776482582,
+          "path": "/wheel_leg_urdf4/jAG_dummy_child_link1"
+        },
+        {
+          "dummy": true,
+          "mass_kg": 0.009999999776482582,
+          "path": "/wheel_leg_urdf4/jAG_dummy_child_link2"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.019355999305844307,
+          "path": "/wheel_leg_urdf4/jIJ"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.006769999861717224,
+          "path": "/wheel_leg_urdf4/jJM"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.019805999472737312,
+          "path": "/wheel_leg_urdf4/jMK"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.00862099975347519,
+          "path": "/wheel_leg_urdf4/jKN"
+        },
+        {
+          "dummy": true,
+          "mass_kg": 0.009999999776482582,
+          "path": "/wheel_leg_urdf4/jKN_dummy_child_link1"
+        },
+        {
+          "dummy": true,
+          "mass_kg": 0.009999999776482582,
+          "path": "/wheel_leg_urdf4/jKN_dummy_child_link2"
+        },
+        {
+          "dummy": true,
+          "mass_kg": 0.009999999776482582,
+          "path": "/wheel_leg_urdf4/jMK_dummy_child1"
+        },
+        {
+          "dummy": true,
+          "mass_kg": 0.009999999776482582,
+          "path": "/wheel_leg_urdf4/jMK_dummy_child2"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.019355999305844307,
+          "path": "/wheel_leg_urdf4/jAB"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.006769999861717224,
+          "path": "/wheel_leg_urdf4/jBE"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.019805999472737312,
+          "path": "/wheel_leg_urdf4/jEC"
+        },
+        {
+          "dummy": false,
+          "mass_kg": 0.00862099975347519,
+          "path": "/wheel_leg_urdf4/jCF"
+        },
+        {
+          "dummy": true,
+          "mass_kg": 0.009999999776482582,
+          "path": "/wheel_leg_urdf4/jCF_dummy_child_link1"
+        },
+        {
+          "dummy": true,
+          "mass_kg": 0.009999999776482582,
+          "path": "/wheel_leg_urdf4/jCF_dummy_child_link2"
+        },
+        {
+          "dummy": true,
+          "mass_kg": 0.009999999776482582,
+          "path": "/wheel_leg_urdf4/jEC_dummy_child_link1"
+        },
+        {
+          "dummy": true,
+          "mass_kg": 0.009999999776482582,
+          "path": "/wheel_leg_urdf4/jEC_dummy_child_link2"
+        }
+      ],
+      "dummy_body_count": 12,
+      "dummy_mass_kg": 0.11999999731779099,
+      "total_mass_kg": 4.396253988146782
+    },
+    "meters_per_unit": 1.0,
+    "mirror_collision_asymmetry": {
+      "jEC_enabled_paths": [],
+      "jMK_enabled_paths": [
+        "/wheel_leg_urdf4/jMK/collisions/collision_0/child_0"
+      ]
+    },
+    "rigid_body_count": 27,
+    "rigid_body_paths": [
+      "/wheel_leg_urdf4/base_link",
+      "/wheel_leg_urdf4/jAB",
+      "/wheel_leg_urdf4/jAG",
+      "/wheel_leg_urdf4/jAG_dummy_child_link1",
+      "/wheel_leg_urdf4/jAG_dummy_child_link2",
+      "/wheel_leg_urdf4/jBE",
+      "/wheel_leg_urdf4/jCF",
+      "/wheel_leg_urdf4/jCF_dummy_child_link1",
+      "/wheel_leg_urdf4/jCF_dummy_child_link2",
+      "/wheel_leg_urdf4/jEC",
+      "/wheel_leg_urdf4/jEC_dummy_child_link1",
+      "/wheel_leg_urdf4/jEC_dummy_child_link2",
+      "/wheel_leg_urdf4/jGH",
+      "/wheel_leg_urdf4/jIJ",
+      "/wheel_leg_urdf4/jIO",
+      "/wheel_leg_urdf4/jIO_dummy_child_link1",
+      "/wheel_leg_urdf4/jIO_dummy_child_link2",
+      "/wheel_leg_urdf4/jJM",
+      "/wheel_leg_urdf4/jKN",
+      "/wheel_leg_urdf4/jKN_dummy_child_link1",
+      "/wheel_leg_urdf4/jKN_dummy_child_link2",
+      "/wheel_leg_urdf4/jMK",
+      "/wheel_leg_urdf4/jMK_dummy_child1",
+      "/wheel_leg_urdf4/jMK_dummy_child2",
+      "/wheel_leg_urdf4/jOP",
+      "/wheel_leg_urdf4/jwheel_left",
+      "/wheel_leg_urdf4/jwheel_right"
+    ],
+    "root_prims": [
+      "/physicsScene",
+      "/wheel_leg_urdf4",
+      "/Render",
+      "/World"
+    ],
+    "tree_joint_count": 26,
+    "up_axis": "Z"
+  }
+}

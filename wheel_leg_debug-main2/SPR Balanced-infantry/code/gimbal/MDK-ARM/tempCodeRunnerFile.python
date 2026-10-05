@@ -1,0 +1,23 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 参数设置
+A = 1  # 振幅
+omega = 2 * np.pi  # 角频率，设定为每秒完成一个循环
+
+# 时间设置
+t = np.linspace(0, 1, 500)  # 生成从 0 到 1 秒的时间点
+
+# 位置计算
+x = A * np.cos(omega * t)
+y = A * np.sin(omega * t + np.pi / 2)  # 添加相位差
+
+# 绘制图形
+plt.figure(figsize=(6, 6))
+plt.plot(x, y, label='八字形轨迹')
+plt.title('八字形运动轨迹')
+plt.xlabel('X 轴')
+plt.ylabel('Y 轴')
+plt.axis('equal')  # 确保 x 轴和 y 轴的比例相同
+plt.legend()
+plt.show()

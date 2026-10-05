@@ -1,0 +1,534 @@
+2026-10-03T18:24:28Z [7,010ms] [Error] [carb.scripting-python.plugin] AttributeError: module 'omni.kit.viewport.menubar' has no attribute 'display'
+
+At:
+  e:/wheel_leg_rl-main/wheelleg_dreamwaq/.venv/lib/site-packages/isaacsim/extscache/omni.usd.metrics.assembler.ui-107.3.1+107.3.0.cp311.u353/omni/metrics/assembler/ui/metricsAssemblerViewportMenu.py(34): __init__
+  e:/wheel_leg_rl-main/wheelleg_dreamwaq/.venv/lib/site-packages/isaacsim/extscache/omni.usd.metrics.assembler.ui-107.3.1+107.3.0.cp311.u353/omni/metrics/assembler/ui/extension.py(51): on_startup
+  E:\wheel_leg_rl-main\wheelleg_dreamwaq\.venv\Lib\site-packages\isaacsim\kit\kernel\py\omni\ext\_impl\_internal.py(173): _startup_ext
+  E:\wheel_leg_rl-main\wheelleg_dreamwaq\.venv\Lib\site-packages\isaacsim\kit\kernel\py\omni\ext\_impl\_internal.py(233): startup
+  E:\wheel_leg_rl-main\wheelleg_dreamwaq\.venv\Lib\site-packages\isaacsim\kit\kernel\py\omni\ext\_impl\_internal.py(337): startup_extension
+  PythonExtension.cpp::startup()(2): <module>
+  E:\wheel_leg_rl-main\wheelleg_dreamwaq\.venv\Lib\site-packages\isaacsim\exts\isaacsim.simulation_app\isaacsim\simulation_app\simulation_app.py(534): _start_app
+  E:\wheel_leg_rl-main\wheelleg_dreamwaq\.venv\Lib\site-packages\isaacsim\exts\isaacsim.simulation_app\isaacsim\simulation_app\simulation_app.py(270): __init__
+  E:\wheel_leg_rl-main\wheelleg_dreamwaq\dependencies\IsaacLab-v2.3.2\source\isaaclab\isaaclab\app\app_launcher.py(823): _create_app
+  E:\wheel_leg_rl-main\wheelleg_dreamwaq\dependencies\IsaacLab-v2.3.2\source\isaaclab\isaaclab\app\app_launcher.py(131): __init__
+  E:\wheel_leg_rl-main\wheelleg_dreamwaq\scripts\play.py(40): <module>
+
+2026-10-03T18:24:28Z [7,010ms] [Error] [omni.ext.plugin] [ext: omni.usd.metrics.assembler.ui-107.3.1] Failed to startup python extension.
+2026-10-03T18:24:29Z [7,872ms] [Error] [omni.kit.viewport.ready.viewport_ready] omni.activity.profiler and omni.activity.pump must be enabled with /exts/omni.kit.viewport.ready/activity_progress=true
+2026-10-03T18:24:33Z [11,993ms] [Error] [omni.kit.app._impl] [py stderr]: Traceback (most recent call last):
+2026-10-03T18:24:33Z [11,993ms] [Error] [omni.kit.app._impl] [py stderr]:   File "E:\wheel_leg_rl-main\wheelleg_dreamwaq\scripts\play.py", line 40, in <module>
+2026-10-03T18:24:33Z [11,993ms] [Error] [omni.kit.app._impl] [py stderr]:     app_launcher = AppLauncher(args_cli)
+2026-10-03T18:24:33Z [11,994ms] [Error] [omni.kit.app._impl] [py stderr]:                    ^^^^^^^^^^^^^^^^^^^^^
+2026-10-03T18:24:33Z [11,994ms] [Error] [omni.kit.app._impl] [py stderr]:   File "E:\wheel_leg_rl-main\wheelleg_dreamwaq\dependencies\IsaacLab-v2.3.2\source\isaaclab\isaaclab\app\app_launcher.py", line 135, in __init__
+2026-10-03T18:24:33Z [11,994ms] [Error] [omni.kit.app._impl] [py stderr]:     self._hide_stop_button()
+2026-10-03T18:24:33Z [11,994ms] [Error] [omni.kit.app._impl] [py stderr]:   File "E:\wheel_leg_rl-main\wheelleg_dreamwaq\dependencies\IsaacLab-v2.3.2\source\isaaclab\isaaclab\app\app_launcher.py", line 886, in _hide_stop_button
+2026-10-03T18:24:33Z [11,994ms] [Error] [omni.kit.app._impl] [py stderr]:     import omni.kit.widget.toolbar
+2026-10-03T18:24:33Z [11,994ms] [Error] [omni.kit.app._impl] [py stderr]: ModuleNotFoundError: No module named 'omni.kit.widget.toolbar'
+C:\g\209507878\rendering\include\rtx\hydra\IRenderProductManager.h:42: Assertion (rpm) failed: Failed to acquire IRenderProductManager
+Windows fatal exception: code 0x80000003
+
+Thread 0x00004594 (most recent call first):
+  <no Python frame>
+2026-10-03T18:24:34Z [0ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash] A crash has occurred.  If a debugger should be attached, please set the '/crashreporter/debuggerAttachTimeoutMs' setting to a timeout in milliseconds.  This can be used to allow the crash reporter to wait for up to that long for a debugger to attach before processing or sending the crash report.
+2026-10-03T18:24:34Z [136ms] [Warning] [carb.crashreporter-breakpad.plugin] Launched process 'py-spy.exe' as PID 35796
+2026-10-03T18:24:35Z [837ms] [Warning] [carb.crashreporter-breakpad.plugin] Launched process 'crashreport.gui.exe' as PID 1096
+2026-10-03T18:24:35Z [867ms] [Error] [carb.crashreporter-breakpad.plugin] 'crashreport.gui.exe' exited with code 2
+
+2026-10-03T18:24:35Z [872ms] [Error] [carb.crashreporter-breakpad.plugin] [crash] Wrote dump file 'e:/wheel_leg_rl-main/wheelleg_dreamwaq/.venv/lib/site-packages/isaacsim/kit/data/Kit/wheelleg.python.visualization/0.1\59bf5be4-a553-479c-86e0-0f5f4ae5ced2.dmp'
+2026-10-03T18:24:35Z [874ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash] preventing upload of minidump due to user opt-out: 'e:/wheel_leg_rl-main/wheelleg_dreamwaq/.venv/lib/site-packages/isaacsim/kit/data/Kit/wheelleg.python.visualization/0.1\59bf5be4-a553-479c-86e0-0f5f4ae5ced2.dmp'
+2026-10-03T18:24:35Z [876ms] [Error] [carb.crashreporter-breakpad.plugin] [crash]     dump file size is 8408197 bytes, file is readable.
+2026-10-03T18:24:36Z [1,429ms] [Fatal] [carb.crashreporter-breakpad.plugin] [crash] Crash detected in pid 27652 thread 41428
+2026-10-03T18:24:36Z [1,430ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash] Crash metadata:
+2026-10-03T18:24:36Z [1,432ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  BuildGitlabJobID = '209507878'
+2026-10-03T18:24:36Z [1,434ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  CarbSdkVersion = '206.6+release.9587.07f17b1b.gl'
+2026-10-03T18:24:36Z [1,436ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  CrashTime = 'Sat Oct  3 18:24:35 2026 GMT'
+2026-10-03T18:24:36Z [1,438ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  DriverShaderCacheWrapper = 'disabled'
+2026-10-03T18:24:36Z [1,440ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  DumpId = '59bf5be4-a553-479c-86e0-0f5f4ae5ced2'
+2026-10-03T18:24:36Z [1,442ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  LastUploadStatus = '0'
+2026-10-03T18:24:36Z [1,444ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  ProductName = 'OmniverseKit'
+2026-10-03T18:24:36Z [1,446ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  PythonTracebackStatus = ''py-spy.exe' successfully wrote info to e:/wheel_leg_rl-main/wheelleg_dreamwaq/.venv/lib/site-packages/isaacsim/kit/data/Kit/wheelleg.python.visualization/0.1/59bf5be4-a553-479c-86e0-0f5f4ae5ced2.py.txt'
+2026-10-03T18:24:36Z [1,449ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  RetryCount = '0'
+2026-10-03T18:24:36Z [1,450ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  StartupTime = '1791051861'
+2026-10-03T18:24:36Z [1,452ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  UploadSuccessful = '0'
+2026-10-03T18:24:36Z [1,454ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  UptimeSeconds = '14'
+2026-10-03T18:24:36Z [1,456ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  UserStory = ''
+2026-10-03T18:24:36Z [1,458ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  UserStoryStatus = ''crashreport.gui.exe' exited with code 2'
+2026-10-03T18:24:36Z [1,460ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  Version = '107.3.3+production.229672.69cbf6ad.gl'
+2026-10-03T18:24:36Z [1,462ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  aftermath_enabled = '1'
+2026-10-03T18:24:36Z [1,464ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  aftermath_flags = '3'
+2026-10-03T18:24:36Z [1,466ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  aftermath_status = 'auto-enabled'
+2026-10-03T18:24:36Z [1,468ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  aftermath_version = '2024.1'
+2026-10-03T18:24:36Z [1,470ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  appName = 'wheelleg.python.visualization'
+2026-10-03T18:24:36Z [1,472ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  appState = 'started'
+2026-10-03T18:24:36Z [1,474ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  appVersion = '0.1.0'
+2026-10-03T18:24:36Z [1,476ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  autoloadExts = ''
+2026-10-03T18:24:36Z [1,479ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  buildBranch = 'production'
+2026-10-03T18:24:36Z [1,481ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  buildCi = 'gl'
+2026-10-03T18:24:36Z [1,483ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  buildConfig = 'release'
+2026-10-03T18:24:36Z [1,485ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  buildGitlabJobName = 'kit-build-release-windows-x86_64'
+2026-10-03T18:24:36Z [1,487ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  buildGitlabJobStage = 'kit-build'
+2026-10-03T18:24:36Z [1,489ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  buildGitlabPipelineID = '34875094'
+2026-10-03T18:24:36Z [1,491ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  buildHash = '69cbf6ad'
+2026-10-03T18:24:36Z [1,493ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  buildMajor = '107'
+2026-10-03T18:24:36Z [1,495ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  buildMinor = '3'
+2026-10-03T18:24:36Z [1,497ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  buildNumber = '229672'
+2026-10-03T18:24:36Z [1,499ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  buildPatch = '3'
+2026-10-03T18:24:36Z [1,501ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  buildVersion = '107.3.3'
+2026-10-03T18:24:36Z [1,503ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  carboniteFrameworkVersion = '206.6+release.9587.07f17b1b.gl'
+2026-10-03T18:24:36Z [1,505ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  carboniteSdkVersion = '206.6+release.9587.07f17b1b.gl'
+2026-10-03T18:24:36Z [1,507ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  commandLine = '"C:\Users\<username>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\python.exe"  scripts\play.py --checkpoint E:\wheel_leg_rl-main\wheelleg_dreamwaq\logs\rsl_rl\wheelleg_flat_ppo\2026-10-04_01-49-27_rtx5070_baseline-2000-reviewed\model_500.pt --num-envs 1 --steps 100000 --fixed-command 0.5 0.0 0.20 --real-time --experience E:\wheel_leg_rl-main\wheelleg_dreamwaq\apps\wheelleg.python.visualization.kit'
+2026-10-03T18:24:36Z [1,509ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  cpuCoreLimited = '-1'
+2026-10-03T18:24:36Z [1,511ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  cpuId = 'Intel64 Family 6 Model 183 Stepping 1'
+2026-10-03T18:24:36Z [1,513ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  cpuLogicalCoresBareMetal = '20'
+2026-10-03T18:24:36Z [1,515ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  cpuName = 'Intel(R) Core(TM) i5-14600KF'
+2026-10-03T18:24:36Z [1,517ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  cpuPhysicalCoresBareMetal = '14'
+2026-10-03T18:24:36Z [1,519ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  cpuUsageQuota = '-1.000000'
+2026-10-03T18:24:36Z [1,521ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  cpuVendor = 'GenuineIntel'
+2026-10-03T18:24:36Z [1,523ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  desktopOrigin = '(0, 0)'
+2026-10-03T18:24:36Z [1,525ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  desktopSize = '2560x1440'
+2026-10-03T18:24:36Z [1,527ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  displayCount = '2'
+2026-10-03T18:24:36Z [1,529ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  displayRes_0 = '2560x1440x32bit@60Hz'
+2026-10-03T18:24:36Z [1,531ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  displayRes_1 = '2560x1440x32bit@60Hz'
+2026-10-03T18:24:36Z [1,533ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  environmentName = 'Individual'
+2026-10-03T18:24:36Z [1,535ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  externalBuild = '1'
+2026-10-03T18:24:36Z [1,537ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  gpuDriver_0 = '581.80'
+2026-10-03T18:24:36Z [1,539ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  gpuVRAM_0 = '12429819904'
+2026-10-03T18:24:36Z [1,541ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  gpu_0 = 'NVIDIA GeForce RTX 5070'
+2026-10-03T18:24:36Z [1,543ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  kitRendererDriverVersion = '581.80'
+2026-10-03T18:24:36Z [1,545ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  lastCommand = 'SetLightingMenuModeCommand(lighting_mode=stage,usd_context_name=)'
+2026-10-03T18:24:36Z [1,547ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  lastCommands = 'SetLightingMenuModeCommand(lighting_mode=stage,usd_context_name=)'
+2026-10-03T18:24:36Z [1,549ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  lib_isaacSim_buildBranch = 'release'
+2026-10-03T18:24:36Z [1,551ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  lib_isaacSim_buildDate = 'Fri Oct 17 03:55:10 2025 +0000'
+2026-10-03T18:24:36Z [1,553ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  lib_isaacSim_buildHash = '9c81211'
+2026-10-03T18:24:36Z [1,555ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  lib_isaacSim_buildRepo = 'https://gitlab-master.nvidia.com/omniverse/isaac/omni_isaac_sim.git'
+2026-10-03T18:24:36Z [1,557ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  lib_isaacSim_buildVersion = '5.1.0-rc.19'
+2026-10-03T18:24:36Z [1,559ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  lib_physx_buildBranch = 'HEAD'
+2026-10-03T18:24:36Z [1,561ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  lib_physx_buildDate = 'Oct-03-2025'
+2026-10-03T18:24:36Z [1,563ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  lib_physx_buildHash = '3a61992'
+2026-10-03T18:24:36Z [1,565ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  lib_physx_buildRepo = 'gitlab-master.nvidia.com/omniverse/physics'
+2026-10-03T18:24:36Z [1,567ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  lib_physx_buildVersion = '107.3.26'
+2026-10-03T18:24:36Z [1,569ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  memoryStats = '(avail/total) RAM: 8.8204/31.8178GB, Swap: 8.66931/63.6356GB, VM: 130933/131072GB'
+2026-10-03T18:24:36Z [1,571ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  nvidia-smi = '
+==============NVSMI LOG==============
+
+Timestamp                                 : Sun Oct  4 02:24:27 2026
+Driver Version                            : 581.80
+CUDA Version                              : 13.0
+
+Attached GPUs                             : 1
+GPU 00000000:01:00.0
+    Product Name                          : NVIDIA GeForce RTX 5070
+    Product Brand                         : GeForce
+    Product Architecture                  : Blackwell
+    Display Mode                          : Requested functionality has been deprecated
+    Display Attached                      : Yes
+    Display Active                        : Enabled
+    Persistence Mode                      : N/A
+    Addressing Mode                       : N/A
+    MIG Mode
+        Current                           : N/A
+        Pending                           : N/A
+    Accounting Mode                       : Disabled
+    Accounting Mode Buffer Size           : 4000
+    Driver Model
+        Current                           : WDDM
+        Pending                           : WDDM
+    Serial Number                         : 0
+    GPU UUID                              : GPU-9ecca3c1-0818-e607-35a0-d7f7ae1ca423
+    GPU PDI                               : 0x108159eaac2416e4
+    Minor Number                          : N/A
+    VBIOS Version                         : 98.05.36.00.79
+    MultiGPU Board                        : No
+    Board ID                              : 0x100
+    Board Part Number                     : N/A
+    GPU Part Number                       : 2F04-300-A1
+    FRU Part Number                       : N/A
+    Platform Info
+        Chassis Serial Number             : 
+        Slot Number                       : 0
+        Tray Index                        : 0
+        Host ID                           : 1
+        Peer Type                         : Direct Connected
+        Module Id                         : 1
+        GPU Fabric GUID                   : 0x0000000000000000
+    Inforom Version
+        Image Version                     : G005.0000.98.01
+        OEM Object                        : 2.1
+        ECC Object                        : N/A
+        Power Management Object           : N/A
+    Inforom BBX Object Flush
+        Latest Timestamp                  : N/A
+        Latest Duration                   : N/A
+    GPU Operation Mode
+        Current                           : N/A
+        Pending                           : N/A
+    GPU C2C Mode                          : Disabled
+    GPU Virtualization Mode
+        Virtualization Mode               : None
+        Host VGPU Mode                    : N/A
+        vGPU Heterogeneous Mode           : N/A
+    GPU Recovery Action                   : None
+    GSP Firmware Version                  : N/A
+    IBMNPU
+        Relaxed Ordering Mode             : N/A
+    PCI
+        Bus                               : 0x01
+        Device                            : 0x00
+        Domain                            : 0x0000
+        Device Id                         : 0x2F0410DE
+        Bus Id                            : 00000000:01:00.0
+        Sub System Id                     : 0x15017377
+        GPU Link Info
+            PCIe Generation
+                Max                       : 5
+                Current                   : 5
+                Device Current            : 5
+                Device Max                : 5
+                Host Max                  : 5
+            Link Width
+                Max                       : 16x
+                Current                   : 16x
+        Bridge Chip
+            Type                          : N/A
+            Firmware                      : N/A
+        Replays Since Reset               : 4495
+        Replay Number Rollovers           : 2
+        Tx Throughput                     : 3912 KB/s
+        Rx Throughput                     : 11523 KB/s
+        Atomic Caps Outbound              : N/A
+        Atomic Caps Inbound               : FETCHADD_32 FETCHADD_64 SWAP_32 SWAP_64 CAS_32 CAS_64 
+    Fan Speed                             : 0 %
+    Performance State                     : P1
+    Clocks Event Reasons
+        Idle                              : Not Active
+        Applications Clocks Setting       : Not Active
+        SW Power Cap                      : Not Active
+        HW Slowdown                       : Not Active
+            HW Thermal Slowdown           : Not Active
+            HW Power Brake Slowdown       : Not Active
+        Sync Boost                        : Not Active
+        SW Thermal Slowdown               : Not Active
+        Display Clock Setting             : Not Active
+    Clocks Event Reasons Counters
+        SW Power Capping                  : 29955852491 us
+        Sync Boost                        : 0 us
+        SW Thermal Slowdown               : 0 us
+        HW Thermal Slowdown               : 0 us
+        HW Power Braking                  : 0 us
+    Sparse Operation Mode                 : N/A
+    FB Memory Usage
+        Total                             : 12227 MiB
+        Reserved                          : 373 MiB
+        Used                              : 3744 MiB
+        Free                              : 8111 MiB
+    BAR1 Memory Usage
+        Total                             : 16384 MiB
+        Used                              : 16356 MiB
+        Free                              : 28 MiB
+    Conf Compute Protected Memory Usage
+        Total                             : N/A
+        Used                              : N/A
+        Free                              : N/A
+    Compute Mode                          : Default
+    Utilization
+        GPU                               : 1 %
+        Memory                            : 0 %
+        Encoder                           : 2 %
+        Decoder                           : 0 %
+        JPEG                              : 0 %
+        OFA                               : 0 %
+    Encoder Stats
+        Active Sessions                   : 0
+        Average FPS                       : 0
+        Average Latency                   : 0
+    FBC Stats
+        Active Sessions                   : 0
+        Average FPS                       : 0
+        Average Latency                   : 0
+    DRAM Encryption Mode
+        Current                           : Disabled
+        Pending                           : Disabled
+    ECC Mode
+        Current                           : N/A
+        Pending                           : N/A
+    ECC Errors
+        Volatile
+            SRAM Correctable              : N/A
+            SRAM Uncorrectable Parity     : N/A
+            SRAM Uncorrectable SEC-DED    : N/A
+            DRAM Correctable              : N/A
+            DRAM Uncorrectable            : N/A
+        Aggregate
+            SRAM Correctable              : N/A
+            SRAM Uncorrectable Parity     : N/A
+            SRAM Uncorrectable SEC-DED    : N/A
+            DRAM Correctable              : N/A
+            DRAM Uncorrectable            : N/A
+            SRAM Threshold Exceeded       : N/A
+        Aggregate Uncorrectable SRAM Sources
+            SRAM L2                       : N/A
+            SRAM SM                       : N/A
+            SRAM Microcontroller          : N/A
+            SRAM PCIE                     : N/A
+            SRAM Other                    : N/A
+        Channel Repair Pending            : No
+        TPC Repair Pending                : No
+    Retired Pages
+        Single Bit ECC                    : N/A
+        Double Bit ECC                    : N/A
+        Pending Page Blacklist            : N/A
+    Remapped Rows                         : N/A
+    Temperature
+        GPU Current Temp                  : 43 C
+        GPU T.Limit Temp                  : 42 C
+        GPU Shutdown T.Limit Temp         : -5 C
+        GPU Slowdown T.Limit Temp         : -2 C
+        GPU Max Operating T.Limit Temp    : 0 C
+        GPU Target Temperature            : N/A
+        Memory Current Temp               : N/A
+        Memory Max Operating T.Limit Temp : N/A
+    GPU Power Readings
+        Average Power Draw                : 24.14 W
+        Instantaneous Power Draw          : 24.29 W
+        Current Power Limit               : 250.00 W
+        Requested Power Limit             : 250.00 W
+        Default Power Limit               : 250.00 W
+        Min Power Limit                   : 175.00 W
+        Max Power Limit                   : 270.00 W
+    GPU Memory Power Readings 
+        Average Power Draw                : N/A
+        Instantaneous Power Draw          : N/A
+    Module Power Readings
+        Average Power Draw                : N/A
+        Instantaneous Power Draw          : N/A
+        Current Power Limit               : N/A
+        Requested Power Limit             : N/A
+        Default Power Limit               : N/A
+        Min Power Limit                   : N/A
+        Max Power Limit                   : N/A
+    Power Smoothing                       : N/A
+    Workload Power Profiles
+        Requested Profiles                : N/A
+        Enforced Profiles                 : N/A
+    Clocks
+        Graphics                          : 2580 MHz
+        SM                                : 2580 MHz
+        Memory                            : 13801 MHz
+        Video                             : 2145 MHz
+    Applications Clocks
+        Graphics                          : N/A
+        Memory                            : N/A
+    Default Applications Clocks
+        Graphics                          : N/A
+        Memory                            : N/A
+    Deferred Clocks
+        Memory                            : N/A
+    Max Clocks
+        Graphics                          : 3090 MHz
+        SM                                : 3090 MHz
+        Memory                            : 14001 MHz
+        Video                             : 3090 MHz
+    Max Customer Boost Clocks
+        Graphics                          : N/A
+    Clock Policy
+        Auto Boost                        : N/A
+        Auto Boost Default                : N/A
+    Fabric
+        State                             : N/A
+        Status                            : N/A
+        CliqueId                          : N/A
+        ClusterUUID                       : N/A
+        Health
+            Summary                       : N/A
+            Bandwidth                     : N/A
+            Route Recovery in progress    : N/A
+            Route Unhealthy               : N/A
+            Access Timeout Recovery       : N/A
+            Incorrect Configuration       : N/A
+    Processes
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 2088
+            Type                          : C+G
+            Name                          : 
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 4240
+            Type                          : C+G
+            Name                          : .................................................................................................\@oai\sky\bin\windows\swift\x64\codex-computer-use-swift.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 5616
+            Type                          : C+G
+            Name                          : ..........\explorer.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 7376
+            Type                          : C+G
+            Name                          : ..\Program
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 7916
+            Type                          : C+G
+            Name                          : ...........................................................\Code.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 13448
+            Type                          : C+G
+            Name                          : ..................................................\NVIDIA
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 13712
+            Type                          : C+G
+            Name                          : ............................................................\SearchApp.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 14980
+            Type                          : C+G
+            Name                          : ...............................................................\TextInputHost.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 15112
+            Type                          : C+G
+            Name                          : ..........................................\chrome.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 15128
+            Type                          : C+G
+            Name                          : ..................................................\NVIDIA
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 18396
+            Type                          : C+G
+            Name                          : ...........................................\Feishu.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 20268
+            Type                          : C+G
+            Name                          : .......................................................\ShellExperienceHost.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 20852
+            Type                          : C+G
+            Name                          : ............................................................................................\M365Copilot.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 21980
+            Type                          : C+G
+            Name                          : ...................................\cloudmusic.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 26776
+            Type                          : C+G
+            Name                          : 
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 27652
+            Type                          : C
+            Name                          : ................................................................................\python.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 29460
+            Type                          : C+G
+            Name                          : ..\Program
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 32952
+            Type                          : C+G
+            Name                          : .........\ToDesk.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 34772
+            Type                          : C+G
+            Name                          : ..................................\promecefpluginhost.exe
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 41308
+            Type                          : C+G
+            Name                          : ..\Program
+            Used GPU Memory               : Not available in WDDM driver model
+        GPU instance ID                   : N/A
+        Compute instance ID               : N/A
+        Process ID                        : 42312
+            Type                          : C+G
+            Name                          : ..............................................................................\ChatGPT.exe
+            Used GPU Memory               : Not available in WDDM driver model
+    Capabilities
+        EGM                               : disabled
+
+'
+2026-10-03T18:24:36Z [1,574ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  osDistro = '22H2'
+2026-10-03T18:24:36Z [1,576ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  osName = 'Windows 10 Pro'
+2026-10-03T18:24:36Z [1,579ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  osVersion = '10.00.19045'
+2026-10-03T18:24:36Z [1,581ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  portableMode = '1'
+2026-10-03T18:24:36Z [1,583ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  primaryDisplayRes = '2560x1440x32bit@60Hz'
+2026-10-03T18:24:36Z [1,585ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  runEnvironment = 'Individual'
+2026-10-03T18:24:36Z [1,587ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  runningInContainer = '0'
+2026-10-03T18:24:36Z [1,589ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  shaderdb_debugSymbols = '0'
+2026-10-03T18:24:36Z [1,591ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  shaderdb_dumpIncludeOverrides = '0'
+2026-10-03T18:24:36Z [1,593ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  shaderdb_dumpIntermediates = '0'
+2026-10-03T18:24:36Z [1,595ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  shaderdb_obfuscateCode = '1'
+2026-10-03T18:24:36Z [1,597ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  shaderdb_optimizationLevel = '1'
+2026-10-03T18:24:36Z [1,599ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  systemInfo = '
+|---------------------------------------------------------------------------------------------|
+| Driver Version: 581.80        | Graphics API: Vulkan
+|=============================================================================================|
+| GPU | Name                             | Active | LDA | GPU Memory | Vendor-ID | LUID       |
+|     |                                  |        |     |            | Device-ID | UUID       |
+|     |                                  |        |     |            | Bus-ID    |            |
+|---------------------------------------------------------------------------------------------|
+| 0   | NVIDIA GeForce RTX 5070          | Yes: 0 |     | 11854   MB | 10de      | 46180100.. |
+|     |                                  |        |     |            | 2f04      | 9ecca3c1.. |
+|     |                                  |        |     |            | 1         |            |
+|=============================================================================================|
+| OS: Windows 10 Pro, Version: 10.0 (22H2), Build: 19045, Kernel: 10.0.19041.6456
+| Processor: Intel(R) Core(TM) i5-14600KF
+| Cores: 14 | Logical Cores: 20
+|---------------------------------------------------------------------------------------------|
+| Total Memory (MB): 32581 | Free Memory: 12676
+| Total Page/Swap (MB): 65162 | Free Page/Swap: 16135
+|---------------------------------------------------------------------------------------------|
+'
+2026-10-03T18:24:36Z [1,601ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  telemetrySessionId = '5847926260361686629'
+2026-10-03T18:24:36Z [1,603ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  terminatedByAbort = '0'
+2026-10-03T18:24:36Z [1,604ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  totalRamBareMetalMB = '32581'
+2026-10-03T18:24:36Z [1,606ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  totalRamLimitedMB = '32581'
+2026-10-03T18:24:36Z [1,608ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  totalSwapBareMetalMB = '65162'
+2026-10-03T18:24:36Z [1,610ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  totalSwapLimitedMB = '65162'
+2026-10-03T18:24:36Z [1,612ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  userId = 'default'
+2026-10-03T18:24:36Z [1,614ms] [Warning] [carb.crashreporter-breakpad.plugin] [crash]  workingDirectory = 'E:\wheel_leg_rl-main\wheelleg_dreamwaq'
+2026-10-03T18:24:36Z [1,616ms] [Fatal] [carb.crashreporter-breakpad.plugin] [crash] Thread 41428 backtrace follows:
+2026-10-03T18:24:36Z [1,619ms] [Fatal] [carb.crashreporter-breakpad.plugin] 000: omni.usd.dll!omni::usd::UsdContext::getPickedWorldPos+0x3ad
+2026-10-03T18:24:36Z [1,622ms] [Fatal] [carb.crashreporter-breakpad.plugin] 001: omni.usd.dll!omni::usd::UnicodeUtils::makeValidIdentifier+0x2673b
+2026-10-03T18:24:36Z [1,623ms] [Fatal] [carb.crashreporter-breakpad.plugin] 002: omni.usd.dll!omni::usd::UsdContext::GetGeometryPath+0x5b28
+2026-10-03T18:24:36Z [1,626ms] [Fatal] [carb.crashreporter-breakpad.plugin] 003: omni.usd.dll!omni::usd::UnicodeUtils::makeValidIdentifier+0x72ab
+2026-10-03T18:24:36Z [1,627ms] [Fatal] [carb.crashreporter-breakpad.plugin] 004: omni.usd.dll!omni::usd::UsdContext::hasPendingEdit+0xe72
+2026-10-03T18:24:36Z [1,629ms] [Fatal] [carb.crashreporter-breakpad.plugin] 005: omni.usd.dll!omni::usd::UnicodeUtils::makeValidIdentifier+0x18d71
+2026-10-03T18:24:36Z [1,631ms] [Fatal] [carb.crashreporter-breakpad.plugin] 006: omni.usd.dll!omni::usd::UnicodeUtils::makeValidIdentifier+0x13feb
+2026-10-03T18:24:36Z [1,633ms] [Fatal] [carb.crashreporter-breakpad.plugin] 007: omni.usd.dll!omni::usd::UsdContext::GetGeometryPath+0x273a
+2026-10-03T18:24:36Z [1,638ms] [Fatal] [carb.crashreporter-breakpad.plugin] 008: carb.eventdispatcher.plugin.dll!+0x11925
+2026-10-03T18:24:36Z [1,643ms] [Fatal] [carb.crashreporter-breakpad.plugin] 009: omni.kit.loop-isaac.plugin.dll!+0x1ad8c
+2026-10-03T18:24:36Z [1,645ms] [Fatal] [carb.crashreporter-breakpad.plugin] 010: omni.kit.loop-isaac.plugin.dll!+0x1bc68
+2026-10-03T18:24:36Z [1,647ms] [Fatal] [carb.crashreporter-breakpad.plugin] 011: omni.kit.loop-isaac.plugin.dll!+0x215f
+2026-10-03T18:24:36Z [1,649ms] [Fatal] [carb.crashreporter-breakpad.plugin] 012: ucrtbase.dll!configthreadlocale+0x92
+2026-10-03T18:24:36Z [1,651ms] [Fatal] [carb.crashreporter-breakpad.plugin] 013: KERNEL32.DLL!BaseThreadInitThunk+0x14
+2026-10-03T18:24:36Z [1,655ms] [Fatal] [carb.crashreporter-breakpad.plugin] 014: ntdll.dll!RtlUserThreadStart+0x21

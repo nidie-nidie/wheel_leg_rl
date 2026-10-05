@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<JScopeProject>
+    <FileVersion major="1" minor="1" />
+    <Project>
+        <Configuration>
+            <JLink>
+                <Options Connection="1" IsRTTSession="0" IsRTTWithTimeStamp="1" SamplingPeriod="100" SerialNo="0" JTAG_IRPre="-1" JTAG_DRPre="-1" IP="" TargetDevice="STM32F407IG" TargetInterface="SWD" InterfaceSpeed="4000" />
+            </JLink>
+            <ScriptFile Name="G:\RM2023\guard_git\rm2023---sentinel\guard_3_13_CurrentProject\MDK-ARM\JSCOPE.jscope\unspecified" />
+            <ElfFile Name="G:\RM2023\guard_git\rm2023---sentinel\guard_3_13_CurrentProject\MDK-ARM\standard\sentry.axf" />
+            <DataFile Name="" />
+            <RawFile Name="" />
+            <Scope>
+                <Options TimeResolutionUs="200000" />
+            </Scope>
+        </Configuration>
+        <Windows>
+            <Graph Show="1" />
+            <Watch Show="1" />
+        </Windows>
+        <SelectedSymbols>
+            <Symbol>
+                <Options Name="out" Address="0x20000C24" Type="float" TypeID="1" Size="4" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="-6682" YMaxSampled="4651" YAvgSampled="-436" Offset="4" ShowInGraph="1" ACCoupling="0" YOffset="200" IsAutoConfig="1" YResolution="20000" MaxValue="40000" File="..\Task\gimbal_task.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="error[0]" Address="0x20000C40" Type="float" TypeID="1" Size="4" GraphColorRed="0" GraphColorGreen="255" GraphColorBlue="0" YMinSampled="-1" YMaxSampled="1" YAvgSampled="0" Offset="8" ShowInGraph="1" ACCoupling="0" YOffset="200" IsAutoConfig="1" YResolution="10" MaxValue="20" File="..\Task\gimbal_task.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="max_out" Address="0x20000C14" Type="float" TypeID="1" Size="4" GraphColorRed="102" GraphColorGreen="102" GraphColorBlue="178" YMinSampled="20500" YMaxSampled="20500" YAvgSampled="20500" Offset="12" ShowInGraph="1" ACCoupling="0" YOffset="200" IsAutoConfig="1" YResolution="20000" MaxValue="40000" File="..\Task\gimbal_task.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="motor_gyro" Address="0x20000C6C" Type="float" TypeID="1" Size="4" GraphColorRed="160" GraphColorGreen="32" GraphColorBlue="240" YMinSampled="-2" YMaxSampled="0" YAvgSampled="0" Offset="16" ShowInGraph="1" ACCoupling="0" YOffset="560" IsAutoConfig="1" YResolution="5" MaxValue="10" File="..\Task\gimbal_task.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="motor_gyro_set" Address="0x20000C70" Type="float" TypeID="1" Size="4" GraphColorRed="255" GraphColorGreen="0" GraphColorBlue="0" YMinSampled="-1" YMaxSampled="1" YAvgSampled="0" Offset="20" ShowInGraph="1" ACCoupling="0" YOffset="560" IsAutoConfig="1" YResolution="1" MaxValue="2" File="..\Task\gimbal_task.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+        </SelectedSymbols>
+    </Project>
+</JScopeProject>

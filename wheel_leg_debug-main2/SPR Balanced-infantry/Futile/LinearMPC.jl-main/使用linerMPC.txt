@@ -1,0 +1,71 @@
+cd ~/mpc_6x2
+nano mpc_demo.py
+python3 mpc_demo.py
+####################################
+import numpy as np
+from lmpc import MPC
+
+A = np.array([
+    [0, 1.0, 0, 0, 0, 0],
+    [242.7680027300154612115348191119, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1.0, 0, 0],
+    [-111.23675834869004965607391948266, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 1.0],
+    [0, 0, 0, 0, 0, 0]
+])
+
+B = np.array([
+    [0, 0],
+    [-27.455867737623607786028783313549, 4.1394455599320333518308749821167],
+    [0, 0],
+    [13.550968758934185246777202157682, -1.574339912552330766638193561481],
+    [0, 0],
+    [0, 1.4494853234189927848103153498295]
+])
+
+
+Ts = 0.001
+
+C = np.eye(6)
+
+
+Q = np.diag([1.0, 1.0, 500.0, 1000.0, 5000.0, 1.0])  #
+R = np.diag([50.0, 1.0])                              
+Rr = np.zeros((2, 2)) 
+
+Np = 5 
+Nc = 5  
+
+u_min = np.array([-2.4, -30.0])
+u_max = np.array([ 2.4,  30.0])
+
+mpc = MPC(A, B, Ts, C=C, Nc=Nc, Np=Np)
+
+mpc.set_objective(Q=Q, R=R, Rr=Rr)
+
+mpc.set_bounds(umin=u_min, umax=u_max)
+
+mpc.codegen(dir="my_mpc_controller_6x2")
+print("✅ C代码已生成到 ./my_mpc_controller_6x2 目录")
+print("核心控制函数：mpc_compute_control")
+###############################################
+cp -r my_mpc_controller_6x2 /mnt/c/Users/Arworld/Desktop/
+1.最后根据编译器提示，将0数组改为1
+2.根据提示增加参数
+DAQPWorkspace daqp_work= {
+NULL,
+10, 10, 10,
+M, dupper, dlower, Rinv, NULL, sense,
+NULL,
+NULL,
+x, xold,
+lam, lam_star, u, -1,
+L, D, xldl,zldl,0,
+WS, 0,
+0,-1,
+NULL, 0,   
+0.000000,
+&settings, 
+NULL,
+0, NULL,NULL,NULL};
+3.c/c++里添加宏DAQP_WARMSTART

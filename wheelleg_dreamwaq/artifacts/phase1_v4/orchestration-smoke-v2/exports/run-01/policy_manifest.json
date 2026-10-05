@@ -1,0 +1,377 @@
+{
+  "action": {
+    "canonical_joint_order": [
+      "jIJ",
+      "jIO",
+      "jAB",
+      "jAG",
+      "jwheel_left",
+      "jwheel_right"
+    ],
+    "clip_actions": 1.0,
+    "dimension": 6,
+    "packet_leg_order": [
+      "jIO",
+      "jAG",
+      "jIJ",
+      "jAB"
+    ],
+    "packet_to_policy_leg": [
+      2,
+      0,
+      3,
+      1
+    ],
+    "policy_to_packet_leg": [
+      1,
+      3,
+      0,
+      2
+    ],
+    "wheel_joint_order": [
+      "jwheel_left",
+      "jwheel_right"
+    ],
+    "wheel_joint_sign_usd": [
+      1.0,
+      -1.0
+    ]
+  },
+  "actor_dtype": "float32",
+  "actor_file": "actor.ts",
+  "actor_sha256": "F4CB09E305DE5249DFDCEDD71B348A453E5A035586850059EDB99450F2F9D444",
+  "actuators": {
+    "legs": {
+      "armature": 0.05,
+      "class_type": "isaaclab.actuators.actuator_pd:ImplicitActuator",
+      "damping": 4.0,
+      "dynamic_friction": 0.0,
+      "effort_limit": null,
+      "effort_limit_sim": 18.0,
+      "friction": 0.0,
+      "joint_names_expr": [
+        "jIJ",
+        "jIO",
+        "jAB",
+        "jAG"
+      ],
+      "stiffness": 120.0,
+      "velocity_limit": null,
+      "velocity_limit_sim": 45.0,
+      "viscous_friction": 0.0
+    },
+    "passive": {
+      "armature": 0.005,
+      "class_type": "isaaclab.actuators.actuator_pd:ImplicitActuator",
+      "damping": 0.05,
+      "dynamic_friction": 0.0,
+      "effort_limit": null,
+      "effort_limit_sim": 18.0,
+      "friction": 0.0,
+      "joint_names_expr": [
+        "jOP",
+        "jIO_dummy_child_link1",
+        "jIO_dummy_child_link2",
+        "jGH",
+        "jAG_dummy_child_link1",
+        "jAG_dummy_child_link2",
+        "jJM",
+        "jMK",
+        "jKN",
+        "jKN_dummy_child_link1",
+        "jKN_dummy_child_link2",
+        "jMK_dummy_child1",
+        "jMK_dummy_child2",
+        "jBE",
+        "jEC",
+        "jCF",
+        "jCF_dummy_child_link1",
+        "jCF_dummy_child_link2",
+        "jEC_dummy_child_link1",
+        "jEC_dummy_child_link2"
+      ],
+      "stiffness": 0.0,
+      "velocity_limit": null,
+      "velocity_limit_sim": 80.0,
+      "viscous_friction": 0.0
+    },
+    "wheels": {
+      "armature": 0.05,
+      "class_type": "isaaclab.actuators.actuator_pd:ImplicitActuator",
+      "damping": 0.6,
+      "dynamic_friction": 0.0,
+      "effort_limit": null,
+      "effort_limit_sim": 9.0,
+      "friction": 0.0,
+      "joint_names_expr": [
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "stiffness": 0.0,
+      "velocity_limit": null,
+      "velocity_limit_sim": 45.0,
+      "viscous_friction": 0.0
+    }
+  },
+  "asset_bundle_hash": "E754AE888F5C5379B3B6152CFA5AD6BBAE20E8C7480CF7AD6960782A5267CB46",
+  "asset_bundle_version": "AssetBundleV2",
+  "command_sampling": {
+    "base_height": [
+      0.16,
+      0.24
+    ],
+    "hold_for_episode": true,
+    "mode_probabilities": [
+      0.2,
+      0.3,
+      0.2,
+      0.3
+    ],
+    "vx": [
+      -1.5,
+      1.5
+    ],
+    "yaw_rate": [
+      -1.0,
+      1.0
+    ]
+  },
+  "control": {
+    "leg_action_scale": 0.35,
+    "leg_target_lower": [
+      -1.0,
+      -1.0,
+      -1.0,
+      -1.0
+    ],
+    "leg_target_upper": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "wheel_action_scale": 25.0
+  },
+  "export_verification_max_abs_error": 0.0,
+  "frames": {
+    "r_control_from_imu": [
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "r_control_from_usd": [
+      [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      [
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "initial_state": {
+    "ang_vel": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "joint_pos": {
+      "jAB": -0.33367088,
+      "jAG": 0.33367112,
+      "jAG_dummy_child_link1": -0.00834354,
+      "jAG_dummy_child_link2": -0.00834353,
+      "jBE": 0.37146658,
+      "jCF": 0.37150583,
+      "jCF_dummy_child_link1": 0.01561109,
+      "jCF_dummy_child_link2": 0.01608925,
+      "jEC": 0.07562435,
+      "jEC_dummy_child_link1": 0.00279344,
+      "jEC_dummy_child_link2": 0.0027937,
+      "jGH": 0.37148619,
+      "jIJ": -0.33367151,
+      "jIO": 0.33367157,
+      "jIO_dummy_child_link1": -0.01975457,
+      "jIO_dummy_child_link2": -0.01975455,
+      "jJM": -0.37146848,
+      "jKN": -0.37150618,
+      "jKN_dummy_child_link1": -0.06563117,
+      "jKN_dummy_child_link2": -0.06613248,
+      "jMK": 0.07562718,
+      "jMK_dummy_child1": -0.0689704,
+      "jMK_dummy_child2": -0.06897411,
+      "jOP": -0.37150037,
+      "jwheel_left": 0.0,
+      "jwheel_right": 0.0
+    },
+    "joint_vel": {
+      ".*": 0.0
+    },
+    "lin_vel": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "pos": [
+      0.0,
+      0.0,
+      0.20003
+    ],
+    "rot": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "manifest_hash": "54C3694011255BD1A6256B69B96BC0924DCE8184B7A68CD24EBEE1F3DE6C3B4E",
+  "mujoco_model": {
+    "actuator_effort_limits_nm": {
+      "Left_Wheel_act": 9.0,
+      "Left_front_joint_act": 18.0,
+      "Left_rear_joint_act": 18.0,
+      "Right_Wheel_act": 9.0,
+      "Right_front_joint_act": 18.0,
+      "Right_rear_joint_act": 18.0
+    },
+    "dynamics_semantics_hash": "A846A8E4E198A43DAE8F8D9BD2BA565F7B8DC2C67386FB0028BD2530FE1C42D6",
+    "model_manifest_sha256": "C3DB4FE2797F6AC3628F0A9CB5E0B166FFD0CE802776A335922C474A045F7AE0",
+    "model_version": "MujocoModelV1",
+    "model_xml_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1"
+  },
+  "network": {
+    "activation": "elu",
+    "actor_observation_normalization": false,
+    "hidden_dimensions": [
+      256,
+      128,
+      64
+    ],
+    "input_dimension": 25,
+    "output_dimension": 6
+  },
+  "normalization": {
+    "angular_velocity_clip": 5.0,
+    "angular_velocity_scale": 0.25,
+    "applied_torque_clip": 5.0,
+    "applied_torque_scale": 0.05,
+    "height_command_span": 0.04,
+    "joint_acceleration_clip": 10.0,
+    "joint_acceleration_scale": 0.002,
+    "joint_velocity_clip": 5.0,
+    "joint_velocity_scale": 0.05,
+    "leg_position_clip": 1.5,
+    "leg_position_scale": 1.0,
+    "nominal_base_height": 0.2,
+    "projected_gravity_clip": 1.0,
+    "root_linear_velocity_clip": 6.0,
+    "root_linear_velocity_scale": 2.0,
+    "vx_max_abs": 1.5,
+    "yaw_rate_max_abs": 1.0
+  },
+  "observation": {
+    "actor_dimension": 25,
+    "actor_slices": {
+      "angular_velocity": [
+        0,
+        3
+      ],
+      "command": [
+        6,
+        9
+      ],
+      "joint_velocity": [
+        13,
+        19
+      ],
+      "leg_position_error": [
+        9,
+        13
+      ],
+      "previous_action": [
+        19,
+        25
+      ],
+      "projected_gravity": [
+        3,
+        6
+      ]
+    },
+    "critic_dimension": 41,
+    "critic_slices": {
+      "actor_observation": [
+        0,
+        25
+      ],
+      "applied_torque": [
+        35,
+        41
+      ],
+      "base_height": [
+        28,
+        29
+      ],
+      "joint_acceleration": [
+        29,
+        35
+      ],
+      "root_linear_velocity": [
+        25,
+        28
+      ]
+    }
+  },
+  "phase1_contract_hash": "69B5D4AD7CDEB5FF94BE3CC68E2BCE6338AB29F07DE3192EA93247545664600A",
+  "phase1_contract_version": "Phase1ContractV4",
+  "q_nominal": [
+    -0.33367134,
+    0.33367134,
+    -0.33367134,
+    0.33367134
+  ],
+  "schema_version": "PpoActorExportV1",
+  "schemas": {
+    "action": "ActionV1",
+    "actor_observation": "ActorObsV1",
+    "command": "CommandV1",
+    "command_sampling": "CommandSamplingV2",
+    "control_frame": "ControlFrameV1",
+    "critic_observation": "CriticObsV1",
+    "normalization": "NormalizationV2",
+    "physics": "PhysicsV4",
+    "reward": "RewardSchemaV2",
+    "virtual_leg_kinematics": "VirtualLegKinematicsV1"
+  },
+  "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-32-00_portable_v4-suite-20261005-063156-run01-seed72378231\\model_0.pt",
+  "source_checkpoint_sha256": "A77EAC0540F073337FB600B11570B70C48EB06D2B8D68506EC252378EB7BA8CB",
+  "source_completed_iterations": 1,
+  "source_run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-32-00_portable_v4-suite-20261005-063156-run01-seed72378231\\run_manifest.json",
+  "source_run_manifest_sha256": "EB677A14185CBB4B712D70D10E42750362251EA2FC503D9D063D0D18C1B39C5A",
+  "timing": {
+    "control_dt_s": 0.02,
+    "isaac_decimation": 4,
+    "isaac_sim_dt_s": 0.005,
+    "mujoco_physics_dt_s": 0.001,
+    "mujoco_physics_steps_per_action": 20
+  },
+  "torch_version": "2.7.0+cu128"
+}

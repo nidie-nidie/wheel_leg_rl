@@ -1,0 +1,1192 @@
+{
+  "asset_bundle_hash": "E754AE888F5C5379B3B6152CFA5AD6BBAE20E8C7480CF7AD6960782A5267CB46",
+  "asset_bundle_version": "AssetBundleV2",
+  "asset_entry": "E:\\wheel_leg_rl-main\\wheel_leg_urdf4_usd_v2\\wheel_leg_urdf4\\wheel_leg_urdf4.usd",
+  "coordinate_definition": {
+    "base_x": "lateral residual only; excluded from L0 and phi0",
+    "d_w": "-base_link Z",
+    "l0": "hypot(s_w, d_w)",
+    "phi0": "atan2(d_w, s_w)",
+    "s_w": "+base_link Y",
+    "vector": "wheel_axis_world - hip_axis_world, rotated into USD base_link frame"
+  },
+  "legs": {
+    "left": {
+      "fk_geometry": {
+        "max_abs_out_of_plane_x_m": 0.3722010336925882,
+        "out_of_plane_x_m": {
+          "v_ij": 0.0026280318657337653,
+          "v_il": 0.36972900317055213,
+          "v_ip": -0.003372067481537344,
+          "v_jm": -0.00510006238776986,
+          "v_kn": -0.002249957656072221,
+          "v_mk": 0.011349989132490523,
+          "v_ml": 0.3722010336925882,
+          "v_pn": 0.010000068435919551,
+          "v_pw": -0.040199862639428346
+        },
+        "point_joint_names": {
+          "I": "jIJ",
+          "J": "jJM",
+          "K": "jKN",
+          "L": "jIO_loop_closure",
+          "M": "jMK",
+          "N": "jKN_loop_closure",
+          "P": "jOP",
+          "W": "jwheel_left"
+        },
+        "points_base_m": {
+          "I": [
+            -0.15229900090646742,
+            -1.2699999904632568,
+            0.06196900042307377
+          ],
+          "J": [
+            -0.14967096904073365,
+            -1.1732510007154824,
+            0.06871500007231533
+          ],
+          "K": [
+            -0.143421042296013,
+            -1.4037420072409006,
+            0.12460800113630294
+          ],
+          "L": [
+            0.2174300022640847,
+            -1.3663549989838977,
+            0.07291000137880443
+          ],
+          "M": [
+            -0.1547710314285035,
+            -1.2711589972015758,
+            0.008391000833988188
+          ],
+          "N": [
+            -0.1456709999520852,
+            -1.520956998879888,
+            0.1381889997537136
+          ],
+          "P": [
+            -0.15567106838800476,
+            -1.483570997480209,
+            0.08649100046187638
+          ],
+          "W": [
+            -0.1958709310274331,
+            -1.2699999885741124,
+            -0.05825500276756287
+          ]
+        },
+        "vectors_s_z_m": {
+          "v_ij": [
+            0.09674898974777446,
+            0.006745999649241566
+          ],
+          "v_il": [
+            -0.09635500852064083,
+            0.010941000955730668
+          ],
+          "v_ip": [
+            -0.21357100701695209,
+            0.024522000038802616
+          ],
+          "v_jm": [
+            -0.09790799648609338,
+            -0.060323999238327146
+          ],
+          "v_kn": [
+            -0.1172149916389873,
+            0.013580998617410661
+          ],
+          "v_mk": [
+            -0.13258301003932482,
+            0.11621700030231474
+          ],
+          "v_ml": [
+            -0.0951960017823219,
+            0.06451900054481624
+          ],
+          "v_pn": [
+            -0.03738600139967896,
+            0.051697999291837216
+          ],
+          "v_pw": [
+            0.21357100890609648,
+            -0.14474600322943926
+          ]
+        }
+      },
+      "hip": {
+        "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+        "axis_body": [
+          0.9999999999997953,
+          6.401211364304161e-07,
+          0.0
+        ],
+        "body_name": "base_link",
+        "body_path": "/wheel_leg_urdf4/base_link",
+        "joint_name": "jIJ",
+        "joint_path": "/wheel_leg_urdf4/joints/jIJ",
+        "local_anchor_m": [
+          -0.15229900181293488,
+          -1.2699999809265137,
+          0.06196900084614754
+        ],
+        "local_rotation_wxyz": [
+          -0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071070075035095
+        ],
+        "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+        "side": 0,
+        "world_anchor_m": [
+          -0.15229900181293488,
+          -1.2699999809265137,
+          0.06196900084614754
+        ],
+        "world_axis": [
+          0.9999999999997953,
+          6.401211364304161e-07,
+          0.0
+        ]
+      },
+      "hip_axis_dot": 1.0000000000000002,
+      "hip_coaxial_anchor_error_m": 0.0,
+      "hip_joint_names": [
+        "jIJ",
+        "jIO"
+      ],
+      "joint_records": [
+        {
+          "axis_token": "Y",
+          "joint_anchor_error_m": 1.917812764414975e-08,
+          "joint_axis_dot": 0.9999999999991807,
+          "joint_name": "jIJ",
+          "joint_path": "/wheel_leg_urdf4/joints/jIJ",
+          "joint_type": "PhysicsRevoluteJoint",
+          "prim_source_layers": [
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_robot.usd"
+          ],
+          "sides": [
+            {
+              "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "axis_body": [
+                0.9999999999997953,
+                6.401211364304161e-07,
+                0.0
+              ],
+              "body_name": "base_link",
+              "body_path": "/wheel_leg_urdf4/base_link",
+              "local_anchor_m": [
+                -0.15229900181293488,
+                -1.2699999809265137,
+                0.06196900084614754
+              ],
+              "local_rotation_wxyz": [
+                -0.7071070075035095,
+                0.0,
+                0.0,
+                0.7071070075035095
+              ],
+              "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "side": 0,
+              "world_anchor_m": [
+                -0.15229900181293488,
+                -1.2699999809265137,
+                0.06196900084614754
+              ],
+              "world_axis": [
+                0.9999999999997953,
+                6.401211364304161e-07,
+                0.0
+              ]
+            },
+            {
+              "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "axis_body": [
+                -1.2246467991473532e-16,
+                -1.0,
+                0.0
+              ],
+              "body_name": "jIJ",
+              "body_path": "/wheel_leg_urdf4/jIJ",
+              "local_anchor_m": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation_wxyz": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "side": 1,
+              "world_anchor_m": [
+                -0.152299,
+                -1.27,
+                0.061969
+              ],
+              "world_axis": [
+                0.9999999999997952,
+                -6.401211365528807e-07,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "axis_token": "Y",
+          "joint_anchor_error_m": 1.917812764414975e-08,
+          "joint_axis_dot": 0.9999999999991807,
+          "joint_name": "jIO",
+          "joint_path": "/wheel_leg_urdf4/joints/jIO",
+          "joint_type": "PhysicsRevoluteJoint",
+          "prim_source_layers": [
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_robot.usd"
+          ],
+          "sides": [
+            {
+              "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "axis_body": [
+                0.9999999999997953,
+                6.401211364304161e-07,
+                0.0
+              ],
+              "body_name": "base_link",
+              "body_path": "/wheel_leg_urdf4/base_link",
+              "local_anchor_m": [
+                -0.15229900181293488,
+                -1.2699999809265137,
+                0.06196900084614754
+              ],
+              "local_rotation_wxyz": [
+                -0.7071070075035095,
+                0.0,
+                0.0,
+                0.7071070075035095
+              ],
+              "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "side": 0,
+              "world_anchor_m": [
+                -0.15229900181293488,
+                -1.2699999809265137,
+                0.06196900084614754
+              ],
+              "world_axis": [
+                0.9999999999997953,
+                6.401211364304161e-07,
+                0.0
+              ]
+            },
+            {
+              "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "axis_body": [
+                -1.2246467991473532e-16,
+                -1.0,
+                0.0
+              ],
+              "body_name": "jIO",
+              "body_path": "/wheel_leg_urdf4/jIO",
+              "local_anchor_m": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation_wxyz": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "side": 1,
+              "world_anchor_m": [
+                -0.152299,
+                -1.27,
+                0.061969
+              ],
+              "world_axis": [
+                0.9999999999997952,
+                -6.401211365528807e-07,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "axis_token": "Y",
+          "joint_anchor_error_m": 1.3993463178210054e-07,
+          "joint_axis_dot": 1.0,
+          "joint_name": "jwheel_left",
+          "joint_path": "/wheel_leg_urdf4/joints/jwheel_left",
+          "joint_type": "PhysicsRevoluteJoint",
+          "prim_source_layers": [
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_robot.usd"
+          ],
+          "sides": [
+            {
+              "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "axis_body": [
+                -1.2246467991473532e-16,
+                -1.0,
+                0.0
+              ],
+              "body_name": "jOP",
+              "body_path": "/wheel_leg_urdf4/jOP",
+              "local_anchor_m": [
+                0.2135709971189499,
+                0.04019999876618385,
+                -0.14474600553512573
+              ],
+              "local_rotation_wxyz": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "side": 0,
+              "world_anchor_m": [
+                -0.19587086205486623,
+                -1.2699999771482249,
+                -0.058255005535125734
+              ],
+              "world_axis": [
+                0.9999999999997952,
+                -6.401211365528807e-07,
+                0.0
+              ]
+            },
+            {
+              "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "axis_body": [
+                -1.2246467991473532e-16,
+                -1.0,
+                0.0
+              ],
+              "body_name": "jwheel_left",
+              "body_path": "/wheel_leg_urdf4/jwheel_left",
+              "local_anchor_m": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation_wxyz": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "side": 1,
+              "world_anchor_m": [
+                -0.195871,
+                -1.27,
+                -0.058255
+              ],
+              "world_axis": [
+                0.9999999999997952,
+                -6.401211365528807e-07,
+                0.0
+              ]
+            }
+          ]
+        }
+      ],
+      "wheel": {
+        "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+        "axis_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "body_name": "jwheel_left",
+        "body_path": "/wheel_leg_urdf4/jwheel_left",
+        "joint_name": "jwheel_left",
+        "joint_path": "/wheel_leg_urdf4/joints/jwheel_left",
+        "local_anchor_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+        "side": 1,
+        "world_anchor_m": [
+          -0.195871,
+          -1.27,
+          -0.058255
+        ],
+        "world_axis": [
+          0.9999999999997952,
+          -6.401211365528807e-07,
+          0.0
+        ]
+      },
+      "wheel_joint_name": "jwheel_left"
+    },
+    "right": {
+      "fk_geometry": {
+        "max_abs_out_of_plane_x_m": 0.040199636062047156,
+        "out_of_plane_x_m": {
+          "v_ij": -0.002628471635055085,
+          "v_il": -2.7999655728416784e-05,
+          "v_ip": 0.00337192906982664,
+          "v_jm": 0.004599937742732985,
+          "v_kn": 0.0022500423572000827,
+          "v_mk": -0.010849511246740773,
+          "v_ml": -0.001999465763406316,
+          "v_pn": -0.009999931851689431,
+          "v_pw": 0.040199636062047156
+        },
+        "point_joint_names": {
+          "I": "jAB",
+          "J": "jBE",
+          "K": "jCF",
+          "L": "jAG_loop_closure",
+          "M": "jEC",
+          "N": "jCF_revolute_joint",
+          "P": "jGH",
+          "W": "jwheel_right"
+        },
+        "points_base_m": {
+          "I": [
+            0.23655800260686874,
+            -1.2699999904632568,
+            0.06196900042307377
+          ],
+          "J": [
+            0.23392953097181365,
+            -1.173250999033244,
+            0.06871500007231533
+          ],
+          "K": [
+            0.22767995746780587,
+            -1.4037415001355558,
+            0.12460800113630294
+          ],
+          "L": [
+            0.23653000295114032,
+            -1.3663549694885346,
+            0.07291000324144958
+          ],
+          "M": [
+            0.23852946871454664,
+            -1.2711590003061635,
+            0.008391000833988188
+          ],
+          "N": [
+            0.22992999982500595,
+            -1.5209570005584294,
+            0.1381889997537136
+          ],
+          "P": [
+            0.23992993167669538,
+            -1.4835709996386974,
+            0.08649100046187638
+          ],
+          "W": [
+            0.28012956773874254,
+            -1.2700000143069814,
+            -0.05825500276756287
+          ]
+        },
+        "vectors_s_z_m": {
+          "v_ij": [
+            0.09674899143001281,
+            0.006745999649241566
+          ],
+          "v_il": [
+            -0.09635497902527779,
+            0.010941002818375817
+          ],
+          "v_ip": [
+            -0.21357100917544058,
+            0.024522000038802616
+          ],
+          "v_jm": [
+            -0.09790800127291943,
+            -0.060323999238327146
+          ],
+          "v_kn": [
+            -0.11721550042287365,
+            0.013580998617410661
+          ],
+          "v_mk": [
+            -0.1325824998293923,
+            0.11621700030231474
+          ],
+          "v_ml": [
+            -0.09519596918237117,
+            0.06451900240746139
+          ],
+          "v_pn": [
+            -0.03738600091973199,
+            0.051697999291837216
+          ],
+          "v_pw": [
+            0.21357098533171603,
+            -0.14474600322943926
+          ]
+        }
+      },
+      "hip": {
+        "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+        "axis_body": [
+          0.9999999999997953,
+          6.401211364304161e-07,
+          0.0
+        ],
+        "body_name": "base_link",
+        "body_path": "/wheel_leg_urdf4/base_link",
+        "joint_name": "jAB",
+        "joint_path": "/wheel_leg_urdf4/joints/jAB",
+        "local_anchor_m": [
+          0.2365580052137375,
+          -1.2699999809265137,
+          0.06196900084614754
+        ],
+        "local_rotation_wxyz": [
+          -0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071070075035095
+        ],
+        "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+        "side": 0,
+        "world_anchor_m": [
+          0.2365580052137375,
+          -1.2699999809265137,
+          0.06196900084614754
+        ],
+        "world_axis": [
+          0.9999999999997953,
+          6.401211364304161e-07,
+          0.0
+        ]
+      },
+      "hip_axis_dot": 1.0000000000000002,
+      "hip_coaxial_anchor_error_m": 0.0,
+      "hip_joint_names": [
+        "jAB",
+        "jAG"
+      ],
+      "joint_records": [
+        {
+          "axis_token": "Y",
+          "joint_anchor_error_m": 1.9791334106792947e-08,
+          "joint_axis_dot": 0.9999999999991807,
+          "joint_name": "jAB",
+          "joint_path": "/wheel_leg_urdf4/joints/jAB",
+          "joint_type": "PhysicsRevoluteJoint",
+          "prim_source_layers": [
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_robot.usd"
+          ],
+          "sides": [
+            {
+              "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "axis_body": [
+                0.9999999999997953,
+                6.401211364304161e-07,
+                0.0
+              ],
+              "body_name": "base_link",
+              "body_path": "/wheel_leg_urdf4/base_link",
+              "local_anchor_m": [
+                0.2365580052137375,
+                -1.2699999809265137,
+                0.06196900084614754
+              ],
+              "local_rotation_wxyz": [
+                -0.7071070075035095,
+                0.0,
+                0.0,
+                0.7071070075035095
+              ],
+              "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "side": 0,
+              "world_anchor_m": [
+                0.2365580052137375,
+                -1.2699999809265137,
+                0.06196900084614754
+              ],
+              "world_axis": [
+                0.9999999999997953,
+                6.401211364304161e-07,
+                0.0
+              ]
+            },
+            {
+              "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "axis_body": [
+                -1.2246467991473532e-16,
+                -1.0,
+                0.0
+              ],
+              "body_name": "jAB",
+              "body_path": "/wheel_leg_urdf4/jAB",
+              "local_anchor_m": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation_wxyz": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "side": 1,
+              "world_anchor_m": [
+                0.236558,
+                -1.27,
+                0.061969
+              ],
+              "world_axis": [
+                0.9999999999997952,
+                -6.401211365528807e-07,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "axis_token": "Y",
+          "joint_anchor_error_m": 1.9791334106792947e-08,
+          "joint_axis_dot": 0.9999999999991807,
+          "joint_name": "jAG",
+          "joint_path": "/wheel_leg_urdf4/joints/jAG",
+          "joint_type": "PhysicsRevoluteJoint",
+          "prim_source_layers": [
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_robot.usd"
+          ],
+          "sides": [
+            {
+              "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "axis_body": [
+                0.9999999999997953,
+                6.401211364304161e-07,
+                0.0
+              ],
+              "body_name": "base_link",
+              "body_path": "/wheel_leg_urdf4/base_link",
+              "local_anchor_m": [
+                0.2365580052137375,
+                -1.2699999809265137,
+                0.06196900084614754
+              ],
+              "local_rotation_wxyz": [
+                -0.7071070075035095,
+                0.0,
+                0.0,
+                0.7071070075035095
+              ],
+              "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "side": 0,
+              "world_anchor_m": [
+                0.2365580052137375,
+                -1.2699999809265137,
+                0.06196900084614754
+              ],
+              "world_axis": [
+                0.9999999999997953,
+                6.401211364304161e-07,
+                0.0
+              ]
+            },
+            {
+              "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "axis_body": [
+                -1.2246467991473532e-16,
+                -1.0,
+                0.0
+              ],
+              "body_name": "jAG",
+              "body_path": "/wheel_leg_urdf4/jAG",
+              "local_anchor_m": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation_wxyz": [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ],
+              "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "side": 1,
+              "world_anchor_m": [
+                0.236558,
+                -1.27,
+                0.061969
+              ],
+              "world_axis": [
+                0.9999999999997952,
+                -6.401211365528807e-07,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "axis_token": "Y",
+          "joint_anchor_error_m": 1.1358514495219808e-06,
+          "joint_axis_dot": 1.0,
+          "joint_name": "jwheel_right",
+          "joint_path": "/wheel_leg_urdf4/joints/jwheel_right",
+          "joint_type": "PhysicsRevoluteJoint",
+          "prim_source_layers": [
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+            "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_robot.usd"
+          ],
+          "sides": [
+            {
+              "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "axis_body": [
+                0.0,
+                1.0,
+                0.0
+              ],
+              "body_name": "jGH",
+              "body_path": "/wheel_leg_urdf4/jGH",
+              "local_anchor_m": [
+                0.2135709971189499,
+                -0.04019999876618385,
+                -0.14474600553512573
+              ],
+              "local_rotation_wxyz": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "side": 0,
+              "world_anchor_m": [
+                0.280130135477485,
+                -1.2700000286139628,
+                -0.058255005535125734
+              ],
+              "world_axis": [
+                -0.9999999999997952,
+                6.40121136430416e-07,
+                0.0
+              ]
+            },
+            {
+              "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "axis_body": [
+                0.0,
+                1.0,
+                0.0
+              ],
+              "body_name": "jwheel_right",
+              "body_path": "/wheel_leg_urdf4/jwheel_right",
+              "local_anchor_m": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "local_rotation_wxyz": [
+                1.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+              "side": 1,
+              "world_anchor_m": [
+                0.280129,
+                -1.27,
+                -0.058255
+              ],
+              "world_axis": [
+                -0.9999999999997952,
+                6.40121136430416e-07,
+                0.0
+              ]
+            }
+          ]
+        }
+      ],
+      "wheel": {
+        "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+        "axis_body": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "body_name": "jwheel_right",
+        "body_path": "/wheel_leg_urdf4/jwheel_right",
+        "joint_name": "jwheel_right",
+        "joint_path": "/wheel_leg_urdf4/joints/jwheel_right",
+        "local_anchor_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/configuration/wheel_leg_urdf4_physics.usd",
+        "side": 1,
+        "world_anchor_m": [
+          0.280129,
+          -1.27,
+          -0.058255
+        ],
+        "world_axis": [
+          -0.9999999999997952,
+          6.40121136430416e-07,
+          0.0
+        ]
+      },
+      "wheel_joint_name": "jwheel_right"
+    }
+  },
+  "loop_joints": [
+    {
+      "axis_token": "Y",
+      "joint_anchor_error_m": 1.6695793599150863e-08,
+      "joint_axis_dot": 1.0,
+      "joint_name": "jIO_loop_closure",
+      "joint_path": "/wheel_leg_urdf4/jIO/jIO_loop_closure",
+      "joint_type": "PhysicsRevoluteJoint",
+      "prim_source_layers": [
+        "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd"
+      ],
+      "sides": [
+        {
+          "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "axis_body": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "body_name": "jMK",
+          "body_path": "/wheel_leg_urdf4/jMK",
+          "local_anchor_m": [
+            -0.09519576281309128,
+            -0.3722010552883148,
+            0.064519003033638
+          ],
+          "local_rotation_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "side": 0,
+          "world_anchor_m": [
+            0.21742999435141874,
+            -1.3663550010668342,
+            0.072910003033638
+          ],
+          "world_axis": [
+            -0.9999999999997952,
+            6.40121136430416e-07,
+            0.0
+          ]
+        },
+        {
+          "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "axis_body": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "body_name": "jIO",
+          "body_path": "/wheel_leg_urdf4/jIO",
+          "local_anchor_m": [
+            -0.09635476022958755,
+            -0.36972907185554504,
+            0.01094099972397089
+          ],
+          "local_rotation_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "side": 1,
+          "world_anchor_m": [
+            0.2174300101767507,
+            -1.3663549969009614,
+            0.07290999972397089
+          ],
+          "world_axis": [
+            -0.9999999999997952,
+            6.40121136430416e-07,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "axis_token": "Y",
+      "joint_anchor_error_m": 1.1255068610090053e-09,
+      "joint_axis_dot": 1.0,
+      "joint_name": "jKN_loop_closure",
+      "joint_path": "/wheel_leg_urdf4/jKN/jKN_loop_closure",
+      "joint_type": "PhysicsRevoluteJoint",
+      "prim_source_layers": [
+        "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd"
+      ],
+      "sides": [
+        {
+          "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "axis_body": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "body_name": "jKN",
+          "body_path": "/wheel_leg_urdf4/jKN",
+          "local_anchor_m": [
+            -0.11721500009298325,
+            0.0022499249316751957,
+            0.01358100026845932
+          ],
+          "local_rotation_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "side": 0,
+          "world_anchor_m": [
+            -0.1456709999634738,
+            -1.5209569986527347,
+            0.13818900026845932
+          ],
+          "world_axis": [
+            -0.9999999999997952,
+            6.40121136430416e-07,
+            0.0
+          ]
+        },
+        {
+          "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "axis_body": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "body_name": "jOP",
+          "body_path": "/wheel_leg_urdf4/jOP",
+          "local_anchor_m": [
+            -0.03738599270582199,
+            -0.010000023990869522,
+            0.051697999238967896
+          ],
+          "local_rotation_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "side": 1,
+          "world_anchor_m": [
+            -0.14567099994069665,
+            -1.520956999107041,
+            0.13818899923896788
+          ],
+          "world_axis": [
+            -0.9999999999997952,
+            6.40121136430416e-07,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "axis_token": "Y",
+      "joint_anchor_error_m": 6.121834541487964e-08,
+      "joint_axis_dot": 1.0,
+      "joint_name": "jAG_loop_closure",
+      "joint_path": "/wheel_leg_urdf4/jEC/jAG_loop_closure",
+      "joint_type": "PhysicsRevoluteJoint",
+      "prim_source_layers": [
+        "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd"
+      ],
+      "sides": [
+        {
+          "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "axis_body": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "body_name": "jAG",
+          "body_path": "/wheel_leg_urdf4/jAG",
+          "local_anchor_m": [
+            -0.09635493904352188,
+            2.7932388547924347e-05,
+            0.010941003449261189
+          ],
+          "local_rotation_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            -3.422843875000581e-08
+          ],
+          "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "side": 0,
+          "world_anchor_m": [
+            0.236530005932619,
+            -1.366354939025622,
+            0.07291000344926118
+          ],
+          "world_axis": [
+            -0.9999999999997952,
+            6.40121136430416e-07,
+            0.0
+          ]
+        },
+        {
+          "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "axis_body": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "body_name": "jEC",
+          "body_path": "/wheel_leg_urdf4/jEC",
+          "local_anchor_m": [
+            -0.09519600123167038,
+            0.0019999390933662653,
+            0.064519003033638
+          ],
+          "local_rotation_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "side": 1,
+          "world_anchor_m": [
+            0.23652999996966165,
+            -1.3663549999514475,
+            0.072910003033638
+          ],
+          "world_axis": [
+            -0.9999999999997952,
+            6.40121136430416e-07,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "axis_token": "Y",
+      "joint_anchor_error_m": 1.72803092634503e-09,
+      "joint_axis_dot": 1.0,
+      "joint_name": "jCF_revolute_joint",
+      "joint_path": "/wheel_leg_urdf4/jCF/jCF_revolute_joint",
+      "joint_type": "PhysicsRevoluteJoint",
+      "prim_source_layers": [
+        "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd"
+      ],
+      "sides": [
+        {
+          "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "axis_body": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "body_name": "jCF",
+          "body_path": "/wheel_leg_urdf4/jCF",
+          "local_anchor_m": [
+            -0.11721599847078323,
+            -0.0022500751074403524,
+            0.01358100026845932
+          ],
+          "local_rotation_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "side": 0,
+          "world_anchor_m": [
+            0.22993000007500172,
+            -1.5209569999110797,
+            0.13818900026845932
+          ],
+          "world_axis": [
+            -0.9999999999997952,
+            6.40121136430416e-07,
+            0.0
+          ]
+        },
+        {
+          "anchor_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "axis_body": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "body_name": "jGH",
+          "body_path": "/wheel_leg_urdf4/jGH",
+          "local_anchor_m": [
+            -0.037386007606983185,
+            0.009999976493418217,
+            0.051697999238967896
+          ],
+          "local_rotation_wxyz": [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "rotation_source_layer": "E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd",
+          "side": 1,
+          "world_anchor_m": [
+            0.22992999957501015,
+            -1.5209570012057791,
+            0.13818899923896788
+          ],
+          "world_axis": [
+            -0.9999999999997952,
+            6.40121136430416e-07,
+            0.0
+          ]
+        }
+      ]
+    }
+  ],
+  "meters_per_unit": 1.0,
+  "schema_version": "VirtualLegKinematicsV1",
+  "up_axis": "Z"
+}

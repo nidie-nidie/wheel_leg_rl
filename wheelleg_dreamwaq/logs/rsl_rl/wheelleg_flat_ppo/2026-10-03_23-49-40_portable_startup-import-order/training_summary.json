@@ -1,0 +1,10 @@
+{
+  "duration_seconds": 2.677579000010155,
+  "event_files": [
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-03_23-49-40_portable_startup-import-order\\events.out.tfevents.1791042581.DESKTOP-P89OA5C.36576.0"
+  ],
+  "final_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-03_23-49-40_portable_startup-import-order\\model_1.pt",
+  "iterations_requested": 2,
+  "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-03_23-49-40_portable_startup-import-order",
+  "runner_final_iteration_index": 1
+}

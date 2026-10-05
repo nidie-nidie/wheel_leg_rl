@@ -1,0 +1,45 @@
+{
+  "aggregate": {
+    "with_bias_mean_rmse_rad": 0.006994570616462724,
+    "zero_bias_mean_rmse_rad": 0.06963718350547993
+  },
+  "datasets": [
+    {
+      "dataset": "062823",
+      "with_bias_encoder_rmse_rad": 0.009285260878675318,
+      "zero_bias_max_abs_rad": 0.126778244972229,
+      "zero_bias_p95_rad": 0.10347691774368285,
+      "zero_bias_physical_vs_encoder_rmse_rad": 0.06973378043601573
+    },
+    {
+      "dataset": "063144",
+      "with_bias_encoder_rmse_rad": 0.006698718743200957,
+      "zero_bias_max_abs_rad": 0.1242302656173706,
+      "zero_bias_p95_rad": 0.1014179416000843,
+      "zero_bias_physical_vs_encoder_rmse_rad": 0.06960503104119213
+    },
+    {
+      "dataset": "064152",
+      "with_bias_encoder_rmse_rad": 0.006336875253602422,
+      "zero_bias_max_abs_rad": 0.12396907806396484,
+      "zero_bias_p95_rad": 0.10072386860847474,
+      "zero_bias_physical_vs_encoder_rmse_rad": 0.06952079854284245
+    },
+    {
+      "dataset": "071554",
+      "with_bias_encoder_rmse_rad": 0.006396702551921062,
+      "zero_bias_max_abs_rad": 0.12389552593231201,
+      "zero_bias_p95_rad": 0.10130130695179104,
+      "zero_bias_physical_vs_encoder_rmse_rad": 0.06960876107118637
+    },
+    {
+      "dataset": "071950",
+      "with_bias_encoder_rmse_rad": 0.00625529565491386,
+      "zero_bias_max_abs_rad": 0.12413632869720459,
+      "zero_bias_p95_rad": 0.10110737979412078,
+      "zero_bias_physical_vs_encoder_rmse_rad": 0.06971754643616293
+    }
+  ],
+  "note": "This is not a refit. It re-scores packaged replay physical trajectories against encoder measurements without subtracting fitted encoder_bias.",
+  "schema": "a1-zero-bias-rescore-existing-replay/v1"
+}

@@ -1,0 +1,33 @@
+{
+  "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_07-11-36_rtx5070_v4-suite-20261005-071132-run01-seed250509479\\model_999.pt",
+  "completed_steps": 500,
+  "contract_hash": "69B5D4AD7CDEB5FF94BE3CC68E2BCE6338AB29F07DE3192EA93247545664600A",
+  "finite": true,
+  "fixed_command": [
+    1.0,
+    0.0,
+    0.20000000298023224
+  ],
+  "mean_metrics": {
+    "Action/saturation_fraction": 0.6613333530426025,
+    "Actuator/effort_saturation_fraction": 0.0020000000596046446,
+    "Joint/leg_soft_limit_fraction": 0.0,
+    "Tracking/base_height_abs_error": 0.004232457101345062,
+    "Tracking/vx_abs_error": 0.1936826721429825,
+    "Tracking/yaw_rate_abs_error": 0.12845656841128947
+  },
+  "mean_reward_per_step": 0.05279337242245674,
+  "num_envs": 1,
+  "requested_steps": 500,
+  "reset_count": 1,
+  "termination_counts": {
+    "height_terminated": 0,
+    "invalid": 0,
+    "joint_velocity_terminated": 0,
+    "root_angular_terminated": 0,
+    "root_linear_terminated": 0,
+    "tilt_terminated": 0,
+    "timeout": 1
+  },
+  "video_output": null
+}

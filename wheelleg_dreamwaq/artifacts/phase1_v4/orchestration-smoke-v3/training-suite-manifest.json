@@ -1,0 +1,74 @@
+{
+  "created_at": "2026-10-05T06:34:21.966609+08:00",
+  "fresh_start": true,
+  "iterations_per_run": 1,
+  "monitor_interval_seconds": 5.0,
+  "profile": "portable",
+  "ranking_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v3\\training-suite-summary.json",
+  "run_count": 2,
+  "runs": [
+    {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-34-26_portable_v4-suite-20261005-063421-run01-seed40530189\\model_0.pt",
+      "evaluation_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v3\\evaluation\\run-01\\summary.json",
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v3\\exports\\run-01",
+      "index": 1,
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v3\\monitor\\run-01\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v3\\monitor\\run-01\\initial.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v3\\monitor\\run-01\\interval-20261005-063427.json"
+        ],
+        "status": "warning",
+        "warnings": [
+          "event_file_missing"
+        ]
+      },
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-34-26_portable_v4-suite-20261005-063421-run01-seed40530189",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-34-26_portable_v4-suite-20261005-063421-run01-seed40530189\\run_manifest.json",
+      "run_name": "v4-suite-20261005-063421-run01-seed40530189",
+      "seed": 40530189,
+      "status": "completed",
+      "training_fingerprint_hash": "1F8614096038420CC62EA74EC67EC5BB957AB23EA07DA4E8AB2BEA803E6AFF17"
+    },
+    {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-34-39_portable_v4-suite-20261005-063421-run02-seed2056312730\\model_0.pt",
+      "evaluation_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v3\\evaluation\\run-02\\summary.json",
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v3\\exports\\run-02",
+      "index": 2,
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v3\\monitor\\run-02\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v3\\monitor\\run-02\\initial.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v3\\monitor\\run-02\\interval-20261005-063439.json"
+        ],
+        "status": "warning",
+        "warnings": [
+          "event_file_missing"
+        ]
+      },
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-34-39_portable_v4-suite-20261005-063421-run02-seed2056312730",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-34-39_portable_v4-suite-20261005-063421-run02-seed2056312730\\run_manifest.json",
+      "run_name": "v4-suite-20261005-063421-run02-seed2056312730",
+      "seed": 2056312730,
+      "status": "completed",
+      "training_fingerprint_hash": "1F8614096038420CC62EA74EC67EC5BB957AB23EA07DA4E8AB2BEA803E6AFF17"
+    }
+  ],
+  "schema_version": "TrainingSuiteV1",
+  "seeds": [
+    40530189,
+    2056312730
+  ],
+  "status": "completed_with_warnings",
+  "suite_id": "20261005-063421",
+  "training_fingerprint_hash": "1F8614096038420CC62EA74EC67EC5BB957AB23EA07DA4E8AB2BEA803E6AFF17",
+  "training_monitor_gate": {
+    "hard_anomalies": [],
+    "status": "warning",
+    "warnings": [
+      "event_file_missing"
+    ]
+  }
+}

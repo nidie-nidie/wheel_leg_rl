@@ -1,0 +1,151 @@
+Loading user config located at: 'e:/wheel_leg_rl-main/wheelleg_dreamwaq/.venv/lib/site-packages/isaacsim/kit/data/Kit/wheelleg.python.visualization/0.1/user.config.json'
+[Info] [carb] Logging to file: e:/wheel_leg_rl-main/wheelleg_dreamwaq/.venv/lib/site-packages/isaacsim/kit/logs/Kit/wheelleg.python.visualization/0.1/kit_20261004_022421.log
+[0.081s] Failed to solve some dependencies locally, syncing with extension registry...
+[0.090s] [ext: omni.kit.async_engine-0.0.3] startup
+[0.092s] [ext: omni.client.lib-1.1.0] startup
+[0.103s] [ext: omni.kit.registry.nucleus-0.0.0] startup
+[3.777s] Pulling extension: `omni.kit.viewport.ready-1.0.9` from the registry.
+[5.659s] Extension: `omni.kit.viewport.ready-1.0.9` was installed.
+[5.671s] [ext: omni.metrics.core-0.0.3] startup
+[5.672s] [ext: omni.blobkey-1.1.2] startup
+[5.673s] [ext: omni.stats-1.0.1] startup
+[5.706s] [ext: omni.datastore-0.0.0] startup
+[5.707s] [ext: omni.client-1.3.0] startup
+[5.709s] [ext: omni.ujitso.default-1.0.0] startup
+[5.711s] [ext: omni.hsscclient-1.1.2] startup
+[5.722s] [ext: omni.gpu_foundation.shadercache.vulkan-1.0.0] startup
+[5.725s] [ext: omni.assets.plugins-0.0.0] startup
+[5.728s] [ext: omni.gpu_foundation-0.0.0] startup
+[5.742s] [ext: carb.windowing.plugins-1.0.0] startup
+[5.800s] [ext: omni.kit.renderer.init-0.0.0] startup
+[5.801s] [ext: omni.usd.config-1.0.6] startup
+2026-10-03T18:24:27Z [5,759ms] [Warning] [omni.usd_config.extension] Enable omni.materialx.libs extension to use MaterialX
+[5.811s] [ext: omni.gpucompute.plugins-0.0.0] startup
+[5.813s] [ext: omni.usd.libs-1.0.1] startup
+[5.875s] [ext: omni.mdl-56.0.3] startup
+[5.891s] [ext: omni.iray.libs-0.0.0] startup
+[5.910s] [ext: omni.mdl.neuraylib-0.2.12] startup
+[5.914s] [ext: omni.kit.usd.mdl-1.1.5] startup
+[5.992s] [ext: omni.kit.telemetry-0.5.2] startup
+[6.020s] [ext: omni.usd.schema.metrics.assembler-107.3.1] startup
+[6.025s] [ext: omni.usd.schema.audio-0.0.0] startup
+[6.032s] [ext: omni.usd.schema.physx-107.3.26] startup
+[6.057s] [ext: omni.usd.schema.geospatial-0.0.0] startup
+[6.061s] [ext: omni.usd.schema.semantics-0.0.0] startup
+[6.064s] [ext: omni.usd.schema.anim-0.0.0] startup
+[6.086s] [ext: omni.kit.actions.core-1.0.0] startup
+[6.090s] [ext: usdrt.scenegraph-7.6.1] startup
+[6.131s] [ext: omni.kit.commands-1.4.10] startup
+[6.136s] [ext: omni.kit.usd_undo-0.1.8] startup
+[6.137s] [ext: omni.graph.exec-0.9.6] startup
+[6.138s] [ext: omni.kit.loop-isaac-1.3.7] startup
+[6.139s] [ext: omni.kit.exec.core-0.13.4] startup
+[6.142s] [ext: omni.appwindow-1.1.10] startup
+[6.145s] [ext: carb.audio-0.1.0] startup
+[6.146s] [ext: omni.kit.renderer.core-1.1.0] startup
+[6.152s] [ext: omni.kit.audiodeviceenum-1.0.2] startup
+[6.160s] [ext: omni.kit.renderer.capture-0.0.0] startup
+[6.163s] [ext: omni.usd_resolver-1.0.0] startup
+[6.168s] [ext: omni.kit.renderer.imgui-2.0.5] startup
+
+|---------------------------------------------------------------------------------------------|
+| Driver Version: 581.80        | Graphics API: Vulkan
+|=============================================================================================|
+| GPU | Name                             | Active | LDA | GPU Memory | Vendor-ID | LUID       |
+|     |                                  |        |     |            | Device-ID | UUID       |
+|     |                                  |        |     |            | Bus-ID    |            |
+|---------------------------------------------------------------------------------------------|
+| 0   | NVIDIA GeForce RTX 5070          | Yes: 0 |     | 11854   MB | 10de      | 46180100.. |
+|     |                                  |        |     |            | 2f04      | 9ecca3c1.. |
+|     |                                  |        |     |            | 1         |            |
+|=============================================================================================|
+| OS: Windows 10 Pro, Version: 10.0 (22H2), Build: 19045, Kernel: 10.0.19041.6456
+| Processor: Intel(R) Core(TM) i5-14600KF
+| Cores: 14 | Logical Cores: 20
+|---------------------------------------------------------------------------------------------|
+| Total Memory (MB): 32581 | Free Memory: 12676
+| Total Page/Swap (MB): 65162 | Free Page/Swap: 16135
+|---------------------------------------------------------------------------------------------|
+[6.176s] [ext: omni.resourcemonitor-107.0.1] startup
+[6.180s] [ext: omni.activity.core-1.0.3] startup
+[6.182s] [ext: omni.usd.core-1.5.3] startup
+[6.183s] [ext: omni.ui-2.27.1] startup
+[6.192s] [ext: omni.timeline-1.0.14] startup
+[6.195s] [ext: omni.hydra.usdrt_delegate-7.5.1] startup
+[6.203s] [ext: omni.hydra.scene_delegate-0.3.4] startup
+[6.206s] [ext: omni.kit.menu.core-1.1.2] startup
+[6.207s] [ext: omni.usd-1.13.10] startup
+[6.244s] [ext: omni.kit.window.popup_dialog-2.0.24] startup
+[6.251s] [ext: omni.kit.widget.settings-1.2.6] startup
+[6.254s] [ext: omni.kit.menu.utils-2.0.5] startup
+[6.258s] [ext: omni.kit.window.preferences-1.8.0] startup
+[6.273s] [ext: omni.kit.viewport.registry-104.0.6] startup
+[6.274s] [ext: omni.index.libs-380600.8087.0] startup
+[6.274s] [ext: omni.ujitso.client-0.0.0] startup
+[6.275s] [ext: omni.volume-0.5.2] startup
+[6.278s] [ext: omni.kit.viewport.menubar.core-107.2.1] startup
+[6.293s] [ext: omni.index-1.0.1] startup
+[6.294s] [ext: omni.hydra.rtx.shadercache.vulkan-1.0.0] startup
+[6.295s] [ext: omni.kit.usd.layers-2.2.11] startup
+[6.303s] [ext: omni.hydra.rtx-1.0.0] startup
+[6.324s] [ext: omni.physx.foundation-107.3.26] startup
+[6.331s] [ext: omni.kit.hydra_texture-1.4.6] startup
+[6.334s] [ext: omni.ui.scene-1.11.5] startup
+[6.340s] [ext: omni.kit.primitive.mesh-1.0.17] startup
+[6.345s] [ext: omni.kvdb-107.3.26] startup
+[6.348s] [ext: omni.kit.widget.viewport-107.1.3] startup
+[6.354s] [ext: omni.usdphysics-107.3.26] startup
+[6.355s] [ext: omni.localcache-107.3.26] startup
+[6.358s] [ext: omni.convexdecomposition-107.3.26] startup
+[6.360s] [ext: omni.kit.viewport.window-107.2.0] startup
+[6.591s] [ext: omni.physx.cooking-107.3.26] startup
+[6.594s] [ext: omni.warp.core-1.8.2] startup
+[6.735s] [ext: omni.physics-107.3.26] startup
+[6.740s] [ext: omni.physx-107.3.26] startup
+[6.750s] [ext: isaacsim.core.deprecation_manager-0.2.7] startup
+[6.751s] [ext: omni.kit.numpy.common-0.1.3] startup
+[6.753s] [ext: omni.physics.physx-107.3.26] startup
+2026-10-03T18:24:28Z [6,701ms] [Warning] [carb] Acquiring non optional plugin interface which is not listed as dependency: [omni::physx::IPhysxBenchmarks v1.0] (plugin: <default plugin>), by client: omni.physics.physx.plugin. Add it to CARB_PLUGIN_IMPL_DEPS() macro of a client.
+[6.754s] [ext: omni.usd.metrics.assembler-107.3.1] startup
+[6.761s] [ext: isaacsim.core.version-2.0.6] startup
+[6.762s] [ext: omni.physics.stageupdate-107.3.26] startup
+[6.769s] [ext: omni.physics.tensors-107.3.26] startup
+[6.775s] [ext: omni.usd.metrics.assembler.physics-107.3.26] startup
+[6.777s] [ext: isaacsim.storage.native-1.5.1] startup
+[6.779s] [ext: omni.isaac.dynamic_control-2.0.7] startup
+2026-10-03T18:24:28Z [6,731ms] [Warning] [omni.isaac.dynamic_control] omni.isaac.dynamic_control is deprecated as of Isaac Sim 4.5. No action is needed from end-users.
+[6.784s] [ext: omni.physx.tensors-107.3.26] startup
+[6.786s] [ext: isaacsim.core.utils-3.5.1] startup
+[6.790s] [ext: omni.kit.stage_template.core-1.1.22] startup
+[6.790s] [ext: isaacsim.core.simulation_manager-1.4.4] startup
+[6.998s] [ext: omni.kit.stage_templates-2.0.0] startup
+[7.001s] [ext: omni.kit.viewport.menubar.camera-107.0.6] startup
+[7.007s] [ext: omni.kit.viewport.ready-1.0.9] startup
+[7.017s] [ext: isaacsim.core.prims-0.6.1] startup
+[7.041s] [ext: isaacsim.simulation_app-2.12.2] startup
+[7.041s] [ext: isaacsim.core.api-4.8.0] startup
+[7.058s] [ext: isaacsim.core.cloner-1.4.10] startup
+[7.060s] [ext: omni.usd.metrics.assembler.ui-107.3.1] startup
+[7.198s] [ext: omni.kit.viewport.menubar.lighting-107.3.1] startup
+[7.201s] [ext: omni.physx.fabric-107.3.26] startup
+[7.205s] [ext: isaaclab-0.54.2] startup
+[7.206s] [ext: isaaclab_contrib-0.0.2] startup
+[7.207s] [ext: omni.kit.viewport.menubar.settings-107.0.3] startup
+[7.212s] [ext: omni.kit.viewport.menubar.render-107.0.10] startup
+[7.215s] [ext: omni.kit.manipulator.camera-106.0.4] startup
+[7.219s] [ext: isaaclab_assets-0.2.4] startup
+[7.680s] [ext: isaaclab_tasks-0.11.12] startup
+[7.879s] [ext: isaaclab_rl-0.4.7] startup
+[7.879s] [ext: isaaclab_mimic-1.0.16] startup
+[7.880s] [ext: wheelleg.python.visualization-0.1.0] startup
+[7.882s] Simulation App Starting
+2026-10-03T18:24:33Z [11,411ms] [Warning] [omni.fabric.plugin] Warning: attribute viewPickingId not found for bucket id 7
+
+[11.984s] app ready
+[INFO][AppLauncher]: Using device: cuda:0
+[INFO][AppLauncher]: Loading experience file: E:\wheel_leg_rl-main\wheelleg_dreamwaq\apps\wheelleg.python.visualization.kit
+[omni.kit.registry.nucleus] [tid: 17812] downloading: 'http://d4i3qtqj3r0z5.cloudfront.net/omni.kit.viewport.ready-17e54d5fe183fb5e.zip' -> 'C:/Users/CHANGB~1/AppData/Local/Temp/tmpzoy7ypfa/omni.kit.viewport.ready-1.0.9+69cbf6ad.zip'...
+[omni.kit.registry.nucleus] [tid: 17812] unpacking: C:/Users/CHANGB~1/AppData/Local/Temp/tmpzoy7ypfa/omni.kit.viewport.ready-1.0.9+69cbf6ad.zip -> C:/Users/changba01/AppData/Local/ov/data/exts/v2/omni.kit.viewport.ready-17e54d5fe183fb5e
+[omni.kit.registry.nucleus] [tid: 17812] creating a link: e:/wheel_leg_rl-main/wheelleg_dreamwaq/.venv/lib/site-packages/isaacsim/kit/data/kit/wheelleg.python.visualization/0.1/exts/3/omni.kit.viewport.ready-1.0.9+69cbf6ad -> C:/Users/changba01/AppData/Local/ov/data/exts/v2/omni.kit.viewport.ready-17e54d5fe183fb5e
+[12.044s] Simulation App Startup Complete
+2026-10-03T18:24:33Z [12,013ms] [Warning] [omni.physx.plugin] USD stage detach not called, holding a loose ptr to a stage!

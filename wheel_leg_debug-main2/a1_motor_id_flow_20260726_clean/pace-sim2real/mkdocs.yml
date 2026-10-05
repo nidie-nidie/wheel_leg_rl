@@ -1,0 +1,90 @@
+site_name: PACE Sim2Real
+site_description: "Documentation for the PACE sim-to-real pipeline for legged robots."
+site_url:  "https://pace.filipbjelonic.com"
+
+repo_name: "leggedrobotics/pace-sim2real"
+repo_url: "https://github.com/leggedrobotics/pace-sim2real"
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.tabs.link
+  palette:
+    - scheme: slate
+      media: "(prefers-color-scheme: dark)"
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: default
+      media: "(prefers-color-scheme: light)"
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+  language: en
+  logo: assets/logo.svg
+  favicon: assets/favicon.svg
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - Installation: installation.md
+      - Importing: importing.md
+      - Basic usage: usage.md
+  - Examples: 
+      - Overview: examples/index.md
+      - ANYmal: examples/anymal.md
+  - Guides:
+    - Basics: tutorials/basics.md
+    - Advanced: tutorials/advanced.md
+    - Best practices: tutorials/best_practice.md
+  #   - Simulation: simulation.md
+  #   - Real-world: real-world.md
+  # - Concepts:
+  #   - Actuator modeling: concepts/actuators.md
+  # - API reference:
+  #     - Overview: api/index.md
+  #     - Optimization: api/optim.md
+      # - Actuator models: api/actuators.md
+      # - Environments: api/envs.md
+      # - Training & RL: api/training.md
+  # - Development:
+  #     - Contributing: dev/contributing.md
+      # - Changelog: dev/changelog.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - styles/pace-colors.css
+
+plugins:
+  - search
+  # - mkdocstrings:
+  #     handlers:
+  #       python:
+  #         paths:
+  #           - source/pace_sim2real
+

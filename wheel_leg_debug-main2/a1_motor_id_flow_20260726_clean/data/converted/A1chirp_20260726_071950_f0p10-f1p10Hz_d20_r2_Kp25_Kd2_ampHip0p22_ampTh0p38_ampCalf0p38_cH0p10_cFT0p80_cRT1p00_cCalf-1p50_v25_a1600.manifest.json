@@ -1,0 +1,81 @@
+{
+  "chirp_sample_count": 10000,
+  "csv_columns_used": {
+    "des_dof_pos": [
+      "q_des_FL_hip",
+      "q_des_FR_hip",
+      "q_des_RL_hip",
+      "q_des_RR_hip",
+      "q_des_FL_thigh",
+      "q_des_FR_thigh",
+      "q_des_RL_thigh",
+      "q_des_RR_thigh",
+      "q_des_FL_calf",
+      "q_des_FR_calf",
+      "q_des_RL_calf",
+      "q_des_RR_calf"
+    ],
+    "dof_pos": [
+      "q_FL_hip",
+      "q_FR_hip",
+      "q_RL_hip",
+      "q_RR_hip",
+      "q_FL_thigh",
+      "q_FR_thigh",
+      "q_RL_thigh",
+      "q_RR_thigh",
+      "q_FL_calf",
+      "q_FR_calf",
+      "q_RL_calf",
+      "q_RR_calf"
+    ],
+    "time": "generated_from_chirp_sample_index"
+  },
+  "discarded_center_ramp_sample_count": 1000,
+  "dt_s": 0.002,
+  "fixture": {
+    "payload_kg": 5.0,
+    "pose": "upside_down_fixed_air",
+    "root": "fixed_in_air",
+    "support": "back_supported_fixed_table_trunk_footprint"
+  },
+  "kd": 2.0,
+  "kp": 25.0,
+  "output_path": "/home/changba01/pace-sim2real/data/a1_real_wide/A1chirp_20260726_071950_f0p10-f1p10Hz_d20_r2_Kp25_Kd2_ampHip0p22_ampTh0p38_ampCalf0p38_cH0p10_cFT0p80_cRT1p00_cCalf-1p50_v25_a1600.pt",
+  "output_sha256": "06eec6d8c42bd184d497b291a8c02f29649b9e7057803b17ce0e415b71753297",
+  "pace_joint_order": [
+    "FL_hip_joint",
+    "FR_hip_joint",
+    "RL_hip_joint",
+    "RR_hip_joint",
+    "FL_thigh_joint",
+    "FR_thigh_joint",
+    "RL_thigh_joint",
+    "RR_thigh_joint",
+    "FL_calf_joint",
+    "FR_calf_joint",
+    "RL_calf_joint",
+    "RR_calf_joint"
+  ],
+  "receive_status_values": [
+    "0"
+  ],
+  "schema_version": "a1_pace_wide_chirp_conversion/v1",
+  "send_status_values": [
+    "610"
+  ],
+  "source_basename": "A1chirp_20260726_071950_f0p10-f1p10Hz_d20_r2_Kp25_Kd2_ampHip0p22_ampTh0p38_ampCalf0p38_cH0p10_cFT0p80_cRT1p00_cCalf-1p50_v25_a1600.csv",
+  "source_chirp_frequency_end_hz": 9.99901,
+  "source_chirp_frequency_start_hz": 0.1,
+  "source_chirp_time_end_s": 21.998,
+  "source_chirp_time_start_s": 2.0,
+  "source_header_column_count": 73,
+  "source_path": "/home/changba01/pace_identification/input/A1chirp_20260726_071950_f0p10-f1p10Hz_d20_r2_Kp25_Kd2_ampHip0p22_ampTh0p38_ampCalf0p38_cH0p10_cFT0p80_cRT1p00_cCalf-1p50_v25_a1600.csv",
+  "source_row_count": 11000,
+  "source_sha256": "738c7a65034f3a792fe064469634c0c410e8008035e832e75a66363deb233fd0",
+  "stage_counts": {
+    "center_ramp": 1000,
+    "chirp": 10000
+  },
+  "tensor_payload_sha256": "83c9dd79ccef63054a5cbf3500935efc13d837839383f4308839157a4b3b239d"
+}

@@ -1,0 +1,294 @@
+{
+  "anomalies": [],
+  "captured_at": "2026-10-05T06:34:43.776904+08:00",
+  "event_file": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-34-39_portable_v4-suite-20261005-063421-run02-seed2056312730\\events.out.tfevents.1791153280.DESKTOP-P89OA5C.44616.0",
+  "hard_anomalies": [],
+  "latest": {
+    "Action/saturation_fraction": {
+      "step": 0,
+      "value": 0.3090277910232544
+    },
+    "Actuator/effort_saturation_fraction": {
+      "step": 0,
+      "value": 0.4099392592906952
+    },
+    "Loss/entropy": {
+      "step": 0,
+      "value": 8.520123481750488
+    },
+    "Loss/learning_rate": {
+      "step": 0,
+      "value": 9.999999747378752e-06
+    },
+    "Loss/surrogate": {
+      "step": 0,
+      "value": -0.022441457957029343
+    },
+    "Loss/value_function": {
+      "step": 0,
+      "value": 0.7539907693862915
+    },
+    "Metric/loop_closure_error_max_m": {
+      "step": 0,
+      "value": 0.00014810739958193153
+    },
+    "Metric/phi0_delta_abs_rad": {
+      "step": 0,
+      "value": 0.11199577152729034
+    },
+    "Policy/mean_noise_std": {
+      "step": 0,
+      "value": 1.0015283823013306
+    },
+    "Termination/height_terminated": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/invalid": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/joint_velocity_terminated": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/root_angular_terminated": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/root_linear_terminated": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/tilt_terminated": {
+      "step": 0,
+      "value": 0.0026041667442768812
+    },
+    "Tracking/base_height_abs_error": {
+      "step": 0,
+      "value": 0.031149964779615402
+    },
+    "Tracking/vx_abs_error": {
+      "step": 0,
+      "value": 0.35092586278915405
+    },
+    "Tracking/yaw_rate_abs_error": {
+      "step": 0,
+      "value": 1.2161424160003662
+    },
+    "Train/mean_episode_length": {
+      "step": 0,
+      "value": 18.66666603088379
+    },
+    "Train/mean_reward": {
+      "step": 0,
+      "value": -3.2478537559509277
+    }
+  },
+  "reason": "post_run",
+  "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-34-39_portable_v4-suite-20261005-063421-run02-seed2056312730",
+  "series": {
+    "Action/saturation_fraction": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.3090277910232544,
+      "last_step": 0,
+      "last_value": 0.3090277910232544,
+      "maximum": 0.3090277910232544,
+      "minimum": 0.3090277910232544,
+      "non_finite_count": 0
+    },
+    "Actuator/effort_saturation_fraction": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.4099392592906952,
+      "last_step": 0,
+      "last_value": 0.4099392592906952,
+      "maximum": 0.4099392592906952,
+      "minimum": 0.4099392592906952,
+      "non_finite_count": 0
+    },
+    "Loss/entropy": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 8.520123481750488,
+      "last_step": 0,
+      "last_value": 8.520123481750488,
+      "maximum": 8.520123481750488,
+      "minimum": 8.520123481750488,
+      "non_finite_count": 0
+    },
+    "Loss/learning_rate": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 9.999999747378752e-06,
+      "last_step": 0,
+      "last_value": 9.999999747378752e-06,
+      "maximum": 9.999999747378752e-06,
+      "minimum": 9.999999747378752e-06,
+      "non_finite_count": 0
+    },
+    "Loss/surrogate": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": -0.022441457957029343,
+      "last_step": 0,
+      "last_value": -0.022441457957029343,
+      "maximum": -0.022441457957029343,
+      "minimum": -0.022441457957029343,
+      "non_finite_count": 0
+    },
+    "Loss/value_function": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.7539907693862915,
+      "last_step": 0,
+      "last_value": 0.7539907693862915,
+      "maximum": 0.7539907693862915,
+      "minimum": 0.7539907693862915,
+      "non_finite_count": 0
+    },
+    "Metric/loop_closure_error_max_m": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.00014810739958193153,
+      "last_step": 0,
+      "last_value": 0.00014810739958193153,
+      "maximum": 0.00014810739958193153,
+      "minimum": 0.00014810739958193153,
+      "non_finite_count": 0
+    },
+    "Metric/phi0_delta_abs_rad": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.11199577152729034,
+      "last_step": 0,
+      "last_value": 0.11199577152729034,
+      "maximum": 0.11199577152729034,
+      "minimum": 0.11199577152729034,
+      "non_finite_count": 0
+    },
+    "Policy/mean_noise_std": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 1.0015283823013306,
+      "last_step": 0,
+      "last_value": 1.0015283823013306,
+      "maximum": 1.0015283823013306,
+      "minimum": 1.0015283823013306,
+      "non_finite_count": 0
+    },
+    "Termination/height_terminated": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 0,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/invalid": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 0,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/joint_velocity_terminated": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 0,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/root_angular_terminated": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 0,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/root_linear_terminated": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 0,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/tilt_terminated": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0026041667442768812,
+      "last_step": 0,
+      "last_value": 0.0026041667442768812,
+      "maximum": 0.0026041667442768812,
+      "minimum": 0.0026041667442768812,
+      "non_finite_count": 0
+    },
+    "Tracking/base_height_abs_error": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.031149964779615402,
+      "last_step": 0,
+      "last_value": 0.031149964779615402,
+      "maximum": 0.031149964779615402,
+      "minimum": 0.031149964779615402,
+      "non_finite_count": 0
+    },
+    "Tracking/vx_abs_error": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.35092586278915405,
+      "last_step": 0,
+      "last_value": 0.35092586278915405,
+      "maximum": 0.35092586278915405,
+      "minimum": 0.35092586278915405,
+      "non_finite_count": 0
+    },
+    "Tracking/yaw_rate_abs_error": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 1.2161424160003662,
+      "last_step": 0,
+      "last_value": 1.2161424160003662,
+      "maximum": 1.2161424160003662,
+      "minimum": 1.2161424160003662,
+      "non_finite_count": 0
+    },
+    "Train/mean_episode_length": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 18.66666603088379,
+      "last_step": 0,
+      "last_value": 18.66666603088379,
+      "maximum": 18.66666603088379,
+      "minimum": 18.66666603088379,
+      "non_finite_count": 0
+    },
+    "Train/mean_reward": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": -3.2478537559509277,
+      "last_step": 0,
+      "last_value": -3.2478537559509277,
+      "maximum": -3.2478537559509277,
+      "minimum": -3.2478537559509277,
+      "non_finite_count": 0
+    }
+  },
+  "status": "ok",
+  "warnings": []
+}

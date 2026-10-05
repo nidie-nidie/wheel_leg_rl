@@ -1,0 +1,13 @@
+46a38657e0faa6a06bcbf80ffb60cc80b14aae99929c399f6e1a1083a61acd2e  docs/audit/m0_environment.txt
+1853e6a9fddae218761d987cb4cdb7a5fb438dcb729d07ecf384356a8cea537c  docs/audit/m0_results.txt
+6b3b79c135aecbf8ea2eacee6d627de78d3a99d5791da68d2b5812d6faab5e7d  tests/test_friction_writeback.py
+666a5434856493d45a6ebc0ec5c754e8ab70c7266af27055063cc8c387d2fd56  data/anymal_d_sim/chirp_data.pt
+9e446d51eace9038dac4a9d00a8cda9b3080eb9b7ebb73773b300c218095de3e  /home/changba01/worktrees/_audit/2026-07-19/baseline/pace-anymal-data-collection.txt
+e6335ce65754c6c1b1d633185ccb8e66fce83ec269c8c6e8840b9a27404a3bdd  /home/changba01/worktrees/_audit/2026-07-19/baseline/pace-anymal-fit.txt
+6b5e1472e65951e11df6eb8c191144953ee4d3cbddbb465233ec912e9a068e6d  /home/changba01/worktrees/_audit/2026-07-19/baseline/pace-anymal-plot.txt
+8049c033933d336a4b307cdac39583422de52d8ca20953a7a131a9ca702e7283  /home/changba01/worktrees/_audit/2026-07-19/baseline/isaaclab-friction-setter-test.txt
+7d7678e14895713410d33751f3acc67d0610c87a53fdbc9c1a18bef6eaac4f9f  /home/changba01/worktrees/_audit/2026-07-19/baseline/pace-friction-writeback.txt
+5f2b76922df9d231c97afe0571a295725520b826d7d05ed556bb628bf932deb9  logs/pace/anymal_d_sim/26_07_19_02-16-55/config.pt
+ad33ccd63463ea7e6164cb93694254d005b69014372a8273b69a05f102f6aaaf  logs/pace/anymal_d_sim/26_07_19_02-16-55/mean_199.pt
+07ecd33d0b645a4e4544aa879edb0e254215058fed0845a50a0677d56d483f02  logs/pace/anymal_d_sim/26_07_19_02-16-55/best_trajectory.pt
+9dfba61db26269fc8728297f207ea7fcb82bf52d76a513fddf4f84d87f221719  logs/pace/anymal_d_sim/26_07_19_02-16-55/events.out.tfevents.1784398615.changba01.21569.0

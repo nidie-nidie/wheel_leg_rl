@@ -1,0 +1,8 @@
+[Info] [carb] Logging to file: e:/wheel_leg_rl-main/wheelleg_dreamwaq/.venv/lib/site-packages/isaacsim/kit/logs/Kit/wheelleg.python.visualization/0.1/kit_20261004_022209.log
+[0.057s] Failed to solve some dependencies locally, syncing with extension registry...
+[0.059s] [ext: omni.kit.async_engine-0.0.3] startup
+[0.062s] [ext: omni.client.lib-1.1.0] startup
+[0.074s] [ext: omni.kit.registry.nucleus-0.0.0] startup
+[INFO][AppLauncher]: Using device: cuda:0
+[INFO][AppLauncher]: Loading experience file: E:\wheel_leg_rl-main\wheelleg_dreamwaq\apps\wheelleg.python.visualization.kit
+2026-10-03T18:22:13Z [4,000ms] [Warning] [carb] Recursive unloadAllPlugins() detected!

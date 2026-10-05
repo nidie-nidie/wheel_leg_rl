@@ -1,0 +1,12 @@
+{
+  "contract_hash": "EB1F5521012962FF78E9AB00D1F8CE05C3B3CA8705E7AFB0D782138E38262F79",
+  "duration_seconds": 2.400272099999711,
+  "event_files": [
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-04_00-29-28_portable_pytest-a5fe0324\\events.out.tfevents.1791044970.DESKTOP-P89OA5C.37288.0"
+  ],
+  "final_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-04_00-29-28_portable_pytest-a5fe0324\\model_1.pt",
+  "iterations_requested": 2,
+  "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-04_00-29-28_portable_pytest-a5fe0324",
+  "run_manifest_sha256": "1F270935EA53FEAFD8512137F360588465E1535976527C010A4E1A03A99AB6A8",
+  "runner_final_iteration_index": 1
+}

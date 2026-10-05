@@ -1,0 +1,24 @@
+2026-10-03T18:22:13Z [3,976ms] [Error] [omni.ext.plugin] Failed to resolve extension dependencies. Failure hints:
+	[wheelleg.python.visualization-0.1.0] dependency: 'isaaclab.python.headless' = { version='^' } can't be satisfied. Available versions:
+	 (none found)
+ Synced registries:
+	 - kit/default         : found 0 packages (couldn't connect or empty)
+	 - kit/sdk             : found 0 packages (couldn't connect or empty)
+	 - kit/prod/default    : found 496 packages 
+	 - kit/prod/sdk        : found 292 packages 
+
+2026-10-03T18:22:13Z [3,981ms] [Error] [omni.kit.app.plugin] Exiting app because of dependency solver failure...
+2026-10-03T18:22:13Z [3,987ms] [Error] [omni.kit.app._impl] [py stderr]: Traceback (most recent call last):
+2026-10-03T18:22:13Z [3,987ms] [Error] [omni.kit.app._impl] [py stderr]:   File "E:\wheel_leg_rl-main\wheelleg_dreamwaq\scripts\play.py", line 40, in <module>
+2026-10-03T18:22:13Z [3,988ms] [Error] [omni.kit.app._impl] [py stderr]:     app_launcher = AppLauncher(args_cli)
+2026-10-03T18:22:13Z [3,988ms] [Error] [omni.kit.app._impl] [py stderr]:                    ^^^^^^^^^^^^^^^^^^^^^
+2026-10-03T18:22:13Z [3,988ms] [Error] [omni.kit.app._impl] [py stderr]:   File "E:\wheel_leg_rl-main\wheelleg_dreamwaq\dependencies\IsaacLab-v2.3.2\source\isaaclab\isaaclab\app\app_launcher.py", line 131, in __init__
+2026-10-03T18:22:13Z [3,988ms] [Error] [omni.kit.app._impl] [py stderr]:     self._create_app()
+2026-10-03T18:22:13Z [3,989ms] [Error] [omni.kit.app._impl] [py stderr]:   File "E:\wheel_leg_rl-main\wheelleg_dreamwaq\dependencies\IsaacLab-v2.3.2\source\isaaclab\isaaclab\app\app_launcher.py", line 823, in _create_app
+2026-10-03T18:22:13Z [3,989ms] [Error] [omni.kit.app._impl] [py stderr]:     self._app = SimulationApp(self._sim_app_config, experience=self._sim_experience_file)
+2026-10-03T18:22:13Z [3,989ms] [Error] [omni.kit.app._impl] [py stderr]:                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-03T18:22:13Z [3,989ms] [Error] [omni.kit.app._impl] [py stderr]:   File "E:\wheel_leg_rl-main\wheelleg_dreamwaq\.venv\Lib\site-packages\isaacsim\exts\isaacsim.simulation_app\isaacsim\simulation_app\simulation_app.py", line 285, in __init__
+2026-10-03T18:22:13Z [3,990ms] [Error] [omni.kit.app._impl] [py stderr]:     from .utils import create_new_stage, open_stage
+2026-10-03T18:22:13Z [3,990ms] [Error] [omni.kit.app._impl] [py stderr]:   File "E:\wheel_leg_rl-main\wheelleg_dreamwaq\.venv\Lib\site-packages\isaacsim\exts\isaacsim.simulation_app\isaacsim\simulation_app\utils.py", line 23, in <module>
+2026-10-03T18:22:13Z [3,996ms] [Error] [omni.kit.app._impl] [py stderr]:     from omni.kit.usd import layers
+2026-10-03T18:22:13Z [3,996ms] [Error] [omni.kit.app._impl] [py stderr]: ModuleNotFoundError: No module named 'omni.kit.usd'

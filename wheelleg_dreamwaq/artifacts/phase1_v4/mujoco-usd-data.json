@@ -1,0 +1,4269 @@
+{
+  "asset_bundle_hash": "E754AE888F5C5379B3B6152CFA5AD6BBAE20E8C7480CF7AD6960782A5267CB46",
+  "asset_bundle_version": "AssetBundleV2",
+  "asset_entry_file": "wheel_leg_urdf4.usd",
+  "bodies": {
+    "base_link": {
+      "body_name": "base_link",
+      "body_path": "/wheel_leg_urdf4/base_link",
+      "inertia": {
+        "center_of_mass_m": [
+          0.04171000048518181,
+          -1.2738850116729736,
+          0.010447000153362751
+        ],
+        "diagonal_inertia_kg_m2": [
+          0.005648000165820122,
+          0.005051999818533659,
+          0.007573000155389309
+        ],
+        "mass_kg": 2.959007978439331,
+        "principal_axes_wxyz": [
+          0.9999989867210388,
+          -0.0007999999797903001,
+          1.1000000085914508e-05,
+          -0.0007280000136233866
+        ]
+      },
+      "parent_body_name": null,
+      "parent_body_path": null,
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "jAB": {
+      "body_name": "jAB",
+      "body_path": "/wheel_leg_urdf4/jAB",
+      "inertia": {
+        "center_of_mass_m": [
+          0.041016001254320145,
+          -0.002254999941214919,
+          0.0027310000732541084
+        ],
+        "diagonal_inertia_kg_m2": [
+          3.999999989900971e-06,
+          2.8000000384054147e-05,
+          2.4000000848900527e-05
+        ],
+        "mass_kg": 0.019355999305844307,
+        "principal_axes_wxyz": [
+          0.9993529915809631,
+          1.4000000192027073e-05,
+          -0.035950999706983566,
+          -0.0004349999944679439
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jAB",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jAB",
+        "joint_path": "/wheel_leg_urdf4/joints/jAB",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/base_link",
+        "parent_local_position_m": [
+          0.2365580052137375,
+          -1.2699999809265137,
+          0.06196900084614754
+        ],
+        "parent_local_rotation_wxyz": [
+          -0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071070075035095
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "base_link",
+      "parent_body_path": "/wheel_leg_urdf4/base_link",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.236558
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.27
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.061969
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.236558,
+          -1.27,
+          0.061969
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.236558
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.27
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.061969
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.236558,
+          -1.27,
+          0.061969
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jAG": {
+      "body_name": "jAG",
+      "body_path": "/wheel_leg_urdf4/jAG",
+      "inertia": {
+        "center_of_mass_m": [
+          -0.1054529994726181,
+          0.012300999835133553,
+          0.015938999131321907
+        ],
+        "diagonal_inertia_kg_m2": [
+          2.5999999706982635e-05,
+          0.00047400000039488077,
+          0.00044999999227002263
+        ],
+        "mass_kg": 0.07734400033950806,
+        "principal_axes_wxyz": [
+          0.9977560043334961,
+          0.0017989999614655972,
+          0.06693500280380249,
+          0.0002530000056140125
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jAG",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jAG",
+        "joint_path": "/wheel_leg_urdf4/joints/jAG",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/base_link",
+        "parent_local_position_m": [
+          0.2365580052137375,
+          -1.2699999809265137,
+          0.06196900084614754
+        ],
+        "parent_local_rotation_wxyz": [
+          -0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071070075035095
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "base_link",
+      "parent_body_path": "/wheel_leg_urdf4/base_link",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.236558
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.27
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.061969
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.236558,
+          -1.27,
+          0.061969
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.236558
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.27
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.061969
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.236558,
+          -1.27,
+          0.061969
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jAG_dummy_child_link1": {
+      "body_name": "jAG_dummy_child_link1",
+      "body_path": "/wheel_leg_urdf4/jAG_dummy_child_link1",
+      "inertia": {
+        "center_of_mass_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diagonal_inertia_kg_m2": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "mass_kg": 0.009999999776482582,
+        "principal_axes_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jAG_dummy_child_link1",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jAG_dummy_child_link1",
+        "joint_path": "/wheel_leg_urdf4/joints/jAG_dummy_child_link1",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jAG",
+        "parent_local_position_m": [
+          -0.09635499864816666,
+          0.014127999544143677,
+          0.010940000414848328
+        ],
+        "parent_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jAG",
+      "parent_body_path": "/wheel_leg_urdf4/jAG",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.09635500904361183
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            0.014127938321124994
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.010941
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.09635500904361183,
+          0.014127938321124994,
+          0.010941
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.22243
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.366355
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.07291
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.22243,
+          -1.366355,
+          0.07291
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jAG_dummy_child_link2": {
+      "body_name": "jAG_dummy_child_link2",
+      "body_path": "/wheel_leg_urdf4/jAG_dummy_child_link2",
+      "inertia": {
+        "center_of_mass_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diagonal_inertia_kg_m2": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "mass_kg": 0.009999999776482582,
+        "principal_axes_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jAG_dummy_child_link2",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jAG_dummy_child_link2",
+        "joint_path": "/wheel_leg_urdf4/joints/jAG_dummy_child_link2",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jAG",
+        "parent_local_position_m": [
+          -0.09635499864816666,
+          0.019128000363707542,
+          0.010940000414848328
+        ],
+        "parent_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jAG",
+      "parent_body_path": "/wheel_leg_urdf4/jAG",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.09635501224421739
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            0.019127938321123972
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.010941
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.09635501224421739,
+          0.019127938321123972,
+          0.010941
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.21743
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.366355
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.07291
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.21743,
+          -1.366355,
+          0.07291
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jBE": {
+      "body_name": "jBE",
+      "body_path": "/wheel_leg_urdf4/jBE",
+      "inertia": {
+        "center_of_mass_m": [
+          -0.053449999541044235,
+          0.004207000136375427,
+          -0.03446799889206886
+        ],
+        "diagonal_inertia_kg_m2": [
+          7.704611704184572e-08,
+          7.999999979801942e-06,
+          7.999999979801942e-06
+        ],
+        "mass_kg": 0.006769999861717224,
+        "principal_axes_wxyz": [
+          0.9621239900588989,
+          0.0021720000077039003,
+          -0.27260300517082214,
+          0.0006140000186860561
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jBE",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jBE",
+        "joint_path": "/wheel_leg_urdf4/joints/jBE",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jAB",
+        "parent_local_position_m": [
+          0.09674900025129318,
+          0.0026279999874532223,
+          0.0067460001446306705
+        ],
+        "parent_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jAB",
+      "parent_body_path": "/wheel_leg_urdf4/jAB",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.09674899831710171
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            0.0026290619310792573
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.006745999999999995
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.09674899831710171,
+          0.0026290619310792573,
+          0.006745999999999995
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.233929
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.173251
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.068715
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.233929,
+          -1.173251,
+          0.068715
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jCF": {
+      "body_name": "jCF",
+      "body_path": "/wheel_leg_urdf4/jCF",
+      "inertia": {
+        "center_of_mass_m": [
+          -0.06206599995493889,
+          0.0003389999910723418,
+          0.007191000040620565
+        ],
+        "diagonal_inertia_kg_m2": [
+          1.09596399511247e-07,
+          1.1000000085914508e-05,
+          1.1000000085914508e-05
+        ],
+        "mass_kg": 0.00862099975347519,
+        "principal_axes_wxyz": [
+          0.9983350038528442,
+          -8.299999899463728e-05,
+          0.05764399841427803,
+          -0.0022319999989122152
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jCF",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jCF",
+        "joint_path": "/wheel_leg_urdf4/joints/jCF",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jEC",
+        "parent_local_position_m": [
+          -0.13258300721645355,
+          0.010850000195205212,
+          0.1162170022726059
+        ],
+        "parent_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jEC",
+      "parent_body_path": "/wheel_leg_urdf4/jEC",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.1325820069452872
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            0.010849915131457277
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.116217
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.1325820069452872,
+          0.010849915131457277,
+          0.116217
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.22768
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.403741
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.124608
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.22768,
+          -1.403741,
+          0.124608
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jCF_dummy_child_link1": {
+      "body_name": "jCF_dummy_child_link1",
+      "body_path": "/wheel_leg_urdf4/jCF_dummy_child_link1",
+      "inertia": {
+        "center_of_mass_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diagonal_inertia_kg_m2": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "mass_kg": 0.009999999776482582,
+        "principal_axes_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jCF_dummy_child_link1",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jCF_dummy_child_link1",
+        "joint_path": "/wheel_leg_urdf4/joints/jCF_dummy_child_link1",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jCF",
+        "parent_local_position_m": [
+          -0.11721599847078323,
+          0.0042500002309679985,
+          0.01358100026845932
+        ],
+        "parent_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jCF",
+      "parent_body_path": "/wheel_leg_urdf4/jCF",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.11721600272049071
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            0.00424992496756002
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.01358100000000001
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.11721600272049071,
+          0.00424992496756002,
+          0.01358100000000001
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.22343
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.520957
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.138189
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.22343,
+          -1.520957,
+          0.138189
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jCF_dummy_child_link2": {
+      "body_name": "jCF_dummy_child_link2",
+      "body_path": "/wheel_leg_urdf4/jCF_dummy_child_link2",
+      "inertia": {
+        "center_of_mass_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diagonal_inertia_kg_m2": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "mass_kg": 0.009999999776482582,
+        "principal_axes_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jCF_dummy_child_link2",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jCF_dummy_child_link2",
+        "joint_path": "/wheel_leg_urdf4/joints/jCF_dummy_child_link2",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jCF",
+        "parent_local_position_m": [
+          -0.11721599847078323,
+          -0.0022499999031424522,
+          0.01358100026845932
+        ],
+        "parent_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jCF",
+      "parent_body_path": "/wheel_leg_urdf4/jCF",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.11721599855970344
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            -0.002250075032438653
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.01358100000000001
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.11721599855970344,
+          -0.002250075032438653,
+          0.01358100000000001
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.22993
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.520957
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.138189
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.22993,
+          -1.520957,
+          0.138189
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jEC": {
+      "body_name": "jEC",
+      "body_path": "/wheel_leg_urdf4/jEC",
+      "inertia": {
+        "center_of_mass_m": [
+          -0.07595500349998474,
+          0.002426000079140067,
+          0.05783500149846077
+        ],
+        "diagonal_inertia_kg_m2": [
+          1.9999999949504854e-06,
+          5.199999941396527e-05,
+          4.999999873689376e-05
+        ],
+        "mass_kg": 0.019805999472737312,
+        "principal_axes_wxyz": [
+          0.9399610161781311,
+          0.0,
+          0.341280996799469,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jEC",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint_name": "jEC",
+        "joint_path": "/wheel_leg_urdf4/joints/jEC",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jBE",
+        "parent_local_position_m": [
+          -0.09790799766778946,
+          -0.004600000102072954,
+          -0.06032399833202362
+        ],
+        "parent_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jBE",
+      "parent_body_path": "/wheel_leg_urdf4/jBE",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.09790799705478248
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            -0.0046010626729792725
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            -0.060324
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.09790799705478248,
+          -0.0046010626729792725,
+          -0.060324
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.23853
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.271159
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.008391
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.23853,
+          -1.271159,
+          0.008391
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jEC_dummy_child_link1": {
+      "body_name": "jEC_dummy_child_link1",
+      "body_path": "/wheel_leg_urdf4/jEC_dummy_child_link1",
+      "inertia": {
+        "center_of_mass_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diagonal_inertia_kg_m2": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "mass_kg": 0.009999999776482582,
+        "principal_axes_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jEC_dummy_child_link1",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint_name": "jEC_dummy_child_link1",
+        "joint_path": "/wheel_leg_urdf4/joints/jEC_dummy_child_link1",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jEC",
+        "parent_local_position_m": [
+          -0.09519699960947037,
+          -0.0020000000949949026,
+          0.064519003033638
+        ],
+        "parent_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jEC",
+      "parent_body_path": "/wheel_leg_urdf4/jEC",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.09519599871973838
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            -0.0020000609369712763
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.064519
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.09519599871973838,
+          -0.0020000609369712763,
+          0.064519
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.24053
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.366355
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.07291
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.24053,
+          -1.366355,
+          0.07291
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jEC_dummy_child_link2": {
+      "body_name": "jEC_dummy_child_link2",
+      "body_path": "/wheel_leg_urdf4/jEC_dummy_child_link2",
+      "inertia": {
+        "center_of_mass_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diagonal_inertia_kg_m2": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "mass_kg": 0.009999999776482582,
+        "principal_axes_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jEC_dummy_child_link2",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint_name": "jEC_dummy_child_link2",
+        "joint_path": "/wheel_leg_urdf4/joints/jEC_dummy_child_link2",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jEC",
+        "parent_local_position_m": [
+          -0.09519699960947037,
+          0.0020000000949949026,
+          0.064519003033638
+        ],
+        "parent_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jEC",
+      "parent_body_path": "/wheel_leg_urdf4/jEC",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.09519600128022287
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            0.0019999390630279223
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.064519
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.09519600128022287,
+          0.0019999390630279223,
+          0.064519
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.23653
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.366355
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.07291
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.23653,
+          -1.366355,
+          0.07291
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jGH": {
+      "body_name": "jGH",
+      "body_path": "/wheel_leg_urdf4/jGH",
+      "inertia": {
+        "center_of_mass_m": [
+          0.08576600253582001,
+          0.005419999826699495,
+          -0.056977998465299606
+        ],
+        "diagonal_inertia_kg_m2": [
+          4.999999873689376e-05,
+          0.0011950000189244747,
+          0.0011480000102892518
+        ],
+        "mass_kg": 0.1262809932231903,
+        "principal_axes_wxyz": [
+          0.9534379839897156,
+          0.0,
+          0.3015879988670349,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jGH",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint_name": "jGH",
+        "joint_path": "/wheel_leg_urdf4/joints/jGH",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jAG",
+        "parent_local_position_m": [
+          -0.2135709971189499,
+          -0.003372000064700842,
+          0.024522000923752785
+        ],
+        "parent_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jAG",
+      "parent_body_path": "/wheel_leg_urdf4/jAG",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.2135709978414677
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            -0.003372136711310536
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.024521999999999995
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.2135709978414677,
+          -0.003372136711310536,
+          0.024521999999999995
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.23993
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.483571
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.086491
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.23993,
+          -1.483571,
+          0.086491
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jIJ": {
+      "body_name": "jIJ",
+      "body_path": "/wheel_leg_urdf4/jIJ",
+      "inertia": {
+        "center_of_mass_m": [
+          0.041016001254320145,
+          0.002254999941214919,
+          0.0027310000732541084
+        ],
+        "diagonal_inertia_kg_m2": [
+          3.999999989900971e-06,
+          2.8000000384054147e-05,
+          2.4000000848900527e-05
+        ],
+        "mass_kg": 0.019355999305844307,
+        "principal_axes_wxyz": [
+          0.9993529915809631,
+          -1.4000000192027073e-05,
+          -0.035950999706983566,
+          0.0004349999944679439
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jIJ",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jIJ",
+        "joint_path": "/wheel_leg_urdf4/joints/jIJ",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/base_link",
+        "parent_local_position_m": [
+          -0.15229900181293488,
+          -1.2699999809265137,
+          0.06196900084614754
+        ],
+        "parent_local_rotation_wxyz": [
+          -0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071070075035095
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "base_link",
+      "parent_body_path": "/wheel_leg_urdf4/base_link",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.152299
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.27
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.061969
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.152299,
+          -1.27,
+          0.061969
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.152299
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.27
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.061969
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.152299,
+          -1.27,
+          0.061969
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jIO": {
+      "body_name": "jIO",
+      "body_path": "/wheel_leg_urdf4/jIO",
+      "inertia": {
+        "center_of_mass_m": [
+          -0.1054529994726181,
+          -0.012300999835133553,
+          0.015938999131321907
+        ],
+        "diagonal_inertia_kg_m2": [
+          2.5999999706982635e-05,
+          0.00047400000039488077,
+          0.00044999999227002263
+        ],
+        "mass_kg": 0.07734400033950806,
+        "principal_axes_wxyz": [
+          0.9977560043334961,
+          -0.0017989999614655972,
+          0.06693500280380249,
+          -0.0002530000056140125
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jIO",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jIO",
+        "joint_path": "/wheel_leg_urdf4/joints/jIO",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/base_link",
+        "parent_local_position_m": [
+          -0.15229900181293488,
+          -1.2699999809265137,
+          0.06196900084614754
+        ],
+        "parent_local_rotation_wxyz": [
+          -0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071070075035095
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "base_link",
+      "parent_body_path": "/wheel_leg_urdf4/base_link",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.152299
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.27
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.061969
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.152299,
+          -1.27,
+          0.061969
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.152299
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.27
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.061969
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.152299,
+          -1.27,
+          0.061969
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jIO_dummy_child_link1": {
+      "body_name": "jIO_dummy_child_link1",
+      "body_path": "/wheel_leg_urdf4/jIO_dummy_child_link1",
+      "inertia": {
+        "center_of_mass_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diagonal_inertia_kg_m2": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "mass_kg": 0.009999999776482582,
+        "principal_axes_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jIO_dummy_child_link1",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jIO_dummy_child_link1",
+        "joint_path": "/wheel_leg_urdf4/joints/jIO_dummy_child_link1",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jIO",
+        "parent_local_position_m": [
+          -0.09635499864816666,
+          -0.014127999544143677,
+          0.010940000414848328
+        ],
+        "parent_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jIO",
+      "parent_body_path": "/wheel_leg_urdf4/jIO",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.09635499095634881
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            -0.01412806167886918
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.010941
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.09635499095634881,
+          -0.01412806167886918,
+          0.010941
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.138171
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.366355
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.07291
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.138171,
+          -1.366355,
+          0.07291
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jIO_dummy_child_link2": {
+      "body_name": "jIO_dummy_child_link2",
+      "body_path": "/wheel_leg_urdf4/jIO_dummy_child_link2",
+      "inertia": {
+        "center_of_mass_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diagonal_inertia_kg_m2": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "mass_kg": 0.009999999776482582,
+        "principal_axes_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jIO_dummy_child_link2",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jIO_dummy_child_link2",
+        "joint_path": "/wheel_leg_urdf4/joints/jIO_dummy_child_link2",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jIO",
+        "parent_local_position_m": [
+          -0.09635499864816666,
+          -0.011628000065684319,
+          0.010940000414848328
+        ],
+        "parent_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jIO",
+      "parent_body_path": "/wheel_leg_urdf4/jIO",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.09635499255665159
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            -0.011628061678869706
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.010941
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.09635499255665159,
+          -0.011628061678869706,
+          0.010941
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.140671
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.366355
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.07291
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.140671,
+          -1.366355,
+          0.07291
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jJM": {
+      "body_name": "jJM",
+      "body_path": "/wheel_leg_urdf4/jJM",
+      "inertia": {
+        "center_of_mass_m": [
+          -0.053449999541044235,
+          -0.0037070000544190407,
+          -0.03446799889206886
+        ],
+        "diagonal_inertia_kg_m2": [
+          7.704611704184572e-08,
+          7.999999979801942e-06,
+          7.999999979801942e-06
+        ],
+        "mass_kg": 0.006769999861717224,
+        "principal_axes_wxyz": [
+          0.9621239900588989,
+          -0.0021720000077039003,
+          -0.27260300517082214,
+          -0.0006140000186860561
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jJM",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint_name": "jJM",
+        "joint_path": "/wheel_leg_urdf4/joints/jJM",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jIJ",
+        "parent_local_position_m": [
+          0.09674900025129318,
+          -0.0026279999874532223,
+          0.0067460001446306705
+        ],
+        "parent_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jIJ",
+      "parent_body_path": "/wheel_leg_urdf4/jIJ",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.09674900168221856
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            -0.0026279380689196163
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.006745999999999995
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.09674900168221856,
+          -0.0026279380689196163,
+          0.006745999999999995
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.149671
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.173251
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.068715
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.149671,
+          -1.173251,
+          0.068715
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jKN": {
+      "body_name": "jKN",
+      "body_path": "/wheel_leg_urdf4/jKN",
+      "inertia": {
+        "center_of_mass_m": [
+          -0.06206599995493889,
+          -0.0003389999910723418,
+          0.007191000040620565
+        ],
+        "diagonal_inertia_kg_m2": [
+          1.09596399511247e-07,
+          1.1000000085914508e-05,
+          1.1000000085914508e-05
+        ],
+        "mass_kg": 0.00862099975347519,
+        "principal_axes_wxyz": [
+          0.9983350038528442,
+          8.299999899463728e-05,
+          0.05764399841427803,
+          0.0022319999989122152
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jKN",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint_name": "jKN",
+        "joint_path": "/wheel_leg_urdf4/joints/jKN",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jMK",
+        "parent_local_position_m": [
+          -0.13258300721645355,
+          -0.011350000277161598,
+          0.1162170022726059
+        ],
+        "parent_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jMK",
+      "parent_body_path": "/wheel_leg_urdf4/jMK",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.13258299273459806
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            -0.011350084869178295
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.116217
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.13258299273459806,
+          -0.011350084869178295,
+          0.116217
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.143421
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.403742
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.124608
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.143421,
+          -1.403742,
+          0.124608
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jKN_dummy_child_link1": {
+      "body_name": "jKN_dummy_child_link1",
+      "body_path": "/wheel_leg_urdf4/jKN_dummy_child_link1",
+      "inertia": {
+        "center_of_mass_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diagonal_inertia_kg_m2": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "mass_kg": 0.009999999776482582,
+        "principal_axes_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jKN_dummy_child_link1",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint_name": "jKN_dummy_child_link1",
+        "joint_path": "/wheel_leg_urdf4/joints/jKN_dummy_child_link1",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jKN",
+        "parent_local_position_m": [
+          -0.11721599847078323,
+          -0.0042500002309679985,
+          0.01358100026845932
+        ],
+        "parent_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jKN",
+      "parent_body_path": "/wheel_leg_urdf4/jKN",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.11721499727946094
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            -0.0042500750317981395
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.01358100000000001
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.11721499727946094,
+          -0.0042500750317981395,
+          0.01358100000000001
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.139171
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.520957
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.138189
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.139171,
+          -1.520957,
+          0.138189
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jKN_dummy_child_link2": {
+      "body_name": "jKN_dummy_child_link2",
+      "body_path": "/wheel_leg_urdf4/jKN_dummy_child_link2",
+      "inertia": {
+        "center_of_mass_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diagonal_inertia_kg_m2": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "mass_kg": 0.009999999776482582,
+        "principal_axes_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jKN_dummy_child_link2",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint_name": "jKN_dummy_child_link2",
+        "joint_path": "/wheel_leg_urdf4/joints/jKN_dummy_child_link2",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jKN",
+        "parent_local_position_m": [
+          -0.11721599847078323,
+          0.0022499999031424522,
+          0.01358100026845932
+        ],
+        "parent_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jKN",
+      "parent_body_path": "/wheel_leg_urdf4/jKN",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.11721500144024821
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            0.002249924968200534
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.01358100000000001
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.11721500144024821,
+          0.002249924968200534,
+          0.01358100000000001
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.145671
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.520957
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.138189
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.145671,
+          -1.520957,
+          0.138189
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jMK": {
+      "body_name": "jMK",
+      "body_path": "/wheel_leg_urdf4/jMK",
+      "inertia": {
+        "center_of_mass_m": [
+          -0.07595500349998474,
+          -0.00292599992826581,
+          0.05783500149846077
+        ],
+        "diagonal_inertia_kg_m2": [
+          1.9999999949504854e-06,
+          5.199999941396527e-05,
+          4.999999873689376e-05
+        ],
+        "mass_kg": 0.019805999472737312,
+        "principal_axes_wxyz": [
+          0.9399610161781311,
+          0.0,
+          0.341280996799469,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jMK",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint_name": "jMK",
+        "joint_path": "/wheel_leg_urdf4/joints/jMK",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jJM",
+        "parent_local_position_m": [
+          -0.09790799766778946,
+          0.005100000184029341,
+          -0.06032399833202362
+        ],
+        "parent_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jJM",
+      "parent_body_path": "/wheel_leg_urdf4/jJM",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.09790800326459759
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            0.0050999373270187165
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            -0.060324
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.09790800326459759,
+          0.0050999373270187165,
+          -0.060324
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.154771
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.271159
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.008391
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.154771,
+          -1.271159,
+          0.008391
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jMK_dummy_child1": {
+      "body_name": "jMK_dummy_child1",
+      "body_path": "/wheel_leg_urdf4/jMK_dummy_child1",
+      "inertia": {
+        "center_of_mass_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diagonal_inertia_kg_m2": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "mass_kg": 0.009999999776482582,
+        "principal_axes_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jMK_dummy_child1",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint_name": "jMK_dummy_child1",
+        "joint_path": "/wheel_leg_urdf4/joints/jMK_dummy_child1",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jMK",
+        "parent_local_position_m": [
+          -0.09519699960947037,
+          0.001500000013038516,
+          0.064519003033638
+        ],
+        "parent_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jMK",
+      "parent_body_path": "/wheel_leg_urdf4/jMK",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.09519600096016245
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            0.0014999390630280052
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.064519
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.09519600096016245,
+          0.0014999390630280052,
+          0.064519
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.156271
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.366355
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.07291
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.156271,
+          -1.366355,
+          0.07291
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jMK_dummy_child2": {
+      "body_name": "jMK_dummy_child2",
+      "body_path": "/wheel_leg_urdf4/jMK_dummy_child2",
+      "inertia": {
+        "center_of_mass_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "diagonal_inertia_kg_m2": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "mass_kg": 0.009999999776482582,
+        "principal_axes_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jMK_dummy_child2",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint_name": "jMK_dummy_child2",
+        "joint_path": "/wheel_leg_urdf4/joints/jMK_dummy_child2",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jMK",
+        "parent_local_position_m": [
+          -0.09519699960947037,
+          -0.003100000089034438,
+          0.064519003033638
+        ],
+        "parent_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jMK",
+      "parent_body_path": "/wheel_leg_urdf4/jMK",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.09519599801560519
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            -0.003100060936971044
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.064519
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.09519599801560519,
+          -0.003100060936971044,
+          0.064519
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.151671
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.366355
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.07291
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.151671,
+          -1.366355,
+          0.07291
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jOP": {
+      "body_name": "jOP",
+      "body_path": "/wheel_leg_urdf4/jOP",
+      "inertia": {
+        "center_of_mass_m": [
+          0.08564099669456482,
+          -0.0054259998723864555,
+          -0.056894998997449875
+        ],
+        "diagonal_inertia_kg_m2": [
+          4.999999873689376e-05,
+          0.0011950000189244747,
+          0.0011480000102892518
+        ],
+        "mass_kg": 0.12646499276161194,
+        "principal_axes_wxyz": [
+          0.9534379839897156,
+          0.0,
+          0.3015879988670349,
+          0.0
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jOP",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jOP",
+        "joint_path": "/wheel_leg_urdf4/joints/jOP",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jIO",
+        "parent_local_position_m": [
+          -0.2135709971189499,
+          0.003372000064700842,
+          0.024522000923752785
+        ],
+        "parent_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jIO",
+      "parent_body_path": "/wheel_leg_urdf4/jIO",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            -0.2135710021584445
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            0.0033718632886881317
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.024521999999999995
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.2135710021584445,
+          0.0033718632886881317,
+          0.024521999999999995
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.155671
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.483571
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.086491
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.155671,
+          -1.483571,
+          0.086491
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jwheel_left": {
+      "body_name": "jwheel_left",
+      "body_path": "/wheel_leg_urdf4/jwheel_left",
+      "inertia": {
+        "center_of_mass_m": [
+          0.00013600000238511711,
+          -0.021683000028133392,
+          -0.00031900001340545714
+        ],
+        "diagonal_inertia_kg_m2": [
+          0.0003480000013951212,
+          0.000577000027988106,
+          0.0003530000103637576
+        ],
+        "mass_kg": 0.40035301446914673,
+        "principal_axes_wxyz": [
+          0.9797499775886536,
+          -0.0024679999332875013,
+          -0.20021100342273712,
+          -0.000514000013936311
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          -1.2246467991473532e-16,
+          -1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jwheel_left",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "joint_name": "jwheel_left",
+        "joint_path": "/wheel_leg_urdf4/joints/jwheel_left",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jOP",
+        "parent_local_position_m": [
+          0.2135709971189499,
+          0.04019999876618385,
+          -0.14474600553512573
+        ],
+        "parent_local_rotation_wxyz": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jOP",
+      "parent_body_path": "/wheel_leg_urdf4/jOP",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.2135709742670866
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            0.04020013671130296
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            -0.14474599999999999
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.2135709742670866,
+          0.04020013671130296,
+          -0.14474599999999999
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            -0.195871
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.27
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            -0.058255
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          -0.195871,
+          -1.27,
+          -0.058255
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    },
+    "jwheel_right": {
+      "body_name": "jwheel_right",
+      "body_path": "/wheel_leg_urdf4/jwheel_right",
+      "inertia": {
+        "center_of_mass_m": [
+          9.899999713525176e-05,
+          0.021683000028133392,
+          -0.0003330000035930425
+        ],
+        "diagonal_inertia_kg_m2": [
+          0.0003480000013951212,
+          0.000577000027988106,
+          0.0003530000103637576
+        ],
+        "mass_kg": 0.40035301446914673,
+        "principal_axes_wxyz": [
+          0.9895579814910889,
+          0.002495999913662672,
+          -0.14411099255084991,
+          0.0003539999888744205
+        ]
+      },
+      "joint": {
+        "axis_child_body": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "axis_token": "Y",
+        "child_body_path": "/wheel_leg_urdf4/jwheel_right",
+        "child_local_position_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "child_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint_name": "jwheel_right",
+        "joint_path": "/wheel_leg_urdf4/joints/jwheel_right",
+        "lower_limit_rad": null,
+        "parent_body_path": "/wheel_leg_urdf4/jGH",
+        "parent_local_position_m": [
+          0.2135709971189499,
+          -0.04019999876618385,
+          -0.14474600553512573
+        ],
+        "parent_local_rotation_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "upper_limit_rad": null
+      },
+      "parent_body_name": "jGH",
+      "parent_body_path": "/wheel_leg_urdf4/jGH",
+      "parent_child_transform_q0": {
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.2135710257321859
+          ],
+          [
+            1.0587911840678754e-22,
+            1.0,
+            0.0,
+            -0.04019886328868055
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            -0.14474599999999999
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.2135710257321859,
+          -0.04019886328868055,
+          -0.14474599999999999
+        ],
+        "quaternion_wxyz": [
+          1.0,
+          0.0,
+          0.0,
+          2.6469779601696886e-23
+        ]
+      },
+      "root_transform_q0": {
+        "matrix": [
+          [
+            6.40121136430416e-07,
+            -0.9999999999997952,
+            0.0,
+            0.280129
+          ],
+          [
+            0.9999999999997952,
+            6.40121136430416e-07,
+            0.0,
+            -1.27
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            -0.058255
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "position_m": [
+          0.280129,
+          -1.27,
+          -0.058255
+        ],
+        "quaternion_wxyz": [
+          0.7071070075035095,
+          0.0,
+          0.0,
+          0.7071065548695131
+        ]
+      }
+    }
+  },
+  "contract_v4_reset": {
+    "base_position_m": [
+      -0.0417103203611099,
+      1.27388449249164,
+      0.20003
+    ],
+    "base_quaternion_wxyz": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "joint_positions_rad": {
+      "jAB": -0.33367088,
+      "jAG": 0.33367112,
+      "jAG_dummy_child_link1": -0.00834354,
+      "jAG_dummy_child_link2": -0.00834353,
+      "jBE": 0.37146658,
+      "jCF": 0.37150583,
+      "jCF_dummy_child_link1": 0.01561109,
+      "jCF_dummy_child_link2": 0.01608925,
+      "jEC": 0.07562435,
+      "jEC_dummy_child_link1": 0.00279344,
+      "jEC_dummy_child_link2": 0.0027937,
+      "jGH": 0.37148619,
+      "jIJ": -0.33367151,
+      "jIO": 0.33367157,
+      "jIO_dummy_child_link1": -0.01975457,
+      "jIO_dummy_child_link2": -0.01975455,
+      "jJM": -0.37146848,
+      "jKN": -0.37150618,
+      "jKN_dummy_child_link1": -0.06563117,
+      "jKN_dummy_child_link2": -0.06613248,
+      "jMK": 0.07562718,
+      "jMK_dummy_child1": -0.0689704,
+      "jMK_dummy_child2": -0.06897411,
+      "jOP": -0.37150037,
+      "jwheel_left": 0.0,
+      "jwheel_right": 0.0
+    },
+    "joint_velocities_rad_s": {
+      "jAB": 0.0,
+      "jAG": 0.0,
+      "jAG_dummy_child_link1": 0.0,
+      "jAG_dummy_child_link2": 0.0,
+      "jBE": 0.0,
+      "jCF": 0.0,
+      "jCF_dummy_child_link1": 0.0,
+      "jCF_dummy_child_link2": 0.0,
+      "jEC": 0.0,
+      "jEC_dummy_child_link1": 0.0,
+      "jEC_dummy_child_link2": 0.0,
+      "jGH": 0.0,
+      "jIJ": 0.0,
+      "jIO": 0.0,
+      "jIO_dummy_child_link1": 0.0,
+      "jIO_dummy_child_link2": 0.0,
+      "jJM": 0.0,
+      "jKN": 0.0,
+      "jKN_dummy_child_link1": 0.0,
+      "jKN_dummy_child_link2": 0.0,
+      "jMK": 0.0,
+      "jMK_dummy_child1": 0.0,
+      "jMK_dummy_child2": 0.0,
+      "jOP": 0.0,
+      "jwheel_left": 0.0,
+      "jwheel_right": 0.0
+    }
+  },
+  "dummy_body_names": [
+    "jAG_dummy_child_link1",
+    "jAG_dummy_child_link2",
+    "jCF_dummy_child_link1",
+    "jCF_dummy_child_link2",
+    "jEC_dummy_child_link1",
+    "jEC_dummy_child_link2",
+    "jIO_dummy_child_link1",
+    "jIO_dummy_child_link2",
+    "jKN_dummy_child_link1",
+    "jKN_dummy_child_link2",
+    "jMK_dummy_child1",
+    "jMK_dummy_child2"
+  ],
+  "dummy_mass_kg": 0.11999999731779099,
+  "meters_per_unit": 1.0,
+  "root_body_name": "base_link",
+  "root_body_path": "/wheel_leg_urdf4/base_link",
+  "schema_version": "MujocoUsdDataV1",
+  "source_mujoco_xml": {
+    "base_qpos0_position_m": [
+      -0.0417103203611099,
+      1.27388449249164,
+      0.1207548
+    ],
+    "name": "wheel_leg_urdf4_self_mesh_all.xml",
+    "sha256": "A7E346A89146557B2D8D0D57CC263A35B31CCF6CB4D1ED454DDA79D44183DBF2"
+  },
+  "total_mass_kg": 4.396253988146782,
+  "tree_joint_names": [
+    "jIO",
+    "jOP",
+    "jwheel_left",
+    "jIO_dummy_child_link1",
+    "jIO_dummy_child_link2",
+    "jAG",
+    "jGH",
+    "jwheel_right",
+    "jAG_dummy_child_link1",
+    "jAG_dummy_child_link2",
+    "jIJ",
+    "jJM",
+    "jMK",
+    "jKN",
+    "jKN_dummy_child_link1",
+    "jKN_dummy_child_link2",
+    "jMK_dummy_child1",
+    "jMK_dummy_child2",
+    "jAB",
+    "jBE",
+    "jEC",
+    "jCF",
+    "jCF_dummy_child_link1",
+    "jCF_dummy_child_link2",
+    "jEC_dummy_child_link1",
+    "jEC_dummy_child_link2"
+  ],
+  "up_axis": "Z",
+  "visual_geometry": {
+    "asset_root_aabb": {
+      "center_m": [
+        0.04212900251150131,
+        -1.299149990081787,
+        0.013174000262498847
+      ],
+      "maximum_m": [
+        0.29082900285720825,
+        -1.0,
+        0.14707300076222418
+      ],
+      "minimum_m": [
+        -0.20657099783420563,
+        -1.5982999801635742,
+        -0.12072500023722649
+      ],
+      "size_m": [
+        0.4974000006914139,
+        0.5982999801635742,
+        0.26779800099945067
+      ]
+    },
+    "mesh_count": 15,
+    "meshes": [
+      {
+        "path": "/wheel_leg_urdf4/base_link/visuals/visual_0/child_0",
+        "point_count": 1362768,
+        "root_aabb": {
+          "center_m": [
+            0.04212900251150131,
+            -1.299149990081787,
+            0.006740503013134003
+          ],
+          "maximum_m": [
+            0.29082900285720825,
+            -1.0,
+            0.10273600369691849
+          ],
+          "minimum_m": [
+            -0.20657099783420563,
+            -1.5982999801635742,
+            -0.08925499767065048
+          ],
+          "size_m": [
+            0.4974000006914139,
+            0.5982999801635742,
+            0.19199100136756897
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jIO/visuals/visual_0/child_0",
+        "point_count": 8148,
+        "root_aabb": {
+          "center_m": [
+            -0.14417104092801963,
+            -1.3730885108844402,
+            0.06683249873244762
+          ],
+          "maximum_m": [
+            -0.1331709773005504,
+            -1.2351070072072639,
+            0.11431499858522415
+          ],
+          "minimum_m": [
+            -0.15517110455548883,
+            -1.5110700145616165,
+            0.0193499988796711
+          ],
+          "size_m": [
+            0.022000127254938412,
+            0.27596300735435264,
+            0.09496499970555305
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jOP/visuals/visual_0/child_0",
+        "point_count": 14592,
+        "root_aabb": {
+          "center_m": [
+            -0.14417100055713347,
+            -1.3776154968168832,
+            0.021911000925660125
+          ],
+          "maximum_m": [
+            -0.12967099085905498,
+            -1.2252749864815138,
+            0.14707300076222418
+          ],
+          "minimum_m": [
+            -0.15867101025521196,
+            -1.5299560071522529,
+            -0.10325099891090393
+          ],
+          "size_m": [
+            0.029000019396156984,
+            0.3046810206707391,
+            0.25032399967312813
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jwheel_left/visuals/visual_0/child_0",
+        "point_count": 14796,
+        "root_aabb": {
+          "center_m": [
+            -0.16927100596680805,
+            -1.2700035068938496,
+            -0.05815700065076351
+          ],
+          "maximum_m": [
+            -0.14067097186113514,
+            -1.207554000527937,
+            0.004244999999999999
+          ],
+          "minimum_m": [
+            -0.19787104007248094,
+            -1.3324530132597618,
+            -0.12055900130152702
+          ],
+          "size_m": [
+            0.057200068211345795,
+            0.1248990127318248,
+            0.12480400130152702
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jAG/visuals/visual_0/child_0",
+        "point_count": 7980,
+        "root_aabb": {
+          "center_m": [
+            0.22842988676284814,
+            -1.3730889919860774,
+            0.06683249873244762
+          ],
+          "maximum_m": [
+            0.23942992820404282,
+            -1.235106989120001,
+            0.11431499858522415
+          ],
+          "minimum_m": [
+            0.21742984532165344,
+            -1.5110709948521537,
+            0.0193499988796711
+          ],
+          "size_m": [
+            0.022000082882389388,
+            0.27596400573215263,
+            0.09496499970555305
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jGH/visuals/visual_0/child_0",
+        "point_count": 13656,
+        "root_aabb": {
+          "center_m": [
+            0.2284300005616148,
+            -1.3776154916959147,
+            0.021911000925660125
+          ],
+          "maximum_m": [
+            0.24293001026737482,
+            -1.225274981360545,
+            0.14707300076222418
+          ],
+          "minimum_m": [
+            0.2139299908558548,
+            -1.5299560020312841,
+            -0.10325099891090393
+          ],
+          "size_m": [
+            0.02900001941152003,
+            0.3046810206707391,
+            0.25032399967312813
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jwheel_right/visuals/visual_0/child_0",
+        "point_count": 14796,
+        "root_aabb": {
+          "center_m": [
+            0.2535290059664873,
+            -1.2699214936992167,
+            -0.058277999942302705
+          ],
+          "maximum_m": [
+            0.2821290401006459,
+            -1.207502987336523,
+            0.004169000352621077
+          ],
+          "minimum_m": [
+            0.22492897183232874,
+            -1.3323400000619106,
+            -0.12072500023722649
+          ],
+          "size_m": [
+            0.05720006826831714,
+            0.1248370127253875,
+            0.12489400058984756
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jIJ/visuals/visual_0/child_0",
+        "point_count": 7926,
+        "root_aabb": {
+          "center_m": [
+            -0.1535709382049768,
+            -1.2301029980645275,
+            0.061708500693976875
+          ],
+          "maximum_m": [
+            -0.14767093400090436,
+            -1.163275994453942,
+            0.0886600009086132
+          ],
+          "minimum_m": [
+            -0.15947094240904927,
+            -1.296930001675113,
+            0.03475700047934056
+          ],
+          "size_m": [
+            0.011800008408144907,
+            0.13365400722117116,
+            0.053903000429272645
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jJM/visuals/visual_0/child_0",
+        "point_count": 3360,
+        "root_aabb": {
+          "center_m": [
+            -0.14972103131460462,
+            -1.2223034998892173,
+            0.03850649896651506
+          ],
+          "maximum_m": [
+            -0.1426709956852389,
+            -1.1668480011862472,
+            0.07520599983274937
+          ],
+          "minimum_m": [
+            -0.15677106694397036,
+            -1.2777589985921871,
+            0.00180699810028076
+          ],
+          "size_m": [
+            0.014100071258731472,
+            0.1109109974059399,
+            0.0733990017324686
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jMK/visuals/visual_0/child_0",
+        "point_count": 6936,
+        "root_aabb": {
+          "center_m": [
+            -0.14972107317539474,
+            -1.3374175002598305,
+            0.06652800053840877
+          ],
+          "maximum_m": [
+            -0.14317105724504947,
+            -1.2621670000002632,
+            0.13358300146198274
+          ],
+          "minimum_m": [
+            -0.15627108910574,
+            -1.412668000519398,
+            -0.0005270003851652154
+          ],
+          "size_m": [
+            0.01310003186069053,
+            0.15050100051913473,
+            0.13411000184714794
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jKN/visuals/visual_0/child_0",
+        "point_count": 3510,
+        "root_aabb": {
+          "center_m": [
+            -0.1483210376085785,
+            -1.4624084994426818,
+            0.13144850004929304
+          ],
+          "maximum_m": [
+            -0.1391709956268089,
+            -1.3972709974534263,
+            0.14478900023269653
+          ],
+          "minimum_m": [
+            -0.15747107959034812,
+            -1.5275460014319373,
+            0.11810799986588955
+          ],
+          "size_m": [
+            0.018300083963539215,
+            0.130275003978511,
+            0.026681000366806984
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jAB/visuals/visual_0/child_0",
+        "point_count": 7926,
+        "root_aabb": {
+          "center_m": [
+            0.23783006206585622,
+            -1.2301034993299806,
+            0.061708500693976875
+          ],
+          "maximum_m": [
+            0.24373006627377033,
+            -1.1632769958684768,
+            0.0886600009086132
+          ],
+          "minimum_m": [
+            0.23193005785794213,
+            -1.2969300027914843,
+            0.03475700047934056
+          ],
+          "size_m": [
+            0.011800008415828206,
+            0.13365300692300752,
+            0.053903000429272645
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jBE/visuals/visual_0/child_0",
+        "point_count": 3360,
+        "root_aabb": {
+          "center_m": [
+            0.23347893742496323,
+            -1.2223034984809507,
+            0.03850100043803453
+          ],
+          "maximum_m": [
+            0.2405289415160566,
+            -1.1668479951050965,
+            0.07520599983274937
+          ],
+          "minimum_m": [
+            0.22642893333386982,
+            -1.2777590018568048,
+            0.0017960010433197005
+          ],
+          "size_m": [
+            0.01410000818218679,
+            0.11091100675170829,
+            0.07340999878942966
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jEC/visuals/visual_0/child_0",
+        "point_count": 6936,
+        "root_aabb": {
+          "center_m": [
+            0.23397993941570194,
+            -1.3374174969952128,
+            0.06652800053840877
+          ],
+          "maximum_m": [
+            0.24052994337834313,
+            -1.2621669967356453,
+            0.13358300146198274
+          ],
+          "minimum_m": [
+            0.22742993545306076,
+            -1.4126679972547802,
+            -0.0005270003851652154
+          ],
+          "size_m": [
+            0.013100007925282375,
+            0.15050100051913495,
+            0.13411000184714794
+          ]
+        }
+      },
+      {
+        "path": "/wheel_leg_urdf4/jCF/visuals/visual_0/child_0",
+        "point_count": 3498,
+        "root_aabb": {
+          "center_m": [
+            0.23257992506248226,
+            -1.4624080002958966,
+            0.13144850004929304
+          ],
+          "maximum_m": [
+            0.24172992952547184,
+            -1.3972699971333655,
+            0.14478900023269653
+          ],
+          "minimum_m": [
+            0.22342992059949265,
+            -1.5275460034584276,
+            0.11810799986588955
+          ],
+          "size_m": [
+            0.01830000892597919,
+            0.1302760063250621,
+            0.026681000366806984
+          ]
+        }
+      }
+    ],
+    "selection": "UsdGeom.Mesh prims without a CollisionAPI ancestor"
+  }
+}

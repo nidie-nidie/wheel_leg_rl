@@ -1,0 +1,2758 @@
+#!/usr/bin/env python3
+"""Build the self-contained Chinese HTML derivation report."""
+
+from __future__ import annotations
+
+import html
+import json
+import math
+import re
+import sys
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+VENDOR = Path(__file__).resolve().parent / "_vendor"
+sys.path.insert(0, str(VENDOR))
+
+try:
+    from latex2mathml.converter import convert as latex_to_mathml
+except ImportError as exc:  # pragma: no cover - local vendored dependency should exist
+    raise RuntimeError(f"Missing vendored latex2mathml under {VENDOR}") from exc
+
+RESULTS = ROOT / "output" / "offset_kinematics_results.json"
+MUJOCO_RESULTS = ROOT / "output" / "offset_kinematics_mujoco_validation.json"
+OUTPUT = ROOT / "output" / "offset_closed_chain_kinematics_derivation.html"
+
+
+def fmt(value: float, digits: int = 3) -> str:
+    return f"{value:.{digits}f}"
+
+
+def sample_table(samples: list[dict]) -> str:
+    wanted = (0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.42)
+    rows = []
+    for target in wanted:
+        row = min(samples, key=lambda item: abs(float(item["target_l0_m"]) - target))
+        rows.append(
+            "<tr>"
+            f"<td>{target:.3f}</td>"
+            f"<td>{float(row['q_front_rad']):+.3f}</td>"
+            f"<td>{float(row['q_rear_rad']):+.3f}</td>"
+            f"<td>{float(row['ideal_minus_exact_l0_mm']):+.3f}</td>"
+            f"<td>{float(row['ideal_minus_exact_theta_leg_deg']):+.3f}</td>"
+            f"<td>{float(row['jacobian_condition']):.3f}</td>"
+            "</tr>"
+        )
+    return "\n".join(rows)
+
+
+def render_latex_blocks(document: str) -> str:
+    """Convert <latex> source blocks to self-contained browser MathML."""
+
+    pattern = re.compile(r"<latex(?P<small>\s+small)?>(?P<source>.*?)</latex>", re.DOTALL)
+
+    def replace(match: re.Match[str]) -> str:
+        source = match.group("source").strip()
+        css_class = "eq small" if match.group("small") else "eq"
+        return f'<div class="{css_class}">{latex_to_mathml(source, display="block")}</div>'
+
+    return pattern.sub(replace, document)
+
+
+def main() -> None:
+    results = json.loads(RESULTS.read_text(encoding="utf-8"))
+    mj = json.loads(MUJOCO_RESULTS.read_text(encoding="utf-8"))
+    sweep = results["samples"]
+
+    chart_data = []
+    for row in sweep:
+        chart_data.append(
+            {
+                "L": float(row["target_l0_m"]),
+                "eL": float(row["ideal_minus_exact_l0_mm"]),
+                "eTheta": float(row["ideal_minus_exact_theta_leg_deg"]),
+                "JLf": float(row["jacobian_phi0"][0][0]),
+                "JLr": float(row["jacobian_phi0"][0][1]),
+                "JPf": float(row["jacobian_phi0"][1][0]),
+                "JPr": float(row["jacobian_phi0"][1][1]),
+                "cond": float(row["jacobian_condition"]),
+            }
+        )
+
+    wheel_position_errors_mm = []
+    for row in results["grid_samples"]:
+        exact_theta = math.radians(float(row["exact_theta_leg_deg"]))
+        ideal_theta = math.radians(float(row["ideal_theta_leg_deg"]))
+        exact_l0 = float(row["exact_l0_m"])
+        ideal_l0 = float(row["ideal_l0_m"])
+        exact_s = exact_l0 * math.sin(exact_theta)
+        exact_d = exact_l0 * math.cos(exact_theta)
+        ideal_s = ideal_l0 * math.sin(ideal_theta)
+        ideal_d = ideal_l0 * math.cos(ideal_theta)
+        wheel_position_errors_mm.append(
+            1000.0 * math.hypot(ideal_s - exact_s, ideal_d - exact_d)
+        )
+
+    replacements = {
+        "__GRID_L_ERR__": fmt(float(results["grid_max_abs_ideal_l0_error_mm"]), 3),
+        "__GRID_A_ERR__": fmt(float(results["grid_max_abs_ideal_theta_leg_error_deg"]), 3),
+        "__GRID_W_ERR__": fmt(max(wheel_position_errors_mm), 3),
+        "__ANALYTIC_L_ERR__": f"{float(results['max_abs_analytic_minus_tree_l0_um']):.3e}",
+        "__ANALYTIC_A_ERR__": f"{float(results['max_abs_analytic_minus_tree_theta_microdeg']):.3e}",
+        "__ANALYTIC_J_FD_ERR__": f"{float(results['max_abs_analytic_minus_fd_jacobian']):.3e}",
+        "__ANALYTIC_J_TREE_ERR__": f"{float(results['max_abs_analytic_minus_tree_fd_jacobian']):.3e}",
+        "__SIM_SCALE_B__": f"{float(results['simplified_scale_b']):.3f}",
+        "__SIM_ANGLE_B_DEG__": f"{float(results['simplified_angle_b_deg']):+.3f}",
+        "__SIM_PARA_LK_PN_UM__": f"{float(results['parallelogram_lk_pn_vector_mismatch_um']):.3f}",
+        "__SIM_PARA_LP_KN_UM__": f"{float(results['parallelogram_lp_kn_vector_mismatch_um']):.3f}",
+        "__SIM_W_ERR_UM__": f"{float(results['grid_max_simplified_minus_full_w_um']):.3f}",
+        "__SIM_L_ERR_UM__": f"{float(results['grid_max_abs_simplified_minus_full_l0_um']):.3f}",
+        "__SIM_PHI_ERR_DEG__": f"{1e-3 * float(results['grid_max_abs_simplified_minus_full_phi0_microdeg']):.3f}",
+        "__SIM_J_ERR__": f"{float(results['grid_max_simplified_minus_full_jacobian']):.3e}",
+        "__SIM_J_FD_ERR__": f"{float(results['grid_max_simplified_minus_fd_jacobian']):.3e}",
+        "__DET_M_RANGE__": (
+            f"[{float(results['circle_M_determinant_range_m2'][0]):+.3e}, "
+            f"{float(results['circle_M_determinant_range_m2'][1]):+.3e}]"
+        ),
+        "__DET_N_RANGE__": (
+            f"[{float(results['circle_N_determinant_range_m2'][0]):+.3e}, "
+            f"{float(results['circle_N_determinant_range_m2'][1]):+.3e}]"
+        ),
+        "__MJ_L_ERR__": f"{float(mj['max_abs_l0_difference_um']):.3e}",
+        "__MJ_A_ERR__": f"{float(mj['max_abs_theta_difference_microdeg']):.3e}",
+        "__MJ_GAP__": f"{float(mj['max_equality_site_gap_um']):.3e}",
+        "__DEFAULT_L__": fmt(1000.0 * float(results["default_exact_l0_m"]), 3),
+        "__SAMPLE_ROWS__": sample_table(sweep),
+        "__CHART_DATA__": json.dumps(chart_data, ensure_ascii=False, separators=(",", ":")),
+        "__XML_PATH__": html.escape(str(Path(results["xml"]))),
+    }
+
+    template = r'''<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>偏置串腿闭链运动学：完整推导、VMC 与《串腿控制》对照</title>
+  <style>
+    :root {
+      --ink:#172033; --muted:#5b667a; --paper:#f4f7fb; --card:#ffffff;
+      --blue:#2869c9; --blue2:#eaf2ff; --green:#16916b; --green2:#e8f7f1;
+      --orange:#d97706; --orange2:#fff4df; --red:#c33b3b; --red2:#fff0f0;
+      --purple:#7c4dc4; --purple2:#f4edff; --line:#dce3ee; --code:#111827;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    html, body { overflow-x:hidden; }
+    body { margin:0; font-family:Inter,"Segoe UI","Microsoft YaHei",system-ui,sans-serif; color:var(--ink); background:var(--paper); line-height:1.72; }
+    .hero { color:white; background:linear-gradient(135deg,#10213c 0%,#173f77 60%,#176d78 100%); padding:64px 28px 54px; }
+    .hero-inner { max-width:1180px; margin:auto; }
+    .eyebrow { display:inline-flex; gap:8px; align-items:center; padding:5px 11px; border:1px solid rgba(255,255,255,.28); border-radius:999px; font-size:13px; color:#dcecff; }
+    h1 { max-width:980px; font-size:clamp(30px,4.6vw,56px); line-height:1.15; margin:18px 0 18px; letter-spacing:-.03em; }
+    .lead { max-width:950px; font-size:18px; color:#d8e6f8; margin:0; }
+    .hero-note { margin-top:20px; color:#bcd0e9; font-size:14px; }
+    .layout { max-width:1320px; margin:0 auto; display:grid; grid-template-columns:230px minmax(0,1fr); gap:28px; padding:28px 24px 70px; }
+    nav { position:sticky; top:18px; align-self:start; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px; box-shadow:0 8px 30px rgba(21,42,76,.06); }
+    nav strong { display:block; padding:4px 9px 10px; }
+    nav a { display:block; text-decoration:none; color:var(--muted); padding:7px 9px; border-radius:8px; font-size:14px; }
+    nav a:hover { color:var(--blue); background:var(--blue2); }
+    main { min-width:0; }
+    section { scroll-margin-top:20px; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:32px; margin-bottom:24px; box-shadow:0 8px 30px rgba(21,42,76,.045); }
+    h2 { margin:0 0 14px; font-size:28px; line-height:1.25; letter-spacing:-.02em; }
+    h3 { margin:26px 0 10px; font-size:20px; line-height:1.35; }
+    h4 { margin:18px 0 6px; font-size:16px; }
+    p { margin:9px 0; }
+    .muted { color:var(--muted); }
+    .tiny { color:var(--muted); font-size:13px; }
+    .cards { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin:22px 0 4px; }
+    .card { border:1px solid var(--line); border-radius:14px; padding:18px; background:#fbfdff; }
+    .card .k { font-size:29px; font-weight:750; line-height:1.05; color:var(--blue); }
+    .card .label { margin-top:8px; font-size:13px; color:var(--muted); }
+    .callout { border-left:4px solid var(--blue); background:var(--blue2); padding:15px 18px; border-radius:0 12px 12px 0; margin:18px 0; }
+    .callout.good { border-color:var(--green); background:var(--green2); }
+    .callout.warn { border-color:var(--orange); background:var(--orange2); }
+    .callout.bad { border-color:var(--red); background:var(--red2); }
+    .eq { overflow-x:auto; text-align:center; font-family:"Cambria Math","Times New Roman",serif; font-size:21px; padding:13px 16px; margin:12px 0; border:1px solid var(--line); border-radius:12px; background:#fbfcff; white-space:nowrap; }
+    .eq.small { font-size:18px; }
+    .eq math[display="block"] { display:block; width:max-content; min-width:min-content; margin:0 auto; }
+    code, pre { font-family:"Cascadia Code",Consolas,monospace; }
+    code { background:#edf1f7; padding:1px 5px; border-radius:5px; overflow-wrap:anywhere; word-break:break-word; }
+    .vecsym { position:relative; display:inline-block; min-width:.72em; padding-top:.16em; margin:0 .02em; text-align:center; font-family:"Cambria Math","Times New Roman",serif; font-style:italic; line-height:1; }
+    .vecsym::before { content:"\2192"; position:absolute; left:50%; top:-.54em; transform:translateX(-50%) scaleX(.72); transform-origin:center; font-family:"Segoe UI Symbol","Cambria Math",serif; font-size:.66em; font-style:normal; font-weight:400; line-height:1; }
+    pre { overflow:auto; background:var(--code); color:#d9e7ff; border-radius:13px; padding:17px; line-height:1.55; font-size:13px; }
+    table { width:100%; border-collapse:collapse; font-size:14px; margin:14px 0; }
+    th { text-align:left; color:#344054; background:#f2f5f9; }
+    th,td { padding:10px 11px; border:1px solid var(--line); vertical-align:top; }
+    .scroll { overflow-x:auto; max-width:100%; }
+    .two { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .three { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .step { position:relative; padding:17px 17px 17px 58px; border:1px solid var(--line); border-radius:14px; margin:12px 0; }
+    .step .n { position:absolute; left:15px; top:15px; width:30px; height:30px; display:grid; place-items:center; border-radius:50%; background:var(--blue); color:white; font-weight:700; }
+    details.advanced { margin:16px 0; border:1px solid var(--line); border-radius:12px; background:#fbfcff; padding:0 16px; }
+    details.advanced > summary { cursor:pointer; padding:13px 0; color:#344054; font-weight:700; }
+    details.advanced[open] > summary { border-bottom:1px solid var(--line); margin-bottom:12px; }
+    .diagram { overflow-x:auto; max-width:100%; border:1px solid var(--line); border-radius:16px; background:linear-gradient(180deg,#fff,#f9fbfe); padding:10px; margin:16px 0; }
+    .diagram svg { display:block; width:100%; height:auto; min-width:700px; }
+    .chart-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .chart-box { border:1px solid var(--line); border-radius:14px; padding:12px 10px 6px; background:#fff; }
+    .chart-box h4 { margin:2px 8px 0; }
+    .chart { width:100%; height:auto; display:block; }
+    .tag { display:inline-block; font-size:12px; font-weight:650; padding:3px 8px; border-radius:999px; background:var(--blue2); color:var(--blue); margin:2px 3px 2px 0; }
+    .same { background:var(--green2); color:var(--green); }
+    .diff { background:var(--orange2); color:#9a5400; }
+    .risk { background:var(--red2); color:var(--red); }
+    .legend { display:flex; gap:14px; flex-wrap:wrap; margin:8px 0; font-size:13px; color:var(--muted); }
+    .dot { width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:5px; }
+    .checklist li { margin:7px 0; }
+    footer { max-width:1180px; margin:0 auto 60px; padding:0 28px; color:var(--muted); font-size:13px; }
+    @media (max-width:1000px) { .layout{grid-template-columns:1fr}.layout nav{position:relative;top:auto}.cards{grid-template-columns:1fr 1fr}.two,.chart-grid{grid-template-columns:1fr} }
+    @media (max-width:620px) { section{padding:22px 17px}.cards,.three{grid-template-columns:1fr}.hero{padding:42px 18px}.layout{padding:18px 10px 50px} }
+    @media print { nav{display:none}.layout{display:block;max-width:none}section{break-inside:avoid;box-shadow:none}.hero{background:#173f77!important;-webkit-print-color-adjust:exact}.diagram{break-inside:avoid} }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">XML 名义几何 · 一次闭链简化 · MuJoCo 3.3.0 A/B 验证 · 活动固件未改</span>
+    <h1>偏置串腿闭链运动学：从电机角到 VMC 力矩的完整推导</h1>
+    <p class="lead">当前 CAD 设计约束规定 I、L、P 共线，且 P→W 与 L→M 平行，因此推荐控制正解可化成“第一次闭链求 M，再用 W=P+k<sub>b</sub>(M−L) 求轮轴”。两者输出仍是 y=[L0,φ0]<sup>T</sup>；LQR 的 θ=0 平衡点与 VMC 的 τ=J<sub>H</sub><sup>T</sup>F 原理不变。XML 导出坐标中的微小不共线残差单独保留为模型核对项，不再写入推荐控制公式。</p>
+    <p class="hero-note">更新日期：2026-08-11　|　对象：mujoco_control_extract / wheel_leg_urdf4_self_mesh_all.xml　|　结论仅对应名义 XML 几何</p>
+  </div>
+</header>
+
+<div class="layout">
+<nav aria-label="目录">
+  <strong>目录</strong>
+  <a href="#symbols">符号字典（建议先看）</a>
+  <a href="#verdict">1. 结论先行</a>
+  <a href="#coordinates">2. 方向与角度</a>
+  <a href="#geometry">3. 两种机构</a>
+  <a href="#derivation">4. 当前状态正解</a>
+  <a href="#jacobian">5. 解析 JH 与力矩映射</a>
+  <a href="#inverse">6. 目标状态反算关节角</a>
+  <a href="#validation">7. 数值验证</a>
+  <a href="#pdf">8. 与 PDF 对照</a>
+  <a href="#code">9. 工程中怎么换</a>
+  <a href="#scope">10. 能解释什么</a>
+  <a href="#next">11. 下一步</a>
+</nav>
+
+<main>
+<section id="symbols">
+  <h2>符号字典：先分清“理想五杆”“真实偏置机构”和“通用公式”</h2>
+  <div class="callout warn"><b>2026-07-24 勘误：</b>旧版报告曾把离线求解器中的 <code>theta_leg</code> 与控制器极角 <code>phi0</code> 混写，并把对应雅可比第二行标成了同一方向。本版统一规定 <code>H(q)=[L0,phi0]<sup>T</sup></code>，且 <code>dphi0/dq=−dtheta_leg/dq</code>；旧版相关角度行和力矩方向说明不应继续引用。</div>
+  <div class="callout warn"><b>同一个字母在旧资料里有过重名。</b> 本文从这里开始采用以下规则：斜体大写单字母（如 J、P）表示<b>机构上的点</b>；<code>J_H(q)</code> 专门表示精确运动学的<b>雅可比矩阵</b>；圆交公式不用 A、B，而用 O<sub>a</sub>、O<sub>b</sub> 表示临时圆心，避免与理想五杆的 A、B 混淆。</div>
+  <div class="callout good"><b>从本版开始强制区分四类量，并用箭头标记向量：</b>大写 <code>J、M</code> 表示几何点；带箭头的 r 表示点相对公共原点 I 的位置向量；带箭头的 v 表示 XML/CAD 参考构型中的固定向量；<code>ℓ<sub>JM</sub></code> 只表示非负的杆长标量。圆心距另记为 <code>ρ<sub>M</sub></code>。后文不再用含混的“|JM|”同时代指杆和长度。</div>
+  <latex small>J;\text{是点},\qquad
+  \vec r_J;\text{是点 J 的位置向量},\qquad
+  \overrightarrow{JM}=\vec r_M-\vec r_J,\qquad
+  \ell_{JM}=\left\lVert\overrightarrow{JM}\right\rVert
+  =\left\lVert\vec v_{JM}^{\,\mathrm{ref}}\right\rVert</latex>
+
+  <h3>0.1 坐标系与基本运算</h3>
+  <div class="callout good"><b>二维闭链的原点就是每条腿自己的 I，但 I 不是整车 base 原点。</b>本文把一侧腿两根同轴主动转轴的共同轴心记为 I，并在二维腿平面内令 I=(0,0)。XML 没有名为 I 的 joint：左腿 I<sub>L</sub> 是 <code>jIJ/jIO</code> 的共同 joint origin，右腿 I<sub>R</sub> 是 <code>jAB/jAG</code> 的共同 joint origin。它们分别是局部运动学原点；世界原点、base body 原点和整车质心都是另外的点。</div>
+  <latex small>{}^{I}\vec r_X=
+  \begin{bmatrix}Y_X-Y_I\\Z_X-Z_I\end{bmatrix}_{\!\mathrm{base}},\qquad
+  {}^{I}\vec r_I=\begin{bmatrix}0\\0\end{bmatrix}</latex>
+  <p class="tiny">当前 XML 的 base 局部坐标中，左侧 <code>jIJ</code> 与 <code>jIO</code> 都位于 (−0.152, −1.270, 0.062) m；右侧 <code>jAB</code> 与 <code>jAG</code> 都位于 (+0.237, −1.270, 0.062) m。每一对严格共点，所以各自都可以平移成二维原点 I；沿铰轴的 base X 分量不进入该侧的 Y–Z 平面运动学。</p>
+  <div class="scroll" id="basic-symbol-table"><table>
+    <thead><tr><th>符号</th><th>定义</th><th>直观意义 / 单位</th></tr></thead>
+    <tbody>
+      <tr><td><code>I<sub>L</sub> / I<sub>R</sub></code></td><td>每侧腿二维推导的局部原点</td><td>该侧前、后两根同轴主动转轴的共同轴心；不是 base 原点或质心</td></tr>
+      <tr><td><code>base X/Y/Z</code></td><td>MuJoCo 的 base 刚体坐标轴</td><td>当前 XML 的主动铰轴是 +base X，机构运动平面是 base Y–Z</td></tr>
+      <tr><td><code>s<sub>W</sub>=ΔY<sub>base</sub></code></td><td>轮轴相对髋轴沿 +base Y 的有符号<b>位置坐标</b></td><td>单位 m；它不是速度、不是另一根 X 轴，也不是轮子的自转角</td></tr>
+      <tr><td><code>z=+base Z</code></td><td>本文精确闭链平面的竖直轴</td><td>+z 向上；轮轴在髋部下方时 W<sub>z</sub>&lt;0</td></tr>
+      <tr><td><code>d<sub>W</sub>=−ΔZ<sub>base</sub></code></td><td>轮轴相对髋轴沿车体向下的有符号<b>位置坐标</b></td><td>单位 m；轮轴位于髋部下方时 d<sub>W</sub>&gt;0；速度写成 ṡ<sub>W</sub>、ḋ<sub>W</sub></td></tr>
+      <tr><td><code>x<sub>ctrl</sub></code></td><td><code>main_mujoco.c</code> 驾驶/状态坐标的前进轴</td><td>当前旋转适配为 +x<sub>ctrl</sub>=−base Y，因此与 s<sub>W</sub> 的正向相反</td></tr>
+      <tr><td><code>r⃗<sub>J</sub>、r⃗<sub>M</sub>…</code></td><td>相应大写点 J、M…在公共二维坐标系中的<b>位置向量</b></td><td>箭头表示二维向量，单位 m；例如 r⃗<sub>M</sub>=[m<sub>s</sub>,m<sub>z</sub>]<sup>T</sup></td></tr>
+      <tr><td><code>v⃗<sub>XY</sub><sup>ref</sup></code></td><td>从点 X 指向点 Y 的固定参考向量</td><td>箭头表示二维向量，单位 m；例如 v⃗<sub>IJ</sub><sup>ref</sup> 是 XML 参考构型中的 I→J</td></tr>
+      <tr><td><code>ℓ<sub>XY</sub>=‖v⃗<sub>XY</sub><sup>ref</sup>‖</code></td><td>点 X、Y 之间的固定标量距离</td><td>没有箭头，是非负标量，单位 m；例如 ℓ<sub>JM</sub> 是杆 JM 的长度</td></tr>
+      <tr><td><code>ρ<sub>AB</sub>=‖r⃗<sub>B</sub>−r⃗<sub>A</sub>‖</code></td><td>当前姿态下两个圆心 A、B 的标量距离</td><td>没有箭头，是标量，单位 m；随当前关节姿态变化</td></tr>
+      <tr><td><code>R(γ)</code></td><td>在 (s,z) 平面内的右手旋转矩阵</td><td>γ&gt;0 时把 +s（+base Y）转向 +z；按 +z 向上画时为逆时针</td></tr>
+      <tr><td><code>‖v⃗‖</code></td><td>把带箭头的向量变成非负标量的欧氏范数</td><td>例如 ‖v⃗<sub>JM</sub><sup>ref</sup>‖=ℓ<sub>JM</sub></td></tr>
+      <tr><td><code>atan2(y,x)</code></td><td>二参数反正切函数；第一个参数是纵向分量 y，第二个是横向分量 x</td><td>函数名末尾的 2 表示“两个输入参数”，不是乘以 2；它利用 x、y 的符号判断完整四象限方向</td></tr>
+      <tr><td><code>wrap(γ)</code></td><td>把角度连续等价地折回 (−π,π]</td><td>只改变角度表示，不改变物理姿态</td></tr>
+    </tbody>
+  </table></div>
+  <latex small>R(\gamma)=\begin{bmatrix}\cos\gamma&-\sin\gamma\\\sin\gamma&\cos\gamma\end{bmatrix},\qquad
+  \begin{bmatrix}X_{base}\\Y_{base}\\Z_{base}\end{bmatrix}
+  =R_z(90^\circ)\begin{bmatrix}x_{local}\\y_{local}\\z_{local}\end{bmatrix}</latex>
+  <div class="callout bad"><b>必须保留的轴符号警告：</b>旧版符号 <code>xH</code> 已改成 <code>sW</code>，就是为了避免把它误看成“车辆前进 X 轴”。<code>sW</code> 只表示 ΔY<sub>base</sub>；仿真适配函数 <code>rotate_xy_into_controller_frame()</code> 定义的 +x<sub>ctrl</sub> 则是 −base Y。竖直零位时这个反号看不出来，轮轴前后偏离后才能检出。</div>
+
+  <h3>0.2 PDF / 当前 VMC 的理想五连杆符号</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>符号</th><th>表示什么</th><th>对应杆长 / 角度</th></tr></thead>
+    <tbody>
+      <tr><td><code>A、E</code></td><td>左右两个理想主动杆的固定髋端</td><td>AE=l<sub>5</sub>；当前代码 l<sub>5</sub>=0，二者投影重合。图中分开画只是为了看清拓扑</td></tr>
+      <tr><td><code>B</code></td><td>理想后主动杆末端</td><td>AB=l<sub>1</sub>，绝对角为 φ<sub>1</sub></td></tr>
+      <tr><td><code>D</code></td><td>理想前主动杆末端</td><td>ED=l<sub>4</sub>，绝对角为 φ<sub>4</sub></td></tr>
+      <tr><td><code>C</code></td><td>理想五杆的轮轴 / 两根被动杆公共端</td><td>BC=l<sub>2</sub>，DC=l<sub>3</sub>；因此 C 是圆(B,l<sub>2</sub>)与圆(D,l<sub>3</sub>)的交点</td></tr>
+      <tr><td><code>φ<sub>1</sub>、φ<sub>4</sub></code></td><td>理想五杆两根主动杆的绝对角</td><td>它们不是 XML 原始电机角 q<sub>r</sub>、q<sub>f</sub></td></tr>
+      <tr><td><code>φ<sub>2</sub>、φ<sub>3</sub></code></td><td>理想五杆两根被动杆的绝对角</td><td>由圆交点 C 的装配支路决定</td></tr>
+      <tr><td><code>f</code></td><td>理想五杆正运动学</td><td>[L<sub>0</sub>,φ<sub>0</sub>]<sup>T</sup>=f([φ<sub>1</sub>,φ<sub>4</sub>]<sup>T</sup>)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>0.3 XML 真实偏置闭链上的点</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>点 / 量</th><th>表示什么</th><th>由什么决定</th></tr></thead>
+    <tbody>
+      <tr><td><code>q<sup>L</sup></code></td><td>左腿 raw-q 输入</td><td>[q<sub>f</sub>,q<sub>r</sub>]<sup>T</sup>=[q<sub>jIJ</sub>,q<sub>jIO</sub>]<sup>T</sup></td></tr>
+      <tr><td><code>q<sup>R</sup></code></td><td>右腿 raw-q 输入</td><td>[q<sub>f</sub>,q<sub>r</sub>]<sup>T</sup>=[q<sub>jAB</sub>,q<sub>jAG</sub>]<sup>T</sup>；注意仿真数组到达顺序是 jAG 后、jAB 前</td></tr>
+      <tr><td><code>front / rear</code></td><td>机构的前、后主动支路</td><td>不是电机数组下标，也不是观察者站在左侧/右侧后的视觉左右</td></tr>
+      <tr><td><code>q<sub>f</sub>、q<sub>r</sub></code></td><td>MuJoCo 原始 hinge qpos</td><td>都按 XML 铰轴的右手定则为正；当前根变换后铰轴为 +base X，q&gt;0 在 (s,z) 图上把 +s 转向 +z</td></tr>
+      <tr><td><code>J</code></td><td>前主动曲柄端点</td><td>r⃗<sub>J</sub>=R(q<sub>f</sub>)v⃗<sub>IJ</sub><sup>ref</sup></td></tr>
+      <tr><td><code>L</code></td><td>后主动刚体上的第一闭链铰点</td><td>r⃗<sub>L</sub>=R(q<sub>r</sub>)v⃗<sub>IL</sub><sup>ref</sup></td></tr>
+      <tr><td><code>P</code></td><td>后主动刚体 jIO 与输出刚体 jOP 的转动铰</td><td>r⃗<sub>P</sub>=R(q<sub>r</sub>)v⃗<sub>IP</sub><sup>ref</sup></td></tr>
+      <tr><td><code>M</code></td><td>第一处未知闭链铰</td><td>标量 ℓ<sub>JM</sub> 是杆 JM 长度；标量 ℓ<sub>LM</sub> 是 jMK 刚体内固定点距；两约束共同确定点 M 的位置向量 r⃗<sub>M</sub></td></tr>
+      <tr><td><code>K</code></td><td>复合刚体 jMK 与二点杆 jKN 的转动铰</td><td>先由 M→L 求 jMK 朝向 α，再由 r⃗<sub>K</sub>=r⃗<sub>M</sub>+R(α)v⃗<sub>MK</sub><sup>ref</sup> 得到</td></tr>
+      <tr><td><code>N</code></td><td>第二处未知闭链铰</td><td>同时满足标量长度 ℓ<sub>KN</sub>、ℓ<sub>PN</sub> 固定，所以由 K/P 两圆交点得到位置向量 r⃗<sub>N</sub></td></tr>
+      <tr><td><code>W</code></td><td>真实 XML 轮轴中心</td><td>由 P→N 确定输出刚体朝向 β，再把固定向量 v⃗<sub>PW</sub><sup>ref</sup> 旋过去</td></tr>
+      <tr><td><code>α、β</code></td><td>两个复合刚体在腿平面内的绝对朝向</td><td>α 对应含 M–L/M–K 的刚体；β 对应含 P–N/P–W 的输出刚体</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>0.4 虚拟腿、运动学、雅可比与力</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>符号</th><th>严格定义</th><th>单位 / 物理意义</th></tr></thead>
+    <tbody>
+      <tr><td><code>q⃗=[q<sub>f</sub>,q<sub>r</sub>]<sup>T</sup></code></td><td>两主动支路的 raw-q 广义坐标向量</td><td>rad；H 和 J<sub>H</sub> 的列顺序始终固定为“前、后”</td></tr>
+      <tr><td><code>𝒫(q⃗)=[s<sub>W</sub>,d<sub>W</sub>]<sup>T</sup></code></td><td>轮轴二维<b>位置</b>映射（可选的中间描述）</td><td>先由闭链得到 W，再取 I→W 在 +base Y 与 −base Z 上的两个位置投影；正式接口直接输出 H、J<sub>H</sub>，无需单独建立 J<sub>P</sub>；函数 𝒫 不等于机构点 P</td></tr>
+      <tr><td><code>L<sub>0</sub></code></td><td>sqrt(s<sub>W</sub><sup>2</sup>+d<sub>W</sub><sup>2</sup>)</td><td>m；髋部参考点 I 到真实轮轴 W 的虚拟腿长</td></tr>
+      <tr><td><code>θ<sub>leg</sub></code></td><td>atan2(s<sub>W</sub>,d<sub>W</sub>)</td><td>rad；从车体向下轴转向 +s 为正，竖直向下时为 0</td></tr>
+      <tr><td><code>φ<sub>0</sub></code></td><td>atan2(d<sub>W</sub>,s<sub>W</sub>)=π/2−θ<sub>leg</sub></td><td>rad；从 +s 转向车体向下轴为正，竖直向下时为 90°</td></tr>
+      <tr><td><code>H(q⃗)=[L<sub>0</sub>,φ<sub>0</sub>]<sup>T</sup></code></td><td>控制器虚拟坐标映射</td><td>H 是 𝒫 的极坐标形式；本报告的公共 FK/IK/VMC 接口统一使用 φ<sub>0</sub>，不把 θ<sub>leg</sub> 冒充 φ<sub>0</sub></td></tr>
+      <tr><td><code>Pitch<sub>side,L</sub></code></td><td>当前左任务传入 VMC_calc_1 的 Pitch 参数</td><td>Pitch<sub>side,L</sub>=−INS.Pitch</td></tr>
+      <tr><td><code>Pitch<sub>side,R</sub></code></td><td>当前右任务传入 VMC_calc_1 的 Pitch 参数</td><td>Pitch<sub>side,R</sub>=+INS.Pitch；这里只记录现有代码约定，不猜测 nose-up/nose-down</td></tr>
+      <tr><td><code>θ<sub>side</sub></code></td><td>θ<sub>leg</sub>−Pitch<sub>side</sub></td><td>等价于 π/2−Pitch<sub>side</sub>−φ<sub>0</sub>；这是当前 LQR 使用的每侧 θ</td></tr>
+      <tr><td><code>J<sub>H</sub>(q)=∂H/∂q</code></td><td>精确 2×2 raw-q 雅可比矩阵</td><td>行=[∂L<sub>0</sub>,∂φ<sub>0</sub>]，列=[∂q<sub>f</sub>,∂q<sub>r</sub>]；第二行与 ∂θ<sub>leg</sub>/∂q 整体反号</td></tr>
+      <tr><td><code>D<sub>X</sub>=∂r⃗<sub>X</sub>/∂(q<sub>f</sub>,q<sub>r</sub>)</code></td><td>点 X 的 2×2 解析位置导数</td><td>行是 s、z 坐标，列是 q<sub>f</sub>、q<sub>r</sub>；推荐链只传播 D<sub>J</sub>、D<sub>L</sub>、D<sub>P</sub>、D<sub>M</sub>、D<sub>W</sub>，D<sub>K</sub>/D<sub>N</sub> 仅属完整基准</td></tr>
+      <tr><td><code>k<sub>b</sub>=ℓ<sub>PW</sub>/ℓ<sub>LM</sub></code></td><td>把当前局部向量 L→M 按固定比例放大成 P→W</td><td>CAD 设计模型取 P→W∥L→M，推荐控制链使用 W=P+k<sub>b</sub>(M−L)；k<sub>b</sub>=__SIM_SCALE_B__</td></tr>
+      <tr><td><code>E=[[0,−1],[1,0]]</code></td><td>二维逆时针 90° 旋转算子</td><td>d[R(q)v⃗]/dq=ER(q)v⃗；不是能量，也不是单位向量</td></tr>
+      <tr><td><code>T<sub>MK</sub>、T<sub>PW</sub></code></td><td>两个体固连三角形的固定“比例×旋转”矩阵</td><td>把当前 M→L 直接变成 M→K，把当前 P→N 直接变成 P→W；仅由 XML 固定几何预计算</td></tr>
+      <tr><td><code>Δ<sub>M</sub>、Δ<sub>N</sub></code></td><td>完整两圆基准中两次圆交解析导数的 2×2 行列式</td><td>单位 m²；推荐实时链只使用 Δ<sub>M</sub>，Δ<sub>N</sub> 仅用于验证第二级完整基准</td></tr>
+      <tr><td><code>F<sub>0</sub></code></td><td>与 L<sub>0</sub> 共轭的虚拟轴向力</td><td>N；正方向按 L<sub>0</sub> 增大定义</td></tr>
+      <tr><td><code>T<sub>p</sub></code></td><td>与 φ<sub>0</sub> 共轭的虚拟髋矩</td><td>N·m；正方向按 φ<sub>0</sub> 增大定义</td></tr>
+      <tr><td><code>τ<sub>raw</sub>=[τ<sub>f</sub>,τ<sub>r</sub>]<sup>T</sup></code></td><td>与 raw q<sub>f</sub>、q<sub>r</sub> 共轭的主动关节力矩</td><td>N·m；τ<sub>raw</sub>=J<sub>H</sub><sup>T</sup>[F<sub>0</sub>,T<sub>p</sub>]<sup>T</sup>，不得再套旧 φ 坐标的负号</td></tr>
+      <tr><td><code>cond(J<sub>H</sub>)</code></td><td>当前脚本显示的原始雅可比条件数</td><td>两行单位分别为 m/rad 与 rad/rad，原始数值依赖单位尺度；只能作同一单位约定下的趋势参考，正式安全阈值应先按特征腿长归一化</td></tr>
+    </tbody>
+  </table></div>
+  <latex small>\mathcal P(\vec q)=\begin{bmatrix}s_W(\vec q)\\d_W(\vec q)\end{bmatrix},\qquad
+  H(\vec q)=\begin{bmatrix}L_0(\vec q)\\\phi_0(\vec q)\end{bmatrix},\qquad
+  \theta_{leg}=\operatorname{atan2}(s_W,d_W),\quad \phi_0=\frac{\pi}{2}-\theta_{leg}</latex>
+  <latex small>\mathbf J_{\theta}=\frac{\partial[L_0,\theta_{leg}]^T}{\partial\vec q}
+  =\begin{bmatrix}1&0\\0&-1\end{bmatrix}\mathbf J_H,\qquad
+  \dot\theta_{side}=\dot\theta_{leg}-\dot{Pitch}_{side}=-\dot\phi_0-\dot{Pitch}_{side}</latex>
+
+  <h3>0.5 圆交点公式中的临时符号</h3>
+  <div class="scroll" id="circle-symbol-table"><table>
+    <thead><tr><th>符号</th><th>表示什么</th></tr></thead>
+    <tbody>
+      <tr><td><code>O<sub>a</sub>、O<sub>b</sub></code></td><td>几何点：某一次圆交计算的两个已知圆心；第一次代入 J/L，第二次代入 K/P</td></tr>
+      <tr><td><code>r<sub>a</sub>、r<sub>b</sub></code></td><td>两条固定距离约束，也就是两个圆的半径；它可能是二点杆长度，也可能是同一刚体内两固定点的距离</td></tr>
+      <tr><td><code>X</code></td><td>几何点：待求交点；第一次 X=M，第二次 X=N</td></tr>
+      <tr><td><code>r⃗<sub>Oa</sub>、r⃗<sub>Ob</sub>、r⃗<sub>X</sub></code></td><td>点 O<sub>a</sub>、O<sub>b</sub>、X 在同一二维坐标系中的位置向量</td></tr>
+      <tr><td><code>Δ⃗<sub>ab</sub>=r⃗<sub>Ob</sub>−r⃗<sub>Oa</sub></code></td><td>从第一个圆心指向第二个圆心的位移向量</td></tr>
+      <tr><td><code>ρ=‖Δ⃗<sub>ab</sub>‖</code></td><td>两个圆心之间的标量距离</td></tr>
+      <tr><td><code>e⃗=Δ⃗<sub>ab</sub>/ρ</code></td><td>沿两圆心连线、从 O<sub>a</sub> 指向 O<sub>b</sub> 的单位向量</td></tr>
+      <tr><td><code>e⃗<sub>⊥</sub>=[−e<sub>z</sub>,e<sub>s</sub>]<sup>T</sup></code></td><td>与 e⃗ 垂直的单位向量；特意不用字母 n，避免与机构铰点 N 混淆</td></tr>
+      <tr><td><code>Q</code></td><td>交点 X 在两圆心连线上的垂足；其位置向量 r⃗<sub>Q</sub>=r⃗<sub>Oa</sub>+a e⃗</td></tr>
+      <tr><td><code>a</code></td><td>从 O<sub>a</sub> 到垂足 Q 的有向距离</td></tr>
+      <tr><td><code>h</code></td><td>从 Q 到圆交点 X 的垂直距离；h=0 时两圆相切</td></tr>
+      <tr><td><code>σ∈{+1,−1}</code></td><td>选择连心线两侧的两个交点，即两种装配支路；不是力矩或方向增益</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>0.6 三种容易混淆的 offset</h3>
+  <ul>
+    <li><code>J*_ANGLE_OFFSET</code>：软件里的固定角零点，形式是“理想杆角 = 符号×电机角 + 常数”。</li>
+    <li><b>机械偏置机构</b>：I–J–M–L–K–N–P 这些真实连杆本身，不是一个角度常数。</li>
+    <li><code>SAFE_PHI0_EQ_TRIM</code>：控制目标平衡点修正，不会改变真实运动学 H(q)。</li>
+  </ul>
+</section>
+
+<section id="verdict">
+  <h2>1. 结论先行</h2>
+  <div class="callout good"><b>推荐控制算法已经进一步化简。</b> 当前 XML 的第二级 L–K–N–P 在名义尺寸下是平行四边形，所以运行时只需要第一次圆交求 M；K、N 和第二次圆交保留为离线完整模型，用来验证简化关系，不再作为推荐的 STM32 实时路径。</div>
+  <div class="cards">
+    <div class="card"><div class="k">1 次</div><div class="label">闭链求 M，再由固定相似关系得到 W</div></div>
+    <div class="card"><div class="k">__GRID_L_ERR__ mm</div><div class="label">理想五杆在验证域内最大腿长误差</div></div>
+    <div class="card"><div class="k">__GRID_A_ERR__°</div><div class="label">理想五杆在验证域内最大角度误差</div></div>
+    <div class="card"><div class="k">不变</div><div class="label">LQR θ=0 与 VMC τ=J<sub>H</sub><sup>T</sup>F 原理</div></div>
+  </div>
+  <h3>一句话解释发生了什么</h3>
+  <pre>PDF： 理想主动杆角 φ=[φ1, φ4]ᵀ ──理想五杆 f──▶ y=[L0, φ0]ᵀ
+XML： q=[q前,q后]ᵀ → J,L,P → 第一次闭链求 M → W=P+Sb(M−L) → y=[L0,φ0]ᵀ
+
+共同部分： [F0, Tp] ── J_Hᵀ ──▶ 两台关节电机力矩</pre>
+  <p>所以不是“偏置机构不能做 VMC”，而是目前把 <code>q前/q后</code> 只经过负号和固定 offset 后，直接当作 PDF 的 <code>φ4/φ1</code>。这在一个姿态附近可以接近，但不可能在整个构型域完全一致。</p>
+  <div class="callout good"><b>两个模型必须分开读：</b>完整 XML 基准保留导出文件中的全部小数，用来验证闭链树和 MuJoCo；4.3 的 CAD 设计模型则按机械约束强制 I、L、P 共线并令 P→W∥L→M。旧的“微米级简式误差”属于保留 XML 小角度的基准化简，不能再冒充 CAD 约束模型的误差。两者约 0.271 mm 的名义差异应通过 CAD/XML 对齐解决。</div>
+  <div class="callout warn"><b>重要的量级判断：</b> 名义 XML 与理想五杆确实有构型相关误差，但扫描 <code>L0=0.15…0.42 m</code>、<code>φ0=70…110°</code> 后最大只有约 __GRID_L_ERR__ mm、__GRID_A_ERR__°。它值得修正，却未必能单独解释“长腿完全对不上”或猛烈磕头；坐标、MIT/VMC 叠加、饱和和软约束还要分开查。</div>
+</section>
+
+<section id="coordinates">
+  <h2>2. 车体、虚拟腿和各个角度到底画在哪里</h2>
+  <p><b>先不用“笛卡尔映射”这个词。</b>给定前、后两个主动关节角以后，正运动学第一件事只是求出：轮轴中心 <code>W</code> 相对髋轴中心 <code>I</code> 在车体侧视平面中的位置。本文把它写成两个有符号距离：</p>
+  <latex>{}^{I}\vec r_W(\vec q)=
+  \begin{bmatrix}s_W(\vec q)\\d_W(\vec q)\end{bmatrix},\qquad
+  s_W=\Delta Y_{\mathrm{base}},\quad d_W=-\Delta Z_{\mathrm{base}}</latex>
+  <p><code>sW</code> 是一个<b>坐标数值</b>：轮轴沿 XML 的 <code>+base Y</code> 方向偏了多少；<code>dW</code> 是轮轴沿车体向下方向偏了多少。旧版写成 <code>xH</code>，很像又定义了一个全局 X 轴，本版不再使用这个容易混淆的名字。当前仿真驾驶坐标恰好满足 <code>+xctrl = −base Y</code>，所以也不能把 <code>sW</code> 直接叫“车辆前进位移”。</p>
+
+  <div class="diagram" id="coordinate-figure">
+    <svg viewBox="0 0 1180 760" role="img" aria-label="车体、髋轴、轮轴、虚拟腿、Pitch_side、phi0、theta_side 以及轮轴二维坐标的完整定义图">
+      <defs>
+        <marker id="physAxis" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#344054"/></marker>
+        <marker id="physPitch" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#2869c9"/></marker>
+        <marker id="physPhi" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#7c4dc4"/></marker>
+        <marker id="physTheta" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#d97706"/></marker>
+        <marker id="physLeg" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#16916b"/></marker>
+        <marker id="physCtrl" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#c33b3b"/></marker>
+      </defs>
+      <rect x="12" y="12" width="1156" height="736" rx="18" fill="#fbfdff" stroke="#dce3ee"/>
+
+      <!-- Physical side view, following the visual language of PDF pages 2 and 11. -->
+      <g font-family="Segoe UI,Microsoft YaHei,sans-serif" fill="#172033">
+        <rect x="34" y="38" width="692" height="612" rx="16" fill="#fff" stroke="#cfd8e6"/>
+        <text x="58" y="72" font-size="20" font-weight="750">A. 物理总图：对应 PDF 第 2、11 页</text>
+        <text x="58" y="96" font-size="13.5" fill="#5b667a">为直接对应代码公式，本图把 Pitch_side 正向画成“世界 +sw → 车体 +sB”向下转；红虚线另标 controller 前进方向。</text>
+
+        <!-- Ground and wheel. -->
+        <line x1="90" y1="596" x2="684" y2="596" stroke="#475467" stroke-width="4"/>
+        <g stroke="#98a2b3" stroke-width="2">
+          <line x1="112" y1="596" x2="86" y2="620"/><line x1="166" y1="596" x2="140" y2="620"/>
+          <line x1="220" y1="596" x2="194" y2="620"/><line x1="274" y1="596" x2="248" y2="620"/>
+          <line x1="328" y1="596" x2="302" y2="620"/><line x1="382" y1="596" x2="356" y2="620"/>
+          <line x1="436" y1="596" x2="410" y2="620"/><line x1="490" y1="596" x2="464" y2="620"/>
+          <line x1="544" y1="596" x2="518" y2="620"/><line x1="598" y1="596" x2="572" y2="620"/>
+        </g>
+        <circle cx="472" cy="548" r="48" fill="#27344a"/><circle cx="472" cy="548" r="21" fill="#d8e2ef"/>
+        <text x="528" y="555" font-size="17" font-weight="750">W：轮轴中心</text>
+        <text x="102" y="642" font-size="14" fill="#5b667a">地面</text>
+
+        <!-- World axes through hip I. -->
+        <line x1="360" y1="250" x2="682" y2="250" stroke="#667085" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#physAxis)"/>
+        <text x="574" y="237" font-size="14" font-weight="700">世界水平参考 +sw</text>
+        <line x1="360" y1="250" x2="360" y2="118" stroke="#667085" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#physAxis)"/>
+        <text x="371" y="134" font-size="14" font-weight="700">世界竖直 +zw</text>
+        <line x1="360" y1="250" x2="360" y2="588" stroke="#98a2b3" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#physAxis)"/>
+        <text x="370" y="579" font-size="13.5" fill="#5b667a">世界铅垂向下 −zw</text>
+
+        <!-- Chassis with explicit body axis. -->
+        <g transform="translate(360,250) rotate(12)">
+          <rect x="-238" y="-65" width="476" height="130" rx="18" fill="#dbeafe" stroke="#2869c9" stroke-width="3"/>
+          <line x1="0" y1="0" x2="250" y2="0" stroke="#2869c9" stroke-width="3" marker-end="url(#physPitch)"/>
+          <line x1="0" y1="0" x2="-205" y2="0" stroke="#c33b3b" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#physCtrl)"/>
+          <text x="-194" y="-18" font-size="18" font-weight="750">车体 / Chassis</text>
+          <text x="160" y="-13" font-size="15" font-weight="750">+sB = +base Y</text>
+          <text x="-178" y="43" font-size="13" font-weight="700" fill="#8f2828">+xctrl = −sB</text>
+        </g>
+        <circle cx="360" cy="250" r="10" fill="#fff" stroke="#172033" stroke-width="3"/>
+        <line x1="226" y1="218" x2="349" y2="247" stroke="#172033" stroke-width="1.8" stroke-dasharray="5 4"/>
+        <rect x="72" y="197" width="154" height="42" rx="9" fill="#fff" fill-opacity="0.94" stroke="#cfd8e6"/>
+        <text x="88" y="224" font-size="16" font-weight="750">I：髋轴中心</text>
+
+        <!-- Virtual leg and its positive extension. -->
+        <line x1="360" y1="250" x2="472" y2="548" stroke="#16916b" stroke-width="8" stroke-linecap="round"/>
+        <line x1="404" y1="367" x2="423" y2="418" stroke="#16916b" stroke-width="3" marker-end="url(#physLeg)"/>
+        <rect x="492" y="430" width="184" height="54" rx="9" fill="#e8f7f1" fill-opacity="0.96" stroke="#b9e3d2"/>
+        <line x1="492" y1="450" x2="435" y2="451" stroke="#16916b" stroke-width="2"/>
+        <text x="508" y="452" font-size="16" font-weight="750" fill="#116b50">L0：虚拟腿 I→W</text>
+        <text x="508" y="473" font-size="12.5" fill="#116b50">+δL0 沿 I→W 外伸</text>
+
+        <!-- Pitch_side: world +sw to body +sB, clockwise in this code-coordinate drawing. -->
+        <path d="M465 250 A105 105 0 0 1 462.7 271.8" fill="none" stroke="#2869c9" stroke-width="4" marker-end="url(#physPitch)"/>
+        <rect x="72" y="275" width="194" height="50" rx="9" fill="#eaf2ff" fill-opacity="0.96" stroke="#bfd4f5"/>
+        <path d="M266 299 C330 299 416 279 465 264" fill="none" stroke="#2869c9" stroke-width="2"/>
+        <text x="86" y="296" font-size="15.5" font-weight="750" fill="#1d4f9a">+Pitch_side</text>
+        <text x="86" y="315" font-size="12.5" fill="#1d4f9a">世界 +sw → 车体 +sB</text>
+
+        <!-- phi0: body +sB to virtual leg. -->
+        <path d="M501.8 280.1 A145 145 0 0 1 414.3 384.5" fill="none" stroke="#7c4dc4" stroke-width="4" marker-end="url(#physPhi)"/>
+        <rect x="72" y="333" width="196" height="50" rx="9" fill="#f4edff" fill-opacity="0.96" stroke="#d8c4f4"/>
+        <path d="M268 358 C328 358 397 349 449 340" fill="none" stroke="#7c4dc4" stroke-width="2"/>
+        <text x="86" y="354" font-size="16" font-weight="750" fill="#6d28d9">+φ0</text>
+        <text x="86" y="373" font-size="12.5" fill="#6d28d9">车体 +sB → 虚拟腿 I→W</text>
+
+        <!-- theta_side: world down to virtual leg, toward +sw. -->
+        <path d="M360 365 A115 115 0 0 0 403 356.6" fill="none" stroke="#d97706" stroke-width="4" marker-end="url(#physTheta)"/>
+        <text x="282" y="390" font-size="17" font-weight="750" fill="#a45305">+θside</text>
+        <text x="222" y="411" font-size="12.5" fill="#a45305">世界向下 → 虚拟腿，朝 +sw</text>
+
+        <rect x="70" y="510" width="282" height="58" rx="10" fill="#fff4df" stroke="#edc77d"/>
+        <text x="211" y="535" text-anchor="middle" font-size="14.5" font-weight="750">图中三个角正好补成 90°</text>
+        <text x="211" y="557" text-anchor="middle" font-size="14">Pitchside + φ0 + θside = π/2</text>
+      </g>
+
+      <!-- Body-fixed side-view coordinates used by exact FK. -->
+      <g font-family="Segoe UI,Microsoft YaHei,sans-serif" fill="#172033">
+        <rect x="748" y="38" width="398" height="612" rx="16" fill="#fff" stroke="#cfd8e6"/>
+        <text x="772" y="72" font-size="20" font-weight="750">B. 正运动学先求轮轴位置</text>
+        <text x="772" y="97" font-size="13.5" fill="#5b667a">这是同一个车体侧视平面，不是轮子自转角。</text>
+
+        <circle cx="872" cy="248" r="9" fill="#fff" stroke="#172033" stroke-width="2.5"/>
+        <text x="808" y="275" font-size="16" font-weight="750">I=(0,0)</text>
+        <line x1="872" y1="248" x2="1108" y2="248" stroke="#344054" stroke-width="2.5" marker-end="url(#physAxis)"/>
+        <text x="978" y="233" font-size="14" font-weight="700">+s 轴 = +base Y</text>
+        <line x1="872" y1="248" x2="872" y2="112" stroke="#344054" stroke-width="2.5" marker-end="url(#physAxis)"/>
+        <text x="882" y="130" font-size="14" font-weight="700">+base Z</text>
+        <line x1="872" y1="248" x2="872" y2="516" stroke="#667085" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#physAxis)"/>
+        <text x="882" y="505" font-size="14" font-weight="700">+d 轴 = −base Z</text>
+
+        <line x1="872" y1="248" x2="1024" y2="455" stroke="#16916b" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="1024" cy="455" r="27" fill="#27344a"/><circle cx="1024" cy="455" r="11" fill="#d8e2ef"/>
+        <text x="1058" y="461" font-size="16" font-weight="750">W</text>
+        <line x1="1024" y1="248" x2="1024" y2="455" stroke="#7c4dc4" stroke-width="2.5" stroke-dasharray="6 5"/>
+        <line x1="872" y1="248" x2="1024" y2="248" stroke="#2869c9" stroke-width="4"/>
+        <text x="920" y="237" font-size="15" font-weight="750" fill="#1d4f9a">sW</text>
+        <text x="1034" y="355" font-size="15" font-weight="750" fill="#6d28d9">dW</text>
+        <text x="948" y="382" font-size="16" font-weight="750" fill="#116b50">L0</text>
+
+        <path d="M972 248 A100 100 0 0 1 931.2 328.6" fill="none" stroke="#7c4dc4" stroke-width="3.5" marker-end="url(#physPhi)"/>
+        <text x="974" y="316" font-size="16" font-weight="750" fill="#6d28d9">φ0</text>
+        <path d="M872 328 A80 80 0 0 0 919.4 312.5" fill="none" stroke="#d97706" stroke-width="3.5" marker-end="url(#physTheta)"/>
+        <text x="878" y="350" font-size="15" font-weight="750" fill="#a45305">θleg</text>
+
+        <rect x="772" y="535" width="350" height="88" rx="11" fill="#eaf2ff" stroke="#bfd4f5"/>
+        <text x="790" y="559" font-size="14.5" font-weight="750">输入 raw q=[qfront,qrear]ᵀ</text>
+        <text x="790" y="581" font-size="14">闭链正解 → 轮轴 W → [sW,dW]ᵀ</text>
+        <text x="790" y="603" font-size="14">L0=√(sW²+dW²)，φ0=atan2(dW,sW)</text>
+      </g>
+
+      <text x="40" y="704" font-size="14.5" font-weight="750" fill="#172033">正方向提醒：</text>
+      <text x="142" y="704" font-size="14" fill="#475467">上图是为了让代码等式一眼成立而画的“每侧控制坐标”。原 PDF 第 2 页的机体角 φ 使用了自己的箭头方向，不能只看字母直接套符号。</text>
+      <text x="40" y="730" font-size="14" fill="#8f2828">左右任务传入值：Pitchside,L = −INS.Pitch；Pitchside,R = +INS.Pitch。先区分“角在哪里”，再按具体侧别使用符号。</text>
+    </svg>
+  </div>
+
+  <h3>2.1 图中每个符号具体代表什么</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>符号</th><th>图上的位置</th><th>定义 / 正方向</th><th>与 PDF/代码的关系</th></tr></thead>
+    <tbody>
+      <tr><td><code>I<sub>L</sub>/I<sub>R</sub></code></td><td>相应侧车体上的髋关节公共转轴中心</td><td>该侧二维局部坐标的原点 (s,d)=(0,0)；不是 world/base/质心原点</td><td>对应 PDF 五连杆固定端参考点；左右腿各自有一个局部 I</td></tr>
+      <tr><td><code>W</code></td><td>轮子中心</td><td>真实输出轮轴中心，不是轮缘接触点</td><td>对应 PDF 五连杆输出点 C / 轮轴</td></tr>
+      <tr><td><code>sW</code></td><td>I→W 在车体侧视平面“+base Y”轴上的投影</td><td>有符号长度；向 +base Y 为正</td><td>旧版名为 xH；当前仿真 +xctrl 与它反向</td></tr>
+      <tr><td><code>dW</code></td><td>I→W 在车体向下轴上的投影</td><td>dW=−ΔZbase，轮轴在髋部下方时为正</td><td>只是位置坐标，不是腿长控制量</td></tr>
+      <tr><td><code>L0</code></td><td>绿色虚拟线段 I→W</td><td>沿 I→W 外伸为正</td><td>PDF 第 5、11 页的虚拟腿长</td></tr>
+      <tr><td><code>+sB</code></td><td>车体纵向线上、沿 XML +base Y 的有向参考</td><td>不是 controller 前进 +x；当前 +xctrl=−sB</td><td>φ0 与 Pitchside 的车体侧参考方向</td></tr>
+      <tr><td><code>φ0</code></td><td>车体 +sB 与虚拟腿 I→W 之间</td><td>按图中紫色箭头为正</td><td>PDF 第 5 页的五连杆局部极角 φ0</td></tr>
+      <tr><td><code>Pitchside</code></td><td>世界同向水平参考 +sw 与车体 +sB 之间</td><td>按图中蓝色箭头为正</td><td>几何位置对应 PDF 的机体角 φ；代码每侧符号另见下表</td></tr>
+      <tr><td><code>θside</code></td><td>世界铅垂向下与虚拟腿 I→W 之间</td><td>朝世界水平 +sw 偏转为正</td><td>对应 PDF/LQR 状态 θ</td></tr>
+      <tr><td><code>θleg</code></td><td>车体向下轴与 I→W 之间</td><td>θleg=π/2−φ0</td><td><code>VMC_calc_1()</code> 内曾用局部变量 alpha 表示它；不要与第 4 节复合刚体朝向混淆，它不是新增 LQR 状态</td></tr>
+    </tbody>
+  </table></div>
+
+  <latex>\theta_{\mathrm{leg}}=\frac{\pi}{2}-\phi_0,\qquad
+  \theta_{\mathrm{side}}=\theta_{\mathrm{leg}}-\mathrm{Pitch}_{\mathrm{side}}
+  =\frac{\pi}{2}-\mathrm{Pitch}_{\mathrm{side}}-\phi_0</latex>
+
+  <h3>2.2 左右腿 raw q、Pitch 和力矩列顺序</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>侧别</th><th>传给精确 H 的 q=[前,后]</th><th>数组位置</th><th>Pitchside</th><th>raw-q 力矩写回</th></tr></thead>
+    <tbody>
+      <tr><td>左腿</td><td>[q<sub>jIJ</sub>,q<sub>jIO</sub>]</td><td>joint[0]=前，joint[1]=后</td><td>−INS.Pitch</td><td>joint[0]=τ<sub>f</sub>，joint[1]=τ<sub>r</sub></td></tr>
+      <tr><td>右腿</td><td>[q<sub>jAB</sub>,q<sub>jAG</sub>]</td><td>joint[3]=前，joint[2]=后</td><td>+INS.Pitch</td><td>joint[3]=τ<sub>f</sub>，joint[2]=τ<sub>r</sub></td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout bad"><b>为什么必须把这张表和物理图分开看：</b>“角度画在哪两条线之间”是几何定义；左/右任务给它乘什么符号是代码坐标定义。把两件事混成一个没有车体的箭头图，最容易造成这次的误解。</div>
+</section>
+
+<section id="coordinates-legacy" style="display:none">
+  <h2>2. 先统一 raw q、x<sub>H</sub>、φ<sub>0</sub>、θ<sub>leg</sub> 与 Pitch<sub>side</sub></h2>
+  <p>先把两个层次分开：闭链几何先给出笛卡尔轮轴映射 <code>𝒫(q)=[xH,down]<sup>T</sup></code>，再转换成控制器虚拟坐标 <code>H(q)=[L0,phi0]<sup>T</sup></code>。当前 <code>VMC_calc_1()</code> 的每侧状态公式是：</p>
+  <latex>\theta_{side}=\theta_{leg}-\mathrm{Pitch}_{side}=\frac{\pi}{2}-\mathrm{Pitch}_{side}-\phi_0</latex>
+  <div class="diagram">
+    <svg viewBox="0 0 1160 680" role="img" aria-label="raw q 与 L0 phi0 theta_leg theta_side 正方向及左右腿输入映射">
+      <defs>
+        <marker id="coordAxisArrow" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#344054"/></marker>
+        <marker id="coordQArrow" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#2563eb"/></marker>
+        <marker id="coordPhiArrow" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#7c4dc4"/></marker>
+        <marker id="coordThetaArrow" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#d97706"/></marker>
+        <marker id="coordLengthArrow" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#16916b"/></marker>
+      </defs>
+      <rect x="14" y="14" width="1132" height="652" rx="18" fill="#fbfdff" stroke="#dce3ee"/>
+      <text x="40" y="49" font-size="21" font-weight="750" fill="#172033">方向契约：上图只画 Pitch_side=0；所有箭头都给出“正方向”</text>
+
+      <!-- Canonical H plane: SVG screen y is -z. -->
+      <g font-family="Segoe UI,Microsoft YaHei,sans-serif">
+        <rect x="38" y="70" width="500" height="390" rx="15" fill="#ffffff" stroke="#cfd8e6"/>
+        <text x="62" y="102" font-size="17" font-weight="700" fill="#172033">H 的平面：xH=+base Y，z=+base Z</text>
+        <line x1="270" y1="250" x2="470" y2="250" stroke="#344054" stroke-width="2.4" marker-end="url(#coordAxisArrow)"/>
+        <text x="374" y="238" font-size="15" font-weight="650" fill="#172033">+xH = +base Y</text>
+        <line x1="270" y1="250" x2="270" y2="105" stroke="#344054" stroke-width="2.4" marker-end="url(#coordAxisArrow)"/>
+        <text x="280" y="126" font-size="15" font-weight="650" fill="#172033">+z = +base Z</text>
+        <line x1="270" y1="250" x2="270" y2="430" stroke="#667085" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#coordAxisArrow)"/>
+        <text x="280" y="420" font-size="15" font-weight="650" fill="#172033">down = −z</text>
+        <line x1="270" y1="250" x2="82" y2="250" stroke="#c33b3b" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#coordAxisArrow)"/>
+        <text x="77" y="238" font-size="14" font-weight="650" fill="#8f2828">+xctrl = −xH</text>
+
+        <circle cx="270" cy="250" r="8" fill="#fff" stroke="#172033" stroke-width="2.4"/>
+        <text x="251" y="274" font-size="16" font-weight="750" fill="#172033">I</text>
+        <path d="M340 250 A70 70 0 0 0 270 180" fill="none" stroke="#2563eb" stroke-width="3.5" marker-end="url(#coordQArrow)"/>
+        <text x="337" y="173" font-size="14" font-weight="700" fill="#172033">raw qf、qr &gt; 0</text>
+        <text x="337" y="193" font-size="13" fill="#344054">右手 +base X；+xH → +z</text>
+
+        <line x1="270" y1="250" x2="395" y2="410" stroke="#16916b" stroke-width="7" stroke-linecap="round"/>
+        <circle cx="395" cy="410" r="23" fill="#27344a"/><circle cx="395" cy="410" r="10" fill="#d8e2ef"/>
+        <text x="423" y="416" font-size="16" font-weight="750" fill="#172033">W</text>
+        <line x1="400" y1="417" x2="425" y2="449" stroke="#16916b" stroke-width="3" marker-end="url(#coordLengthArrow)"/>
+        <text x="430" y="453" font-size="14" font-weight="700" fill="#172033">+δL0：沿 I→W 外伸</text>
+
+        <!-- phi0: +xH clockwise toward down; theta_leg: down toward +xH. -->
+        <path d="M375 250 A105 105 0 0 1 334.6 332.7" fill="none" stroke="#7c4dc4" stroke-width="3.5" marker-end="url(#coordPhiArrow)"/>
+        <text x="365" y="309" font-size="16" font-weight="750" fill="#172033">+φ0</text>
+        <text x="365" y="328" font-size="12.5" fill="#344054">从 +xH 转向 down</text>
+        <path d="M270 327 A77 77 0 0 0 317.4 310.7" fill="none" stroke="#d97706" stroke-width="3.5" marker-end="url(#coordThetaArrow)"/>
+        <text x="283" y="355" font-size="16" font-weight="750" fill="#172033">+θleg</text>
+        <text x="283" y="374" font-size="12.5" fill="#344054">从 down 转向 +xH</text>
+        <text x="62" y="440" font-size="13" fill="#344054">注：SVG 屏幕向下，因此图上竖直坐标是 −z；公式仍使用 +z 向上。</text>
+      </g>
+
+      <!-- Formula contract. -->
+      <g font-family="Segoe UI,Microsoft YaHei,sans-serif" fill="#172033">
+        <rect x="560" y="70" width="570" height="390" rx="15" fill="#ffffff" stroke="#cfd8e6"/>
+        <text x="585" y="103" font-size="18" font-weight="750">从笛卡尔轮轴到控制变量</text>
+        <rect x="585" y="122" width="520" height="78" rx="10" fill="#eaf2ff" stroke="#bfd4f5"/>
+        <text x="605" y="150" font-size="15" font-weight="700">𝒫(q) = [xH, down]ᵀ</text>
+        <text x="605" y="178" font-size="15">L0 = √(xH²+down²)，θleg = atan2(xH,down)</text>
+        <rect x="585" y="214" width="520" height="78" rx="10" fill="#f4edff" stroke="#d8c4f4"/>
+        <text x="605" y="242" font-size="15" font-weight="700">H(q) = [L0, φ0]ᵀ</text>
+        <text x="605" y="270" font-size="15">φ0 = atan2(down,xH) = π/2 − θleg</text>
+        <rect x="585" y="306" width="520" height="64" rx="10" fill="#fff4df" stroke="#f0d29b"/>
+        <text x="605" y="333" font-size="15" font-weight="700">当前控制公式</text>
+        <text x="605" y="357" font-size="15">θside = θleg − Pitchside = π/2 − Pitchside − φ0</text>
+        <rect x="585" y="384" width="520" height="54" rx="10" fill="#fff0f0" stroke="#efbcbc"/>
+        <text x="605" y="407" font-size="14.5" font-weight="700">JH 第 2 行是 ∂φ0/∂q；∂θleg/∂q = −∂φ0/∂q</text>
+        <text x="605" y="428" font-size="13.5">若画 θleg 曲线，不能把它直接当作 Tp 共轭的 φ0 行。</text>
+      </g>
+
+      <!-- Left/right code mapping contract. -->
+      <g font-family="Segoe UI,Microsoft YaHei,sans-serif" fill="#172033">
+        <rect x="38" y="482" width="1092" height="158" rx="15" fill="#ffffff" stroke="#cfd8e6"/>
+        <text x="62" y="513" font-size="17" font-weight="750">左右腿接口契约：前/后是机构支路；右腿几何镜像在 base X（出平面），不要擅自令 xH 反号</text>
+        <line x1="60" y1="529" x2="1108" y2="529" stroke="#dce3ee"/>
+        <text x="76" y="552" font-size="13" font-weight="700">侧</text>
+        <text x="137" y="552" font-size="13" font-weight="700">传给 H 的 raw q=[前,后]</text>
+        <text x="470" y="552" font-size="13" font-weight="700">当前数组位置</text>
+        <text x="665" y="552" font-size="13" font-weight="700">Pitchside</text>
+        <text x="844" y="552" font-size="13" font-weight="700">raw-q 力矩散射</text>
+        <line x1="60" y1="560" x2="1108" y2="560" stroke="#dce3ee"/>
+        <text x="76" y="585" font-size="14" font-weight="700">左</text>
+        <text x="137" y="585" font-size="14">[qjIJ, qjIO]</text>
+        <text x="470" y="585" font-size="14">joint[0]=前，joint[1]=后</text>
+        <text x="665" y="585" font-size="14">−INS.Pitch</text>
+        <text x="844" y="585" font-size="14">joint[0]=τf，joint[1]=τr</text>
+        <text x="76" y="614" font-size="14" font-weight="700">右</text>
+        <text x="137" y="614" font-size="14">[qjAB, qjAG]</text>
+        <text x="470" y="614" font-size="14">joint[3]=前，joint[2]=后</text>
+        <text x="665" y="614" font-size="14">+INS.Pitch</text>
+        <text x="844" y="614" font-size="14">joint[3]=τf，joint[2]=τr</text>
+        <text x="62" y="635" font-size="12.5" font-weight="650" fill="#8f2828">τf、τr 已与 raw q 共轭：若 JH 对 raw q 求导，不得再套旧 φ1/φ4 路径的负号或前后重排。</text>
+      </g>
+    </svg>
+  </div>
+  <p>数值误差图继续使用 <code>θ_leg</code>，因为它直观表示“相对向下方向偏了多少”；控制接口和虚功映射则使用 <code>φ0</code>。二者误差大小相同、符号相反。上图的 <code>Pitchside</code> 只是现有左右任务实际传入 <code>VMC_calc_1()</code> 的变量：左侧为 <code>−INS.Pitch</code>，右侧为 <code>+INS.Pitch</code>，这里不额外猜测物理 nose-up/nose-down。</p>
+</section>
+
+<section id="geometry">
+  <h2>3. PDF 的普通五连杆，与 XML 的偏置串腿</h2>
+  <div class="diagram" id="geometry-comparison-figure">
+    <svg viewBox="0 0 1100 500" role="img" aria-label="标准五连杆与偏置闭链结构对照">
+      <rect x="12" y="12" width="510" height="476" rx="18" fill="#f7fbff" stroke="#cdddf1"/>
+      <rect x="578" y="12" width="510" height="476" rx="18" fill="#fffaf3" stroke="#f1d7b2"/>
+      <text x="42" y="55" font-size="22" font-weight="750" fill="#173f77">PDF：理想平面五连杆</text>
+      <text x="608" y="55" font-size="22" font-weight="750" fill="#9a5400">XML：偏置闭链串腿</text>
+      <g stroke-linecap="round" stroke-linejoin="round">
+        <!-- C is constrained to both fixed-length circles: |BC|=l2 and |DC|=l3. -->
+        <circle cx="215" cy="245" r="152.4" fill="none" stroke="#2869c9" stroke-width="2.5" stroke-dasharray="8 7" opacity="0.72"/>
+        <circle cx="310" cy="245" r="152.4" fill="none" stroke="#d97706" stroke-width="2.5" stroke-dasharray="8 7" opacity="0.72"/>
+        <circle cx="262.5" cy="100.2" r="7" fill="#fff" stroke="#8b5cf6" stroke-width="2.5"/>
+        <text x="274" y="94" font-size="14" fill="#6d28d9">C′（另一装配支路）</text>
+        <text x="75" y="322" font-size="14" fill="#2869c9">圆心 B，半径 BC=l₂</text>
+        <text x="329" y="322" font-size="14" fill="#b45309">圆心 D，半径 DC=l₃</text>
+        <line x1="262.5" y1="127.2" x2="215" y2="245" stroke="#2869c9" stroke-width="12"/>
+        <line x1="262.5" y1="127.2" x2="310" y2="245" stroke="#2869c9" stroke-width="12"/>
+        <line x1="215" y1="245" x2="262.5" y2="389.8" stroke="#16916b" stroke-width="12"/>
+        <line x1="310" y1="245" x2="262.5" y2="389.8" stroke="#16916b" stroke-width="12"/>
+        <circle cx="262.5" cy="127.2" r="13" fill="#fff" stroke="#172033" stroke-width="3"/>
+        <circle cx="262.5" cy="127.2" r="5" fill="#718096"/>
+        <text x="283" y="132" font-size="15" font-weight="700" fill="#344054">A=E（l₅=0，同轴）</text>
+        <text x="205" y="182" font-size="13" fill="#173f77">AB=l₁，φ₁</text>
+        <text x="318" y="182" font-size="13" fill="#173f77">ED=l₄，φ₄</text>
+        <circle cx="215" cy="245" r="9" fill="#fff" stroke="#172033" stroke-width="3"/><text x="190" y="270" font-size="16">B</text>
+        <circle cx="310" cy="245" r="9" fill="#fff" stroke="#172033" stroke-width="3"/><text x="322" y="270" font-size="16">D</text>
+        <circle cx="262.5" cy="389.8" r="28" fill="#27344a"/><circle cx="262.5" cy="389.8" r="12" fill="#d8e2ef"/><text x="297" y="397" font-size="16">C / 轮轴</text>
+        <text x="56" y="448" font-size="15" fill="#5b667a">因为 BC、DC 杆长固定：C∈圆(B,l₂)∩圆(D,l₃)。</text>
+        <text x="56" y="472" font-size="13" fill="#7a8699">本图按当前 l₁/l₂ 比例绘制；A=E 表示两主动轴在腿平面内同轴。</text>
+
+        <!-- Exact q=0 XML planar topology. Polygons denote one rigid body. -->
+        <g transform="translate(606,78)" font-size="11" fill="#475467">
+          <rect x="0" y="0" width="13" height="13" rx="3" fill="#dbeafe" stroke="#2563eb"/><text x="18" y="11">前主动</text>
+          <rect x="90" y="0" width="13" height="13" rx="3" fill="#fff0d5" stroke="#d97706"/><text x="108" y="11">后主动</text>
+          <rect x="180" y="0" width="13" height="13" rx="3" fill="#dcfce7" stroke="#16916b"/><text x="198" y="11">复合刚体</text>
+          <rect x="292" y="0" width="13" height="13" rx="3" fill="#cffafe" stroke="#0891b2"/><text x="310" y="11">输出刚体</text>
+          <line x1="394" y1="7" x2="416" y2="7" stroke="#7c4dc4" stroke-width="5" stroke-linecap="round"/><text x="422" y="11">单杆</text>
+        </g>
+        <g transform="translate(870,230) scale(1.0)" stroke-linecap="round" stroke-linejoin="round">
+          <!-- rear active rigid body jIO: I, L and P are fixed on one body -->
+          <polygon points="0,0 -96.4,-10.9 -213.6,-24.5" fill="#fff0d5" fill-opacity="0.92" stroke="#d97706" stroke-width="6"/>
+          <!-- coupler rigid body jMK: M, L and K are fixed on one body -->
+          <polygon points="-1.2,53.6 -96.4,-10.9 -133.7,-62.6" fill="#dcfce7" fill-opacity="0.92" stroke="#16916b" stroke-width="6"/>
+          <!-- output rigid body jOP: P, N and W are fixed on one body -->
+          <polygon points="-213.6,-24.5 -251.0,-76.2 0,120.2" fill="#cffafe" fill-opacity="0.82" stroke="#0891b2" stroke-width="6"/>
+
+          <!-- front active crank, JM link and KN link -->
+          <line x1="0" y1="0" x2="96.7" y2="-6.7" stroke="#2563eb" stroke-width="9"/>
+          <line x1="96.7" y1="-6.7" x2="-1.2" y2="53.6" stroke="#7c4dc4" stroke-width="8"/>
+          <line x1="-133.7" y1="-62.6" x2="-251.0" y2="-76.2" stroke="#7c4dc4" stroke-width="8"/>
+
+          <!-- L and N are equality closure hinges joining two tree branches -->
+          <circle cx="-96.4" cy="-10.9" r="13" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="4 3"/>
+          <circle cx="-251" cy="-76.2" r="13" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="4 3"/>
+
+          <g fill="#fff" stroke="#172033" stroke-width="2.2">
+            <circle cx="0" cy="0" r="7"/><circle cx="96.7" cy="-6.7" r="7"/><circle cx="-1.2" cy="53.6" r="7"/>
+            <circle cx="-96.4" cy="-10.9" r="7"/><circle cx="-133.7" cy="-62.6" r="7"/><circle cx="-213.6" cy="-24.5" r="7"/><circle cx="-251" cy="-76.2" r="7"/>
+          </g>
+          <circle cx="0" cy="120.2" r="24" fill="#27344a"/><circle cx="0" cy="120.2" r="10" fill="#d8e2ef"/>
+
+          <g font-size="13" font-weight="750" fill="#172033" stroke="none">
+            <text x="8" y="-10">I</text><text x="103" y="-11">J</text><text x="8" y="61">M</text><text x="-111" y="-17">L</text>
+            <text x="-151" y="-69">K</text><text x="-226" y="-30">P</text><text x="-273" y="-84">N</text><text x="29" y="128">W</text>
+          </g>
+          <g font-size="11" fill="#475467" stroke="none">
+            <text x="23" y="17">qf：jIJ</text><text x="-80" y="15">qr：jIO</text>
+            <text x="-111" y="-31" fill="#b91c1c">闭链铰</text><text x="-244" y="-96" fill="#b91c1c">闭链铰</text>
+          </g>
+        </g>
+        <text x="608" y="448" font-size="15" fill="#5b667a">多边形表示同一刚体；L、N 是闭链铰，W 才是真实轮轴。</text>
+        <text x="608" y="472" font-size="13" fill="#7a8699">两次圆交：M=圆(J,ℓJM)∩圆(L,ℓLM)；N=圆(K,ℓKN)∩圆(P,ℓPN)。</text>
+      </g>
+    </svg>
+  </div>
+  <div class="callout"><b>为什么 C 是两圆交点：</b>主动杆角给定后，B、D 的位置已经确定。被动杆 BC 的长度恒为 l₂，所以 C 到 B 的距离只能等于 l₂，即 C 必须落在“圆心 B、半径 l₂”的圆上；同理 DC 长度恒为 l₃，所以 C 还必须落在“圆心 D、半径 l₃”的圆上。两个条件同时成立的位置，只能是两个圆的交点。图中 C 与 C′ 是两种装配支路，实际轮轴只取与当前机械装配连续的那一个。</div>
+  <div class="two">
+    <div>
+      <h3>PDF 隐含的假设</h3>
+      <ul>
+        <li>电机轴直接驱动长度为 l1、l4 的主动杆。</li>
+        <li>电机角与 φ1、φ4 之间只差固定零点和符号。</li>
+        <li>轮轴 C 由标准五杆的一个圆交点得到。</li>
+      </ul>
+    </div>
+    <div>
+      <h3>当前 XML 的事实</h3>
+      <ul>
+        <li>前电机 <code>jIJ</code> 驱动 I–J；随后是单杆 J–M、复合刚体 M–L–K、单杆 K–N。</li>
+        <li>后电机 <code>jIO</code> 驱动刚体 I–L–P；输出刚体 P–N–W 把运动带到轮轴 W。</li>
+        <li>equality 的 L、N 两个闭链铰把两条树枝重新闭合。</li>
+      </ul>
+    </div>
+  </div>
+  <h3>为什么固定 offset 不能完全解决</h3>
+  <p><b>残差首先留在轮轴位置，不是凭空留在某个控制器参数里。</b>在同一个二维腿平面内定义四个带箭头的当前位移向量：</p>
+  <latex small>\vec\delta_{IL}=\overrightarrow{IL},\qquad
+  \vec\delta_{LM}=\overrightarrow{LM},\qquad
+  \vec\delta_{IP}=\overrightarrow{IP},\qquad
+  \vec\delta_{PW}=\overrightarrow{PW}</latex>
+  <p>小机构端点和真实轮轴相对同一个原点 I 的位置分别是：</p>
+  <latex small>\vec r_M=\vec\delta_{IL}+\vec\delta_{LM},\qquad
+  \vec r_W=\vec\delta_{IP}+\vec\delta_{PW}</latex>
+  <p>如果偏置机构真的是“小机构经过一次固定旋转、再放大固定倍数”，那么必须存在<b>同一个</b>二维相似变换 <code>S=kR(δ)</code>，同时满足：</p>
+  <latex small>\vec\delta_{IP}=S\vec\delta_{IL},\qquad
+  \vec\delta_{PW}=S\vec\delta_{LM}
+  \quad\Longrightarrow\quad
+  \vec r_W=S(\vec\delta_{IL}+\vec\delta_{LM})=S\vec r_M</latex>
+  <p>此时无论腿怎么运动，M 经同一个固定比例和固定角度都正好落到 W；固定符号、比例和角度 offset 才能全工作域成立。现在以 CAD 设计约束为准：I、L、P 严格共线，P→W 与 L→M 严格平行，所以两段都不再引入额外固定角，只剩两个不同的长度比例：</p>
+  <latex small>S_a=k_aI_2,\quad
+  k_a=\frac{\ell_{IP}}{\ell_{IL}}=2.217</latex>
+  <latex small>S_b=k_bI_2,\quad
+  k_b=\frac{\ell_{PW}}{\ell_{LM}}=2.243</latex>
+  <p>两个比例仍相差约 <b>1.203%</b>，所以整套机构并不是同一个比例尺下的严格相似放大。若错误地用第一段比例 k<sub>a</sub> 放大整个内层点 M，则：</p>
+  <latex small>\widehat{\vec r}_W=k_a\vec r_M,\qquad
+  \underbrace{\vec r_W-\widehat{\vec r}_W}_{\text{轮轴位置残差 }\vec e_W}
+  =(k_b-k_a)\vec\delta_{LM}</latex>
+  <p>带箭头的 δ⃗<sub>LM</sub>=L→M 会随腿姿态转动，因此这个残差向量也随构型转动。固定角度 offset 最多让某一个姿态看起来对齐，却不能消除 k<sub>a</sub>≠k<sub>b</sub> 造成的全工作域比例误差；这才是本节“固定 offset 不能完全解决”的核心。</p>
+  <div class="callout good"><b>这并不否定后文的一次闭链简式。</b>错误的是强迫整个点 M 满足 W=kM；推荐式保留真实起点 P：W=P+k<sub>b</sub>(M−L)。又因为 P=k<sub>a</sub>L，也可写成 W=k<sub>b</sub>M+(k<sub>a</sub>−k<sub>b</sub>)L。它精确保留了两级比例差，同时省掉第二次圆交。</div>
+
+  <div class="diagram" id="similarity-residual-figure">
+    <svg viewBox="0 0 1180 650" role="img" aria-label="严格相似机构与当前 XML 机构中轮轴位置残差的来源及向控制链传播">
+      <defs>
+        <marker id="resArrow" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#c33b3b"/></marker>
+        <marker id="resFlow" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#667085"/></marker>
+      </defs>
+      <rect x="12" y="12" width="1156" height="626" rx="18" fill="#fbfdff" stroke="#dce3ee"/>
+      <g font-family="Segoe UI,Microsoft YaHei,sans-serif" fill="#172033">
+        <!-- Ideal similarity. -->
+        <rect x="34" y="36" width="532" height="390" rx="15" fill="#fff" stroke="#cfd8e6"/>
+        <text x="58" y="70" font-size="19" font-weight="750">A. 严格相似：同一个 S 同时作用于两段</text>
+        <text x="58" y="95" font-size="13.5" fill="#5b667a">示意图取 δ=0 便于观察；有固定旋转 δ 时结论完全相同。</text>
+        <circle cx="110" cy="290" r="7" fill="#fff" stroke="#172033" stroke-width="2.5"/>
+        <line x1="110" y1="290" x2="200" y2="210" stroke="#2869c9" stroke-width="7"/>
+        <line x1="200" y1="210" x2="320" y2="280" stroke="#7c4dc4" stroke-width="7"/>
+        <circle cx="200" cy="210" r="6" fill="#fff" stroke="#172033" stroke-width="2"/>
+        <circle cx="320" cy="280" r="7" fill="#fff" stroke="#172033" stroke-width="2.5"/>
+        <text x="91" y="315" font-size="15" font-weight="750">I</text>
+        <text x="205" y="201" font-size="15" font-weight="750">L</text>
+        <text x="327" y="286" font-size="15" font-weight="750">M</text>
+        <text x="143" y="235" font-size="14" fill="#1d4f9a">ℓ</text>
+        <text x="257" y="236" font-size="14" fill="#6d28d9">u</text>
+
+        <line x1="110" y1="290" x2="272" y2="146" stroke="#16916b" stroke-width="8"/>
+        <line x1="272" y1="146" x2="488" y2="272" stroke="#d97706" stroke-width="8"/>
+        <circle cx="272" cy="146" r="7" fill="#fff" stroke="#172033" stroke-width="2.5"/>
+        <circle cx="488" cy="272" r="11" fill="#fff" stroke="#16916b" stroke-width="4"/>
+        <text x="279" y="137" font-size="15" font-weight="750">P=Sℓ</text>
+        <text x="500" y="278" font-size="15" font-weight="750" fill="#116b50">W=SM</text>
+        <text x="167" y="188" font-size="14" fill="#116b50">p=Sℓ</text>
+        <text x="384" y="190" font-size="14" fill="#a45305">w=Su</text>
+        <line x1="320" y1="280" x2="488" y2="272" stroke="#16916b" stroke-width="2" stroke-dasharray="7 5"/>
+        <text x="58" y="382" font-size="14.5" font-weight="700" fill="#116b50">结果：小端点 M 经过固定 S 后，在任何姿态都和轮轴 W 重合。</text>
+        <text x="58" y="407" font-size="13.5" fill="#5b667a">这才是“一个固定比例 + 一个固定角 offset 能全域等效”的情况。</text>
+
+        <!-- Actual mismatch. -->
+        <rect x="590" y="36" width="556" height="390" rx="15" fill="#fff" stroke="#cfd8e6"/>
+        <text x="614" y="70" font-size="19" font-weight="750">B. CAD 两级比例：kₐ ≠ kᵦ，W 与统一比例预测不重合</text>
+        <text x="614" y="95" font-size="13.5" fill="#5b667a">图中把 1.2% 差异夸大画出，便于看清残差落点。</text>
+        <circle cx="675" cy="290" r="7" fill="#fff" stroke="#172033" stroke-width="2.5"/>
+        <line x1="675" y1="290" x2="745" y2="220" stroke="#2869c9" stroke-width="7"/>
+        <line x1="745" y1="220" x2="865" y2="300" stroke="#7c4dc4" stroke-width="7"/>
+        <circle cx="745" cy="220" r="6" fill="#fff" stroke="#172033" stroke-width="2"/>
+        <circle cx="865" cy="300" r="7" fill="#fff" stroke="#172033" stroke-width="2.5"/>
+        <text x="657" y="315" font-size="15" font-weight="750">I</text>
+        <text x="751" y="211" font-size="15" font-weight="750">L</text>
+        <text x="873" y="307" font-size="15" font-weight="750">M</text>
+
+        <line x1="675" y1="290" x2="794" y2="171" stroke="#16916b" stroke-width="8"/>
+        <line x1="794" y1="171" x2="998" y2="307" stroke="#98a2b3" stroke-width="6" stroke-dasharray="8 6"/>
+        <line x1="794" y1="171" x2="1016" y2="319" stroke="#d97706" stroke-width="8"/>
+        <circle cx="794" cy="171" r="7" fill="#fff" stroke="#172033" stroke-width="2.5"/>
+        <circle cx="998" cy="307" r="9" fill="#fff" stroke="#667085" stroke-width="3"/>
+        <circle cx="1016" cy="319" r="11" fill="#fff" stroke="#d97706" stroke-width="4"/>
+        <text x="800" y="160" font-size="15" font-weight="750">P=kₐℓ</text>
+        <text x="916" y="250" font-size="13.5" fill="#667085">模型：kₐu</text>
+        <text x="930" y="194" font-size="13.5" fill="#a45305">真实：kᵦu</text>
+        <text x="940" y="340" font-size="14" fill="#667085">Ŵ=kₐM</text>
+        <text x="1027" y="326" font-size="14" font-weight="750" fill="#a45305">W</text>
+        <line x1="998" y1="307" x2="1016" y2="319" stroke="#c33b3b" stroke-width="4" marker-end="url(#resArrow)"/>
+        <text x="1010" y="294" font-size="15" font-weight="750" fill="#8f2828">eW</text>
+        <text x="614" y="382" font-size="14.5" font-weight="700" fill="#8f2828">残差位置：就在同一 q 下，理想预测轮轴 Ŵ 与真实轮轴 W 之间。</text>
+        <text x="614" y="407" font-size="13.5" fill="#5b667a">当 u 随腿旋转时，红色 eW 也改变；它不可能被一个常数角永久消掉。</text>
+
+        <!-- Propagation chain. -->
+        <text x="40" y="465" font-size="17" font-weight="750">残差进入控制链的位置</text>
+        <g text-anchor="middle">
+          <rect x="42" y="492" width="190" height="76" rx="12" fill="#eaf2ff" stroke="#bfd4f5"/>
+          <text x="137" y="519" font-size="14.5" font-weight="750">相同电机角 q</text>
+          <text x="137" y="544" font-size="13.5">真实 W ≠ 理想 Ŵ</text>
+          <rect x="274" y="492" width="190" height="76" rx="12" fill="#fff0f0" stroke="#efbcbc"/>
+          <text x="369" y="519" font-size="14.5" font-weight="750">二维位置残差 eW</text>
+          <text x="369" y="544" font-size="13.5">ΔsW、ΔdW</text>
+          <rect x="506" y="492" width="190" height="76" rx="12" fill="#fff4df" stroke="#edc77d"/>
+          <text x="601" y="519" font-size="14.5" font-weight="750">虚拟状态残差</text>
+          <text x="601" y="544" font-size="13.5">ΔL0、Δφ0、Δθ</text>
+          <rect x="738" y="492" width="190" height="76" rx="12" fill="#f4edff" stroke="#d8c4f4"/>
+          <text x="833" y="519" font-size="14.5" font-weight="750">雅可比残差 ΔJ</text>
+          <text x="833" y="544" font-size="13.5">速度/虚功关系偏差</text>
+          <rect x="970" y="492" width="166" height="76" rx="12" fill="#e8f7f1" stroke="#b9e3d2"/>
+          <text x="1053" y="519" font-size="14.5" font-weight="750">力矩分配偏差</text>
+          <text x="1053" y="544" font-size="13.5">Δτ=ΔJᵀF</text>
+        </g>
+        <g stroke="#667085" stroke-width="2.5" marker-end="url(#resFlow)">
+          <line x1="232" y1="530" x2="266" y2="530"/><line x1="464" y1="530" x2="498" y2="530"/>
+          <line x1="696" y1="530" x2="730" y2="530"/><line x1="928" y1="530" x2="962" y2="530"/>
+        </g>
+        <text x="40" y="607" font-size="13.5" fill="#5b667a">注意：这条链说明误差“从哪里进入”；不等于说 1.2% 的几何差异足以单独解释所有实车磕头或腿长失控。</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="callout warn"><b>数值量级：</b>在同一组 q 下比较理想五杆与 XML 精确闭链，扫描域内二维轮轴位置差最大约 <b>__GRID_W_ERR__ mm</b>；换成控制变量后，最大约为 ΔL0=<b>__GRID_L_ERR__ mm</b>、Δθ<sub>leg</sub>=<b>__GRID_A_ERR__°</b>。它证明固定 offset 不是严格全域解，但这个量级本身仍不足以自动解释几十毫米误差或猛烈磕头。</div>
+  <div class="callout"><b>另一个直接判据：</b>若强行让理想五杆在每个竖直腿姿态都复现 XML 轮轴，反算所需前侧固定角偏移：L0=0.150、0.200、0.250、0.300、0.350、0.400 m 时分别为 −6.021°、−5.460°、−5.096°、−4.831°、−4.619°、−4.428°。真正的固定 offset 应在所有姿态得到同一个数；这里漂移约 1.593°。</div>
+</section>
+
+<section id="derivation">
+  <h2>4. 当前状态正解：从 q 到 W、L0、φ0</h2>
+  <p>以下先对 XML 的<b>名义左腿</b>定义主动坐标；右腿按第 2 节接口表把 <code>[jAB,jAG]</code> 排成同样的“前、后”顺序：</p>
+  <latex>\vec q = \begin{bmatrix}q_f\\q_r\end{bmatrix} = \begin{bmatrix}q_{jIJ}\\q_{jIO}\end{bmatrix}</latex>
+
+  <h3>4.0 XML 的 q=0 与实车电机零点不是同一个概念</h3>
+  <p><code>vIJ…vPW</code> 保存的是 CAD/XML 刚体几何：固定杆长、固定点距和固定夹角。它们可以在 XML 的参考构型 <code>q=0</code> 中表达，但并不要求实车真的能停在这个姿态。实车每个控制周期首先要把编码器角映射成模型角：</p>
+  <latex small>q_{\mathrm{model},i}=s_i q_{\mathrm{enc},i}+b_i
+  =s_i\left(q_{\mathrm{enc},i}-q_{\mathrm{enc},i}^{*}\right)+q_{\mathrm{model},i}^{*}</latex>
+  <div class="callout good"><b>q<sub>model</sub> 到底是什么：</b>它是“当前关节相对 CAD/XML 参考构型转了多少”的模型广义角，单位 rad。它既不是原始编码器读数，也不是杆 I→J 或 I→L 相对 +s 轴的绝对方向角；绝对杆角还要再加参考方向，即 φ<sub>4</sub>=q<sub>model,f</sub>+α<sub>IJ</sub><sup>ref</sup>、φ<sub>1</sub>=q<sub>model,r</sub>+α<sub>IL</sub><sup>ref</sup>。</div>
+  <div class="scroll"><table>
+    <thead><tr><th>量</th><th>含义</th><th>怎样确定</th></tr></thead>
+    <tbody>
+      <tr><td>s<sub>i</sub>∈{+1,−1}</td><td>编码器正方向到 XML 关节正方向的极性</td><td>固定其他条件，小角度正/负转动并比较模型点的运动方向</td></tr>
+      <tr><td>q<sub>enc,i</sub><sup>*</sup></td><td>某个可重复标定姿态下的实车编码器读数</td><td>硬限位、精密夹具或 CAD 可测姿态；仅“拉到不动”只能保证可重复，不能自动说明它是 XML q=0</td></tr>
+      <tr><td>q<sub>model,i</sub><sup>*</sup></td><td>同一个物理姿态在精确 XML 模型里的关节角</td><td>由 CAD 对齐、MuJoCo qpos 或精确逆解得到</td></tr>
+      <tr><td>b<sub>i</sub></td><td>编码器零点与模型零点之间的常数偏移</td><td>b<sub>i</sub>=q<sub>model,i</sub><sup>*</sup>−s<sub>i</sub>q<sub>enc,i</sub><sup>*</sup></td></tr>
+    </tbody>
+  </table></div>
+  <p>因此实车零点不同并不要求重算 <code>vML、vMK</code> 等刚体向量；只要真实连杆几何与 XML 一致，修正的是输入坐标 <code>qenc→qmodel</code>。只有加工尺寸、轴心位置或固定夹角与 XML 不一致时，才需要更新几何向量。</p>
+  <div class="callout warn"><b>当前工程边界：</b><code>J0_ANGLE_OFFSET…J3_ANGLE_OFFSET</code> 原本服务于“电机位置→理想五杆 φ1/φ4”的旧坐标变换，不能未经标定就当成精确 XML raw-q 的 <code>b_i</code>。硬限位自动标零保存的是电机参考原点，不会自动完成上述模型角对齐。最少要用第二个独立姿态复核；若不同姿态反算出的 b<sub>i</sub> 不恒定，问题就不再是单一零偏。</div>
+  <div class="callout bad"><b>当前副本与活动固件确实相差约 5.078°：</b>活动固件常量显示为 ±0.192 rad，而 <code>mujoco_control_extract</code> 副本显示为 ±0.103 rad，两组常量的绝对值相差 0.089 rad（5.078°）。但是这个差只表示“两个源文件里的旧常量不一致”，而 <code>b_i</code> 的定义是“同一个真实物理姿态下，模型角与编码器角之间的差”。只有确认两套常量使用同一电机、同一编码器零点、同一正方向、同一前后顺序，并且都直接映射到同一种模型角时，差值才可能并入 b<sub>i</sub>。当前旧常量服务于理想五杆 φ<sub>1</sub>/φ<sub>4</sub> 坐标，条件并未成立，因此不能直接令 b<sub>i</sub>=±5.078°。</div>
+  <div class="callout bad"><b>当前自动标定还有一个代码风险：</b><code>UpdateCalibrateStatus()</code> 使用 <code>velocity &gt; CALIBRATE_STOP_VELOCITY</code> 判断电机仍在运动，没有对速度取绝对值；但四台校准命令里有两台是负速度。因此负向高速运动可能被提前判成“已停止”并保存零点。当前 <code>ENABLE_CHASSIS_CALIBRATE=false</code>，现有自动标定结果也不能作为 XML 零位已经对齐的独立证据。</div>
+
+  <h3>4.1 XML 中提取的固定向量</h3>
+  <div class="scroll" id="fixed-vector-table"><table>
+    <thead><tr><th>带箭头参考向量</th><th>所属刚体参考坐标</th><th>该刚体中的二维分量 (x<sub>local</sub>,z<sub>local</sub>)，mm</th><th>标量长度</th><th>意义</th></tr></thead>
+    <tbody>
+      <tr><td>v⃗<sub>IJ</sub><sup>ref</sup> = I→J</td><td>jIJ</td><td>(+96.749, +6.746)</td><td>ℓ<sub>IJ</sub>=96.984 mm</td><td>前主动曲柄</td></tr>
+      <tr><td>v⃗<sub>IL</sub><sup>ref</sup> = I→L</td><td>jIO</td><td>(−96.355, +10.940)</td><td>ℓ<sub>IL</sub>=96.974 mm</td><td>后主动刚体上的闭链点</td></tr>
+      <tr><td>v⃗<sub>IP</sub><sup>ref</sup> = I→P</td><td>jIO</td><td>(−213.571, +24.522)</td><td>ℓ<sub>IP</sub>=214.974 mm</td><td>后主动长杆</td></tr>
+      <tr><td>v⃗<sub>JM</sub><sup>ref</sup> = J→M</td><td>jJM</td><td>(−97.908, −60.324)</td><td>ℓ<sub>JM</sub>=115.000 mm</td><td>第一闭链连杆</td></tr>
+      <tr><td>v⃗<sub>ML</sub><sup>ref</sup> = M→L</td><td>jMK</td><td>(−95.197, +64.519)</td><td>ℓ<sub>LM</sub>=115.000 mm</td><td>jMK 刚体内 M、L 两固定点的距离</td></tr>
+      <tr><td>v⃗<sub>MK</sub><sup>ref</sup> = M→K</td><td>jMK</td><td>(−132.583, +116.217)</td><td>ℓ<sub>MK</sub>=176.308 mm</td><td>同一复合刚体</td></tr>
+      <tr><td>v⃗<sub>KN</sub><sup>ref</sup> = K→N</td><td>jKN</td><td>(−117.216, +13.581)</td><td>ℓ<sub>KN</sub>=118.000 mm</td><td>第二闭链连杆</td></tr>
+      <tr><td>v⃗<sub>PN</sub><sup>ref</sup> = P→N</td><td>jOP</td><td>(−37.387, +51.699)</td><td>ℓ<sub>PN</sub>=63.801 mm</td><td>jOP 输出刚体内 P、N 两固定点的距离</td></tr>
+      <tr><td>v⃗<sub>PW</sub><sup>ref</sup> = P→W</td><td>jOP</td><td>(+213.571, −144.746)</td><td>ℓ<sub>PW</sub>=258.000 mm</td><td>jOP 输出刚体内从 P 到真实轮轴 W 的固定向量</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout"><b>上标 ref 到底是什么：</b><code>ref</code> 是 <i>reference（参考构型）</i> 的缩写，不是乘方，也不是“实车编码器零点”。例如 v⃗<sub>MK</sub><sup>ref</sup> 表示“在 XML 的参考构型/刚体参考坐标中，从 M 指向 K 的固定二维向量”。它同时保存 M→K 的固定长度和固定方向；运行时刚体转过 α 后，当前向量变为 <code>R(α)vMKref</code>。更严格地说，它是一个<b>体固连几何向量</b>。</div>
+  <div class="callout good"><b>CAD 设计约束优先于导出点的小残差：</b>L 和 P 是同一后主动刚体上的两个不同固定点；L 用于第一次闭链求 M，P 是输出映射的起点。当前 XML 数字把 I→P 投影到 I→L 直线上时会留下约 0.271 mm 的横向差，但你已从 CAD 图纸确认 I、L、P 完全共线。因此 4.3 的推荐控制模型采用 P=k<sub>a</sub>L、k<sub>a</sub>=ℓ<sub>IP</sub>/ℓ<sub>IL</sub>=2.217；这 0.271 mm 被记录为 CAD/XML 待对齐差异，而不是机械上真实存在的固定夹角。</div>
+  <p class="tiny">这九个参考向量并不全都表达在同一个 body frame 中；“所属刚体参考坐标”列就是它们各自的坐标归属。当前根部 +90° 参考旋转使主动端局部 +x<sub>local</sub> 在二维推导中对应 +s=+base Y，+z<sub>local</sub> 对应 +base Z。运行时必须先随所属刚体旋转到同一个 I–s–z 平面，之后才能做向量加减。</p>
+
+  <h3 id="circle-intersection">4.2 完整 XML 基准中的两次圆交（理解机械约束用）</h3>
+  <div class="callout warn"><b>这一节是完整基准，不是推荐实时路径。</b>它说明 XML 的 K、N、equality 怎样闭合，并为 4.3 的平行四边形化简提供独立真值。只关心最终控制实现时可以直接跳到 4.3：运行时只保留第一次 J/L→M 圆交。</div>
+  <div class="callout good"><b>先给出完整顺序：</b>圆交不是控制器额外发明的“圆形机构”，而是把两条固定杆长约束写成坐标方程。当前正解严格按下面顺序执行，后一步只能使用前一步已经求出的点。</div>
+  <pre>静态 XML 几何 + 实时主动角 qf、qr
+        │
+        ├──▶ 当前 J、L、P
+        │          │
+        │          └── J/L 两圆求 M
+        │                    │
+        │                    └── 由刚体 M–L–K 求 K
+        │                              │
+        │                              └── K/P 两圆求 N
+        │                                        │
+        │                                        └── P、N 确定输出刚体姿态，再定位 W
+        │
+        └──▶ 最终由 I→W 得到 L0、phi0、theta</pre>
+
+  <h4>4.2.1 XML/URDF 到底能直接提供什么</h4>
+  <div class="scroll"><table>
+    <thead><tr><th>信息</th><th>静态 XML 能否直接给出</th><th>实际含义</th></tr></thead>
+    <tbody>
+      <tr><td>关节轴、父子关系</td><td>能</td><td>决定哪个刚体绕哪里转，以及闭链 equality 把哪些铰点合在一起</td></tr>
+      <tr><td>v<sub>IJ</sub>、v<sub>IL</sub>、v<sub>IP</sub>、v<sub>JM</sub>、v<sub>ML</sub>、v<sub>MK</sub>、v<sub>KN</sub>、v<sub>PN</sub>、v<sub>PW</sub></td><td>能</td><td>点在所属刚体坐标系中的固定局部向量，或由它得到的固定杆长</td></tr>
+      <tr><td>当前 q<sub>f</sub>、q<sub>r</sub></td><td>不能由静态文件给出</td><td>来自 MuJoCo qpos 或真实电机位置反馈</td></tr>
+      <tr><td>当前 J、L、P 坐标</td><td>不能直接抄 XML 数值</td><td>必须把固定局部向量按当前主动角旋转到公共腿平面</td></tr>
+      <tr><td>当前 M、K、N、W 坐标</td><td>不能直接抄 XML 数值</td><td>还要继续满足闭链约束并恢复两个复合刚体的当前姿态</td></tr>
+    </tbody>
+  </table></div>
+  <p>令当前这条腿的共同髋轴 I 为二维原点。XML 给出的是参考构型中的固定向量，运行时用当前主动角得到各点的位置向量：</p>
+  <latex small>\vec r_J=R(q_f)\vec v_{IJ}^{\,\mathrm{ref}},\qquad
+  \vec r_L=R(q_r)\vec v_{IL}^{\,\mathrm{ref}},\qquad
+  \vec r_P=R(q_r)\vec v_{IP}^{\,\mathrm{ref}}</latex>
+  <div class="callout good"><b>完整基准也不是依赖上电初态的递推算法。</b>上式中的 v⃗<sup>ref</sup> 是从 XML/CAD 提取并永久保存的机械几何常量，不是车辆每次上电时测量出来的向量。给定任意一组合法的当前模型角 q<sub>f</sub>、q<sub>r</sub>，再固定两次圆交的物理装配支路 σ<sub>M</sub>、σ<sub>N</sub>，完整基准可以从头一次性算出 J、L、P、M、K、N、W；推荐简式则只固定 σ<sub>M</sub> 并直接得到 W。两者都不需要上一时刻 W。</div>
+  <latex small>\boxed{\vec r_W=\mathcal F(q_f,q_r;\sigma_M,\sigma_N)},\qquad
+  \boxed{(L_0,\phi_0)=H(q_f,q_r;\sigma_M,\sigma_N)}</latex>
+  <p>当前 XML 装配对应固定支路 σ<sub>M</sub>=+1、σ<sub>N</sub>=−1。因此在已验证工作域中，<code>analytic_closed_chain(qf,qr)</code> 是一个无历史状态的确定函数：相同 q 无论先调用、后调用、正序调用还是乱序调用，都会得到相同 W。所谓“与上一周期连续”只是通用圆交器在<b>没有预先固定 σ</b> 时用来防止误选另一个交点的保护策略；它不参与当前点坐标的数值计算。真实机构若不穿过连杆共线的奇异位形，也不可能凭空跳到另一装配支路。</p>
+  <div class="callout warn"><b>真正必须校准的是角度坐标，而不是正运动学初态。</b>实车反馈必须先换成模型角 q<sub>model,i</sub>=η<sub>i</sub>p<sub>encoder,i</sub>+b<sub>i</sub>，包括前后电机顺序、极性 η 和零偏 b。若这一步错误，给进 H 的 q 就错误；这不等于 H 本身需要上一周期初态。</div>
+  <div class="callout warn"><b>容易混淆的地方：</b>MuJoCo 运行以后当然可以从 <code>xpos/site_xpos</code> 读出当前点坐标，但那是 MuJoCo 已经替我们完成了树形正运动学和 equality 闭链求解后的结果。要给 STM32 写独立运动学，不能把这些运行时结果当成“URDF 静态文件直接给出的坐标”。当前解析脚本把从 XML 提取出的固定向量保存为 <code>V_IJ…V_PW</code>，每次输入 q 后重新计算当前点。</div>
+
+  <h4>4.2.2 第一次圆交：已知 J、L，求未知 M</h4>
+  <p>当前 J、L 已经由上式算出。先把两个固定长度定义成明确的标量：</p>
+  <latex small>\ell_{JM}:=\left\lVert\vec v_{JM}^{\,\mathrm{ref}}\right\rVert,\qquad
+  \ell_{LM}:=\left\lVert\vec v_{ML}^{\,\mathrm{ref}}\right\rVert</latex>
+  <p>实体连杆 JM 长度固定，复合刚体 jMK 内 M、L 的距离也固定，所以点 M 的位置向量必须同时满足：</p>
+  <latex small>\left\lVert\vec r_M-\vec r_J\right\rVert=\ell_{JM},\qquad
+  \left\lVert\vec r_M-\vec r_L\right\rVert=\ell_{LM}</latex>
+  <p>两个圆心 J、L 的当前距离是标量：</p>
+  <latex small>\rho_M:=\left\lVert\vec r_L-\vec r_J\right\rVert</latex>
+  <p>J、L、M 构成一个三角形，三个边长分别是 ρ<sub>M</sub>、ℓ<sub>JM</sub>、ℓ<sub>LM</sub>。三角形任意一边必须小于另外两边之和，同时大于另外两边之差，因此存在两个非相切交点的条件为：</p>
+  <latex small>\boxed{\operatorname{abs}(\ell_{JM}-\ell_{LM})<\rho_M<\ell_{JM}+\ell_{LM}}</latex>
+  <p>把它完全展开，就是普通三角形的三条要求：</p>
+  <latex small>\ell_{JM}+\ell_{LM}>\rho_M,\qquad
+  \ell_{JM}+\rho_M>\ell_{LM},\qquad
+  \ell_{LM}+\rho_M>\ell_{JM}</latex>
+  <div class="callout"><b>对应到你说的人话：</b>是的，<code>JM+LM&gt;JL</code>；同时还必须有 <code>JM+JL&gt;LM</code> 和 <code>LM+JL&gt;JM</code>。因为当前 <code>JL=ρM</code>，后两条合并后就是 <code>|JM−LM|&lt;JL</code>。差值必须取绝对值，不能只写 <code>LM−JM&lt;JL</code>，否则交换两根杆的长短以后条件会失去对称性。</div>
+  <p class="tiny">这里所有带 ℓ、ρ 的量都是长度标量，单位 m；只有带箭头的 r、v 才是二维向量。若取等号，两圆相切、只有一个交点；若越界，两圆没有实交点。</p>
+  <ul>
+    <li>“圆心 J、半径 ℓ<sub>JM</sub>”的圆，表示杆 JM 允许 M 出现的全部位置。</li>
+    <li>“圆心 L、半径 ℓ<sub>LM</sub>”的圆，表示固定距离 LM 允许 M 出现的全部位置。</li>
+    <li>两条要求必须同时满足，因此 M 是两个圆的交点；另一个交点 M′ 对应另一种装配支路。</li>
+  </ul>
+  <div class="callout bad"><b>虚线圆不是车上的零件，也不是轮子。</b>它只是“离某个已知点保持固定距离的所有候选位置”的集合。实际机构中仍然只有杆件和铰点。</div>
+
+  <h4>4.2.3 M 求出以后才知道 K；再用 K、P 求 N</h4>
+  <p>M、L、K 是同一个平面刚体 <code>jMK</code> 上的三个固定点。M 与 L 不需要和 K 共线；XML 已经保存了三角形 M–L–K 的固定形状。求解分四步：</p>
+  <ol>
+    <li>第一次圆交给出当前 M；L 已由后侧主动角 q<sub>r</sub> 给出。</li>
+    <li>做向量差 <code>rL−rM</code>，得到当前从 M 指向 L 的向量。</li>
+    <li>比较“当前 M→L 方向”与“参考构型 M→L 方向”，差值就是整个刚体相对参考构型转过的角度 α。</li>
+    <li>把参考向量 M→K 同样旋转 α，再从当前 M 出发，就得到当前 K。</li>
+  </ol>
+  <latex small>\vec d_{ML}^{\,\mathrm{cur}}:=\vec r_L-\vec r_M=\overrightarrow{ML}_{\mathrm{current}},\qquad
+  \angle(\vec a):=\operatorname{atan2}(a_z,a_s)</latex>
+  <latex small>\boxed{\alpha=\angle\!\left(\vec d_{ML}^{\,\mathrm{cur}}\right)-\angle\!\left(\vec v_{ML}^{\,\mathrm{ref}}\right)},\qquad
+  \boxed{\vec r_K=\vec r_M+R(\alpha)\vec v_{MK}^{\,\mathrm{ref}}}</latex>
+  <div class="callout good"><b>“不能从静态 XML 抄 K”是什么意思：</b>XML 中的 <code>jKN pos</code> 是 K 相对父刚体 jMK 的<b>局部参考向量</b>，不是运行时相对 I 的全局坐标。腿一运动，jMK 会平移并旋转；因此必须先用当前 M 提供平移、用当前 M→L 提供转角 α，再把局部 M→K 旋转和平移出去。只有恰好在 XML 参考构型 α=0 时，静态数值才看起来可以直接使用。</div>
+  <p class="tiny"><code>atan2(z分量,s分量)</code> 是“二参数反正切”：末尾的 2 表示函数接收两个参数，不是把括号乘 2。它比 atan(z/s) 多保留两个分量的正负，因此能够区分四个象限。</p>
+  <p>此时 K、P 都已知，N 再满足：</p>
+  <latex small>\left\lVert\vec r_N-\vec r_K\right\rVert=\ell_{KN},\qquad
+  \left\lVert\vec r_N-\vec r_P\right\rVert=\ell_{PN}</latex>
+  <p>因此第二次是“圆心 K、半径 ℓ<sub>KN</sub>”与“圆心 P、半径 ℓ<sub>PN</sub>”相交，交点才是 N；带箭头的 r⃗<sub>N</sub> 才是点 N 的二维位置向量。</p>
+
+  <h4>4.2.4 P、N 确定输出刚体姿态，再直接定位 W</h4>
+  <p>W 不做第三次圆交。P、N 是同一个输出刚体 jOP 上的两个固定点；它们的当前坐标一旦已知，当前 P→N 方向就确定了这个平面刚体的朝向：</p>
+  <latex small>\beta=\operatorname{atan2}(r_{N,z}-r_{P,z},\,r_{N,s}-r_{P,s})
+  -\operatorname{atan2}(v_{PN,z},\,v_{PN,s}),\qquad
+  \boxed{\vec r_W=\vec r_P+R(\beta)\vec v_{PW}^{\,\mathrm{ref}}}</latex>
+  <p>换成一步一步的人话：</p>
+  <ol>
+    <li>第二次圆交已经给出 N；P 已由后侧主动角 q<sub>r</sub> 给出。</li>
+    <li>P 是输出刚体的位置基准，当前 P→N 是这个刚体的“方向标尺”。</li>
+    <li>当前 P→N 与参考 P→N 的角度差就是输出刚体转角 β。</li>
+    <li>XML 知道轮轴在该刚体上的固定向量 P→W；把它旋转 β，再加到当前 P 上，就得到 W。</li>
+  </ol>
+  <p><b>N、P、W 不要求共线。</b>我们使用的是同一个刚体的完整参考几何，而不是把一根直线简单延长。</p>
+  <div class="callout"><b>没有“以 N 和 W 为圆心”的步骤。</b>W 此时还是未知点，不能把未知 W 当作已知圆心。理论上也能把 W 写成“以已知 P、N 为圆心”的另一次冗余圆交，但它只会重复已经由刚体姿态确定的结果，当前代码没有这样做。</div>
+
+  <h4>4.2.5 “J 和 L 是两个不同点”到底是什么意思</h4>
+  <p>严格含义只有一个：它们的当前坐标不能完全重合：</p>
+  <latex small>\rho_M=\left\lVert\vec r_L-\vec r_J\right\rVert>0</latex>
+  <p>它们不需要水平，不需要具有不同的 s 坐标，也不需要预先放在某条全局轴上。只要 J≠L，平面中就唯一存在一条同时经过 J、L 的直线；在圆交里它叫“连心线”。真实交点还必须满足：</p>
+  <latex small>\operatorname{abs}(r_a-r_b)\le\rho\le r_a+r_b</latex>
+  <p class="tiny">这里 r<sub>a</sub>、r<sub>b</sub>、ρ 全都是长度标量，没有箭头；因此可以做普通的标量加减。第一次闭链代入 r<sub>a</sub>=ℓ<sub>JM</sub>、r<sub>b</sub>=ℓ<sub>LM</sub>、ρ=ρ<sub>M</sub>。</p>
+  <ul>
+    <li>严格不等式：通常有两个交点，对应两个装配支路。</li>
+    <li>等号：两圆相切，只有一个交点。</li>
+    <li>不满足：当前杆长和两圆心距离无法闭合，该姿态不可达。</li>
+    <li>ρ=0：两圆心重合，连心线方向无法定义，当前公式退化。</li>
+  </ul>
+
+  <h4>4.2.6 最后再看通用圆交公式</h4>
+  <p><b>先把“点”和“向量”分开。</b><code>Oa、Ob、X</code> 是机构平面中的几何点；选定同一个坐标原点以后，它们的位置向量分别记为带箭头的 r⃗<sub>Oa</sub>、r⃗<sub>Ob</sub>、r⃗<sub>X</sub>。所以公式中的加减是二维向量加减，最后得到的 r⃗<sub>X</sub>=[x<sub>s</sub>,x<sub>z</sub>]<sup>T</sup> 仍是点 X 的二维位置向量。</p>
+  <p>若机构要求 X 到 O<sub>a</sub> 的距离始终为 r<sub>a</sub>，同时到 O<sub>b</sub> 的距离始终为 r<sub>b</sub>，那么 X 必须同时满足：</p>
+  <latex small>\left\lVert\vec r_X-\vec r_{O_a}\right\rVert=r_a,\qquad
+  \left\lVert\vec r_X-\vec r_{O_b}\right\rVert=r_b</latex>
+  <p>第一式的全部解就是“圆心 O<sub>a</sub>、半径 r<sub>a</sub>”的圆；第二式同理。两条约束同时成立，所以 X 是两个圆的交点。</p>
+
+  <div class="diagram" id="circle-general-figure">
+    <svg viewBox="0 0 1180 560" role="img" aria-label="任意朝向的两个圆心、局部基向量 e 和 e 垂直、垂足 Q 与两个圆交点">
+      <defs>
+        <marker id="circleVec" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#344054"/></marker>
+        <marker id="circleBlue" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#2869c9"/></marker>
+        <marker id="circlePurple" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#7c4dc4"/></marker>
+      </defs>
+      <rect x="12" y="12" width="1156" height="536" rx="18" fill="#fbfdff" stroke="#dce3ee"/>
+      <g font-family="Segoe UI,Microsoft YaHei,sans-serif" fill="#172033">
+        <rect x="34" y="36" width="750" height="482" rx="15" fill="#fff" stroke="#cfd8e6"/>
+        <text x="58" y="70" font-size="19" font-weight="750">中心不需要水平：Oₐ、Oᵦ 在任意位置都可以</text>
+        <text x="58" y="95" font-size="13.5" fill="#5b667a">任意两个不重合的圆心确定一条连心线；公式自己建立沿连心线的 e 轴和垂直的 e⊥ 轴。</text>
+
+        <!-- Internally consistent tilted two-circle construction. -->
+        <circle cx="260" cy="340" r="185.2" fill="#dbeafe" fill-opacity="0.18" stroke="#2869c9" stroke-width="3" stroke-dasharray="9 8"/>
+        <circle cx="545" cy="220" r="191.2" fill="#ffedd5" fill-opacity="0.15" stroke="#d97706" stroke-width="3" stroke-dasharray="9 8"/>
+        <line x1="260" y1="340" x2="545" y2="220" stroke="#667085" stroke-width="2.5"/>
+        <line x1="260" y1="340" x2="357.5" y2="182.5" stroke="#2869c9" stroke-width="6" stroke-linecap="round"/>
+        <line x1="545" y1="220" x2="357.5" y2="182.5" stroke="#d97706" stroke-width="6" stroke-linecap="round"/>
+        <line x1="399.2" y1="281.4" x2="357.5" y2="182.5" stroke="#7c4dc4" stroke-width="2.5" stroke-dasharray="6 5"/>
+        <line x1="399.2" y1="281.4" x2="440.8" y2="380.3" stroke="#7c4dc4" stroke-width="2" stroke-dasharray="6 5"/>
+        <path d="M393.0 266.7 L407.7 260.5 L413.9 275.3" fill="none" stroke="#7c4dc4" stroke-width="2"/>
+        <circle cx="260" cy="340" r="8" fill="#fff" stroke="#172033" stroke-width="2.5"/>
+        <circle cx="545" cy="220" r="8" fill="#fff" stroke="#172033" stroke-width="2.5"/>
+        <circle cx="357.5" cy="182.5" r="9" fill="#fff" stroke="#16916b" stroke-width="3"/>
+        <circle cx="440.8" cy="380.3" r="9" fill="#fff" stroke="#8b5cf6" stroke-width="3"/>
+        <circle cx="399.2" cy="281.4" r="6" fill="#fff" stroke="#7c4dc4" stroke-width="2"/>
+        <text x="226" y="370" font-size="18" font-weight="750">Oₐ</text>
+        <text x="558" y="225" font-size="18" font-weight="750">Oᵦ</text>
+        <text x="370" y="172" font-size="18" font-weight="750" fill="#116b50">X₊</text>
+        <text x="452" y="406" font-size="18" font-weight="750" fill="#6d28d9">X₋</text>
+        <text x="410" y="305" font-size="17" font-weight="750" fill="#6d28d9">Q</text>
+        <text x="292" y="244" font-size="16" fill="#1d4f9a">rₐ</text>
+        <text x="451" y="184" font-size="16" fill="#a45305">rᵦ</text>
+
+        <!-- e and e_perp local basis. -->
+        <line x1="260" y1="340" x2="361" y2="297.5" stroke="#344054" stroke-width="3" marker-end="url(#circleVec)"/>
+        <text x="318" y="306" font-size="16" font-weight="750">e（单位向量）</text>
+        <line x1="399.2" y1="281.4" x2="369.2" y2="210.2" stroke="#7c4dc4" stroke-width="3" marker-end="url(#circlePurple)"/>
+        <text x="326" y="225" font-size="16" font-weight="750" fill="#6d28d9">+e⊥</text>
+        <line x1="399.2" y1="281.4" x2="429.2" y2="352.6" stroke="#7c4dc4" stroke-width="2.2" stroke-dasharray="5 4" opacity="0.62" marker-end="url(#circlePurple)"/>
+        <text x="437" y="343" font-size="15" font-weight="700" fill="#7c4dc4">−e⊥</text>
+        <text x="58" y="475" font-size="13.5" fill="#5b667a">Q→X₊ 沿 +e⊥；Q→X₋ 沿 −e⊥；二者都与连心线垂直。</text>
+
+        <rect x="806" y="36" width="340" height="482" rx="15" fill="#fff" stroke="#cfd8e6"/>
+        <text x="830" y="70" font-size="19" font-weight="750">向量加法逐项解释</text>
+        <rect x="830" y="96" width="292" height="74" rx="10" fill="#eaf2ff" stroke="#bfd4f5"/>
+        <text x="848" y="124" font-size="15" font-weight="750">位置向量 rOₐ</text>
+        <text x="848" y="149" font-size="13.5">二维位置向量，单位 m</text>
+        <rect x="830" y="184" width="292" height="74" rx="10" fill="#e8f7f1" stroke="#b9e3d2"/>
+        <text x="848" y="212" font-size="15" font-weight="750">a e：沿连心线走 a</text>
+        <text x="848" y="237" font-size="13.5">标量 a × 单位向量 e</text>
+        <rect x="830" y="272" width="292" height="74" rx="10" fill="#f4edff" stroke="#d8c4f4"/>
+        <text x="848" y="300" font-size="15" font-weight="750">σ h e⊥：垂直走 ±h</text>
+        <text x="848" y="325" font-size="13.5">σ=±1 选择两种装配支路</text>
+        <rect x="830" y="360" width="292" height="112" rx="10" fill="#fff4df" stroke="#edc77d"/>
+        <text x="848" y="389" font-size="15" font-weight="750">三段位移相加仍是向量</text>
+        <text x="848" y="416" font-size="13.5">rX=rOₐ+a e+σh e⊥</text>
+        <text x="848" y="441" font-size="13.5">最终 rX=[xₛ,x_z]ᵀ</text>
+        <text x="848" y="462" font-size="13.5">就是点 X 的坐标</text>
+      </g>
+    </svg>
+  </div>
+
+  <p>令：</p>
+  <latex small>\vec\Delta_{ab}=\vec r_{O_b}-\vec r_{O_a},\qquad
+  \rho=\left\lVert\vec\Delta_{ab}\right\rVert,\qquad
+  \vec e=\frac{\vec\Delta_{ab}}{\rho},\qquad
+  \vec e_\perp=\begin{bmatrix}-e_z\\e_s\end{bmatrix}</latex>
+  <latex small>\vec e=e_s\,\vec u_s+e_z\,\vec u_z,\qquad
+  e_s=\frac{r_{O_b,s}-r_{O_a,s}}{\rho},\qquad
+  e_z=\frac{r_{O_b,z}-r_{O_a,z}}{\rho}</latex>
+  <p>其中 u⃗<sub>s</sub>、u⃗<sub>z</sub> 分别是 +s、+z 方向的单位基向量；<code>e_s、e_z</code> 是两个<b>无量纲标量分量</b>，不是两根向量：e<sub>s</sub> 表示 e⃗ 沿 +s（当前 XML 的 +base Y）投影多少，e<sub>z</sub> 表示 e⃗ 沿 +z（+base Z、竖直向上）投影多少。它们都不代表车辆的 base X 轴。</p>
+  <div class="callout"><b>具体数值例子：</b>如果从 O<sub>a</sub> 到 O<sub>b</sub> 沿 +s 走 3 mm、沿 +z 走 4 mm，那么 ρ=5 mm，e<sub>s</sub>=3/5=0.6、e<sub>z</sub>=4/5=0.8，因而 e⃗=[0.6,0.8]<sup>T</sup>。e⃗ 是一根单位向量；0.6、0.8 只是它在两条坐标轴上的两个标量分量，并满足 e<sub>s</sub><sup>2</sup>+e<sub>z</sub><sup>2</sup>=1。</div>
+  <p><code>e</code> 是从 O<sub>a</sub> 指向 O<sub>b</sub> 的单位向量；<code>e⊥</code> 是把 e 在平面内转 90° 后得到的单位向量。先从 O<sub>a</sub> 沿 e 走 a 到垂足 Q，再沿 e⊥ 走 ±h 到交点，所以：</p>
+  <latex small>\boxed{\vec r_X=\vec r_{O_a}+a\vec e+\sigma h\vec e_\perp},\qquad \sigma\in\{+1,-1\}</latex>
+  <p>推导只用到 e 与 e⊥ 互相垂直、长度都为 1。因为 <code>ob=oa+ρe</code>，所以从两个圆心分别看向 X：</p>
+  <latex small>\vec r_X-\vec r_{O_a}=a\vec e+\sigma h\vec e_\perp
+  \quad\Longrightarrow\quad
+  \left\lVert\vec r_X-\vec r_{O_a}\right\rVert^2=a^2+h^2=r_a^2</latex>
+  <latex small>\vec r_X-\vec r_{O_b}=(a-\rho)\vec e+\sigma h\vec e_\perp
+  \quad\Longrightarrow\quad
+  \left\lVert\vec r_X-\vec r_{O_b}\right\rVert^2=(\rho-a)^2+h^2=r_b^2</latex>
+  <p>两式相减后 h² 正好消掉，先得到沿连心线走多远的 a，再回代得到垂直高度 h：</p>
+  <latex small>a^2-(\rho-a)^2=r_a^2-r_b^2
+  \quad\Longrightarrow\quad
+  a=\frac{r_a^2-r_b^2+\rho^2}{2\rho},\qquad
+  h=\sqrt{r_a^2-a^2}</latex>
+  <div class="callout"><b>这不是依赖“J、L 水平”的定理。</b>公式等于在当前斜着的 J→L 方向上临时建立一个局部坐标系：e 沿 J→L，e⊥ 与它垂直。把整张图随意旋转，ρ、a、h 和两个距离约束都不会改变。</div>
+  <div class="callout good"><b>atan2 的 2 不是系数。</b><code>atan2(y,x)</code> 表示“把 y 和 x 两个参数一起交给反正切函数”。例如 atan2(+1,+1)=45°，而 atan2(+1,−1)=135°；若只算 atan(y/x)，第二个例子会错误地退化成 −45°，丢失所在象限。</div>
+
+  <h4>把通用公式原样代回当前 XML 的两次闭链</h4>
+  <div class="diagram" id="circle-mechanism-figure">
+    <svg viewBox="0 0 1180 690" role="img" aria-label="当前 XML 第一次用 J L 两圆求 M，第二次用 K P 两圆求 N 的真实连杆约束">
+      <defs>
+        <marker id="mechFlow" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#667085"/></marker>
+      </defs>
+      <rect x="12" y="12" width="1156" height="666" rx="18" fill="#fbfdff" stroke="#dce3ee"/>
+      <g font-family="Segoe UI,Microsoft YaHei,sans-serif" fill="#172033">
+        <!-- Top logic strip. -->
+        <rect x="40" y="38" width="220" height="72" rx="12" fill="#eaf2ff" stroke="#bfd4f5"/>
+        <text x="150" y="67" text-anchor="middle" font-size="15.5" font-weight="750">已知主动角 qf、qr</text>
+        <text x="150" y="91" text-anchor="middle" font-size="13.5">先算出 J、L、P</text>
+        <rect x="330" y="38" width="220" height="72" rx="12" fill="#f4edff" stroke="#d8c4f4"/>
+        <text x="440" y="67" text-anchor="middle" font-size="15.5" font-weight="750">第一次圆交：求 M</text>
+        <text x="440" y="91" text-anchor="middle" font-size="13.5">再由刚体 M–L–K 求 K</text>
+        <rect x="620" y="38" width="220" height="72" rx="12" fill="#fff4df" stroke="#edc77d"/>
+        <text x="730" y="67" text-anchor="middle" font-size="15.5" font-weight="750">第二次圆交：求 N</text>
+        <text x="730" y="91" text-anchor="middle" font-size="13.5">P、N 定姿态；固定 P→W 定位 W</text>
+        <rect x="910" y="38" width="220" height="72" rx="12" fill="#e8f7f1" stroke="#b9e3d2"/>
+        <text x="1020" y="67" text-anchor="middle" font-size="15.5" font-weight="750">得到真实轮轴 W</text>
+        <text x="1020" y="91" text-anchor="middle" font-size="13.5">再换算 L0、φ0、JH</text>
+        <g stroke="#667085" stroke-width="2.5" marker-end="url(#mechFlow)">
+          <line x1="260" y1="74" x2="322" y2="74"/><line x1="550" y1="74" x2="612" y2="74"/>
+          <line x1="840" y1="74" x2="902" y2="74"/>
+        </g>
+
+        <!-- First intersection. -->
+        <rect x="34" y="138" width="546" height="500" rx="15" fill="#fff" stroke="#cfd8e6"/>
+        <text x="58" y="174" font-size="19" font-weight="750">第一次：圆(J, ℓJM) ∩ 圆(L, ℓLM) → M</text>
+        <text x="58" y="199" font-size="13.5" fill="#5b667a">给定 q 后，J、L 已知且可以是任意斜向位置。</text>
+        <circle cx="180" cy="390" r="140" fill="#dbeafe" fill-opacity="0.17" stroke="#2869c9" stroke-width="3" stroke-dasharray="9 8"/>
+        <circle cx="400" cy="310" r="140" fill="#f4edff" fill-opacity="0.15" stroke="#7c4dc4" stroke-width="3" stroke-dasharray="9 8"/>
+        <line x1="180" y1="390" x2="316.25" y2="422.19" stroke="#2869c9" stroke-width="7"/>
+        <line x1="400" y1="310" x2="316.25" y2="422.19" stroke="#7c4dc4" stroke-width="7"/>
+        <line x1="180" y1="390" x2="400" y2="310" stroke="#98a2b3" stroke-width="2" stroke-dasharray="6 5"/>
+        <circle cx="180" cy="390" r="8" fill="#fff" stroke="#172033" stroke-width="2.5"/>
+        <circle cx="400" cy="310" r="8" fill="#fff" stroke="#172033" stroke-width="2.5"/>
+        <circle cx="316.25" cy="422.19" r="10" fill="#fff" stroke="#16916b" stroke-width="4"/>
+        <circle cx="263.75" cy="277.81" r="8" fill="#fff" stroke="#98a2b3" stroke-width="2.5"/>
+        <text x="156" y="420" font-size="18" font-weight="750">J</text>
+        <text x="412" y="315" font-size="18" font-weight="750">L</text>
+        <text x="330" y="454" font-size="17" font-weight="750" fill="#116b50">M（XML：σM=+1）</text>
+        <text x="218" y="269" font-size="14" fill="#667085">M′（σM=−1）</text>
+        <text x="212" y="382" font-size="15" fill="#1d4f9a">ℓJM=115.000 mm</text>
+        <text x="338" y="350" font-size="15" fill="#6d28d9">ℓLM=115.000 mm</text>
+        <rect x="58" y="548" width="498" height="66" rx="10" fill="#f8fafc" stroke="#dce3ee"/>
+        <text x="76" y="574" font-size="14.5" font-weight="750">为什么两个长度相等仍要两条约束？</text>
+        <text x="76" y="598" font-size="13.5">相等只说明三角形 J–M–L 是等腰；M 仍必须同时离 J、L 各 115 mm。</text>
+
+        <!-- Second intersection. -->
+        <rect x="600" y="138" width="546" height="500" rx="15" fill="#fff" stroke="#cfd8e6"/>
+        <text x="624" y="174" font-size="19" font-weight="750">第二次：圆(K, ℓKN) ∩ 圆(P, ℓPN) → N</text>
+        <text x="624" y="199" font-size="13.5" fill="#5b667a">第一次求出 M 后，刚体 M–L–K 的朝向给出 K；P 早已由 qr 给出。</text>
+        <circle cx="750" cy="390" r="145" fill="#dbeafe" fill-opacity="0.17" stroke="#2869c9" stroke-width="3" stroke-dasharray="9 8"/>
+        <circle cx="930" cy="310" r="85" fill="#ffedd5" fill-opacity="0.16" stroke="#d97706" stroke-width="3" stroke-dasharray="9 8"/>
+        <line x1="750" y1="390" x2="894.98" y2="387.45" stroke="#2869c9" stroke-width="7"/>
+        <line x1="930" y1="310" x2="894.98" y2="387.45" stroke="#d97706" stroke-width="7"/>
+        <line x1="750" y1="390" x2="930" y2="310" stroke="#98a2b3" stroke-width="2" stroke-dasharray="6 5"/>
+        <circle cx="750" cy="390" r="8" fill="#fff" stroke="#172033" stroke-width="2.5"/>
+        <circle cx="930" cy="310" r="8" fill="#fff" stroke="#172033" stroke-width="2.5"/>
+        <circle cx="894.98" cy="387.45" r="10" fill="#fff" stroke="#16916b" stroke-width="4"/>
+        <circle cx="849.04" cy="284.10" r="8" fill="#fff" stroke="#98a2b3" stroke-width="2.5"/>
+        <text x="726" y="420" font-size="18" font-weight="750">K</text>
+        <text x="942" y="315" font-size="18" font-weight="750">P</text>
+        <text x="862" y="439" font-size="17" font-weight="750" fill="#116b50">N（XML：σN=−1）</text>
+        <text x="804" y="273" font-size="14" fill="#667085">N′（σN=+1）</text>
+        <text x="784" y="376" font-size="15" fill="#1d4f9a">ℓKN=118.000 mm</text>
+        <text x="940" y="355" font-size="15" fill="#a45305">ℓPN=63.801 mm</text>
+        <rect x="624" y="548" width="498" height="66" rx="10" fill="#f8fafc" stroke="#dce3ee"/>
+        <text x="642" y="574" font-size="14.5" font-weight="750">这两次都只是正运动学约束，不是“控制逻辑”。</text>
+        <text x="642" y="598" font-size="13.5">圆交负责找铰点位置；控制器是在 W、L0、φ0、JH 算出以后才介入。</text>
+      </g>
+    </svg>
+  </div>
+
+  <h4>4.2.7 通用符号怎样代回实际机构</h4>
+  <div class="scroll"><table>
+    <thead><tr><th>求解步骤</th><th>O<sub>a</sub></th><th>O<sub>b</sub></th><th>r<sub>a</sub></th><th>r<sub>b</sub></th><th>未知交点 X</th><th>XML 默认支路</th></tr></thead>
+    <tbody>
+      <tr><td>第一次圆交</td><td>J</td><td>L</td><td>ℓ<sub>JM</sub></td><td>ℓ<sub>LM</sub></td><td>M / r⃗<sub>M</sub></td><td>σ=+1</td></tr>
+      <tr><td>第二次圆交</td><td>K</td><td>P</td><td>ℓ<sub>KN</sub></td><td>ℓ<sub>PN</sub></td><td>N / r⃗<sub>N</sub></td><td>σ=−1</td></tr>
+    </tbody>
+  </table></div>
+  <p><code>JM</code>、<code>KN</code> 是两端铰接的实体连杆；<code>LM</code>、<code>PN</code> 是各自复合刚体内两个固定点之间的距离。第一次的两个半径恰好都约为 115 mm，只说明 J–M–L 是等腰三角形，并不表示 J、L、M 共线，也不能删掉任意一条距离约束。</p>
+  <div class="callout warn"><b>σ 的正负不等于全局“上/下”：</b>当前公式固定使用 <code>e=(Ob−Oa)/ρ</code>、<code>e⊥=(−e_z,e_s)</code>，σ=+1 只表示从垂足 Q 沿 <code>+e⊥</code> 走 h，σ=−1 只表示沿 <code>−e⊥</code> 走 h。由于第一次 J→L 与第二次 K→P 的连心线方向不同，两次的 <code>+e⊥</code> 方向也不同，所以“实际 M 在下、实际 N 在上”恰好分别对应 +1 和 −1。若交换两个圆心的传入顺序，或把 e⊥ 定义成顺时针旋转，σ 标签会整体反转，但选中的物理点不会改变。</div>
+  <div class="scroll"><table>
+    <thead><tr><th>q=0 圆交</th><th>+e<sub>⊥</sub> 的方向</th><th>σ=+1 候选</th><th>σ=−1 候选</th><th>XML 实际点</th></tr></thead>
+    <tbody>
+      <tr><td>J、L 求 M</td><td>(−0.022, −1.000)，几乎向下</td><td>M<sub>+</sub>=(−0.001, −0.054) m</td><td>M<sub>−</sub>=(+0.002, +0.071) m</td><td>M<sub>+</sub>，所以 σ<sub>M</sub>=+1</td></tr>
+      <tr><td>K、P 求 N</td><td>(+0.431, −0.902)，右下</td><td>N<sub>+</sub>=(−0.197, −0.037) m</td><td>N<sub>−</sub>=(−0.251, +0.076) m</td><td>N<sub>−</sub>，所以 σ<sub>N</sub>=−1</td></tr>
+    </tbody>
+  </table></div>
+  <p>这里所有坐标都采用同一个以 I 为原点、+z 向上的 (s,z) 腿平面；数值与 XML q=0 点坐标的误差约为 10<sup>−8</sup> m。因此当前 <code>+1/−1</code> 顺序已经由 XML 坐标验证，不是根据示意图猜出来的。</p>
+  <div class="callout"><b>“与上一周期连续”只是可选的通用保护：</b>如果程序没有预先写死物理装配支路，可以同时求 X<sub>+</sub>、X<sub>−</sub>，再选择离上一周期实际点最近的候选：</div>
+  <latex small>\sigma_M(t)=\underset{\sigma\in\{+1,-1\}}{\operatorname{argmin}}
+  \left\lVert\vec r_{M,\sigma}(t)-\vec r_M(t-\Delta t)\right\rVert</latex>
+  <p class="tiny">当前专用解析函数已经固定 σ<sub>M</sub>=+1、σ<sub>N</sub>=−1，因此实际计算不读取上一周期点；上式只说明通用求解器可以怎样防止误跳支。若 h 接近 0，两候选点合并，机构接近相切奇异；此时应报警/限幅，而不是依靠“最近点”随意穿过奇异位形。</p>
+  <div class="callout warn"><b>不要把后续定位向量当成圆半径：</b>ℓ<sub>MK</sub>=176.308 mm 是 v⃗<sub>MK</sub><sup>ref</sup> 的长度，求得 M 后才用于定位 K；ℓ<sub>PW</sub>=258.000 mm 是 v⃗<sub>PW</sub><sup>ref</sup> 的长度，求得 N 后才用于定位 W。它们不参与各自前一步的圆交半径约束。</div>
+
+  <h3 id="recommended-fk">4.3 推荐实时正解：理想五杆核心求 M，平行四边形关系直接求 W</h3>
+  <div class="callout good"><b>先直接回答本节最重要的问题：</b>点 M 可以复用“理想五连杆”的核心几何方法——两主动端点加两根定长杆，通过一次圆交或一次余弦定理解出 M；但只是复用算法结构，不能不经核对就照搬旧 <code>VMC_calc</code> 的角度、杆长、零偏和符号。点 P 不需要再做一次五连杆解算，它是后侧主动刚体上的固定点，给定 q<sub>r</sub> 后直接得到。</div>
+
+  <h4>4.3.1 先看完整机构图：PDF 的五杆只对应内层 I–L–M–J，真实输出是 W</h4>
+  <div class="diagram" id="recommended-fivebar-geometry">
+    <svg viewBox="0 0 1180 740" role="img" aria-label="偏置串腿推荐正运动学点位、杆长、phi1 phi4 与真实虚拟腿 L0">
+      <defs>
+        <marker id="fkAxisArrow" markerUnits="userSpaceOnUse" markerWidth="5" markerHeight="5" refX="4.6" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5Z" fill="#475467"/></marker>
+        <marker id="fkBlueArrow" markerUnits="userSpaceOnUse" markerWidth="5" markerHeight="5" refX="4.6" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5Z" fill="#2869c9"/></marker>
+        <marker id="fkPurpleArrow" markerUnits="userSpaceOnUse" markerWidth="5" markerHeight="5" refX="4.6" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5Z" fill="#7c4dc4"/></marker>
+      </defs>
+      <rect x="12" y="12" width="1156" height="716" rx="18" fill="#fbfdff" stroke="#dce3ee"/>
+
+      <!-- The left panel is a real feasible pose from the nominal model:
+           q_front=+20 deg, q_rear=-20 deg.  SVG y points down, while model +z points up. -->
+      <rect x="34" y="34" width="742" height="674" rx="15" fill="#ffffff" stroke="#dce3ee"/>
+      <text x="58" y="70" font-size="21" font-weight="760" fill="#173f77">当前偏置机构的“内层五杆 + 输出映射”</text>
+      <text x="58" y="96" font-size="13.5" fill="#667085">示意姿态来自名义模型的合法构型；所有点、连接关系和方向均按实际公式绘制</text>
+
+      <!-- axes: I=(480,300), +s right, +z up, controller +d=-z down -->
+      <g fill="none" stroke-linecap="round">
+        <line x1="480" y1="300" x2="732" y2="300" stroke="#475467" stroke-width="2" marker-end="url(#fkAxisArrow)"/>
+        <line x1="480" y1="300" x2="480" y2="148" stroke="#475467" stroke-width="2" marker-end="url(#fkAxisArrow)"/>
+        <line x1="480" y1="300" x2="480" y2="520" stroke="#98a2b3" stroke-width="1.7" stroke-dasharray="7 6" marker-end="url(#fkAxisArrow)"/>
+      </g>
+      <text x="740" y="306" font-size="15" font-weight="700">+s</text>
+      <text x="489" y="150" font-size="15" font-weight="700">+z</text>
+      <text x="492" y="518" font-size="14" fill="#667085">+d=−z（车体向下）</text>
+
+      <!-- rear active rigid body contains I, L, P -->
+      <polygon points="480,300 315,218 114.230,118.221" fill="#fff4df" fill-opacity=".88" stroke="#d97706" stroke-width="8" stroke-linejoin="round"/>
+      <!-- active/passive bars of the inner five-bar -->
+      <line x1="480" y1="300" x2="648" y2="225" stroke="#2869c9" stroke-width="10" stroke-linecap="round"/>
+      <line x1="648" y1="225" x2="479" y2="363" stroke="#2869c9" stroke-width="9" stroke-linecap="round"/>
+      <line x1="315" y1="218" x2="479" y2="363" stroke="#16916b" stroke-width="9" stroke-linecap="round"/>
+      <!-- actual output member P-W, parallel/similar to L-M -->
+      <line x1="114.230" y1="118.221" x2="482.086" y2="443.439" stroke="#0891b2" stroke-width="10" stroke-linecap="round"/>
+      <line x1="480" y1="300" x2="482.086" y2="443.439" stroke="#7c4dc4" stroke-width="5" stroke-linecap="round" marker-end="url(#fkPurpleArrow)"/>
+
+      <!-- phi1 / phi4 / phi0 arcs -->
+      <path d="M600 300 A120 120 0 0 0 373 246" fill="none" stroke="#d97706" stroke-width="3" marker-end="url(#fkAxisArrow)"/>
+      <path d="M555 300 A75 75 0 0 0 549 270" fill="none" stroke="#2869c9" stroke-width="3" marker-end="url(#fkBlueArrow)"/>
+      <path d="M560 300 A80 80 0 0 1 481 380" fill="none" stroke="#7c4dc4" stroke-width="3" marker-end="url(#fkPurpleArrow)"/>
+      <text x="403" y="210" font-size="17" font-weight="760" fill="#b45309">φ₁</text>
+      <text x="565" y="260" font-size="17" font-weight="760" fill="#1f5ead">φ₄</text>
+      <text x="548" y="371" font-size="17" font-weight="760" fill="#6d28d9">φ₀</text>
+
+      <!-- points -->
+      <g fill="#fff" stroke="#172033" stroke-width="2.6">
+        <circle cx="480" cy="300" r="8"/><circle cx="648" cy="225" r="8"/>
+        <circle cx="315" cy="218" r="8"/><circle cx="479" cy="363" r="8"/>
+        <circle cx="114.230" cy="118.221" r="8"/>
+      </g>
+      <circle cx="482.086" cy="443.439" r="25" fill="#27344a"/><circle cx="482.086" cy="443.439" r="10" fill="#d8e2ef"/>
+      <g font-size="16" font-weight="760" fill="#172033" paint-order="stroke" stroke="#ffffff" stroke-width="4" stroke-linejoin="round">
+        <text x="490" y="322">I=A=E</text>
+        <text x="662" y="220">J=D</text>
+        <text x="279" y="210">L=B</text>
+        <text x="490" y="371">M=C</text>
+        <text x="60" y="145">P（输出起点）</text>
+        <text x="518" y="449">W / 真实轮轴</text>
+      </g>
+      <g font-size="14" font-weight="650" paint-order="stroke" stroke="#ffffff" stroke-width="4" stroke-linejoin="round">
+        <text x="332" y="252" fill="#b45309">l₁=|IL|，后主动杆</text>
+        <text x="556" y="244" fill="#1f5ead">l₄=|JI|，前主动杆</text>
+        <text x="310" y="358" fill="#08765a">l₂=|BM|=|LM|，方向角 φ₂</text>
+        <text x="555" y="342" fill="#1f5ead">l₃=|JM|，方向角 φ₃</text>
+        <text x="172" y="329" fill="#087d92">P→W = kᵦ(L→M)</text>
+        <text x="494" y="414" fill="#6d28d9">L₀=|IW|</text>
+      </g>
+      <rect x="58" y="548" width="686" height="130" rx="12" fill="#f8fafc" stroke="#dce3ee"/>
+      <text x="78" y="579" font-size="15" font-weight="760" fill="#344054">图中两个完全不同的“末端”</text>
+      <text x="78" y="609" font-size="14.5" fill="#475467">M：只是在内层 I–L–M–J 闭链中由余弦定理解出的交点；它对应 PDF 的 C。</text>
+      <text x="78" y="638" font-size="14.5" fill="#475467">W：偏置输出机构的真实轮轴；控制器的虚拟腿是 I→W，所以最终 L₀ 绝不是 |IM|。</text>
+      <text x="78" y="667" font-size="13.5" fill="#667085">φ₁、φ₄ 按 PDF 的几何角在 (s,z) 平面中定义；φ₀ 则按控制坐标 (s,d)，其中 d=−z。</text>
+
+      <!-- right legend -->
+      <rect x="800" y="34" width="340" height="674" rx="15" fill="#f8fafc" stroke="#dce3ee"/>
+      <text x="826" y="72" font-size="20" font-weight="760" fill="#173f77">与《串腿控制》PDF 对应</text>
+      <g font-size="15" fill="#344054">
+        <text x="826" y="112">PDF A、E  →  当前 I（l₅=0）</text>
+        <text x="826" y="145">PDF B      →  当前 L</text>
+        <text x="826" y="178">PDF D      →  当前 J</text>
+        <text x="826" y="211">PDF C      →  当前 M</text>
+      </g>
+      <line x1="824" y1="232" x2="1116" y2="232" stroke="#dce3ee"/>
+      <text x="826" y="266" font-size="17" font-weight="760" fill="#344054">角度定义</text>
+      <text x="826" y="299" font-size="15" fill="#344054">φ₁ = arg(I→L)：后主动支路</text>
+      <text x="826" y="332" font-size="15" fill="#344054">φ₄ = arg(I→J)：前主动支路</text>
+      <text x="826" y="365" font-size="15" fill="#344054">φ₂ = arg(L→M)：后被动杆</text>
+      <text x="826" y="398" font-size="15" fill="#344054">φ₃ = arg(J→M)：前被动杆</text>
+      <line x1="824" y1="420" x2="1116" y2="420" stroke="#dce3ee"/>
+      <text x="826" y="454" font-size="17" font-weight="760" fill="#344054">最终控制输出</text>
+      <text x="826" y="488" font-size="15" fill="#344054">sW = Ws，dW = −Wz</text>
+      <text x="826" y="521" font-size="15" fill="#344054">L₀ = √(sW²+dW²) = |IW|</text>
+      <text x="826" y="554" font-size="15" fill="#344054">φ₀ = atan2(dW,sW)</text>
+      <text x="826" y="586" font-size="13" fill="#8f2828">M 不是轮轴；|IM| 不是最终腿长。</text>
+      <text x="826" y="621" font-size="13.5" fill="#116b50">CAD：I、L、P 严格共线</text>
+      <text x="826" y="650" font-size="13.5" fill="#116b50">CAD：P→W ∥ L→M，且 kₐ≠kᵦ</text>
+    </svg>
+  </div>
+
+  <div class="scroll"><table>
+    <thead><tr><th>PDF 符号</th><th>4.3 内层五杆</th><th>当前名义长度</th><th>作用</th></tr></thead>
+    <tbody>
+      <tr><td>A、E，l<sub>5</sub></td><td>I，l<sub>5</sub>=0</td><td>0.000 mm</td><td>两根主动轴在腿平面内同轴</td></tr>
+      <tr><td>B，l<sub>1</sub>，φ<sub>1</sub></td><td>B≡L，l<sub>1</sub>=|IL|</td><td>96.974 mm</td><td>后主动杆 I→L</td></tr>
+      <tr><td>C，l<sub>2</sub></td><td>C≡M，l<sub>2</sub>=|BM|=|LM|</td><td>115.000 mm</td><td>后被动杆 L→M</td></tr>
+      <tr><td>C，l<sub>3</sub></td><td>C≡M，l<sub>3</sub>=|JM|</td><td>115.000 mm</td><td>前被动杆 J→M</td></tr>
+      <tr><td>D，l<sub>4</sub>，φ<sub>4</sub></td><td>D≡J，l<sub>4</sub>=|JI|</td><td>96.984 mm</td><td>前主动杆 I→J</td></tr>
+      <tr><td>PDF 中 C 就是轮轴</td><td>当前真实轮轴是 W</td><td>ℓ<sub>IP</sub>=214.974 mm；ℓ<sub>PW</sub>=258.000 mm</td><td>M 之后还必须经过 P→W 输出映射</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout warn"><b>本文 4.3 从这里统一使用你的杆长命名：</b>l<sub>1</sub>=|IL|，l<sub>2</sub>=|BM|=|LM|，l<sub>3</sub>=|JM|，l<sub>4</sub>=|JI|。它们是内层小闭链的真实长度；活动固件当前 0.215/0.258 m 的旧等效五杆参数是另一套量，不能混写。</div>
+
+  <h4>4.3.2 从模型角 q<sub>f</sub>、q<sub>r</sub> 得到 PDF 几何角 φ<sub>4</sub>、φ<sub>1</sub></h4>
+  <p>先把“电机转了多少”与“杆现在指向哪里”分开。q<sub>f</sub>、q<sub>r</sub> 是相对于 XML 参考构型的前、后模型转角；φ<sub>4</sub>、φ<sub>1</sub> 则是杆 I→J、I→L 相对于固定 +s 轴的<b>绝对几何方向角</b>。定义参考构型方向：</p>
+  <latex small>\alpha_{IJ}^{\mathrm{ref}}
+  =\operatorname{atan2}(v_{IJ,z}^{\mathrm{ref}},v_{IJ,s}^{\mathrm{ref}})
+  =3.989^\circ</latex>
+  <latex small>\alpha_{IL}^{\mathrm{ref}}
+  =\operatorname{atan2}(v_{IL,z}^{\mathrm{ref}},v_{IL,s}^{\mathrm{ref}})
+  =173.522^\circ</latex>
+  <p>由于 q&gt;0 在当前 (s,z) 图中把 +s 转向 +z，当前名义 XML 的直接关系是：</p>
+  <latex>\boxed{\phi_4=\operatorname{wrap}(q_f+\alpha_{IJ}^{\mathrm{ref}})},\qquad
+  \boxed{\phi_1=\operatorname{wrap}(q_r+\alpha_{IL}^{\mathrm{ref}})}</latex>
+  <div class="callout warn"><b>这里故意不写 q<sub>f</sub>=φ<sub>4</sub>、q<sub>r</sub>=φ<sub>1</sub>。</b>二者相差 XML 参考方向；实车编码器还要再经过电机负号、机械零偏、左右镜像和前后重排。活动固件中，左腿 φ<sub>4</sub>/φ<sub>1</sub> 分别来自 motor0/motor1，右腿 φ<sub>1</sub>/φ<sub>4</sub> 分别来自 motor2/motor3，且都不是原始电机位置的直接拷贝。</div>
+
+  <p>有了绝对杆角，主动端点可以像 PDF 一样直接写成三角函数。因为 A=E=I=(0,0)：</p>
+  <latex>\boxed{
+  \begin{aligned}
+  L_s=l_1\cos\phi_1,\qquad L_z=l_1\sin\phi_1,\\
+  J_s=l_4\cos\phi_4,\qquad J_z=l_4\sin\phi_4.
+  \end{aligned}}</latex>
+  <p>这分别就是 PDF 的 B 点和 D 点：</p>
+  <latex small>\vec r_B\equiv\vec r_L=
+  l_1\begin{bmatrix}\cos\phi_1\\\sin\phi_1\end{bmatrix},\qquad
+  \vec r_D\equiv\vec r_J=
+  l_4\begin{bmatrix}\cos\phi_4\\\sin\phi_4\end{bmatrix}</latex>
+
+  <p>P 与 L 固定在同一个后主动刚体上，因此也由同一个 q<sub>r</sub> 一次性确定。按照 CAD 图纸确认的 I、L、P 严格共线约束：</p>
+  <latex>\boxed{
+  \begin{aligned}
+  P_s=\ell_{IP}\cos\phi_1,\\
+  P_z=\ell_{IP}\sin\phi_1,
+  \end{aligned}}
+  \qquad \ell_{IP}=214.974\ \mathrm{mm}</latex>
+  <p>它与向量写法完全相同：</p>
+  <latex small>\boxed{\vec r_P=k_a\vec r_L},\qquad
+  k_a=\frac{\ell_{IP}}{l_1}=2.217</latex>
+  <div class="callout warn"><b>这里明确采用 CAD 设计值，而不是照抄 XML 导出点。</b>XML 数字中的约 0.271 mm 横向残差被视为 CAD/XML 待对齐差异；推荐控制模型不再引入额外固定夹角。</div>
+  <div class="callout"><b>P 为什么不用“第二次五杆”：</b>P 不是未知交点，而是后主动刚体上的固定孔。给定 φ<sub>1</sub> 或 q<sub>r</sub> 后，上式直接给出 P；再做圆交会凭空增加不存在的自由度。</div>
+
+  <h4 id="direct-phi2">4.3.3 按 PDF 的半角闭式直接求 φ<sub>2</sub> 和交点 M</h4>
+  <div class="callout good"><b>先把 φ<sub>2</sub> 定死：</b>φ<sub>2</sub> 是杆 L→M 相对水平 +s 轴的绝对方向角；在本文 (s,z) 平面中，从 +s 朝 +z 逆时针转为正。</div>
+  <latex>\boxed{\phi_2=\operatorname{atan2}(M_z-L_z,\ M_s-L_s)}</latex>
+  <p>在 PDF 的点位顺序中，B=L、D=J、C=M。M 必须同时满足：</p>
+  <latex>\boxed{\left\lVert\vec r_M-\vec r_L\right\rVert=l_2},\qquad
+  \boxed{\left\lVert\vec r_M-\vec r_J\right\rVert=l_3}</latex>
+  <p>先定义从 L 指向 J 的已知坐标差：</p>
+  <latex small>\Delta s=J_s-L_s
+  =l_4\cos\phi_4-l_1\cos\phi_1</latex>
+  <latex small>\Delta z=J_z-L_z
+  =l_4\sin\phi_4-l_1\sin\phi_1</latex>
+  <latex>\boxed{\rho=\ell_{LJ}=\sqrt{\Delta s^2+\Delta z^2}}</latex>
+  <p>三角形 L–M–J 存在的必要条件是：</p>
+  <latex>\boxed{|l_2-l_3|\leq\rho\leq l_2+l_3}</latex>
+  <p>接下来完全按 PDF 第 6 页的代数形式推导。由于：</p>
+  <latex small>\vec r_M-\vec r_L
+  =l_2\begin{bmatrix}\cos\phi_2\\\sin\phi_2\end{bmatrix},\qquad
+  \vec r_J-\vec r_L=\begin{bmatrix}\Delta s\\\Delta z\end{bmatrix}</latex>
+  <p>约束 |M−J|=ℓ<sub>JM</sub> 展开为：</p>
+  <latex small>(l_2\cos\phi_2-\Delta s)^2
+  +(l_2\sin\phi_2-\Delta z)^2=l_3^2</latex>
+  <p>利用 cos²φ<sub>2</sub>+sin²φ<sub>2</sub>=1，并把含 φ<sub>2</sub> 的项移到一边：</p>
+  <latex>\boxed{A_0\cos\phi_2+B_0\sin\phi_2=C_0}</latex>
+  <latex small>\boxed{A_0=2l_2\Delta s},\qquad
+  \boxed{B_0=2l_2\Delta z}</latex>
+  <latex small>\boxed{C_0=l_2^2+\Delta s^2+\Delta z^2-l_3^2}</latex>
+  <p>令 t=tan(φ<sub>2</sub>/2)，代入半角恒等式：</p>
+  <latex small>\cos\phi_2=\frac{1-t^2}{1+t^2},\qquad
+  \sin\phi_2=\frac{2t}{1+t^2}</latex>
+  <p>乘掉分母并整理，得到普通二次方程：</p>
+  <latex>\boxed{(A_0+C_0)t^2-2B_0t+(C_0-A_0)=0}</latex>
+  <p>定义判别式并使用求根公式：</p>
+  <latex>\boxed{D_0=A_0^2+B_0^2-C_0^2}</latex>
+  <latex small>t_\sigma=
+  \frac{B_0+\sigma\sqrt{D_0}}
+  {A_0+C_0},\qquad\sigma\in\{+1,-1\}</latex>
+  <p>由于 φ<sub>2</sub>=2 atan(t)，用 <code>atan2(分子,分母)</code> 保留象限后得到：</p>
+  <latex>\boxed{\phi_{2,\sigma}=2\operatorname{atan2}\!\left(
+  B_0+\sigma\sqrt{D_0},\ A_0+C_0\right)}</latex>
+  <p>当前按 B=L、D=J，即有向线 L→J 定义支路。真实装配点 M 位于这条有向线的顺时针侧，所以固定取 σ<sub>φ</sub>=−1：</p>
+  <latex>\boxed{\phi_2=\operatorname{wrap}\!\left[
+  2\operatorname{atan2}\!\left(B_0-\sqrt{D_0},\ A_0+C_0\right)\right]}</latex>
+  <div class="callout warn"><b>不能直接照抄 PDF 截图里的加号。</b>PDF 图中的 C 位于 B→D 的另一侧；在当前 B=L、D=J、C=M 的点位和坐标方向下，加号根得到镜像交点，减号根才是实际机构。它也与 4.2 按 J→L 定义的 σ<sub>M</sub>=+1 不冲突，因为交换圆心顺序会翻转支路标签。</div>
+  <p>实时实现必须先检查 D<sub>0</sub>≥0。只允许把浮点舍入造成的极小负数钳为 0；明显 D<sub>0</sub>&lt;0 表示闭链无解。得到 φ<sub>2</sub> 后，点 M 和另一根被动杆角 φ<sub>3</sub> 直接为：</p>
+  <latex>\boxed{M_s=L_s+l_2\cos\phi_2},\qquad
+  \boxed{M_z=L_z+l_2\sin\phi_2}</latex>
+  <latex>\boxed{\phi_3=\operatorname{atan2}(M_z-J_z,\ M_s-J_s)}</latex>
+  <p>最后回代检查 ‖M−L‖=l<sub>2</sub>、‖M−J‖=l<sub>3</sub>；这既检查代数，也检查装配支路。</p>
+  <div class="callout"><b>旧文中的 η 是什么：</b>写成标准三点角就是 η=∠JLM，顶点在 L，两条射线是 L→J 与 L→M。它只是解释几何的辅助内角，不是新的关节状态；推荐实时公式现在直接输出绝对角 φ<sub>2</sub>，所以主计算链不再使用 η、γ 或 acos。</div>
+  <div class="callout good"><b>这里“闭式”的准确含义：</b>给定任意一组合法的 φ<sub>1</sub>、φ<sub>4</sub>，只执行有限次 sin、cos、sqrt、atan2 就一次性得到 M；不需要初始姿态，不读取上一周期，也不做 Newton 迭代。</div>
+
+  <h4>4.3.4 第二级不再求 K、N：由 P 和 φ<sub>2</sub> 直接得到真实轮轴 W</h4>
+  <p>CAD 设计中的四边形 L–K–N–P 满足：</p>
+  <latex small>\overrightarrow{LK}\approx\overrightarrow{PN},\qquad
+  \overrightarrow{LP}\approx\overrightarrow{KN}</latex>
+  <p>XML 导出坐标中的两组平行四边形向量残差分别只有 __SIM_PARA_LK_PN_UM__ μm 和 __SIM_PARA_LP_KN_UM__ μm；按你的 CAD 设计确认，本节直接采用严格平行关系。因此第二级只负责把局部方向 L→M 平行传到 P→W，实时正解不必显式求 K、N。</p>
+  <latex>\boxed{\overrightarrow{PW}=k_b\overrightarrow{BM}=k_b\overrightarrow{LM}},\qquad
+  \boxed{k_b=\frac{\ell_{PW}}{l_2}=__SIM_SCALE_B__}</latex>
+  <p>上一小节已经得到 L→M 的方向角 φ<sub>2</sub>，而 |LM|=ℓ<sub>LM</sub>。因此：</p>
+  <latex small>\overrightarrow{LM}
+  =l_2\begin{bmatrix}\cos\phi_2\\\sin\phi_2\end{bmatrix}</latex>
+  <p>乘上固定比例 k<sub>b</sub>：</p>
+  <latex small>\overrightarrow{PW}
+  =k_b l_2
+  \begin{bmatrix}\cos\phi_2\\\sin\phi_2\end{bmatrix}</latex>
+  <p>由于 k<sub>b</sub>l<sub>2</sub>=ℓ<sub>PW</sub>=258.000 mm，真实轮轴的最直观闭式就是：</p>
+  <latex>\boxed{W_s=P_s+\ell_{PW}\cos\phi_2}</latex>
+  <latex>\boxed{W_z=P_z+\ell_{PW}\sin\phi_2}</latex>
+  <p>将 P 的闭式也代入，可直接看到 W 只依赖两个主动角：</p>
+  <latex small>\boxed{W_s(\phi_1,\phi_4)=
+  \ell_{IP}\cos\phi_1
+  +\ell_{PW}\cos\phi_2(\phi_1,\phi_4)}</latex>
+  <latex small>\boxed{W_z(\phi_1,\phi_4)=
+  \ell_{IP}\sin\phi_1
+  +\ell_{PW}\sin\phi_2(\phi_1,\phi_4)}</latex>
+  <p>它与实现中的向量式严格等价：</p>
+  <latex>\boxed{\vec r_W=\vec r_P+k_b(\vec r_M-\vec r_L)}</latex>
+  <p>又因为 I、L、P 共线且 r⃗<sub>P</sub>=k<sub>a</sub>r⃗<sub>L</sub>，还可化成：</p>
+  <latex>\boxed{\vec r_W=k_b\vec r_M+(k_a-k_b)\vec r_L}</latex>
+  <div class="callout warn"><b>M、I、W 不共线完全不妨碍这条公式。</b>它从新的起点 P 出发复制局部方向 L→M，而不是假设 W=kM。只要 k<sub>a</sub>≠k<sub>b</sub>，式中就保留 (k<sub>a</sub>−k<sub>b</sub>)L；这正是不能把整个偏置机构粗暴看成一个统一比例五杆的原因。</div>
+
+  <h4>4.3.5 最后才计算控制器真正使用的 L<sub>0</sub>、φ<sub>0</sub> 和 θ</h4>
+  <p>前五步都在几何平面 (s,z) 中进行，其中 +z 向上。控制器为了让“轮轴在髋轴下方”得到正的竖直坐标，定义：</p>
+  <latex>\boxed{s_W=W_s},\qquad\boxed{d_W=-W_z}</latex>
+  <p>虚拟腿就是从髋轴 I 指向真实轮轴 W 的向量：</p>
+  <latex small>\overrightarrow{IW}
+  =\begin{bmatrix}s_W\\d_W\end{bmatrix}_{(s,d)}</latex>
+  <p>因此最终腿长是这个向量的欧氏长度：</p>
+  <latex>\boxed{L_0=\left\lVert\overrightarrow{IW}\right\rVert
+  =\sqrt{s_W^2+d_W^2}=\sqrt{W_s^2+W_z^2}}</latex>
+  <p>虚拟腿极角从控制坐标的 +s 轴量到 I→W：</p>
+  <latex>\boxed{\phi_0=\operatorname{atan2}(d_W,s_W)
+  =\operatorname{atan2}(-W_z,W_s)}</latex>
+  <p>当轮轴恰好位于髋轴正下方时，W<sub>s</sub>=0、W<sub>z</sub>&lt;0，所以：</p>
+  <latex small>L_0=-W_z</latex>
+  <latex small>\phi_0=\frac{\pi}{2}=90^\circ</latex>
+  <latex small>\theta_{\mathrm{leg}}=\frac{\pi}{2}-\phi_0=0</latex>
+  <p>接入当前每侧 LQR 时还要减去该侧使用的 Pitch：</p>
+  <latex>\boxed{\theta_{side}=\frac{\pi}{2}-Pitch_{side}-\phi_0}</latex>
+  <latex small>Pitch_{side,L}=-INS.Pitch,\qquad
+  Pitch_{side,R}=+INS.Pitch</latex>
+  <div class="callout bad"><b>三个长度一定不要混淆：</b>
+  <code>|IM|</code> 是髋轴到内层闭链点的距离；<code>|PW|</code> 是输出刚体的固定杆长；只有 <code>|IW|</code> 才是控制器使用的 L<sub>0</sub>。</div>
+
+  <h4>4.3.6 从输入到输出的一条完整闭式计算链</h4>
+  <div class="diagram" id="recommended-fk-flow">
+    <svg viewBox="0 0 1180 570" role="img" aria-label="偏置串腿闭式正运动学完整计算顺序">
+      <defs><marker id="simpleFlowArrow" markerUnits="userSpaceOnUse" markerWidth="5" markerHeight="5" refX="4.7" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5Z" fill="#718096"/></marker></defs>
+      <rect x="12" y="12" width="1156" height="546" rx="18" fill="#fbfdff" stroke="#dce3ee"/>
+      <g fill="none" stroke="#718096" stroke-width="2" marker-end="url(#simpleFlowArrow)">
+        <path d="M210 113 H268"/><path d="M492 113 H550"/><path d="M774 113 H832"/>
+        <path d="M944 174 V238"/><path d="M832 306 H774"/><path d="M550 306 H492"/>
+        <path d="M380 374 V430"/>
+      </g>
+      <g font-family="Segoe UI,Microsoft YaHei,sans-serif" text-anchor="middle">
+        <g transform="translate(115,113)"><rect x="-95" y="-61" width="190" height="122" rx="12" fill="#eaf2ff" stroke="#bfd4f5"/><text y="-25" font-size="16" font-weight="760">① 两个模型角</text><text y="7" font-size="14">qf：前支路</text><text y="34" font-size="14">qr：后支路</text></g>
+        <g transform="translate(380,113)"><rect x="-112" y="-61" width="224" height="122" rx="12" fill="#edf9f4" stroke="#b8e2d2"/><text y="-25" font-size="16" font-weight="760">② 绝对杆角</text><text y="7" font-size="14">φ₄=qf+αIJref</text><text y="34" font-size="14">φ₁=qr+αILref</text></g>
+        <g transform="translate(662,113)"><rect x="-112" y="-61" width="224" height="122" rx="12" fill="#edf9f4" stroke="#b8e2d2"/><text y="-25" font-size="16" font-weight="760">③ 已知点</text><text y="7" font-size="14">L(φ₁)、J(φ₄)</text><text y="34" font-size="14">P(φ₁)，且 P=kₐL</text></g>
+        <g transform="translate(944,113)"><rect x="-112" y="-61" width="224" height="122" rx="12" fill="#f4edff" stroke="#d8c4f4"/><text y="-25" font-size="16" font-weight="760">④ PDF 半角闭式</text><text y="7" font-size="14">A₀、B₀、C₀、D₀</text><text y="34" font-size="14">φ₂=2atan2(减号支路) → M</text></g>
+        <g transform="translate(944,306)"><rect x="-112" y="-68" width="224" height="136" rx="12" fill="#fff4df" stroke="#edc77d"/><text y="-31" font-size="16" font-weight="760">⑤ 输出映射</text><text y="2" font-size="14">P→W = kᵦ(L→M)</text><text y="32" font-size="14" font-weight="720">得到真实轮轴 W</text></g>
+        <g transform="translate(662,306)"><rect x="-112" y="-68" width="224" height="136" rx="12" fill="#e8f7f1" stroke="#b9e3d2"/><text y="-31" font-size="16" font-weight="760">⑥ 控制坐标</text><text y="2" font-size="14">sW=Ws</text><text y="32" font-size="14">dW=−Wz</text></g>
+        <g transform="translate(380,306)"><rect x="-112" y="-68" width="224" height="136" rx="12" fill="#e8f7f1" stroke="#b9e3d2"/><text y="-31" font-size="16" font-weight="760">⑦ 虚拟腿状态</text><text y="2" font-size="14">L₀=√(sW²+dW²)</text><text y="32" font-size="14">φ₀=atan2(dW,sW)</text></g>
+        <g transform="translate(380,478)"><rect x="-172" y="-48" width="344" height="96" rx="12" fill="#fff0f0" stroke="#efb5b5"/><text y="-10" font-size="16" font-weight="760">⑧ 接入每侧 LQR</text><text y="22" font-size="14">θside=π/2−Pitchside−φ₀</text></g>
+      </g>
+      <text x="636" y="500" font-family="Segoe UI,Microsoft YaHei,sans-serif" font-size="13.5" fill="#667085">整条正解没有初态、历史递推或 Newton；K、N 只保留在离线完整基准中。</text>
+      <text x="636" y="529" font-family="Segoe UI,Microsoft YaHei,sans-serif" font-size="13.5" fill="#667085">输入不合法、三角形无解或接近相切时应立即返回故障，不得继续输出力矩。</text>
+    </svg>
+  </div>
+
+  <div class="scroll"><table>
+    <thead><tr><th>顺序</th><th>输入</th><th>执行的闭式计算</th><th>输出</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>q<sub>f</sub>、q<sub>r</sub></td><td>加参考方向并 wrap</td><td>φ<sub>4</sub>、φ<sub>1</sub></td></tr>
+      <tr><td>2</td><td>φ<sub>1</sub>、φ<sub>4</sub></td><td>sin/cos</td><td>L、J、P</td></tr>
+      <tr><td>3</td><td>L、J、l<sub>2</sub>、l<sub>3</sub></td><td>A<sub>0</sub>/B<sub>0</sub>/C<sub>0</sub>、D<sub>0</sub>、sqrt、2 atan2、wrap</td><td>φ<sub>2</sub>、M、φ<sub>3</sub></td></tr>
+      <tr><td>4</td><td>P、φ<sub>2</sub>、ℓ<sub>PW</sub></td><td>一次 sin/cos 与向量相加</td><td>W</td></tr>
+      <tr><td>5</td><td>W<sub>s</sub>、W<sub>z</sub></td><td>sqrt、atan2</td><td>L<sub>0</sub>、φ<sub>0</sub>、θ<sub>side</sub></td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>4.3.7 用 CAD 约束化简模型做一次可以手工复核的数值闭环</h4>
+  <p>令 q<sub>f</sub>=q<sub>r</sub>=0。这里的“0”只表示模型参考构型，不代表实车编码器零点。全部工程量按三位小数显示：</p>
+  <latex small>\phi_4=3.989^\circ,\qquad
+  \phi_1=173.522^\circ</latex>
+  <latex small>J=(96.749,\ 6.746)\ \mathrm{mm},\qquad
+  L=(-96.355,\ 10.940)\ \mathrm{mm}</latex>
+  <latex small>P=k_aL=(-213.602,\ 24.253)\ \mathrm{mm}</latex>
+  <p>PDF 半角闭式的中间量为：</p>
+  <latex small>A_0=44414.099\ \mathrm{mm^2},\quad
+  B_0=-964.742\ \mathrm{mm^2},\quad
+  C_0=37307.029\ \mathrm{mm^2},\quad
+  \sqrt{D_0}=24119.048\ \mathrm{mm^2}</latex>
+  <p>取减号装配支路后：</p>
+  <latex small>\phi_2=-34.127^\circ,\qquad
+  M=(-1.159,\ -53.578)\ \mathrm{mm}</latex>
+  <p>再由 W=P+k<sub>b</sub>(M−L) 得到：</p>
+  <latex small>W=(-0.031,\ -120.493)\ \mathrm{mm}</latex>
+  <latex>\boxed{L_0=120.493\ \mathrm{mm}},\qquad
+  \boxed{\phi_0=90.015^\circ},\qquad
+  \boxed{\theta_{leg}=-0.015^\circ}</latex>
+  <div class="callout good"><b>这个数值例子验证的是 CAD 约束化简模型内部闭环。</b>它说明减号根得到正确 M，且 P→W 比例映射得到 W。由于这里保留 XML 的参考杆方向、同时强制 CAD 共线/平行，q=0 不再被假装成严格竖直；约 0.015° 的差异正是“参考角也需要与最终 CAD 几何统一”的提示，不替代实车电机零点和方向标定。</div>
+
+  <details class="advanced">
+  <summary>4A. 展开完整两次闭链基准（用于证明简化式与 XML 一致，不是推荐实时路径）</summary>
+  <h4>4A.1 不写 Circle 函数时：用两次余弦定理直接得到 W</h4>
+  <div class="callout good"><b>圆交公式就是余弦定理的向量形式。</b>偏置机构也能写成“给定 q<sub>f</sub>、q<sub>r</sub>，直接输出 W”的闭式标量公式；旋转矩阵 R 只是把两行 sin/cos 缩写在一起，不代表递推、初态或控制器。下面把第一次圆交、刚体定位、第二次圆交和轮轴定位全部写成标量。</div>
+  <p>三个主动点首先由当前角度一次性确定。令参考向量分量分别为 v<sub>IJ,s</sub>、v<sub>IJ,z</sub> 等，则：</p>
+  <latex small>J_s=v_{IJ,s}\cos q_f-v_{IJ,z}\sin q_f,\qquad
+  J_z=v_{IJ,s}\sin q_f+v_{IJ,z}\cos q_f</latex>
+  <latex small>L_s=v_{IL,s}\cos q_r-v_{IL,z}\sin q_r,\qquad
+  L_z=v_{IL,s}\sin q_r+v_{IL,z}\cos q_r</latex>
+  <latex small>P_s=v_{IP,s}\cos q_r-v_{IP,z}\sin q_r,\qquad
+  P_z=v_{IP,s}\sin q_r+v_{IP,z}\cos q_r</latex>
+
+  <p><b>第一次三角形 J–M–L：</b>先求已知边 JL 的长度和方向：</p>
+  <latex small>\Delta s_M=L_s-J_s,\qquad \Delta z_M=L_z-J_z,
+  \qquad \rho_M=\sqrt{\Delta s_M^2+\Delta z_M^2}</latex>
+  <latex small>\gamma_M=\operatorname{atan2}(\Delta z_M,\Delta s_M)</latex>
+  <p>J–M–L 三角形的三边是 ℓ<sub>JM</sub>、ℓ<sub>LM</sub>、ρ<sub>M</sub>。在顶点 J 使用余弦定理：</p>
+  <latex small>\ell_{LM}^2=\ell_{JM}^2+\rho_M^2
+  -2\ell_{JM}\rho_M\cos\eta_M</latex>
+  <latex small>\boxed{\eta_M=\arccos\!\left(
+  \frac{\ell_{JM}^2+\rho_M^2-\ell_{LM}^2}
+  {2\ell_{JM}\rho_M}\right)}</latex>
+  <p>σ<sub>M</sub> 选择连心线两侧的装配支路，因此 M 的坐标直接是：</p>
+  <latex small>\boxed{M_s=J_s+\ell_{JM}\cos(\gamma_M+\sigma_M\eta_M)}</latex>
+  <latex small>\boxed{M_z=J_z+\ell_{JM}\sin(\gamma_M+\sigma_M\eta_M)},
+  \qquad \sigma_M=+1</latex>
+
+  <p><b>由固定刚体三角形 M–L–K 直接定位 K：</b>预先从 XML 计算两个永不改变的标量：</p>
+  <latex small>k_{MK}=\frac{\lVert\vec v_{MK}^{\,ref}\rVert}
+  {\lVert\vec v_{ML}^{\,ref}\rVert},\qquad
+  \delta_{MK}=\angle(\vec v_{MK}^{\,ref})-\angle(\vec v_{ML}^{\,ref})</latex>
+  <p>因为 M→L 与 M→K 固定在同一个刚体上，当前 M→K 始终等于“当前 M→L 先转固定夹角 δ<sub>MK</sub>，再乘固定比例 k<sub>MK</sub>”：</p>
+  <latex small>\begin{bmatrix}K_s\\K_z\end{bmatrix}
+  =\begin{bmatrix}M_s\\M_z\end{bmatrix}
+  +k_{MK}
+  \begin{bmatrix}\cos\delta_{MK}&-\sin\delta_{MK}\\
+  \sin\delta_{MK}&\cos\delta_{MK}\end{bmatrix}
+  \begin{bmatrix}L_s-M_s\\L_z-M_z\end{bmatrix}</latex>
+  <p class="tiny">这与 α=angle(L−M)−angle(vMLref)、K=M+R(α)vMKref 完全等价；这里只把运行时 α 消掉，改成预先计算的固定比例与固定夹角。</p>
+
+  <p><b>第二次三角形 K–N–P：</b>重复同一个余弦定理：</p>
+  <latex small>\Delta s_N=P_s-K_s,\qquad \Delta z_N=P_z-K_z,
+  \qquad \rho_N=\sqrt{\Delta s_N^2+\Delta z_N^2}</latex>
+  <latex small>\gamma_N=\operatorname{atan2}(\Delta z_N,\Delta s_N)</latex>
+  <latex small>\boxed{\eta_N=\arccos\!\left(
+  \frac{\ell_{KN}^2+\rho_N^2-\ell_{PN}^2}
+  {2\ell_{KN}\rho_N}\right)}</latex>
+  <latex small>\boxed{N_s=K_s+\ell_{KN}\cos(\gamma_N+\sigma_N\eta_N)}</latex>
+  <latex small>\boxed{N_z=K_z+\ell_{KN}\sin(\gamma_N+\sigma_N\eta_N)},
+  \qquad \sigma_N=-1</latex>
+
+  <p><b>由固定刚体三角形 P–N–W 直接定位 W：</b>同样预计算：</p>
+  <latex small>k_{PW}=\frac{\lVert\vec v_{PW}^{\,ref}\rVert}
+  {\lVert\vec v_{PN}^{\,ref}\rVert},\qquad
+  \delta_{PW}=\angle(\vec v_{PW}^{\,ref})-\angle(\vec v_{PN}^{\,ref})</latex>
+  <latex small>\boxed{\begin{bmatrix}W_s\\W_z\end{bmatrix}
+  =\begin{bmatrix}P_s\\P_z\end{bmatrix}
+  +k_{PW}
+  \begin{bmatrix}\cos\delta_{PW}&-\sin\delta_{PW}\\
+  \sin\delta_{PW}&\cos\delta_{PW}\end{bmatrix}
+  \begin{bmatrix}N_s-P_s\\N_z-P_z\end{bmatrix}}</latex>
+  <p>最后 d<sub>W</sub>=−W<sub>z</sub>，再计算 L<sub>0</sub> 与 φ<sub>0</sub>。因此整个正解可以严格写成一个无历史输入的复合函数：</p>
+  <latex>\boxed{(W_s,W_z,L_0,\phi_0)=\mathcal H(q_f,q_r;\sigma_M=+1,\sigma_N=-1)}</latex>
+  <div class="callout warn"><b>为什么它仍比理想五杆公式长：</b>理想五杆只有一个主要闭合三角形；当前偏置机构包含 J–M–L 与 K–N–P 两次闭合，还包含 M–L–K、P–N–W 两个不共线刚体三角形。因此可以闭式直算，但必然是“两次余弦定理 + 两次固定刚体变换”，不能在不丢失真实几何的情况下压缩成理想五杆那四个短三角函数系数。</div>
+
+  <h3>4A.2 从电机反馈到轮轴坐标：把两次闭链完全展开</h3>
+  <p>下面的流程只描述正运动学。所谓“闭链 1”是前支路 <b>J→M</b> 与后侧刚体固定点距 <b>L→M</b> 必须在同一个 M 会合；“闭链 2”是连杆 <b>K→N</b> 与输出刚体固定点距 <b>P→N</b> 必须在同一个 N 会合。圆只是这两个固定距离约束的坐标表达。</p>
+  <div class="diagram" id="kinematics-flowchart">
+    <svg viewBox="0 0 1180 1760" role="img" aria-label="从 XML 固定几何和实时时关节角开始，经 J L 两圆求 M、由刚体求 K、K P 两圆求 N、由输出刚体求 W，最终得到 L0 phi0 theta 的详细闭链流程图">
+      <defs><marker id="flowArrowDetail" markerUnits="userSpaceOnUse" markerWidth="6.5" markerHeight="6.5" refX="6" refY="3.25" orient="auto"><path d="M0,0 L6.5,3.25 L0,6.5Z" fill="#718096"/></marker></defs>
+      <rect x="12" y="12" width="1156" height="1736" rx="18" fill="#fbfdff" stroke="#dce3ee"/>
+
+      <!-- Stage bands. -->
+      <rect x="28" y="28" width="1124" height="390" rx="14" fill="#eef6ff" stroke="#d5e6fa"/>
+      <rect x="28" y="430" width="1124" height="365" rx="14" fill="#faf7ff" stroke="#e3d8f5"/>
+      <rect x="28" y="807" width="1124" height="170" rx="14" fill="#f2fbf7" stroke="#d4eee3"/>
+      <rect x="28" y="989" width="1124" height="365" rx="14" fill="#fff9ee" stroke="#f1dfbd"/>
+      <rect x="28" y="1366" width="1124" height="366" rx="14" fill="#f6f8fb" stroke="#dce3ee"/>
+      <g font-family="Segoe UI,Microsoft YaHei,sans-serif" font-weight="750" font-size="15">
+        <text x="48" y="58" fill="#1d4f9a">A　数据来源与坐标对齐</text>
+        <text x="48" y="460" fill="#6d28d9">B　闭链 1：J–M–L 会合于 M</text>
+        <text x="48" y="837" fill="#116b50">C　刚体 jMK：由 M、L 的朝向定位 K</text>
+        <text x="48" y="1019" fill="#a45305">D　闭链 2：K–N–P 会合于 N</text>
+        <text x="48" y="1396" fill="#475467">E　输出刚体与虚拟腿坐标</text>
+      </g>
+
+      <!-- Connectors are drawn before nodes. -->
+      <g fill="none" stroke="#718096" stroke-width="2.5" marker-end="url(#flowArrowDetail)">
+        <path d="M590 105 V122 H305 V142"/><path d="M590 105 V122 H875 V142"/>
+        <path d="M305 242 V270 H590 V298"/><path d="M875 242 V270 H590 V298"/>
+        <line x1="590" y1="398" x2="590" y2="474"/>
+        <line x1="590" y1="584" x2="590" y2="616"/>
+        <line x1="590" y1="716" x2="590" y2="742"/>
+        <path d="M690 666 H818"/>
+        <line x1="590" y1="822" x2="590" y2="858"/>
+        <line x1="590" y1="958" x2="590" y2="1034"/>
+        <line x1="590" y1="1144" x2="590" y2="1176"/>
+        <line x1="590" y1="1276" x2="590" y2="1302"/>
+        <path d="M690 1226 H818"/>
+        <line x1="590" y1="1382" x2="590" y2="1422"/>
+        <line x1="590" y1="1532" x2="590" y2="1564"/>
+        <line x1="590" y1="1664" x2="590" y2="1683"/>
+      </g>
+
+      <g font-family="Segoe UI,Microsoft YaHei,sans-serif" text-anchor="middle">
+        <g transform="translate(590,78)">
+          <rect x="-135" y="-27" width="270" height="54" rx="27" fill="#48bb78" stroke="#25764b" stroke-width="2"/>
+          <text y="5" fill="white" font-size="16.5" font-weight="750">开始：执行一次腿部正运动学</text>
+        </g>
+
+        <g transform="translate(305,192)">
+          <rect x="-240" y="-50" width="480" height="100" rx="10" fill="#9f7aea" stroke="#6b46c1" stroke-width="2"/>
+          <text y="-21" fill="white" font-size="16" font-weight="750">固定输入：XML / CAD 刚体几何</text>
+          <text y="4" fill="white" font-size="13.5">参考向量 vIJ、vIL、vIP；标量杆长 ℓJM、ℓLM、ℓKN、ℓPN</text>
+          <text y="27" fill="white" font-size="13.5">体固连参考向量 vML、vMK、vPN、vPW；运行期间不改变</text>
+        </g>
+        <g transform="translate(875,192)">
+          <rect x="-240" y="-50" width="480" height="100" rx="10" fill="#9f7aea" stroke="#6b46c1" stroke-width="2"/>
+          <text y="-21" fill="white" font-size="16" font-weight="750">实时输入：编码器位置或 MuJoCo qpos</text>
+          <text y="4" fill="white" font-size="13.5">先统一极性、前后顺序和零偏：qmodel = SΠ·pmotor + b</text>
+          <text y="27" fill="white" font-size="13.5">得到模型主动角 qf（前支路）、qr（后支路），单位 rad</text>
+        </g>
+        <g transform="translate(590,348)">
+          <rect x="-350" y="-50" width="700" height="100" rx="10" fill="#4299e1" stroke="#2b6cb0" stroke-width="2"/>
+          <text y="-22" fill="white" font-size="16" font-weight="750">由两个主动角定位三个已知点 J、L、P</text>
+          <text y="4" fill="white" font-size="14">rJ=R(qf)vIJ　rL=R(qr)vIL　rP=R(qr)vIP</text>
+          <text y="28" fill="white" font-size="13.5">J 由 qf 定位；L、P 在同一后侧主动刚体上，都由同一个 qr 定位——只有两个主动自由度</text>
+        </g>
+
+        <g transform="translate(590,529)">
+          <rect x="-360" y="-55" width="720" height="110" rx="10" fill="#4299e1" stroke="#2b6cb0" stroke-width="2"/>
+          <text y="-28" fill="white" font-size="16" font-weight="750">第一次闭链：未知点 M 必须同时满足两条固定距离</text>
+          <text y="-2" fill="white" font-size="14">圆心 J、半径 ℓJM　∩　圆心 L、半径 ℓLM　→　候选 M₊、M₋</text>
+          <text y="23" fill="white" font-size="13.5">物理含义：前支路杆 JM 与后侧刚体内点距 LM 必须在同一个铰点 M 会合</text>
+          <text y="45" fill="white" font-size="13">先算 ρM=‖rL−rJ‖ 并检查三角不等式；通过后才计算单位向量 eM、aM、hM</text>
+        </g>
+        <g transform="translate(590,666)">
+          <polygon points="0,-50 100,0 0,50 -100,0" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+          <text y="-20" fill="white" font-size="14" font-weight="750">ρM&gt;ε</text>
+          <text y="1" fill="white" font-size="12.8" font-weight="700">abs(ℓJM−ℓLM)&lt;ρM</text>
+          <text y="22" fill="white" font-size="12.8" font-weight="700">ρM&lt;ℓJM+ℓLM？</text>
+        </g>
+        <text x="612" y="735" fill="#5b667a" font-size="13.5" font-weight="700">是：存在两个候选 M</text>
+        <text x="752" y="651" fill="#5b667a" font-size="13.5" font-weight="700">否</text>
+        <g transform="translate(968,666)">
+          <rect x="-150" y="-40" width="300" height="80" rx="40" fill="#e53e3e" stroke="#c53030" stroke-width="2"/>
+          <text y="-7" fill="white" font-size="14.5" font-weight="750">终止本周期：闭链 1 无安全实解</text>
+          <text y="17" fill="white" font-size="12.1">圆心重合 / 无实交 / 相切奇异</text>
+        </g>
+        <g transform="translate(590,782)">
+          <rect x="-350" y="-40" width="700" height="80" rx="10" fill="#4299e1" stroke="#2b6cb0" stroke-width="2"/>
+          <text y="-12" fill="white" font-size="15.5" font-weight="750">固定物理装配支路 M：σM=+1</text>
+          <text y="15" fill="white" font-size="13.2">当前专用正解直接选择 M+，不依赖上一周期；通用求解器才需要最近点保护</text>
+        </g>
+
+        <g transform="translate(590,908)">
+          <rect x="-360" y="-50" width="720" height="100" rx="10" fill="#4299e1" stroke="#2b6cb0" stroke-width="2"/>
+          <text y="-22" fill="white" font-size="16" font-weight="750">刚体 jMK：M、L 两点确定当前朝向，再定位同一刚体上的 K</text>
+          <text y="4" fill="white" font-size="14">α=angle(rL−rM)−angle(vML)</text>
+          <text y="29" fill="white" font-size="13.5">rK=rM+R(α)vMK；点 K 的当前坐标不是直接从静态 XML 抄出</text>
+        </g>
+
+        <g transform="translate(590,1089)">
+          <rect x="-360" y="-55" width="720" height="110" rx="10" fill="#4299e1" stroke="#2b6cb0" stroke-width="2"/>
+          <text y="-28" fill="white" font-size="16" font-weight="750">第二次闭链：未知点 N 必须同时满足两条固定距离</text>
+          <text y="-2" fill="white" font-size="14">圆心 K、半径 ℓKN　∩　圆心 P、半径 ℓPN　→　候选 N₊、N₋</text>
+          <text y="23" fill="white" font-size="13.5">物理含义：连杆 KN 与输出刚体内点距 PN 必须在同一个铰点 N 会合</text>
+          <text y="45" fill="white" font-size="13">先算 ρN=‖rP−rK‖ 并检查三角不等式；通过后才计算单位向量 eN、aN、hN</text>
+        </g>
+        <g transform="translate(590,1226)">
+          <polygon points="0,-50 100,0 0,50 -100,0" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+          <text y="-20" fill="white" font-size="14" font-weight="750">ρN&gt;ε</text>
+          <text y="1" fill="white" font-size="12.8" font-weight="700">abs(ℓKN−ℓPN)&lt;ρN</text>
+          <text y="22" fill="white" font-size="12.8" font-weight="700">ρN&lt;ℓKN+ℓPN？</text>
+        </g>
+        <text x="612" y="1295" fill="#5b667a" font-size="13.5" font-weight="700">是：存在两个候选 N</text>
+        <text x="752" y="1211" fill="#5b667a" font-size="13.5" font-weight="700">否</text>
+        <g transform="translate(968,1226)">
+          <rect x="-150" y="-40" width="300" height="80" rx="40" fill="#e53e3e" stroke="#c53030" stroke-width="2"/>
+          <text y="-7" fill="white" font-size="14.5" font-weight="750">终止本周期：闭链 2 无安全实解</text>
+          <text y="17" fill="white" font-size="12.1">圆心重合 / 无实交 / 相切奇异</text>
+        </g>
+        <g transform="translate(590,1342)">
+          <rect x="-350" y="-40" width="700" height="80" rx="10" fill="#4299e1" stroke="#2b6cb0" stroke-width="2"/>
+          <text y="-12" fill="white" font-size="15.5" font-weight="750">固定物理装配支路 N：σN=−1</text>
+          <text y="15" fill="white" font-size="13.2">当前专用正解直接选择 N−；第二次 +eN⊥ 指向右下，所以实际 N 使用 −1</text>
+        </g>
+
+        <g transform="translate(590,1477)">
+          <rect x="-360" y="-55" width="720" height="110" rx="10" fill="#4299e1" stroke="#2b6cb0" stroke-width="2"/>
+          <text y="-29" fill="white" font-size="16" font-weight="750">输出刚体 jOP：P、N 两点确定朝向 β，再直接定位轮轴 W</text>
+          <text y="-3" fill="white" font-size="14">β=angle(rN−rP)−angle(vPN)</text>
+          <text y="23" fill="white" font-size="14">rW=rP+R(β)vPW　→　rW=(sW,zW)（rW 是位置向量）</text>
+          <text y="45" fill="white" font-size="12.8">这里没有第三次圆交：P 给位置，P→N 给朝向，固定 P→W 给轮轴在刚体内的位置</text>
+        </g>
+        <g transform="translate(590,1614)">
+          <rect x="-360" y="-50" width="720" height="100" rx="10" fill="#4299e1" stroke="#2b6cb0" stroke-width="2"/>
+          <text y="-23" fill="white" font-size="16" font-weight="750">把轮轴坐标变成控制器使用的虚拟腿状态</text>
+          <text y="3" fill="white" font-size="14">dW=−zW；L0=√(sW²+dW²)；φ0=atan2(dW,sW)</text>
+          <text y="28" fill="white" font-size="14">θleg=π/2−φ0；控制状态 θ=π/2−Pitch−φ0</text>
+        </g>
+        <g transform="translate(590,1710)">
+          <rect x="-225" y="-27" width="450" height="54" rx="27" fill="#48bb78" stroke="#25764b" stroke-width="2"/>
+          <text y="-3" fill="white" font-size="15.5" font-weight="750">正运动学 H(q) 完成</text>
+          <text y="17" fill="white" font-size="12.8">输出 W、L0、φ0、θ，供 Observe/LQR 与下一节 JH 使用</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <h3>4A.3 两个“不是圆交”的刚体定位步骤</h3>
+  <div class="two">
+    <div class="card">
+      <h4>由 M、L 定位 K</h4>
+      <ol>
+        <li>M 给出刚体 jMK 当前放在哪里。</li>
+        <li>M→L 给出该刚体当前朝哪个方向。</li>
+        <li>XML 参考三角形已经记住 K 相对 M 在哪里。</li>
+        <li>把参考 M→K 与整个刚体一起旋转 α，再从 M 出发即可得到 K。</li>
+      </ol>
+      <latex small>\vec r_K=\vec r_M+R(\alpha)\vec v_{MK}^{\,\mathrm{ref}}</latex>
+      <p class="tiny">M、L、K 可以是不共线的三角形；正因为三点属于同一个刚体，固定形状才能被整体旋转和平移。</p>
+    </div>
+    <div class="card">
+      <h4>由 P、N 定位 W</h4>
+      <ol>
+        <li>P 给出输出刚体 jOP 当前放在哪里。</li>
+        <li>P→N 给出该刚体当前朝哪个方向。</li>
+        <li>XML 参考几何已经记住轮轴 W 相对 P 在哪里。</li>
+        <li>把参考 P→W 与刚体一起旋转 β，再从 P 出发即可得到 W。</li>
+      </ol>
+      <latex small>\vec r_W=\vec r_P+R(\beta)\vec v_{PW}^{\,\mathrm{ref}}</latex>
+      <p class="tiny">这里没有以 W 为圆心的圆，也没有第三次圆交；W 是刚体上的固定点，被 P 的位置和 P→N 的朝向唯一带出来。</p>
+    </div>
+  </div>
+
+  <h3>4A.4 逐式计算</h3>
+  <div class="step"><span class="n">1</span><b>两个主动角直接确定的三个已知点</b><latex small>\vec r_J=R(q_f)\vec v_{IJ}^{\,\mathrm{ref}},\qquad \vec r_L=R(q_r)\vec v_{IL}^{\,\mathrm{ref}},\qquad \vec r_P=R(q_r)\vec v_{IP}^{\,\mathrm{ref}}</latex><p class="tiny">J 由 q<sub>f</sub> 单独确定；L 和 P 固定在同一个后侧主动刚体上，均由同一个 q<sub>r</sub> 确定。</p></div>
+  <div class="step"><span class="n">2</span><b>第一次闭链与复合刚体朝向</b><latex small>\vec r_M=\operatorname{Circle}\!\left(\vec r_J,\ell_{JM},\vec r_L,\ell_{LM},+1\right)</latex><latex small>\alpha=\operatorname{atan2}(r_{L,z}-r_{M,z},\,r_{L,s}-r_{M,s})-\operatorname{atan2}(v_{ML,z},\,v_{ML,s}),\qquad \vec r_K=\vec r_M+R(\alpha)\vec v_{MK}^{\,\mathrm{ref}}</latex></div>
+  <div class="step"><span class="n">3</span><b>第二次闭链与轮轴</b><latex small>\vec r_N=\operatorname{Circle}\!\left(\vec r_K,\ell_{KN},\vec r_P,\ell_{PN},-1\right)</latex><latex small>\beta=\operatorname{atan2}(r_{N,z}-r_{P,z},\,r_{N,s}-r_{P,s})-\operatorname{atan2}(v_{PN,z},\,v_{PN,s}),\qquad \vec r_W=\vec r_P+R(\beta)\vec v_{PW}^{\,\mathrm{ref}}</latex></div>
+  <div class="step"><span class="n">4</span><b>轮轴二维位置与虚拟腿输出</b><latex small>\mathcal P(\vec q)=\begin{bmatrix}s_W\\d_W\end{bmatrix}=\begin{bmatrix}\Delta Y_{\rm base}\\-\Delta Z_{\rm base}\end{bmatrix},\qquad L_0=\sqrt{s_W^2+d_W^2},\qquad \phi_0=\operatorname{atan2}(d_W,s_W)</latex><p class="tiny">求解器内部的 W<sub>X</sub>、W<sub>Z</sub> 是 jIJ/jIO 共同局部 X–Z 平面的数值。两个髋部 body 自身的 +90° Z 参考旋转把局部 X、Z 分别映到 base 的 +Y、+Z，所以 W<sub>X</sub>=s<sub>W</sub>=ΔY<sub>base</sub>；这里没有额外定义一根“xH 轴”。</p></div>
+
+  <h3>4A.5 默认零位的手算检查</h3>
+  <pre>qf = qr = 0
+J = (+96.749, +6.746) mm
+L = (−96.355, +10.940) mm
+M = (−1.159, −53.578) mm
+K = (−133.742, +62.639) mm
+P = (−213.571, +24.522) mm
+N = (−250.958, +76.220) mm
+W ≈ (0.000, −120.224) mm
+
+L0 = __DEFAULT_L__ mm,  φ0 ≈ 90.000°,  θ_leg ≈ 0.000°</pre>
+  <p>因此 XML 自己的名义零位确实是“虚拟腿竖直”。如果控制器在这组实际 q 上算出的 φ0 不是 90°，偏差来自控制器采用的理想五杆映射/坐标映射，而不是 LQR 把 θ=0 定义错了。</p>
+  </details>
+</section>
+
+<section id="jacobian">
+  <h2>5. 一次闭链简化后的解析 JH 与 VMC 力矩映射（不生成控制目标）</h2>
+  <div class="callout good"><b>先说第四、第五节的关系：</b>第 4 节用当前关节角算出轮轴 W 和当前状态 L0、φ0；第 5 节不再重新求另一套几何，而是对第 4 节的同一个 H(q) 求导，得到“关节动一点，状态会怎样变”的 J<sub>H</sub>，再用 J<sub>H</sub><sup>T</sup> 把上游控制器已经给出的虚拟力换成电机力矩。</div>
+
+  <h3>5.0 先用人话把这一节要解决的三件事分开</h3>
+  <p>这一节容易看乱，是因为“位置”“位置的变化率”和“力矩”三类量写在了一起。实际上它们依次回答三个不同问题：</p>
+  <div class="scroll"><table>
+    <thead><tr><th>问题</th><th>已知</th><th>要求</th><th>使用的关系</th></tr></thead>
+    <tbody>
+      <tr><td>① 这条腿现在在哪里？</td><td>当前模型关节角 q<sub>f</sub>、q<sub>r</sub></td><td>W、L<sub>0</sub>、φ<sub>0</sub></td><td>第 4 节正运动学 y=H(q)</td></tr>
+      <tr><td>② 某台电机再转一点，虚拟腿会怎样变？</td><td>当前几何与很小的 δq</td><td>δL<sub>0</sub>、δφ<sub>0</sub></td><td>本节解析求导 δy=J<sub>H</sub>(q)δq</td></tr>
+      <tr><td>③ 已经想要 F<sub>0</sub>、T<sub>φ</sub>，两台电机各出多少力矩？</td><td>上游 PID/LQR 的虚拟广义力</td><td>τ<sub>f</sub>、τ<sub>r</sub></td><td>虚功关系 τ=J<sub>H</sub><sup>T</sup>f</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>“解析求导”</b>只表示：从第 4 节的几何等式出发，用代数和链式法则直接写出偏导公式。它不是再做一次控制，也不是让实车真的试着动一下；运行时只需把当前坐标代进公式，就得到当前数值 J<sub>H</sub>(q)。</p>
+  <div class="callout"><b>贯穿本节的一句话：</b>J<sub>H</sub> 在运动学上表示“电机转一点，腿长和腿角各变多少”；同一组数在力学上就是当前姿态下的瞬时传动比或等效力臂。先把这个运动关系算准，后面才能依据能量守恒把虚拟力正确分配为两个关节力矩。</div>
+
+  <div class="diagram" id="section45-logic">
+    <svg viewBox="0 0 1180 430" role="img" aria-label="第四节当前状态正解与第五节微分运动学和力矩映射的关系">
+      <defs>
+        <marker id="logicArrow" markerUnits="userSpaceOnUse" markerWidth="6" markerHeight="6" refX="5.6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6Z" fill="#718096"/></marker>
+      </defs>
+      <rect x="12" y="14" width="1156" height="120" rx="14" fill="#eef6ff" stroke="#bfd4f5"/>
+      <rect x="12" y="154" width="1156" height="120" rx="14" fill="#edf9f4" stroke="#b8e2d2"/>
+      <rect x="12" y="294" width="1156" height="120" rx="14" fill="#f7f1ff" stroke="#d8c4f4"/>
+      <g font-family="Segoe UI,Microsoft YaHei,sans-serif" fill="#172033">
+        <text x="34" y="43" font-size="16" font-weight="750" fill="#2869c9">第 4 节｜计算当前状态</text>
+        <text x="34" y="183" font-size="16" font-weight="750" fill="#16916b">第 5 节 A｜描述当前姿态附近的变化</text>
+        <text x="34" y="323" font-size="16" font-weight="750" fill="#7c4dc4">第 5 节 B｜转换上游已经给出的虚拟力</text>
+
+        <g text-anchor="middle" font-size="14.5" font-weight="700">
+          <rect x="70" y="65" width="190" height="48" rx="9" fill="#4299e1"/><text x="165" y="94" fill="white">当前关节角 q</text>
+          <rect x="365" y="65" width="190" height="48" rx="9" fill="#4299e1"/><text x="460" y="94" fill="white">完整正解 H(q)</text>
+          <rect x="660" y="65" width="190" height="48" rx="9" fill="#4299e1"/><text x="755" y="94" fill="white">轮轴 W=(sW,dW)</text>
+          <rect x="955" y="65" width="160" height="48" rx="24" fill="#48bb78"/><text x="1035" y="94" fill="white">当前 L0、φ0</text>
+
+          <rect x="70" y="205" width="190" height="48" rx="9" fill="#4299e1"/><text x="165" y="234" fill="white">δq 或关节速度 q̇</text>
+          <rect x="365" y="205" width="190" height="48" rx="9" fill="#4299e1"/><text x="460" y="234" fill="white">当前 JH(q)</text>
+          <rect x="660" y="205" width="310" height="48" rx="24" fill="#48bb78"/><text x="815" y="234" fill="white">δL0、δφ0 或 L̇0、φ̇0</text>
+
+          <rect x="70" y="345" width="260" height="48" rx="9" fill="#9f7aea"/><text x="200" y="374" fill="white">上游 PID/LQR：F0、Tφ</text>
+          <rect x="435" y="345" width="190" height="48" rx="9" fill="#4299e1"/><text x="530" y="374" fill="white">乘 JH(q)ᵀ</text>
+          <rect x="730" y="345" width="240" height="48" rx="24" fill="#48bb78"/><text x="850" y="374" fill="white">电机力矩 τf、τr</text>
+        </g>
+      </g>
+      <g stroke="#718096" stroke-width="2" fill="none" marker-end="url(#logicArrow)">
+        <line x1="260" y1="89" x2="357" y2="89"/><line x1="555" y1="89" x2="652" y2="89"/><line x1="850" y1="89" x2="947" y2="89"/>
+        <line x1="260" y1="229" x2="357" y2="229"/><line x1="555" y1="229" x2="652" y2="229"/>
+        <line x1="330" y1="369" x2="427" y2="369"/><line x1="625" y1="369" x2="722" y2="369"/>
+      </g>
+    </svg>
+  </div>
+  <div class="callout warn"><b>第五节不负责产生目标：</b>它不生成 L0<sub>des</sub>、φ0<sub>des</sub>，也不决定 F0、Tφ 应该取多少。目标来自遥控器、规划器或姿态目标；F0、Tφ 由上游 PID/LQR 算出。若要把目标 L0、φ0 反算成关节位置目标 q，请看第 6 节。</div>
+  <div class="callout"><b>术语边界：</b>H(q) 是位置运动学；J<sub>H</sub>=∂H/∂q 是微分运动学；τ=J<sub>H</sub><sup>T</sup>F 是瞬时力传递。它们还不是包含质量、惯性、重力、科氏项和加速度的完整动力学。</div>
+
+  <h3>5.1 从最普通的“斜率”一步走到 JH</h3>
+  <h4>先只看一个输入和一个输出</h4>
+  <p>假设一个电机角度 q 决定一个位置 x=h(q)。导数的定义是：</p>
+  <latex small>\frac{\mathrm dh}{\mathrm dq}(q)
+  =\lim_{\Delta q\to0}\frac{h(q+\Delta q)-h(q)}{\Delta q}</latex>
+  <p>它就是“在当前 q 附近，输入每增加一点，输出大约增加多少”。如果当前导数是 0.08 m/rad，那么电机只转很小的 δq=0.01 rad 时：</p>
+  <latex small>\delta x\approx0.08\times0.01=0.0008\ {\rm m}</latex>
+  <p>这里并不是说 0.08 在整段运动中永远不变；它只是当前姿态切线的斜率。机构换了姿态，就要把当前 q 重新代入导数公式。</p>
+
+  <h4>现在换成两个输入和两个输出</h4>
+  <p>主动关节和虚拟腿输出分别写成：</p>
+  <latex small>\vec q=\begin{bmatrix}q_f\\q_r\end{bmatrix},\qquad
+  \vec y=H(\vec q)=\begin{bmatrix}L_0(\vec q)\\\phi_0(\vec q)\end{bmatrix}</latex>
+  <div class="callout"><b>完整量和变化量不要混：</b>q⃗、y⃗ 是当前完整状态；δq⃗=[δq<sub>f</sub>,δq<sub>r</sub>]<sup>T</sup> 和 δy⃗=[δL<sub>0</sub>,δφ<sub>0</sub>]<sup>T</sup> 才是假想在当前姿态附近发生的很小变化。</div>
+  <p>这里的 <code>qf</code>、<code>qr</code> 是<b>模型坐标中的前、后主动铰角</b>，不是默认等于电机数组第 0、1 项。H(q) 也不是黑箱：第 4 节已经按 J、L、P→M→W→L0、φ0 的顺序把它完整算出。</p>
+  <p>因为 L<sub>0</sub> 同时受 q<sub>f</sub>、q<sub>r</sub> 影响，所以必须分别问：</p>
+  <ul>
+    <li>保持 q<sub>r</sub> 不动，只改变 q<sub>f</sub>，L<sub>0</sub> 怎样变？这就是 ∂L<sub>0</sub>/∂q<sub>f</sub>；</li>
+    <li>保持 q<sub>f</sub> 不动，只改变 q<sub>r</sub>，L<sub>0</sub> 怎样变？这就是 ∂L<sub>0</sub>/∂q<sub>r</sub>；</li>
+    <li>对 φ<sub>0</sub> 再问同样两个问题，于是总共得到四个偏导。</li>
+  </ul>
+
+  <h4>为什么可以把非线性 H(q) 写成一个矩阵乘法</h4>
+  <p>对 H 在当前 q 附近做 Taylor 展开。先把被保留的一阶项写出来：</p>
+  <latex small>H(\vec q+\delta\vec q)
+  =H(\vec q)+
+  \underbrace{\frac{\partial H}{\partial\vec q}}_{\mathbf J_H(\vec q)}
+  \delta\vec q+\text{二阶及更高阶项}</latex>
+  <p>所谓“二阶小量”，不是代码里另外求了一个二阶导数再丢掉，而是完整 Taylor 式里本来还包含：</p>
+  <latex small>\frac12\left(
+  H_{,ff}\,\delta q_f^2+2H_{,fr}\,\delta q_f\delta q_r
+  +H_{,rr}\,\delta q_r^2\right)+\cdots</latex>
+  <p>当 δq 很小时，δq² 比 δq 小得多，所以只保留一阶项。再用“新值减旧值”定义 δy：</p>
+  <latex small>\delta\vec y:=H(\vec q+\delta\vec q)-H(\vec q)</latex>
+  <p>于是得到当前姿态附近的局部线性关系：</p>
+  <latex>\boxed{\delta\vec y\approx\mathbf J_H(\vec q)\delta\vec q}</latex>
+  <latex small>\begin{bmatrix}\delta L_0\\\delta\phi_0\end{bmatrix}=
+  \begin{bmatrix}
+  \dfrac{\partial L_0}{\partial q_f}&\dfrac{\partial L_0}{\partial q_r}\\
+  \dfrac{\partial\phi_0}{\partial q_f}&\dfrac{\partial\phi_0}{\partial q_r}
+  \end{bmatrix}
+  \begin{bmatrix}\delta q_f\\\delta q_r\end{bmatrix}</latex>
+  <p>把矩阵乘法按行展开，就更直白：</p>
+  <latex small>\delta L_0\approx
+  \frac{\partial L_0}{\partial q_f}\delta q_f+
+  \frac{\partial L_0}{\partial q_r}\delta q_r</latex>
+  <latex small>\delta\phi_0\approx
+  \frac{\partial\phi_0}{\partial q_f}\delta q_f+
+  \frac{\partial\phi_0}{\partial q_r}\delta q_r</latex>
+  <div class="scroll"><table>
+    <thead><tr><th>元素</th><th>实际含义</th><th>单位</th></tr></thead>
+    <tbody>
+      <tr><td>J<sub>11</sub>=∂L0/∂qf</td><td>只让前电机增加 1 rad，腿长瞬时改变多少</td><td>m/rad</td></tr>
+      <tr><td>J<sub>12</sub>=∂L0/∂qr</td><td>只让后电机增加 1 rad，腿长瞬时改变多少</td><td>m/rad</td></tr>
+      <tr><td>J<sub>21</sub>=∂φ0/∂qf</td><td>只让前电机增加 1 rad，虚拟腿极角瞬时改变多少</td><td>rad/rad</td></tr>
+      <tr><td>J<sub>22</sub>=∂φ0/∂qr</td><td>只让后电机增加 1 rad，虚拟腿极角瞬时改变多少</td><td>rad/rad</td></tr>
+    </tbody>
+  </table></div>
+  <p>因此，在当前姿态附近可以找到一个 2×2 数值矩阵 J<sub>H</sub>(q)，把输入微小变化映射成输出微小变化。<b>公式形式固定，但代入不同 q 后，四个元素的数值会变。</b>控制周期下一次到来时，用新的 q 再算一次即可；并不是拿上电时的一组常数覆盖整段运动。</p>
+  <p>把同一关系除以很小的时间间隔并取极限，就得到瞬时速度关系：</p>
+  <latex>\begin{bmatrix}\dot L_0\\\dot\phi_0\end{bmatrix}=\mathbf J_H(\vec q)\begin{bmatrix}\dot q_f\\\dot q_r\end{bmatrix}</latex>
+  <div class="callout good"><b>解析 J<sub>H</sub> 与中心差分的区别：</b>中心差分要把 q±ε 多次送入 H 再用输出差除以输入差；解析求导则把下面的链式法则提前化成公式，运行时一次代入当前点坐标就得到同一个局部斜率。中心差分仍可留在 PC 端验算，但不是 STM32 的控制算法。</div>
+
+  <h3>5.2 从轮轴二维坐标继续推到 L0、φ0 的导数</h3>
+  <p>第 4 节已经给出轮轴点 W。以本侧髋轴 I 为原点，把 I→W 投影到“+s=+base Y”和“+d=−base Z（车体向下）”两条轴：</p>
+  <latex small>{}^{I}\vec r_W^{(s,d)}(\vec q)=
+  \begin{bmatrix}s_W(\vec q)\\d_W(\vec q)\end{bmatrix},\qquad
+  s_W=Y_W-Y_I,\qquad d_W=-(Z_W-Z_I)</latex>
+  <div class="callout good"><b>s<sub>W</sub>、d<sub>W</sub> 都是位置，不是速度。</b>下标 W 表示“轮轴点 W”；二者单位都是 m。只有带时间点的 ṡ<sub>W</sub>、ḋ<sub>W</sub> 才是 m/s。这里字母 d 来自英文 down，不是微分符号。</div>
+  <latex small>L_0=\sqrt{s_W^2+d_W^2},\qquad
+  \phi_0=\operatorname{atan2}(d_W,s_W)</latex>
+  <p>因此 [s<sub>W</sub>,d<sub>W</sub>]<sup>T</sup> 是同一根 I→W 向量在两条垂直坐标轴上的两个位置分量；L<sub>0</sub> 是这根向量的长度，φ<sub>0</sub> 是它从 +s 轴转向 +d 轴的方向角。竖直向下时 s<sub>W</sub>=0、d<sub>W</sub>&gt;0，所以 φ<sub>0</sub>=90°。</p>
+  <h4>第一步：把腿长公式逐项微分</h4>
+  <p>先平方，避免直接对根号求导：</p>
+  <latex small>L_0^2=s_W^2+d_W^2</latex>
+  <p>令轮轴位置发生微小变化 δs<sub>W</sub>、δd<sub>W</sub>，等式两边取一阶变化：</p>
+  <latex small>2L_0\,\delta L_0=2s_W\,\delta s_W+2d_W\,\delta d_W</latex>
+  <p>两边除以 2L0，得到：</p>
+  <latex small>\boxed{\delta L_0=\frac{s_W}{L_0}\,\delta s_W+\frac{d_W}{L_0}\,\delta d_W}</latex>
+  <p>它的直观意义是：轮轴的小位移 [δs<sub>W</sub>,δd<sub>W</sub>]<sup>T</sup> 在虚拟腿径向上的投影才改变腿长；与虚拟腿垂直的那部分不改变一阶腿长。</p>
+
+  <h4>第二步：把 atan2 的角度公式逐项微分</h4>
+  <p>在 s<sub>W</sub>≠0 的局部可先写成 tanφ<sub>0</sub>=d<sub>W</sub>/s<sub>W</sub>。对两边取一阶变化：</p>
+  <latex small>\sec^2\!\phi_0\,\delta\phi_0=
+  \delta\!\left(\frac {d_W}{s_W}\right)
+  =\frac{s_W\,\delta d_W-d_W\,\delta s_W}{s_W^2}</latex>
+  <p>又因为：</p>
+  <latex small>\sec^2\!\phi_0=1+\tan^2\!\phi_0
+  =1+\frac{d_W^2}{s_W^2}=\frac{s_W^2+d_W^2}{s_W^2}=\frac{L_0^2}{s_W^2}</latex>
+  <p>代回并约掉 s²：</p>
+  <latex small>\boxed{\delta\phi_0=-\frac{d_W}{L_0^2}\,\delta s_W+\frac{s_W}{L_0^2}\,\delta d_W}</latex>
+  <p class="tiny">上面借 tanφ<sub>0</sub> 展示代数步骤；实际程序使用二参数反正切 atan2(d<sub>W</sub>,s<sub>W</sub>)，所以 s<sub>W</sub>=0 附近仍使用同一个微分结果，只要 L<sub>0</sub>≠0 且角度差做 wrap。函数名中的 2 不是倍数。</p>
+  <p>写成矩阵：</p>
+  <latex small>\begin{bmatrix}\delta L_0\\\delta\phi_0\end{bmatrix}=
+  \underbrace{\begin{bmatrix}
+  s_W/L_0&d_W/L_0\\
+  -d_W/L_0^2&s_W/L_0^2
+  \end{bmatrix}}_{\mathbf C_{\mathrm{polar}}=\partial(L_0,\phi_0)/\partial(s_W,d_W)}
+  \begin{bmatrix}\delta s_W\\\delta d_W\end{bmatrix}</latex>
+  <div class="callout good"><b>本报告从这里开始不再把 J<sub>P</sub> 当作运行时必经接口。</b>下一节直接对真实闭链的每个点做解析求导，最终一次性输出 J<sub>H</sub>。数学上当然仍然存在“轮轴对关节角怎样变化”的信息，但它被包含在点 W 的内部导数 D<sub>W</sub> 中，不需要单独用中心差分求 J<sub>P</sub>，也不需要保存一个 J<sub>P</sub> 矩阵。</div>
+  <p>上面的 C<sub>polar</sub> 只负责最后一步：把已经解析得到的轮轴微小位移换成腿长和腿角微小变化。下面从主动点 J、L、P 开始，逐项求出这一轮轴导数。</p>
+
+  <h3>5.3 第一段解析求导：主动点 J、L、P 为什么这样求</h3>
+  <div class="callout good"><b>本节的任务很单纯：</b>先求直接固定在两根主动刚体上的点怎样随电机角移动。这里没有 ε，也没有重复计算扰动姿态；推荐导数链是 J、L、P→被动闭链点 M→轮轴 W。</div>
+
+  <h4>先规定导数矩阵每一行、每一列在说什么</h4>
+  <p>任意二维点 X 的当前位置写成：</p>
+  <latex small>\vec r_X=\begin{bmatrix}X_s\\X_z\end{bmatrix}</latex>
+  <p>它有两个坐标，每个坐标又可能受两台电机影响，所以一共有四个偏导：</p>
+  <latex small>X_{s,f}:=\frac{\partial X_s}{\partial q_f},\quad
+  X_{s,r}:=\frac{\partial X_s}{\partial q_r},\quad
+  X_{z,f}:=\frac{\partial X_z}{\partial q_f},\quad
+  X_{z,r}:=\frac{\partial X_z}{\partial q_r}</latex>
+  <latex small>\boxed{\mathbf D_X:=
+  \frac{\partial\vec r_X}{\partial(q_f,q_r)}
+  =\begin{bmatrix}X_{s,f}&X_{s,r}\\X_{z,f}&X_{z,r}\end{bmatrix}}</latex>
+  <ul>
+    <li>第一列：只让前关节 q<sub>f</sub> 增大一点时，点 X 在 s、z 两方向怎样移动；</li>
+    <li>第二列：只让后关节 q<sub>r</sub> 增大一点时，同一个点怎样移动；</li>
+    <li>这两列都不是实际位移，而是“每 1 rad 输入对应多少米输出”的当前斜率。</li>
+  </ul>
+
+  <h4>一个绕 I 转动的点，导数为什么等于当前向量转 90°</h4>
+  <p>若参考向量为 v⃗，随关节角 q 一起旋转，则：</p>
+  <latex small>R(q)=\begin{bmatrix}\cos q&-\sin q\\
+  \sin q&\cos q\end{bmatrix},\qquad
+  \vec r(q)=R(q)\vec v</latex>
+  <p>把两个坐标直接写开：</p>
+  <latex small>r_s=v_s\cos q-v_z\sin q,\qquad
+  r_z=v_s\sin q+v_z\cos q</latex>
+  <p>逐项对 q 求导：</p>
+  <latex small>\frac{\partial r_s}{\partial q}
+  =-v_s\sin q-v_z\cos q=-r_z</latex>
+  <latex small>\frac{\partial r_z}{\partial q}
+  =v_s\cos q-v_z\sin q=r_s</latex>
+  <p>因此：</p>
+  <latex small>\boxed{\frac{\partial\vec r}{\partial q}
+  =\begin{bmatrix}-r_z\\r_s\end{bmatrix}}
+  =\underbrace{\begin{bmatrix}0&-1\\1&0\end{bmatrix}}_{E\text{：逆时针转 }90^\circ}
+  \vec r</latex>
+  <p>物理上也很好理解：刚性杆绕 I 旋转时，端点的瞬时运动方向一定垂直于当前杆；长度越长，同样的角度变化产生的端点位移越大。</p>
+
+  <h4>主动前点 J：只由 q<sub>f</sub> 直接带动</h4>
+  <latex small>J_s=v_{IJ,s}\cos q_f-v_{IJ,z}\sin q_f,\qquad
+  J_z=v_{IJ,s}\sin q_f+v_{IJ,z}\cos q_f</latex>
+  <p>套用刚才的结果：</p>
+  <latex small>J_{s,f}=-J_z,\qquad J_{z,f}=J_s</latex>
+  <p>J 不固定在后主动刚体上，所以保持 q<sub>f</sub> 不变而单独改变 q<sub>r</sub> 时，J 不会直接动：</p>
+  <latex small>J_{s,r}=0,\qquad J_{z,r}=0</latex>
+  <latex small>\boxed{\mathbf D_J=
+  \begin{bmatrix}-J_z&0\\J_s&0\end{bmatrix}}</latex>
+
+  <h4>主动后点 L、P：只由 q<sub>r</sub> 直接带动</h4>
+  <latex small>L_s=v_{IL,s}\cos q_r-v_{IL,z}\sin q_r,\qquad
+  L_z=v_{IL,s}\sin q_r+v_{IL,z}\cos q_r</latex>
+  <p>CAD 推荐模型规定 I、L、P 共线，且 |IP|=k<sub>a</sub>|IL|，所以不必为 P 再保留一套独立方向：</p>
+  <latex small>\vec r_P=k_a\vec r_L,\qquad P_s=k_aL_s,\qquad P_z=k_aL_z</latex>
+  <p>先求 L 的导数，再把同一比例传给 P：</p>
+  <latex small>L_{s,f}=L_{z,f}=0,\qquad
+  L_{s,r}=-L_z,\qquad L_{z,r}=L_s</latex>
+  <latex small>\boxed{\mathbf D_L=
+  \begin{bmatrix}0&-L_z\\0&L_s\end{bmatrix}}</latex>
+  <latex small>\boxed{\mathbf D_P=k_a\mathbf D_L
+  =\begin{bmatrix}0&-P_z\\0&P_s\end{bmatrix}}</latex>
+  <div class="callout"><b>这里出现 0 不代表这台电机永远不影响最终轮轴。</b>它只表示 J、L、P 这些“主动刚体上的直接点”分别由哪一个主动角直接带动。闭链点 M 同时受 J 和 L 约束，算到 M、W 后，两列通常都会非零。</div>
+
+  <h3>5.4 第二段解析求导：闭链点 M 的导数怎样从两条杆长约束中解出来</h3>
+  <h4>为什么 M 不能像 J、L 那样直接写成“当前向量转 90°”</h4>
+  <p>J 固定在前主动刚体上，L 固定在后主动刚体上；M 却是两根被动杆 JM、LM 的共同铰点。它没有自己的电机角，必须在 J、L 移动后同时满足：</p>
+  <latex small>\lVert\vec r_M-\vec r_J\rVert=\ell_{JM},\qquad
+  \lVert\vec r_M-\vec r_L\rVert=\ell_{LM}</latex>
+  <p>第 4 节已经用余弦定理选定当前物理装配支路，并算出了 M 的坐标。本节不是再求一次 M，而是问：<b>当 q<sub>f</sub> 或 q<sub>r</sub> 增加极小量时，为了让两根杆仍保持定长，M 必须往哪个方向移动？</b></p>
+
+  <h4>第一条定长约束：把每一个链式法则步骤写开</h4>
+  <latex small>(M_s-J_s)^2+(M_z-J_z)^2=\ell_{JM}^2</latex>
+  <p>选一个输入角 q<sub>j</sub>；j=f 时表示只考察前关节，j=r 时表示只考察后关节。先看第一项：</p>
+  <latex small>\frac{\partial}{\partial q_j}(M_s-J_s)^2
+  =2(M_s-J_s)\left(
+  \frac{\partial M_s}{\partial q_j}-
+  \frac{\partial J_s}{\partial q_j}\right)</latex>
+  <p>z 项完全相同。右边的 ℓ<sub>JM</sub> 是固定杆长，不随 q 改变，所以 ∂ℓ<sub>JM</sub><sup>2</sup>/∂q<sub>j</sub>=0。于是：</p>
+  <latex small>2(M_s-J_s)(M_{s,j}-J_{s,j})+
+  2(M_z-J_z)(M_{z,j}-J_{z,j})=0</latex>
+  <p>为了缩短后面的式子，定义从 J、L 指向 M 的当前向量：</p>
+  <latex small>u_s:=M_s-J_s,\quad u_z:=M_z-J_z,\qquad
+  v_s:=M_s-L_s,\quad v_z:=M_z-L_z</latex>
+  <p>约掉 2，并把已知的 J 导数移到右边：</p>
+  <latex small>u_sM_{s,j}+u_zM_{z,j}
+  =u_sJ_{s,j}+u_zJ_{z,j}=:b_{1j}</latex>
+  <p>这句话的人话版本是：M 和 J 在 JM 杆方向上的相对速度必须为零，否则杆长就会在一阶上发生变化。</p>
+
+  <h4>第二条定长约束给出第二个独立方程</h4>
+  <latex small>(M_s-L_s)^2+(M_z-L_z)^2=\ell_{LM}^2</latex>
+  <p>完全重复刚才的链式法则：</p>
+  <latex small>v_sM_{s,j}+v_zM_{z,j}
+  =v_sL_{s,j}+v_zL_{z,j}=:b_{2j}</latex>
+  <p>现在未知数只有两个：M<sub>s,j</sub> 和 M<sub>z,j</sub>。两条定长约束恰好给出两个一次方程：</p>
+  <latex small>\begin{cases}
+  u_sM_{s,j}+u_zM_{z,j}=b_{1j}\\
+  v_sM_{s,j}+v_zM_{z,j}=b_{2j}
+  \end{cases}</latex>
+  <latex small>\begin{bmatrix}u_s&u_z\\v_s&v_z\end{bmatrix}
+  \begin{bmatrix}M_{s,j}\\M_{z,j}\end{bmatrix}
+  =\begin{bmatrix}b_{1j}\\b_{2j}\end{bmatrix}</latex>
+
+  <h4>不用背 Cramer 公式：手工消元一次就能看见答案</h4>
+  <p>为消掉 M<sub>z,j</sub>，第一式乘 v<sub>z</sub>，第二式乘 u<sub>z</sub>，然后前式减后式：</p>
+  <latex small>(u_sv_z-u_zv_s)M_{s,j}
+  =v_zb_{1j}-u_zb_{2j}</latex>
+  <p>定义：</p>
+  <latex small>\boxed{\Delta_M:=u_sv_z-u_zv_s}</latex>
+  <p>只要 Δ<sub>M</sub>≠0：</p>
+  <latex small>\boxed{M_{s,j}=\frac{v_zb_{1j}-u_zb_{2j}}{\Delta_M}}</latex>
+  <p>同理，为消掉 M<sub>s,j</sub>，第一式乘 v<sub>s</sub>，第二式乘 u<sub>s</sub> 后相减，得到：</p>
+  <latex small>\boxed{M_{z,j}=\frac{-v_sb_{1j}+u_sb_{2j}}{\Delta_M}}</latex>
+  <p>把两式写成逆矩阵或 Cramer 法则只是一种压缩记法；真正做的事情就是上面的两次消元。</p>
+  <div class="callout warn"><b>Δ<sub>M</sub> 的机械意义：</b>它是向量 J→M 与 L→M 的二维叉积。若 Δ<sub>M</sub>=0，两根杆在这一刻共线，两条约束给出的瞬时方向信息重复，二维的 M 导数无法唯一确定；这就是闭链展开或折叠附近的机械奇异。</div>
+
+  <h4>把 q<sub>f</sub> 这一列完全代入</h4>
+  <p>L 不受 q<sub>f</sub> 直接驱动，因此 L<sub>s,f</sub>=L<sub>z,f</sub>=0：</p>
+  <latex small>b_{1f}=u_sJ_{s,f}+u_zJ_{z,f}
+  =-u_sJ_z+u_zJ_s,\qquad b_{2f}=0</latex>
+  <latex small>\boxed{M_{s,f}=\frac{v_z(-u_sJ_z+u_zJ_s)}{\Delta_M}}</latex>
+  <latex small>\boxed{M_{z,f}=\frac{-v_s(-u_sJ_z+u_zJ_s)}{\Delta_M}}</latex>
+
+  <h4>把 q<sub>r</sub> 这一列完全代入</h4>
+  <p>J 不受 q<sub>r</sub> 直接驱动，因此 J<sub>s,r</sub>=J<sub>z,r</sub>=0：</p>
+  <latex small>b_{1r}=0,\qquad
+  b_{2r}=v_sL_{s,r}+v_zL_{z,r}
+  =-v_sL_z+v_zL_s</latex>
+  <latex small>\boxed{M_{s,r}=\frac{-u_z(-v_sL_z+v_zL_s)}{\Delta_M}}</latex>
+  <latex small>\boxed{M_{z,r}=\frac{u_s(-v_sL_z+v_zL_s)}{\Delta_M}}</latex>
+  <div class="callout"><b>为什么没有对余弦定理中的根号和 atan2 直接求导：</b>无论第 4 节用哪种显式写法得到 M，它都必须满足上面两条定长等式。直接对这两个等式求导，会得到当前已选装配支路的同一个精确一阶导数。它叫“隐式解析求导”：隐式是因为 M 藏在约束里，解析是因为结果仍由明确代数公式算出，并不是中心差分近似，也不依赖上一周期。</div>
+
+  <h3 id="recommended-jacobian">5.5 推荐解析导数：从 M、L、P 一步得到 W</h3>
+  <p>第 4 节已经得到 CAD 设计模型的固定几何关系：</p>
+  <latex small>\vec r_P=k_a\vec r_L,\qquad
+  \vec r_W=\vec r_P+k_b(\vec r_M-\vec r_L)</latex>
+  <p>先把 W 的两个坐标写开，避免矩阵公式突然出现：</p>
+  <latex small>W_s=k_bM_s+(k_a-k_b)L_s,\qquad
+  W_z=k_bM_z+(k_a-k_b)L_z</latex>
+  <p>k<sub>a</sub>、k<sub>b</sub> 是由杆长决定的常数，不随关节角变化。对任意 q<sub>j</sub> 逐项求导：</p>
+  <latex small>W_{s,j}=k_bM_{s,j}+(k_a-k_b)L_{s,j}</latex>
+  <latex small>W_{z,j}=k_bM_{z,j}+(k_a-k_b)L_{z,j}</latex>
+  <p>把 j=f、r 两列重新合在一起，才得到紧凑矩阵形式：</p>
+  <latex>\boxed{\mathbf D_P=k_a\mathbf D_L}</latex>
+  <latex>\boxed{\mathbf D_W=\mathbf D_P+k_b(\mathbf D_M-\mathbf D_L)
+  =k_b\mathbf D_M+(k_a-k_b)\mathbf D_L}</latex>
+  <p>这一步把“关节微动如何传到轮轴”算完了。D<sub>M</sub> 已由 5.4 的闭链约束得到，D<sub>L</sub>、D<sub>P</sub> 已由 5.3 得到，因此推荐 CAD 简化链不需要第二个隐式方程组。</p>
+
+  <h4>把 q<sub>f</sub> 这一列完全展开</h4>
+  <p>L、P 都不直接受 q<sub>f</sub> 驱动，所以 L<sub>s,f</sub>=L<sub>z,f</sub>=P<sub>s,f</sub>=P<sub>z,f</sub>=0：</p>
+  <latex small>\boxed{W_{s,f}=k_bM_{s,f}}</latex>
+  <latex small>\boxed{W_{z,f}=k_bM_{z,f}}</latex>
+
+  <h4>把 q<sub>r</sub> 这一列完全展开</h4>
+  <p>由 L<sub>s,r</sub>=−L<sub>z</sub>、L<sub>z,r</sub>=L<sub>s</sub>、P<sub>s,r</sub>=−P<sub>z</sub>、P<sub>z,r</sub>=P<sub>s</sub>：</p>
+  <latex small>\boxed{W_{s,r}=k_bM_{s,r}-(k_a-k_b)L_z}</latex>
+  <latex small>\boxed{W_{z,r}=k_bM_{z,r}+(k_a-k_b)L_s}</latex>
+  <p>这里使用 L<sub>s,r</sub>=−L<sub>z</sub>、L<sub>z,r</sub>=L<sub>s</sub>；k<sub>a</sub>=2.217，k<sub>b</sub>=2.243。</p>
+  <div class="callout good"><b>到这里还没有真正输出力矩。</b>这里完成的是力矩分配所需的轮轴微分几何。下一节还要把 W 的 s、z 导数转换成 L<sub>0</sub>、φ<sub>0</sub> 的导数，形成 J<sub>H</sub>；5.7–5.8 才会用虚功得到电机力矩。不能只把旧电机力矩乘一个 k<sub>b</sub>。</div>
+
+  <details class="advanced">
+  <summary>5A. 完整 K–N 基准模型的解析导数（仅作离线交叉验证）</summary>
+  <h3>5A.1 刚体 M–L–K：用固定比例和固定夹角直接传播到 K</h3>
+  <p>参考构型中的 M→L 与 M→K 都固定在同一刚体上。预计算：</p>
+  <latex small>k_{MK}:=\frac{\lVert\vec v_{MK}^{\,ref}\rVert}
+  {\lVert\vec v_{ML}^{\,ref}\rVert},\qquad
+  \delta_{MK}:=\angle(\vec v_{MK}^{\,ref})-\angle(\vec v_{ML}^{\,ref})</latex>
+  <latex small>\mathbf T_{MK}:=k_{MK}R(\delta_{MK})
+  =\begin{bmatrix}t_{11}&t_{12}\\t_{21}&t_{22}\end{bmatrix}</latex>
+  <p>为什么这是严格关系：若刚体当前整体旋转 α，则：</p>
+  <latex small>\vec r_L-\vec r_M=R(\alpha)\vec v_{ML}^{\,ref}</latex>
+  <latex small>\vec r_K-\vec r_M=R(\alpha)\vec v_{MK}^{\,ref}
+  =R(\alpha)\mathbf T_{MK}\vec v_{ML}^{\,ref}</latex>
+  <p>二维旋转矩阵彼此可交换，所以 R(α)T<sub>MK</sub>=T<sub>MK</sub>R(α)，于是：</p>
+  <latex small>\boxed{\vec r_K=\vec r_M+
+  \mathbf T_{MK}(\vec r_L-\vec r_M)}</latex>
+  <p>把坐标分量完全展开：</p>
+  <latex small>K_s=M_s+t_{11}(L_s-M_s)+t_{12}(L_z-M_z)</latex>
+  <latex small>K_z=M_z+t_{21}(L_s-M_s)+t_{22}(L_z-M_z)</latex>
+  <p>T<sub>MK</sub> 是常数矩阵，所以对任意 q<sub>j</sub> 直接求导：</p>
+  <latex small>\boxed{K_{s,j}=M_{s,j}
+  +t_{11}(L_{s,j}-M_{s,j})+t_{12}(L_{z,j}-M_{z,j})}</latex>
+  <latex small>\boxed{K_{z,j}=M_{z,j}
+  +t_{21}(L_{s,j}-M_{s,j})+t_{22}(L_{z,j}-M_{z,j})}</latex>
+  <p>分别令 j=f、r，并代入上一节的 M 偏导和 5.3 的 L 偏导，就得到 K<sub>s,f</sub>、K<sub>z,f</sub>、K<sub>s,r</sub>、K<sub>z,r</sub>。这与对 α 和 R(α)v<sub>MK</sub> 求导完全等价，但不需要运行时再对 α 做一次角度求导。</p>
+
+  <h3>5A.2 第二次闭链：由 K、P 完整解出 N 的四个偏导</h3>
+  <p>当前 N 满足：</p>
+  <latex small>(N_s-K_s)^2+(N_z-K_z)^2=\ell_{KN}^2</latex>
+  <latex small>(N_s-P_s)^2+(N_z-P_z)^2=\ell_{PN}^2</latex>
+  <p>定义：</p>
+  <latex small>a_s:=N_s-K_s,\quad a_z:=N_z-K_z,\qquad
+  c_s:=N_s-P_s,\quad c_z:=N_z-P_z</latex>
+  <p>逐项求导并移项：</p>
+  <latex small>a_sN_{s,j}+a_zN_{z,j}
+  =a_sK_{s,j}+a_zK_{z,j}=:c_{1j}</latex>
+  <latex small>c_sN_{s,j}+c_zN_{z,j}
+  =c_sP_{s,j}+c_zP_{z,j}=:c_{2j}</latex>
+  <latex small>\begin{bmatrix}a_s&a_z\\c_s&c_z\end{bmatrix}
+  \begin{bmatrix}N_{s,j}\\N_{z,j}\end{bmatrix}
+  =\begin{bmatrix}c_{1j}\\c_{2j}\end{bmatrix}</latex>
+  <p>定义第二次闭链行列式：</p>
+  <latex small>\boxed{\Delta_N:=a_sc_z-a_zc_s}</latex>
+  <p>逆矩阵和显式解为：</p>
+  <latex small>\begin{bmatrix}a_s&a_z\\c_s&c_z\end{bmatrix}^{-1}
+  =\frac1{\Delta_N}\begin{bmatrix}c_z&-a_z\\-c_s&a_s\end{bmatrix}</latex>
+  <latex small>\boxed{N_{s,j}=\frac{c_zc_{1j}-a_zc_{2j}}{\Delta_N}},\qquad
+  \boxed{N_{z,j}=\frac{-c_sc_{1j}+a_sc_{2j}}{\Delta_N}}</latex>
+
+  <h4>q<sub>f</sub> 列</h4>
+  <p>P 不受 q<sub>f</sub> 直接驱动：</p>
+  <latex small>c_{1f}=a_sK_{s,f}+a_zK_{z,f},\qquad c_{2f}=0</latex>
+  <latex small>\boxed{N_{s,f}=\frac{c_z(a_sK_{s,f}+a_zK_{z,f})}{\Delta_N}}</latex>
+  <latex small>\boxed{N_{z,f}=\frac{-c_s(a_sK_{s,f}+a_zK_{z,f})}{\Delta_N}}</latex>
+
+  <h4>q<sub>r</sub> 列</h4>
+  <latex small>c_{1r}=a_sK_{s,r}+a_zK_{z,r}</latex>
+  <latex small>c_{2r}=c_sP_{s,r}+c_zP_{z,r}=-c_sP_z+c_zP_s</latex>
+  <latex small>\boxed{N_{s,r}=
+  \frac{c_z(a_sK_{s,r}+a_zK_{z,r})-a_z(-c_sP_z+c_zP_s)}
+  {\Delta_N}}</latex>
+  <latex small>\boxed{N_{z,r}=
+  \frac{-c_s(a_sK_{s,r}+a_zK_{z,r})+a_s(-c_sP_z+c_zP_s)}
+  {\Delta_N}}</latex>
+
+  <h3>5A.3 刚体 P–N–W：从 N 的导数直接传播到轮轴 W</h3>
+  <p>预先从参考刚体几何计算：</p>
+  <latex small>k_{PW}:=\frac{\lVert\vec v_{PW}^{\,ref}\rVert}
+  {\lVert\vec v_{PN}^{\,ref}\rVert},\qquad
+  \delta_{PW}:=\angle(\vec v_{PW}^{\,ref})-\angle(\vec v_{PN}^{\,ref})</latex>
+  <latex small>\mathbf T_{PW}:=k_{PW}R(\delta_{PW})
+  =\begin{bmatrix}r_{11}&r_{12}\\r_{21}&r_{22}\end{bmatrix}</latex>
+  <p>与 M–L–K 的证明完全相同：</p>
+  <latex small>\boxed{\vec r_W=\vec r_P+
+  \mathbf T_{PW}(\vec r_N-\vec r_P)}</latex>
+  <p>坐标与导数逐项展开：</p>
+  <latex small>W_s=P_s+r_{11}(N_s-P_s)+r_{12}(N_z-P_z)</latex>
+  <latex small>W_z=P_z+r_{21}(N_s-P_s)+r_{22}(N_z-P_z)</latex>
+  <latex small>\boxed{W_{s,j}=P_{s,j}
+  +r_{11}(N_{s,j}-P_{s,j})+r_{12}(N_{z,j}-P_{z,j})}</latex>
+  <latex small>\boxed{W_{z,j}=P_{z,j}
+  +r_{21}(N_{s,j}-P_{s,j})+r_{22}(N_{z,j}-P_{z,j})}</latex>
+  <p>令 j=f、r，即得到轮轴的四个解析偏导 W<sub>s,f</sub>、W<sub>z,f</sub>、W<sub>s,r</sub>、W<sub>z,r</sub>。程序内部可以用 D<sub>W</sub> 保存这四个中间数，但不需要建立公开的 J<sub>P</sub> 接口。</p>
+  </details>
+
+  <h3>5.6 最后一段解析求导：从轮轴 W 的导数得到最终 JH</h3>
+  <p>5.5 得到的是轮轴在几何 (s,z) 坐标中的导数。控制器把“向下”定义为 d 正方向，因此先做一次明确的符号转换：</p>
+  <latex small>s_W=W_s,\qquad d_W=-W_z</latex>
+  <p>坐标取负以后，对关节角的导数也必须取负：</p>
+  <latex small>\frac{\partial s_W}{\partial q_j}=W_{s,j},\qquad
+  \frac{\partial d_W}{\partial q_j}=-W_{z,j}</latex>
+  <latex small>\boxed{\mathbf D_W^{(s,d)}=
+  \begin{bmatrix}
+  W_{s,f}&W_{s,r}\\
+  -W_{z,f}&-W_{z,r}
+  \end{bmatrix}}</latex>
+  <p>5.2 已经求出从轮轴二维坐标到极坐标的变化关系：</p>
+  <latex small>\begin{bmatrix}\delta L_0\\\delta\phi_0\end{bmatrix}
+  =\underbrace{\begin{bmatrix}
+  s_W/L_0&d_W/L_0\\
+  -d_W/L_0^2&s_W/L_0^2
+  \end{bmatrix}}_{\mathbf C_{\rm polar}}
+  \begin{bmatrix}\delta s_W\\\delta d_W\end{bmatrix}</latex>
+  <p>而轮轴坐标的小变化由 5.5 的导数给出：</p>
+  <latex small>\begin{bmatrix}\delta s_W\\\delta d_W\end{bmatrix}
+  =\mathbf D_W^{(s,d)}
+  \begin{bmatrix}\delta q_f\\\delta q_r\end{bmatrix}</latex>
+  <p>前式代入后式：</p>
+  <latex>\boxed{\mathbf J_H=\mathbf C_{\rm polar}\mathbf D_W^{(s,d)}}</latex>
+  <p>这就是完整链式法则：<b>关节角 → 轮轴二维位置 → 腿长和腿角</b>。以第一列为例，矩阵乘法逐项展开：</p>
+  <latex small>J_{H,11}=\frac{s_W}{L_0}W_{s,f}
+  +\frac{d_W}{L_0}(-W_{z,f})
+  =\frac{W_sW_{s,f}+W_zW_{z,f}}{L_0}</latex>
+  <latex small>J_{H,21}=-\frac{d_W}{L_0^2}W_{s,f}
+  +\frac{s_W}{L_0^2}(-W_{z,f})
+  =\frac{W_zW_{s,f}-W_sW_{z,f}}{L_0^2}</latex>
+  <p>第二列只需把下标 f 换成 r。因此，对任意 q<sub>j</sub>：</p>
+  <latex small>\boxed{\frac{\partial L_0}{\partial q_j}
+  =\frac{W_sW_{s,j}+W_zW_{z,j}}{L_0}}</latex>
+  <latex small>\boxed{\frac{\partial\phi_0}{\partial q_j}
+  =\frac{W_zW_{s,j}-W_sW_{z,j}}{L_0^2}}</latex>
+  <p>分别代入 j=f 和 j=r，得到最终四个明确元素：</p>
+  <latex small>\boxed{J_{H,11}=
+  \frac{W_sW_{s,f}+W_zW_{z,f}}{L_0}},\qquad
+  \boxed{J_{H,12}=
+  \frac{W_sW_{s,r}+W_zW_{z,r}}{L_0}}</latex>
+  <latex small>\boxed{J_{H,21}=
+  \frac{W_zW_{s,f}-W_sW_{z,f}}{L_0^2}},\qquad
+  \boxed{J_{H,22}=
+  \frac{W_zW_{s,r}-W_sW_{z,r}}{L_0^2}}</latex>
+  <latex>\boxed{\mathbf J_H=
+  \begin{bmatrix}J_{H,11}&J_{H,12}\\J_{H,21}&J_{H,22}\end{bmatrix}
+  =\frac{\partial(L_0,\phi_0)}{\partial(q_f,q_r)}}</latex>
+  <div class="callout good"><b>到这里解析运动学部分才真正闭合。</b>第 4 节给当前位置；5.3–5.5 给轮轴对两关节的四个偏导；5.6 把它们变成 J<sub>H</sub>。每条腿每周期只需一次正解、一个 2×2 闭链导数解和常数比例传播；没有中心差分、没有 ε、没有五次重复 H(q)，也没有 Newton 闭链迭代。下面才进入“怎样用 J<sub>H</sub> 分配力矩”。</div>
+
+  <h4>解析公式的分母为什么正好给出机械奇异条件</h4>
+  <ul>
+    <li>Δ<sub>M</sub>=0 表示向量 M−J 与 M−L 共线，即 J、M、L 共线；第一次两圆相切或相关杆完全展开/折叠。</li>
+    <li>完整离线基准中的 Δ<sub>N</sub>=0 仍表示 K、N、P 共线，但推荐实时简化链不需要计算 Δ<sub>N</sub>。</li>
+    <li>L<sub>0</sub>=0 时虚拟腿方向 φ<sub>0</sub> 本身无定义。</li>
+    <li>即使上述三项不为零，det(J<sub>H</sub>)=0 仍表示两个主动关节不能在当前姿态独立产生两个虚拟输出方向。</li>
+  </ul>
+  <p>当前验证域内，推荐实时链实际使用的 Δ<sub>M</sub> 范围为 <code>__DET_M_RANGE__ m²</code>，未接近 0 或变号。完整基准的 Δ<sub>N</sub> 范围为 <code>__DET_N_RANGE__ m²</code>，只用于确认第二级平行四边形没有在验证域内跳到另一装配支路。</p>
+
+  <h4>中心差分现在只承担离线交叉验证，不属于控制算法</h4>
+  <p>为了独立检查推荐解析式有没有漏负号，PC 测试仍可对同一个 H(q) 做很小的中心差分，再与解析 J<sub>H</sub> 比较。它相当于“用另一把尺子验算”，不会被移植进 STM32：</p>
+  <latex small>\mathbf J_{H,:,1}^{FD}=
+  \frac{H(q_f+\varepsilon,q_r)-H(q_f-\varepsilon,q_r)}{2\varepsilon},\qquad
+  \mathbf J_{H,:,2}^{FD}=
+  \frac{H(q_f,q_r+\varepsilon)-H(q_f,q_r-\varepsilon)}{2\varepsilon}</latex>
+  <p>在当前二维验证网格上，解析公式与解析正解中心差分的四元素最大绝对差为 <b>__ANALYTIC_J_FD_ERR__</b>；与独立 XML 变换树/被动角闭链求解再做中心差分的最大差为 <b>__ANALYTIC_J_TREE_ERR__</b>。因此中心差分已经从“运行算法”降级为“离线单元测试”。</p>
+
+  <h3>5.7 从零开始理解虚位移、虚功，以及为什么一定出现 JHᵀ</h3>
+  <h4>5.7.1 “虚位移”不是让实车真的执行一次动作</h4>
+  <p>在当前这一帧、当前姿态 q 不变的前提下，假想机构发生一个无限小并且满足所有杆长约束的变化，这个假想变化就叫<b>虚位移</b>：</p>
+  <latex small>\delta\vec q=\begin{bmatrix}\delta q_f\\\delta q_r\end{bmatrix},\qquad
+  \delta\vec y=\begin{bmatrix}\delta L_0\\\delta\phi_0\end{bmatrix}</latex>
+  <ul>
+    <li>它不是持续了 δt 秒的真实运动命令，也不是让电机先试转再测量；</li>
+    <li>它只是用来比较“若关节允许这样微动，输入侧与输出侧怎样描述同一份瞬时机械作用”；</li>
+    <li>它必须服从闭链约束，所以仍有 δy=J<sub>H</sub>δq。</li>
+  </ul>
+
+  <h4>5.7.2 先用一根杠杆理解“Jacobian 就是当前等效力臂”</h4>
+  <p>设一台电机带动长度为 r 的刚杆，电机发生很小转角 δq，杆端沿切线移动：</p>
+  <latex small>\delta s=r\,\delta q</latex>
+  <p>电机力矩 τ 在转角 δq 上做的微小功为 τδq；杆端切向力 F 在位移 δs 上做的微小功为 Fδs。把同一理想传动两侧的瞬时功写成两种坐标：</p>
+  <latex small>\tau\,\delta q=F\,\delta s=F\,r\,\delta q</latex>
+  <p>对任意非零小 δq，都有：</p>
+  <latex small>\boxed{\tau=rF}</latex>
+  <p>这里 r=∂s/∂q 就是一维 Jacobian。杆越长，同样的关节转角带来越大的末端位移；反过来，要在末端产生同样的力，也需要更大的关节力矩。这就是“运动传动比”和“等效力臂”其实是同一组数的原因。</p>
+
+  <h4>5.7.3 为什么虚拟腿一侧同时出现 F<sub>0</sub> 和 T<sub>φ</sub></h4>
+  <p>虚拟腿有两个独立输出坐标：</p>
+  <ul>
+    <li>L<sub>0</sub>：沿虚拟腿轴向伸长/缩短，和它配对的广义力是 F<sub>0</sub>，单位 N；</li>
+    <li>φ<sub>0</sub>：整根虚拟腿绕髋轴摆动，和它配对的广义力矩是 T<sub>φ</sub>，单位 N·m。</li>
+  </ul>
+  <p>“配对”或“共轭”的意思就是力乘自己的位移坐标后得到功。因此规定正方向：</p>
+  <latex small>\vec f=\begin{bmatrix}F_0\\T_\phi\end{bmatrix},\qquad
+  F_0>0\ \text{沿 }L_0\text{ 增大方向做正功},\quad
+  T_\phi>0\ \text{沿 }\phi_0\text{ 增大方向做正功}</latex>
+  <p>虚拟腿侧的总虚功是两个独立通道之和：</p>
+  <latex>\boxed{\delta W_{\rm virtual}=F_0\delta L_0+T_\phi\delta\phi_0}</latex>
+  <p>这不是把同一个力重复算两次。F<sub>0</sub> 管径向支撑/腿长，T<sub>φ</sub> 管绕髋摆动/腿姿态；任一项都可以单独为零。若把轮轴处的普通二维力分解为径向和切向，径向分量对应 F<sub>0</sub>，切向分量乘 L<sub>0</sub> 后就对应 T<sub>φ</sub>。</p>
+  <div class="callout warn"><b>它也不是 9025 轮毂自转力矩。</b>T<sub>φ</sub> 与整根虚拟腿角 φ<sub>0</sub> 配对；轮毂力矩 T<sub>wheel</sub> 与轮子自转角 ψ<sub>wheel</sub> 配对，另有 δW<sub>wheel</sub>=T<sub>wheel</sub>δψ<sub>wheel</sub>。两条控制链不能混在一起。</div>
+
+  <h4>5.7.4 不先写矩阵：把两台电机的虚功逐项展开</h4>
+  <p>先把 5.1 的运动关系写成四个系数：</p>
+  <latex small>\delta L_0=J_{11}\delta q_f+J_{12}\delta q_r</latex>
+  <latex small>\delta\phi_0=J_{21}\delta q_f+J_{22}\delta q_r</latex>
+  <p>代入虚拟腿侧虚功：</p>
+  <latex small>\delta W_{\rm virtual}
+  =F_0(J_{11}\delta q_f+J_{12}\delta q_r)
+  +T_\phi(J_{21}\delta q_f+J_{22}\delta q_r)</latex>
+  <p>把 δq<sub>f</sub> 和 δq<sub>r</sub> 的系数分别收集：</p>
+  <latex small>\delta W_{\rm virtual}
+  =(J_{11}F_0+J_{21}T_\phi)\delta q_f
+  +(J_{12}F_0+J_{22}T_\phi)\delta q_r</latex>
+  <p>同一份作用在关节坐标中写成：</p>
+  <latex small>\delta W_{\rm joint}=\tau_f\delta q_f+\tau_r\delta q_r</latex>
+  <p>为什么可以直接比较系数？因为虚位移可以分别选择：</p>
+  <ul>
+    <li>δq=[ε,0]<sup>T</sup>：只考察前关节，于是 τ<sub>f</sub>=J<sub>11</sub>F<sub>0</sub>+J<sub>21</sub>T<sub>φ</sub>；</li>
+    <li>δq=[0,ε]<sup>T</sup>：只考察后关节，于是 τ<sub>r</sub>=J<sub>12</sub>F<sub>0</sub>+J<sub>22</sub>T<sub>φ</sub>。</li>
+  </ul>
+  <latex>\boxed{\tau_f=J_{11}F_0+J_{21}T_\phi},\qquad
+  \boxed{\tau_r=J_{12}F_0+J_{22}T_\phi}</latex>
+  <p>所以 VMC 不是把一个“总力矩”平均分给两台电机。每台电机的力矩都由两部分相加：它对腿长的瞬时影响 × F<sub>0</sub>，再加上它对腿角的瞬时影响 × T<sub>φ</sub>。</p>
+
+  <h4>5.7.5 最后再压缩成矩阵，转置就不再神秘</h4>
+  <latex small>\mathbf J_H=
+  \begin{bmatrix}J_{11}&J_{12}\\J_{21}&J_{22}\end{bmatrix},\qquad
+  \mathbf J_H^T=
+  \begin{bmatrix}J_{11}&J_{21}\\J_{12}&J_{22}\end{bmatrix}</latex>
+  <latex>\boxed{\vec\tau=\mathbf J_H^T\vec f
+  =\mathbf J_H^T\begin{bmatrix}F_0\\T_\phi\end{bmatrix}}</latex>
+  <p>运动关系中，J<sub>H</sub> 的<b>每一列</b>记录一台电机对所有输出的影响。求某台电机力矩时，要取这一整列与 [F<sub>0</sub>,T<sub>φ</sub>]<sup>T</sup> 做内积；把“列”排成输出力矩向量的“行”，写出来正好就是 J<sub>H</sub><sup>T</sup>。</p>
+  <p>矩阵版的同一证明是：</p>
+  <latex small>\vec\tau^{\,T}\delta\vec q
+  =\vec f^{\,T}\delta\vec y
+  =\vec f^{\,T}\mathbf J_H\delta\vec q
+  =\left(\mathbf J_H^T\vec f\right)^T\delta\vec q</latex>
+  <p><b>转置不是经验公式，也不只是为了凑矩阵尺寸。</b>它是要求同一瞬时虚功用关节坐标和虚拟腿坐标描述时完全一致，自然得到的对偶映射。</p>
+
+  <h4>5.7.6 一个纯示意数值：直接检查两边虚功相等</h4>
+  <p>下面只为解释公式，不代表当前车辆的真实 J<sub>H</sub>：</p>
+  <latex small>\mathbf J_H=
+  \begin{bmatrix}0.08&-0.06\\0.7&0.8\end{bmatrix},\qquad
+  \vec f=\begin{bmatrix}40\ {\rm N}\\3\ {\rm N\,m}\end{bmatrix}</latex>
+  <p>于是：</p>
+  <latex small>\tau_f=0.08\times40+0.7\times3=5.3\ {\rm N\,m}</latex>
+  <latex small>\tau_r=-0.06\times40+0.8\times3=0\ {\rm N\,m}</latex>
+  <p>再任选一个合法的小虚位移 δq=[0.001,−0.002]<sup>T</sup> rad：</p>
+  <latex small>\delta\vec y=\mathbf J_H\delta\vec q
+  =\begin{bmatrix}0.0002\ {\rm m}\\-0.0009\ {\rm rad}\end{bmatrix}</latex>
+  <latex small>\delta W_{\rm virtual}=40\times0.0002+3\times(-0.0009)
+  =0.0053\ {\rm J}</latex>
+  <latex small>\delta W_{\rm joint}=5.3\times0.001+0\times(-0.002)
+  =0.0053\ {\rm J}</latex>
+  <p>两边完全相等。这是检查转置、列顺序和角度正负号是否正确的直接方法。</p>
+
+  <h3>5.8 从数学力矩公式落到当前 VMC 接口</h3>
+  <h4>5.8.1 先只看新的精确模型接口</h4>
+  <latex small>\mathbf J_H=
+  \begin{bmatrix}
+  \partial L_0/\partial q_f&\partial L_0/\partial q_r\\
+  \partial\phi_0/\partial q_f&\partial\phi_0/\partial q_r
+  \end{bmatrix}</latex>
+  <latex>\boxed{\tau_{q_f}=
+  \frac{\partial L_0}{\partial q_f}F_0+
+  \frac{\partial\phi_0}{\partial q_f}T_\phi}</latex>
+  <latex>\boxed{\tau_{q_r}=
+  \frac{\partial L_0}{\partial q_r}F_0+
+  \frac{\partial\phi_0}{\partial q_r}T_\phi}</latex>
+  <div class="callout"><b>单位检查：</b>(∂L<sub>0</sub>/∂q)[m/rad]×F<sub>0</sub>[N] 得 N·m；(∂φ<sub>0</sub>/∂q)[rad/rad]×T<sub>φ</sub>[N·m] 仍得 N·m。两项单位相同，所以可以相加为关节力矩。</div>
+
+  <h4>5.8.2 旧理想五杆代码的 j11…j22 只是把 J<sup>T</sup> 直接存进字段</h4>
+  <div class="scroll"><table>
+    <thead><tr><th>当前 VMC_Calc.c 字段</th><th>旧理想五杆中的真实含义</th><th>进入哪一个旧控制坐标力矩</th></tr></thead>
+    <tbody>
+      <tr><td>vmc-&gt;j11</td><td>∂L0/∂φ1</td><td>τ<sub>φ1</sub> 的 F0 系数</td></tr>
+      <tr><td>vmc-&gt;j12</td><td>∂φ0/∂φ1</td><td>τ<sub>φ1</sub> 的 Tφ 系数</td></tr>
+      <tr><td>vmc-&gt;j21</td><td>∂L0/∂φ4</td><td>τ<sub>φ4</sub> 的 F0 系数</td></tr>
+      <tr><td>vmc-&gt;j22</td><td>∂φ0/∂φ4</td><td>τ<sub>φ4</sub> 的 Tφ 系数</td></tr>
+    </tbody>
+  </table></div>
+  <p>所以旧代码更准确的名字应当是：</p>
+  <pre>torque_phi1 = j11 * F0 + j12 * Tp;   // torque_set[0]
+torque_phi4 = j21 * F0 + j22 * Tp;   // torque_set[1]</pre>
+  <p>不能直接把第一行叫 <code>torque_front</code>：在现有左腿旧坐标里，φ1 与后侧支路相连，φ4 与前侧支路相连，发送层还会做交换和取负。</p>
+  <p>若把旧理想五杆运动雅可比按“输出行、关节列”排布：</p>
+  <latex small>\mathbf J_{\mathrm{ctrl}}=
+  \frac{\partial(L_0,\phi_0)}{\partial(\phi_1,\phi_4)}=
+  \begin{bmatrix}j11&j21\\j12&j22\end{bmatrix}</latex>
+  <p>那么代码字段实际排成：</p>
+  <latex small>\mathbf C_{\mathrm{code}}=
+  \begin{bmatrix}j11&j12\\j21&j22\end{bmatrix}=\mathbf J_{\mathrm{ctrl}}^T</latex>
+  <p>当前左腿旧路径还包含：</p>
+  <pre>q_front = jIJ / motor0  ↔  φ4 ≈ −q_front + offset4
+q_rear  = jIO / motor1  ↔  φ1 ≈ −q_rear  + offset1
+
+旧控制坐标力矩 [τφ1, τφ4]
+        ↓ 交换并取负
+raw-q 广义力矩 [τq_front, τq_rear] = [−τφ4, −τφ1]</pre>
+  <p>因此，如果新的精确 J<sub>H</sub> 已经直接对 [q<sub>front</sub>,q<sub>rear</sub>] 求导，并输出 [τ<sub>qf</sub>,τ<sub>qr</sub>]，就不能再无条件套用旧交换与负号，否则会把同一坐标变换做两遍。</p>
+
+  <h4>5.8.3 T<sub>φ</sub> 与以 θ 为坐标的力矩为什么相差一个负号</h4>
+  <p>本报告的第二个输出坐标是 φ<sub>0</sub>。若另一个控制模型定义：</p>
+  <latex small>\theta=\frac{\pi}{2}-Pitch_{side}-\phi_0</latex>
+  <p>固定 Pitch<sub>side</sub>、只看腿机构的小变化：</p>
+  <latex small>\delta\theta=-\delta\phi_0</latex>
+  <p>若 T<sub>θ</sub> 与 θ 正方向共轭，同一份虚功必须满足：</p>
+  <latex small>T_\theta\delta\theta=T_\phi\delta\phi_0</latex>
+  <p>所以：</p>
+  <latex>\boxed{T_\phi=-T_\theta}</latex>
+  <h4>当前工程中的 Tp 已经怎样处理了这个负号</h4>
+  <p>必须把 MATLAB 动力学里的输入和送进 VMC 的变量分开命名：</p>
+  <latex small>T_{p,{\rm dyn}}\ \text{与动力学坐标 }(\theta,Pitch_{side})\text{配套},\qquad
+  T_\phi\ \text{与 VMC 坐标 }\phi_0\text{配套}</latex>
+  <p>由同一份虚功可得 T<sub>p,dyn</sub>=−T<sub>φ</sub>。MATLAB 的 <code>lqr()</code> 又采用 u=−Kx，所以：</p>
+  <latex small>T_{p,{\rm dyn}}=-K_{Tp}x,qquad
+  \boxed{T_\phi=-T_{p,{\rm dyn}}=+K_{Tp}x}</latex>
+  <p>当前固件 <code>CalcLQR()</code> 计算 +Kx，再把该值直接送入 <code>VMC_calc_2()</code> 的 <code>Tp</code>，因此当前这个 <code>Tp</code> 在 VMC 接口处就是 T<sub>φ</sub>；不是漏了负号，而是“坐标反号”和 LQR 标准反馈中的负号已经抵消。</p>
+  <div class="callout warn"><b>以后更换精确 J<sub>H</sub> 时不要再凭变量名补一个负号。</b>保持接口明确为 T<sub>φ</sub>，并继续检查模型前/后顺序、电机编码器极性和左右腿重排。源码能证明代数链自洽，但 DM8009 的物理正力矩方向仍需低力矩台架测试确认。</div>
+  <div class="callout"><b>作用力定义也要写清：</b>上式把 [F<sub>0</sub>,T<sub>φ</sub>] 定义为执行器希望沿输出正方向施加的虚拟广义力。如果某个传感器量定义的是环境对机器人的反作用力，接口中可能还要整体取反；那是作用对象的约定，不是 J<sup>T</sup> 本身改变。</div>
+
+  <h3>5.9 从模型前/后关节力矩落到真实电机力矩</h3>
+  <p>到 5.8 为止得到的是模型顺序 [front,rear] 下的广义力矩。真实程序中的电机数组可能不是这个顺序，而且编码器正方向也可能与模型 q 正方向相反。因此要分三步看：</p>
+  <ol>
+    <li>Π 只负责把真实电机数组重排成 [front,rear]；</li>
+    <li>S=diag(η<sub>f</sub>,η<sub>r</sub>) 只负责把两台编码器的正方向变成模型正方向；</li>
+    <li>b 只负责把编码器零点平移到模型零点。</li>
+  </ol>
+  <latex small>\vec p_{\rm ordered}=\mathbf\Pi\vec p_{\rm motor},\qquad
+  \vec q=\mathbf S\vec p_{\rm ordered}+\vec b</latex>
+  <p>合并以后才是：</p>
+  <latex small>\boxed{\vec q=\mathbf S\mathbf\Pi\,\vec p_{\mathrm{motor}}+\vec b}</latex>
+  <div class="scroll"><table>
+    <thead><tr><th>量</th><th>作用</th><th>是否影响位置</th><th>是否影响雅可比/力矩方向</th></tr></thead>
+    <tbody>
+      <tr><td>Π</td><td>把电机数组顺序重排成 [front,rear]</td><td>是</td><td>是；输出力矩必须做逆重排 Πᵀ</td></tr>
+      <tr><td>S=diag(η<sub>f</sub>,η<sub>r</sub>)</td><td>把每台电机的正方向换成 XML raw-q 正方向；η<sub>f</sub>、η<sub>r</sub>∈{+1,−1}</td><td>是</td><td>是；对应力矩也要乘同一方向变换 Sᵀ</td></tr>
+      <tr><td>b</td><td>编码器零点到模型零点的固定偏移</td><td>是；决定送入 H 的当前 q</td><td>对微分为 0，不额外产生力矩负号</td></tr>
+    </tbody>
+  </table></div>
+  <p>为什么 b 不直接产生一个力矩负号？比较同一姿态前后的微小变化即可：</p>
+  <latex small>\delta\vec q
+  :=\vec q(\vec p+\delta\vec p)-\vec q(\vec p)</latex>
+  <latex small>\delta\vec q
+  =\left[\mathbf S\mathbf\Pi(\vec p+\delta\vec p)+\vec b\right]
+  -\left[\mathbf S\mathbf\Pi\vec p+\vec b\right]</latex>
+  <p>两项 b 互相抵消：</p>
+  <latex small>\delta\vec q=\mathbf S\mathbf\Pi\,\delta\vec p_{\mathrm{motor}}</latex>
+  <p>代入 dy=J<sub>H</sub>dq，得到相对于真实电机反馈顺序的雅可比：</p>
+  <latex small>\delta\vec y=
+  \underbrace{\mathbf J_H\mathbf S\mathbf\Pi}_{\mathbf J_{\mathrm{motor}}}
+  \delta\vec p_{\mathrm{motor}}</latex>
+  <p>模型关节侧虚功为 τ<sub>q</sub><sup>T</sup>δq。代入上式：</p>
+  <latex small>\vec\tau_q^{\,T}\delta\vec q
+  =\vec\tau_q^{\,T}\mathbf S\mathbf\Pi\delta\vec p_{\rm motor}
+  =\left(\mathbf\Pi^T\mathbf S^T\vec\tau_q\right)^T
+  \delta\vec p_{\rm motor}</latex>
+  <p>所以真实电机数组中的力矩必须使用逆重排和同一极性变换：</p>
+  <latex>\boxed{\vec\tau_{\mathrm{motor}}
+  =\mathbf J_{\mathrm{motor}}^T\vec f
+  =\mathbf\Pi^T\mathbf S^T\mathbf J_H^T
+  \begin{bmatrix}F_0\\T_\phi\end{bmatrix}}</latex>
+  <p>这条式子把“力矩怎样分给两台电机”完整闭合了：J<sub>H</sub><sup>T</sup> 先得到模型前/后关节力矩，S<sup>T</sup> 修正电机正方向，Π<sup>T</sup> 再放回真实电机数组位置。零偏 b 虽然不直接出现在最后一行，但它若标错，会让 J<sub>H</sub> 在错误姿态上计算，仍会间接造成力矩大小错误。</p>
+  <div class="callout"><b>当前旧理想五杆发送链的源码核对结果：</b>左腿为 motor0=−τ<sub>φ4</sub>、motor1=−τ<sub>φ1</sub>；右腿为 motor2=−τ<sub>φ1</sub>、motor3=−τ<sub>φ4</sub>。这些交换和负号来自旧 φ1/φ4 坐标与电机数组的关系。新的精确接口若直接输出 raw-q 的 [τ<sub>qf</sub>,τ<sub>qr</sub>]，应重新按 Π、S 生成电机力矩，不能照抄旧式。</div>
+  <div class="callout warn"><b>当前工程必须特别处理右腿顺序：</b>精确接口的自然列固定为 [front,rear]。当前 XML 右腿对应 [jAB,jAG]，而现有右腿电机数组到达顺序是 [motor2=jAG 后，motor3=jAB 前]，因此右腿 Π 需要交换两列，力矩输出也必须逆交换。左腿 XML 自然顺序 [jIJ,jIO] 对应 [motor0 前，motor1 后]。这里说的是 XML raw-q 接口；旧理想 φ1/φ4 路径还叠加了交换与负号，不能混成一套。</div>
+  <div class="callout warn"><b>VMC 算出的 τ 目前只是 DM8009 MIT 报文中的前馈力矩 t<sub>ff</sub>。</b>实际电机内部还会叠加 K<sub>p</sub>(p<sub>des</sub>−p) 和 K<sub>d</sub>(v<sub>des</sub>−v) 等位置/速度反馈作用。因此“J<sup>T</sup> 分配出的力矩”与驱动器最终瞬时总力矩不能直接画等号；调试时必须同时记录 p<sub>des</sub>、K<sub>p</sub>、K<sub>d</sub>、t<sub>ff</sub> 和电机反馈。</div>
+
+  <h3>5.10 当前理想五杆的四个三角函数系数怎样推出来</h3>
+  <p>这一小节解释当前 <code>VMC_calc_2()</code> 的 j11…j22 来源；它属于 PDF 的理想五连杆，不是偏置 XML 的精确 J<sub>H</sub>。令：</p>
+  <latex small>\vec e_i=\begin{bmatrix}\cos\phi_i\\\sin\phi_i\end{bmatrix},\qquad
+  \vec t_i=\begin{bmatrix}-\sin\phi_i\\\cos\phi_i\end{bmatrix}</latex>
+  <p>e<sub>i</sub> 沿第 i 根杆，t<sub>i</sub> 是该杆逆时针转动时端点的瞬时切向方向。理想五杆轮轴 C 同时满足：</p>
+  <latex small>\vec r_C=\vec r_B+l_2\vec e_2=\vec r_D+l_3\vec e_3</latex>
+  <p>先只让主动角 φ1 变化、固定 φ4。B 点速度是 l1t1φ̇1，D 点速度为 0。杆 BC、DC 长度不能变化，因此 C 相对 B、D 的速度在相应杆方向上的投影必须为零：</p>
+  <latex small>\vec e_2^{\,T}(\vec v_C-l_1\vec t_1\dot\phi_1)=0,\qquad
+  \vec e_3^{\,T}\vec v_C=0</latex>
+  <p>第二式说明 v<sub>C</sub> 必须沿 t<sub>3</sub>，把它代入第一式并解比例：</p>
+  <latex small>\boxed{\frac{\partial\vec r_C}{\partial\phi_1}=
+  l_1\frac{\sin(\phi_1-\phi_2)}{\sin(\phi_3-\phi_2)}\vec t_3}</latex>
+  <p>虚拟腿的径向单位向量为 e<sub>0</sub>，切向单位向量为 t<sub>0</sub>。轮轴速度投影到径向得到腿长变化，投影到切向再除以 L0 得到角度变化：</p>
+  <latex small>\frac{\partial L_0}{\partial\phi_1}=
+  \vec e_0^{\,T}\frac{\partial\vec r_C}{\partial\phi_1},\qquad
+  \frac{\partial\phi_0}{\partial\phi_1}=
+  \frac{1}{L_0}\vec t_0^{\,T}\frac{\partial\vec r_C}{\partial\phi_1}</latex>
+  <p>利用 e0<sup>T</sup>t3=sin(φ0−φ3)、t0<sup>T</sup>t3=cos(φ0−φ3)，就得到当前代码前两项：</p>
+  <latex small>j11=\frac{l_1\sin(\phi_0-\phi_3)\sin(\phi_1-\phi_2)}{\sin(\phi_3-\phi_2)},\qquad
+  j12=\frac{l_1\cos(\phi_0-\phi_3)\sin(\phi_1-\phi_2)}{L_0\sin(\phi_3-\phi_2)}</latex>
+  <p>再只让 φ4 变化、固定 φ1，同样用两根被动杆的定长速度约束：</p>
+  <latex small>\boxed{\frac{\partial\vec r_C}{\partial\phi_4}=
+  l_4\frac{\sin(\phi_3-\phi_4)}{\sin(\phi_3-\phi_2)}\vec t_2}</latex>
+  <p>投影到 e0、t0 后：</p>
+  <latex small>j21=\frac{l_4\sin(\phi_0-\phi_2)\sin(\phi_3-\phi_4)}{\sin(\phi_3-\phi_2)},\qquad
+  j22=\frac{l_4\cos(\phi_0-\phi_2)\sin(\phi_3-\phi_4)}{L_0\sin(\phi_3-\phi_2)}</latex>
+  <div class="callout"><b>精确偏置机构改变的就是这里：</b>虚功和“径向/切向投影”的思想不变，但不能继续使用上面针对理想 B–C–D 五杆推出来的四个三角函数系数；应改用第 4 节真实闭链 H(q) 的 J<sub>H</sub>。</div>
+
+  <h3>5.11 用 L0=0.200 m、虚拟腿竖直姿态做数值例子</h3>
+  <p>精确 XML 正解在该姿态给出 raw-q 顺序 [front,rear] 的雅可比：</p>
+  <latex small>\mathbf J_H\approx
+  \begin{bmatrix}
+  -0.142&+0.142\\
+  -0.511&-0.489
+  \end{bmatrix}</latex>
+  <p class="tiny">矩阵在文档中显示三位小数；下面的力矩结果仍按脚本内部全精度数值计算。</p>
+  <p>假设仅作数学示例：</p>
+  <latex small>F_0=40.000\ \mathrm N,\qquad T_\phi=2.000\ \mathrm{N\,m}</latex>
+  <p>那么：</p>
+  <latex small>\tau_f\approx-6.692\ \mathrm{N\,m},\qquad
+  \tau_r\approx+4.692\ \mathrm{N\,m}</latex>
+  <div class="callout warn"><b>这两个数只是模型广义力矩示例，不是可直接发送给实车的命令。</b>它尚未包含左右腿镜像、DM8009 电机数组顺序、发送层负号、实际力矩限幅和安全系数。</div>
+
+  <h3>5.12 怎样证明 JH 和力矩分配没有算错</h3>
+  <ol>
+    <li><b>CAD 关系检查：</b>逐点验证 P=k<sub>a</sub>L、W=P+k<sub>b</sub>(M−L)，并把结果与最终对齐后的 CAD/XML 模型比较。当前 XML 尚保留约 0.271 mm 的 I–L–P 导出偏差，因此不能再拿旧的微米级指标冒充 CAD 模型误差。</li>
+    <li><b>有限位移检查：</b>任选很小 δq，比较 H(q+δq)−H(q) 与 J<sub>H</sub>δq；误差应随 ‖δq‖² 缩小。</li>
+    <li><b>MuJoCo 几何检查：</b>分别扰动 qf、qr，调用 <code>mj_forward</code>，从真实轮轴 site/body 重新计算 L0、φ0；所得斜率应与 J<sub>H</sub> 四个元素一致。</li>
+    <li><b>虚功检查：</b>随机选小 δq 和 [F0,Tφ]，验证 τ<sup>T</sup>δq 与 F0δL0+Tφδφ0 相等。</li>
+    <li><b>功率检查：</b>验证 τ<sup>T</sup>q̇=F0L̇0+Tφφ̇0；若只差负号，优先检查 φ0/θ 和左右镜像约定。</li>
+    <li><b>奇异检查：</b>推荐实时链优先监控 Δ<sub>M</sub>、L<sub>0</sub> 和 det(J<sub>H</sub>)；Δ<sub>N</sub> 只在完整离线基准中复核。若使用条件数，先以特征腿长把 J<sub>H</sub> 两行无量纲化。接近相切时停止加长腿，不做高增益力矩测试。</li>
+  </ol>
+</section>
+
+<section id="inverse">
+  <h2>6. 从目标 L0、φ0 回到电机角</h2>
+  <div class="callout good"><b>先把正解和逆解分开。</b>第 4～5 节的正运动学是一个无历史的闭式函数：只要给定当前模型角 q<sub>f</sub>、q<sub>r</sub>、固定几何参数和物理装配支路，就能直接算出 W、L<sub>0</sub>、φ<sub>0</sub> 与解析 J<sub>H</sub>；它不需要上电初态，也不需要上一周期结果。本节讨论的是反方向问题——只给目标 L<sub>0</sub>、φ<sub>0</sub>，未知 q<sub>f</sub>、q<sub>r</sub>——所以才需要迭代猜测电机角。</div>
+  <p>位置目标不再调用理想五杆的余弦定理，而是解：</p>
+  <latex>H(\vec q)=\vec y_d=\begin{bmatrix}L_{0,d}\\\phi_{0,d}\end{bmatrix}</latex>
+  <p>用上一周期测得/求得的 q 作为一个方便的初始猜测，Newton 迭代：</p>
+  <latex small>\vec q_{k+1}=\vec q_k+\mathbf J_H(\vec q_k)^{-1}\left[\vec y_d-H(\vec q_k)\right]</latex>
+  <ul>
+    <li>这里的 J<sub>H</sub> 是第 5 节的解析式；Newton 每一步都重新计算当前 H 和解析 J<sub>H</sub>，不做中心差分。</li>
+    <li>上一周期只用于加快逆解收敛，不参与定义机构几何。即使第一次运行，也可以使用工作域中点或一组已知可行 q 作为初猜。</li>
+    <li>控制周期内目标连续，上一周期通常离新解很近，因此往往只需少量迭代。</li>
+    <li>接近圆相切或 det(J<sub>H</sub>)→0 时停止加长腿，不能硬除。</li>
+    <li>推荐正解只显式固定第一次闭链支路 σ<sub>M</sub>=+1；完整离线基准还固定 σ<sub>N</sub>=−1。逆解若存在多个 q 解，则用关节限位和“离上一周期 q 最近”选择电机解，不能把这件事误认为正解依赖历史。</li>
+    <li>MuJoCo 初始化还可以由 J、M、K、N、P 的朝向显式恢复四个被动角，避免先跑 3000 步 settle。</li>
+  </ul>
+  <div class="callout"><b>这不是三张查表。</b> 三张“映射”只是以前为了说明正解、逆解、雅可比三个用途。优雅实现是一个统一的 H(q) 计算图：正解直接调用 H；J<sub>H</sub> 对 H 求导；逆解用 H 和 J<sub>H</sub> 做 Newton；VMC 用 J<sub>H</sub><sup>T</sup>。</div>
+</section>
+
+<section id="validation">
+  <h2>7. 四层数值验证</h2>
+  <div class="cards">
+    <div class="card"><span class="tag same">层 1</span><h4>完整两圆解 vs XML 变换树</h4><div class="k">__ANALYTIC_L_ERR__ μm</div><div class="label">最大 L0 差；角差 __ANALYTIC_A_ERR__ 微度</div></div>
+    <div class="card"><span class="tag same">层 2</span><h4>离线变换树 vs MuJoCo 3.3.0</h4><div class="k">__MJ_L_ERR__ μm</div><div class="label">最大 L0 差；角差 __MJ_A_ERR__ 微度</div></div>
+    <div class="card"><span class="tag risk">层 3</span><h4>CAD 约束模型 vs 当前 XML</h4><div class="k">0.271 mm</div><div class="label">参考几何差；需对齐 CAD/XML 后重扫全域</div></div>
+    <div class="card"><span class="tag diff">层 4</span><h4>旧理想五杆 vs 精确 XML</h4><div class="k">__GRID_L_ERR__ mm</div><div class="label">最大 L0 差；角差 __GRID_A_ERR__°</div></div>
+  </div>
+  <div class="callout good"><b>解析导数仍有独立交叉验证：</b>完整 XML 基准解析式与独立 XML 变换树中心差分的最大差为 <code>__ANALYTIC_J_TREE_ERR__</code>。旧 XML 保角简式的解析导数与其自身中心差分最大差为 <code>__SIM_J_FD_ERR__</code>，但它不是本节强制 CAD 共线后的最终指标；CAD 版本应在几何文件对齐后重新生成扫描结果。中心差分始终只在 PC 测试中作验算。</div>
+  <p class="tiny">MuJoCo 校验做法：仅移除工作区中不可用的零字节可视网格；保留 body、joint、site、equality 和 proxy geom；填入精确主动/被动 qpos 后调用 mj_forward。最大 equality site gap 为 __MJ_GAP__ μm。没有运行控制器和动力学 settle。</p>
+
+  <h3>7.1 竖直虚拟腿扫描</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>精确 L0 / m</th><th>q前 / rad</th><th>q后 / rad</th><th>理想−精确 L0 / mm</th><th>理想−精确 θ<sub>leg</sub> / °</th><th>原始 cond(J<sub>H</sub>)<br><span class="tiny">仅趋势参考</span></th></tr></thead>
+    <tbody>__SAMPLE_ROWS__</tbody>
+  </table></div>
+
+  <div class="chart-grid">
+    <div class="chart-box"><h4>理想五杆的腿长误差</h4><svg id="lengthErrorChart" class="chart" viewBox="0 0 560 330"></svg></div>
+    <div class="chart-box"><h4>理想五杆的角度误差</h4><svg id="angleErrorChart" class="chart" viewBox="0 0 560 330"></svg></div>
+    <div class="chart-box"><h4>精确 J<sub>H</sub>：腿长行</h4><svg id="jLengthChart" class="chart" viewBox="0 0 560 330"></svg></div>
+    <div class="chart-box"><h4>精确 J<sub>H</sub>：φ<sub>0</sub> 行</h4><svg id="jAngleChart" class="chart" viewBox="0 0 560 330"></svg></div>
+  </div>
+  <div class="callout good"><b>验证结论分两层：</b>完整圆交、XML 变换树和 MuJoCo 前向变换在浮点精度内一致；删去 K、N 和第二次圆交有平行四边形约束支持，不是凭经验删杆。但 CAD 设计模型现在额外强制 I、L、P 共线，和当前 XML 导出点存在约 0.271 mm 差异，必须在更新 XML 或导入准确 CAD 点位后再给出最终全域误差。</div>
+  <div class="callout warn"><b>不要把名义几何验证等同于实车真值。</b> XML 没包含加工误差、轴承间隙、杆件柔性、同步结构变形和电机零位误差。上实车前仍需用少量可测姿态做参数辨识/校验。</div>
+
+  <h3>7.2 如果要自己复验，应按什么顺序</h3>
+  <ol>
+    <li><b>完整基准点坐标复验：</b>随机给 10～20 组 qf、qr；完整解析正解输出 J、L、P、M、K、N、W；MuJoCo 写入同一组主动/被动 qpos 后调用 <code>mj_forward</code>，逐点比较。</li>
+    <li><b>CAD 简式复验：</b>对同一组 q 只计算 J、L、P、M，再用 P=k<sub>a</sub>L、W=P+k<sub>b</sub>(M−L)；将 W、L0、φ0、J<sub>H</sub> 与对齐后的 CAD/XML 基准逐点比较。</li>
+    <li><b>雅可比有限差分复验：</b>分别只扰动 qf 和 qr，比较 <code>H(q+δq)−H(q)</code> 与解析 <code>JH(q)δq</code>；再把 δq 减半，一阶线性化余项应约缩小到四分之一。它是离线测试，不是 STM32 运行算法。</li>
+    <li><b>虚功/功率复验：</b>随机给很小 δq 与虚拟力 [F0,Tφ]，检查 <code>τᵀδq</code> 和 <code>F0δL0+Tφδφ0</code>；这一步专门检出转置、φ0/θ 负号、前后列交换问题。</li>
+    <li><b>MuJoCo 控制 A/B：</b>在同一个模型、初始姿态、限幅和控制周期下，依次切换“旧理想 H/J”“完整两圆 H/J”“一次闭链简化 H/J”；先做零力矩、低增益静态腿长，再做小幅正弦腿长，最后才接完整 LQR。</li>
+    <li><b>实车模型角标定：</b>确认每台电机的 S、Π，并用至少一个可重复参考姿态求 b；再用另外 3～5 个姿态验证同一个 b 能否复现轮轴位置。MuJoCo 通过不能替代这一步。</li>
+  </ol>
+  <div class="callout"><b>所以 MuJoCo 是下一步最合理的控制验证环境，但不是第一次数学验证。</b>前 3 步先证明 H、J 和 Jᵀ 的代数链正确；第 4 步才回答“换进控制器后是否稳定”；第 5 步才回答“实车零点和几何是否与 XML 一致”。</div>
+</section>
+
+<section id="pdf">
+  <h2>8. 与《串腿控制.pdf》哪里一样，哪里不同</h2>
+  <p>PDF 第 1–4 页是轮腿倒立摆和 LQR；第 5–6 页进入标准五连杆与 VMC；第 7–10 页是仿真、变腿长 K 拟合和综合控制；第 11–13 页是支持力/离地检测。真正需要替换的只在第 5–6 页的机构运动学部分。</p>
+  <div class="scroll"><table>
+    <thead><tr><th>项目</th><th>PDF / 当前理想代码</th><th>XML 推荐一次闭链模型</th><th>结论</th></tr></thead>
+    <tbody>
+      <tr><td>虚拟输出</td><td>y=[L0,φ0]ᵀ</td><td>仍为 y=[L0,φ0]ᵀ</td><td><span class="tag same">相同</span></td></tr>
+      <tr><td>主动输入</td><td>q=[φ1,φ4]ᵀ，等同于主动杆角</td><td>q=[jIJ前,jIO后]ᵀ，是真实电机广义角</td><td><span class="tag diff">改变</span></td></tr>
+      <tr><td>正运动学</td><td>一个标准五杆圆交点 f(q)</td><td>真实 J/L 求 M，再用 P=k<sub>a</sub>L、W=P+k<sub>b</sub>(M−L)；完整两圆模型仅作基准</td><td><span class="tag diff">替换参数与输出映射</span></td></tr>
+      <tr><td>雅可比</td><td>J<sub>f</sub>=∂f/∂[φ1,φ4]</td><td>J<sub>H</sub>=∂H/∂[q前,q后]</td><td><span class="tag diff">替换数值</span></td></tr>
+      <tr><td>虚功</td><td>τ=J<sub>f</sub><sup>T</sup>[F0,Tp]<sup>T</sup></td><td>τ=J<sub>H</sub><sup>T</sup>[F0,Tp]<sup>T</sup></td><td><span class="tag same">原理相同</span></td></tr>
+      <tr><td>LQR 状态</td><td>[θ,θ̇,x,ẋ,Pitch,Pitcḣ]</td><td>不因机构正解改变</td><td><span class="tag same">相同</span></td></tr>
+      <tr><td>平衡点</td><td>θ=0、Pitch=0 处线性化</td><td>保持 θ=0；修正 q→θ 的测量</td><td><span class="tag same">不平移</span></td></tr>
+      <tr><td>逆解</td><td>余弦定理直接求 φ1、φ4</td><td>Newton 解 H(q)=y<sub>d</sub></td><td><span class="tag diff">替换</span></td></tr>
+      <tr><td>闭链分支/奇异</td><td>基本未展开</td><td>实时固定 σ<sub>M</sub> 并跟踪 Δ<sub>M</sub>、det(J<sub>H</sub>)；Δ<sub>N</sub> 只在完整离线基准中检查</td><td><span class="tag risk">新增保护</span></td></tr>
+      <tr><td>MIT 位置环</td><td>PDF 未讨论</td><td>是当前仿真/实车额外的内环，需与 VMC 解耦检查</td><td><span class="tag risk">PDF 缺失</span></td></tr>
+    </tbody>
+  </table></div>
+  <h3>按页码理解</h3>
+  <ul>
+    <li><b>第 2、4 页：</b>θ、Pitch、LQR 线性化和平衡点逻辑保留。</li>
+    <li><b>第 5 页：</b>变腿长调度 K(L0) 仍可用，但 L0 必须来自精确 H。</li>
+    <li><b>第 5–6 页：</b>PDF 的半角闭式可以保留，但必须使用真实 J、L、l<sub>1</sub>…l<sub>4</sub> 与当前减号装配支路；轮轴输出与解析 J<sub>H</sub> 再接上 P=k<sub>a</sub>L、W=P+k<sub>b</sub>(M−L)。</li>
+    <li><b>第 6 页：</b>虚功到 τ=J<sup>T</sup>F 的推导原理完全保留。</li>
+    <li><b>第 10–12 页：</b>腿长环、横滚补偿、支持力估计结构可保留，但它们依赖的 L0、θ、F/Tp 映射会因此更准确。</li>
+  </ul>
+</section>
+
+<section id="code">
+  <h2>9. 映射到当前 MuJoCo 工程，具体哪些地方要换</h2>
+  <p>本轮没有修改这些控制文件。下表是下一轮在 <code>mujoco_control_extract</code> 内做 A/B 实验时的最小落点。</p>
+  <div class="scroll"><table>
+    <thead><tr><th>当前位置</th><th>当前逻辑</th><th>未来实验替换</th><th>上层是否变化</th></tr></thead>
+    <tbody>
+      <tr><td><code>VMC_Calc.c:19–65</code><br>VMC_calc_1</td><td>把固定-offset 后的 φ1/φ4 代入理想五杆，算 L0、φ0、θ</td><td>输入真实主动 q，调用一次闭链 H<sub>offset</sub>(q)</td><td>theta/Pitch/LQR 字段不变</td></tr>
+      <tr><td><code>VMC_Calc.c:67–76</code><br>VMC_calc_2</td><td>使用理想五杆解析 j11…j22</td><td>填入 J<sub>H</sub>，再做同一个转置雅可比力映射</td><td>F0、Tp 不变</td></tr>
+      <tr><td><code>VMC_Calc.c:109–147</code><br>CalcPhi1AndPhi4</td><td>理想三角形余弦逆解</td><td>Newton 求 H<sub>offset</sub><sup>−1</sup>(L0,φ0)</td><td>position_set 接口可保持</td></tr>
+      <tr><td><code>ChassisL_Task.c:126–127</code></td><td>−q + 固定 offset → φ4/φ1</td><td>明确保留“电机控制坐标”或改为 raw q；全链只选一种</td><td>必须统一符号</td></tr>
+      <tr><td><code>sim/main_mujoco.c:1483–1538</code></td><td>几何调试把腿投影到 base_x</td><td>改用真正的腿平面轴 base_y，并核对 controller body_x 的负号</td><td>这是诊断修正</td></tr>
+      <tr><td>右腿 joint 映射</td><td>数组顺序为 jAG后、jAB前</td><td>若 H 的自然列是 [前,后]，右腿必须交换列和力矩输出</td><td>防止列顺序翻转</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>最小接口建议</h3>
+  <pre>OffsetLegFKJacobian(q_front, q_rear, &state, JH, &diagnostics);
+// state: J, L, P, M, W, L0, phi0
+// JH rows: [L0, phi0], columns: [front, rear]
+// diagnostics: Delta_M, det(JH), validity; no history state
+
+OffsetLegIK(L0_des, phi0_des, q_seed, q_des);
+// Newton uses the same one-closure FK + analytic JH; q_seed only accelerates IK
+
+tau_front = JH[0][0] * F0 + JH[1][0] * Tp;
+tau_rear  = JH[0][1] * F0 + JH[1][1] * Tp;</pre>
+  <div class="callout bad"><b>最危险的不是公式本身，而是坐标混用。</b> 上面接口示意中的代码变量 <code>J</code> 对应本文数学符号 J<sub>H</sub>。如果它对 MuJoCo raw qpos 求导，就不能再不加说明地套用当前发送层的负号；如果它对现有 <code>phi1/phi4</code> 控制坐标求导，则必须把 raw q 到该坐标的导数一起包含。左右腿、前后列、力矩发送顺序要写成接口契约。</div>
+</section>
+
+<section id="scope">
+  <h2>10. 这次推导能解释什么，不能解释什么</h2>
+  <div class="two">
+    <div class="card">
+      <h3>它能解决</h3>
+      <ul class="checklist">
+        <li>电机角到真实 L0、φ0、θ 的构型相关偏差。</li>
+        <li>理想雅可比导致的 F0/Tp 力矩比例误差。</li>
+        <li>长腿区理想逆解给出不完全对应的电机位置。</li>
+        <li>MuJoCo 初始被动关节需要 settle 才闭合的问题。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>它不能单独解决</h3>
+      <ul class="checklist">
+        <li>MIT <code>p_des=0</code> 与 VMC 力矩同时作用的冲突。</li>
+        <li>LQR/轮端/关节的符号或左右顺序错误。</li>
+        <li>轮端和关节力矩饱和、控制延迟、软 equality 变形。</li>
+        <li>实车零位、杆长公差、间隙、摩擦与柔性。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout warn"><b>当前还发现一个独立问题：</b> XML 根部四元数把局部 −Y 铰轴变到 base +X，所以腿真实运动平面是 base Y–Z；而 <code>measure_leg_axis_geometry()</code> 使用 base_x 作为腿前向投影。base_x 接近铰轴，投影会接近零，因而它打印的 φ0 无法证明当前 VMC 角度正确。这个诊断问题必须先修再做 A/B 数据比较。</div>
+</section>
+
+<section id="next">
+  <h2>11. 合理的下一步：只在 MuJoCo 做单变量 A/B</h2>
+  <ol>
+    <li><b>先修仿真诊断坐标：</b>真实轮轴向量投影到 base Y–Z，明确与 controller body_x 的符号关系。</li>
+    <li><b>加入独立模式宏：</b><code>SIM_OFFSET_KINEMATICS_MODE</code>，0=完整恢复当前理想五杆，1=推荐一次闭链简式，2=完整 K–N 基准；模式 2 只用于仿真 A/B 和断言，不建议进入 MCU 实时路径。</li>
+    <li><b>先只换状态估计 H：</b>控制输出仍用旧理想雅可比 J<sub>f</sub>，比较同一 q 下 L0、φ0、θ；确认坐标和左右镜像。</li>
+    <li><b>再只换 J<sub>H</sub><sup>T</sup>：</b>关闭 MIT 位置刚度或固定为明确的低干扰配置，用小 F0、Tp 脉冲验证电机力矩方向和有限位移功率一致性。</li>
+    <li><b>最后换 IK：</b>腿长从 0.15 m 缓慢扫到 0.35 m，比较实际轮轴目标、闭链 gap、Δ<sub>M</sub>、归一化后的 J<sub>H</sub> 条件指标和关节饱和；模式 2 额外记录 Δ<sub>N</sub> 作基准。</li>
+    <li><b>通过后再谈 LQR：</b>保持 Q/R 不变，先确认 H/J<sub>H</sub> 修正本身的影响；不要同时重调 LQR。</li>
+  </ol>
+  <h3>通过标准</h3>
+  <ul>
+    <li>H<sub>offset</sub> 与 MuJoCo 轮轴几何：L0 &lt; 0.1 mm、角度 &lt; 0.1°。</li>
+    <li>正逆解闭环：H(IK(y)) 在常用域内达到相同阈值，无分支跳变。</li>
+    <li>虚功检查：随机小 δq 下，τᵀδq 与 [F0,Tp]δy 相对误差 &lt; 1%。</li>
+    <li>左右镜像动作：相同虚拟 F0/Tp 产生物理上对称的轮轴位移/机体作用。</li>
+    <li>推荐模式出现第一次圆无交点、|Δ<sub>M</sub>| 接近零、归一化后的 J<sub>H</sub> 条件指标过大或力矩饱和，都停在仿真，不上实车；完整基准还应检查 |Δ<sub>N</sub>|。</li>
+  </ul>
+  <div class="callout good"><b>当前交付边界：</b>已经完成推导、实现离线精确求解器、二维工作域扫描和 MuJoCo 运行时交叉验证；没有改动 MCU 固件，也没有把新模型接入仿真控制环。</div>
+</section>
+
+<section>
+  <h2>复现文件与依据</h2>
+  <ul>
+    <li><code>tools/derive_offset_kinematics.py</code>：保留完整 XML 两圆基准和原 XML 小角简式，同时新增 <code>cad_one_closure()</code> 与解析 Jacobian。CAD 公式 P=k<sub>a</sub>L、W=P+k<sub>b</sub>(M−L) 已通过模式宏接入 <code>mujoco_control_extract</code> 的 MuJoCo 控制环用于 A/B；活动固件仍未修改。</li>
+    <li><code>tools/validate_offset_kinematics_mujoco.py</code>：MuJoCo 3.3.0 前向变换交叉验证。</li>
+    <li><code>output/offset_kinematics_results.json</code>、<code>offset_kinematics_sweep.csv</code>、<code>offset_kinematics_grid.csv</code>：数值结果。</li>
+    <li><code>wheel_leg_debug-main/串腿控制.pdf</code>：PDF 页 2、4–6、10–12 的坐标、LQR、五连杆与 VMC 对照。</li>
+    <li>XML：<code>jIO→jOP→wheel</code>、<code>jIJ→jJM→jMK→jKN</code> 和 L/N equality sites。</li>
+  </ul>
+  <p class="tiny">源 XML：__XML_PATH__</p>
+</section>
+</main>
+</div>
+
+<footer>本报告是工程内离线分析产物。数值结论对应 XML 名义几何；任何实车部署都应先经过仿真 A/B、小力矩方向测试与机械保护。</footer>
+
+<script>
+const sweep = __CHART_DATA__;
+const NS = "http://www.w3.org/2000/svg";
+function el(name, attrs={}, text=null) {
+  const node=document.createElementNS(NS,name);
+  for (const [k,v] of Object.entries(attrs)) node.setAttribute(k,v);
+  if (text!==null) node.textContent=text;
+  return node;
+}
+function drawChart(id, data, series, yLabel, yPad=0.1) {
+  const svg=document.getElementById(id), W=560,H=330, m={l:66,r:22,t:35,b:55};
+  const xs=data.map(d=>d.L), ys=data.flatMap(d=>series.map(s=>d[s.key]));
+  const xmin=Math.min(...xs), xmax=Math.max(...xs); let ymin=Math.min(...ys), ymax=Math.max(...ys);
+  if (ymin===ymax) {ymin-=1;ymax+=1;} const span=ymax-ymin; ymin-=span*yPad; ymax+=span*yPad;
+  const X=x=>m.l+(x-xmin)/(xmax-xmin)*(W-m.l-m.r), Y=y=>H-m.b-(y-ymin)/(ymax-ymin)*(H-m.t-m.b);
+  svg.appendChild(el("rect",{x:0,y:0,width:W,height:H,rx:10,fill:"#fff"}));
+  for(let i=0;i<=5;i++){
+    const y=ymin+(ymax-ymin)*i/5, py=Y(y);
+    svg.appendChild(el("line",{x1:m.l,y1:py,x2:W-m.r,y2:py,stroke:"#e7ebf2","stroke-width":1}));
+    svg.appendChild(el("text",{x:m.l-9,y:py+4,"text-anchor":"end",fill:"#667085","font-size":11},y.toFixed(Math.abs(ymax-ymin)<1?2:1)));
+  }
+  for(let i=0;i<=5;i++){
+    const x=xmin+(xmax-xmin)*i/5, px=X(x);
+    svg.appendChild(el("line",{x1:px,y1:m.t,x2:px,y2:H-m.b,stroke:"#f0f2f6","stroke-width":1}));
+    svg.appendChild(el("text",{x:px,y:H-m.b+20,"text-anchor":"middle",fill:"#667085","font-size":11},x.toFixed(2)));
+  }
+  if(ymin<=0 && ymax>=0) svg.appendChild(el("line",{x1:m.l,y1:Y(0),x2:W-m.r,y2:Y(0),stroke:"#98a2b3","stroke-width":1.4,"stroke-dasharray":"5 4"}));
+  svg.appendChild(el("line",{x1:m.l,y1:m.t,x2:m.l,y2:H-m.b,stroke:"#667085","stroke-width":1.3}));
+  svg.appendChild(el("line",{x1:m.l,y1:H-m.b,x2:W-m.r,y2:H-m.b,stroke:"#667085","stroke-width":1.3}));
+  svg.appendChild(el("text",{x:(m.l+W-m.r)/2,y:H-12,"text-anchor":"middle",fill:"#475467","font-size":12},"L0 / m"));
+  svg.appendChild(el("text",{x:16,y:(m.t+H-m.b)/2,transform:`rotate(-90 16 ${(m.t+H-m.b)/2})`,"text-anchor":"middle",fill:"#475467","font-size":12},yLabel));
+  series.forEach((s,index)=>{
+    const path=data.map((d,i)=>`${i?"L":"M"}${X(d.L).toFixed(2)},${Y(d[s.key]).toFixed(2)}`).join(" ");
+    svg.appendChild(el("path",{d:path,fill:"none",stroke:s.color,"stroke-width":2.6,"stroke-linejoin":"round","stroke-linecap":"round"}));
+    const lx=m.l+12+index*145;
+    svg.appendChild(el("line",{x1:lx,y1:18,x2:lx+24,y2:18,stroke:s.color,"stroke-width":3}));
+    svg.appendChild(el("text",{x:lx+30,y:22,fill:"#475467","font-size":11},s.name));
+  });
+}
+drawChart("lengthErrorChart",sweep,[{key:"eL",name:"理想−精确",color:"#2869c9"}],"ΔL0 / mm");
+drawChart("angleErrorChart",sweep,[{key:"eTheta",name:"理想−精确",color:"#d97706"}],"Δθ_leg / deg");
+drawChart("jLengthChart",sweep,[{key:"JLf",name:"∂L/∂q前",color:"#c33b3b"},{key:"JLr",name:"∂L/∂q后",color:"#16916b"}],"m/rad");
+drawChart("jAngleChart",sweep,[{key:"JPf",name:"∂φ0/∂q前",color:"#7c4dc4"},{key:"JPr",name:"∂φ0/∂q后",color:"#2869c9"}],"rad/rad");
+</script>
+</body>
+</html>'''
+
+    for key, value in replacements.items():
+        template = template.replace(key, value)
+    # U+20D7 COMBINING RIGHT ARROW ABOVE is not covered by several Windows UI/code
+    # fonts and otherwise appears as a missing-glyph square.  Render inline vector
+    # accents with CSS; display equations continue to use MathML generated from \vec.
+    for symbol in ("r", "v", "Δ", "e", "q", "δ", "u", "y"):
+        template = template.replace(
+            f"{symbol}⃗",
+            f'<span class="vecsym" aria-label="向量 {symbol}">{symbol}</span>',
+        )
+    template = render_latex_blocks(template)
+    OUTPUT.write_text(template, encoding="utf-8")
+    print(OUTPUT)
+
+
+if __name__ == "__main__":
+    main()

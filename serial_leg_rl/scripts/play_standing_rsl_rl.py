@@ -2,9 +2,26 @@
 from __future__ import annotations
 
 import argparse
+import multiprocessing
 import os
 import sys
 from pathlib import Path
+
+
+# Keep GUI runs on the workspace interpreter when this venv was bootstrapped
+# from Conda, and keep h5py's native DLLs discoverable after Kit starts.
+sys._base_executable = sys.executable
+multiprocessing.set_executable(sys.executable)
+os.environ["PYTHONEXECUTABLE"] = sys.executable
+os.environ.pop("PYTHONHOME", None)
+
+_dll_directory_handles = []
+_h5py_dll_dir = Path(sys.executable).resolve().parents[1] / "Lib" / "site-packages" / "h5py"
+if _h5py_dll_dir.is_dir() and hasattr(os, "add_dll_directory"):
+    _dll_directory_handles.append(os.add_dll_directory(str(_h5py_dll_dir)))
+
+# Keep the venv's HDF5 DLL directory available for Isaac Lab's later h5py
+# import, without loading HDF5 before Kit initializes its native extensions.
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -33,6 +50,15 @@ args_cli, hydra_args = parser.parse_known_args()
 if args_cli.video:
     args_cli.enable_cameras = True
 
+# The policy uses its own wheel joints and does not need Isaac Sim's optional
+# wheeled-robots extension. On Windows that extension can load native sensor
+# DLLs incompatible with the workspace's Isaac Sim package.
+if not args_cli.kit_args:
+    args_cli.kit_args = (
+        '--/app/extensions/excluded=["isaacsim.robot.wheeled_robots",'
+        '"isaacsim.sensors.rtx"]'
+    )
+
 sys.argv = [sys.argv[0]] + hydra_args
 
 app_launcher = AppLauncher(args_cli)
@@ -56,6 +82,23 @@ torch.backends.cudnn.allow_tf32 = True
 torch.backends.cudnn.deterministic = False
 torch.backends.cudnn.benchmark = False
 
+# Torch 2.5.1's tensor-expression fuser asks CUDA 11.8 NVRTC to compile
+# ``sm_120`` kernels, which CUDA 11.8 does not recognize on RTX 5070.
+# Eager CUDA kernels remain supported, so disable only this JIT fusion path.
+torch._C._jit_set_texpr_fuser_enabled(False)
+
+# Isaac Sim 4.5's pip extensions in this workspace provide PhysX 106.5.7 but
+# the GUI app can resolve an incompatible Fabric 106.3.2 extension. This task
+# does not require Fabric for policy playback.
+from isaacsim.core.simulation_manager import SimulationManager  # noqa: E402
+
+
+def _disable_fabric(_cls, enable=True):
+    return None
+
+
+SimulationManager.enable_fabric = classmethod(_disable_fabric)
+
 
 @hydra_task_config(args_cli.task, "rsl_rl_cfg_entry_point")
 def main(env_cfg: DirectRLEnvCfg, agent_cfg: RslRlOnPolicyRunnerCfg):
@@ -63,6 +106,7 @@ def main(env_cfg: DirectRLEnvCfg, agent_cfg: RslRlOnPolicyRunnerCfg):
     env_cfg.scene.num_envs = args_cli.num_envs if args_cli.num_envs is not None else env_cfg.scene.num_envs
     env_cfg.seed = agent_cfg.seed
     env_cfg.sim.device = args_cli.device if args_cli.device is not None else env_cfg.sim.device
+    env_cfg.sim.use_fabric = False
 
     log_root_path = os.path.abspath(os.path.join("logs", "rsl_rl", agent_cfg.experiment_name))
     resume_path = get_checkpoint_path(log_root_path, agent_cfg.load_run, agent_cfg.load_checkpoint)
@@ -97,14 +141,22 @@ def main(env_cfg: DirectRLEnvCfg, agent_cfg: RslRlOnPolicyRunnerCfg):
             raise SystemExit(2) from None
         raise
     policy = runner.get_inference_policy(device=env.unwrapped.device)
+    print("[PLAY] policy loaded; stepping the trained controller")
 
     obs, _ = env.get_observations()
     try:
-        for _ in range(args_cli.num_steps):
+        for step in range(args_cli.num_steps):
             if not simulation_app.is_running():
                 break
             with torch.inference_mode():
                 actions = policy(obs)
+                if step % 100 == 0:
+                    print(
+                        "[PLAY] "
+                        f"step={step} action_abs_mean={actions.abs().mean().item():.4f} "
+                        f"action_abs_max={actions.abs().max().item():.4f} "
+                        f"wheel_action_abs_mean={actions[:, 4:6].abs().mean().item():.4f}"
+                    )
                 obs, _, _, _ = env.step(actions)
     finally:
         env.close()

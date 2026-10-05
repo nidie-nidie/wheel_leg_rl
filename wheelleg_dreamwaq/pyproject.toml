@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wheelleg-dreamwaq"
+version = "0.1.0"
+description = "Independent Isaac Lab WheelLeg PPO and DreamWaQ training project"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "isaaclab",
+    "isaaclab-rl",
+    "isaacsim[all,extscache]==5.1.0.0",
+    "rsl-rl-lib==3.1.2",
+    "torch==2.7.0+cu128",
+    "torchvision==0.22.0+cu128",
+    "torchaudio==2.7.0+cu128",
+    "tensordict==0.14.2",
+    "tensorboard==2.21.0",
+    "pyyaml>=6.0.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+]
+
+[tool.setuptools]
+package-dir = {"" = "source/wheelleg_dreamwaq"}
+
+[tool.setuptools.packages.find]
+where = ["source/wheelleg_dreamwaq"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = [
+    "integration: launches Isaac Sim in an isolated subprocess",
+]
+
+[tool.uv]
+override-dependencies = [
+    "starlette==0.45.3",
+    "flatdict==4.0.0",
+]
+
+[[tool.uv.index]]
+name = "nvidia"
+url = "https://pypi.nvidia.com"
+default = true
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+torchvision = { index = "pytorch-cu128" }
+torchaudio = { index = "pytorch-cu128" }
+isaaclab = { path = "dependencies/IsaacLab-v2.3.2/source/isaaclab", editable = true }
+isaaclab-rl = { path = "dependencies/IsaacLab-v2.3.2/source/isaaclab_rl", editable = true }
+isaacsim = { index = "nvidia" }

@@ -1,0 +1,2466 @@
+{
+  "actuator_effort_limits_nm": {
+    "Left_Wheel_act": 9.0,
+    "Left_front_joint_act": 18.0,
+    "Left_rear_joint_act": 18.0,
+    "Right_Wheel_act": 9.0,
+    "Right_front_joint_act": 18.0,
+    "Right_rear_joint_act": 18.0
+  },
+  "adapters": {
+    "action": {
+      "implementation_file": "wheelleg_mujoco/control.py",
+      "implementation_sha256": "83080BC57A0399B11610CE5E06B4F607ADA1C0FB995344E23E531658EBBEFD62",
+      "version": "MujocoActionAdapterV1"
+    },
+    "observation": {
+      "implementation_file": "wheelleg_mujoco/observation.py",
+      "implementation_sha256": "DD7F972D77FCCA25378BF403F61A67755C8AB4BA28738C97ABF2BBDD733970BD",
+      "version": "MujocoActorObsAdapterV1"
+    }
+  },
+  "asset_bundle_hash": "E754AE888F5C5379B3B6152CFA5AD6BBAE20E8C7480CF7AD6960782A5267CB46",
+  "asset_bundle_version": "AssetBundleV2",
+  "authored_q0_semantics": "model_reference_only; ContractV4 reset uses the named keyframe",
+  "base_mesh_partition": {
+    "max_abs_local_aabb_error_m": 0.0,
+    "part_face_counts": [
+      180000,
+      180000,
+      94256
+    ],
+    "part_face_limit": 180000,
+    "parts": [
+      "base_link_part_000.STL",
+      "base_link_part_001.STL",
+      "base_link_part_002.STL"
+    ],
+    "parts_combined_local_aabb": {
+      "center_m": [
+        0.04212941974401474,
+        -1.299149990081787,
+        0.006740886718034744
+      ],
+      "maximum_m": [
+        0.2908294200897217,
+        -1.0,
+        0.1027364507317543
+      ],
+      "minimum_m": [
+        -0.2065705806016922,
+        -1.5982999801635742,
+        -0.08925467729568481
+      ],
+      "size_m": [
+        0.4974000006914139,
+        0.5982999801635742,
+        0.19199112802743912
+      ]
+    },
+    "source_face_count": 454256,
+    "source_file": "base_link.STL",
+    "source_local_aabb": {
+      "center_m": [
+        0.04212941974401474,
+        -1.299149990081787,
+        0.006740886718034744
+      ],
+      "maximum_m": [
+        0.2908294200897217,
+        -1.0,
+        0.1027364507317543
+      ],
+      "minimum_m": [
+        -0.2065705806016922,
+        -1.5982999801635742,
+        -0.08925467729568481
+      ],
+      "size_m": [
+        0.4974000006914139,
+        0.5982999801635742,
+        0.19199112802743912
+      ]
+    },
+    "source_sha256": "21792E2AFE0486EFF99C53EAA7180A50F4559BBD7F2811B63522514EBB18CF9C"
+  },
+  "collision_policy_version": "MujocoWheelOnlyCollisionV2",
+  "com_kinematics": {
+    "position_api": "data.xipos[base]",
+    "velocity_api": "mj_jacBodyCom(base) @ data.qvel"
+  },
+  "compiled_dimensions": {
+    "nbody": 28,
+    "neq": 8,
+    "njnt": 27,
+    "npair": 2,
+    "nq": 33,
+    "nu": 6,
+    "nv": 32
+  },
+  "contact_pairs": [
+    "floor_left_wheel",
+    "floor_right_wheel"
+  ],
+  "control_dt_s": 0.02,
+  "cross_engine_solver_note": "MuJoCo equality/contact solver parameters are frozen for relative evaluation and are not a field-by-field equivalent of PhysX articulation solver iterations 96/4.",
+  "dummy_dynamics_version": "MujocoDummyDynamicsV1",
+  "dynamics_semantics": {
+    "actuators": [
+      {
+        "control_limited": true,
+        "control_range": [
+          -18.0,
+          18.0
+        ],
+        "gear": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint": "jIJ",
+        "name": "Left_front_joint_act",
+        "transmission_type": 0
+      },
+      {
+        "control_limited": true,
+        "control_range": [
+          -18.0,
+          18.0
+        ],
+        "gear": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint": "jIO",
+        "name": "Left_rear_joint_act",
+        "transmission_type": 0
+      },
+      {
+        "control_limited": true,
+        "control_range": [
+          -18.0,
+          18.0
+        ],
+        "gear": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint": "jAG",
+        "name": "Right_rear_joint_act",
+        "transmission_type": 0
+      },
+      {
+        "control_limited": true,
+        "control_range": [
+          -18.0,
+          18.0
+        ],
+        "gear": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint": "jAB",
+        "name": "Right_front_joint_act",
+        "transmission_type": 0
+      },
+      {
+        "control_limited": true,
+        "control_range": [
+          -9.0,
+          9.0
+        ],
+        "gear": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint": "jwheel_left",
+        "name": "Left_Wheel_act",
+        "transmission_type": 0
+      },
+      {
+        "control_limited": true,
+        "control_range": [
+          -9.0,
+          9.0
+        ],
+        "gear": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "joint": "jwheel_right",
+        "name": "Right_Wheel_act",
+        "transmission_type": 0
+      }
+    ],
+    "bodies": [
+      {
+        "inertia": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mass": 0.0,
+        "name": "world",
+        "parent_id": 0
+      },
+      {
+        "inertia": [
+          0.005648000165820122,
+          0.005051999818533659,
+          0.007573000155389309
+        ],
+        "inertial_position": [
+          0.04171000048518181,
+          -1.2738850116729736,
+          0.010447000153362751
+        ],
+        "inertial_quaternion": [
+          0.999999414946834,
+          -0.0008000003223712748,
+          1.1000004796403065e-05,
+          -0.0007280003253720873
+        ],
+        "mass": 2.959007978439331,
+        "name": "base",
+        "parent_id": 0
+      },
+      {
+        "inertia": [
+          2.5999999706982635e-05,
+          0.00047400000039488077,
+          0.00044999999227002263
+        ],
+        "inertial_position": [
+          -0.1054529994726181,
+          -0.012300999835133553,
+          0.015938999131321907
+        ],
+        "inertial_quaternion": [
+          0.9977556854539467,
+          -0.0017989993865111047,
+          0.06693498141159493,
+          -0.00025299992475603976
+        ],
+        "mass": 0.07734400033950806,
+        "name": "jIO",
+        "parent_id": 1
+      },
+      {
+        "inertia": [
+          4.999999873689376e-05,
+          0.0011950000189244747,
+          0.0011480000102892518
+        ],
+        "inertial_position": [
+          0.08564099669456482,
+          -0.0054259998723864555,
+          -0.056894998997449875
+        ],
+        "inertial_quaternion": [
+          0.9534383127472225,
+          0.0,
+          0.30158810285840115,
+          0.0
+        ],
+        "mass": 0.12646499276161194,
+        "name": "jOP",
+        "parent_id": 2
+      },
+      {
+        "inertia": [
+          0.0003480000013951212,
+          0.000577000027988106,
+          0.0003530000103637576
+        ],
+        "inertial_position": [
+          0.00013600000238511711,
+          -0.021683000028133392,
+          -0.00031900001340545714
+        ],
+        "inertial_quaternion": [
+          0.9797495760402378,
+          -0.0024679989217830504,
+          -0.20021092136668908,
+          -0.0005139998032745136
+        ],
+        "mass": 0.40035301446914673,
+        "name": "jwheel_left",
+        "parent_id": 3
+      },
+      {
+        "inertia": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "inertial_position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mass": 0.009999999776482582,
+        "name": "jIO_dummy_child_link1",
+        "parent_id": 2
+      },
+      {
+        "inertia": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "inertial_position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mass": 0.009999999776482582,
+        "name": "jIO_dummy_child_link2",
+        "parent_id": 2
+      },
+      {
+        "inertia": [
+          2.5999999706982635e-05,
+          0.00047400000039488077,
+          0.00044999999227002263
+        ],
+        "inertial_position": [
+          -0.1054529994726181,
+          0.012300999835133553,
+          0.015938999131321907
+        ],
+        "inertial_quaternion": [
+          0.9977556854539467,
+          0.0017989993865111047,
+          0.06693498141159493,
+          0.00025299992475603976
+        ],
+        "mass": 0.07734400033950806,
+        "name": "jAG",
+        "parent_id": 1
+      },
+      {
+        "inertia": [
+          4.999999873689376e-05,
+          0.0011950000189244747,
+          0.0011480000102892518
+        ],
+        "inertial_position": [
+          0.08576600253582001,
+          0.005419999826699495,
+          -0.056977998465299606
+        ],
+        "inertial_quaternion": [
+          0.9534383127472225,
+          0.0,
+          0.30158810285840115,
+          0.0
+        ],
+        "mass": 0.1262809932231903,
+        "name": "jGH",
+        "parent_id": 7
+      },
+      {
+        "inertia": [
+          0.0003480000013951212,
+          0.000577000027988106,
+          0.0003530000103637576
+        ],
+        "inertial_position": [
+          9.899999713525176e-05,
+          0.021683000028133392,
+          -0.0003330000035930425
+        ],
+        "inertial_quaternion": [
+          0.989558311885729,
+          0.0024960007470296993,
+          -0.14411104066677682,
+          0.0003540001070683022
+        ],
+        "mass": 0.40035301446914673,
+        "name": "jwheel_right",
+        "parent_id": 8
+      },
+      {
+        "inertia": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "inertial_position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mass": 0.009999999776482582,
+        "name": "jAG_dummy_child_link1",
+        "parent_id": 7
+      },
+      {
+        "inertia": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "inertial_position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mass": 0.009999999776482582,
+        "name": "jAG_dummy_child_link2",
+        "parent_id": 7
+      },
+      {
+        "inertia": [
+          3.999999989900971e-06,
+          2.8000000384054147e-05,
+          2.4000000848900527e-05
+        ],
+        "inertial_position": [
+          0.041016001254320145,
+          0.002254999941214919,
+          0.0027310000732541084
+        ],
+        "inertial_quaternion": [
+          0.9993534584876288,
+          -1.4000006732952517e-05,
+          -0.03595101650361253,
+          0.0004350001977038362
+        ],
+        "mass": 0.019355999305844307,
+        "name": "jIJ",
+        "parent_id": 1
+      },
+      {
+        "inertia": [
+          7.704611704184572e-08,
+          7.999999979801942e-06,
+          7.999999979801942e-06
+        ],
+        "inertial_position": [
+          -0.053449999541044235,
+          -0.0037070000544190407,
+          -0.03446799889206886
+        ],
+        "inertial_quaternion": [
+          0.9621239586671635,
+          -0.0021719999368368915,
+          -0.2726029962764577,
+          -0.0006139999986527482
+        ],
+        "mass": 0.006769999861717224,
+        "name": "jJM",
+        "parent_id": 12
+      },
+      {
+        "inertia": [
+          1.9999999949504854e-06,
+          5.199999873184424e-05,
+          4.999999873689376e-05
+        ],
+        "inertial_position": [
+          -0.07595500349998474,
+          -0.00292599992826581,
+          0.05783500149846077
+        ],
+        "inertial_quaternion": [
+          0.9399612837329487,
+          0.0,
+          0.34128109394325823,
+          0.0
+        ],
+        "mass": 0.019805999472737312,
+        "name": "jMK",
+        "parent_id": 13
+      },
+      {
+        "inertia": [
+          1.09596399511247e-07,
+          1.1000000085914508e-05,
+          1.1000000085914508e-05
+        ],
+        "inertial_position": [
+          -0.06206599995493889,
+          -0.0003389999910723418,
+          0.007191000040620565
+        ],
+        "inertial_quaternion": [
+          0.9983347047597788,
+          8.299997412851114e-05,
+          0.057643981144603895,
+          0.0022319993302231285
+        ],
+        "mass": 0.00862099975347519,
+        "name": "jKN",
+        "parent_id": 14
+      },
+      {
+        "inertia": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "inertial_position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mass": 0.009999999776482582,
+        "name": "jKN_dummy_child_link1",
+        "parent_id": 15
+      },
+      {
+        "inertia": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "inertial_position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mass": 0.009999999776482582,
+        "name": "jKN_dummy_child_link2",
+        "parent_id": 15
+      },
+      {
+        "inertia": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "inertial_position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mass": 0.009999999776482582,
+        "name": "jMK_dummy_child1",
+        "parent_id": 14
+      },
+      {
+        "inertia": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "inertial_position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mass": 0.009999999776482582,
+        "name": "jMK_dummy_child2",
+        "parent_id": 14
+      },
+      {
+        "inertia": [
+          3.999999989900971e-06,
+          2.8000000384054147e-05,
+          2.4000000848900527e-05
+        ],
+        "inertial_position": [
+          0.041016001254320145,
+          -0.002254999941214919,
+          0.0027310000732541084
+        ],
+        "inertial_quaternion": [
+          0.9993534584876288,
+          1.4000006732952517e-05,
+          -0.03595101650361253,
+          -0.0004350001977038362
+        ],
+        "mass": 0.019355999305844307,
+        "name": "jAB",
+        "parent_id": 1
+      },
+      {
+        "inertia": [
+          7.704611704184572e-08,
+          7.999999979801942e-06,
+          7.999999979801942e-06
+        ],
+        "inertial_position": [
+          -0.053449999541044235,
+          0.004207000136375427,
+          -0.03446799889206886
+        ],
+        "inertial_quaternion": [
+          0.9621239586671635,
+          0.0021719999368368915,
+          -0.2726029962764577,
+          0.0006139999986527482
+        ],
+        "mass": 0.006769999861717224,
+        "name": "jBE",
+        "parent_id": 20
+      },
+      {
+        "inertia": [
+          1.9999999949504854e-06,
+          5.199999873184424e-05,
+          4.999999873689376e-05
+        ],
+        "inertial_position": [
+          -0.07595500349998474,
+          0.002426000079140067,
+          0.05783500149846077
+        ],
+        "inertial_quaternion": [
+          0.9399612837329487,
+          0.0,
+          0.34128109394325823,
+          0.0
+        ],
+        "mass": 0.019805999472737312,
+        "name": "jEC",
+        "parent_id": 21
+      },
+      {
+        "inertia": [
+          1.09596399511247e-07,
+          1.1000000085914508e-05,
+          1.1000000085914508e-05
+        ],
+        "inertial_position": [
+          -0.06206599995493889,
+          0.0003389999910723418,
+          0.007191000040620565
+        ],
+        "inertial_quaternion": [
+          0.9983347047597788,
+          -8.299997412851114e-05,
+          0.057643981144603895,
+          -0.0022319993302231285
+        ],
+        "mass": 0.00862099975347519,
+        "name": "jCF",
+        "parent_id": 22
+      },
+      {
+        "inertia": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "inertial_position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mass": 0.009999999776482582,
+        "name": "jCF_dummy_child_link1",
+        "parent_id": 23
+      },
+      {
+        "inertia": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "inertial_position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mass": 0.009999999776482582,
+        "name": "jCF_dummy_child_link2",
+        "parent_id": 23
+      },
+      {
+        "inertia": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "inertial_position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mass": 0.009999999776482582,
+        "name": "jEC_dummy_child_link1",
+        "parent_id": 22
+      },
+      {
+        "inertia": [
+          9.999999747378752e-05,
+          9.999999747378752e-05,
+          9.999999747378752e-05
+        ],
+        "inertial_position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "inertial_quaternion": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mass": 0.009999999776482582,
+        "name": "jEC_dummy_child_link2",
+        "parent_id": 22
+      }
+    ],
+    "contact_pairs": [
+      {
+        "dimension": 3,
+        "friction": [
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "geom1": "floor",
+        "geom2": "left_wheel_proxy",
+        "name": "floor_left_wheel",
+        "solimp": [
+          0.95,
+          0.99,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "solref": [
+          0.004,
+          1.0
+        ],
+        "solreffriction": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "dimension": 3,
+        "friction": [
+          1.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "geom1": "floor",
+        "geom2": "right_wheel_proxy",
+        "name": "floor_right_wheel",
+        "solimp": [
+          0.95,
+          0.99,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "solref": [
+          0.004,
+          1.0
+        ],
+        "solreffriction": [
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "controlled_actuator_order": [
+      "Left_front_joint_act",
+      "Left_rear_joint_act",
+      "Right_front_joint_act",
+      "Right_rear_joint_act",
+      "Left_Wheel_act",
+      "Right_Wheel_act"
+    ],
+    "controlled_joint_order": [
+      "jIJ",
+      "jIO",
+      "jAB",
+      "jAG",
+      "jwheel_left",
+      "jwheel_right"
+    ],
+    "dimensions": {
+      "nbody": 28,
+      "neq": 8,
+      "njnt": 27,
+      "npair": 2,
+      "nq": 33,
+      "nu": 6,
+      "nv": 32
+    },
+    "equalities": [
+      {
+        "active_initial": true,
+        "data": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "name": "connect_cf_gh_1",
+        "object1_id": 23,
+        "object2_id": 11,
+        "solimp": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "solref": [
+          0.002,
+          1.0
+        ],
+        "type": 0
+      },
+      {
+        "active_initial": true,
+        "data": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "name": "connect_cf_gh_2",
+        "object1_id": 24,
+        "object2_id": 12,
+        "solimp": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "solref": [
+          0.002,
+          1.0
+        ],
+        "type": 0
+      },
+      {
+        "active_initial": true,
+        "data": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "name": "connect_kn_op_1",
+        "object1_id": 17,
+        "object2_id": 5,
+        "solimp": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "solref": [
+          0.002,
+          1.0
+        ],
+        "type": 0
+      },
+      {
+        "active_initial": true,
+        "data": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "name": "connect_kn_op_2",
+        "object1_id": 18,
+        "object2_id": 6,
+        "solimp": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "solref": [
+          0.002,
+          1.0
+        ],
+        "type": 0
+      },
+      {
+        "active_initial": true,
+        "data": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "name": "connect_ec_ag_1",
+        "object1_id": 20,
+        "object2_id": 8,
+        "solimp": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "solref": [
+          0.002,
+          1.0
+        ],
+        "type": 0
+      },
+      {
+        "active_initial": true,
+        "data": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "name": "connect_ec_ag_2",
+        "object1_id": 21,
+        "object2_id": 9,
+        "solimp": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "solref": [
+          0.002,
+          1.0
+        ],
+        "type": 0
+      },
+      {
+        "active_initial": true,
+        "data": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "name": "connect_mk_io_1",
+        "object1_id": 14,
+        "object2_id": 0,
+        "solimp": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "solref": [
+          0.002,
+          1.0
+        ],
+        "type": 0
+      },
+      {
+        "active_initial": true,
+        "data": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "name": "connect_mk_io_2",
+        "object1_id": 15,
+        "object2_id": 1,
+        "solimp": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "solref": [
+          0.002,
+          1.0
+        ],
+        "type": 0
+      }
+    ],
+    "joints": [
+      {
+        "armature": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "axis": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "damping": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "dof_address": 0,
+        "frictionloss": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "limited": false,
+        "name": "base_free",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 0,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 0
+      },
+      {
+        "armature": [
+          0.05
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.0
+        ],
+        "dof_address": 6,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jIO",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 7,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 7,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jOP",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 8,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.05
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.0
+        ],
+        "dof_address": 8,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jwheel_left",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 9,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 9,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jIO_dummy_child_link1",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 10,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 10,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jIO_dummy_child_link2",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 11,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.05
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.0
+        ],
+        "dof_address": 11,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jAG",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 12,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 12,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jGH",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 13,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.05
+        ],
+        "axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "damping": [
+          0.0
+        ],
+        "dof_address": 13,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jwheel_right",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 14,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 14,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jAG_dummy_child_link1",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 15,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 15,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jAG_dummy_child_link2",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 16,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.05
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.0
+        ],
+        "dof_address": 16,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jIJ",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 17,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 17,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jJM",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 18,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 18,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jMK",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 19,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 19,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jKN",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 20,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 20,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jKN_dummy_child_link1",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 21,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 21,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jKN_dummy_child_link2",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 22,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 22,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jMK_dummy_child1",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 23,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 23,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jMK_dummy_child2",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 24,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.05
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.0
+        ],
+        "dof_address": 24,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jAB",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 25,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 25,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jBE",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 26,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 26,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jEC",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 27,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 27,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jCF",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 28,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 28,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jCF_dummy_child_link1",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 29,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 29,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jCF_dummy_child_link2",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 30,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 30,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jEC_dummy_child_link1",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 31,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      },
+      {
+        "armature": [
+          0.005
+        ],
+        "axis": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "damping": [
+          0.05
+        ],
+        "dof_address": 31,
+        "frictionloss": [
+          0.0
+        ],
+        "limited": false,
+        "name": "jEC_dummy_child_link2",
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "qpos_address": 32,
+        "range": [
+          0.0,
+          0.0
+        ],
+        "stiffness": 0.0,
+        "type": 3
+      }
+    ],
+    "options": {
+      "gravity": [
+        0.0,
+        0.0,
+        -9.81
+      ],
+      "iterations": 100,
+      "line_search_iterations": 50,
+      "solver": 2,
+      "timestep": 0.001,
+      "tolerance": 1e-08
+    },
+    "reset": {
+      "base_position": [
+        -0.0417103203611099,
+        1.27388449249164,
+        0.20003
+      ],
+      "base_quaternion": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hinge_positions": {
+        "jAB": -0.33367088,
+        "jAG": 0.33367112,
+        "jAG_dummy_child_link1": -0.00834354,
+        "jAG_dummy_child_link2": -0.00834353,
+        "jBE": 0.37146658,
+        "jCF": 0.37150583,
+        "jCF_dummy_child_link1": 0.01561109,
+        "jCF_dummy_child_link2": 0.01608925,
+        "jEC": 0.07562435,
+        "jEC_dummy_child_link1": 0.00279344,
+        "jEC_dummy_child_link2": 0.0027937,
+        "jGH": 0.37148619,
+        "jIJ": -0.33367151,
+        "jIO": 0.33367157,
+        "jIO_dummy_child_link1": -0.01975457,
+        "jIO_dummy_child_link2": -0.01975455,
+        "jJM": -0.37146848,
+        "jKN": -0.37150618,
+        "jKN_dummy_child_link1": -0.06563117,
+        "jKN_dummy_child_link2": -0.06613248,
+        "jMK": 0.07562718,
+        "jMK_dummy_child1": -0.0689704,
+        "jMK_dummy_child2": -0.06897411,
+        "jOP": -0.37150037,
+        "jwheel_left": 0.0,
+        "jwheel_right": 0.0
+      },
+      "keyframe": "contract_v4_reset",
+      "qvel": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "schema_version": "MujocoDynamicsSemanticsV1"
+  },
+  "dynamics_semantics_hash": "A846A8E4E198A43DAE8F8D9BD2BA565F7B8DC2C67386FB0028BD2530FE1C42D6",
+  "equality_constraints": [
+    {
+      "name": "connect_cf_gh_1",
+      "solimp": [
+        0.9,
+        0.95,
+        0.001,
+        0.5,
+        2.0
+      ],
+      "solref": [
+        0.002,
+        1.0
+      ],
+      "type": 0
+    },
+    {
+      "name": "connect_cf_gh_2",
+      "solimp": [
+        0.9,
+        0.95,
+        0.001,
+        0.5,
+        2.0
+      ],
+      "solref": [
+        0.002,
+        1.0
+      ],
+      "type": 0
+    },
+    {
+      "name": "connect_kn_op_1",
+      "solimp": [
+        0.9,
+        0.95,
+        0.001,
+        0.5,
+        2.0
+      ],
+      "solref": [
+        0.002,
+        1.0
+      ],
+      "type": 0
+    },
+    {
+      "name": "connect_kn_op_2",
+      "solimp": [
+        0.9,
+        0.95,
+        0.001,
+        0.5,
+        2.0
+      ],
+      "solref": [
+        0.002,
+        1.0
+      ],
+      "type": 0
+    },
+    {
+      "name": "connect_ec_ag_1",
+      "solimp": [
+        0.9,
+        0.95,
+        0.001,
+        0.5,
+        2.0
+      ],
+      "solref": [
+        0.002,
+        1.0
+      ],
+      "type": 0
+    },
+    {
+      "name": "connect_ec_ag_2",
+      "solimp": [
+        0.9,
+        0.95,
+        0.001,
+        0.5,
+        2.0
+      ],
+      "solref": [
+        0.002,
+        1.0
+      ],
+      "type": 0
+    },
+    {
+      "name": "connect_mk_io_1",
+      "solimp": [
+        0.9,
+        0.95,
+        0.001,
+        0.5,
+        2.0
+      ],
+      "solref": [
+        0.002,
+        1.0
+      ],
+      "type": 0
+    },
+    {
+      "name": "connect_mk_io_2",
+      "solimp": [
+        0.9,
+        0.95,
+        0.001,
+        0.5,
+        2.0
+      ],
+      "solref": [
+        0.002,
+        1.0
+      ],
+      "type": 0
+    }
+  ],
+  "freejoint": "base_free",
+  "ground": {
+    "geom_name": "floor",
+    "owner": "MujocoModelV1",
+    "top_z_m": 0.0,
+    "type": "plane"
+  },
+  "inertia_adjustments": [
+    {
+      "absolute_correction_kg_m2": -6.821210331059598e-13,
+      "body_name": "jEC",
+      "mujoco_diagonal_inertia_kg_m2": [
+        1.9999999949504854e-06,
+        5.199999873184424e-05,
+        4.999999873689376e-05
+      ],
+      "reason": "USD float quantization crossed the rigid-body inertia triangle boundary",
+      "relative_violation": 1.3117712192637136e-08,
+      "source_diagonal_inertia_kg_m2": [
+        1.9999999949504854e-06,
+        5.199999941396527e-05,
+        4.999999873689376e-05
+      ]
+    },
+    {
+      "absolute_correction_kg_m2": -6.821210331059598e-13,
+      "body_name": "jMK",
+      "mujoco_diagonal_inertia_kg_m2": [
+        1.9999999949504854e-06,
+        5.199999873184424e-05,
+        4.999999873689376e-05
+      ],
+      "reason": "USD float quantization crossed the rigid-body inertia triangle boundary",
+      "relative_violation": 1.3117712192637136e-08,
+      "source_diagonal_inertia_kg_m2": [
+        1.9999999949504854e-06,
+        5.199999941396527e-05,
+        4.999999873689376e-05
+      ]
+    }
+  ],
+  "joint_order": [
+    "jIO",
+    "jOP",
+    "jwheel_left",
+    "jIO_dummy_child_link1",
+    "jIO_dummy_child_link2",
+    "jAG",
+    "jGH",
+    "jwheel_right",
+    "jAG_dummy_child_link1",
+    "jAG_dummy_child_link2",
+    "jIJ",
+    "jJM",
+    "jMK",
+    "jKN",
+    "jKN_dummy_child_link1",
+    "jKN_dummy_child_link2",
+    "jMK_dummy_child1",
+    "jMK_dummy_child2",
+    "jAB",
+    "jBE",
+    "jEC",
+    "jCF",
+    "jCF_dummy_child_link1",
+    "jCF_dummy_child_link2",
+    "jEC_dummy_child_link1",
+    "jEC_dummy_child_link2"
+  ],
+  "meshes": [
+    {
+      "name": "base_link_part_000.STL",
+      "sha256": "EB48D0B4ABF5D2324E355F200E819F9DCA9FD85B88D1151FA67FA599E104EDF1",
+      "size": 9000084
+    },
+    {
+      "name": "base_link_part_001.STL",
+      "sha256": "82B93EB7D19404C72F501ED724BA8A9C869BAC4619017A55FF3347A28C2F8022",
+      "size": 9000084
+    },
+    {
+      "name": "base_link_part_002.STL",
+      "sha256": "43ED58521ADD27F5D171B75FCFE4E5BB639B4DFB14B0916385F08B48870EF957",
+      "size": 4712884
+    },
+    {
+      "name": "jAB.STL",
+      "sha256": "68B86CCC69B5E449A136278344C304E9C41894ED95A1B2EE5B288C5642910B96",
+      "size": 132184
+    },
+    {
+      "name": "jAG.STL",
+      "sha256": "C48C69280F739A7742638206A9E14F215937D54E2A6DCA9CD11E511825BAFD89",
+      "size": 133084
+    },
+    {
+      "name": "jBE.STL",
+      "sha256": "9813A90C82A72E1290454A6616A9829C33B48C21378C91877742EE4DC4E4B24A",
+      "size": 56084
+    },
+    {
+      "name": "jCF.STL",
+      "sha256": "E1EEDE9CA1E9DB23CC18710C77CE94902CE8BE86D19807A7BE097C347E790C03",
+      "size": 58384
+    },
+    {
+      "name": "jEC.STL",
+      "sha256": "D193E374A81A39C078C0F1CD7DD569618F5029136CAF952036630DB1A9C6729C",
+      "size": 115684
+    },
+    {
+      "name": "jGH.STL",
+      "sha256": "D94226804F712B466561CD268EE694B01EFCA98966496B58DB919FF939BFADBE",
+      "size": 227684
+    },
+    {
+      "name": "jIJ.STL",
+      "sha256": "278C9642843A79F7AFF24ADEF6D4D96A514261EB598D18299D3F0EE5B7CEB550",
+      "size": 132184
+    },
+    {
+      "name": "jIO.STL",
+      "sha256": "D3290E8D347A401BFE7D7AE22654BB408209FEA04146E9F79C327B523B15B47B",
+      "size": 135884
+    },
+    {
+      "name": "jJM.STL",
+      "sha256": "7FC10A3D97AF2034B7E6134A0B3781199D7C2A8F49FE8CE34BEF8ADE2579CF2E",
+      "size": 56084
+    },
+    {
+      "name": "jKN.STL",
+      "sha256": "0A1DE7F7F32D821B703AA13004EFDC17B2D692001EED684742FD97C418BBAE14",
+      "size": 58584
+    },
+    {
+      "name": "jMK.STL",
+      "sha256": "62FE7244D40A3371B40F714E26AB7CE23158927B6CD59F8F8B1FA063C0144DAE",
+      "size": 115684
+    },
+    {
+      "name": "jOP.STL",
+      "sha256": "01CDED54D6B5886B49EDFFE337FFC803357CA95CD3A2D58C3CFED8F64CA66DDA",
+      "size": 243284
+    },
+    {
+      "name": "jwheel_left.STL",
+      "sha256": "DC07496F30A2D828D26B1D658B3786599A530E7E115008A9718C5D492CEFE7D9",
+      "size": 246684
+    },
+    {
+      "name": "jwheel_right.STL",
+      "sha256": "AE52CCB31E35B791C377A57E16DBD709CA26C0B381B71B4D1D6BF923556F9B04",
+      "size": 246684
+    }
+  ],
+  "model_version": "MujocoModelV1",
+  "model_xml": {
+    "path": "wheel_leg_urdf4_v1.xml",
+    "sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1"
+  },
+  "mujoco_version": "3.14.0",
+  "physics_dt_s": 0.001,
+  "physics_steps_per_policy_action": 20,
+  "r_control_from_mujoco": [
+    [
+      0.0,
+      -1.0,
+      0.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "reset_keyframe": "contract_v4_reset",
+  "root_body": "base",
+  "solver": {
+    "iterations": 100,
+    "line_search_iterations": 50,
+    "tolerance": 1e-08,
+    "type": 2
+  },
+  "source_xml": {
+    "path": "wheel_leg_urdf4_self_mesh_all.xml",
+    "sha256": "A7E346A89146557B2D8D0D57CC263A35B31CCF6CB4D1ED454DDA79D44183DBF2"
+  },
+  "total_mass_kg": 4.396253988146782,
+  "usd_data_sha256": "411B3913D03F4523132177E42B416AFA736A026E7ADB567A81AD28ECB75D53C5",
+  "visual_aabb_audit": {
+    "center_abs_error_m": [
+      4.172325134277344e-07,
+      0.0,
+      5.185123205173059e-07
+    ],
+    "mujoco_mesh_geom_count": 17,
+    "mujoco_q0_root_aabb": {
+      "center_m": [
+        0.04212941974401474,
+        -1.299149990081787,
+        0.013174518774819365
+      ],
+      "maximum_m": [
+        0.2908294200897217,
+        -1.0,
+        0.14707335722441672
+      ],
+      "minimum_m": [
+        -0.2065705806016922,
+        -1.5982999801635742,
+        -0.120724319674778
+      ],
+      "size_m": [
+        0.4974000006914139,
+        0.5982999801635742,
+        0.2677976768991947
+      ]
+    },
+    "passed": true,
+    "size_abs_error_m": [
+      0.0,
+      0.0,
+      3.241002559661865e-07
+    ],
+    "tolerance_m": 0.001,
+    "usd_asset_root_aabb": {
+      "center_m": [
+        0.04212900251150131,
+        -1.299149990081787,
+        0.013174000262498847
+      ],
+      "maximum_m": [
+        0.29082900285720825,
+        -1.0,
+        0.14707300076222418
+      ],
+      "minimum_m": [
+        -0.20657099783420563,
+        -1.5982999801635742,
+        -0.12072500023722649
+      ],
+      "size_m": [
+        0.4974000006914139,
+        0.5982999801635742,
+        0.26779800099945067
+      ]
+    }
+  },
+  "wheel_proxy": {
+    "radius_m": 0.0625,
+    "type": "sphere"
+  }
+}

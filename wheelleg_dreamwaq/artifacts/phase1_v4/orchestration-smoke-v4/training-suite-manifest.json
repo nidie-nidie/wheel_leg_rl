@@ -1,0 +1,68 @@
+{
+  "created_at": "2026-10-05T06:41:32.402280+08:00",
+  "fresh_start": true,
+  "iterations_per_run": 1,
+  "monitor_interval_seconds": 5.0,
+  "profile": "portable",
+  "ranking_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v4\\training-suite-summary.json",
+  "run_count": 2,
+  "runs": [
+    {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-41-36_portable_v4-suite-20261005-064132-run01-seed22969755\\model_0.pt",
+      "evaluation_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v4\\evaluation\\run-01\\summary.json",
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v4\\exports\\run-01",
+      "index": 1,
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v4\\monitor\\run-01\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v4\\monitor\\run-01\\initial.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v4\\monitor\\run-01\\interval-20261005-064137.json"
+        ],
+        "status": "ok",
+        "warnings": []
+      },
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-41-36_portable_v4-suite-20261005-064132-run01-seed22969755",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-41-36_portable_v4-suite-20261005-064132-run01-seed22969755\\run_manifest.json",
+      "run_name": "v4-suite-20261005-064132-run01-seed22969755",
+      "seed": 22969755,
+      "status": "completed",
+      "training_fingerprint_hash": "1ADAB446FE61CAD311D8496F8A43F413EE19ED232D14276692C15AC4F8D45E01"
+    },
+    {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-41-49_portable_v4-suite-20261005-064132-run02-seed335062067\\model_0.pt",
+      "evaluation_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v4\\evaluation\\run-02\\summary.json",
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v4\\exports\\run-02",
+      "index": 2,
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v4\\monitor\\run-02\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v4\\monitor\\run-02\\initial.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke-v4\\monitor\\run-02\\interval-20261005-064150.json"
+        ],
+        "status": "ok",
+        "warnings": []
+      },
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-41-49_portable_v4-suite-20261005-064132-run02-seed335062067",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_06-41-49_portable_v4-suite-20261005-064132-run02-seed335062067\\run_manifest.json",
+      "run_name": "v4-suite-20261005-064132-run02-seed335062067",
+      "seed": 335062067,
+      "status": "completed",
+      "training_fingerprint_hash": "1ADAB446FE61CAD311D8496F8A43F413EE19ED232D14276692C15AC4F8D45E01"
+    }
+  ],
+  "schema_version": "TrainingSuiteV1",
+  "seeds": [
+    22969755,
+    335062067
+  ],
+  "status": "completed",
+  "suite_id": "20261005-064132",
+  "training_fingerprint_hash": "1ADAB446FE61CAD311D8496F8A43F413EE19ED232D14276692C15AC4F8D45E01",
+  "training_monitor_gate": {
+    "hard_anomalies": [],
+    "status": "ok",
+    "warnings": []
+  }
+}

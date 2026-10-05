@@ -1,0 +1,37 @@
+{
+  "articulation_root": "/wheel_leg_urdf4/base_link",
+  "default_prim": "/wheel_leg_urdf4",
+  "embedded_ground": null,
+  "entry_file": "wheel_leg_urdf4.usd",
+  "files": [
+    {
+      "relative_path": "wheel_leg_urdf4.usd",
+      "sha256": "EFCA384A92B06CECE5ED2C5C0EC0A9077EE16D32D940473D3FFEFA8C378D4B0F",
+      "size": 19268
+    },
+    {
+      "relative_path": "configuration/wheel_leg_urdf4_base.usd",
+      "sha256": "D980BE2205D0078AA7845AEE7C22B5C7F04FD5A05E79D327FC7E3ED28066C28E",
+      "size": 35535228
+    },
+    {
+      "relative_path": "configuration/wheel_leg_urdf4_physics.usd",
+      "sha256": "A8F67B6BDD1210D13AE4BD1254BE8BB87662312BC713046E5CB9478A8C0A2CE5",
+      "size": 5371
+    },
+    {
+      "relative_path": "configuration/wheel_leg_urdf4_robot.usd",
+      "sha256": "81415C4FB375DAEC1A8DDFD0FE5CEAB6A1904FB77F29050149DED24C1F3436A1",
+      "size": 2452
+    },
+    {
+      "relative_path": "configuration/wheel_leg_urdf4_sensor.usd",
+      "sha256": "D31E77E5C105470304DE4F5D8CAA9B3DB2A4D70ECC245510AD96C53F185A8314",
+      "size": 655
+    }
+  ],
+  "root": "E:\\wheel_leg_rl-main\\wheel_leg_urdf4_usd_v2\\wheel_leg_urdf4",
+  "source_bundle_hash": "30A39684145E3228F275B909FAD8C627D8E10099BF13C23FDF19D77D15D6D084",
+  "source_bundle_version": "AssetBundleV1",
+  "version": "AssetBundleV2"
+}

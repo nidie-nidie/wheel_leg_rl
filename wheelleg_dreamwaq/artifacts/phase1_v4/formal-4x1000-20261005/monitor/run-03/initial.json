@@ -1,0 +1,294 @@
+{
+  "anomalies": [],
+  "captured_at": "2026-10-05T08:16:46.714581+08:00",
+  "event_file": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_08-16-43_rtx5070_v4-suite-20261005-071132-run03-seed318067171\\events.out.tfevents.1791159404.DESKTOP-P89OA5C.4036.0",
+  "hard_anomalies": [],
+  "latest": {
+    "Action/saturation_fraction": {
+      "step": 0,
+      "value": 0.3181966543197632
+    },
+    "Actuator/effort_saturation_fraction": {
+      "step": 0,
+      "value": 0.4238010346889496
+    },
+    "Loss/entropy": {
+      "step": 0,
+      "value": 8.546292304992676
+    },
+    "Loss/learning_rate": {
+      "step": 0,
+      "value": 0.0006666666595265269
+    },
+    "Loss/surrogate": {
+      "step": 0,
+      "value": -0.014055795967578888
+    },
+    "Loss/value_function": {
+      "step": 0,
+      "value": 1.017845869064331
+    },
+    "Metric/loop_closure_error_max_m": {
+      "step": 0,
+      "value": 0.0002330610150238499
+    },
+    "Metric/phi0_delta_abs_rad": {
+      "step": 0,
+      "value": 0.11089878529310226
+    },
+    "Policy/mean_noise_std": {
+      "step": 0,
+      "value": 1.0096701383590698
+    },
+    "Termination/height_terminated": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/invalid": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/joint_velocity_terminated": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/root_angular_terminated": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/root_linear_terminated": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/tilt_terminated": {
+      "step": 0,
+      "value": 0.0017903646221384406
+    },
+    "Tracking/base_height_abs_error": {
+      "step": 0,
+      "value": 0.02531268261373043
+    },
+    "Tracking/vx_abs_error": {
+      "step": 0,
+      "value": 0.5179597735404968
+    },
+    "Tracking/yaw_rate_abs_error": {
+      "step": 0,
+      "value": 1.2631524801254272
+    },
+    "Train/mean_episode_length": {
+      "step": 0,
+      "value": 18.200000762939453
+    },
+    "Train/mean_reward": {
+      "step": 0,
+      "value": -3.4386072158813477
+    }
+  },
+  "reason": "initial",
+  "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_08-16-43_rtx5070_v4-suite-20261005-071132-run03-seed318067171",
+  "series": {
+    "Action/saturation_fraction": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.3181966543197632,
+      "last_step": 0,
+      "last_value": 0.3181966543197632,
+      "maximum": 0.3181966543197632,
+      "minimum": 0.3181966543197632,
+      "non_finite_count": 0
+    },
+    "Actuator/effort_saturation_fraction": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.4238010346889496,
+      "last_step": 0,
+      "last_value": 0.4238010346889496,
+      "maximum": 0.4238010346889496,
+      "minimum": 0.4238010346889496,
+      "non_finite_count": 0
+    },
+    "Loss/entropy": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 8.546292304992676,
+      "last_step": 0,
+      "last_value": 8.546292304992676,
+      "maximum": 8.546292304992676,
+      "minimum": 8.546292304992676,
+      "non_finite_count": 0
+    },
+    "Loss/learning_rate": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0006666666595265269,
+      "last_step": 0,
+      "last_value": 0.0006666666595265269,
+      "maximum": 0.0006666666595265269,
+      "minimum": 0.0006666666595265269,
+      "non_finite_count": 0
+    },
+    "Loss/surrogate": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": -0.014055795967578888,
+      "last_step": 0,
+      "last_value": -0.014055795967578888,
+      "maximum": -0.014055795967578888,
+      "minimum": -0.014055795967578888,
+      "non_finite_count": 0
+    },
+    "Loss/value_function": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 1.017845869064331,
+      "last_step": 0,
+      "last_value": 1.017845869064331,
+      "maximum": 1.017845869064331,
+      "minimum": 1.017845869064331,
+      "non_finite_count": 0
+    },
+    "Metric/loop_closure_error_max_m": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0002330610150238499,
+      "last_step": 0,
+      "last_value": 0.0002330610150238499,
+      "maximum": 0.0002330610150238499,
+      "minimum": 0.0002330610150238499,
+      "non_finite_count": 0
+    },
+    "Metric/phi0_delta_abs_rad": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.11089878529310226,
+      "last_step": 0,
+      "last_value": 0.11089878529310226,
+      "maximum": 0.11089878529310226,
+      "minimum": 0.11089878529310226,
+      "non_finite_count": 0
+    },
+    "Policy/mean_noise_std": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 1.0096701383590698,
+      "last_step": 0,
+      "last_value": 1.0096701383590698,
+      "maximum": 1.0096701383590698,
+      "minimum": 1.0096701383590698,
+      "non_finite_count": 0
+    },
+    "Termination/height_terminated": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 0,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/invalid": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 0,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/joint_velocity_terminated": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 0,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/root_angular_terminated": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 0,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/root_linear_terminated": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 0,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/tilt_terminated": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.0017903646221384406,
+      "last_step": 0,
+      "last_value": 0.0017903646221384406,
+      "maximum": 0.0017903646221384406,
+      "minimum": 0.0017903646221384406,
+      "non_finite_count": 0
+    },
+    "Tracking/base_height_abs_error": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.02531268261373043,
+      "last_step": 0,
+      "last_value": 0.02531268261373043,
+      "maximum": 0.02531268261373043,
+      "minimum": 0.02531268261373043,
+      "non_finite_count": 0
+    },
+    "Tracking/vx_abs_error": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 0.5179597735404968,
+      "last_step": 0,
+      "last_value": 0.5179597735404968,
+      "maximum": 0.5179597735404968,
+      "minimum": 0.5179597735404968,
+      "non_finite_count": 0
+    },
+    "Tracking/yaw_rate_abs_error": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 1.2631524801254272,
+      "last_step": 0,
+      "last_value": 1.2631524801254272,
+      "maximum": 1.2631524801254272,
+      "minimum": 1.2631524801254272,
+      "non_finite_count": 0
+    },
+    "Train/mean_episode_length": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": 18.200000762939453,
+      "last_step": 0,
+      "last_value": 18.200000762939453,
+      "maximum": 18.200000762939453,
+      "minimum": 18.200000762939453,
+      "non_finite_count": 0
+    },
+    "Train/mean_reward": {
+      "count": 1,
+      "first_step": 0,
+      "first_value": -3.4386072158813477,
+      "last_step": 0,
+      "last_value": -3.4386072158813477,
+      "maximum": -3.4386072158813477,
+      "minimum": -3.4386072158813477,
+      "non_finite_count": 0
+    }
+  },
+  "status": "ok",
+  "warnings": []
+}

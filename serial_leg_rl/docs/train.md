@@ -1,5 +1,28 @@
 # 训练命令
 
+## Windows 原生环境
+
+在 `E:\wheel_leg_rl-main` 首次运行：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\setup_serial_leg_rl.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\check_serial_leg_rl_env.ps1
+```
+
+启动验证：
+
+```powershell
+cmd /c .\train_serial_leg_rl.bat --num_envs 1 --max_iterations 1
+```
+
+正式训练：
+
+```powershell
+cmd /c .\train_serial_leg_rl.bat
+```
+
+默认使用 512 个环境；可以在命令末尾追加 `--num_envs 1024`、`--max_iterations 6000` 等参数覆盖默认值。
+
 完整训练：
 
 ```bash

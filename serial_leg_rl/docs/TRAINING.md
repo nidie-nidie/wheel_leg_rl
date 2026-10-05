@@ -1,5 +1,28 @@
 # 训练入口
 
+## Windows 原生环境
+
+工作区根目录为 `E:\wheel_leg_rl-main`。首次配置运行：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\setup_serial_leg_rl.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\check_serial_leg_rl_env.ps1
+```
+
+先用 1 个环境跑 1 个 PPO iteration 做启动检查：
+
+```powershell
+cmd /c .\train_serial_leg_rl.bat --num_envs 1 --max_iterations 1
+```
+
+确认检查通过后，直接开始正式训练：
+
+```powershell
+cmd /c .\train_serial_leg_rl.bat
+```
+
+训练包装器默认使用 512 个环境并启用 headless；可在命令末尾覆盖参数，例如 `cmd /c .\train_serial_leg_rl.bat --num_envs 1024`。
+
 当前先做平地站立训练，4096 个环境，PPO 配置里已经设为 6000 个 iteration。
 
 完整训练只需要这一条命令：

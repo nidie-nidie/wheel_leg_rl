@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 
 PROJECT_ROOT = Path(__file__).resolve().parents[5]
 SOURCE_URDF_PATH = PROJECT_ROOT / "wheel_leg_urdf4" / "urdf" / "wheel_leg_urdf4.urdf"
-GENERATED_ASSET_DIR = Path("/tmp/serial_leg_rl_isaac_assets")
+GENERATED_ASSET_DIR = PROJECT_ROOT / "serial_leg_rl" / "assets" / "generated" / "runtime"
 SIM_MESH_DIR = GENERATED_ASSET_DIR / "meshes"
 SIM_URDF_PATH = GENERATED_ASSET_DIR / "wheel_leg_urdf4_sim.urdf"
 

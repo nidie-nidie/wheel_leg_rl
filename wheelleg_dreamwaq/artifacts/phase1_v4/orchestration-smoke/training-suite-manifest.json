@@ -1,0 +1,27 @@
+{
+  "created_at": "2026-10-05T05:55:36.860378+08:00",
+  "fresh_start": true,
+  "iterations_per_run": 1,
+  "monitor_interval_seconds": 5.0,
+  "profile": "portable",
+  "ranking_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke\\training-suite-summary.json",
+  "run_count": 1,
+  "runs": [
+    {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_05-55-41_portable_v4-suite-20261005-055536-run01-seed562796538\\model_0.pt",
+      "evaluation_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke\\evaluation\\run-01\\summary.json",
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\orchestration-smoke\\exports\\run-01",
+      "index": 1,
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_05-55-41_portable_v4-suite-20261005-055536-run01-seed562796538",
+      "run_name": "v4-suite-20261005-055536-run01-seed562796538",
+      "seed": 562796538,
+      "status": "completed"
+    }
+  ],
+  "schema_version": "TrainingSuiteV1",
+  "seeds": [
+    562796538
+  ],
+  "status": "completed",
+  "suite_id": "20261005-055536"
+}

@@ -40,13 +40,18 @@ goto :eof
 
 rem extract the python from isaacsim
 :extract_python_exe
-rem check if using conda
-if not "%CONDA_PREFIX%"=="" (
-    rem use conda python
-    set python_exe=%CONDA_PREFIX%\python.exe
-) else (
-    rem use kit python
-    set python_exe=%ISAACLAB_PATH%\_isaac_sim\python.bat
+rem prefer an active standard virtual environment
+set "python_exe="
+if not "%VIRTUAL_ENV%"=="" if exist "%VIRTUAL_ENV%\Scripts\python.exe" (
+    set "python_exe=%VIRTUAL_ENV%\Scripts\python.exe"
+)
+rem fall back to an active conda environment
+if not defined python_exe if not "%CONDA_PREFIX%"=="" if exist "%CONDA_PREFIX%\python.exe" (
+    set "python_exe=%CONDA_PREFIX%\python.exe"
+)
+rem fall back to the bundled Isaac Sim Python
+if not defined python_exe (
+    set "python_exe=%ISAACLAB_PATH%\_isaac_sim\python.bat"
 )
 rem check for if isaac sim was installed to system python
 if not exist "%python_exe%" (

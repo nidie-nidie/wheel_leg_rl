@@ -1,0 +1,48 @@
+{
+  "created_at": "2026-10-05T07:08:00.710197+08:00",
+  "fresh_start": true,
+  "iterations_per_run": 2,
+  "monitor_interval_seconds": 5.0,
+  "profile": "portable",
+  "ranking_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\smoke-contract-hardening\\training-suite-summary.json",
+  "run_count": 1,
+  "runs": [
+    {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_07-08-05_portable_v4-suite-20261005-070800-run01-seed50474841\\model_1.pt",
+      "evaluation_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\smoke-contract-hardening\\evaluation\\run-01\\summary.json",
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\smoke-contract-hardening\\exports\\run-01",
+      "index": 1,
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\smoke-contract-hardening\\monitor\\run-01\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\smoke-contract-hardening\\monitor\\run-01\\initial.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\smoke-contract-hardening\\monitor\\run-01\\interval-20261005-070805.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\smoke-contract-hardening\\monitor\\run-01\\interval-20261005-070811.json"
+        ],
+        "status": "ok",
+        "warnings": []
+      },
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_07-08-05_portable_v4-suite-20261005-070800-run01-seed50474841",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_07-08-05_portable_v4-suite-20261005-070800-run01-seed50474841\\run_manifest.json",
+      "run_name": "v4-suite-20261005-070800-run01-seed50474841",
+      "seed": 50474841,
+      "status": "completed",
+      "training_fingerprint_hash": "DE7C71563DDACC3E0C3F84C9D1B55A551630145DD2BC9BEC7F797DC3E425D58D"
+    }
+  ],
+  "schema_version": "TrainingSuiteV2",
+  "seeds": [
+    50474841
+  ],
+  "status": "completed",
+  "suite_id": "20261005-070800",
+  "suite_mode": "smoke",
+  "suite_source_fingerprint_hash": "31077191DF4413529F87E16E5D002310108BDDD90D47D9B9E1E85524792293AA",
+  "training_fingerprint_hash": "DE7C71563DDACC3E0C3F84C9D1B55A551630145DD2BC9BEC7F797DC3E425D58D",
+  "training_monitor_gate": {
+    "hard_anomalies": [],
+    "status": "ok",
+    "warnings": []
+  }
+}

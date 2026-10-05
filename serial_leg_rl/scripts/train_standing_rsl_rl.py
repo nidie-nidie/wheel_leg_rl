@@ -2,8 +2,18 @@
 from __future__ import annotations
 
 import argparse
+import multiprocessing
+import os
 import sys
 from pathlib import Path
+
+
+# A venv created from Conda keeps the Conda interpreter as ``sys._base_executable``.
+# Force Windows multiprocessing children to use this workspace's venv instead.
+sys._base_executable = sys.executable
+multiprocessing.set_executable(sys.executable)
+os.environ["PYTHONEXECUTABLE"] = sys.executable
+os.environ.pop("PYTHONHOME", None)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -59,6 +69,24 @@ torch.backends.cudnn.allow_tf32 = True
 torch.backends.cudnn.deterministic = False
 torch.backends.cudnn.benchmark = False
 
+# Torch 2.5.1's tensor-expression fuser asks CUDA 11.8 NVRTC to compile
+# ``sm_120`` kernels, which CUDA 11.8 does not recognize on RTX 5070.
+# Eager CUDA kernels remain supported, so disable only this JIT fusion path.
+torch._C._jit_set_texpr_fuser_enabled(False)
+
+# Isaac Sim 4.5's pip extensions in this workspace provide PhysX 106.5.7 but
+# the headless app can resolve an incompatible Fabric 106.3.2 extension. This
+# task does not require Fabric for training, so prevent the CUDA device setup
+# from enabling that optional extension.
+from isaacsim.core.simulation_manager import SimulationManager  # noqa: E402
+
+
+def _disable_fabric(_cls, enable=True):
+    return None
+
+
+SimulationManager.enable_fabric = classmethod(_disable_fabric)
+
 
 @hydra_task_config(args_cli.task, "rsl_rl_cfg_entry_point")
 def main(env_cfg: DirectRLEnvCfg, agent_cfg: RslRlOnPolicyRunnerCfg):
@@ -69,6 +97,7 @@ def main(env_cfg: DirectRLEnvCfg, agent_cfg: RslRlOnPolicyRunnerCfg):
     )
     env_cfg.seed = agent_cfg.seed
     env_cfg.sim.device = args_cli.device if args_cli.device is not None else env_cfg.sim.device
+    env_cfg.sim.use_fabric = False
 
     log_root_path = os.path.abspath(os.path.join("logs", "rsl_rl", agent_cfg.experiment_name))
     log_dir = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")

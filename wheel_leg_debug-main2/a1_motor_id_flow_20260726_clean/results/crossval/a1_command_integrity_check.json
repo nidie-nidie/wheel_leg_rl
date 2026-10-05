@@ -1,0 +1,152 @@
+{
+  "reports": [
+    {
+      "converted_match": null,
+      "csv": "A1chirp_20260726_061600_f0p10-f1p50Hz_d8_r2_Kp20_Kd2_ampHip0p03_ampTh0p05_ampCalf0p05_cH0p05_cFT0p60_cRT0p90_cCalf-1p55_v20_a250.csv",
+      "formula_max_abs_residual_rad": 7.122217926536223e-09,
+      "formula_worst": [
+        2115,
+        "FL_calf",
+        -1.55356934,
+        -1.5535693471222178
+      ],
+      "freq_end_hz": 1.49965,
+      "freq_max_abs_residual_hz": 4.440892098500626e-16,
+      "freq_start_hz": 0.1,
+      "max_accel_rad_s2": 2.6950000000525165,
+      "max_sample_step_deg": 0.04145349647772074,
+      "max_sample_step_rad": 0.0007235000000000991,
+      "max_step_joint": "FL_calf",
+      "max_velocity_rad_s": 0.36175000000004953,
+      "min_margin_to_expected_range_rad": 9.999999717180685e-10,
+      "phase_max_abs_residual_rad": 4.999375136094386e-08,
+      "samples": 4000
+    },
+    {
+      "converted_match": {
+        "max_abs_raw_vs_converted_rad": 0.0,
+        "worst": null
+      },
+      "csv": "A1chirp_20260726_062823_f0p10-f1p4Hz_d20_r2_Kp25_Kd2_ampHip0p20_ampTh0p30_ampCalf0p30_cH0p10_cFT0p80_cRT1p00_cCalf-1p50_v20_a250.csv",
+      "formula_max_abs_residual_rad": 1.516580343530194e-07,
+      "formula_worst": [
+        7175,
+        "FR_calf",
+        -1.47656797,
+        -1.4765681216580344
+      ],
+      "freq_end_hz": 3.99961,
+      "freq_max_abs_residual_hz": 8.881784197001252e-16,
+      "freq_start_hz": 0.1,
+      "max_accel_rad_s2": 155.24199999999988,
+      "max_sample_step_deg": 0.7803594069392462,
+      "max_sample_step_rad": 0.013619841000000132,
+      "max_step_joint": "RR_thigh",
+      "max_velocity_rad_s": 6.809920500000066,
+      "min_margin_to_expected_range_rad": 9.999999717180685e-10,
+      "phase_max_abs_residual_rad": 4.99866786185521e-07,
+      "samples": 10000
+    },
+    {
+      "converted_match": {
+        "max_abs_raw_vs_converted_rad": 0.0,
+        "worst": null
+      },
+      "csv": "A1chirp_20260726_063144_f0p10-f1p8Hz_d20_r2_Kp25_Kd2_ampHip0p20_ampTh0p30_ampCalf0p30_cH0p10_cFT0p80_cRT1p00_cCalf-1p50_v20_a800.csv",
+      "formula_max_abs_residual_rad": 1.5141212594826925e-07,
+      "formula_worst": [
+        8104,
+        "FR_calf",
+        -1.49264067,
+        -1.492640518587874
+      ],
+      "freq_end_hz": 7.99921,
+      "freq_max_abs_residual_hz": 1.7763568394002505e-15,
+      "freq_start_hz": 0.1,
+      "max_accel_rad_s2": 618.0427499999919,
+      "max_sample_step_deg": 1.5583138235334166,
+      "max_sample_step_rad": 0.027197707000000015,
+      "max_step_joint": "FR_thigh",
+      "max_velocity_rad_s": 13.598853500000008,
+      "min_margin_to_expected_range_rad": 9.999999717180685e-10,
+      "phase_max_abs_residual_rad": 4.998226188490662e-07,
+      "samples": 10000
+    },
+    {
+      "converted_match": {
+        "max_abs_raw_vs_converted_rad": 0.0,
+        "worst": null
+      },
+      "csv": "A1chirp_20260726_064152_f0p10-f1p10Hz_d20_r2_Kp25_Kd2_ampHip0p20_ampTh0p35_ampCalf0p35_cH0p10_cFT0p80_cRT1p00_cCalf-1p50_v25_a1600.csv",
+      "formula_max_abs_residual_rad": 1.7636280968957863e-07,
+      "formula_worst": [
+        6566,
+        "FR_calf",
+        -1.48775879,
+        -1.4877589663628097
+      ],
+      "freq_end_hz": 9.99901,
+      "freq_max_abs_residual_hz": 1.7763568394002505e-15,
+      "freq_start_hz": 0.1,
+      "max_accel_rad_s2": 1125.5100000000518,
+      "max_sample_step_deg": 2.270013807121403,
+      "max_sample_step_rad": 0.039619214999999985,
+      "max_step_joint": "FR_thigh",
+      "max_velocity_rad_s": 19.80960749999999,
+      "min_margin_to_expected_range_rad": 9.999999717180685e-10,
+      "phase_max_abs_residual_rad": 4.997117457605782e-07,
+      "samples": 10000
+    },
+    {
+      "converted_match": {
+        "max_abs_raw_vs_converted_rad": 0.0,
+        "worst": null
+      },
+      "csv": "A1chirp_20260726_071554_f0p10-f1p10Hz_d20_r2_Kp25_Kd2_ampHip0p20_ampTh0p38_ampCalf0p38_cH0p10_cFT0p80_cRT1p00_cCalf-1p50_v25_a1600.csv",
+      "formula_max_abs_residual_rad": 1.9110194249272183e-07,
+      "formula_worst": [
+        7718,
+        "FR_calf",
+        -1.46317228,
+        -1.4631720888980575
+      ],
+      "freq_end_hz": 9.99901,
+      "freq_max_abs_residual_hz": 1.7763568394002505e-15,
+      "freq_start_hz": 0.1,
+      "max_accel_rad_s2": 1221.9797500000186,
+      "max_sample_step_deg": 2.4645866074179477,
+      "max_sample_step_rad": 0.043015151000000085,
+      "max_step_joint": "RL_thigh",
+      "max_velocity_rad_s": 21.50757550000004,
+      "min_margin_to_expected_range_rad": 9.999999717180685e-10,
+      "phase_max_abs_residual_rad": 4.997117457605782e-07,
+      "samples": 10000
+    },
+    {
+      "converted_match": {
+        "max_abs_raw_vs_converted_rad": 0.0,
+        "worst": null
+      },
+      "csv": "A1chirp_20260726_071950_f0p10-f1p10Hz_d20_r2_Kp25_Kd2_ampHip0p22_ampTh0p38_ampCalf0p38_cH0p10_cFT0p80_cRT1p00_cCalf-1p50_v25_a1600.csv",
+      "formula_max_abs_residual_rad": 1.9110194249272183e-07,
+      "formula_worst": [
+        7718,
+        "FR_calf",
+        -1.46317228,
+        -1.4631720888980575
+      ],
+      "freq_end_hz": 9.99901,
+      "freq_max_abs_residual_hz": 1.7763568394002505e-15,
+      "freq_start_hz": 0.1,
+      "max_accel_rad_s2": 1221.9797500000186,
+      "max_sample_step_deg": 2.4645866074179477,
+      "max_sample_step_rad": 0.043015151000000085,
+      "max_step_joint": "RL_thigh",
+      "max_velocity_rad_s": 21.50757550000004,
+      "min_margin_to_expected_range_rad": 9.999999717180685e-10,
+      "phase_max_abs_residual_rad": 4.997117457605782e-07,
+      "samples": 10000
+    }
+  ],
+  "schema": "a1-command-integrity-check/v1"
+}

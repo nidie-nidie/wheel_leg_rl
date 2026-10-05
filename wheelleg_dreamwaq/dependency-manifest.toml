@@ -1,0 +1,46 @@
+schema_version = "DependencyManifestV1"
+
+[python]
+version = "3.11"
+manager = "uv"
+
+[isaac_sim]
+package = "isaacsim"
+version = "5.1.0.0"
+index = "https://pypi.nvidia.com"
+
+[isaac_lab]
+source_type = "git"
+repository = "https://github.com/isaac-sim/IsaacLab.git"
+tag = "v2.3.2"
+commit = "37ddf626871758333d6ed89cf64ad702aef127d0"
+install_mode = "editable"
+relative_checkout = "dependencies/IsaacLab-v2.3.2"
+
+[pytorch]
+version = "2.7.0+cu128"
+index = "https://download.pytorch.org/whl/cu128"
+
+[rsl_rl]
+distribution = "rsl-rl-lib"
+version = "3.1.2"
+
+[windows_native_preload]
+tensordict = "0.14.2"
+reason = "Training and playback preload torch/tensordict before Isaac Kit to avoid a reproduced Windows native DLL load-order crash."
+
+[compatibility_overrides]
+starlette = "0.45.3"
+flatdict = "4.0.0"
+reason = "Both overrides were enabled only after local reproduction: the Starlette/FastAPI resolver conflict and the flatdict 4.0.1 isolated-build pkg_resources failure."
+
+[compatibility_candidates]
+gymnasium = "1.2.0 (disabled)"
+transformers = ">=4 (disabled)"
+h5py_preload = "disabled"
+aftermath_disable = "disabled"
+
+[asset_bundle]
+schema = "AssetBundleV1"
+root = "../wheel_leg_urdf4_usd (1)/wheel_leg_urdf4"
+entry = "wheel_leg_urdf4.usd"

@@ -1,0 +1,35 @@
+{
+  "max_abs_original_bias_rad": 0.09960556030273438,
+  "note": "Derived diagnostic mean only. It is not a no-bias refit; it keeps all non-bias parameters and sets dimensions 36:48 to zero.",
+  "original_encoder_bias_values": [
+    0.09149736911058426,
+    0.05391586571931839,
+    -0.09569314122200012,
+    0.09885045140981674,
+    0.04533372074365616,
+    0.032530419528484344,
+    -0.04235726594924927,
+    -0.053237974643707275,
+    -0.007150247693061829,
+    -0.09951788932085037,
+    0.024042464792728424,
+    -0.09960556030273438
+  ],
+  "output_mean": "results/fit/mean_199_zero_encoder_bias.pt",
+  "schema": "a1-derived-mean-zero-encoder-bias/v1",
+  "source_mean": "results/fit/mean_199.pt",
+  "zeroed_indices": [
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "acceptance_thresholds": {
+    "max_direct_rmse_rad": 0.08,
+    "max_objective_rmse_rad": 0.05
+  },
+  "best_trajectory_basename": "best_trajectory.pt",
+  "best_trajectory_sha256": "5e92c93efad2dd0973f80e3ec6437d57ee00a689e8e7ae9cb097721d97c998c9",
+  "config_basename": "config.pt",
+  "config_sha256": "c2f39a35f4dfcae2a6aeda9402cdc99800e3dce287390ade33df456bae1badf5",
+  "environment_contract": {
+    "decimation": 1,
+    "dt_s": 0.002,
+    "fix_root_link": true,
+    "fixture_pose": "upside_down_fixed_air",
+    "joint_order": [
+      "FL_hip_joint",
+      "FR_hip_joint",
+      "RL_hip_joint",
+      "RR_hip_joint",
+      "FL_thigh_joint",
+      "FR_thigh_joint",
+      "RL_thigh_joint",
+      "RR_thigh_joint",
+      "FL_calf_joint",
+      "FR_calf_joint",
+      "RL_calf_joint",
+      "RR_calf_joint"
+    ],
+    "kd": 2.0,
+    "kp": 25.0
+  },
+  "failure_reasons": [],
+  "mean_basename": "mean_199.pt",
+  "mean_sha256": "7120f083ecb206ec0390f14e5fe112b575d0d321a4e36977547a2048c86d1b89",
+  "metrics": {
+    "delay_steps": 4,
+    "direct_rmse_mean_rad": 0.07009894168515958,
+    "direct_rmse_per_joint_rad": [
+      0.09322471676369579,
+      0.05315178021997314,
+      0.09602311481291857,
+      0.09885086650324762,
+      0.050141132159918674,
+      0.03221035427315713,
+      0.041726811466113595,
+      0.05296380286425197,
+      0.018281050285349754,
+      0.09872000724753624,
+      0.022390136103222352,
+      0.09889065411174514
+    ],
+    "duration_s": 19.998,
+    "encoder_bias": {
+      "FL_calf_joint": -0.007150247693061829,
+      "FL_hip_joint": 0.09149736911058426,
+      "FL_thigh_joint": 0.04533372074365616,
+      "FR_calf_joint": -0.09951788932085037,
+      "FR_hip_joint": 0.05391586571931839,
+      "FR_thigh_joint": 0.032530419528484344,
+      "RL_calf_joint": 0.024042464792728424,
+      "RL_hip_joint": -0.09569314122200012,
+      "RL_thigh_joint": -0.04235726594924927,
+      "RR_calf_joint": -0.09960556030273438,
+      "RR_hip_joint": 0.09885045140981674,
+      "RR_thigh_joint": -0.053237974643707275
+    },
+    "objective_rmse_mean_rad": 0.005168768096401251,
+    "objective_rmse_per_joint_rad": [
+      0.003986908408364215,
+      0.003940295605761071,
+      0.0019020081721526246,
+      0.002985796106769073,
+      0.0055203648494390675,
+      0.002551026289354541,
+      0.002798497067661989,
+      0.0027902314342221498,
+      0.011293938277136609,
+      0.005382064311185167,
+      0.005767251498815008,
+      0.005853203705209993
+    ],
+    "objective_score": 0.000320593963612505,
+    "real_command_rmse_mean_rad": 0.23383338528722836,
+    "sample_count": 10000
+  },
+  "num_envs": 4096,
+  "physical_motion_authorized": false,
+  "repository_revisions": {
+    "a1_base": "2a544a351ba91026082b1ef9658701aa161920a6",
+    "gogo_learn": "76073495b884833b3189271245bcffcefe9ee88f",
+    "isaaclab": "7b26eb4169e576e58592637d2dccf8c0316f376a",
+    "pace": "d8b3b9f6296ba64ba765c0b0dfa2e73effe6e1cf"
+  },
+  "run_basename": "26_07_26_02-50-16",
+  "schema_version": "a1_pace_fit_manifest/v1",
+  "status": "PASS",
+  "task": "Isaac-Pace-A1-v0"
+}

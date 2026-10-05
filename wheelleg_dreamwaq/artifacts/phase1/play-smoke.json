@@ -1,0 +1,26 @@
+{
+  "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-04_00-25-03_portable_diagnostics\\model_1.pt",
+  "contract_hash": "EB1F5521012962FF78E9AB00D1F8CE05C3B3CA8705E7AFB0D782138E38262F79",
+  "finite": true,
+  "mean_metrics": {
+    "Action/saturation_fraction": 0.0,
+    "Actuator/effort_saturation_fraction": 0.0,
+    "Joint/leg_soft_limit_fraction": 0.0,
+    "Tracking/base_height_abs_error": 0.02139582857489586,
+    "Tracking/vx_abs_error": 0.5197088496387005,
+    "Tracking/yaw_rate_abs_error": 0.8269890415668487
+  },
+  "mean_reward_per_step": -0.18766948580741882,
+  "num_envs": 4,
+  "reset_count": 12,
+  "steps": 100,
+  "termination_counts": {
+    "height_terminated": 0,
+    "invalid": 0,
+    "joint_velocity_terminated": 0,
+    "root_angular_terminated": 0,
+    "root_linear_terminated": 0,
+    "tilt_terminated": 12,
+    "timeout": 0
+  }
+}

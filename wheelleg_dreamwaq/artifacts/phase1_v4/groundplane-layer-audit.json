@@ -1,0 +1,12 @@
+{
+  "authoring_layer": "wheel_leg_urdf4.usd",
+  "forbidden_paths_after": [],
+  "prim_path": "/wheel_leg_urdf4/GroundPlane",
+  "prim_stack_before": [
+    {
+      "layer": "wheel_leg_urdf4.usd",
+      "path": "/wheel_leg_urdf4/GroundPlane",
+      "specifier": "Sdf.SpecifierDef"
+    }
+  ]
+}

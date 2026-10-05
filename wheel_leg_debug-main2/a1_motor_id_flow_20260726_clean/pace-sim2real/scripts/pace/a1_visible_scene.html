@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A1 PACE Visible Scene</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #111418;
+      color: #e7edf3;
+    }
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #111418;
+    }
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+<canvas id="scene"></canvas>
+<script>
+const canvas = document.getElementById("scene");
+const ctx = canvas.getContext("2d");
+
+const colors = {
+  bg: "#111418",
+  grid: "rgba(255,255,255,0.07)",
+  support: "#6f7780",
+  supportTop: "#9aa4ad",
+  body: "#d5dde5",
+  bodyDark: "#6f7b86",
+  joint: "#14181d",
+  foot: "#f2b84b",
+  text: "#e7edf3",
+  muted: "#97a3af",
+  fl: "#70d6ff",
+  fr: "#ff8a80",
+  rl: "#9ce37d",
+  rr: "#c39bff",
+};
+
+const legs = [
+  { name: "FL", x: -170, color: colors.fl, phase: 0.2 },
+  { name: "FR", x: -70, color: colors.fr, phase: 1.8 },
+  { name: "RL", x: 70, color: colors.rl, phase: 3.1 },
+  { name: "RR", x: 170, color: colors.rr, phase: 4.5 },
+];
+
+const duration = 20.0;
+const f0 = 0.1;
+const f1 = 10.0;
+const hipAmp = 0.22;
+const thighAmp = 0.38;
+const calfAmp = 0.38;
+const centerHip = 0.10;
+const centerThigh = 0.90;
+const centerCalf = -1.50;
+
+function resize() {
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  canvas.width = Math.floor(window.innerWidth * dpr);
+  canvas.height = Math.floor(window.innerHeight * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+window.addEventListener("resize", resize);
+resize();
+
+function chirpPhase(t) {
+  const beta = (f1 - f0) / duration;
+  return 2 * Math.PI * (f0 * t + 0.5 * beta * t * t);
+}
+
+function drawGrid(w, h) {
+  ctx.strokeStyle = colors.grid;
+  ctx.lineWidth = 1;
+  const step = 40;
+  for (let x = 0; x <= w; x += step) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, h);
+    ctx.stroke();
+  }
+  for (let y = 0; y <= h; y += step) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(w, y);
+    ctx.stroke();
+  }
+}
+
+function roundedRect(x, y, w, h, r) {
+  const radius = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + w - radius, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
+  ctx.lineTo(x + w, y + h - radius);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+  ctx.lineTo(x + radius, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+}
+
+function drawJoint(x, y) {
+  ctx.fillStyle = colors.joint;
+  ctx.beginPath();
+  ctx.arc(x, y, 6, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawLeg(baseX, baseY, leg, phase, scale) {
+  const hip = centerHip + hipAmp * Math.sin(phase + leg.phase);
+  const thigh = centerThigh + thighAmp * Math.sin(phase + leg.phase * 1.17);
+  const calf = centerCalf + calfAmp * Math.sin(phase + leg.phase * 0.83);
+  const side = leg.name.endsWith("R") ? 1 : -1;
+  const hipX = baseX + side * hip * 42 * scale;
+  const hipY = baseY - 12 * scale;
+  const kneeX = hipX + Math.sin(thigh) * 70 * scale;
+  const kneeY = hipY - Math.cos(thigh) * 70 * scale;
+  const footX = kneeX + Math.sin(thigh + calf) * 84 * scale;
+  const footY = kneeY - Math.cos(thigh + calf) * 84 * scale;
+
+  ctx.strokeStyle = leg.color;
+  ctx.lineWidth = 9 * scale;
+  ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(baseX, baseY);
+  ctx.lineTo(hipX, hipY);
+  ctx.lineTo(kneeX, kneeY);
+  ctx.lineTo(footX, footY);
+  ctx.stroke();
+  drawJoint(baseX, baseY);
+  drawJoint(hipX, hipY);
+  drawJoint(kneeX, kneeY);
+  ctx.fillStyle = colors.foot;
+  roundedRect(footX - 15 * scale, footY - 7 * scale, 30 * scale, 14 * scale, 7 * scale);
+  ctx.fill();
+}
+
+function drawScene(nowMs) {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const scale = Math.max(0.72, Math.min(1.1, Math.min(w / 980, h / 650)));
+  const t = (nowMs / 1000) % duration;
+  const phase = chirpPhase(t);
+  const cx = w / 2;
+  const cy = h * 0.58;
+  const bodyW = 430 * scale;
+  const bodyH = 92 * scale;
+
+  ctx.fillStyle = colors.bg;
+  ctx.fillRect(0, 0, w, h);
+  drawGrid(w, h);
+
+  ctx.fillStyle = colors.support;
+  roundedRect(cx - bodyW * 0.56, cy + bodyH * 0.43, bodyW * 1.12, 95 * scale, 8 * scale);
+  ctx.fill();
+  ctx.fillStyle = colors.supportTop;
+  roundedRect(cx - bodyW * 0.58, cy + bodyH * 0.30, bodyW * 1.16, 22 * scale, 8 * scale);
+  ctx.fill();
+
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.fillStyle = colors.bodyDark;
+  roundedRect(-bodyW / 2 - 8 * scale, -bodyH / 2 + 9 * scale, bodyW + 16 * scale, bodyH, 16 * scale);
+  ctx.fill();
+  ctx.fillStyle = colors.body;
+  roundedRect(-bodyW / 2, -bodyH / 2, bodyW, bodyH, 16 * scale);
+  ctx.fill();
+  ctx.strokeStyle = "#1f252c";
+  ctx.lineWidth = 3 * scale;
+  ctx.stroke();
+
+  for (const leg of legs) {
+    drawLeg(leg.x * scale, -bodyH / 2 + 4 * scale, leg, phase, scale);
+  }
+  ctx.restore();
+
+  ctx.fillStyle = colors.text;
+  ctx.font = `${Math.round(21 * scale)}px Inter, sans-serif`;
+  ctx.fillText("A1 PACE visible scene", 28, 42);
+  ctx.fillStyle = colors.muted;
+  ctx.font = `${Math.round(15 * scale)}px Inter, sans-serif`;
+  ctx.fillText("upside down fixed root | back support | chirp 0.1-10 Hz | payload note: 5 kg belly ballast", 28, 68);
+  ctx.fillText(`t=${t.toFixed(2)}s`, 28, 93);
+
+  requestAnimationFrame(drawScene);
+}
+
+requestAnimationFrame(drawScene);
+</script>
+</body>
+</html>

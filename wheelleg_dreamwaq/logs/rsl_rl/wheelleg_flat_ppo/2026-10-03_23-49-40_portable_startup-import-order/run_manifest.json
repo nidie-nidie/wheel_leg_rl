@@ -1,0 +1,55 @@
+{
+  "architecture_sha256": "8CE7CB58ED3BF4239F9A156F8C4F623AB4BDB288FEEFB5127159451CAAFFDE9A",
+  "asset_bundle_hash": "30A39684145E3228F275B909FAD8C627D8E10099BF13C23FDF19D77D15D6D084",
+  "canonical_joint_order": [
+    "jIJ",
+    "jIO",
+    "jAB",
+    "jAG",
+    "jwheel_left",
+    "jwheel_right"
+  ],
+  "command": [
+    "scripts/train_ppo.py",
+    "--profile",
+    "portable",
+    "--num-envs",
+    "32",
+    "--max-iterations",
+    "2",
+    "--run-name",
+    "startup-import-order",
+    "--headless"
+  ],
+  "created_at": "2026-10-03T23:49:40.675723+08:00",
+  "cuda_capability": [
+    12,
+    0
+  ],
+  "cuda_device_name": "NVIDIA GeForce RTX 5070",
+  "device": "cuda:0",
+  "isaac_lab_commit": "37ddf626871758333d6ed89cf64ad702aef127d0",
+  "isaac_sim": "5.1.0.0",
+  "max_iterations": 2,
+  "num_envs": 32,
+  "num_mini_batches": 4,
+  "num_steps_per_env": 24,
+  "profile": {
+    "num_envs": 32,
+    "num_mini_batches": 4
+  },
+  "profile_name": "portable",
+  "python": "3.11.16 (main, Sep  1 2026, 14:15:24) [MSC v.1944 64 bit (AMD64)]",
+  "rsl_rl": "3.1.2",
+  "schemas": {
+    "action": "ActionV1",
+    "actor_observation": "ActorObsV1",
+    "command": "CommandV1",
+    "control_frame": "ControlFrameV1",
+    "critic_observation": "CriticObsV1",
+    "normalization": "NormalizationV1"
+  },
+  "seed": 42,
+  "torch": "2.7.0+cu128",
+  "torch_cuda_runtime": "12.8"
+}

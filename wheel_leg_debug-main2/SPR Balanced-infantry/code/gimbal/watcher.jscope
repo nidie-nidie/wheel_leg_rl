@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<JScopeProject>
+    <FileVersion major="1" minor="1" />
+    <Project>
+        <Configuration>
+            <JLink>
+                <Options Connection="1" IsRTTSession="0" IsRTTWithTimeStamp="1" SamplingPeriod="100" SerialNo="0" JTAG_IRPre="-1" JTAG_DRPre="-1" IP="" TargetDevice="STM32F407IG" TargetInterface="SWD" InterfaceSpeed="4000" />
+            </JLink>
+            <ScriptFile Name="F:\RM2023\guard_git\rm2023---sentinel\guard_3_13_CurrentProject\watcher.jscope\unspecified" />
+            <ElfFile Name="F:\RM2023\guard_git\rm2023---sentinel\guard_3_13_CurrentProject\MDK-ARM\standard\sentry.axf" />
+            <DataFile Name="" />
+            <RawFile Name="" />
+            <Scope>
+                <Options TimeResolutionUs="500000" />
+            </Scope>
+        </Configuration>
+        <Windows>
+            <Graph Show="1" />
+            <Watch Show="1" />
+        </Windows>
+        <SelectedSymbols>
+            <Symbol>
+                <Options Name="bullet_freq" Address="0x200001B1" Type="uchar" TypeID="6" Size="1" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="1" YMaxSampled="21" YAvgSampled="11" Offset="4" ShowInGraph="0" ACCoupling="0" YOffset="180" IsAutoConfig="1" YResolution="50" MaxValue="277" File="..\application\referee.c" Scope="0" DrawStyle="2" />
+            </Symbol>
+            <Symbol>
+                <Options Name="speed" Address="0x20008F30" Type="uint" TypeID="8" Size="4" GraphColorRed="102" GraphColorGreen="102" GraphColorBlue="178" YMinSampled="2" YMaxSampled="2" YAvgSampled="2" Offset="5" ShowInGraph="0" ACCoupling="0" YOffset="350" IsAutoConfig="1" YResolution="5000" MaxValue="17500" File="../Src/usbd_conf.c" Scope="0" DrawStyle="2" />
+            </Symbol>
+            <Symbol>
+                <Options Name="bullet_speed" Address="0x200001B2" Type="float" TypeID="1" Size="4" GraphColorRed="102" GraphColorGreen="102" GraphColorBlue="178" YMinSampled="23" YMaxSampled="26" YAvgSampled="24" Offset="9" ShowInGraph="1" ACCoupling="1" YOffset="200" IsAutoConfig="1" YResolution="2000000000" MaxValue="-2147483648" File="..\application\referee.c" Scope="0" DrawStyle="2" />
+            </Symbol>
+            <Symbol>
+                <Options Name="speed" Address="0x20008F30" Type="uint" TypeID="8" Size="4" GraphColorRed="0" GraphColorGreen="191" GraphColorBlue="255" YMinSampled="2" YMaxSampled="2" YAvgSampled="2" Offset="13" ShowInGraph="0" ACCoupling="0" YOffset="260" IsAutoConfig="1" YResolution="1000" MaxValue="2600" File="../Src/usbd_conf.c" Scope="0" DrawStyle="2" />
+            </Symbol>
+            <Symbol>
+                <Options Name="speed" Address="0x20008F30" Type="uint" TypeID="8" Size="4" GraphColorRed="0" GraphColorGreen="100" GraphColorBlue="0" YMinSampled="2" YMaxSampled="2" YAvgSampled="2" Offset="17" ShowInGraph="0" ACCoupling="0" YOffset="420" IsAutoConfig="1" YResolution="5000" MaxValue="15750" File="../Src/usbd_conf.c" Scope="0" DrawStyle="2" />
+            </Symbol>
+        </SelectedSymbols>
+    </Project>
+</JScopeProject>

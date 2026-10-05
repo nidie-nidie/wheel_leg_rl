@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wheelleg-mujoco-sim2sim"
+version = "0.1.0"
+description = "Self-contained MuJoCo sim2sim runtime for WheelLeg Phase1ContractV4"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "mujoco==3.14.0",
+    "numpy>=2.0,<3",
+    "torch==2.7.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["wheelleg_mujoco*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+default = true
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }

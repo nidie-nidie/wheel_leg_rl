@@ -1,0 +1,10 @@
+{
+  "context_hash": "C14FC7B8BAC3DCC88DF82FD5D8B369F59633364ADBA798B5111DB0C76B613101",
+  "iterations_per_run": 1000,
+  "run_count": 4,
+  "schema_version": "TrainingEvaluationContextV1",
+  "suite_id": "20261005-071132",
+  "suite_mode": "formal",
+  "suite_source_fingerprint_hash": "31077191DF4413529F87E16E5D002310108BDDD90D47D9B9E1E85524792293AA",
+  "training_fingerprint_hash": "29374FC88FA1C24B7B2790CD268271802BCC42408176B947A418907CEF0A0C07"
+}

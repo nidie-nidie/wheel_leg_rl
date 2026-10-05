@@ -1,0 +1,29 @@
+{
+  "anomalies": [
+    "missing_tag:Train/mean_reward",
+    "missing_tag:Train/mean_episode_length",
+    "missing_tag:Loss/value_function",
+    "missing_tag:Loss/surrogate",
+    "missing_tag:Loss/entropy",
+    "missing_tag:Loss/learning_rate",
+    "missing_tag:Policy/mean_noise_std",
+    "missing_tag:Action/saturation_fraction",
+    "missing_tag:Actuator/effort_saturation_fraction",
+    "missing_tag:Tracking/vx_abs_error",
+    "missing_tag:Tracking/yaw_rate_abs_error",
+    "missing_tag:Tracking/base_height_abs_error",
+    "missing_tag:Metric/phi0_delta_abs_rad",
+    "missing_tag:Metric/loop_closure_error_max_m",
+    "missing_tag:Termination/invalid",
+    "missing_tag:Termination/height_terminated",
+    "missing_tag:Termination/tilt_terminated",
+    "missing_tag:Termination/root_linear_terminated",
+    "missing_tag:Termination/root_angular_terminated",
+    "missing_tag:Termination/joint_velocity_terminated"
+  ],
+  "captured_at": "2026-10-05T05:55:43.197437+08:00",
+  "event_file": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_05-55-41_portable_v4-suite-20261005-055536-run01-seed562796538\\events.out.tfevents.1791150942.DESKTOP-P89OA5C.13292.0",
+  "latest": {},
+  "reason": "initial",
+  "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_05-55-41_portable_v4-suite-20261005-055536-run01-seed562796538"
+}

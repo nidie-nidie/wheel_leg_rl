@@ -1,0 +1,10 @@
+status=PASS
+pace_commit=617e4e2df3f60c39f7e246e718f7d2bcb35bdccb
+isaaclab_commit=7b26eb4169e576e58592637d2dccf8c0316f376a
+isaac_sim_version=5.0.0-rc.45+release.23960.184afb15.gl
+anymal_data_shapes=time:40,dof_pos:40x12,des_dof_pos:40x12
+anymal_run=26_07_19_02-16-55
+anymal_final_mean=mean_199.pt
+isaaclab_friction_setter_tests=4_passed
+pace_friction_writeback_sensitivity_tests=1_passed
+upstream_files_modified=none

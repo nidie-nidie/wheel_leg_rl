@@ -1,0 +1,54 @@
+{
+  "action_saturation_fraction": 0.0011875,
+  "asset_bundle_hash": "30A39684145E3228F275B909FAD8C627D8E10099BF13C23FDF19D77D15D6D084",
+  "control_dt": 0.02,
+  "controlled_joint_names": [
+    "jIJ",
+    "jIO",
+    "jAB",
+    "jAG",
+    "jwheel_left",
+    "jwheel_right"
+  ],
+  "critic_observation_shape": [
+    16,
+    41
+  ],
+  "finite": true,
+  "leg_target_lower": [
+    -1.0,
+    -1.0,
+    -1.0,
+    -1.0
+  ],
+  "leg_target_upper": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "max_abs_all_joint_velocity": 16.314462661743164,
+  "max_abs_applied_torque": 18.0,
+  "max_abs_controlled_velocity": 16.314462661743164,
+  "max_abs_leg_position": 0.6444746851921082,
+  "max_abs_root_angular_velocity": 12.23155689239502,
+  "max_abs_root_linear_velocity": 1.7532309293746948,
+  "max_actor_joint_velocity_error": 0.0,
+  "max_com_velocity_frame_error": 2.384185791015625e-07,
+  "max_critic_joint_acceleration_error": 0.0,
+  "max_loop_closure_position_error": 0.002864991081878543,
+  "num_envs": 16,
+  "policy_observation_shape": [
+    16,
+    25
+  ],
+  "reset_count": 518,
+  "reset_previous_action_leak_count": 0,
+  "reward": {
+    "max": 0.04943932220339775,
+    "min": -1.4987118244171143
+  },
+  "seed": 42,
+  "steps": 1000,
+  "wheel_velocity_target_limit": 25.0
+}

@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import argparse
+import multiprocessing
+import os
 import sys
 import time
 from pathlib import Path
@@ -10,6 +12,25 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 ISAACLAB_ROOT = PROJECT_ROOT / "wheel_leg" / "WheelLeg_RL_IsaacLab" / "IsaacLab"
 SERIAL_LEG_SOURCE = PROJECT_ROOT / "serial_leg_rl" / "source" / "serial_leg_rl"
+
+# Keep GUI runs on the workspace interpreter when this venv was bootstrapped
+# from Conda, and avoid CUDA 11.8 NVRTC fusion for RTX 5070.
+sys._base_executable = sys.executable
+multiprocessing.set_executable(sys.executable)
+os.environ["PYTHONEXECUTABLE"] = sys.executable
+os.environ.pop("PYTHONHOME", None)
+
+# Kit changes the Windows DLL search context while starting the GUI. Keep the
+# h5py native libraries discoverable when Isaac Lab imports its dataset helpers.
+_dll_directory_handles = []
+_h5py_dll_dir = Path(sys.executable).resolve().parents[1] / "Lib" / "site-packages" / "h5py"
+if _h5py_dll_dir.is_dir() and hasattr(os, "add_dll_directory"):
+    _dll_directory_handles.append(os.add_dll_directory(str(_h5py_dll_dir)))
+
+# Import h5py before Kit installs its custom extension importer. Isaac Lab's
+# manager package imports h5py later, and reloading its native module from the
+# Kit runtime can fail on Windows even though it works in the venv directly.
+import h5py  # noqa: E402,F401
 
 sys.path.insert(0, SERIAL_LEG_SOURCE.as_posix())
 
@@ -25,6 +46,12 @@ parser.add_argument("--real_time", action="store_true", help="Throttle stepping 
 AppLauncher.add_app_launcher_args(parser)
 args_cli, hydra_args = parser.parse_known_args()
 
+# The GUI experience includes Isaac Sim's optional wheeled-robots extension.
+# This task uses its own wheel joints and does not need that extension; on
+# Windows its OSQP import can conflict with the embedded Kit Python runtime.
+if not args_cli.kit_args:
+    args_cli.kit_args = '--/app/extensions/excluded=["isaacsim.robot.wheeled_robots"]'
+
 sys.argv = [sys.argv[0]] + hydra_args
 
 app_launcher = AppLauncher(args_cli)
@@ -32,6 +59,8 @@ simulation_app = app_launcher.app
 
 import gymnasium as gym  # noqa: E402
 import torch  # noqa: E402
+
+torch._C._jit_set_texpr_fuser_enabled(False)
 
 from isaaclab.envs import DirectRLEnvCfg  # noqa: E402
 from isaaclab_tasks.utils.hydra import hydra_task_config  # noqa: E402
@@ -50,7 +79,12 @@ CLOSURE_POINT_PAIRS = (
 @hydra_task_config(args_cli.task, None)
 def main(env_cfg: DirectRLEnvCfg, _agent_cfg):
     env_cfg.scene.num_envs = args_cli.num_envs
-    env_cfg.sim.device = args_cli.device if args_cli.device is not None else env_cfg.sim.device
+    # Isaac Sim enables Fabric unconditionally for CUDA physics. The GUI
+    # experience has two PhysX Fabric ABI versions installed on this Windows
+    # setup, so use CPU physics for the one-environment viewer; rendering
+    # remains on the RTX GPU and the training script still uses CUDA physics.
+    env_cfg.sim.device = "cpu"
+    env_cfg.sim.use_fabric = False
 
     env = gym.make(args_cli.task, cfg=env_cfg)
     base_env = env.unwrapped

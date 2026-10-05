@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mujoco model="wheel_leg_urdf4_v1">
+  <compiler angle="radian" meshdir="meshes" />
+  <option timestep="0.001" gravity="0 0 -9.81">
+    <flag filterparent="disable" />
+  </option>
+  <default>
+    <joint damping="0.02" armature="0.01" />
+    <geom contype="0" conaffinity="0" group="1" friction="1.2 0.02 0.001" solref="0.004 1" solimp="0.95 0.99 0.001 0.5 2" />
+    <motor ctrllimited="true" ctrlrange="-80 80" />
+  </default>
+  <visual>
+    <global realtime="1" />
+    <quality shadowsize="16384" numslices="28" offsamples="4" />
+    <headlight diffuse="0.5 0.5 0.5" specular="0.2 0.2 0.2" active="1" />
+  </visual>
+  <asset>
+    <mesh name="base_link_original_part_000" file="base_link_part_000.STL" />
+    <mesh name="base_link_original_part_001" file="base_link_part_001.STL" />
+    <mesh name="base_link_original_part_002" file="base_link_part_002.STL" />
+    <mesh name="jIO" file="jIO.STL" />
+    <mesh name="jOP" file="jOP.STL" />
+    <mesh name="jwheel_left" file="jwheel_left.STL" />
+    <mesh name="jAG" file="jAG.STL" />
+    <mesh name="jGH" file="jGH.STL" />
+    <mesh name="jwheel_right" file="jwheel_right.STL" />
+    <mesh name="jIJ" file="jIJ.STL" />
+    <mesh name="jJM" file="jJM.STL" />
+    <mesh name="jMK" file="jMK.STL" />
+    <mesh name="jKN" file="jKN.STL" />
+    <mesh name="jAB" file="jAB.STL" />
+    <mesh name="jBE" file="jBE.STL" />
+    <mesh name="jEC" file="jEC.STL" />
+    <mesh name="jCF" file="jCF.STL" />
+    <texture name="plane" type="2d" builtin="checker" rgb1=".1 .1 .1" rgb2=".9 .9 .9" width="512" height="512" mark="cross" markrgb=".8 .8 .8" />
+    <material name="plane" reflectance="0.3" texture="plane" texrepeat="1 1" texuniform="true" />
+    <material name="box" rgba="0 0.5 0 1" emission="0" />
+    <material name="base_mat" rgba="0.2 0.2 0.25 1" specular="0.5" shininess="0.5" />
+    <material name="arm_blue" rgba="0.3 0.5 0.8 1" specular="0.8" shininess="0.8" />
+    <material name="arm_red" rgba="0.8 0.3 0.3 1" specular="0.8" shininess="0.8" />
+    <material name="arm_green" rgba="0.3 0.8 0.4 1" specular="0.8" shininess="0.8" />
+    <material name="joint_mat" rgba="0.7 0.7 0.75 1" specular="1.0" shininess="1.0" />
+    <material name="wheel_mat" rgba="0.15 0.15 0.2 1" specular="0.3" shininess="0.2" />
+    <material name="white_mat" rgba="0.95 0.95 0.97 1" specular="0.9" shininess="0.7" />
+  </asset>
+  <worldbody>
+    <geom name="floor" pos="0 0 0" size="0 0 .25" type="plane" material="plane" condim="3" contype="0" conaffinity="0" />
+    <light directional="true" ambient=".15 .15 .15" pos="30 30 30" dir="0 -.5 -1" diffuse=".3 .3 .3" specular=".3 .3 .3" />
+    <body name="base" pos="-0.0417103203611099 1.27388449249164 0.1207548">
+      <freejoint name="base_free" />
+      <inertial pos="0.041710000485181808 -1.2738850116729736 0.010447000153362751" quat="0.99999898672103882 -0.00079999997979030013 1.1000000085914508e-05 -0.00072800001362338662" mass="2.9590079784393311" diaginertia="0.0056480001658201218 0.005051999818533659 0.0075730001553893089" />
+      <geom type="mesh" material="base_mat" mesh="base_link_original_part_000" contype="0" conaffinity="0" />
+      <geom type="mesh" material="base_mat" mesh="base_link_original_part_001" contype="0" conaffinity="0" />
+      <geom type="mesh" material="base_mat" mesh="base_link_original_part_002" contype="0" conaffinity="0" />
+      <geom name="base_proxy" type="box" pos="0.0417103 -1.2738845 0.018" size="0.22 0.14 0.035" rgba="1 0.55 0.05 0.28" contype="0" conaffinity="0" group="3" />
+      <body name="jIO" pos="-0.152299 -1.27 0.0619694" quat="0.707107 0 0 0.707107">
+        <inertial pos="-0.1054529994726181 -0.012300999835133553 0.015938999131321907" quat="0.99775600433349609 -0.0017989999614655972 0.06693500280380249 -0.00025300000561401248" mass="0.077344000339508057" diaginertia="2.5999999706982635e-05 0.00047400000039488077 0.00044999999227002263" />
+        <joint name="jIO" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0" armature="0.05" />
+        <geom type="mesh" material="arm_red" mesh="jIO" contype="0" conaffinity="0" />
+        <geom name="jIO_proxy" type="capsule" fromto="0 0 0 -0.21 0 0.025" size="0.018" rgba="1 0.55 0.05 0.28" contype="0" conaffinity="0" group="3" />
+        <site name="site_mk_io_b1" pos="-0.0963553 0.00397196 0.0109404" size="0.0015" rgba="1 0.6 0 1" />
+        <site name="site_mk_io_b2" pos="-0.0963553 -0.00062804 0.0109404" size="0.0015" rgba="1 0.6 0 1" />
+        <body name="jOP" pos="-0.213571 0.00337196 0.0245218">
+          <inertial pos="0.085640996694564819 -0.0054259998723864555 -0.056894998997449875" quat="0.95343798398971558 0 0.30158799886703491 0" mass="0.12646499276161194" diaginertia="4.9999998736893758e-05 0.0011950000189244747 0.0011480000102892518" />
+          <joint name="jOP" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0.05" armature="0.005" />
+          <geom type="mesh" material="joint_mat" mesh="jOP" contype="0" conaffinity="0" />
+          <geom name="jOP_proxy" type="capsule" fromto="0 0 0 0.20 0 -0.135" size="0.020" rgba="1 0.55 0.05 0.28" contype="0" conaffinity="0" group="3" />
+          <site name="site_kn_op_b1" pos="-0.0373868 -0.0165 0.0516985" size="0.0015" rgba="0 1 0 1" />
+          <site name="site_kn_op_b2" pos="-0.0373868 -0.01 0.0516985" size="0.0015" rgba="0 1 0 1" />
+          <body name="jwheel_left" pos="0.213571 0.0402 -0.144746">
+            <inertial pos="0.00013600000238511711 -0.021683000028133392 -0.00031900001340545714" quat="0.97974997758865356 -0.0024679999332875013 -0.20021100342273712 -0.00051400001393631101" mass="0.40035301446914673" diaginertia="0.00034800000139512122 0.00057700002798810601 0.00035300001036375761" />
+            <joint name="jwheel_left" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0" armature="0.05" />
+            <geom type="mesh" material="arm_red" mesh="jwheel_left" contype="0" conaffinity="0" />
+            <geom name="left_wheel_proxy" type="sphere" size="0.0625" rgba="1 0.55 0.05 0.35" contype="0" conaffinity="0" group="3" />
+          </body>
+          <site name="OP-N" pos="-0.0373868 -0.01325 0.05169847" size="0.0015" rgba="0.9 0.9 0.2 1" />
+        </body>
+        <site name="site_io_ref1" pos="-0.0963552 -0.014128 0.0109403" size="0.0015" rgba="1 0.6 0 1" />
+        <site name="site_io_ref2" pos="-0.0963552 -0.011628 0.0109403" size="0.0015" rgba="1 0.6 0 1" />
+        <site name="IO-L" pos="-0.0963553 0.00167196 0.01094037" size="0.0015" rgba="0.9 0.9 0.2 1" />
+        <body name="jIO_dummy_child_link1" pos="-0.096354990956348807 -0.01412806167886918 0.010940999999999999" quat="1 0 0 0">
+          <inertial pos="0 0 0" quat="1 0 0 0" mass="0.0099999997764825821" diaginertia="9.9999997473787516e-05 9.9999997473787516e-05 9.9999997473787516e-05" />
+          <joint name="jIO_dummy_child_link1" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0.05" armature="0.005" />
+        </body>
+        <body name="jIO_dummy_child_link2" pos="-0.096354992556651586 -0.011628061678869706 0.010940999999999999" quat="1 0 0 0">
+          <inertial pos="0 0 0" quat="1 0 0 0" mass="0.0099999997764825821" diaginertia="9.9999997473787516e-05 9.9999997473787516e-05 9.9999997473787516e-05" />
+          <joint name="jIO_dummy_child_link2" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0.05" armature="0.005" />
+        </body>
+      </body>
+      <body name="jAG" pos="0.236557 -1.27 0.0619694" quat="0.707107 0 0 0.707107">
+        <inertial pos="-0.1054529994726181 0.012300999835133553 0.015938999131321907" quat="0.99775600433349609 0.0017989999614655972 0.06693500280380249 0.00025300000561401248" mass="0.077344000339508057" diaginertia="2.5999999706982635e-05 0.00047400000039488077 0.00044999999227002263" />
+        <joint name="jAG" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0" armature="0.05" />
+        <geom type="mesh" material="arm_blue" mesh="jAG" contype="0" conaffinity="0" />
+        <geom name="jAG_proxy" type="capsule" fromto="0 0 0 -0.21 0 0.025" size="0.018" rgba="1 0.55 0.05 0.28" contype="0" conaffinity="0" group="3" />
+        <site name="site_ec_ag_b1" pos="-0.0963556 -0.00397196 0.0109404" size="0.0015" rgba="0 0.7 1 1" />
+        <site name="site_ec_ag_b2" pos="-0.0963556 2.804e-05 0.0109404" size="0.0015" rgba="0 0.7 1 1" />
+        <body name="jGH" pos="-0.213571 -0.00337196 0.0245218">
+          <inertial pos="0.085766002535820007 0.0054199998266994953 -0.056977998465299606" quat="0.95343798398971558 0 0.30158799886703491 0" mass="0.12628099322319031" diaginertia="4.9999998736893758e-05 0.0011950000189244747 0.0011480000102892518" />
+          <joint name="jGH" pos="0 0 0" axis="0 1 0" frictionloss="0" damping="0.05" armature="0.005" />
+          <geom type="mesh" material="joint_mat" mesh="jGH" contype="0" conaffinity="0" />
+          <geom name="jGH_proxy" type="capsule" fromto="0 0 0 0.20 0 -0.135" size="0.020" rgba="1 0.55 0.05 0.28" contype="0" conaffinity="0" group="3" />
+          <site name="site_cf_gh_b1" pos="-0.0373871 0.0165 0.0516985" size="0.0015" rgba="1 0 0 1" />
+          <site name="site_cf_gh_b2" pos="-0.0373871 0.01 0.0516985" size="0.0015" rgba="1 0 0 1" />
+          <body name="jwheel_right" pos="0.213571 -0.0402 -0.144746">
+            <inertial pos="9.899999713525176e-05 0.021683000028133392 -0.00033300000359304249" quat="0.98955798149108887 0.002495999913662672 -0.14411099255084991 0.00035399998887442052" mass="0.40035301446914673" diaginertia="0.00034800000139512122 0.00057700002798810601 0.00035300001036375761" />
+            <joint name="jwheel_right" pos="0 0 0" axis="0 1 0" frictionloss="0" damping="0" armature="0.05" />
+            <geom type="mesh" material="arm_blue" mesh="jwheel_right" contype="0" conaffinity="0" />
+            <geom name="right_wheel_proxy" type="sphere" size="0.0625" rgba="1 0.55 0.05 0.35" contype="0" conaffinity="0" group="3" />
+          </body>
+          <site name="GH-F" pos="-0.0373871 0.01325 0.05169847" size="0.0015" rgba="0.9 0.9 0.2 1" />
+        </body>
+        <site name="AG-D" pos="-0.0963556 -0.00197196 0.01094037" size="0.0015" rgba="0.9 0.9 0.2 1" />
+        <body name="jAG_dummy_child_link1" pos="-0.096355009043611828 0.014127938321124994 0.010940999999999999" quat="1 0 0 0">
+          <inertial pos="0 0 0" quat="1 0 0 0" mass="0.0099999997764825821" diaginertia="9.9999997473787516e-05 9.9999997473787516e-05 9.9999997473787516e-05" />
+          <joint name="jAG_dummy_child_link1" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0.05" armature="0.005" />
+        </body>
+        <body name="jAG_dummy_child_link2" pos="-0.096355012244217386 0.019127938321123972 0.010940999999999999" quat="1 0 0 0">
+          <inertial pos="0 0 0" quat="1 0 0 0" mass="0.0099999997764825821" diaginertia="9.9999997473787516e-05 9.9999997473787516e-05 9.9999997473787516e-05" />
+          <joint name="jAG_dummy_child_link2" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0.05" armature="0.005" />
+        </body>
+      </body>
+      <body name="jIJ" pos="-0.152299 -1.27 0.0619694" quat="0.707107 0 0 0.707107">
+        <inertial pos="0.041016001254320145 0.0022549999412149191 0.0027310000732541084" quat="0.99935299158096313 -1.4000000192027073e-05 -0.035950999706983566 0.00043499999446794391" mass="0.019355999305844307" diaginertia="3.9999999899009708e-06 2.8000000384054147e-05 2.4000000848900527e-05" />
+        <joint name="jIJ" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0" armature="0.05" />
+        <geom type="mesh" material="joint_mat" mesh="jIJ" contype="0" conaffinity="0" />
+        <geom name="jIJ_proxy" type="capsule" fromto="0 0 0 0.095 0 0.007" size="0.012" rgba="1 0.55 0.05 0.28" contype="0" conaffinity="0" group="3" />
+        <body name="jJM" pos="0.0967494 -0.00262804 0.00674587">
+          <inertial pos="-0.053449999541044235 -0.0037070000544190407 -0.034467998892068863" quat="0.96212399005889893 -0.0021720000077039003 -0.27260300517082214 -0.00061400001868605614" mass="0.0067699998617172241" diaginertia="7.7046117041845719e-08 7.9999999798019417e-06 7.9999999798019417e-06" />
+          <joint name="jJM" pos="0 0 0" axis="0 1 0" frictionloss="0" damping="0.05" armature="0.005" />
+          <geom type="mesh" material="arm_red" mesh="jJM" contype="0" conaffinity="0" />
+          <geom name="jJM_proxy" type="capsule" fromto="0 0 0 -0.095 0 -0.060" size="0.010" rgba="1 0.55 0.05 0.28" contype="0" conaffinity="0" group="3" />
+          <body name="jMK" pos="-0.0979082 0.0051 -0.060324">
+            <inertial pos="-0.075955003499984741 -0.00292599992826581 0.05783500149846077" quat="0.9399610161781311 0 0.34128099679946899 0" mass="0.019805999472737312" diaginertia="1.9999999949504854e-06 5.1999998731844237e-05 4.9999998736893758e-05" />
+            <joint name="jMK" pos="0 0 0" axis="0 1 0" frictionloss="0" damping="0.05" armature="0.005" />
+            <geom type="mesh" material="joint_mat" mesh="jMK" contype="0" conaffinity="0" />
+            <geom name="jMK_proxy" type="capsule" fromto="0 0 0 -0.13 0 0.11" size="0.010" rgba="1 0.55 0.05 0.28" contype="0" conaffinity="0" group="3" />
+            <body name="jKN" pos="-0.132583 -0.01135 0.116217">
+              <inertial pos="-0.062065999954938889 -0.0003389999910723418 0.0071910000406205654" quat="0.99833500385284424 8.2999998994637281e-05 0.05764399841427803 0.0022319999989122152" mass="0.0086209997534751892" diaginertia="1.09596399511247e-07 1.1000000085914508e-05 1.1000000085914508e-05" />
+              <joint name="jKN" pos="0 0 0" axis="0 1 0" frictionloss="0" damping="0.05" armature="0.005" />
+              <geom type="mesh" material="arm_red" mesh="jKN" contype="0" conaffinity="0" />
+              <geom name="jKN_proxy" type="capsule" fromto="0 0 0 -0.11 0 0.015" size="0.009" rgba="1 0.55 0.05 0.28" contype="0" conaffinity="0" group="3" />
+              <site name="site_kn_op_a1" pos="-0.117216 -0.00425 0.0135814" size="0.0015" rgba="0 1 0 1" />
+              <site name="site_kn_op_a2" pos="-0.117216 0.00225 0.0135814" size="0.0015" rgba="0 1 0 1" />
+              <site name="KN-N" pos="-0.117216 -0.001 0.0135814" size="0.0015" rgba="0.9 0.9 0.2 1" />
+              <body name="jKN_dummy_child_link1" pos="-0.11721499727946094 -0.0042500750317981395 0.01358100000000001" quat="1 0 0 0">
+                <inertial pos="0 0 0" quat="1 0 0 0" mass="0.0099999997764825821" diaginertia="9.9999997473787516e-05 9.9999997473787516e-05 9.9999997473787516e-05" />
+                <joint name="jKN_dummy_child_link1" pos="0 0 0" axis="0 1 0" frictionloss="0" damping="0.05" armature="0.005" />
+              </body>
+              <body name="jKN_dummy_child_link2" pos="-0.11721500144024821 0.002249924968200534 0.01358100000000001" quat="1 0 0 0">
+                <inertial pos="0 0 0" quat="1 0 0 0" mass="0.0099999997764825821" diaginertia="9.9999997473787516e-05 9.9999997473787516e-05 9.9999997473787516e-05" />
+                <joint name="jKN_dummy_child_link2" pos="0 0 0" axis="0 1 0" frictionloss="0" damping="0.05" armature="0.005" />
+              </body>
+            </body>
+            <site name="site_mk_io_a1" pos="-0.0951965 0.0015 0.0645185" size="0.0015" rgba="1 0.6 0 1" />
+            <site name="site_mk_io_a2" pos="-0.0951965 -0.0031 0.0645185" size="0.0015" rgba="1 0.6 0 1" />
+            <site name="MK-L" pos="-0.0951965 -0.0008 0.0645185" size="0.0015" rgba="0.9 0.9 0.2 1" />
+            <body name="jMK_dummy_child1" pos="-0.095196000960162452 0.0014999390630280052 0.064519000000000007" quat="1 0 0 0">
+              <inertial pos="0 0 0" quat="1 0 0 0" mass="0.0099999997764825821" diaginertia="9.9999997473787516e-05 9.9999997473787516e-05 9.9999997473787516e-05" />
+              <joint name="jMK_dummy_child1" pos="0 0 0" axis="0 1 0" frictionloss="0" damping="0.05" armature="0.005" />
+            </body>
+            <body name="jMK_dummy_child2" pos="-0.095195998015605188 -0.0031000609369710441 0.064519000000000007" quat="1 0 0 0">
+              <inertial pos="0 0 0" quat="1 0 0 0" mass="0.0099999997764825821" diaginertia="9.9999997473787516e-05 9.9999997473787516e-05 9.9999997473787516e-05" />
+              <joint name="jMK_dummy_child2" pos="0 0 0" axis="0 1 0" frictionloss="0" damping="0.05" armature="0.005" />
+            </body>
+          </body>
+        </body>
+      </body>
+      <body name="jAB" pos="0.236557 -1.27 0.0619694" quat="0.707107 0 0 0.707107">
+        <inertial pos="0.041016001254320145 -0.0022549999412149191 0.0027310000732541084" quat="0.99935299158096313 1.4000000192027073e-05 -0.035950999706983566 -0.00043499999446794391" mass="0.019355999305844307" diaginertia="3.9999999899009708e-06 2.8000000384054147e-05 2.4000000848900527e-05" />
+        <joint name="jAB" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0" armature="0.05" />
+        <geom type="mesh" material="joint_mat" mesh="jAB" contype="0" conaffinity="0" />
+        <geom name="jAB_proxy" type="capsule" fromto="0 0 0 0.095 0 0.007" size="0.012" rgba="1 0.55 0.05 0.28" contype="0" conaffinity="0" group="3" />
+        <body name="jBE" pos="0.0967491 0.00262804 0.00674587">
+          <inertial pos="-0.053449999541044235 0.0042070001363754272 -0.034467998892068863" quat="0.96212399005889893 0.0021720000077039003 -0.27260300517082214 0.00061400001868605614" mass="0.0067699998617172241" diaginertia="7.7046117041845719e-08 7.9999999798019417e-06 7.9999999798019417e-06" />
+          <joint name="jBE" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0.05" armature="0.005" />
+          <geom type="mesh" material="arm_blue" mesh="jBE" contype="0" conaffinity="0" />
+          <geom name="jBE_proxy" type="capsule" fromto="0 0 0 -0.095 0 -0.060" size="0.010" rgba="1 0.55 0.05 0.28" contype="0" conaffinity="0" group="3" />
+          <body name="jEC" pos="-0.0979082 -0.0046 -0.060324">
+            <inertial pos="-0.075955003499984741 0.0024260000791400671 0.05783500149846077" quat="0.9399610161781311 0 0.34128099679946899 0" mass="0.019805999472737312" diaginertia="1.9999999949504854e-06 5.1999998731844237e-05 4.9999998736893758e-05" />
+            <joint name="jEC" pos="0 0 0" axis="0 1 0" frictionloss="0" damping="0.05" armature="0.005" />
+            <geom type="mesh" material="joint_mat" mesh="jEC" contype="0" conaffinity="0" />
+            <geom name="jEC_proxy" type="capsule" fromto="0 0 0 -0.13 0 0.11" size="0.010" rgba="1 0.55 0.05 0.28" contype="0" conaffinity="0" group="3" />
+            <body name="jCF" pos="-0.132583 0.01085 0.116217">
+              <inertial pos="-0.062065999954938889 0.0003389999910723418 0.0071910000406205654" quat="0.99833500385284424 -8.2999998994637281e-05 0.05764399841427803 -0.0022319999989122152" mass="0.0086209997534751892" diaginertia="1.09596399511247e-07 1.1000000085914508e-05 1.1000000085914508e-05" />
+              <joint name="jCF" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0.05" armature="0.005" />
+              <geom type="mesh" material="arm_blue" mesh="jCF" contype="0" conaffinity="0" />
+              <geom name="jCF_proxy" type="capsule" fromto="0 0 0 -0.11 0 0.015" size="0.009" rgba="1 0.55 0.05 0.28" contype="0" conaffinity="0" group="3" />
+              <site name="site_cf_gh_a1" pos="-0.117216 0.00425 0.0135814" size="0.0015" rgba="1 0 0 1" />
+              <site name="site_cf_gh_a2" pos="-0.117216 -0.00225 0.0135814" size="0.0015" rgba="1 0 0 1" />
+              <site name="CF-F" pos="-0.117216 0.001 0.0135814" size="0.0015" rgba="0.9 0.9 0.2 1" />
+              <body name="jCF_dummy_child_link1" pos="-0.11721600272049071 0.0042499249675600204 0.01358100000000001" quat="1 0 0 0">
+                <inertial pos="0 0 0" quat="1 0 0 0" mass="0.0099999997764825821" diaginertia="9.9999997473787516e-05 9.9999997473787516e-05 9.9999997473787516e-05" />
+                <joint name="jCF_dummy_child_link1" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0.05" armature="0.005" />
+              </body>
+              <body name="jCF_dummy_child_link2" pos="-0.11721599855970344 -0.0022500750324386531 0.01358100000000001" quat="1 0 0 0">
+                <inertial pos="0 0 0" quat="1 0 0 0" mass="0.0099999997764825821" diaginertia="9.9999997473787516e-05 9.9999997473787516e-05 9.9999997473787516e-05" />
+                <joint name="jCF_dummy_child_link2" pos="0 0 0" axis="0 -1 0" frictionloss="0" damping="0.05" armature="0.005" />
+              </body>
+            </body>
+            <site name="site_ec_ag_a1" pos="-0.0951965 -0.002 0.0645185" size="0.0015" rgba="0 0.7 1 1" />
+            <site name="site_ec_ag_a2" pos="-0.0951965 0.002 0.0645185" size="0.0015" rgba="0 0.7 1 1" />
+            <site name="EC-D" pos="-0.0951965 0 0.0645185" size="0.0015" rgba="0.9 0.9 0.2 1" />
+            <body name="jEC_dummy_child_link1" pos="-0.095195998719738384 -0.0020000609369712763 0.064519000000000007" quat="1 0 0 0">
+              <inertial pos="0 0 0" quat="1 0 0 0" mass="0.0099999997764825821" diaginertia="9.9999997473787516e-05 9.9999997473787516e-05 9.9999997473787516e-05" />
+              <joint name="jEC_dummy_child_link1" pos="0 0 0" axis="0 1 0" frictionloss="0" damping="0.05" armature="0.005" />
+            </body>
+            <body name="jEC_dummy_child_link2" pos="-0.095196001280222875 0.0019999390630279223 0.064519000000000007" quat="1 0 0 0">
+              <inertial pos="0 0 0" quat="1 0 0 0" mass="0.0099999997764825821" diaginertia="9.9999997473787516e-05 9.9999997473787516e-05 9.9999997473787516e-05" />
+              <joint name="jEC_dummy_child_link2" pos="0 0 0" axis="0 1 0" frictionloss="0" damping="0.05" armature="0.005" />
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <contact>
+    <pair name="floor_left_wheel" geom1="floor" geom2="left_wheel_proxy" condim="3" friction="1 1 0 0 0" solref="0.004 1" solimp="0.95 0.99 0.001 0.5 2" />
+    <pair name="floor_right_wheel" geom1="floor" geom2="right_wheel_proxy" condim="3" friction="1 1 0 0 0" solref="0.004 1" solimp="0.95 0.99 0.001 0.5 2" />
+  </contact>
+  <equality>
+    <connect name="connect_cf_gh_1" site1="site_cf_gh_a1" site2="site_cf_gh_b1" solref="0.002 1" solimp="0.9 0.95 0.001" />
+    <connect name="connect_cf_gh_2" site1="site_cf_gh_a2" site2="site_cf_gh_b2" solref="0.002 1" solimp="0.9 0.95 0.001" />
+    <connect name="connect_kn_op_1" site1="site_kn_op_a1" site2="site_kn_op_b1" solref="0.002 1" solimp="0.9 0.95 0.001" />
+    <connect name="connect_kn_op_2" site1="site_kn_op_a2" site2="site_kn_op_b2" solref="0.002 1" solimp="0.9 0.95 0.001" />
+    <connect name="connect_ec_ag_1" site1="site_ec_ag_a1" site2="site_ec_ag_b1" solref="0.002 1" solimp="0.9 0.95 0.001" />
+    <connect name="connect_ec_ag_2" site1="site_ec_ag_a2" site2="site_ec_ag_b2" solref="0.002 1" solimp="0.9 0.95 0.001" />
+    <connect name="connect_mk_io_1" site1="site_mk_io_a1" site2="site_mk_io_b1" solref="0.002 1" solimp="0.9 0.95 0.001" />
+    <connect name="connect_mk_io_2" site1="site_mk_io_a2" site2="site_mk_io_b2" solref="0.002 1" solimp="0.9 0.95 0.001" />
+  </equality>
+  <actuator>
+    <motor name="Left_front_joint_act" joint="jIJ" gear="1" ctrllimited="true" ctrlrange="-18 18" />
+    <motor name="Left_rear_joint_act" joint="jIO" gear="1" ctrllimited="true" ctrlrange="-18 18" />
+    <motor name="Right_rear_joint_act" joint="jAG" gear="1" ctrllimited="true" ctrlrange="-18 18" />
+    <motor name="Right_front_joint_act" joint="jAB" gear="1" ctrllimited="true" ctrlrange="-18 18" />
+    <motor name="Left_Wheel_act" joint="jwheel_left" gear="1" ctrllimited="true" ctrlrange="-9 9" />
+    <motor name="Right_Wheel_act" joint="jwheel_right" gear="1" ctrllimited="true" ctrlrange="-9 9" />
+  </actuator>
+  <keyframe>
+    <key name="contract_v4_reset" qpos="-0.041710320361109901 1.2738844924916399 0.20003000000000001 1 0 0 0 0.33367156999999997 -0.37150037000000002 0 -0.019754569999999999 -0.019754549999999999 0.33367111999999999 0.37148618999999999 0 -0.00834354 -0.00834353 -0.33367151 -0.37146847999999999 0.075627180000000002 -0.37150618000000002 -0.065631170000000003 -0.066132479999999993 -0.068970400000000001 -0.068974110000000005 -0.33367088 0.37146657999999999 0.075624350000000007 0.37150582999999998 0.015611089999999999 0.016089249999999999 0.0027934399999999999 0.0027937000000000001" />
+  </keyframe>
+</mujoco>

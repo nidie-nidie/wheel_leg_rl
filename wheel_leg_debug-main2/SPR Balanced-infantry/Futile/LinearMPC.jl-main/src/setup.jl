@@ -1,0 +1,382 @@
+"""
+    setup!(mpc)
+
+Sets up the `mpc` given its current parameters and settings  
+Internally, this means generating an mpQP, and setting up a DAQP workspace.
+"""
+function setup!(mpc::MPC)
+    mpc.mpqp_issetup = false  # Reset so get_parameter_dims computes from settings
+    mpc.mpQP = mpc2mpqp(mpc)
+    if(mpc.mpQP.is_symmetric)
+        bu,bl = mpc.mpQP.bu[:],mpc.mpQP.bl[:]
+        setup_flag,_ = DAQP.setup(mpc.opt_model, mpc.mpQP.H,mpc.mpQP.f[:],mpc.mpQP.A,bu,bl,mpc.mpQP.senses;break_points=mpc.mpQP.break_points)
+        if(setup_flag < 0)
+            if setup_flag == -1
+                @warn " Cannot setup optimization problem - Problem is infeasible"
+            elseif setup_flag == -6
+                @warn " Cannot setup optimization problem - Equality constraints overdetermined"
+            elseif setup_flag == -5
+                @warn " Cannot setup optimization problem - Convonvex objective"
+            else
+                @warn " Cannot setup optimization problem " setup_flag
+            end
+        else
+            # Set up soft weight
+            DAQP.settings(mpc.opt_model,Dict(:rho_soft=>1/mpc.settings.soft_weight))
+            mpc.mpqp_issetup = true
+        end
+    else
+        bu,bl = mpc.mpQP._bu, mpc.mpQP._bl
+        setup_flag,ws = DAQPBase.setup_avi(mpc.mpQP.H,mpc.mpQP._f,mpc.mpQP.A,bu,bl,mpc.mpQP.senses)
+        if(setup_flag < 0)
+            @warn " Cannot setup optimization problem " setup_flag
+        else
+            mpc.avi_workspace = ws
+            mpc.mpqp_issetup = true
+        end
+    end
+end
+
+"""
+    set_input_bounds!(mpc;umin,umax)
+
+Sets the input bounds umin ≤ u ≤ umax 
+"""
+function set_input_bounds!(mpc::MPC; umin=zeros(0), umax=zeros(0))
+    nmin,nmax = length(umin),length(umax)
+    nb = max(nmin,nmax)
+    nb == 0 && return
+    nb != mpc.model.nu  && @error("# of controls are $(mpc.model.nu), got bounds of dimension $nb")
+
+    mpc.umin = [umin;-1e30*ones(nb-nmin)]
+    mpc.umax = [umax;+1e30*ones(nb-nmax)]
+    mpc.mpqp_issetup = false
+end
+
+"""
+    add_constraint!(mpc::MPC;
+        Ax, Au, Ar, Aw, Ad, Aup,
+        ub, lb, ks, soft, binary, prio)
+    add_constraint!(mpc;Ax,Au,ub,lb,
+                    ks, soft, binary,prio)
+
+Adds the constraints lb ≤ Ax xₖ + Au uₖ ≤ ub for the time steps k ∈ ks
+(additional terms Ar rₖ, Aw wₖ, Ad dₖ, Aup u⁻ₖ are possible)
+
+* `soft` marks if the constraint should be softened (default false)
+* `binary` marks if either the upper or lower bounds should be enforced with equality (default false)
+* `prio` marks the relative priority of the constraint (default 0)
+"""
+function add_constraint!(mpc::MPC;
+        Ax = nothing, Au= nothing, Ar = zeros(0,0), Aw = zeros(0,0), Ad = zeros(0,0), Aup = zeros(0,0),
+        ub = zeros(0), lb = zeros(0),
+        ks = 2:mpc.Np, soft=false, binary=false, prio = 0)
+    if isnothing(Ax) && isnothing(Au)
+        return
+    end
+
+    # Get length of constraint
+    nlb,nub = length(lb),length(ub) 
+    m = max(nlb,nub)
+    m == 0 && return
+
+    ub = nub == m ? ub : [ub;1e30*ones(m-nub)]
+    lb = nlb == m ? lb : [lb;-1e30*ones(m-nlb)]
+
+    Ax = isnothing(Ax) ? zeros(m,mpc.model.nx) : Ax
+    Au = isnothing(Au) ? zeros(m,mpc.model.nu) : Au
+
+    push!(mpc.constraints,Constraint(Au,Ax,Ar,Aw,Ad,Aup,ub,lb,ks,soft,binary,prio))
+    mpc.mpqp_issetup = false
+end
+
+"""
+    set_output_bounds!(mpc;ymin,ymax,
+                    ks, soft, binary,prio)
+
+Adds the constraints lb ≤ C x  ≤ ub for the time steps k ∈ ks 
+
+* `soft` marks if the constraint should be softened (default false)
+* `binary` marks if either the upper or lower bounds should be enforced with equality (default false)
+* `prio` marks the relative priority of the constraint (default 0)
+"""
+function set_output_bounds!(mpc::MPC; ymin=zeros(0), ymax=zeros(0), ks = 2:mpc.Np, soft = true, binary=false, prio = 0)
+    lb = !isempty(ymin) ? ymin-mpc.model.h_offset : zeros(0)
+    ub = !isempty(ymax) ? ymax-mpc.model.h_offset : zeros(0)
+    add_constraint!(mpc, Ax = mpc.model.C, Ad = mpc.model.Dd, lb = lb, ub = ub; ks,soft,binary,prio)
+end
+
+"""
+    set_bounds!(mpc;umin,umax,ymin,umax)
+
+Sets the bounds umin ≤ u ≤ umax and ymin ≤ y ≤ umax
+"""
+function set_bounds!(mpc::MPC; umin=zeros(0), umax=zeros(0), ymin = zeros(0), ymax = zeros(0))
+    (!isempty(umin) ||  !isempty(umax)) && set_input_bounds!(mpc;umin,umax)
+    (!isempty(ymin) ||  !isempty(ymax)) && set_output_bounds!(mpc;ymin,ymax)
+end
+
+"""
+    set_objective!(mpc;Q,R,Rr,S,Qf)
+
+Set the weights in the objective function `xN' C' Qf C xN^T + ∑ (C xₖ - rₖ)' Q (C xₖ - rₖ)  + uₖ' R uₖ + Δuₖ' Rr Δuₖ + xₖ' S uₖ
+
+A vector is interpreted as a diagonal matrix.
+"""
+function set_objective!(mpc::MPC;Q = zeros(0,0), R=zeros(0,0), Rr=zeros(0,0), S= zeros(0,0),Qf=zeros(0,0), Qfx=zeros(0,0))
+    isempty(Q)  || (mpc.weights.Q .= matrixify(Q,mpc.model.ny))
+    isempty(R)  || (mpc.weights.R .= matrixify(R,mpc.model.nu))
+    isempty(Rr) || (mpc.weights.Rr .= matrixify(Rr,mpc.model.nu))
+    isempty(S)  || (mpc.weights.S .= float(S))
+    isempty(Qf) || (mpc.weights.Qf .= matrixify(Qf,mpc.model.ny))
+    isempty(Qfx) || (mpc.weights.Qfx .= matrixify(Qfx,mpc.model.nx))
+    mpc.mpqp_issetup = false
+end
+
+
+function set_objective!(mpc::MPC, uids::Vector{Int};Q = zeros(0,0), R=zeros(0,0), 
+        Rr=zeros(0,0), S= zeros(0,0), Qf=zeros(0,0), Qfx=zeros(0,0))
+    nu,ny,nx = length(uids), mpc.model.ny, mpc.model.nx
+    Q   = isempty(Q)   ? zeros(mpc.model.ny,mpc.model.ny) : matrixify(Q,ny)
+    R   = isempty(R)   ? zeros(nu,nu) : matrixify(R,nu)
+    Rr  = isempty(Rr)  ? zeros(nu,nu) : matrixify(Rr,nu)
+    S   = isempty(S)   ? zeros(nx,nu) : float(S)
+    Qf  = isempty(Qf)  ? copy(Q) : matrixify(Qf,ny)
+    Qfx = isempty(Qfx) ? zeros(nx,nx) :  matrixify(Qfx,nx)
+
+    mpc.weights.Rr[uids,uids] .= Rr # To be able to keep track of nuprev
+    push!(mpc.objectives, (MPCWeights(Q,R,Rr,S,Qf,Qfx),uids))
+    mpc.mpqp_issetup = false
+end
+
+
+set_weights! = set_objective! # backwards compatibility
+add_objective! = set_objective!
+
+function empty_objectives!(mpc::MPC)
+    empty!(mpc.objectives)
+    mpc.mpqp_issetup = false
+end
+
+# Terminal ingredients
+using MatrixEquations 
+
+"""
+    set_terminal_cost!(mpc)
+
+Sets the terminal cost `Qf` to the inifinite horizon LQR cost 
+"""
+function set_terminal_cost!(mpc)
+    if mpc.settings.reference_tracking
+        @warn "LQR cost not valid for reference tracking problems. Instead, use set_objective! to set Qf"
+        return false
+    end
+    Qfx, _, _ = ared(mpc.model.F, mpc.model.G, mpc.weights.R, mpc.model.C'*mpc.weights.Q*mpc.model.C) # solve Riccati
+    mpc.weights.Qfx .= Qfx
+    mpc.mpqp_issetup = false
+end
+
+"""
+    set_prestabilizing_feedback!(mpc,K)
+
+Sets the prestabilizing feedback `K`
+"""
+function set_prestabilizing_feedback!(mpc,K::AbstractMatrix)
+    mpc.K = K
+    mpc.mpqp_issetup = false
+end
+
+"""
+    set_prestabilizing_feedback!(mpc)
+
+Sets the prestabilizing feedback `K` to the infinte horizon LQR gain`
+"""
+function set_prestabilizing_feedback!(mpc)
+    _, _,mpc.K,_ = ared(mpc.model.F, mpc.model.G, mpc.weights.R+mpc.weights.Rr, mpc.model.C'*mpc.weights.Q*mpc.model.C) # solve Ricatti
+    mpc.mpqp_issetup = false
+end
+
+"""
+    move_block!(mpc,block)
+
+Reduce the number of controls by keeping it constant in blocks.
+For example, `block`=[2,1,3] keeps the control constant for 2 time-steps, 1 time step, and 3 time steps.
+* if sum(block) ≠ mpc.Np, the resulting block will be padded or clipped
+* if `block` is an Int, a vector with constant block size is created
+"""
+function move_block!(mpc,block::Nothing)
+    mpc.move_blocks = Vector{Int}[]
+    mpc.Nc = mpc.Np
+    mpc.mpqp_issetup=false
+end
+
+function move_block!(mpc,block::Number)
+    block = block <= 0 ? Int[] : fill(Int(block),mpc.Np ÷ block +1)
+    move_block!(mpc,block)
+end
+
+function move_block!(mpc,block::AbstractVector{<:Number})
+    isempty(block) && return move_block!(mpc,nothing)
+    return move_block!(mpc,[block for _ in 1:mpc.model.nu])
+end
+
+function move_block!(mpc,blocks::Vector{<:AbstractVector{<:Number}})
+    length(blocks) == mpc.model.nu || ArgumentError("Need to have blocks for every control input")
+    blocks_formated = [format_move_block(mb,mpc.Np) for mb in blocks]
+    any(isempty(mb) for mb in blocks_formated) && ArgumentError("One block is empty")
+
+    mpc.move_blocks = blocks_formated 
+    mpc.Nc = maximum(sum(mb[1:end-1]) for mb in mpc.move_blocks)+1
+    mpc.mpqp_issetup = false
+end
+
+function format_move_block(block::AbstractVector{<:Number},Np::Int)
+    block = Int.(copy(block))
+    isempty(block) && return Int[]
+    Nnew = sum(block)
+    if(Nnew < Np) # pad
+        block[end] += Np-Nnew
+    elseif Nnew > Np # clip
+        tot,i = 0,1
+        while((tot+=block[i]) < Np) i += 1 end
+        block = block[1:i]
+        block[end] += Np-tot;
+    end
+    return block
+end
+
+"""
+    set_labels!(mpc;x,u,y,d)
+Sets the name of the states `x`, controls `u`, output `u`, disturbance `d` 
+"""
+function set_labels!(mpc;x=nothing,u=nothing,y=nothing,d=nothing)
+    isnothing(x) || (mpc.model.labels.x[:] = x)
+    isnothing(u) || (mpc.model.labels.u[:] = u)
+    isnothing(y) || (mpc.model.labels.y[:] = y)
+    isnothing(d) || (mpc.model.labels.d[:] = d)
+end
+
+"""
+    set_horizon!(mpc,Np)
+Sets the prediction horizon `Np`
+"""
+function set_horizon!(mpc,Np, Nc = Np, Nc_binary = mpc.Nc_binary)
+    mpc.Np = Np
+    mpc.Nc = Nc
+    mpc.Nc_binary= Nc_binary
+    mpc.mpqp_issetup = false
+end
+"""
+    set_binary_controls!(mpc,bin_ids, Nc_binary=nothing)
+
+Makes the controls in bin_ids to binary controls.
+Nc_binary is the "binary control horizon" (default = control horizon) 
+"""
+function set_binary_controls!(mpc,bin_ids,Nc_binary=-1)
+    mpc.binary_controls = Int.(copy(bin_ids))
+    mpc.Nc_binary = Nc_binary
+    mpc.mpqp_issetup = false
+end
+"""
+    set_disturbance!(mpc,wmin,wmax)
+"""
+function set_disturbance!(mpc,wmin,wmax)
+    mpc.model.wmin .= wmin
+    mpc.model.wmax .= wmax
+    mpc.mpqp_issetup = false
+end
+"""
+    set_x0_uncertainty!(mpc,wmin,wmax)
+"""
+function set_x0_uncertainty!(mpc,x0_uncertainty)
+    mpc.Δx0 .= x0_uncertainty 
+    mpc.mpqp_issetup = false
+end
+"""
+    settings!(mpc,key1=value1, key2=value2,...)
+"""
+function settings!(mpc::MPC;kwargs...)
+    settings!(mpc,kwargs)
+    for (key,val) in kwargs
+        key = Symbol(key)
+        if hasproperty(mpc.settings,key)
+            setproperty!(mpc.settings,key,val)
+        else
+            @warn("The setting \"$key\" does not exist")
+        end
+    end
+end
+function settings!(mpc::MPC, dict)
+    for (key,val) in dict
+        key = Symbol(key)
+        if hasproperty(mpc.settings,key)
+            setproperty!(mpc.settings,key,val)
+            mpc.mpqp_issetup = false
+        else
+            @warn("The setting \"$key\" does not exist")
+        end
+    end
+end
+
+"""
+    set_state_observer!(mpc;F,G,Gd,C,Dd,Q,R,x0)
+Creates a steady-state Kalman filter for estimating the sate.
+If `F`,`G`, and `C` are not provided, the model used in `mpc` is used in the filter
+"""
+function set_state_observer!(mpc::Union{MPC,ExplicitMPC};
+        F=nothing,G=nothing,Gd=nothing,C=nothing,Dd=nothing,
+        f_offset=nothing, h_offset=nothing,
+        Q=nothing,R=nothing,x0=nothing)
+    F = isnothing(F) ? mpc.model.F : F
+    G = isnothing(G) ? mpc.model.G : G
+    Gd = isnothing(Gd) ? mpc.model.Gd : Gd
+    C = isnothing(C) ? mpc.model.C : C
+    Dd = isnothing(Dd) ? mpc.model.Dd : Dd
+    f_offset = isnothing(f_offset) ? mpc.model.f_offset : f_offset 
+    h_offset = isnothing(h_offset) ? mpc.model.h_offset : h_offset 
+    mpc.state_observer = KalmanFilter(F,G,C;Gd,Dd,f_offset,h_offset,Q,R,x0)
+end
+
+"""
+    set_operating_point!(mpc;xo,uo)
+Sets the operating point to the state xo and control uo and linearize
+"""
+function set_operating_point!(mpc;xo=nothing,uo=nothing,relinearize=true)
+    !isnothing(xo) && (mpc.model.xo[:] = xo)
+    !isnothing(uo) && (mpc.model.uo[:] = uo)
+
+    if !isnothing(xo) || !isnothing(uo)
+        mpc.model = LinearMPC.Model(mpc.model.true_dynamics,mpc.model.true_h,
+                                    mpc.model.xo,mpc.model.uo)
+        mpc.mpqp_issetup = false
+    end
+end
+
+
+"""
+    set_offset!(mpc;xo,uo,doff,fo,ho)
+Set bias terms in dynamics and measurements.
+
+Concretely we have that
+`f_offet = fo - F * xo - G * uo - Gd * doff` and
+`h_offet = ho - C * xo - Dd * doff`,
+which adds a constant term to the dynamics and measurement function, respectively.
+Note that if the system is linearized, these offsets are set automatically.
+If some of the offset are not entered, they are interpreted as zero.
+"""
+function set_offset!(mpc;xo=zeros(0),uo=zeros(0),doff=zeros(0),fo=zeros(0),ho=zeros(0))
+    isempty(xo) && (xo = zeros(mpc.model.nx))
+    isempty(uo) && (uo= zeros(mpc.model.nu))
+    isempty(fo) && (fo = zeros(mpc.model.nx))
+    isempty(ho) && (ho = zeros(mpc.model.ny))
+    isempty(doff) && (doff = zeros(mpc.model.nd))
+
+    mpc.model.xo .= xo
+    mpc.model.uo .= uo
+    mpc.uprev .= uo
+
+    mpc.model.f_offset .= fo - mpc.model.F*xo - mpc.model.G*uo - mpc.model.Gd*doff
+    mpc.model.h_offset .= ho - mpc.model.C*xo - mpc.model.Dd*doff
+
+    mpc.mpqp_issetup=false
+end

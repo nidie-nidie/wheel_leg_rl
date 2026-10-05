@@ -1,0 +1,43 @@
+captured_at=2026-07-19T02:08:15+08:00
+hostname=changba01
+--- repositories ---
+repo=/home/changba01/worktrees/A1_Base-a1-pace
+b124ca4c88b6cf84051ffe4df336a9ea145c733b
+## codex/a1-pace-collector
+repo=/home/changba01/worktrees/gogo-learn-a1-pace
+b19e10c7bdb55b786e43b72b33a8afa51244d887
+## codex/a1-pace-training
+repo=/home/changba01/IsaacLab
+7b26eb4169e576e58592637d2dccf8c0316f376a
+## main...origin/main
+--- Isaac Sim ---
+5.0.0-rc.45+release.23960.184afb15.gl--- Python/Torch/CUDA ---
+[3gH    H    H    H    H    H    H    H    H    H    H    H    H    H    H    H    H    H    H    H   [INFO] Using python from: /home/changba01/IsaacLab/_isaac_sim/python.sh
+3.11.13 (tags/v3.11.13-dirty:498b971, Jun  9 2025, 16:37:36) [GCC 7.3.1 20180303 (Red Hat 7.3.1-5)]
+torch=2.7.0+cu128
+torch_cuda=12.8
+cuda_available=True
+gpu=NVIDIA GeForce RTX 5070
+--- NVIDIA ---
+NVIDIA GeForce RTX 5070, 595.71.05, 12227 MiB
+--- compiler ---
+cmake version 3.28.3
+g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+--- Unitree SDK ---
+sdk_root=/home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1
+20929b54030c0d8ca4e7ac49ec2a02c447cb9fcd
+## HEAD（非分支）
+312ea28aadd60152351ae4891e8fdd6ed399f4f39f1f6892b9ca47e8451228cb  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/include/unitree_legged_sdk/a1_const.h
+6ee295fd1483a9bfb5eee2c8af57e927496a95a721950b90fc7cd09e2215fb5b  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/include/unitree_legged_sdk/aliengo_const.h
+75c00d5979a1921b46c6f1bb26786ae6352c2a05ea17b314f20f5081adcd580f  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/include/unitree_legged_sdk/comm.h
+12b8d418e01e9d9a6e02af365a9a0b33d03f25b488bb872002610913d9016c13  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/include/unitree_legged_sdk/lcm.h
+cd03478d1af99993d914b69c20337daa701af27395fa341d2635f79c9bf11dca  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/include/unitree_legged_sdk/lcm_server.h
+4d692b374e25e55ee23d8e7ce940326da7a17535c409e35d3bf2aee66dffab3e  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/include/unitree_legged_sdk/loop.h
+3bec49b20bd3c781bba04a6d47f4bcad56035b15da02f4af4eeddf38e27fc481  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/include/unitree_legged_sdk/quadruped.h
+349af1c6a827dee23e155b9f5f6eba35ba3846342b75aee625473a3983c9ced1  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/include/unitree_legged_sdk/safety.h
+0d8aac7ca44e0cdc4c7ca5e8df28e48de71525a3cc2302b52dcb3ffa5226e4d1  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/include/unitree_legged_sdk/udp.h
+6e67405792b2cff1c68a6c1fe033e7fe4ab82d1dec6b4f1437caf4b58f276d52  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/include/unitree_legged_sdk/unitree_joystick.h
+3d791c177ad2a0d4ce53ae68a85ebb740370f6cdba1f10affebcb85c2a5c0f2d  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/include/unitree_legged_sdk/unitree_legged_sdk.h
+c0680e9f19a57817ce4ab7ad235ad25207e358f63954b570a95159750806f4c2  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/lib/libunitree_legged_sdk_amd64.so
+09fbc6c1448a777fe7358a1f7292e9f2201f9d2b7ba6c94d95ee051daffcb96a  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/lib/libunitree_legged_sdk_arm32.so
+256154915ff8c7a26c8ab6c33183c9bbdf2b52e1aa86fe070bee53eddb752cfc  /home/changba01/A1_Base-main/external/unitree_legged_sdk_v3.3.1/lib/libunitree_legged_sdk_arm64.so

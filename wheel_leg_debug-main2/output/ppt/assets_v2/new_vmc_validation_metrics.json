@@ -1,0 +1,52 @@
+{
+  "input_csv": "/home/shun/MuJoCoBin/rm_control/mujoco_control_extract/output/offset_kinematics_grid.csv",
+  "input_json": "/home/shun/MuJoCoBin/rm_control/mujoco_control_extract/output/offset_kinematics_mujoco_validation.json",
+  "csv_fields": [
+    "target_l0_m",
+    "target_theta_leg_deg",
+    "target_phi0_deg",
+    "q_front_rad",
+    "q_rear_rad",
+    "exact_l0_m",
+    "exact_phi0_deg",
+    "exact_theta_leg_deg",
+    "ideal_l0_m",
+    "ideal_phi0_deg",
+    "ideal_theta_leg_deg",
+    "ideal_minus_exact_l0_mm",
+    "ideal_minus_exact_phi0_deg",
+    "ideal_minus_exact_theta_leg_deg",
+    "analytic_minus_tree_l0_um",
+    "analytic_minus_tree_theta_microdeg",
+    "analytic_minus_fd_jacobian_max_abs",
+    "simplified_minus_full_w_um",
+    "simplified_minus_full_l0_um",
+    "simplified_minus_full_phi0_microdeg",
+    "simplified_minus_full_jacobian_max_abs",
+    "simplified_minus_fd_jacobian_max_abs",
+    "circle_M_determinant_m2",
+    "circle_N_determinant_m2",
+    "closure_rms_um",
+    "inverse_scaled_error"
+  ],
+  "total_samples": 252,
+  "unique_l0_count": 28,
+  "unique_phi0_count": 9,
+  "l0_range_m": [
+    0.15,
+    0.42
+  ],
+  "phi0_range_deg": [
+    70.0,
+    110.0
+  ],
+  "max_abs_l0_error_um": 0.8921276102302755,
+  "max_abs_phi0_error_mdeg": 0.2635161043174543,
+  "max_abs_jacobian_error": 1.3834920431499143e-09,
+  "mujoco_version": "3.8.0",
+  "mujoco_validation_sample_count": 7,
+  "mujoco_max_abs_l0_difference_um": 1.6653345369377348e-10,
+  "mujoco_max_abs_theta_difference_microdeg": 1.1025922562197497e-07,
+  "output_dir": "/home/shun/MuJoCoBin/rm_control/mujoco_control_extract/output/new_vmc_validation",
+  "font": "Microsoft YaHei"
+}

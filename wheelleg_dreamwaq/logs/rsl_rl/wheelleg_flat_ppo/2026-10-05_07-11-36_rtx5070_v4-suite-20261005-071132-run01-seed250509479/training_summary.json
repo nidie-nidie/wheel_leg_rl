@@ -1,0 +1,17 @@
+{
+  "completed_iterations": 1000,
+  "contract_hash": "69B5D4AD7CDEB5FF94BE3CC68E2BCE6338AB29F07DE3192EA93247545664600A",
+  "duration_seconds": 1939.0265649000648,
+  "event_files": [
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_07-11-36_rtx5070_v4-suite-20261005-071132-run01-seed250509479\\events.out.tfevents.1791155498.DESKTOP-P89OA5C.45300.0"
+  ],
+  "final_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_07-11-36_rtx5070_v4-suite-20261005-071132-run01-seed250509479\\model_999.pt",
+  "iterations_executed": 1000,
+  "iterations_requested": 1000,
+  "restored_learning_rate": null,
+  "resumed_from": null,
+  "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_07-11-36_rtx5070_v4-suite-20261005-071132-run01-seed250509479",
+  "run_manifest_sha256": "CD3DA566179885DD628A09DC66BD57B17F177C00018FA1EF4F93EABD867A87C7",
+  "runner_final_iteration_index": 999,
+  "starting_completed_iterations": 0
+}

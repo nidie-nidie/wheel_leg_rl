@@ -1,0 +1,172 @@
+<mujoco model="wheel_leg_urdf4">
+  <compiler angle="radian" meshdir="meshes/"/>
+
+  <asset>
+    <mesh name="base_link_original" file="base_link_original.obj"/>
+    <mesh name="jIO" file="jIO.STL"/>
+    <mesh name="jOP" file="jOP.STL"/>
+    <mesh name="jwheel_left" file="jwheel_left.STL"/>
+    <mesh name="jAG" file="jAG.STL"/>
+    <mesh name="jGH" file="jGH.STL"/>
+    <mesh name="jwheel_right" file="jwheel_right.STL"/>
+    <mesh name="jIJ" file="jIJ.STL"/>
+    <mesh name="jJM" file="jJM.STL"/>
+    <mesh name="jMK" file="jMK.STL"/>
+    <mesh name="jKN" file="jKN.STL"/>
+    <mesh name="jAB" file="jAB.STL"/>
+    <mesh name="jBE" file="jBE.STL"/>
+    <mesh name="jEC" file="jEC.STL"/>
+    <mesh name="jCF" file="jCF.STL"/>
+  </asset>
+
+  <worldbody>
+    <geom type="mesh" rgba="1 1 1 1" mesh="base_link_original"/>
+    <body name="jIO" pos="-0.152299 -1.27 0.0619694" quat="0.707107 0 0 0.707107">
+      <inertial pos="-0.105453 -0.012301 0.0159392" quat="0.466436 0.531572 0.533118 0.464384" mass="0.077344" diaginertia="0.00047409 0.000449518 2.59532e-05"/>
+      <joint name="jIO" pos="0 0 0" axis="0 -1 0"/>
+      <geom type="mesh" rgba="1 1 1 1" mesh="jIO"/>
+      <site name="site_mk_io_b1" pos="-0.0963553 0.00397196 0.0109404" size="0.0015" rgba="1 0.6 0 1"/>
+      <site name="site_mk_io_b2" pos="-0.0963553 -0.00062804 0.0109404" size="0.0015" rgba="1 0.6 0 1"/>
+      <body name="jOP" pos="-0.213571 0.00337196 0.0245218">
+        <inertial pos="0.0856414 -0.00542635 -0.0568953" quat="0.325925 0.627513 0.627513 0.325925" mass="0.126465" diaginertia="0.00119485 0.00114782 4.95451e-05"/>
+        <joint name="jOP" pos="0 0 0" axis="0 -1 0"/>
+        <geom type="mesh" rgba="1 1 1 1" mesh="jOP"/>
+        <site name="site_kn_op_b1" pos="-0.0373868 -0.0165 0.0516985" size="0.0015" rgba="0 1 0 1"/>
+        <site name="site_kn_op_b2" pos="-0.0373868 -0.01 0.0516985" size="0.0015" rgba="0 1 0 1"/>
+        <body name="jwheel_left" pos="0.213571 0.0402 -0.144746">
+          <inertial pos="0.000136225 -0.0216832 -0.000318963" quat="0.59147 0.388794 0.390747 0.588489" mass="0.400353" diaginertia="0.000576962 0.000353458 0.000348369"/>
+          <joint name="jwheel_left" pos="0 0 0" axis="0 -1 0"/>
+          <geom type="mesh" rgba="1 1 1 1" mesh="jwheel_left"/>
+        </body>
+      </body>
+      <body name="jIO_dummy_child_link1" pos="-0.0963552 -0.014128 0.0109403">
+        <inertial pos="0.0815927 -0.177682 -0.0663811" quat="0.511557 0.525966 -0.477562 0.483325" mass="12.6868" diaginertia="0.454568 0.312428 0.207294"/>
+        <joint name="jIO_dummy_child_link1" pos="0 0 0" axis="0 -1 0"/>
+        <site name="site_io_ref1" pos="0 0 0" size="0.0015" rgba="1 0.6 0 1"/>
+      </body>
+      <body name="jIO_dummy_child_link2" pos="-0.0963552 -0.011628 0.0109403">
+        <inertial pos="0.0815927 -0.180182 -0.0663811" quat="0.511557 0.525966 -0.477562 0.483325" mass="12.6868" diaginertia="0.454568 0.312428 0.207294"/>
+        <joint name="jIO_dummy_child_link2" pos="0 0 0" axis="0 -1 0"/>
+        <site name="site_io_ref2" pos="0 0 0" size="0.0015" rgba="1 0.6 0 1"/>
+      </body>
+    </body>
+    <body name="jAG" pos="0.236557 -1.27 0.0619694" quat="0.707107 0 0 0.707107">
+      <inertial pos="-0.105453 0.012301 0.0159392" quat="0.464384 0.533118 0.531572 0.466436" mass="0.077344" diaginertia="0.00047409 0.000449518 2.59532e-05"/>
+      <joint name="jAG" pos="0 0 0" axis="0 -1 0"/>
+      <geom type="mesh" rgba="1 1 1 1" mesh="jAG"/>
+      <site name="site_ec_ag_b1" pos="-0.0963556 -0.00397196 0.0109404" size="0.0015" rgba="0 0.7 1 1"/>
+      <site name="site_ec_ag_b2" pos="-0.0963556 2.804e-05 0.0109404" size="0.0015" rgba="0 0.7 1 1"/>
+      <body name="jGH" pos="-0.213571 -0.00337196 0.0245218">
+        <inertial pos="0.0857663 0.00542041 -0.0569782" quat="0.325925 0.627513 0.627513 0.325925" mass="0.126281" diaginertia="0.00119481 0.0011478 4.95252e-05"/>
+        <joint name="jGH" pos="0 0 0" axis="0 1 0"/>
+        <geom type="mesh" rgba="1 1 1 1" mesh="jGH"/>
+        <site name="site_cf_gh_b1" pos="-0.0373871 0.0165 0.0516985" size="0.0015" rgba="1 0 0 1"/>
+        <site name="site_cf_gh_b2" pos="-0.0373871 0.01 0.0516985" size="0.0015" rgba="1 0 0 1"/>
+        <body name="jwheel_right" pos="0.213571 -0.0402 -0.144746">
+          <inertial pos="9.87602e-05 0.0216832 -0.000332477" quat="0.565411 0.423793 0.421651 0.56826" mass="0.400353" diaginertia="0.000576962 0.000353458 0.000348369"/>
+          <joint name="jwheel_right" pos="0 0 0" axis="0 1 0"/>
+          <geom type="mesh" rgba="1 1 1 1" mesh="jwheel_right"/>
+        </body>
+      </body>
+      <body name="jAG_dummy_child_link1" pos="-0.0963555 0.014128 0.0109403">
+        <inertial pos="0.0815927 0.182918 -0.0663811" quat="0.511557 0.525966 -0.477562 0.483325" mass="12.6868" diaginertia="0.454568 0.312428 0.207294"/>
+        <joint name="jAG_dummy_child_link1" pos="0 0 0" axis="0 -1 0"/>
+      </body>
+      <body name="jAG_dummy_child_link2" pos="-0.0963555 0.019128 0.0109403">
+        <inertial pos="0.0815927 0.177918 -0.0663811" quat="0.511557 0.525966 -0.477562 0.483325" mass="12.6868" diaginertia="0.454568 0.312428 0.207294"/>
+        <joint name="jAG_dummy_child_link2" pos="0 0 0" axis="0 -1 0"/>
+      </body>
+    </body>
+    <body name="jIJ" pos="-0.152299 -1.27 0.0619694" quat="0.707107 0 0 0.707107">
+      <inertial pos="0.0410163 0.00225528 0.00273079" quat="0.517443 0.481476 0.481926 0.517862" mass="0.0193563" diaginertia="2.83326e-05 2.43806e-05 4.15139e-06"/>
+      <joint name="jIJ" pos="0 0 0" axis="0 -1 0"/>
+      <geom type="mesh" rgba="1 1 1 1" mesh="jIJ"/>
+      <body name="jJM" pos="0.0967494 -0.00262804 0.00674587">
+        <inertial pos="-0.05345 -0.00370676 -0.0344676" quat="0.618635 0.344051 0.345471 0.616092" mass="0.00676992" diaginertia="8.21203e-06 8.16266e-06 7.71391e-08"/>
+        <joint name="jJM" pos="0 0 0" axis="0 1 0"/>
+        <geom type="mesh" rgba="1 1 1 1" mesh="jJM"/>
+        <body name="jMK" pos="-0.0979082 0.0051 -0.060324">
+          <inertial pos="-0.0759553 -0.00292623 0.0578354" quat="0.29934 0.640621 0.640621 0.29934" mass="0.0198063" diaginertia="5.17936e-05 5.03633e-05 1.58251e-06"/>
+          <joint name="jMK" pos="0 0 0" axis="0 1 0"/>
+          <geom type="mesh" rgba="1 1 1 1" mesh="jMK"/>
+          <body name="jKN" pos="-0.132583 -0.01135 0.116217">
+            <inertial pos="-0.0620655 -0.000338945 0.00719134" quat="0.469166 0.526939 0.52904 0.471524" mass="0.00862121" diaginertia="1.14018e-05 1.13481e-05 1.09621e-07"/>
+            <joint name="jKN" pos="0 0 0" axis="0 1 0"/>
+            <geom type="mesh" rgba="1 1 1 1" mesh="jKN"/>
+            <body name="jKN_dummy_child_link1" pos="-0.117216 -0.00425 0.0135814">
+              <inertial pos="0.236195 -0.178682 -0.131661" quat="0.511557 0.525966 -0.477562 0.483325" mass="12.6868" diaginertia="0.454568 0.312428 0.207294"/>
+              <joint name="jKN_dummy_child_link1" pos="0 0 0" axis="0 1 0"/>
+              <site name="site_kn_op_a1" pos="0 0 0" size="0.0015" rgba="0 1 0 1"/>
+            </body>
+            <body name="jKN_dummy_child_link2" pos="-0.117216 0.00225 0.0135814">
+              <inertial pos="0.236195 -0.185182 -0.131661" quat="0.511557 0.525966 -0.477562 0.483325" mass="12.6868" diaginertia="0.454568 0.312428 0.207294"/>
+              <joint name="jKN_dummy_child_link2" pos="0 0 0" axis="0 1 0"/>
+              <site name="site_kn_op_a2" pos="0 0 0" size="0.0015" rgba="0 1 0 1"/>
+            </body>
+          </body>
+          <body name="jMK_dummy_child1" pos="-0.0951965 0.0015 0.0645185">
+            <inertial pos="0.0815927 -0.195782 -0.0663811" quat="0.511557 0.525966 -0.477562 0.483325" mass="12.6868" diaginertia="0.454568 0.312428 0.207294"/>
+            <joint name="jMK_dummy_child1" pos="0 0 0" axis="0 1 0"/>
+            <site name="site_mk_io_a1" pos="0 0 0" size="0.0015" rgba="1 0.6 0 1"/>
+          </body>
+          <body name="jMK_dummy_child2" pos="-0.0951965 -0.0031 0.0645185">
+            <inertial pos="0.0815927 -0.191182 -0.0663811" quat="0.511557 0.525966 -0.477562 0.483325" mass="12.6868" diaginertia="0.454568 0.312428 0.207294"/>
+            <joint name="jMK_dummy_child2" pos="0 0 0" axis="0 1 0"/>
+            <site name="site_mk_io_a2" pos="0 0 0" size="0.0015" rgba="1 0.6 0 1"/>
+          </body>
+        </body>
+      </body>
+    </body>
+    <body name="jAB" pos="0.236557 -1.27 0.0619694" quat="0.707107 0 0 0.707107">
+      <inertial pos="0.0410159 -0.00225528 0.00273079" quat="0.517862 0.481926 0.481476 0.517443" mass="0.0193563" diaginertia="2.83326e-05 2.43806e-05 4.15139e-06"/>
+      <joint name="jAB" pos="0 0 0" axis="0 -1 0"/>
+      <geom type="mesh" rgba="1 1 1 1" mesh="jAB"/>
+      <body name="jBE" pos="0.0967491 0.00262804 0.00674587">
+        <inertial pos="-0.05345 0.00420676 -0.0344676" quat="0.616092 0.345471 0.344051 0.618635" mass="0.00676992" diaginertia="8.21203e-06 8.16266e-06 7.71391e-08"/>
+        <joint name="jBE" pos="0 0 0" axis="0 -1 0"/>
+        <geom type="mesh" rgba="1 1 1 1" mesh="jBE"/>
+        <body name="jEC" pos="-0.0979082 -0.0046 -0.060324">
+          <inertial pos="-0.0759553 0.00242623 0.0578354" quat="0.29934 0.640621 0.640621 0.29934" mass="0.0198063" diaginertia="5.17936e-05 5.03633e-05 1.58251e-06"/>
+          <joint name="jEC" pos="0 0 0" axis="0 1 0"/>
+          <geom type="mesh" rgba="1 1 1 1" mesh="jEC"/>
+          <body name="jCF" pos="-0.132583 0.01085 0.116217">
+            <inertial pos="-0.0620655 0.000338945 0.00719134" quat="0.471524 0.52904 0.526939 0.469166" mass="0.00862121" diaginertia="1.14018e-05 1.13481e-05 1.09621e-07"/>
+            <joint name="jCF" pos="0 0 0" axis="0 -1 0"/>
+            <geom type="mesh" rgba="1 1 1 1" mesh="jCF"/>
+            <body name="jCF_dummy_child_link1" pos="-0.117216 0.00425 0.0135814">
+              <inertial pos="0.236195 0.183918 -0.131661" quat="0.511557 0.525966 -0.477562 0.483325" mass="12.6868" diaginertia="0.454568 0.312428 0.207294"/>
+              <joint name="jCF_dummy_child_link1" pos="0 0 0" axis="0 -1 0"/>
+              <site name="site_cf_gh_a1" pos="0 0 0" size="0.0015" rgba="1 0 0 1"/>
+            </body>
+            <body name="jCF_dummy_child_link2" pos="-0.117216 -0.00225 0.0135814">
+              <inertial pos="0.236195 0.190418 -0.131661" quat="0.511557 0.525966 -0.477562 0.483325" mass="12.6868" diaginertia="0.454568 0.312428 0.207294"/>
+              <joint name="jCF_dummy_child_link2" pos="0 0 0" axis="0 -1 0"/>
+              <site name="site_cf_gh_a2" pos="0 0 0" size="0.0015" rgba="1 0 0 1"/>
+            </body>
+          </body>
+          <body name="jEC_dummy_child_link1" pos="-0.0951965 -0.002 0.0645185">
+            <inertial pos="0.0815927 0.201018 -0.0663811" quat="0.511557 0.525966 -0.477562 0.483325" mass="12.6868" diaginertia="0.454568 0.312428 0.207294"/>
+            <joint name="jEC_dummy_child_link1" pos="0 0 0" axis="0 1 0"/>
+            <site name="site_ec_ag_a1" pos="0 0 0" size="0.0015" rgba="0 0.7 1 1"/>
+          </body>
+          <body name="jEC_dummy_child_link2" pos="-0.0951965 0.002 0.0645185">
+            <inertial pos="0.0815927 0.197018 -0.0663811" quat="0.511557 0.525966 -0.477562 0.483325" mass="12.6868" diaginertia="0.454568 0.312428 0.207294"/>
+            <joint name="jEC_dummy_child_link2" pos="0 0 0" axis="0 1 0"/>
+            <site name="site_ec_ag_a2" pos="0 0 0" size="0.0015" rgba="0 0.7 1 1"/>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <equality>
+    <connect name="connect_cf_gh_1" site1="site_cf_gh_a1" site2="site_cf_gh_b1"/>
+    <connect name="connect_cf_gh_2" site1="site_cf_gh_a2" site2="site_cf_gh_b2"/>
+    <connect name="connect_kn_op_1" site1="site_kn_op_a1" site2="site_kn_op_b1"/>
+    <connect name="connect_kn_op_2" site1="site_kn_op_a2" site2="site_kn_op_b2"/>
+    <connect name="connect_ec_ag_1" site1="site_ec_ag_a1" site2="site_ec_ag_b1"/>
+    <connect name="connect_ec_ag_2" site1="site_ec_ag_a2" site2="site_ec_ag_b2"/>
+    <connect name="connect_mk_io_1" site1="site_mk_io_a1" site2="site_mk_io_b1"/>
+    <connect name="connect_mk_io_2" site1="site_mk_io_a2" site2="site_mk_io_b2"/>
+  </equality>
+</mujoco>

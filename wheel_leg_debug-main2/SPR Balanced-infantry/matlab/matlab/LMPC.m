@@ -1,0 +1,87 @@
+%%%%%%%%%%%%%%%%%%%%%%% 定义固定量 %%%%%%%%%%%%%%%%%%%%%%%%%
+
+%参考哈工程开源（https://zhuanlan.zhihu.com/p/563048952）受力分析及其参数
+
+%K与腿长l_0相关，在单片机难以算出，通过不同定点腿长拟合出K，从而在单片机上之间用
+L_0s=0.03:0.005:0.50;            %腿长最小值：步长：腿长最大值,单位：m
+Ks=zeros(2,6,length(L_0s));     %存放不同L_0对应的K
+
+for step=1:length(L_0s)
+
+%%%%%%%%%%%%%%%%%%%%%%% 定义变量 %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+syms theta theta1 theta2;       %摆杆与竖值方向夹角及其导数
+syms x x1 x2;                   %驱动轮位移及其导数
+syms phi phi1 phi2;             %机体与水平夹角及其导数
+syms T Tp N P Nm Pm Nf t;       %受力特征
+
+k=sym('K',[2 6]);               %将对K的每个元素关于L_0拟合
+syms L_0;
+K = sym(zeros(2, 6));
+
+L=L_0s(step)/2;                 %摆杆重心到驱动轮轴距离       单位：m
+Lm=L_0s(step)/2;                %摆杆重心到机体转轴距离       单位：m
+
+%机器人结构特征
+r=0.065;                          %驱动轮半径                  单位：m
+l=0.0;                            %机体重心到其转轴距离         单位：m
+Mw=0.6;                         %驱动轮转子质量              单位：kg
+Mp=1.2;                         %摆杠质量                    单位：kg
+M=13.7-0.6*2-1.2*2;           %机体质量                    单位：kg
+Iw=0.5*Mw*r^2;                    %驱动轮转子转动惯量           单位：kg*m^2
+Ip=0.012330563;%+Mp*0.1*0.1;        %摆杆绕质心转动惯量           单位：kg*m^2    0.154846000
+Im=0.172475013;                   %机体绕质心转动惯量           单位：kg*m^2    0.393175574;
+g=9.8;                            %重力加速度                  单位：m/s^2  
+
+%Q和R矩阵权重                    %Q和R矩阵权重选取负责调参
+Q=diag([1 1 80 80 4000 1]);%1 1 200 100 2000 1 1 1 80 80 4000 1
+R=diag([30 1]);%3.25 0.25 30 1
+
+%%%%%%%%%%%%%%%%%%%%%% 经典力学分析 %%%%%%%%%%%%%%%%%%%%%%%%%
+
+%受力：
+Nm=M*(x2+(L+Lm)*theta2*cos(theta)-(L+Lm)*theta1^2*sin(theta)-L*(phi2*cos(phi)-phi1^2*sin(phi)));
+Pm=M*g+M*(-(L+Lm)*theta2*sin(theta)-(L+Lm)*theta1^2*cos(theta)-l*phi2*sin(phi)-l*phi1^2*cos(phi));
+N=Nm+Mp*(x2+L*theta2*cos(theta)-L*theta1^2*sin(theta));
+P=Pm+Mp*g+Mp*(-L*theta1^2*cos(theta)-L*theta2*sin(theta));
+
+%力矩：
+equ1=x2-(T-N*r)/(Iw/r+Mw*r);
+equ2=(P*L+Pm*Lm)*sin(theta)-(N*L+Nm*Lm)*cos(theta)-T+Tp-Ip*theta2;
+equ3=Tp+Nm*l*cos(phi)+Pm*l*sin(phi)-Im*phi2;
+[x2,theta2,phi2]=solve(equ1,equ2,equ3,x2,theta2,phi2);
+
+%通过x1=Ax+Bu求出AB
+%jacobian(x,u),求出关于x和u关系的矩阵
+Ja=jacobian([theta1;theta2;x1;x2;phi1;phi2],[theta theta1 x x1 phi phi1]);
+Jb=jacobian([theta1;theta2;x1;x2;phi1;phi2],[T Tp]);
+%带入平衡状态的条件
+A=vpa(subs(Ja,[theta theta1 x x1 phi phi1],[0 0 x 0 0 0]));
+B=vpa(subs(Jb,[theta theta1 x x1 phi phi1],[0 0 x 0 0 0]));
+%得到As和Bs
+Ts=0.002;%预估控制频率500Hz
+I=eye(size(A));
+As = I + Ts * A;
+Bs = Ts * B;
+
+N=5;
+M = [As,As*2,As*3,As*4,As*5];
+
+
+%离散化处理
+%[G,H]=c2d(eval(A),eval(B),0.004);
+%求解当前腿长状态下的K
+%Ks(:,:,step)=dlqr(G,H,Q,R);
+
+end
+
+for x=1:2
+    for y=1:6
+        p=polyfit(L_0s,reshape(Ks(x,y,:),1,length(L_0s)),3);
+        K(x,y)=p(1)*L_0^3+p(2)*L_0^2+p(3)*L_0+p(4);
+    end
+end
+
+%matlabFunction(K,'File','LQR_K');
+
+%vpa(subs(K,L_0,0.13))

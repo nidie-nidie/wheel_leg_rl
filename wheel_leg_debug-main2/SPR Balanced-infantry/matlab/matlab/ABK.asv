@@ -1,0 +1,125 @@
+%%%%%%%%%%%%%%%%%%%%%%% 定义固定量 %%%%%%%%%%%%%%%%%%%%%%%%%
+
+%参考哈工程开源（https://zhuanlan.zhihu.com/p/563048952）受力分析及其参数
+
+%K与腿长l_0相关，在单片机难以算出，通过不同定点腿长拟合出K，从而在单片机上之间用
+L_0s=0.03:0.005:0.50;            %腿长最小值：步长：腿长最大值,单位：m
+Ks=zeros(2,6,length(L_0s));     %存放不同L_0对应的K
+
+for step=1:length(L_0s)
+
+%%%%%%%%%%%%%%%%%%%%%%% 定义变量 %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+syms theta theta1 theta2;       %摆杆与竖值方向夹角及其导数
+syms x x1 x2;                   %驱动轮位移及其导数
+syms phi phi1 phi2;             %机体与水平夹角及其导数
+syms T Tp N P Nm Pm Nf t;       %受力特征
+
+k=sym('K',[2 6]);               %将对K的每个元素关于L_0拟合
+syms L_0;
+K = sym(zeros(2, 6));
+
+L=L_0s(step)/2;                 %摆杆重心到驱动轮轴距离       单位：m
+Lm=L_0s(step)/2;                %摆杆重心到机体转轴距离       单位：m
+
+%机器人结构特征
+r=0.06;                         %驱动轮半径                  单位：m
+l=0.0;                           %机体重心到其转轴距离         单位：m
+Mw=0.6;                          %驱动轮转子质量              单位：kg
+Mp=0.95;                         %摆杠质量                    单位：kg
+M=20-0.6*2-0.95*2;               %机体质量                    单位：kg
+Iw=0.5*Mw*r^2;                   %驱动轮转子转动惯量           单位：kg*m^2
+Ip=0.042737089;                  %摆杆绕质心转动惯量           单位：kg*m^2   
+Im=0.393175574;                  %机体绕质心转动惯量           单位：kg*m^2    
+g=9.8;                           %重力加速度                  单位：m/s^2  
+
+%Q和R矩阵权重                    %Q和R矩阵权重选取负责调参
+Q=diag([1 1 500 1000 7000 1]);%1 1 500 1000 7000 1 &1 100 200 500 20000 1
+R=diag([10 1 ]);%60 1  %30 1 
+
+%%%%%%%%%%%%%%%%%%%%%% 经典力学分析 %%%%%%%%%%%%%%%%%%%%%%%%%
+
+%受力：
+Nm=M*(x2+(L+Lm)*theta2*cos(theta)-(L+Lm)*theta1^2*sin(theta)-L*(phi2*cos(phi)-phi1^2*sin(phi)));
+Pm=M*g+M*(-(L+Lm)*theta2*sin(theta)-(L+Lm)*theta1^2*cos(theta)-l*phi2*sin(phi)-l*phi1^2*cos(phi));
+N=Nm+Mp*(x2+L*theta2*cos(theta)-L*theta1^2*sin(theta));
+P=Pm+Mp*g+Mp*(-L*theta1^2*cos(theta)-L*theta2*sin(theta));
+
+%力矩：
+
+%是方程关系而不是直接的显示计算
+% x2=(T-N*r)/(Iw/r+Mw*r);
+% theta2=((P*L+Pm*Lm)*sin(theta)-(N*L+Nm*Lm)*cos(theta)-T+Tp)/Ip;
+% phi2=(Tp+Nm*l*cos(phi)+Pm*l*sin(phi))/Im;
+
+equ1=x2-(T-N*r)/(Iw/r+Mw*r);
+equ2=(P*L+Pm*Lm)*sin(theta)-(N*L+Nm*Lm)*cos(theta)-T+Tp-Ip*theta2;
+equ3=Tp+Nm*l*cos(phi)+Pm*l*sin(phi)-Im*phi2;
+[x2,theta2,phi2]=solve(equ1,equ2,equ3,x2,theta2,phi2);
+
+%通过x1=Ax+Bu求出AB
+%jacobian(x1,u),求出关于x1和u关系的矩阵
+Ja=jacobian([theta1;theta2;x1;x2;phi1;phi2],[theta theta1 x x1 phi phi1]);
+Jb=jacobian([theta1;theta2;x1;x2;phi1;phi2],[T Tp]);
+%带入平衡状态的条件
+A=vpa(subs(Ja,[theta theta1 x x1 phi phi1],[0 0 0 0 0 0]));
+B=vpa(subs(Jb,[theta theta1 x x1 phi phi1],[0 0 0 0 0 0]));
+%离散化处理
+[G,H]=c2d(eval(A),eval(B),0.001);
+%求解当前腿长状态下的K
+Ks(:,:,step)=dlqr(G,H,Q,R);
+
+end
+
+for x=1:2
+    for y=1:6
+        p=polyfit(L_0s,reshape(Ks(x,y,:),1,length(L_0s)),3);
+        K(x,y)=p(1)*L_0^3+p(2)*L_0^2+p(3)*L_0+p(4);
+    end
+end
+
+matlabFunction(K,'File','LQR_K');
+
+vpa(subs(K,L_0,0.13))
+%vpa(subs(A))
+%vpa(subs(B))
+%vpa(subs(G))
+%vpa(subs(H))
+
+%% 绘制 K 矩阵元素随腿长 L_0 变化的波形
+% 假设您已经运行了前面的代码并生成了函数 LQR_K.m
+
+% 定义腿长范围（与拟合范围一致）
+%L0_min = 0.03;
+%L0_max = 0.50;
+%L0_vals = linspace(L0_min, L0_max, 200);   % 200 个点用于平滑曲线
+%
+%% 预分配 K 矩阵存储空间 (2×6×nPoints)
+%nPoints = length(L0_vals);
+%K_all = zeros(2, 6, nPoints);
+%
+%% 计算每个腿长对应的 K 矩阵
+%for i = 1:nPoints
+%    K_all(:,:,i) = LQR_K(L0_vals(i));
+%end
+%
+%% 绘图：每个子图对应 K 的一个元素
+%figure('Name', 'LQR 增益矩阵 K 随腿长 L_0 的变化', 'NumberTitle', 'off');
+%
+%% 行和列的索引，分别对应 K 矩阵的行和列
+%for row = 1:2
+%    for col = 1:6
+%        subplot(2, 6, (row-1)*6 + col);
+%        plot(L0_vals, squeeze(K_all(row, col, :)), 'b-', 'LineWidth', 1.5);
+%        title(sprintf('K(%d,%d)', row, col));
+%        xlabel('L_0 (m)');
+%        ylabel('增益值');
+%        grid on;
+%        
+%        % 若数值范围差异过大，可启用对数坐标（谨慎使用，有些增益可能为负）
+%        % set(gca, 'YScale', 'log');
+%%    end
+%%end
+%
+%% 调整整体布局
+%%sgtitle('LQR 增益矩阵各元素随腿长的变化曲线');

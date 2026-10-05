@@ -1,0 +1,93 @@
+{
+  "aggregate": {
+    "command_vs_real_rmse_max_rad": 0.23383338528722836,
+    "command_vs_real_rmse_mean_rad": 0.2034994256724034,
+    "command_vs_real_rmse_min_rad": 0.15432706926356726,
+    "datasets": 5,
+    "encoder_rmse_max_rad": 0.009285259375416311,
+    "encoder_rmse_mean_rad": 0.006994568914153981,
+    "encoder_rmse_min_rad": 0.006255294241792675
+  },
+  "datasets": [
+    {
+      "command_vs_real_rmse_rad": 0.15432706926356726,
+      "dataset": "062823",
+      "delay_steps": 3,
+      "duration_s": 19.998,
+      "encoder_max_abs_rad": 0.10273578017950058,
+      "encoder_p95_rad": 0.014601351693272573,
+      "encoder_rmse_rad": 0.009285259375416311,
+      "physical_rmse_rad": 0.06973378043601573,
+      "samples": 10000,
+      "worst_joint_by_encoder_rmse": "RR_calf_joint",
+      "worst_joint_encoder_p95_rad": 0.040780335664749146,
+      "worst_joint_encoder_rmse_rad": 0.017311803502935007
+    },
+    {
+      "command_vs_real_rmse_rad": 0.18344624419636288,
+      "dataset": "063144",
+      "delay_steps": 3,
+      "duration_s": 19.998,
+      "encoder_max_abs_rad": 0.09984102100133896,
+      "encoder_p95_rad": 0.011828760430216776,
+      "encoder_rmse_rad": 0.006698716903786647,
+      "physical_rmse_rad": 0.06960503104119213,
+      "samples": 10000,
+      "worst_joint_by_encoder_rmse": "RR_calf_joint",
+      "worst_joint_encoder_p95_rad": 0.022782802581787102,
+      "worst_joint_encoder_rmse_rad": 0.009167303452646876
+    },
+    {
+      "command_vs_real_rmse_rad": 0.21496831578763861,
+      "dataset": "064152",
+      "delay_steps": 3,
+      "duration_s": 19.998,
+      "encoder_max_abs_rad": 0.09992661327123642,
+      "encoder_p95_rad": 0.009624731540679917,
+      "encoder_rmse_rad": 0.006336873218601728,
+      "physical_rmse_rad": 0.06952079854284245,
+      "samples": 10000,
+      "worst_joint_by_encoder_rmse": "RL_calf_joint",
+      "worst_joint_encoder_p95_rad": 0.019484009593725204,
+      "worst_joint_encoder_rmse_rad": 0.00823835169365761
+    },
+    {
+      "command_vs_real_rmse_rad": 0.23092211382721992,
+      "dataset": "071554",
+      "delay_steps": 3,
+      "duration_s": 19.998,
+      "encoder_max_abs_rad": 0.09985306113958359,
+      "encoder_p95_rad": 0.009690628387033927,
+      "encoder_rmse_rad": 0.006396700831172546,
+      "physical_rmse_rad": 0.06960876107118637,
+      "samples": 10000,
+      "worst_joint_by_encoder_rmse": "RR_calf_joint",
+      "worst_joint_encoder_p95_rad": 0.019921422004699707,
+      "worst_joint_encoder_rmse_rad": 0.008435695003530402
+    },
+    {
+      "command_vs_real_rmse_rad": 0.23383338528722836,
+      "dataset": "071950",
+      "delay_steps": 3,
+      "duration_s": 19.998,
+      "encoder_max_abs_rad": 0.10009386390447617,
+      "encoder_p95_rad": 0.009394758567214008,
+      "encoder_rmse_rad": 0.006255294241792675,
+      "physical_rmse_rad": 0.06971754643616293,
+      "samples": 10000,
+      "worst_joint_by_encoder_rmse": "RR_calf_joint",
+      "worst_joint_encoder_p95_rad": 0.01937655210494995,
+      "worst_joint_encoder_rmse_rad": 0.008032856356552582
+    }
+  ],
+  "note": "Metrics are from packaged IsaacLab fixed-mean replay reports. Encoder frame is the preferred sim-vs-real comparison because the fitted model includes encoder bias.",
+  "schema": "a1-fixed-mean-replay-comparison/v1",
+  "source_mean": "results/fit/mean_199.pt",
+  "source_reports": [
+    "results/crossval/replay_cv_062823_from_071950.json",
+    "results/crossval/replay_cv_063144_from_071950.json",
+    "results/crossval/replay_cv_064152_from_071950.json",
+    "results/crossval/replay_cv_071554_from_071950.json",
+    "results/crossval/replay_cv_071950_from_071950.json"
+  ]
+}

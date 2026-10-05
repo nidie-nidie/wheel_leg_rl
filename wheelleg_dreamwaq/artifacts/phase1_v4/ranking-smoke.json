@@ -1,0 +1,123 @@
+{
+  "diagnostic_candidate": null,
+  "phase1_qualified": true,
+  "ranked_runs": [
+    {
+      "completed_scenarios": 1,
+      "evaluation_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\evaluation-smoke\\summary.json",
+      "full_survival": true,
+      "metrics": {
+        "action_saturation_fraction": 0.0,
+        "effort_saturation_fraction": 0.0,
+        "height_mae": 0.0041690883451602516,
+        "max_loop_closure_error_m": 0.000105561751719073,
+        "max_tilt_rad": 0.08570199578061471,
+        "phi0_delta_rms": 0.03437867478564157,
+        "pitch_rms": 0.037010503287934954,
+        "roll_rms": 0.011474340351788188,
+        "vx_mae": 0.1862407362314681,
+        "yaw_drift_rms": 0.03370723898605354,
+        "yaw_rate_mae": null
+      },
+      "policy": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\export-smoke\\actor.ts",
+      "policy_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\export-smoke\\policy_manifest.json",
+      "run_id": "E3A7D0C1F78B",
+      "scenario_count": 1,
+      "scenarios": [
+        {
+          "action_saturation_fraction": 0.0,
+          "command": [
+            0.0,
+            0.0,
+            0.2
+          ],
+          "completed": true,
+          "effort_saturation_fraction": 0.0,
+          "expected_ticks": 20,
+          "failure_reason": null,
+          "height_mae": 0.0041690883451602516,
+          "height_max_abs_error": 0.00838729131844479,
+          "max_loop_closure_error_m": 0.000105561751719073,
+          "max_tilt_rad": 0.08570199578061471,
+          "name": "nominal_stand",
+          "phi0_delta_max_abs": 0.03889786779743121,
+          "phi0_delta_rms": 0.03437867478564157,
+          "pitch_max_abs": 0.08419328092013463,
+          "pitch_rms": 0.037010503287934954,
+          "prefix_score": 0.8319128564504246,
+          "roll_max_abs": 0.0160290645953858,
+          "roll_rms": 0.011474340351788188,
+          "survival_fraction": 1.0,
+          "ticks": 20,
+          "vx_mae": 0.1862407362314681,
+          "yaw_drift_max_abs": 0.06312811216549999,
+          "yaw_drift_rms": 0.03370723898605354,
+          "yaw_rate_mae": null
+        }
+      ],
+      "score": 0.8319128564504246,
+      "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_05-13-51_portable_v4-smoke\\model_1.pt",
+      "source_checkpoint_sha256": "E3A7D0C1F78B870A88203638EED1532C2E41932B9378A67CDAB36A1958252F1E",
+      "survival_fraction": 1.0
+    }
+  ],
+  "schema_version": "MujocoTrainingSuiteRankingV1",
+  "selected": {
+    "completed_scenarios": 1,
+    "evaluation_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\evaluation-smoke\\summary.json",
+    "full_survival": true,
+    "metrics": {
+      "action_saturation_fraction": 0.0,
+      "effort_saturation_fraction": 0.0,
+      "height_mae": 0.0041690883451602516,
+      "max_loop_closure_error_m": 0.000105561751719073,
+      "max_tilt_rad": 0.08570199578061471,
+      "phi0_delta_rms": 0.03437867478564157,
+      "pitch_rms": 0.037010503287934954,
+      "roll_rms": 0.011474340351788188,
+      "vx_mae": 0.1862407362314681,
+      "yaw_drift_rms": 0.03370723898605354,
+      "yaw_rate_mae": null
+    },
+    "policy": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\export-smoke\\actor.ts",
+    "policy_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\export-smoke\\policy_manifest.json",
+    "run_id": "E3A7D0C1F78B",
+    "scenario_count": 1,
+    "scenarios": [
+      {
+        "action_saturation_fraction": 0.0,
+        "command": [
+          0.0,
+          0.0,
+          0.2
+        ],
+        "completed": true,
+        "effort_saturation_fraction": 0.0,
+        "expected_ticks": 20,
+        "failure_reason": null,
+        "height_mae": 0.0041690883451602516,
+        "height_max_abs_error": 0.00838729131844479,
+        "max_loop_closure_error_m": 0.000105561751719073,
+        "max_tilt_rad": 0.08570199578061471,
+        "name": "nominal_stand",
+        "phi0_delta_max_abs": 0.03889786779743121,
+        "phi0_delta_rms": 0.03437867478564157,
+        "pitch_max_abs": 0.08419328092013463,
+        "pitch_rms": 0.037010503287934954,
+        "prefix_score": 0.8319128564504246,
+        "roll_max_abs": 0.0160290645953858,
+        "roll_rms": 0.011474340351788188,
+        "survival_fraction": 1.0,
+        "ticks": 20,
+        "vx_mae": 0.1862407362314681,
+        "yaw_drift_max_abs": 0.06312811216549999,
+        "yaw_drift_rms": 0.03370723898605354,
+        "yaw_rate_mae": null
+      }
+    ],
+    "score": 0.8319128564504246,
+    "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_05-13-51_portable_v4-smoke\\model_1.pt",
+    "source_checkpoint_sha256": "E3A7D0C1F78B870A88203638EED1532C2E41932B9378A67CDAB36A1958252F1E",
+    "survival_fraction": 1.0
+  }
+}

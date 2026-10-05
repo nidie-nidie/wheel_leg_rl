@@ -1,0 +1,3073 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: XML 名义几何 · MuJoCo 3.3.0 交叉验证 · 未改控制环
+      - heading "偏置串腿闭链运动学：从电机角到 VMC 力矩的完整推导" [level=1] [ref=e5]
+      - paragraph [ref=e6]:
+        - text: 把《串腿控制.pdf》中“理想五连杆”的 y=f(φ) 换成当前 XML 的真实偏置闭链 y=H(q)。两者输出都是 y=[L0,φ0]
+        - superscript [ref=e7]: T
+        - text: ；LQR 的 θ=0 平衡点不变，VMC 的 τ=J
+        - subscript [ref=e8]: H
+        - superscript [ref=e9]: T
+        - text: F 原理也不变。
+      - paragraph [ref=e10]: 更新日期：2026-07-24 | 对象：mujoco_control_extract / wheel_leg_urdf4_self_mesh_all.xml | 结论仅对应名义 XML 几何
+  - generic [ref=e11]:
+    - navigation "目录" [ref=e12]:
+      - strong [ref=e13]: 目录
+      - link "符号字典（建议先看）" [ref=e14] [cursor=pointer]:
+        - /url: "#symbols"
+      - link "1. 结论先行" [ref=e15] [cursor=pointer]:
+        - /url: "#verdict"
+      - link "2. 方向与角度" [ref=e16] [cursor=pointer]:
+        - /url: "#coordinates"
+      - link "3. 两种机构" [ref=e17] [cursor=pointer]:
+        - /url: "#geometry"
+      - link "4. 精确正解" [ref=e18] [cursor=pointer]:
+        - /url: "#derivation"
+      - link "5. 雅可比与 VMC" [ref=e19] [cursor=pointer]:
+        - /url: "#jacobian"
+      - link "6. 精确逆解" [ref=e20] [cursor=pointer]:
+        - /url: "#inverse"
+      - link "7. 数值验证" [ref=e21] [cursor=pointer]:
+        - /url: "#validation"
+      - link "8. 与 PDF 对照" [ref=e22] [cursor=pointer]:
+        - /url: "#pdf"
+      - link "9. 工程中怎么换" [ref=e23] [cursor=pointer]:
+        - /url: "#code"
+      - link "10. 能解释什么" [ref=e24] [cursor=pointer]:
+        - /url: "#scope"
+      - link "11. 下一步" [ref=e25] [cursor=pointer]:
+        - /url: "#next"
+    - main [ref=e26]:
+      - generic [ref=e27]:
+        - heading "符号字典：先分清“理想五杆”“真实偏置机构”和“通用公式”" [level=2] [ref=e28]
+        - generic [ref=e29]:
+          - text: 2026-07-24 勘误：旧版报告曾把离线求解器中的
+          - code [ref=e30]: theta_leg
+          - text: 与控制器极角
+          - code [ref=e31]: phi0
+          - text: 混写，并把对应雅可比第二行标成了同一方向。本版统一规定
+          - code [ref=e32]:
+            - text: H(q)=[L0,phi0]
+            - superscript [ref=e33]: T
+          - text: ，且
+          - code [ref=e34]: dphi0/dq=−dtheta_leg/dq
+          - text: ；旧版相关角度行和力矩方向说明不应继续引用。
+        - generic [ref=e35]:
+          - text: 同一个字母在旧资料里有过重名。 本文从这里开始采用以下规则：斜体大写单字母（如 J、P）表示机构上的点；
+          - code [ref=e36]: J_H(q)
+          - text: 专门表示精确运动学的雅可比矩阵；圆交公式不用 A、B，而用 O
+          - subscript [ref=e37]: a
+          - text: 、O
+          - subscript [ref=e38]: b
+          - text: 表示临时圆心，避免与理想五杆的 A、B 混淆。
+        - heading "0.1 坐标系与基本运算" [level=3] [ref=e39]
+        - table [ref=e41]:
+          - rowgroup [ref=e42]:
+            - row [ref=e43]:
+              - columnheader "符号" [ref=e44]
+              - columnheader "定义" [ref=e45]
+              - columnheader "直观意义 / 单位" [ref=e46]
+          - rowgroup [ref=e47]:
+            - row [ref=e48]:
+              - cell [ref=e49]:
+                - code [ref=e50]: I
+              - cell "XML 左腿二维推导的原点" [ref=e51]
+              - cell "髋部两主动转轴在腿平面内的参考点" [ref=e52]
+            - row [ref=e53]:
+              - cell [ref=e54]:
+                - code [ref=e55]: base X/Y/Z
+              - cell "MuJoCo 的 base 刚体坐标轴" [ref=e56]
+              - cell "当前 XML 的主动铰轴是 +base X，机构运动平面是 base Y–Z" [ref=e57]
+            - row [ref=e58]:
+              - cell [ref=e59]:
+                - code [ref=e60]:
+                  - text: s
+                  - subscript [ref=e61]: W
+                  - text: =ΔY
+                  - subscript [ref=e62]: base
+              - cell "轮轴相对髋轴沿 +base Y 的有符号投影" [ref=e63]
+              - cell "单位 m；它是一个坐标分量，不是另一根 X 轴，也不是轮子的自转角" [ref=e64]
+            - row [ref=e65]:
+              - cell [ref=e66]:
+                - code [ref=e67]: z=+base Z
+              - cell "本文精确闭链平面的竖直轴" [ref=e68]
+              - cell [ref=e69]:
+                - text: +z 向上；轮轴在髋部下方时 W
+                - subscript [ref=e70]: z
+                - text: <0
+            - row [ref=e71]:
+              - cell [ref=e72]:
+                - code [ref=e73]:
+                  - text: d
+                  - subscript [ref=e74]: W
+                  - text: =−ΔZ
+                  - subscript [ref=e75]: base
+              - cell "轮轴相对髋轴沿车体向下的有符号投影" [ref=e76]
+              - cell [ref=e77]:
+                - text: 单位 m；轮轴位于髋部下方时 d
+                - subscript [ref=e78]: W
+                - text: ">0"
+            - row [ref=e79]:
+              - cell [ref=e80]:
+                - code [ref=e81]:
+                  - text: x
+                  - subscript [ref=e82]: ctrl
+              - cell [ref=e83]:
+                - code [ref=e84]: main_mujoco.c
+                - text: 驾驶/状态坐标的前进轴
+              - cell [ref=e85]:
+                - text: 当前旋转适配为 +x
+                - subscript [ref=e86]: ctrl
+                - text: =−base Y，因此与 s
+                - subscript [ref=e87]: W
+                - text: 的正向相反
+            - row [ref=e88]:
+              - cell [ref=e89]:
+                - code [ref=e90]:
+                  - text: v
+                  - subscript [ref=e91]: XY
+              - cell "从点 X 指向点 Y 的固定局部向量" [ref=e92]
+              - cell [ref=e93]:
+                - text: 例如 v
+                - subscript [ref=e94]: IJ
+                - text: 是零位时 I→J 的向量，单位 m
+            - row [ref=e95]:
+              - cell [ref=e96]:
+                - code [ref=e97]: R(γ)
+              - cell "在 (s,z) 平面内的右手旋转矩阵" [ref=e98]
+              - cell "γ>0 时把 +s（+base Y）转向 +z；按 +z 向上画时为逆时针" [ref=e99]
+            - row [ref=e100]:
+              - cell [ref=e101]:
+                - code [ref=e102]: ‖v‖
+              - cell "向量的欧氏长度" [ref=e103]
+              - cell [ref=e104]:
+                - text: 例如 ‖v
+                - subscript [ref=e105]: JM
+                - text: ‖=杆 JM 的固定长度
+            - row [ref=e106]:
+              - cell [ref=e107]:
+                - code [ref=e108]: arg(v)
+              - cell [ref=e109]:
+                - text: atan2(v
+                - subscript [ref=e110]: z
+                - text: ",v"
+                - subscript [ref=e111]: s
+                - text: )
+              - cell "向量 v 在 s-z 平面中的方向角" [ref=e112]
+            - row [ref=e113]:
+              - cell [ref=e114]:
+                - code [ref=e115]: wrap(γ)
+              - cell "把角度连续等价地折回 (−π,π]" [ref=e116]
+              - cell "只改变角度表示，不改变物理姿态" [ref=e117]
+        - math [ref=e119]:
+          - generic [ref=e120]:
+            - generic [ref=e121]: R
+            - generic [ref=e122]: (
+            - generic [ref=e123]: γ
+            - generic [ref=e124]: )
+            - generic [ref=e125]: =
+            - generic [ref=e126]: "["
+            - generic [ref=e127]:
+              - generic [ref=e128]:
+                - generic [ref=e129]:
+                  - generic [ref=e130]: cos
+                  - generic [ref=e131]: γ
+                - generic [ref=e132]:
+                  - generic [ref=e133]: −
+                  - generic [ref=e134]: sin
+                  - generic [ref=e135]: γ
+              - generic [ref=e136]:
+                - generic [ref=e137]:
+                  - generic [ref=e138]: sin
+                  - generic [ref=e139]: γ
+                - generic [ref=e140]:
+                  - generic [ref=e141]: cos
+                  - generic [ref=e142]: γ
+            - generic [ref=e143]: "]"
+            - generic [ref=e144]: ","
+            - generic [ref=e145]: "["
+            - generic [ref=e146]:
+              - generic [ref=e149]:
+                - generic [ref=e150]: X
+                - generic [ref=e151]:
+                  - generic [ref=e152]: b
+                  - generic [ref=e153]: a
+                  - generic [ref=e154]: s
+                  - generic [ref=e155]: e
+              - generic [ref=e158]:
+                - generic [ref=e159]: "Y"
+                - generic [ref=e160]:
+                  - generic [ref=e161]: b
+                  - generic [ref=e162]: a
+                  - generic [ref=e163]: s
+                  - generic [ref=e164]: e
+              - generic [ref=e167]:
+                - generic [ref=e168]: Z
+                - generic [ref=e169]:
+                  - generic [ref=e170]: b
+                  - generic [ref=e171]: a
+                  - generic [ref=e172]: s
+                  - generic [ref=e173]: e
+            - generic [ref=e174]: "]"
+            - generic [ref=e175]: =
+            - generic [ref=e176]:
+              - generic [ref=e177]: R
+              - generic [ref=e178]: z
+            - generic [ref=e179]: (
+            - generic [ref=e180]:
+              - generic [ref=e181]: "90"
+              - generic [ref=e182]: ∘
+            - generic [ref=e183]: )
+            - generic [ref=e184]: "["
+            - generic [ref=e185]:
+              - generic [ref=e188]:
+                - generic [ref=e189]: x
+                - generic [ref=e190]:
+                  - generic [ref=e191]: l
+                  - generic [ref=e192]: o
+                  - generic [ref=e193]: c
+                  - generic [ref=e194]: a
+                  - generic [ref=e195]: l
+              - generic [ref=e198]:
+                - generic [ref=e199]: "y"
+                - generic [ref=e200]:
+                  - generic [ref=e201]: l
+                  - generic [ref=e202]: o
+                  - generic [ref=e203]: c
+                  - generic [ref=e204]: a
+                  - generic [ref=e205]: l
+              - generic [ref=e208]:
+                - generic [ref=e209]: z
+                - generic [ref=e210]:
+                  - generic [ref=e211]: l
+                  - generic [ref=e212]: o
+                  - generic [ref=e213]: c
+                  - generic [ref=e214]: a
+                  - generic [ref=e215]: l
+            - generic [ref=e216]: "]"
+        - generic [ref=e217]:
+          - text: 必须保留的轴符号警告：旧版符号
+          - code [ref=e218]: xH
+          - text: 已改成
+          - code [ref=e219]: sW
+          - text: ，就是为了避免把它误看成“车辆前进 X 轴”。
+          - code [ref=e220]: sW
+          - text: 只表示 ΔY
+          - subscript [ref=e221]: base
+          - text: ；仿真适配函数
+          - code [ref=e222]: rotate_xy_into_controller_frame()
+          - text: 定义的 +x
+          - subscript [ref=e223]: ctrl
+          - text: 则是 −base Y。竖直零位时这个反号看不出来，轮轴前后偏离后才能检出。
+        - heading "0.2 PDF / 当前 VMC 的理想五连杆符号" [level=3] [ref=e224]
+        - table [ref=e226]:
+          - rowgroup [ref=e227]:
+            - row [ref=e228]:
+              - columnheader "符号" [ref=e229]
+              - columnheader "表示什么" [ref=e230]
+              - columnheader "对应杆长 / 角度" [ref=e231]
+          - rowgroup [ref=e232]:
+            - row [ref=e233]:
+              - cell [ref=e234]:
+                - code [ref=e235]: A、E
+              - cell "左右两个理想主动杆的固定髋端" [ref=e236]
+              - cell [ref=e237]:
+                - text: AE=l
+                - subscript [ref=e238]: "5"
+                - text: ；当前代码 l
+                - subscript [ref=e239]: "5"
+                - text: =0，二者投影重合。图中分开画只是为了看清拓扑
+            - row [ref=e240]:
+              - cell [ref=e241]:
+                - code [ref=e242]: B
+              - cell "理想后主动杆末端" [ref=e243]
+              - cell [ref=e244]:
+                - text: AB=l
+                - subscript [ref=e245]: "1"
+                - text: ，绝对角为 φ
+                - subscript [ref=e246]: "1"
+            - row [ref=e247]:
+              - cell [ref=e248]:
+                - code [ref=e249]: D
+              - cell "理想前主动杆末端" [ref=e250]
+              - cell [ref=e251]:
+                - text: ED=l
+                - subscript [ref=e252]: "4"
+                - text: ，绝对角为 φ
+                - subscript [ref=e253]: "4"
+            - row [ref=e254]:
+              - cell [ref=e255]:
+                - code [ref=e256]: C
+              - cell "理想五杆的轮轴 / 两根被动杆公共端" [ref=e257]
+              - cell [ref=e258]:
+                - text: BC=l
+                - subscript [ref=e259]: "2"
+                - text: ，DC=l
+                - subscript [ref=e260]: "3"
+                - text: ；因此 C 是圆(B,l
+                - subscript [ref=e261]: "2"
+                - text: )与圆(D,l
+                - subscript [ref=e262]: "3"
+                - text: )的交点
+            - row [ref=e263]:
+              - cell [ref=e264]:
+                - code [ref=e265]:
+                  - text: φ
+                  - subscript [ref=e266]: "1"
+                  - text: 、φ
+                  - subscript [ref=e267]: "4"
+              - cell "理想五杆两根主动杆的绝对角" [ref=e268]
+              - cell [ref=e269]:
+                - text: 它们不是 XML 原始电机角 q
+                - subscript [ref=e270]: r
+                - text: 、q
+                - subscript [ref=e271]: f
+            - row [ref=e272]:
+              - cell [ref=e273]:
+                - code [ref=e274]:
+                  - text: φ
+                  - subscript [ref=e275]: "2"
+                  - text: 、φ
+                  - subscript [ref=e276]: "3"
+              - cell "理想五杆两根被动杆的绝对角" [ref=e277]
+              - cell "由圆交点 C 的装配支路决定" [ref=e278]
+            - row [ref=e279]:
+              - cell [ref=e280]:
+                - code [ref=e281]: f
+              - cell "理想五杆正运动学" [ref=e282]
+              - cell [ref=e283]:
+                - text: "[L"
+                - subscript [ref=e284]: "0"
+                - text: ",φ"
+                - subscript [ref=e285]: "0"
+                - text: "]"
+                - superscript [ref=e286]: T
+                - text: =f([φ
+                - subscript [ref=e287]: "1"
+                - text: ",φ"
+                - subscript [ref=e288]: "4"
+                - text: "]"
+                - superscript [ref=e289]: T
+                - text: )
+        - heading "0.3 XML 真实偏置闭链上的点" [level=3] [ref=e290]
+        - table [ref=e292]:
+          - rowgroup [ref=e293]:
+            - row [ref=e294]:
+              - columnheader "点 / 量" [ref=e295]
+              - columnheader "表示什么" [ref=e296]
+              - columnheader "由什么决定" [ref=e297]
+          - rowgroup [ref=e298]:
+            - row [ref=e299]:
+              - cell [ref=e300]:
+                - code [ref=e301]:
+                  - text: q
+                  - superscript [ref=e302]: L
+              - cell "左腿 raw-q 输入" [ref=e303]
+              - cell [ref=e304]:
+                - text: "[q"
+                - subscript [ref=e305]: f
+                - text: ",q"
+                - subscript [ref=e306]: r
+                - text: "]"
+                - superscript [ref=e307]: T
+                - text: =[q
+                - subscript [ref=e308]: jIJ
+                - text: ",q"
+                - subscript [ref=e309]: jIO
+                - text: "]"
+                - superscript [ref=e310]: T
+            - row [ref=e311]:
+              - cell [ref=e312]:
+                - code [ref=e313]:
+                  - text: q
+                  - superscript [ref=e314]: R
+              - cell "右腿 raw-q 输入" [ref=e315]
+              - cell [ref=e316]:
+                - text: "[q"
+                - subscript [ref=e317]: f
+                - text: ",q"
+                - subscript [ref=e318]: r
+                - text: "]"
+                - superscript [ref=e319]: T
+                - text: =[q
+                - subscript [ref=e320]: jAB
+                - text: ",q"
+                - subscript [ref=e321]: jAG
+                - text: "]"
+                - superscript [ref=e322]: T
+                - text: ；注意仿真数组到达顺序是 jAG 后、jAB 前
+            - row [ref=e323]:
+              - cell [ref=e324]:
+                - code [ref=e325]: front / rear
+              - cell "机构的前、后主动支路" [ref=e326]
+              - cell "不是电机数组下标，也不是观察者站在左侧/右侧后的视觉左右" [ref=e327]
+            - row [ref=e328]:
+              - cell [ref=e329]:
+                - code [ref=e330]:
+                  - text: q
+                  - subscript [ref=e331]: f
+                  - text: 、q
+                  - subscript [ref=e332]: r
+              - cell "MuJoCo 原始 hinge qpos" [ref=e333]
+              - cell "都按 XML 铰轴的右手定则为正；当前根变换后铰轴为 +base X，q>0 在 (s,z) 图上把 +s 转向 +z" [ref=e334]
+            - row [ref=e335]:
+              - cell [ref=e336]:
+                - code [ref=e337]: J
+              - cell "前主动曲柄端点" [ref=e338]
+              - cell [ref=e339]:
+                - text: J=R(q
+                - subscript [ref=e340]: f
+                - text: )v
+                - subscript [ref=e341]: IJ
+            - row [ref=e342]:
+              - cell [ref=e343]:
+                - code [ref=e344]: L
+              - cell "后主动刚体上的第一闭链铰点" [ref=e345]
+              - cell [ref=e346]:
+                - text: L=R(q
+                - subscript [ref=e347]: r
+                - text: )v
+                - subscript [ref=e348]: IL
+            - row [ref=e349]:
+              - cell [ref=e350]:
+                - code [ref=e351]: P
+              - cell "后主动刚体 jIO 与输出刚体 jOP 的转动铰" [ref=e352]
+              - cell [ref=e353]:
+                - text: P=R(q
+                - subscript [ref=e354]: r
+                - text: )v
+                - subscript [ref=e355]: IP
+            - row [ref=e356]:
+              - cell [ref=e357]:
+                - code [ref=e358]: M
+              - cell "第一处未知闭链铰" [ref=e359]
+              - cell "|JM| 是二点杆长度；|LM| 是 jMK 刚体内固定点距；两约束共同确定 M" [ref=e360]
+            - row [ref=e361]:
+              - cell [ref=e362]:
+                - code [ref=e363]: K
+              - cell "复合刚体 jMK 与二点杆 jKN 的转动铰" [ref=e364]
+              - cell [ref=e365]:
+                - text: 先由 M→L 求 jMK 朝向 α，再由 K=M+R(α)v
+                - subscript [ref=e366]: MK
+                - text: 得到
+            - row [ref=e367]:
+              - cell [ref=e368]:
+                - code [ref=e369]: "N"
+              - cell "第二处未知闭链铰" [ref=e370]
+              - cell "同时满足 |KN| 固定、|PN| 固定，所以由 K/P 两圆交点得到" [ref=e371]
+            - row [ref=e372]:
+              - cell [ref=e373]:
+                - code [ref=e374]: W
+              - cell "真实 XML 轮轴中心" [ref=e375]
+              - cell [ref=e376]:
+                - text: 由 P→N 确定输出刚体朝向 β，再把固定向量 v
+                - subscript [ref=e377]: PW
+                - text: 旋过去
+            - row [ref=e378]:
+              - cell [ref=e379]:
+                - code [ref=e380]: α、β
+              - cell "两个复合刚体在腿平面内的绝对朝向" [ref=e381]
+              - cell "α 对应含 M–L/M–K 的刚体；β 对应含 P–N/P–W 的输出刚体" [ref=e382]
+        - heading "0.4 虚拟腿、运动学、雅可比与力" [level=3] [ref=e383]
+        - table [ref=e385]:
+          - rowgroup [ref=e386]:
+            - row [ref=e387]:
+              - columnheader "符号" [ref=e388]
+              - columnheader "严格定义" [ref=e389]
+              - columnheader "单位 / 物理意义" [ref=e390]
+          - rowgroup [ref=e391]:
+            - row [ref=e392]:
+              - cell [ref=e393]:
+                - code [ref=e394]:
+                  - text: q=[q
+                  - subscript [ref=e395]: f
+                  - text: ",q"
+                  - subscript [ref=e396]: r
+                  - text: "]"
+                  - superscript [ref=e397]: T
+              - cell "两主动支路的 raw-q 广义坐标" [ref=e398]
+              - cell [ref=e399]:
+                - text: rad；H 和 J
+                - subscript [ref=e400]: H
+                - text: 的列顺序始终固定为“前、后”
+            - row [ref=e401]:
+              - cell [ref=e402]:
+                - code [ref=e403]:
+                  - text: 𝒫(q)=[s
+                  - subscript [ref=e404]: W
+                  - text: ",d"
+                  - subscript [ref=e405]: W
+                  - text: "]"
+                  - superscript [ref=e406]: T
+              - cell "轮轴二维位置映射（也叫笛卡尔轮轴映射）" [ref=e407]
+              - cell "先由闭链得到 W，再取 I→W 在 +base Y 与 −base Z 上的两个投影；函数 𝒫 不等于机构点 P" [ref=e408]
+            - row [ref=e409]:
+              - cell [ref=e410]:
+                - code [ref=e411]:
+                  - text: L
+                  - subscript [ref=e412]: "0"
+              - cell [ref=e413]:
+                - text: sqrt(s
+                - subscript [ref=e414]: W
+                - superscript [ref=e415]: "2"
+                - text: +d
+                - subscript [ref=e416]: W
+                - superscript [ref=e417]: "2"
+                - text: )
+              - cell "m；髋部参考点 I 到真实轮轴 W 的虚拟腿长" [ref=e418]
+            - row [ref=e419]:
+              - cell [ref=e420]:
+                - code [ref=e421]:
+                  - text: θ
+                  - subscript [ref=e422]: leg
+              - cell [ref=e423]:
+                - text: atan2(s
+                - subscript [ref=e424]: W
+                - text: ",d"
+                - subscript [ref=e425]: W
+                - text: )
+              - cell "rad；从车体向下轴转向 +s 为正，竖直向下时为 0" [ref=e426]
+            - row [ref=e427]:
+              - cell [ref=e428]:
+                - code [ref=e429]:
+                  - text: φ
+                  - subscript [ref=e430]: "0"
+              - cell [ref=e431]:
+                - text: atan2(d
+                - subscript [ref=e432]: W
+                - text: ",s"
+                - subscript [ref=e433]: W
+                - text: )=π/2−θ
+                - subscript [ref=e434]: leg
+              - cell "rad；从 +s 转向车体向下轴为正，竖直向下时为 90°" [ref=e435]
+            - row [ref=e436]:
+              - cell [ref=e437]:
+                - code [ref=e438]:
+                  - text: H(q)=[L
+                  - subscript [ref=e439]: "0"
+                  - text: ",φ"
+                  - subscript [ref=e440]: "0"
+                  - text: "]"
+                  - superscript [ref=e441]: T
+              - cell "控制器虚拟坐标映射" [ref=e442]
+              - cell [ref=e443]:
+                - text: H 是 𝒫 的极坐标形式；本报告的公共 FK/IK/VMC 接口统一使用 φ
+                - subscript [ref=e444]: "0"
+                - text: ，不把 θ
+                - subscript [ref=e445]: leg
+                - text: 冒充 φ
+                - subscript [ref=e446]: "0"
+            - row [ref=e447]:
+              - cell [ref=e448]:
+                - code [ref=e449]:
+                  - text: Pitch
+                  - subscript [ref=e450]: side,L
+              - cell "当前左任务传入 VMC_calc_1 的 Pitch 参数" [ref=e451]
+              - cell [ref=e452]:
+                - text: Pitch
+                - subscript [ref=e453]: side,L
+                - text: =−INS.Pitch
+            - row [ref=e454]:
+              - cell [ref=e455]:
+                - code [ref=e456]:
+                  - text: Pitch
+                  - subscript [ref=e457]: side,R
+              - cell "当前右任务传入 VMC_calc_1 的 Pitch 参数" [ref=e458]
+              - cell [ref=e459]:
+                - text: Pitch
+                - subscript [ref=e460]: side,R
+                - text: =+INS.Pitch；这里只记录现有代码约定，不猜测 nose-up/nose-down
+            - row [ref=e461]:
+              - cell [ref=e462]:
+                - code [ref=e463]:
+                  - text: θ
+                  - subscript [ref=e464]: side
+              - cell [ref=e465]:
+                - text: θ
+                - subscript [ref=e466]: leg
+                - text: −Pitch
+                - subscript [ref=e467]: side
+              - cell [ref=e468]:
+                - text: 等价于 π/2−Pitch
+                - subscript [ref=e469]: side
+                - text: −φ
+                - subscript [ref=e470]: "0"
+                - text: ；这是当前 LQR 使用的每侧 θ
+            - row [ref=e471]:
+              - cell [ref=e472]:
+                - code [ref=e473]:
+                  - text: J
+                  - subscript [ref=e474]: H
+                  - text: (q)=∂H/∂q
+              - cell "精确 2×2 raw-q 雅可比矩阵" [ref=e475]
+              - cell [ref=e476]:
+                - text: 行=[∂L
+                - subscript [ref=e477]: "0"
+                - text: ",∂φ"
+                - subscript [ref=e478]: "0"
+                - text: "]，列=[∂q"
+                - subscript [ref=e479]: f
+                - text: ",∂q"
+                - subscript [ref=e480]: r
+                - text: "]；第二行与 ∂θ"
+                - subscript [ref=e481]: leg
+                - text: /∂q 整体反号
+            - row [ref=e482]:
+              - cell [ref=e483]:
+                - code [ref=e484]:
+                  - text: F
+                  - subscript [ref=e485]: "0"
+              - cell [ref=e486]:
+                - text: 与 L
+                - subscript [ref=e487]: "0"
+                - text: 共轭的虚拟轴向力
+              - cell [ref=e488]:
+                - text: N；正方向按 L
+                - subscript [ref=e489]: "0"
+                - text: 增大定义
+            - row [ref=e490]:
+              - cell [ref=e491]:
+                - code [ref=e492]:
+                  - text: T
+                  - subscript [ref=e493]: p
+              - cell [ref=e494]:
+                - text: 与 φ
+                - subscript [ref=e495]: "0"
+                - text: 共轭的虚拟髋矩
+              - cell [ref=e496]:
+                - text: N·m；正方向按 φ
+                - subscript [ref=e497]: "0"
+                - text: 增大定义
+            - row [ref=e498]:
+              - cell [ref=e499]:
+                - code [ref=e500]:
+                  - text: τ
+                  - subscript [ref=e501]: raw
+                  - text: =[τ
+                  - subscript [ref=e502]: f
+                  - text: ",τ"
+                  - subscript [ref=e503]: r
+                  - text: "]"
+                  - superscript [ref=e504]: T
+              - cell [ref=e505]:
+                - text: 与 raw q
+                - subscript [ref=e506]: f
+                - text: 、q
+                - subscript [ref=e507]: r
+                - text: 共轭的主动关节力矩
+              - cell [ref=e508]:
+                - text: N·m；τ
+                - subscript [ref=e509]: raw
+                - text: =J
+                - subscript [ref=e510]: H
+                - superscript [ref=e511]: T
+                - text: "[F"
+                - subscript [ref=e512]: "0"
+                - text: ",T"
+                - subscript [ref=e513]: p
+                - text: "]"
+                - superscript [ref=e514]: T
+                - text: ，不得再套旧 φ 坐标的负号
+            - row [ref=e515]:
+              - cell [ref=e516]:
+                - code [ref=e517]:
+                  - text: cond(J
+                  - subscript [ref=e518]: H
+                  - text: )
+              - cell "雅可比条件数" [ref=e519]
+              - cell "越大越接近病态/奇异，逆解和力矩分配越敏感" [ref=e520]
+        - math [ref=e522]:
+          - generic [ref=e523]:
+            - generic [ref=e524]: P
+            - generic [ref=e525]: (
+            - generic [ref=e526]: q
+            - generic [ref=e527]: )
+            - generic [ref=e528]: =
+            - generic [ref=e529]: "["
+            - generic [ref=e530]:
+              - generic [ref=e532]:
+                - generic [ref=e533]:
+                  - generic [ref=e534]: s
+                  - generic [ref=e535]: W
+                - generic [ref=e536]: (
+                - generic [ref=e537]: q
+                - generic [ref=e538]: )
+              - generic [ref=e540]:
+                - generic [ref=e541]:
+                  - generic [ref=e542]: d
+                  - generic [ref=e543]: W
+                - generic [ref=e544]: (
+                - generic [ref=e545]: q
+                - generic [ref=e546]: )
+            - generic [ref=e547]: "]"
+            - generic [ref=e548]: ","
+            - generic [ref=e549]: H
+            - generic [ref=e550]: (
+            - generic [ref=e551]: q
+            - generic [ref=e552]: )
+            - generic [ref=e553]: =
+            - generic [ref=e554]: "["
+            - generic [ref=e555]:
+              - generic [ref=e557]:
+                - generic [ref=e558]:
+                  - generic [ref=e559]: L
+                  - generic [ref=e560]: "0"
+                - generic [ref=e561]: (
+                - generic [ref=e562]: q
+                - generic [ref=e563]: )
+              - generic [ref=e565]:
+                - generic [ref=e566]:
+                  - generic [ref=e567]: ϕ
+                  - generic [ref=e568]: "0"
+                - generic [ref=e569]: (
+                - generic [ref=e570]: q
+                - generic [ref=e571]: )
+            - generic [ref=e572]: "]"
+            - generic [ref=e573]: ","
+            - generic [ref=e574]:
+              - generic [ref=e575]: θ
+              - generic [ref=e576]:
+                - generic [ref=e577]: l
+                - generic [ref=e578]: e
+                - generic [ref=e579]: g
+            - generic [ref=e580]: =
+            - generic [ref=e581]:
+              - generic [ref=e582]: a
+              - generic [ref=e583]: t
+              - generic [ref=e584]: a
+              - generic [ref=e585]: "n"
+              - generic [ref=e586]: "2"
+            - generic [ref=e587]: (
+            - generic [ref=e588]:
+              - generic [ref=e589]: s
+              - generic [ref=e590]: W
+            - generic [ref=e591]: ","
+            - generic [ref=e592]:
+              - generic [ref=e593]: d
+              - generic [ref=e594]: W
+            - generic [ref=e595]: )
+            - generic [ref=e596]: ","
+            - generic [ref=e597]:
+              - generic [ref=e598]: ϕ
+              - generic [ref=e599]: "0"
+            - generic [ref=e600]: =
+            - generic [ref=e601]:
+              - generic [ref=e602]: π
+              - generic [ref=e604]: "2"
+            - generic [ref=e606]: −
+            - generic [ref=e607]:
+              - generic [ref=e608]: θ
+              - generic [ref=e609]:
+                - generic [ref=e610]: l
+                - generic [ref=e611]: e
+                - generic [ref=e612]: g
+        - math [ref=e614]:
+          - generic [ref=e615]:
+            - generic [ref=e616]:
+              - generic [ref=e617]: J
+              - generic [ref=e618]: θ
+            - generic [ref=e620]: =
+            - generic [ref=e621]:
+              - generic [ref=e622]:
+                - generic [ref=e623]: ∂
+                - generic [ref=e624]: "["
+                - generic [ref=e625]:
+                  - generic [ref=e626]: L
+                  - generic [ref=e627]: "0"
+                - generic [ref=e628]: ","
+                - generic [ref=e629]:
+                  - generic [ref=e630]: θ
+                  - generic [ref=e631]:
+                    - generic [ref=e632]: l
+                    - generic [ref=e633]: e
+                    - generic [ref=e634]: g
+                - generic [ref=e635]:
+                  - generic [ref=e636]: "]"
+                  - generic [ref=e637]: T
+              - generic [ref=e638]:
+                - generic [ref=e639]: ∂
+                - generic [ref=e640]: q
+            - generic [ref=e641]: =
+            - generic [ref=e642]: "["
+            - generic [ref=e643]:
+              - generic [ref=e644]:
+                - generic [ref=e645]: "1"
+                - generic [ref=e647]: "0"
+              - generic [ref=e649]:
+                - generic [ref=e650]: "0"
+                - generic [ref=e652]:
+                  - generic [ref=e653]: −
+                  - generic [ref=e654]: "1"
+            - generic [ref=e655]: "]"
+            - generic [ref=e656]:
+              - generic [ref=e657]: J
+              - generic [ref=e658]: H
+            - generic [ref=e659]: ","
+            - generic [ref=e660]:
+              - generic [ref=e661]:
+                - generic [ref=e662]: θ
+                - generic [ref=e663]: ˙
+              - generic [ref=e664]:
+                - generic [ref=e665]: s
+                - generic [ref=e666]: i
+                - generic [ref=e667]: d
+                - generic [ref=e668]: e
+            - generic [ref=e669]: =
+            - generic [ref=e670]:
+              - generic [ref=e671]:
+                - generic [ref=e672]: θ
+                - generic [ref=e673]: ˙
+              - generic [ref=e674]:
+                - generic [ref=e675]: l
+                - generic [ref=e676]: e
+                - generic [ref=e677]: g
+            - generic [ref=e678]: −
+            - generic [ref=e679]:
+              - generic [ref=e680]:
+                - generic [ref=e681]:
+                  - generic [ref=e682]: P
+                  - generic [ref=e683]: i
+                  - generic [ref=e684]: t
+                  - generic [ref=e685]: c
+                  - generic [ref=e686]: h
+                - generic [ref=e687]: ˙
+              - generic [ref=e688]:
+                - generic [ref=e689]: s
+                - generic [ref=e690]: i
+                - generic [ref=e691]: d
+                - generic [ref=e692]: e
+            - generic [ref=e693]: =
+            - generic [ref=e694]: −
+            - generic [ref=e695]:
+              - generic [ref=e696]:
+                - generic [ref=e697]: ϕ
+                - generic [ref=e698]: ˙
+              - generic [ref=e699]: "0"
+            - generic [ref=e700]: −
+            - generic [ref=e701]:
+              - generic [ref=e702]:
+                - generic [ref=e703]:
+                  - generic [ref=e704]: P
+                  - generic [ref=e705]: i
+                  - generic [ref=e706]: t
+                  - generic [ref=e707]: c
+                  - generic [ref=e708]: h
+                - generic [ref=e709]: ˙
+              - generic [ref=e710]:
+                - generic [ref=e711]: s
+                - generic [ref=e712]: i
+                - generic [ref=e713]: d
+                - generic [ref=e714]: e
+        - heading "0.5 圆交点公式中的临时符号" [level=3] [ref=e715]
+        - table [ref=e717]:
+          - rowgroup [ref=e718]:
+            - row [ref=e719]:
+              - columnheader "符号" [ref=e720]
+              - columnheader "表示什么" [ref=e721]
+          - rowgroup [ref=e722]:
+            - row [ref=e723]:
+              - cell [ref=e724]:
+                - code [ref=e725]:
+                  - text: O
+                  - subscript [ref=e726]: a
+                  - text: 、O
+                  - subscript [ref=e727]: b
+              - cell "几何点：某一次圆交计算的两个已知圆心；第一次代入 J/L，第二次代入 K/P" [ref=e728]
+            - row [ref=e729]:
+              - cell [ref=e730]:
+                - code [ref=e731]:
+                  - text: r
+                  - subscript [ref=e732]: a
+                  - text: 、r
+                  - subscript [ref=e733]: b
+              - cell "两条固定距离约束，也就是两个圆的半径；它可能是二点杆长度，也可能是同一刚体内两固定点的距离" [ref=e734]
+            - row [ref=e735]:
+              - cell [ref=e736]:
+                - code [ref=e737]: X
+              - cell "几何点：待求交点；第一次 X=M，第二次 X=N" [ref=e738]
+            - row [ref=e739]:
+              - cell [ref=e740]:
+                - code [ref=e741]:
+                  - text: o
+                  - subscript [ref=e742]: a
+                  - text: 、o
+                  - subscript [ref=e743]: b
+                  - text: 、x
+              - cell [ref=e744]:
+                - text: 点 O
+                - subscript [ref=e745]: a
+                - text: 、O
+                - subscript [ref=e746]: b
+                - text: 、X 在同一二维坐标系中的位置向量；公式中的加减实际使用这些小写向量
+            - row [ref=e747]:
+              - cell [ref=e748]:
+                - code [ref=e749]:
+                  - text: d=o
+                  - subscript [ref=e750]: b
+                  - text: −o
+                  - subscript [ref=e751]: a
+              - cell "从第一个圆心指向第二个圆心的位移向量" [ref=e752]
+            - row [ref=e753]:
+              - cell [ref=e754]:
+                - code [ref=e755]: ρ=‖d‖
+              - cell "两个圆心之间的距离" [ref=e756]
+            - row [ref=e757]:
+              - cell [ref=e758]:
+                - code [ref=e759]: e=d/ρ
+              - cell "沿两圆心连线的单位向量" [ref=e760]
+            - row [ref=e761]:
+              - cell [ref=e762]:
+                - code [ref=e763]:
+                  - text: n=[−e
+                  - subscript [ref=e764]: z
+                  - text: ",e"
+                  - subscript [ref=e765]: s
+                  - text: "]"
+                  - superscript [ref=e766]: T
+              - cell "与 e 垂直的单位向量；下标 s、z 对应本报告的二维腿平面坐标" [ref=e767]
+            - row [ref=e768]:
+              - cell [ref=e769]:
+                - code [ref=e770]: Q
+              - cell [ref=e771]:
+                - text: 交点 X 在两圆心连线上的垂足；其位置向量 q=o
+                - subscript [ref=e772]: a
+                - text: +ae
+            - row [ref=e773]:
+              - cell [ref=e774]:
+                - code [ref=e775]: a
+              - cell [ref=e776]:
+                - text: 从 O
+                - subscript [ref=e777]: a
+                - text: 到垂足 Q 的有向距离
+            - row [ref=e778]:
+              - cell [ref=e779]:
+                - code [ref=e780]: h
+              - cell "从 Q 到圆交点 X 的垂直距离；h=0 时两圆相切" [ref=e781]
+            - row [ref=e782]:
+              - cell [ref=e783]:
+                - code [ref=e784]: "σ∈{+1,−1}"
+              - cell "选择连心线两侧的两个交点，即两种装配支路；不是力矩或方向增益" [ref=e785]
+        - heading "0.6 三种容易混淆的 offset" [level=3] [ref=e786]
+        - list [ref=e787]:
+          - listitem [ref=e788]:
+            - code [ref=e789]: J*_ANGLE_OFFSET
+            - text: ：软件里的固定角零点，形式是“理想杆角 = 符号×电机角 + 常数”。
+          - listitem [ref=e790]: 机械偏置机构：I–J–M–L–K–N–P 这些真实连杆本身，不是一个角度常数。
+          - listitem [ref=e791]:
+            - code [ref=e792]: SAFE_PHI0_EQ_TRIM
+            - text: ：控制目标平衡点修正，不会改变真实运动学 H(q)。
+      - generic [ref=e793]:
+        - heading "1. 结论先行" [level=2] [ref=e794]
+        - generic [ref=e795]: 完整推导已经成立。 当前 XML 的左腿可以化成“两次圆交点”的显式闭链，不需要把整个工作空间做成二维查表，也不需要在 STM32 每周期求一个大型非线性方程组。
+        - generic [ref=e796]:
+          - generic [ref=e797]:
+            - generic [ref=e798]: 2 次
+            - generic [ref=e799]: 圆交点即可得到真实轮轴 W
+          - generic [ref=e800]:
+            - generic [ref=e801]: 1.62 mm
+            - generic [ref=e802]: 理想五杆在验证域内最大腿长误差
+          - generic [ref=e803]:
+            - generic [ref=e804]: 1.10°
+            - generic [ref=e805]: 理想五杆在验证域内最大角度误差
+          - generic [ref=e806]:
+            - generic [ref=e807]: 不变
+            - generic [ref=e808]:
+              - text: LQR θ=0 与 VMC τ=J
+              - subscript [ref=e809]: H
+              - superscript [ref=e810]: T
+              - text: F 原理
+        - heading "一句话解释发生了什么" [level=3] [ref=e811]
+        - generic [ref=e812]: PDF： 理想主动杆角 φ=[φ1, φ4]ᵀ ──理想五杆 f──▶ y=[L0, φ0]ᵀ XML： 真实主动电机角 q=[q前, q后]ᵀ ─偏置闭链 H─▶ y=[L0, φ0]ᵀ 共同部分： [F0, Tp] ── J_Hᵀ ──▶ 两台关节电机力矩
+        - paragraph [ref=e813]:
+          - text: 所以不是“偏置机构不能做 VMC”，而是目前把
+          - code [ref=e814]: q前/q后
+          - text: 只经过负号和固定 offset 后，直接当作 PDF 的
+          - code [ref=e815]: φ4/φ1
+          - text: 。这在一个姿态附近可以接近，但不可能在整个构型域完全一致。
+        - generic [ref=e816]:
+          - text: 重要的量级判断： 名义 XML 与理想五杆确实有构型相关误差，但扫描
+          - code [ref=e817]: L0=0.15…0.42 m
+          - text: 、
+          - code [ref=e818]: φ0=70…110°
+          - text: 后最大只有约 1.62 mm、1.10°。它值得修正，却未必能单独解释“长腿完全对不上”或猛烈磕头；坐标、MIT/VMC 叠加、饱和和软约束还要分开查。
+      - generic [ref=e819]:
+        - heading "2. 车体、虚拟腿和各个角度到底画在哪里" [level=2] [ref=e820]
+        - paragraph [ref=e821]:
+          - text: 先不用“笛卡尔映射”这个词。给定前、后两个主动关节角以后，正运动学第一件事只是求出：轮轴中心
+          - code [ref=e822]: W
+          - text: 相对髋轴中心
+          - code [ref=e823]: I
+          - text: 在车体侧视平面中的位置。本文把它写成两个有符号距离：
+        - math [ref=e825]:
+          - generic [ref=e826]:
+            - generic [ref=e827]: B
+            - generic [ref=e830]:
+              - generic [ref=e831]: r
+              - generic [ref=e832]:
+                - generic [ref=e833]: I
+                - generic [ref=e834]: W
+            - generic [ref=e835]: (
+            - generic [ref=e836]: q
+            - generic [ref=e837]: )
+            - generic [ref=e838]: =
+            - generic [ref=e839]: "["
+            - generic [ref=e840]:
+              - generic [ref=e842]:
+                - generic [ref=e843]:
+                  - generic [ref=e844]: s
+                  - generic [ref=e845]: W
+                - generic [ref=e846]: (
+                - generic [ref=e847]: q
+                - generic [ref=e848]: )
+              - generic [ref=e850]:
+                - generic [ref=e851]:
+                  - generic [ref=e852]: d
+                  - generic [ref=e853]: W
+                - generic [ref=e854]: (
+                - generic [ref=e855]: q
+                - generic [ref=e856]: )
+            - generic [ref=e857]: "]"
+            - generic [ref=e858]: ","
+            - generic [ref=e859]:
+              - generic [ref=e860]: s
+              - generic [ref=e861]: W
+            - generic [ref=e862]: =
+            - generic [ref=e863]: Δ
+            - generic [ref=e864]:
+              - generic [ref=e865]: "Y"
+              - generic [ref=e867]:
+                - generic [ref=e868]: b
+                - generic [ref=e869]: a
+                - generic [ref=e870]: s
+                - generic [ref=e871]: e
+            - generic [ref=e872]: ","
+            - generic [ref=e873]:
+              - generic [ref=e874]: d
+              - generic [ref=e875]: W
+            - generic [ref=e876]: =
+            - generic [ref=e877]: −
+            - generic [ref=e878]: Δ
+            - generic [ref=e879]:
+              - generic [ref=e880]: Z
+              - generic [ref=e882]:
+                - generic [ref=e883]: b
+                - generic [ref=e884]: a
+                - generic [ref=e885]: s
+                - generic [ref=e886]: e
+        - paragraph [ref=e887]:
+          - code [ref=e888]: sW
+          - text: 是一个坐标数值：轮轴沿 XML 的
+          - code [ref=e889]: +base Y
+          - text: 方向偏了多少；
+          - code [ref=e890]: dW
+          - text: 是轮轴沿车体向下方向偏了多少。旧版写成
+          - code [ref=e891]: xH
+          - text: ，很像又定义了一个全局 X 轴，本版不再使用这个容易混淆的名字。当前仿真驾驶坐标恰好满足
+          - code [ref=e892]: +xctrl = −base Y
+          - text: ，所以也不能把
+          - code [ref=e893]: sW
+          - text: 直接叫“车辆前进位移”。
+        - img "车体、髋轴、轮轴、虚拟腿、Pitch_side、phi0、theta_side 以及轮轴二维坐标的完整定义图" [ref=e895]:
+          - generic [ref=e897]:
+            - generic [ref=e899]: A. 物理总图：对应 PDF 第 2、11 页
+            - generic [ref=e900]: 为直接对应代码公式，本图把 Pitch_side 正向画成“世界水平 → 车体 +xB”向下转。
+            - generic [ref=e914]: W：轮轴中心
+            - generic [ref=e915]: 地面
+            - generic [ref=e916]: 世界水平参考 +xw
+            - generic [ref=e917]: 世界竖直 +zw
+            - generic [ref=e918]: 世界铅垂向下 −zw
+            - generic [ref=e919]:
+              - generic [ref=e922]: 车体 / Chassis
+              - generic [ref=e923]: 车体纵轴 +xB
+            - generic [ref=e925]: I：髋轴中心
+            - generic [ref=e928]: L0：虚拟腿 I→W
+            - generic [ref=e929]: +δL0 沿 I→W 外伸
+            - generic [ref=e931]: +Pitch_side
+            - generic [ref=e932]: 世界水平 → 车体 +xB
+            - generic [ref=e934]: +φ0
+            - generic [ref=e935]: 车体 +xB → 虚拟腿 I→W
+            - generic [ref=e937]: +θside
+            - generic [ref=e938]: 世界向下 → 虚拟腿，朝 +xw
+            - generic [ref=e940]: 图中三个角正好补成 90°
+            - generic [ref=e941]: Pitchside + φ0 + θside = π/2
+          - generic [ref=e942]:
+            - generic [ref=e944]: B. 正运动学先求轮轴位置
+            - generic [ref=e945]: 这是同一个车体侧视平面，不是轮子自转角。
+            - generic [ref=e947]: I
+            - generic [ref=e948]: +s 轴 = +base Y
+            - generic [ref=e949]: +base Z
+            - generic [ref=e950]: +d 轴 = −base Z
+            - generic [ref=e954]: W
+            - generic [ref=e955]: sW
+            - generic [ref=e956]: dW
+            - generic [ref=e957]: L0
+            - generic [ref=e959]: φ0
+            - generic [ref=e961]: θleg
+            - generic [ref=e963]: 输入 raw q=[qfront,qrear]ᵀ
+            - generic [ref=e964]: 闭链正解 → 轮轴 W → [sW,dW]ᵀ
+            - generic [ref=e965]: L0=√(sW²+dW²)，φ0=atan2(dW,sW)
+          - generic [ref=e966]: 正方向提醒：
+          - generic [ref=e967]: 上图是为了让代码等式一眼成立而画的“每侧控制坐标”。原 PDF 第 2 页的机体角 φ 使用了自己的箭头方向，不能只看字母直接套符号。
+          - generic [ref=e968]: 左右任务传入值：Pitchside,L = −INS.Pitch；Pitchside,R = +INS.Pitch。先区分“角在哪里”，再按具体侧别使用符号。
+        - heading "2.1 图中每个符号具体代表什么" [level=3] [ref=e969]
+        - table [ref=e971]:
+          - rowgroup [ref=e972]:
+            - row [ref=e973]:
+              - columnheader "符号" [ref=e974]
+              - columnheader "图上的位置" [ref=e975]
+              - columnheader "定义 / 正方向" [ref=e976]
+              - columnheader "与 PDF/代码的关系" [ref=e977]
+          - rowgroup [ref=e978]:
+            - row [ref=e979]:
+              - cell [ref=e980]:
+                - code [ref=e981]: I
+              - cell "车体上的髋关节转轴中心" [ref=e982]
+              - cell "虚拟腿和轮轴二维位置的共同原点" [ref=e983]
+              - cell "对应 PDF 五连杆固定端中点" [ref=e984]
+            - row [ref=e985]:
+              - cell [ref=e986]:
+                - code [ref=e987]: W
+              - cell "轮子中心" [ref=e988]
+              - cell "真实输出轮轴中心，不是轮缘接触点" [ref=e989]
+              - cell "对应 PDF 五连杆输出点 C / 轮轴" [ref=e990]
+            - row [ref=e991]:
+              - cell [ref=e992]:
+                - code [ref=e993]: sW
+              - cell "I→W 在车体侧视平面“+base Y”轴上的投影" [ref=e994]
+              - cell "有符号长度；向 +base Y 为正" [ref=e995]
+              - cell "旧版名为 xH；当前仿真 +xctrl 与它反向" [ref=e996]
+            - row [ref=e997]:
+              - cell [ref=e998]:
+                - code [ref=e999]: dW
+              - cell "I→W 在车体向下轴上的投影" [ref=e1000]
+              - cell "dW=−ΔZbase，轮轴在髋部下方时为正" [ref=e1001]
+              - cell "只是位置坐标，不是腿长控制量" [ref=e1002]
+            - row [ref=e1003]:
+              - cell [ref=e1004]:
+                - code [ref=e1005]: L0
+              - cell "绿色虚拟线段 I→W" [ref=e1006]
+              - cell "沿 I→W 外伸为正" [ref=e1007]
+              - cell "PDF 第 5、11 页的虚拟腿长" [ref=e1008]
+            - row [ref=e1009]:
+              - cell [ref=e1010]:
+                - code [ref=e1011]: φ0
+              - cell "车体 +xB 与虚拟腿 I→W 之间" [ref=e1012]
+              - cell "按图中紫色箭头为正" [ref=e1013]
+              - cell "PDF 第 5 页的五连杆局部极角 φ0" [ref=e1014]
+            - row [ref=e1015]:
+              - cell [ref=e1016]:
+                - code [ref=e1017]: Pitchside
+              - cell "世界水平与车体 +xB 之间" [ref=e1018]
+              - cell "按图中蓝色箭头为正" [ref=e1019]
+              - cell "几何位置对应 PDF 的机体角 φ；代码每侧符号另见下表" [ref=e1020]
+            - row [ref=e1021]:
+              - cell [ref=e1022]:
+                - code [ref=e1023]: θside
+              - cell "世界铅垂向下与虚拟腿 I→W 之间" [ref=e1024]
+              - cell "朝世界水平 +xw 偏转为正" [ref=e1025]
+              - cell "对应 PDF/LQR 状态 θ" [ref=e1026]
+            - row [ref=e1027]:
+              - cell [ref=e1028]:
+                - code [ref=e1029]: θleg
+              - cell "车体向下轴与 I→W 之间" [ref=e1030]
+              - cell "θleg=π/2−φ0" [ref=e1031]
+              - cell [ref=e1032]:
+                - code [ref=e1033]: VMC_calc_1()
+                - text: 内曾用局部变量 alpha 表示它；不要与第 4 节复合刚体朝向混淆，它不是新增 LQR 状态
+        - math [ref=e1035]:
+          - generic [ref=e1036]:
+            - generic [ref=e1037]:
+              - generic [ref=e1038]: θ
+              - generic [ref=e1040]:
+                - generic [ref=e1041]: l
+                - generic [ref=e1042]: e
+                - generic [ref=e1043]: g
+            - generic [ref=e1044]: =
+            - generic [ref=e1045]:
+              - generic [ref=e1046]: π
+              - generic [ref=e1048]: "2"
+            - generic [ref=e1050]: −
+            - generic [ref=e1051]:
+              - generic [ref=e1052]: ϕ
+              - generic [ref=e1053]: "0"
+            - generic [ref=e1054]: ","
+            - generic [ref=e1055]:
+              - generic [ref=e1056]: θ
+              - generic [ref=e1058]:
+                - generic [ref=e1059]: s
+                - generic [ref=e1060]: i
+                - generic [ref=e1061]: d
+                - generic [ref=e1062]: e
+            - generic [ref=e1063]: =
+            - generic [ref=e1064]:
+              - generic [ref=e1065]: θ
+              - generic [ref=e1067]:
+                - generic [ref=e1068]: l
+                - generic [ref=e1069]: e
+                - generic [ref=e1070]: g
+            - generic [ref=e1071]: −
+            - generic [ref=e1072]:
+              - generic [ref=e1073]:
+                - generic [ref=e1074]: P
+                - generic [ref=e1075]: i
+                - generic [ref=e1076]: t
+                - generic [ref=e1077]: c
+                - generic [ref=e1078]: h
+              - generic [ref=e1080]:
+                - generic [ref=e1081]: s
+                - generic [ref=e1082]: i
+                - generic [ref=e1083]: d
+                - generic [ref=e1084]: e
+            - generic [ref=e1085]: =
+            - generic [ref=e1086]:
+              - generic [ref=e1087]: π
+              - generic [ref=e1089]: "2"
+            - generic [ref=e1091]: −
+            - generic [ref=e1092]:
+              - generic [ref=e1093]:
+                - generic [ref=e1094]: P
+                - generic [ref=e1095]: i
+                - generic [ref=e1096]: t
+                - generic [ref=e1097]: c
+                - generic [ref=e1098]: h
+              - generic [ref=e1100]:
+                - generic [ref=e1101]: s
+                - generic [ref=e1102]: i
+                - generic [ref=e1103]: d
+                - generic [ref=e1104]: e
+            - generic [ref=e1105]: −
+            - generic [ref=e1106]:
+              - generic [ref=e1107]: ϕ
+              - generic [ref=e1108]: "0"
+        - heading "2.2 左右腿 raw q、Pitch 和力矩列顺序" [level=3] [ref=e1109]
+        - table [ref=e1111]:
+          - rowgroup [ref=e1112]:
+            - row [ref=e1113]:
+              - columnheader "侧别" [ref=e1114]
+              - columnheader "传给精确 H 的 q=[前,后]" [ref=e1115]
+              - columnheader "数组位置" [ref=e1116]
+              - columnheader "Pitchside" [ref=e1117]
+              - columnheader "raw-q 力矩写回" [ref=e1118]
+          - rowgroup [ref=e1119]:
+            - row [ref=e1120]:
+              - cell "左腿" [ref=e1121]
+              - cell [ref=e1122]:
+                - text: "[q"
+                - subscript [ref=e1123]: jIJ
+                - text: ",q"
+                - subscript [ref=e1124]: jIO
+                - text: "]"
+              - cell "joint[0]=前，joint[1]=后" [ref=e1125]
+              - cell "−INS.Pitch" [ref=e1126]
+              - cell [ref=e1127]:
+                - text: joint[0]=τ
+                - subscript [ref=e1128]: f
+                - text: ，joint[1]=τ
+                - subscript [ref=e1129]: r
+            - row [ref=e1130]:
+              - cell "右腿" [ref=e1131]
+              - cell [ref=e1132]:
+                - text: "[q"
+                - subscript [ref=e1133]: jAB
+                - text: ",q"
+                - subscript [ref=e1134]: jAG
+                - text: "]"
+              - cell "joint[3]=前，joint[2]=后" [ref=e1135]
+              - cell "+INS.Pitch" [ref=e1136]
+              - cell [ref=e1137]:
+                - text: joint[3]=τ
+                - subscript [ref=e1138]: f
+                - text: ，joint[2]=τ
+                - subscript [ref=e1139]: r
+        - generic [ref=e1140]: 为什么必须把这张表和物理图分开看：“角度画在哪两条线之间”是几何定义；左/右任务给它乘什么符号是代码坐标定义。把两件事混成一个没有车体的箭头图，最容易造成这次的误解。
+      - generic [ref=e1141]:
+        - heading "3. PDF 的普通五连杆，与 XML 的偏置串腿" [level=2] [ref=e1142]
+        - img "标准五连杆与偏置闭链结构对照" [ref=e1144]:
+          - generic [ref=e1147]: PDF：理想平面五连杆
+          - generic [ref=e1148]: XML：偏置闭链串腿
+          - generic [ref=e1149]:
+            - generic [ref=e1153]: C′（另一装配支路）
+            - generic [ref=e1154]: 圆心 B，半径 BC=l₂
+            - generic [ref=e1155]: 圆心 D，半径 DC=l₃
+            - generic [ref=e1162]: A=E（l₅=0，同轴）
+            - generic [ref=e1163]: AB=l₁，φ₁
+            - generic [ref=e1164]: ED=l₄，φ₄
+            - generic [ref=e1166]: B
+            - generic [ref=e1168]: D
+            - generic [ref=e1171]: C / 轮轴
+            - generic [ref=e1172]: 因为 BC、DC 杆长固定：C∈圆(B,l₂)∩圆(D,l₃)。
+            - generic [ref=e1173]: 本图按当前 l₁/l₂ 比例绘制；A=E 表示两主动轴在腿平面内同轴。
+            - generic [ref=e1174]:
+              - generic [ref=e1176]: 前主动
+              - generic [ref=e1178]: 后主动
+              - generic [ref=e1180]: 复合刚体
+              - generic [ref=e1182]: 输出刚体
+              - generic [ref=e1183]: 单杆
+            - generic [ref=e1184]:
+              - generic [ref=e1203]:
+                - generic [ref=e1204]: I
+                - generic [ref=e1205]: J
+                - generic [ref=e1206]: M
+                - generic [ref=e1207]: L
+                - generic [ref=e1208]: K
+                - generic [ref=e1209]: P
+                - generic [ref=e1210]: "N"
+                - generic [ref=e1211]: W
+              - generic [ref=e1212]:
+                - generic [ref=e1213]: qf：jIJ
+                - generic [ref=e1214]: qr：jIO
+                - generic [ref=e1215]: 闭链铰
+                - generic [ref=e1216]: 闭链铰
+            - generic [ref=e1217]: 多边形表示同一刚体；L、N 是闭链铰，W 才是真实轮轴。
+            - generic [ref=e1218]: 两次圆交：M=圆(J,|JM|)∩圆(L,|LM|)；N=圆(K,|KN|)∩圆(P,|PN|)。
+        - generic [ref=e1219]: 为什么 C 是两圆交点：主动杆角给定后，B、D 的位置已经确定。被动杆 BC 的长度恒为 l₂，所以 C 到 B 的距离只能等于 l₂，即 C 必须落在“圆心 B、半径 l₂”的圆上；同理 DC 长度恒为 l₃，所以 C 还必须落在“圆心 D、半径 l₃”的圆上。两个条件同时成立的位置，只能是两个圆的交点。图中 C 与 C′ 是两种装配支路，实际轮轴只取与当前机械装配连续的那一个。
+        - generic [ref=e1220]:
+          - generic [ref=e1221]:
+            - heading "PDF 隐含的假设" [level=3] [ref=e1222]
+            - list [ref=e1223]:
+              - listitem [ref=e1224]: 电机轴直接驱动长度为 l1、l4 的主动杆。
+              - listitem [ref=e1225]: 电机角与 φ1、φ4 之间只差固定零点和符号。
+              - listitem [ref=e1226]: 轮轴 C 由标准五杆的一个圆交点得到。
+          - generic [ref=e1227]:
+            - heading "当前 XML 的事实" [level=3] [ref=e1228]
+            - list [ref=e1229]:
+              - listitem [ref=e1230]:
+                - text: 前电机
+                - code [ref=e1231]: jIJ
+                - text: 驱动 I–J；随后是单杆 J–M、复合刚体 M–L–K、单杆 K–N。
+              - listitem [ref=e1232]:
+                - text: 后电机
+                - code [ref=e1233]: jIO
+                - text: 驱动刚体 I–L–P；输出刚体 P–N–W 把运动带到轮轴 W。
+              - listitem [ref=e1234]: equality 的 L、N 两个闭链铰把两条树枝重新闭合。
+        - heading "为什么固定 offset 不能完全解决" [level=3] [ref=e1235]
+        - paragraph [ref=e1236]: 残差首先留在轮轴位置，不是凭空留在某个控制器参数里。在同一个二维腿平面内定义四个向量：
+        - math [ref=e1238]:
+          - generic [ref=e1239]:
+            - generic [ref=e1240]: ℓ
+            - generic [ref=e1241]: =
+            - generic [ref=e1242]:
+              - generic [ref=e1243]:
+                - generic [ref=e1244]: I
+                - generic [ref=e1245]: L
+              - generic [ref=e1246]: →
+            - generic [ref=e1247]: ","
+            - generic [ref=e1248]: u
+            - generic [ref=e1249]: =
+            - generic [ref=e1250]:
+              - generic [ref=e1251]:
+                - generic [ref=e1252]: L
+                - generic [ref=e1253]: M
+              - generic [ref=e1254]: →
+            - generic [ref=e1255]: ","
+            - generic [ref=e1256]: p
+            - generic [ref=e1257]: =
+            - generic [ref=e1258]:
+              - generic [ref=e1259]:
+                - generic [ref=e1260]: I
+                - generic [ref=e1261]: P
+              - generic [ref=e1262]: →
+            - generic [ref=e1263]: ","
+            - generic [ref=e1264]: w
+            - generic [ref=e1265]: =
+            - generic [ref=e1266]:
+              - generic [ref=e1267]:
+                - generic [ref=e1268]: P
+                - generic [ref=e1269]: W
+              - generic [ref=e1270]: →
+        - paragraph [ref=e1271]: 小机构端点和真实轮轴相对同一个原点 I 的位置分别是：
+        - math [ref=e1273]:
+          - generic [ref=e1274]:
+            - generic [ref=e1275]:
+              - generic [ref=e1276]: r
+              - generic [ref=e1277]: M
+            - generic [ref=e1278]: =
+            - generic [ref=e1279]: ℓ
+            - generic [ref=e1280]: +
+            - generic [ref=e1281]: u
+            - generic [ref=e1282]: ","
+            - generic [ref=e1283]:
+              - generic [ref=e1284]: r
+              - generic [ref=e1285]: W
+            - generic [ref=e1286]: =
+            - generic [ref=e1287]: p
+            - generic [ref=e1288]: +
+            - generic [ref=e1289]: w
+        - paragraph [ref=e1290]:
+          - text: 如果偏置机构真的是“小机构经过一次固定旋转、再放大固定倍数”，那么必须存在同一个二维相似变换
+          - code [ref=e1291]: S=kR(δ)
+          - text: ，同时满足：
+        - math [ref=e1293]:
+          - generic [ref=e1294]:
+            - generic [ref=e1295]: p
+            - generic [ref=e1296]: =
+            - generic [ref=e1297]: S
+            - generic [ref=e1298]: ℓ
+            - generic [ref=e1299]: ","
+            - generic [ref=e1300]: w
+            - generic [ref=e1301]: =
+            - generic [ref=e1302]: S
+            - generic [ref=e1303]: u
+            - generic [ref=e1304]: ⟹
+            - generic [ref=e1305]:
+              - generic [ref=e1306]: r
+              - generic [ref=e1307]: W
+            - generic [ref=e1308]: =
+            - generic [ref=e1309]: S
+            - generic [ref=e1310]: (
+            - generic [ref=e1311]: ℓ
+            - generic [ref=e1312]: +
+            - generic [ref=e1313]: u
+            - generic [ref=e1314]: )
+            - generic [ref=e1315]: =
+            - generic [ref=e1316]: S
+            - generic [ref=e1317]:
+              - generic [ref=e1318]: r
+              - generic [ref=e1319]: M
+        - paragraph [ref=e1320]: 此时无论腿怎么运动，M 经同一个固定比例和固定角度都正好落到 W；固定符号、比例和角度 offset 才能全工作域成立。当前 XML 的两对对应向量却需要两个略有不同的变换：
+        - math [ref=e1322]:
+          - generic [ref=e1323]:
+            - generic [ref=e1324]:
+              - generic [ref=e1325]: S
+              - generic [ref=e1326]: a
+            - generic [ref=e1327]: =
+            - generic [ref=e1328]:
+              - generic [ref=e1329]: k
+              - generic [ref=e1330]: a
+            - generic [ref=e1331]: R
+            - generic [ref=e1332]: (
+            - generic [ref=e1333]:
+              - generic [ref=e1334]: δ
+              - generic [ref=e1335]: a
+            - generic [ref=e1336]: )
+            - generic [ref=e1337]: ","
+            - generic [ref=e1338]:
+              - generic [ref=e1339]: k
+              - generic [ref=e1340]: a
+            - generic [ref=e1341]: =
+            - generic [ref=e1342]:
+              - generic [ref=e1343]:
+                - generic [ref=e1344]: "|"
+                - generic [ref=e1345]: I
+                - generic [ref=e1346]: P
+                - generic [ref=e1347]: "|"
+              - generic [ref=e1348]:
+                - generic [ref=e1349]: "|"
+                - generic [ref=e1350]: I
+                - generic [ref=e1351]: L
+                - generic [ref=e1352]: "|"
+            - generic [ref=e1353]: =
+            - generic [ref=e1354]: "2.216813"
+            - generic [ref=e1355]: ","
+            - generic [ref=e1356]:
+              - generic [ref=e1357]: δ
+              - generic [ref=e1358]: a
+            - generic [ref=e1359]: =
+            - generic [ref=e1360]: −
+            - generic [ref=e1361]:
+              - generic [ref=e1362]: "0.072154"
+              - generic [ref=e1363]: ∘
+        - math [ref=e1365]:
+          - generic [ref=e1366]:
+            - generic [ref=e1367]:
+              - generic [ref=e1368]: S
+              - generic [ref=e1369]: b
+            - generic [ref=e1370]: =
+            - generic [ref=e1371]:
+              - generic [ref=e1372]: k
+              - generic [ref=e1373]: b
+            - generic [ref=e1374]: R
+            - generic [ref=e1375]: (
+            - generic [ref=e1376]:
+              - generic [ref=e1377]: δ
+              - generic [ref=e1378]: b
+            - generic [ref=e1379]: )
+            - generic [ref=e1380]: ","
+            - generic [ref=e1381]:
+              - generic [ref=e1382]: k
+              - generic [ref=e1383]: b
+            - generic [ref=e1384]: =
+            - generic [ref=e1385]:
+              - generic [ref=e1386]:
+                - generic [ref=e1387]: "|"
+                - generic [ref=e1388]: P
+                - generic [ref=e1389]: W
+                - generic [ref=e1390]: "|"
+              - generic [ref=e1391]:
+                - generic [ref=e1392]: "|"
+                - generic [ref=e1393]: L
+                - generic [ref=e1394]: M
+                - generic [ref=e1395]: "|"
+            - generic [ref=e1396]: =
+            - generic [ref=e1397]: "2.243477"
+            - generic [ref=e1398]: ","
+            - generic [ref=e1399]:
+              - generic [ref=e1400]: δ
+              - generic [ref=e1401]: b
+            - generic [ref=e1402]: ≈
+            - generic [ref=e1403]: −
+            - generic [ref=e1404]:
+              - generic [ref=e1405]: "0.000062"
+              - generic [ref=e1406]: ∘
+        - paragraph [ref=e1407]:
+          - text: 也就是比例相差约 1.203%，对应方向关系还相差约 0.072°。假设理想模型用第一对杆确定的
+          - code [ref=e1408]:
+            - text: S
+            - subscript [ref=e1409]: a
+          - text: 去放大小机构，则它预测：
+        - math [ref=e1411]:
+          - generic [ref=e1412]:
+            - generic [ref=e1413]:
+              - generic [ref=e1414]:
+                - generic [ref=e1415]: r
+                - generic [ref=e1417]: ^
+              - generic [ref=e1418]: W
+            - generic [ref=e1419]: =
+            - generic [ref=e1420]:
+              - generic [ref=e1421]: S
+              - generic [ref=e1422]: a
+            - generic [ref=e1423]:
+              - generic [ref=e1424]: r
+              - generic [ref=e1425]: M
+            - generic [ref=e1426]: ","
+            - generic [ref=e1427]:
+              - generic [ref=e1428]:
+                - generic [ref=e1429]:
+                  - generic [ref=e1430]:
+                    - generic [ref=e1431]: r
+                    - generic [ref=e1432]: W
+                  - generic [ref=e1433]: −
+                  - generic [ref=e1434]:
+                    - generic [ref=e1435]:
+                      - generic [ref=e1436]: r
+                      - generic [ref=e1438]: ^
+                    - generic [ref=e1439]: W
+                - generic [ref=e1440]: ⏟
+              - generic [ref=e1441]:
+                - generic [ref=e1442]: 轮轴位置残差
+                - generic [ref=e1443]:
+                  - generic [ref=e1444]: e
+                  - generic [ref=e1445]: W
+            - generic [ref=e1446]: =
+            - generic [ref=e1447]: (
+            - generic [ref=e1448]:
+              - generic [ref=e1449]: S
+              - generic [ref=e1450]: b
+            - generic [ref=e1451]: −
+            - generic [ref=e1452]:
+              - generic [ref=e1453]: S
+              - generic [ref=e1454]: a
+            - generic [ref=e1455]: )
+            - generic [ref=e1456]: u
+        - paragraph [ref=e1457]:
+          - code [ref=e1458]: u=L→M
+          - text: 会随腿的姿态一起转，所以
+          - code [ref=e1459]: eW
+          - text: 的方向和大小也随构型变化。固定 offset 可以让某一个姿态
+          - code [ref=e1460]: q*
+          - text: 的
+          - code [ref=e1461]: eW(q*)=0
+          - text: ，但离开这个姿态后它又出现；这正是“固定 offset 只能对准一点”的严格含义。
+        - img "严格相似机构与当前 XML 机构中轮轴位置残差的来源及向控制链传播" [ref=e1463]:
+          - generic [ref=e1465]:
+            - generic [ref=e1467]: A. 严格相似：同一个 S 同时作用于两段
+            - generic [ref=e1468]: 示意图取 δ=0 便于观察；有固定旋转 δ 时结论完全相同。
+            - generic [ref=e1474]: I
+            - generic [ref=e1475]: L
+            - generic [ref=e1476]: M
+            - generic [ref=e1477]: ℓ
+            - generic [ref=e1478]: u
+            - generic [ref=e1483]: P=Sℓ
+            - generic [ref=e1484]: W=SM
+            - generic [ref=e1485]: p=Sℓ
+            - generic [ref=e1486]: w=Su
+            - generic [ref=e1488]: 结果：小端点 M 经过固定 S 后，在任何姿态都和轮轴 W 重合。
+            - generic [ref=e1489]: 这才是“一个固定比例 + 一个固定角 offset 能全域等效”的情况。
+            - generic [ref=e1491]: B. 当前 XML：Sₐ ≠ Sᵦ，W 与模型预测不重合
+            - generic [ref=e1492]: 图中把 1.2% 差异夸大画出，便于看清残差落点。
+            - generic [ref=e1498]: I
+            - generic [ref=e1499]: L
+            - generic [ref=e1500]: M
+            - generic [ref=e1507]: P=Sₐℓ
+            - generic [ref=e1508]: 模型：Sₐu
+            - generic [ref=e1509]: 真实：Sᵦu
+            - generic [ref=e1510]: Ŵ=SₐM
+            - generic [ref=e1511]: W
+            - generic [ref=e1513]: eW
+            - generic [ref=e1514]: 残差位置：就在同一 q 下，理想预测轮轴 Ŵ 与真实轮轴 W 之间。
+            - generic [ref=e1515]: 当 u 随腿旋转时，红色 eW 也改变；它不可能被一个常数角永久消掉。
+            - generic [ref=e1516]: 残差进入控制链的位置
+            - generic [ref=e1517]:
+              - generic [ref=e1519]: 相同电机角 q
+              - generic [ref=e1520]: 真实 W ≠ 理想 Ŵ
+              - generic [ref=e1522]: 二维位置残差 eW
+              - generic [ref=e1523]: ΔsW、ΔdW
+              - generic [ref=e1525]: 虚拟状态残差
+              - generic [ref=e1526]: ΔL0、Δφ0、Δθ
+              - generic [ref=e1528]: 雅可比残差 ΔJ
+              - generic [ref=e1529]: 速度/虚功关系偏差
+              - generic [ref=e1531]: 力矩分配偏差
+              - generic [ref=e1532]: Δτ=ΔJᵀF
+            - generic [ref=e1533]: 注意：这条链说明误差“从哪里进入”；不等于说 1.2% 的几何差异足以单独解释所有实车磕头或腿长失控。
+        - generic [ref=e1534]:
+          - text: 数值量级：在同一组 q 下比较理想五杆与 XML 精确闭链，扫描域内二维轮轴位置差最大约 8.21 mm；换成控制变量后，最大约为 ΔL0=1.62 mm、Δθ
+          - subscript [ref=e1535]: leg
+          - text: =1.10°。它证明固定 offset 不是严格全域解，但这个量级本身仍不足以自动解释几十毫米误差或猛烈磕头。
+        - generic [ref=e1536]: 另一个直接判据：若强行让理想五杆在每个竖直腿姿态都复现 XML 轮轴，反算所需前侧固定角偏移：L0=0.15、0.20、0.25、0.30、0.35、0.40 m 时分别为 −6.021°、−5.460°、−5.096°、−4.831°、−4.619°、−4.428°。真正的固定 offset 应在所有姿态得到同一个数；这里漂移约 1.59°。
+      - generic [ref=e1537]:
+        - heading "4. 从 q 到 H(q) 的完整精确正解" [level=2] [ref=e1538]
+        - paragraph [ref=e1539]:
+          - text: 以下先对 XML 的名义左腿定义主动坐标；右腿按第 2 节接口表把
+          - code [ref=e1540]: "[jAB,jAG]"
+          - text: 排成同样的“前、后”顺序：
+        - math [ref=e1542]:
+          - generic [ref=e1543]:
+            - generic [ref=e1544]: q
+            - generic [ref=e1545]: =
+            - generic [ref=e1546]: "["
+            - generic [ref=e1547]:
+              - generic [ref=e1550]:
+                - generic [ref=e1551]: q
+                - generic [ref=e1552]: f
+              - generic [ref=e1555]:
+                - generic [ref=e1556]: q
+                - generic [ref=e1557]: r
+            - generic [ref=e1558]: "]"
+            - generic [ref=e1559]: =
+            - generic [ref=e1560]: "["
+            - generic [ref=e1561]:
+              - generic [ref=e1564]:
+                - generic [ref=e1565]: q
+                - generic [ref=e1566]:
+                  - generic [ref=e1567]: j
+                  - generic [ref=e1568]: I
+                  - generic [ref=e1569]: J
+              - generic [ref=e1572]:
+                - generic [ref=e1573]: q
+                - generic [ref=e1574]:
+                  - generic [ref=e1575]: j
+                  - generic [ref=e1576]: I
+                  - generic [ref=e1577]: O
+            - generic [ref=e1578]: "]"
+        - heading "4.1 XML 中提取的固定向量" [level=3] [ref=e1579]
+        - table [ref=e1581]:
+          - rowgroup [ref=e1582]:
+            - row [ref=e1583]:
+              - columnheader "向量" [ref=e1584]
+              - columnheader "jIJ/jIO 局部平面坐标 (X,Z)，m" [ref=e1585]
+              - columnheader "长度，m" [ref=e1586]
+              - columnheader "意义" [ref=e1587]
+          - rowgroup [ref=e1588]:
+            - row [ref=e1589]:
+              - cell "I→J" [ref=e1590]
+              - cell "(+0.0967494, +0.00674587)" [ref=e1591]
+              - cell "0.096984293" [ref=e1592]
+              - cell "前主动曲柄" [ref=e1593]
+            - row [ref=e1594]:
+              - cell "I→L" [ref=e1595]
+              - cell "(−0.0963553, +0.0109404)" [ref=e1596]
+              - cell "0.096974410" [ref=e1597]
+              - cell "后主动刚体上的闭链点" [ref=e1598]
+            - row [ref=e1599]:
+              - cell "I→P" [ref=e1600]
+              - cell "(−0.213571, +0.0245218)" [ref=e1601]
+              - cell "0.214974163" [ref=e1602]
+              - cell "后主动长杆" [ref=e1603]
+            - row [ref=e1604]:
+              - cell "J→M" [ref=e1605]
+              - cell "(−0.0979082, −0.060324)" [ref=e1606]
+              - cell "0.115000003" [ref=e1607]
+              - cell "第一闭链连杆" [ref=e1608]
+            - row [ref=e1609]:
+              - cell "M→L" [ref=e1610]
+              - cell "(−0.0951965, +0.0645185)" [ref=e1611]
+              - cell "0.115000045" [ref=e1612]
+              - cell "jMK 刚体内 M、L 两固定点的距离" [ref=e1613]
+            - row [ref=e1614]:
+              - cell "M→K" [ref=e1615]
+              - cell "(−0.132583, +0.116217)" [ref=e1616]
+              - cell "0.176308375" [ref=e1617]
+              - cell "同一复合刚体" [ref=e1618]
+            - row [ref=e1619]:
+              - cell "K→N" [ref=e1620]
+              - cell "(−0.117216, +0.0135814)" [ref=e1621]
+              - cell "0.118000191" [ref=e1622]
+              - cell "第二闭链连杆" [ref=e1623]
+            - row [ref=e1624]:
+              - cell "P→N" [ref=e1625]
+              - cell "(−0.0373868, +0.0516985)" [ref=e1626]
+              - cell "0.063800531" [ref=e1627]
+              - cell "jOP 输出刚体内 P、N 两固定点的距离" [ref=e1628]
+            - row [ref=e1629]:
+              - cell "P→W" [ref=e1630]
+              - cell "(+0.213571, −0.144746)" [ref=e1631]
+              - cell "0.257999955" [ref=e1632]
+              - cell "jOP 输出刚体内从 P 到真实轮轴 W 的固定向量" [ref=e1633]
+        - heading "4.2 通用圆交点" [level=3] [ref=e1634]
+        - paragraph [ref=e1635]:
+          - text: 先把“点”和“向量”分开。
+          - code [ref=e1636]: Oa、Ob、X
+          - text: 是机构平面中的几何点；选定同一个坐标原点以后，它们的位置向量分别记为
+          - code [ref=e1637]: oa、ob、x
+          - text: 。所以公式中的加减是二维向量加减，最后得到的
+          - code [ref=e1638]:
+            - text: x=[x
+            - subscript [ref=e1639]: s
+            - text: ",x"
+            - subscript [ref=e1640]: z
+            - text: "]"
+            - superscript [ref=e1641]: T
+          - text: 仍是点 X 的二维位置向量。
+        - paragraph [ref=e1642]:
+          - text: 若机构要求 X 到 O
+          - subscript [ref=e1643]: a
+          - text: 的距离始终为 r
+          - subscript [ref=e1644]: a
+          - text: ，同时到 O
+          - subscript [ref=e1645]: b
+          - text: 的距离始终为 r
+          - subscript [ref=e1646]: b
+          - text: ，那么 X 必须同时满足：
+        - math [ref=e1648]:
+          - generic [ref=e1649]:
+            - generic [ref=e1650]:
+              - generic [ref=e1651]: ‖
+              - generic [ref=e1652]: x
+              - generic [ref=e1653]: −
+              - generic [ref=e1654]:
+                - generic [ref=e1655]: o
+                - generic [ref=e1656]: a
+              - generic [ref=e1657]: ‖
+            - generic [ref=e1658]: =
+            - generic [ref=e1659]:
+              - generic [ref=e1660]: r
+              - generic [ref=e1661]: a
+            - generic [ref=e1662]: ","
+            - generic [ref=e1663]:
+              - generic [ref=e1664]: ‖
+              - generic [ref=e1665]: x
+              - generic [ref=e1666]: −
+              - generic [ref=e1667]:
+                - generic [ref=e1668]: o
+                - generic [ref=e1669]: b
+              - generic [ref=e1670]: ‖
+            - generic [ref=e1671]: =
+            - generic [ref=e1672]:
+              - generic [ref=e1673]: r
+              - generic [ref=e1674]: b
+        - paragraph [ref=e1675]:
+          - text: 第一式的全部解就是“圆心 O
+          - subscript [ref=e1676]: a
+          - text: 、半径 r
+          - subscript [ref=e1677]: a
+          - text: ”的圆；第二式同理。两条约束同时成立，所以 X 是两个圆的交点。
+        - img "任意朝向的两个圆心、局部基向量 e n、垂足 Q 与两个圆交点" [ref=e1679]:
+          - generic [ref=e1681]:
+            - generic [ref=e1683]: 中心不需要水平：Oₐ、Oᵦ 在任意位置都可以
+            - generic [ref=e1684]: 任意两个不同点天然确定一条连心线；公式自己建立沿连心线的 e 轴和垂直的 n 轴。
+            - generic [ref=e1698]: Oₐ
+            - generic [ref=e1699]: Oᵦ
+            - generic [ref=e1700]: X₊
+            - generic [ref=e1701]: X₋
+            - generic [ref=e1702]: Q
+            - generic [ref=e1703]: rₐ
+            - generic [ref=e1704]: rᵦ
+            - generic [ref=e1706]: e
+            - generic [ref=e1708]: "n"
+            - generic [ref=e1709]: 图中 Oₐ、Oᵦ 明显不在一条水平线上；只有 Q 位于连心线上，Q→X 与连心线垂直。
+            - generic [ref=e1711]: 向量加法逐项解释
+            - generic [ref=e1713]: oₐ：从坐标原点走到 Oₐ
+            - generic [ref=e1714]: 二维位置向量，单位 m
+            - generic [ref=e1716]: a e：沿连心线走 a
+            - generic [ref=e1717]: 标量 a × 单位向量 e
+            - generic [ref=e1719]: σ h n：垂直走 ±h
+            - generic [ref=e1720]: σ=±1 选择两种装配支路
+            - generic [ref=e1722]: 三段位移相加仍是向量
+            - generic [ref=e1723]: x=oₐ+ae+σhn
+            - generic [ref=e1724]: 最终 x=[xₛ,x_z]ᵀ
+            - generic [ref=e1725]: 就是点 X 的坐标
+        - paragraph [ref=e1726]: 令：
+        - math [ref=e1728]:
+          - generic [ref=e1729]:
+            - generic [ref=e1730]: d
+            - generic [ref=e1731]: =
+            - generic [ref=e1732]:
+              - generic [ref=e1733]: o
+              - generic [ref=e1734]: b
+            - generic [ref=e1735]: −
+            - generic [ref=e1736]:
+              - generic [ref=e1737]: o
+              - generic [ref=e1738]: a
+            - generic [ref=e1739]: ","
+            - generic [ref=e1740]: ρ
+            - generic [ref=e1741]: =
+            - generic [ref=e1742]: ‖
+            - generic [ref=e1743]: d
+            - generic [ref=e1744]: ‖
+            - generic [ref=e1745]: ","
+            - generic [ref=e1746]: e
+            - generic [ref=e1747]: =
+            - generic [ref=e1748]:
+              - generic [ref=e1749]: d
+              - generic [ref=e1751]: ρ
+            - generic [ref=e1753]: ","
+            - generic [ref=e1754]: "n"
+            - generic [ref=e1755]: =
+            - generic [ref=e1756]: "["
+            - generic [ref=e1757]:
+              - generic [ref=e1759]:
+                - generic [ref=e1760]: −
+                - generic [ref=e1761]:
+                  - generic [ref=e1762]: e
+                  - generic [ref=e1763]: z
+              - generic [ref=e1766]:
+                - generic [ref=e1767]: e
+                - generic [ref=e1768]: s
+            - generic [ref=e1769]: "]"
+        - paragraph [ref=e1770]:
+          - code [ref=e1771]: e
+          - text: 是从 O
+          - subscript [ref=e1772]: a
+          - text: 指向 O
+          - subscript [ref=e1773]: b
+          - text: 的单位向量；
+          - code [ref=e1774]: "n"
+          - text: 是把 e 在平面内转 90° 后得到的单位向量。先从 O
+          - subscript [ref=e1775]: a
+          - text: 沿 e 走 a 到垂足 Q，再沿 n 走 ±h 到交点，所以：
+        - math [ref=e1777]:
+          - generic [ref=e1778]:
+            - generic [ref=e1780]:
+              - generic [ref=e1781]: x
+              - generic [ref=e1782]: =
+              - generic [ref=e1783]:
+                - generic [ref=e1784]: o
+                - generic [ref=e1785]: a
+              - generic [ref=e1786]: +
+              - generic [ref=e1787]: a
+              - generic [ref=e1788]: e
+              - generic [ref=e1789]: +
+              - generic [ref=e1790]: σ
+              - generic [ref=e1791]: h
+              - generic [ref=e1792]: "n"
+            - generic [ref=e1793]: ","
+            - generic [ref=e1794]: σ
+            - generic [ref=e1795]: ∈
+            - generic [ref=e1796]: "{"
+            - generic [ref=e1797]: +
+            - generic [ref=e1798]: "1"
+            - generic [ref=e1799]: ","
+            - generic [ref=e1800]: −
+            - generic [ref=e1801]: "1"
+            - generic [ref=e1802]: "}"
+        - paragraph [ref=e1803]:
+          - text: 在直角三角形 O
+          - subscript [ref=e1804]: a
+          - text: –Q–X 中有
+          - code [ref=e1805]: a²+h²=rₐ²
+          - text: ；在 O
+          - subscript [ref=e1806]: b
+          - text: –Q–X 中有
+          - code [ref=e1807]: (ρ−a)²+h²=rᵦ²
+          - text: 。两式相减消掉 h：
+        - math [ref=e1809]:
+          - generic [ref=e1810]:
+            - generic [ref=e1811]:
+              - generic [ref=e1812]: a
+              - generic [ref=e1813]: "2"
+            - generic [ref=e1814]: −
+            - generic [ref=e1815]: (
+            - generic [ref=e1816]: ρ
+            - generic [ref=e1817]: −
+            - generic [ref=e1818]: a
+            - generic [ref=e1819]:
+              - generic [ref=e1820]: )
+              - generic [ref=e1821]: "2"
+            - generic [ref=e1822]: =
+            - generic [ref=e1823]:
+              - generic [ref=e1824]: r
+              - generic [ref=e1825]: a
+              - generic [ref=e1826]: "2"
+            - generic [ref=e1827]: −
+            - generic [ref=e1828]:
+              - generic [ref=e1829]: r
+              - generic [ref=e1830]: b
+              - generic [ref=e1831]: "2"
+            - generic [ref=e1832]: ⟹
+            - generic [ref=e1833]: a
+            - generic [ref=e1834]: =
+            - generic [ref=e1835]:
+              - generic [ref=e1836]:
+                - generic [ref=e1837]:
+                  - generic [ref=e1838]: r
+                  - generic [ref=e1839]: a
+                  - generic [ref=e1840]: "2"
+                - generic [ref=e1841]: −
+                - generic [ref=e1842]:
+                  - generic [ref=e1843]: r
+                  - generic [ref=e1844]: b
+                  - generic [ref=e1845]: "2"
+                - generic [ref=e1846]: +
+                - generic [ref=e1847]:
+                  - generic [ref=e1848]: ρ
+                  - generic [ref=e1849]: "2"
+              - generic [ref=e1850]:
+                - generic [ref=e1851]: "2"
+                - generic [ref=e1852]: ρ
+            - generic [ref=e1853]: ","
+            - generic [ref=e1854]: h
+            - generic [ref=e1855]: =
+            - generic [ref=e1857]:
+              - generic [ref=e1858]:
+                - generic [ref=e1859]: r
+                - generic [ref=e1860]: a
+                - generic [ref=e1861]: "2"
+              - generic [ref=e1862]: −
+              - generic [ref=e1863]:
+                - generic [ref=e1864]: a
+                - generic [ref=e1865]: "2"
+        - generic [ref=e1866]: “同一条线”要求到底是什么：J 和 L 不必水平，也不需要事先落在某条全局坐标轴上。任意两个不同点 J、L 都天然定义一条连心线；公式把这条斜线临时当作 e 方向。只有垂足 Q 在 J–L 连线上，交点 M 通常不在 J–L 连线上。
+        - heading "把通用公式原样代回当前 XML 的两次闭链" [level=4] [ref=e1867]
+        - img "当前 XML 第一次用 J L 两圆求 M，第二次用 K P 两圆求 N 的真实连杆约束" [ref=e1869]:
+          - generic [ref=e1871]:
+            - generic [ref=e1873]: 已知主动角 qf、qr
+            - generic [ref=e1874]: 先算出 J、L、P
+            - generic [ref=e1876]: 第一次圆交：求 M
+            - generic [ref=e1877]: 再由刚体 M–L–K 求 K
+            - generic [ref=e1879]: 第二次圆交：求 N
+            - generic [ref=e1880]: 再由刚体 P–N–W 求 W
+            - generic [ref=e1882]: 得到真实轮轴 W
+            - generic [ref=e1883]: 再换算 L0、φ0、JH
+            - generic [ref=e1885]: 第一次：圆(J, |JM|) ∩ 圆(L, |LM|) → M
+            - generic [ref=e1886]: 给定 q 后，J、L 已知且可以是任意斜向位置。
+            - generic [ref=e1896]: J
+            - generic [ref=e1897]: L
+            - generic [ref=e1898]: M（当前支路）
+            - generic [ref=e1899]: M′（另一支路）
+            - generic [ref=e1900]: "|JM|=115.000 mm"
+            - generic [ref=e1901]: "|LM|=115.000 mm"
+            - generic [ref=e1903]: 为什么两个长度相等仍要两条约束？
+            - generic [ref=e1904]: 相等只说明三角形 J–M–L 是等腰；M 仍必须同时离 J、L 各 115 mm。
+            - generic [ref=e1906]: 第二次：圆(K, |KN|) ∩ 圆(P, |PN|) → N
+            - generic [ref=e1907]: 第一次求出 M 后，刚体 M–L–K 的朝向给出 K；P 早已由 qr 给出。
+            - generic [ref=e1917]: K
+            - generic [ref=e1918]: P
+            - generic [ref=e1919]: N（当前支路）
+            - generic [ref=e1920]: N′（另一支路）
+            - generic [ref=e1921]: "|KN|=118.000 mm"
+            - generic [ref=e1922]: "|PN|=63.801 mm"
+            - generic [ref=e1924]: 这两次都只是正运动学约束，不是“控制逻辑”。
+            - generic [ref=e1925]: 圆交负责找铰点位置；控制器是在 W、L0、φ0、JH 算出以后才介入。
+        - paragraph [ref=e1926]: 第一次圆交的物理约束是：
+        - math [ref=e1928]:
+          - generic [ref=e1929]:
+            - generic [ref=e1930]: ‖
+            - generic [ref=e1931]: m
+            - generic [ref=e1932]: −
+            - generic [ref=e1933]: j
+            - generic [ref=e1934]: ‖
+            - generic [ref=e1935]: =
+            - generic [ref=e1936]: "|"
+            - generic [ref=e1937]: J
+            - generic [ref=e1938]: M
+            - generic [ref=e1939]: "|"
+            - generic [ref=e1940]: ","
+            - generic [ref=e1941]: ‖
+            - generic [ref=e1942]: m
+            - generic [ref=e1943]: −
+            - generic [ref=e1944]: l
+            - generic [ref=e1945]: ‖
+            - generic [ref=e1946]: =
+            - generic [ref=e1947]: "|"
+            - generic [ref=e1948]: L
+            - generic [ref=e1949]: M
+            - generic [ref=e1950]: "|"
+        - paragraph [ref=e1951]:
+          - code [ref=e1952]: JM
+          - text: 是一根两端铰接的实体连杆；
+          - code [ref=e1953]: LM
+          - text: 是复合刚体 jMK 上 L、M 两个固定点之间的距离。它们恰好都约为 115 mm，只会让 J–M–L 成为等腰三角形，并不意味着 J、L、M 共线，也不能删掉任意一条距离约束。求得 M 后，利用同一刚体内固定向量 M→K 求出 K。
+        - paragraph [ref=e1954]: 第二次圆交的物理约束是：
+        - math [ref=e1956]:
+          - generic [ref=e1957]:
+            - generic [ref=e1958]: ‖
+            - generic [ref=e1959]: "n"
+            - generic [ref=e1960]: −
+            - generic [ref=e1961]: k
+            - generic [ref=e1962]: ‖
+            - generic [ref=e1963]: =
+            - generic [ref=e1964]: "|"
+            - generic [ref=e1965]: K
+            - generic [ref=e1966]: "N"
+            - generic [ref=e1967]: "|"
+            - generic [ref=e1968]: ","
+            - generic [ref=e1969]: ‖
+            - generic [ref=e1970]: "n"
+            - generic [ref=e1971]: −
+            - generic [ref=e1972]: p
+            - generic [ref=e1973]: ‖
+            - generic [ref=e1974]: =
+            - generic [ref=e1975]: "|"
+            - generic [ref=e1976]: P
+            - generic [ref=e1977]: "N"
+            - generic [ref=e1978]: "|"
+        - paragraph [ref=e1979]:
+          - code [ref=e1980]: KN
+          - text: 是第二根两点连杆，
+          - code [ref=e1981]: PN
+          - text: 是输出刚体 jOP 内 P、N 的固定点距。求得 N 后，P→N 确定输出刚体朝向，再旋转固定向量 P→W 得到真实轮轴 W。
+        - generic [ref=e1982]: 两种装配支路：每次圆交通常都有两个候选点。离线零位中第一次使用 σ=+1、第二次使用 σ=−1 才对应 XML 当前装配；实时计算更稳妥的方式是选择“与上一周期交点最近”的候选点，避免跳到机构另一侧。
+        - generic [ref=e1983]: 不要把后续定位向量当成圆半径：|MK|=0.176308 m 是求得 M 后定位 K 的体固连向量；|PW|=0.258000 m 是求得 N 后定位 W 的体固连向量。它们不参与各自前一步的圆交半径约束。
+        - heading "4.3 推导流程图" [level=3] [ref=e1984]
+        - img "偏置闭链精确运动学流程图" [ref=e1986]:
+          - generic [ref=e1988]:
+            - generic [ref=e1989]: 开始：读取 qf、qr
+            - generic [ref=e1992]:
+              - generic [ref=e1994]: 旋转固定向量
+              - generic [ref=e1995]: J=R(qf)vIJ；L、P=R(qr)v
+            - generic [ref=e1996]:
+              - generic [ref=e1998]: 第一次闭链
+              - generic [ref=e1999]: M = Circle(J, |JM|, L, |ML|, +1)
+            - generic [ref=e2000]: hM² ≥ 0 ?
+            - generic [ref=e2003]: 否
+            - generic [ref=e2004]: 是
+            - generic [ref=e2005]: 目标不可达 / 奇异
+            - generic [ref=e2008]:
+              - generic [ref=e2010]: α = arg(L−M) − arg(vML)
+              - generic [ref=e2011]: K = M + R(α)vMK
+            - generic [ref=e2012]: hN² ≥ 0 ?
+            - generic [ref=e2015]: 否
+            - generic [ref=e2016]: 是
+            - generic [ref=e2017]: 目标不可达 / 奇异
+            - generic [ref=e2020]:
+              - generic [ref=e2022]: N = Circle(K, |KN|, P, |PN|, −1)
+              - generic [ref=e2023]: β = arg(N−P) − arg(vPN)；W=P+R(β)vPW
+            - generic [ref=e2024]:
+              - generic [ref=e2026]: 先输出轮轴二维位置 𝒫(q)，再换成 H(q)
+              - generic [ref=e2027]: 𝒫=[sW,dW]ᵀ；L0=‖𝒫‖；φ0=atan2(dW,sW)
+            - generic [ref=e2028]:
+              - generic [ref=e2030]: 求精确雅可比 J_H = ∂H/∂q
+              - generic [ref=e2031]: 中心差分 / 隐式闭链求导 / 自动微分
+            - generic [ref=e2032]:
+              - generic [ref=e2034]: VMC：τ = J_Hᵀ [F0, Tp]ᵀ
+              - generic [ref=e2035]: 按明确的前/后电机顺序输出
+            - generic [ref=e2036]: 结束：电机力矩
+        - heading "4.4 逐式计算" [level=3] [ref=e2039]
+        - generic [ref=e2040]:
+          - generic [ref=e2041]: "1"
+          - text: 主动端点
+          - math [ref=e2043]:
+            - generic [ref=e2044]:
+              - generic [ref=e2045]: J
+              - generic [ref=e2046]: =
+              - generic [ref=e2047]: R
+              - generic [ref=e2048]: (
+              - generic [ref=e2049]:
+                - generic [ref=e2050]: q
+                - generic [ref=e2051]: f
+              - generic [ref=e2052]: )
+              - generic [ref=e2053]:
+                - generic [ref=e2054]: v
+                - generic [ref=e2055]:
+                  - generic [ref=e2056]: I
+                  - generic [ref=e2057]: J
+              - generic [ref=e2058]: ","
+              - generic [ref=e2059]: L
+              - generic [ref=e2060]: =
+              - generic [ref=e2061]: R
+              - generic [ref=e2062]: (
+              - generic [ref=e2063]:
+                - generic [ref=e2064]: q
+                - generic [ref=e2065]: r
+              - generic [ref=e2066]: )
+              - generic [ref=e2067]:
+                - generic [ref=e2068]: v
+                - generic [ref=e2069]:
+                  - generic [ref=e2070]: I
+                  - generic [ref=e2071]: L
+              - generic [ref=e2072]: ","
+              - generic [ref=e2073]: P
+              - generic [ref=e2074]: =
+              - generic [ref=e2075]: R
+              - generic [ref=e2076]: (
+              - generic [ref=e2077]:
+                - generic [ref=e2078]: q
+                - generic [ref=e2079]: r
+              - generic [ref=e2080]: )
+              - generic [ref=e2081]:
+                - generic [ref=e2082]: v
+                - generic [ref=e2083]:
+                  - generic [ref=e2084]: I
+                  - generic [ref=e2085]: P
+        - generic [ref=e2086]:
+          - generic [ref=e2087]: "2"
+          - text: 第一次闭链与复合刚体朝向
+          - math [ref=e2089]:
+            - generic [ref=e2090]:
+              - generic [ref=e2091]: M
+              - generic [ref=e2092]: =
+              - generic [ref=e2093]: Circle
+              - generic [ref=e2094]:
+                - generic [ref=e2095]: (
+                - generic [ref=e2096]: J
+                - generic [ref=e2097]: ","
+                - generic [ref=e2098]: ‖
+                - generic [ref=e2099]:
+                  - generic [ref=e2100]: v
+                  - generic [ref=e2101]:
+                    - generic [ref=e2102]: J
+                    - generic [ref=e2103]: M
+                - generic [ref=e2104]: ‖
+                - generic [ref=e2105]: ","
+                - generic [ref=e2106]: L
+                - generic [ref=e2107]: ","
+                - generic [ref=e2108]: ‖
+                - generic [ref=e2109]:
+                  - generic [ref=e2110]: v
+                  - generic [ref=e2111]:
+                    - generic [ref=e2112]: M
+                    - generic [ref=e2113]: L
+                - generic [ref=e2114]: ‖
+                - generic [ref=e2115]: ","
+                - generic [ref=e2116]: +
+                - generic [ref=e2117]: "1"
+                - generic [ref=e2118]: )
+          - math [ref=e2120]:
+            - generic [ref=e2121]:
+              - generic [ref=e2122]: α
+              - generic [ref=e2123]: =
+              - generic [ref=e2124]: \arg
+              - generic [ref=e2125]: (
+              - generic [ref=e2126]: L
+              - generic [ref=e2127]: −
+              - generic [ref=e2128]: M
+              - generic [ref=e2129]: )
+              - generic [ref=e2130]: −
+              - generic [ref=e2131]: \arg
+              - generic [ref=e2132]: (
+              - generic [ref=e2133]:
+                - generic [ref=e2134]: v
+                - generic [ref=e2135]:
+                  - generic [ref=e2136]: M
+                  - generic [ref=e2137]: L
+              - generic [ref=e2138]: )
+              - generic [ref=e2139]: ","
+              - generic [ref=e2140]: K
+              - generic [ref=e2141]: =
+              - generic [ref=e2142]: M
+              - generic [ref=e2143]: +
+              - generic [ref=e2144]: R
+              - generic [ref=e2145]: (
+              - generic [ref=e2146]: α
+              - generic [ref=e2147]: )
+              - generic [ref=e2148]:
+                - generic [ref=e2149]: v
+                - generic [ref=e2150]:
+                  - generic [ref=e2151]: M
+                  - generic [ref=e2152]: K
+        - generic [ref=e2153]:
+          - generic [ref=e2154]: "3"
+          - text: 第二次闭链与轮轴
+          - math [ref=e2156]:
+            - generic [ref=e2157]:
+              - generic [ref=e2158]: "N"
+              - generic [ref=e2159]: =
+              - generic [ref=e2160]: Circle
+              - generic [ref=e2161]:
+                - generic [ref=e2162]: (
+                - generic [ref=e2163]: K
+                - generic [ref=e2164]: ","
+                - generic [ref=e2165]: ‖
+                - generic [ref=e2166]:
+                  - generic [ref=e2167]: v
+                  - generic [ref=e2168]:
+                    - generic [ref=e2169]: K
+                    - generic [ref=e2170]: "N"
+                - generic [ref=e2171]: ‖
+                - generic [ref=e2172]: ","
+                - generic [ref=e2173]: P
+                - generic [ref=e2174]: ","
+                - generic [ref=e2175]: ‖
+                - generic [ref=e2176]:
+                  - generic [ref=e2177]: v
+                  - generic [ref=e2178]:
+                    - generic [ref=e2179]: P
+                    - generic [ref=e2180]: "N"
+                - generic [ref=e2181]: ‖
+                - generic [ref=e2182]: ","
+                - generic [ref=e2183]: −
+                - generic [ref=e2184]: "1"
+                - generic [ref=e2185]: )
+          - math [ref=e2187]:
+            - generic [ref=e2188]:
+              - generic [ref=e2189]: β
+              - generic [ref=e2190]: =
+              - generic [ref=e2191]: \arg
+              - generic [ref=e2192]: (
+              - generic [ref=e2193]: "N"
+              - generic [ref=e2194]: −
+              - generic [ref=e2195]: P
+              - generic [ref=e2196]: )
+              - generic [ref=e2197]: −
+              - generic [ref=e2198]: \arg
+              - generic [ref=e2199]: (
+              - generic [ref=e2200]:
+                - generic [ref=e2201]: v
+                - generic [ref=e2202]:
+                  - generic [ref=e2203]: P
+                  - generic [ref=e2204]: "N"
+              - generic [ref=e2205]: )
+              - generic [ref=e2206]: ","
+              - generic [ref=e2207]: W
+              - generic [ref=e2208]: =
+              - generic [ref=e2209]: P
+              - generic [ref=e2210]: +
+              - generic [ref=e2211]: R
+              - generic [ref=e2212]: (
+              - generic [ref=e2213]: β
+              - generic [ref=e2214]: )
+              - generic [ref=e2215]:
+                - generic [ref=e2216]: v
+                - generic [ref=e2217]:
+                  - generic [ref=e2218]: P
+                  - generic [ref=e2219]: W
+        - generic [ref=e2220]:
+          - generic [ref=e2221]: "4"
+          - text: 轮轴二维位置与虚拟腿输出
+          - math [ref=e2223]:
+            - generic [ref=e2224]:
+              - generic [ref=e2225]: P
+              - generic [ref=e2226]: (
+              - generic [ref=e2227]: q
+              - generic [ref=e2228]: )
+              - generic [ref=e2229]: =
+              - generic [ref=e2230]: "["
+              - generic [ref=e2231]:
+                - generic [ref=e2234]:
+                  - generic [ref=e2235]: s
+                  - generic [ref=e2236]: W
+                - generic [ref=e2239]:
+                  - generic [ref=e2240]: d
+                  - generic [ref=e2241]: W
+              - generic [ref=e2242]: "]"
+              - generic [ref=e2243]: =
+              - generic [ref=e2244]: "["
+              - generic [ref=e2245]:
+                - generic [ref=e2247]:
+                  - generic [ref=e2248]: Δ
+                  - generic [ref=e2249]:
+                    - generic [ref=e2250]: "Y"
+                    - generic [ref=e2251]:
+                      - generic [ref=e2252]: b
+                      - generic [ref=e2253]: a
+                      - generic [ref=e2254]: s
+                      - generic [ref=e2255]: e
+                - generic [ref=e2257]:
+                  - generic [ref=e2258]: −
+                  - generic [ref=e2259]: Δ
+                  - generic [ref=e2260]:
+                    - generic [ref=e2261]: Z
+                    - generic [ref=e2262]:
+                      - generic [ref=e2263]: b
+                      - generic [ref=e2264]: a
+                      - generic [ref=e2265]: s
+                      - generic [ref=e2266]: e
+              - generic [ref=e2267]: "]"
+              - generic [ref=e2268]: ","
+              - generic [ref=e2269]:
+                - generic [ref=e2270]: L
+                - generic [ref=e2271]: "0"
+              - generic [ref=e2272]: =
+              - generic [ref=e2274]:
+                - generic [ref=e2275]:
+                  - generic [ref=e2276]: s
+                  - generic [ref=e2277]: W
+                  - generic [ref=e2278]: "2"
+                - generic [ref=e2279]: +
+                - generic [ref=e2280]:
+                  - generic [ref=e2281]: d
+                  - generic [ref=e2282]: W
+                  - generic [ref=e2283]: "2"
+              - generic [ref=e2284]: ","
+              - generic [ref=e2285]:
+                - generic [ref=e2286]: ϕ
+                - generic [ref=e2287]: "0"
+              - generic [ref=e2288]: =
+              - generic [ref=e2289]:
+                - generic [ref=e2290]: a
+                - generic [ref=e2291]: t
+                - generic [ref=e2292]: a
+                - generic [ref=e2293]: "n"
+                - generic [ref=e2294]: "2"
+              - generic [ref=e2295]: (
+              - generic [ref=e2296]:
+                - generic [ref=e2297]: d
+                - generic [ref=e2298]: W
+              - generic [ref=e2299]: ","
+              - generic [ref=e2300]:
+                - generic [ref=e2301]: s
+                - generic [ref=e2302]: W
+              - generic [ref=e2303]: )
+          - paragraph [ref=e2304]:
+            - text: 求解器内部的 W
+            - subscript [ref=e2305]: X
+            - text: 、W
+            - subscript [ref=e2306]: Z
+            - text: 是 jIJ/jIO 共同局部 X–Z 平面的数值。两个髋部 body 自身的 +90° Z 参考旋转把局部 X、Z 分别映到 base 的 +Y、+Z，所以 W
+            - subscript [ref=e2307]: X
+            - text: =s
+            - subscript [ref=e2308]: W
+            - text: =ΔY
+            - subscript [ref=e2309]: base
+            - text: ；这里没有额外定义一根“xH 轴”。
+        - heading "4.5 默认零位的手算检查" [level=3] [ref=e2310]
+        - generic [ref=e2311]: qf = qr = 0 J = (+0.0967494, +0.00674587) L = (−0.0963553, +0.01094040) M = (−0.0011588, −0.05357813) K = (−0.1337418, +0.06263887) P = (−0.2135710, +0.02452180) N = (−0.2509578, +0.07622030) W ≈ (0, −0.12022423) L0 = 0.120224 m, φ0 ≈ 90°, θ_leg ≈ 0°
+        - paragraph [ref=e2312]: 因此 XML 自己的名义零位确实是“虚拟腿竖直”。如果控制器在这组实际 q 上算出的 φ0 不是 90°，偏差来自控制器采用的理想五杆映射/坐标映射，而不是 LQR 把 θ=0 定义错了。
+      - generic [ref=e2313]:
+        - heading "5. 精确雅可比与 VMC 力矩分配" [level=2] [ref=e2314]
+        - heading "5.1 雅可比只是瞬时传动关系" [level=3] [ref=e2315]
+        - math [ref=e2317]:
+          - generic [ref=e2318]:
+            - generic [ref=e2319]: "["
+            - generic [ref=e2320]:
+              - generic [ref=e2323]:
+                - generic [ref=e2324]:
+                  - generic [ref=e2325]: L
+                  - generic [ref=e2326]: ˙
+                - generic [ref=e2327]: "0"
+              - generic [ref=e2330]:
+                - generic [ref=e2331]:
+                  - generic [ref=e2332]: ϕ
+                  - generic [ref=e2333]: ˙
+                - generic [ref=e2334]: "0"
+            - generic [ref=e2335]: "]"
+            - generic [ref=e2336]: =
+            - generic [ref=e2337]:
+              - generic [ref=e2338]: J
+              - generic [ref=e2339]: H
+            - generic [ref=e2340]: (
+            - generic [ref=e2341]: q
+            - generic [ref=e2342]: )
+            - generic [ref=e2343]: "["
+            - generic [ref=e2344]:
+              - generic [ref=e2347]:
+                - generic [ref=e2348]:
+                  - generic [ref=e2349]: q
+                  - generic [ref=e2350]: ˙
+                - generic [ref=e2351]: f
+              - generic [ref=e2354]:
+                - generic [ref=e2355]:
+                  - generic [ref=e2356]: q
+                  - generic [ref=e2357]: ˙
+                - generic [ref=e2358]: r
+            - generic [ref=e2359]: "]"
+        - paragraph [ref=e2360]:
+          - text: 第一行描述“电机转 1 rad，腿长变多少米”；第二行描述“电机转 1 rad，虚拟腿角变多少 rad”。因为闭链几何会随姿态改变，所以 J
+          - subscript [ref=e2361]: H
+          - text: 也随 q 改变。
+        - heading "5.2 仿真首版：对精确 H 做中心差分" [level=3] [ref=e2362]
+        - math [ref=e2364]:
+          - generic [ref=e2365]:
+            - generic [ref=e2366]:
+              - generic [ref=e2367]: J
+              - generic [ref=e2368]:
+                - generic [ref=e2369]: H
+                - generic [ref=e2370]: ","
+                - generic [ref=e2371]: ":"
+                - generic [ref=e2372]: ","
+                - generic [ref=e2373]: i
+            - generic [ref=e2374]: (
+            - generic [ref=e2375]: q
+            - generic [ref=e2376]: )
+            - generic [ref=e2377]: ≈
+            - generic [ref=e2378]:
+              - generic [ref=e2379]:
+                - generic [ref=e2380]: H
+                - generic [ref=e2381]: (
+                - generic [ref=e2382]: q
+                - generic [ref=e2383]: +
+                - generic [ref=e2384]: ε
+                - generic [ref=e2385]:
+                  - generic [ref=e2386]: e
+                  - generic [ref=e2387]: i
+                - generic [ref=e2388]: )
+                - generic [ref=e2389]: −
+                - generic [ref=e2390]: H
+                - generic [ref=e2391]: (
+                - generic [ref=e2392]: q
+                - generic [ref=e2393]: −
+                - generic [ref=e2394]: ε
+                - generic [ref=e2395]:
+                  - generic [ref=e2396]: e
+                  - generic [ref=e2397]: i
+                - generic [ref=e2398]: )
+              - generic [ref=e2399]:
+                - generic [ref=e2400]: "2"
+                - generic [ref=e2401]: ε
+            - generic [ref=e2402]: ","
+            - generic [ref=e2403]: ε
+            - generic [ref=e2404]: =
+            - generic [ref=e2405]:
+              - generic [ref=e2406]: "10"
+              - generic [ref=e2407]:
+                - generic [ref=e2408]: −
+                - generic [ref=e2409]: "5"
+            - generic [ref=e2410]: …
+            - generic [ref=e2411]:
+              - generic [ref=e2412]: "10"
+              - generic [ref=e2413]:
+                - generic [ref=e2414]: −
+                - generic [ref=e2415]: "4"
+            - generic [ref=e2416]:
+              - generic [ref=e2417]: r
+              - generic [ref=e2418]: a
+              - generic [ref=e2419]: d
+        - paragraph [ref=e2420]: φ0 的差必须先 wrap 到 (−π,π]。这是最适合先在 MuJoCo 做 A/B 验证的实现：短、透明、容易与有限位移对照。
+        - heading "5.3 正式解析形式：隐式闭链求导" [level=3] [ref=e2421]
+        - paragraph [ref=e2422]:
+          - text: 把四个被动角记为 u=[q
+          - subscript [ref=e2423]: JM
+          - text: ",q"
+          - subscript [ref=e2424]: MK
+          - text: ",q"
+          - subscript [ref=e2425]: KN
+          - text: ",q"
+          - subscript [ref=e2426]: OP
+          - text: "]"
+          - superscript [ref=e2427]: T
+          - text: ，平面内两处闭链给出四个独立位置约束 g(q,u)=0：
+        - math [ref=e2429]:
+          - generic [ref=e2430]:
+            - generic [ref=e2431]:
+              - generic [ref=e2432]: g
+              - generic [ref=e2433]: q
+            - generic [ref=e2434]: d
+            - generic [ref=e2435]: q
+            - generic [ref=e2436]: +
+            - generic [ref=e2437]:
+              - generic [ref=e2438]: g
+              - generic [ref=e2439]: u
+            - generic [ref=e2440]: d
+            - generic [ref=e2441]: u
+            - generic [ref=e2442]: =
+            - generic [ref=e2443]: "0"
+            - generic [ref=e2444]: ⟹
+            - generic [ref=e2445]:
+              - generic [ref=e2446]:
+                - generic [ref=e2447]: d
+                - generic [ref=e2448]: u
+              - generic [ref=e2449]:
+                - generic [ref=e2450]: d
+                - generic [ref=e2451]: q
+            - generic [ref=e2452]: =
+            - generic [ref=e2453]: −
+            - generic [ref=e2454]:
+              - generic [ref=e2455]: g
+              - generic [ref=e2456]: u
+              - generic [ref=e2457]:
+                - generic [ref=e2458]: −
+                - generic [ref=e2459]: "1"
+            - generic [ref=e2460]:
+              - generic [ref=e2461]: g
+              - generic [ref=e2462]: q
+        - paragraph [ref=e2463]: 再把运动学输出写成 y=Y(q,u)，就有：
+        - math [ref=e2465]:
+          - generic [ref=e2466]:
+            - generic [ref=e2467]:
+              - generic [ref=e2468]: J
+              - generic [ref=e2469]: H
+            - generic [ref=e2470]: =
+            - generic [ref=e2471]:
+              - generic [ref=e2472]: "Y"
+              - generic [ref=e2473]: q
+            - generic [ref=e2474]: −
+            - generic [ref=e2475]:
+              - generic [ref=e2476]: "Y"
+              - generic [ref=e2477]: u
+            - generic [ref=e2478]:
+              - generic [ref=e2479]: g
+              - generic [ref=e2480]: u
+              - generic [ref=e2481]:
+                - generic [ref=e2482]: −
+                - generic [ref=e2483]: "1"
+            - generic [ref=e2484]:
+              - generic [ref=e2485]: g
+              - generic [ref=e2486]: q
+        - paragraph [ref=e2487]:
+          - text: 这就是 PDF 第 6 页的雅可比在“偏置闭链”下的精确版本。每个点对祖先转轴的导数都可用
+          - code [ref=e2488]: a × (p−o)
+          - text: 得到，再投影到腿平面。
+        - heading [level=3] [ref=e2489]:
+          - text: 5.4 为什么仍然是 τ=J
+          - subscript [ref=e2490]: H
+          - superscript [ref=e2491]: T
+          - text: F
+        - math [ref=e2493]:
+          - generic [ref=e2494]:
+            - generic [ref=e2495]:
+              - generic [ref=e2496]: τ
+              - generic [ref=e2497]: T
+            - generic [ref=e2498]: δ
+            - generic [ref=e2499]: q
+            - generic [ref=e2500]: =
+            - generic [ref=e2501]: "["
+            - generic [ref=e2503]:
+              - generic [ref=e2505]:
+                - generic [ref=e2506]: F
+                - generic [ref=e2507]: "0"
+              - generic [ref=e2509]:
+                - generic [ref=e2510]: T
+                - generic [ref=e2511]: p
+            - generic [ref=e2512]: "]"
+            - generic [ref=e2513]: δ
+            - generic [ref=e2514]: "y"
+            - generic [ref=e2515]: ","
+            - generic [ref=e2516]: δ
+            - generic [ref=e2517]: "y"
+            - generic [ref=e2518]: =
+            - generic [ref=e2519]:
+              - generic [ref=e2520]: J
+              - generic [ref=e2521]: H
+            - generic [ref=e2522]: δ
+            - generic [ref=e2523]: q
+        - math [ref=e2525]:
+          - generic [ref=e2526]:
+            - generic [ref=e2527]: τ
+            - generic [ref=e2528]: =
+            - generic [ref=e2529]:
+              - generic [ref=e2530]: J
+              - generic [ref=e2531]: H
+              - generic [ref=e2532]: T
+            - generic [ref=e2533]: "["
+            - generic [ref=e2534]:
+              - generic [ref=e2537]:
+                - generic [ref=e2538]: F
+                - generic [ref=e2539]: "0"
+              - generic [ref=e2542]:
+                - generic [ref=e2543]: T
+                - generic [ref=e2544]: p
+            - generic [ref=e2545]: "]"
+        - paragraph [ref=e2546]:
+          - text: 这一行和 PDF 的虚功原理完全一样。 改变的是 J
+          - subscript [ref=e2547]: H
+          - text: 的来源，不是 VMC 的物理原理。F0 仍由腿长环产生，Tp 仍由 LQR/姿态环产生。
+        - generic [ref=e2548]:
+          - text: 单位检查： J
+          - subscript [ref=e2549]: H
+          - text: 第一行是 m/rad，第二行是 rad/rad；F0 是 N，Tp 是 N·m，所以 J
+          - subscript [ref=e2550]: H
+          - superscript [ref=e2551]: T
+          - text: "[F0,Tp] 的结果自然是 N·m。若代码算出的量纲不是这样，矩阵行/列或控制变量就接错了。"
+      - generic [ref=e2552]:
+        - heading "6. 从目标 L0、φ0 回到电机角" [level=2] [ref=e2553]
+        - paragraph [ref=e2554]: 位置目标不再调用理想五杆的余弦定理，而是解：
+        - math [ref=e2556]:
+          - generic [ref=e2557]:
+            - generic [ref=e2558]: H
+            - generic [ref=e2559]: (
+            - generic [ref=e2560]: q
+            - generic [ref=e2561]: )
+            - generic [ref=e2562]: =
+            - generic [ref=e2563]:
+              - generic [ref=e2564]: "y"
+              - generic [ref=e2565]: d
+            - generic [ref=e2566]: =
+            - generic [ref=e2567]: "["
+            - generic [ref=e2568]:
+              - generic [ref=e2571]:
+                - generic [ref=e2572]: L
+                - generic [ref=e2573]:
+                  - generic [ref=e2574]: "0"
+                  - generic [ref=e2575]: ","
+                  - generic [ref=e2576]: d
+              - generic [ref=e2579]:
+                - generic [ref=e2580]: ϕ
+                - generic [ref=e2581]:
+                  - generic [ref=e2582]: "0"
+                  - generic [ref=e2583]: ","
+                  - generic [ref=e2584]: d
+            - generic [ref=e2585]: "]"
+        - paragraph [ref=e2586]: 用上一周期 q 作初值，Newton 迭代：
+        - math [ref=e2588]:
+          - generic [ref=e2589]:
+            - generic [ref=e2590]:
+              - generic [ref=e2591]: q
+              - generic [ref=e2592]:
+                - generic [ref=e2593]: k
+                - generic [ref=e2594]: +
+                - generic [ref=e2595]: "1"
+            - generic [ref=e2596]: =
+            - generic [ref=e2597]:
+              - generic [ref=e2598]: q
+              - generic [ref=e2599]: k
+            - generic [ref=e2600]: +
+            - generic [ref=e2601]:
+              - generic [ref=e2602]: J
+              - generic [ref=e2603]: H
+            - generic [ref=e2604]: (
+            - generic [ref=e2605]:
+              - generic [ref=e2606]: q
+              - generic [ref=e2607]: k
+            - generic [ref=e2608]:
+              - generic [ref=e2609]: )
+              - generic [ref=e2610]:
+                - generic [ref=e2611]: −
+                - generic [ref=e2612]: "1"
+            - generic [ref=e2613]:
+              - generic [ref=e2614]: "["
+              - generic [ref=e2615]:
+                - generic [ref=e2616]: "y"
+                - generic [ref=e2617]: d
+              - generic [ref=e2618]: −
+              - generic [ref=e2619]: H
+              - generic [ref=e2620]: (
+              - generic [ref=e2621]:
+                - generic [ref=e2622]: q
+                - generic [ref=e2623]: k
+              - generic [ref=e2624]: )
+              - generic [ref=e2625]: "]"
+        - list [ref=e2626]:
+          - listitem [ref=e2627]: 控制周期内目标连续，上一周期就是很好的初值，通常只需少量迭代。
+          - listitem [ref=e2628]:
+            - text: 接近圆相切或 det(J
+            - subscript [ref=e2629]: H
+            - text: )→0 时停止加长腿，不能硬除。
+          - listitem [ref=e2630]: 分支选择用“离上一周期 q/交点最近”，防止跳到另一种装配姿态。
+          - listitem [ref=e2631]: MuJoCo 初始化还可以由 J、M、K、N、P 的朝向显式恢复四个被动角，避免先跑 3000 步 settle。
+        - generic [ref=e2632]:
+          - text: 这不是三张查表。 三张“映射”只是以前为了说明正解、逆解、雅可比三个用途。优雅实现是一个统一的 H(q) 计算图：正解直接调用 H；J
+          - subscript [ref=e2633]: H
+          - text: 对 H 求导；逆解用 H 和 J
+          - subscript [ref=e2634]: H
+          - text: 做 Newton；VMC 用 J
+          - subscript [ref=e2635]: H
+          - superscript [ref=e2636]: T
+          - text: 。
+      - generic [ref=e2637]:
+        - heading "7. 三层数值验证" [level=2] [ref=e2638]
+        - generic [ref=e2639]:
+          - generic [ref=e2640]:
+            - generic [ref=e2641]: 层 1
+            - heading "显式圆解 vs XML 变换树" [level=4] [ref=e2642]
+            - generic [ref=e2643]: 0.000168 μm
+            - generic [ref=e2644]: 最大 L0 差；角差 0.03437 微度
+          - generic [ref=e2645]:
+            - generic [ref=e2646]: 层 2
+            - heading "离线变换树 vs MuJoCo 3.3.0" [level=4] [ref=e2647]
+            - generic [ref=e2648]: 1.67e-10 μm
+            - generic [ref=e2649]: 最大 L0 差；角差 7.42e-08 微度
+          - generic [ref=e2650]:
+            - generic [ref=e2651]: 层 3
+            - heading "理想五杆 vs 精确 XML" [level=4] [ref=e2652]
+            - generic [ref=e2653]: 1.62 mm
+            - generic [ref=e2654]: 最大 L0 差；角差 1.10°
+        - paragraph [ref=e2655]: MuJoCo 校验做法：仅移除工作区中不可用的零字节可视网格；保留 body、joint、site、equality 和 proxy geom；填入精确主动/被动 qpos 后调用 mj_forward。最大 equality site gap 为 1.02e-06 μm。没有运行控制器和动力学 settle。
+        - heading "7.1 竖直虚拟腿扫描" [level=3] [ref=e2656]
+        - table [ref=e2658]:
+          - rowgroup [ref=e2659]:
+            - row [ref=e2660]:
+              - columnheader "精确 L0 / m" [ref=e2661]
+              - columnheader "q前 / rad" [ref=e2662]
+              - columnheader "q后 / rad" [ref=e2663]
+              - columnheader "理想−精确 L0 / mm" [ref=e2664]
+              - columnheader [ref=e2665]:
+                - text: 理想−精确 θ
+                - subscript [ref=e2666]: leg
+                - text: / °
+              - columnheader [ref=e2667]:
+                - text: cond(J
+                - subscript [ref=e2668]: H
+                - text: )
+          - rowgroup [ref=e2669]:
+            - row [ref=e2670]:
+              - cell "0.15" [ref=e2671]
+              - cell "-0.1386" [ref=e2672]
+              - cell "+0.1477" [ref=e2673]
+              - cell "+1.498" [ref=e2674]
+              - cell "+0.259" [ref=e2675]
+              - cell "4.31" [ref=e2676]
+            - row [ref=e2677]:
+              - cell "0.20" [ref=e2678]
+              - cell "-0.3260" [ref=e2679]
+              - cell "+0.3449" [ref=e2680]
+              - cell "+0.483" [ref=e2681]
+              - cell "+0.542" [ref=e2682]
+              - cell "3.53" [ref=e2683]
+            - row [ref=e2684]:
+              - cell "0.25" [ref=e2685]
+              - cell "-0.4920" [ref=e2686]
+              - cell "+0.5173" [ref=e2687]
+              - cell "-0.423" [ref=e2688]
+              - cell "+0.725" [ref=e2689]
+              - cell "3.30" [ref=e2690]
+            - row [ref=e2691]:
+              - cell "0.30" [ref=e2692]
+              - cell "-0.6548" [ref=e2693]
+              - cell "+0.6847" [ref=e2694]
+              - cell "-1.096" [ref=e2695]
+              - cell "+0.859" [ref=e2696]
+              - cell "3.35" [ref=e2697]
+            - row [ref=e2698]:
+              - cell "0.35" [ref=e2699]
+              - cell "-0.8267" [ref=e2700]
+              - cell "+0.8605" [ref=e2701]
+              - cell "-1.505" [ref=e2702]
+              - cell "+0.966" [ref=e2703]
+              - cell "3.66" [ref=e2704]
+            - row [ref=e2705]:
+              - cell "0.40" [ref=e2706]
+              - cell "-1.0248" [ref=e2707]
+              - cell "+1.0619" [ref=e2708]
+              - cell "-1.608" [ref=e2709]
+              - cell "+1.063" [ref=e2710]
+              - cell "4.46" [ref=e2711]
+            - row [ref=e2712]:
+              - cell "0.42" [ref=e2713]
+              - cell "-1.1193" [ref=e2714]
+              - cell "+1.1578" [ref=e2715]
+              - cell "-1.532" [ref=e2716]
+              - cell "+1.102" [ref=e2717]
+              - cell "5.12" [ref=e2718]
+        - generic [ref=e2719]:
+          - generic [ref=e2720]:
+            - heading "理想五杆的腿长误差" [level=4] [ref=e2721]
+            - img [ref=e2722]:
+              - generic [ref=e2724]: "-1.9"
+              - generic [ref=e2725]: "-1.2"
+              - generic [ref=e2726]: "-0.4"
+              - generic [ref=e2727]: "0.3"
+              - generic [ref=e2728]: "1.1"
+              - generic [ref=e2729]: "1.8"
+              - generic [ref=e2730]: "0.15"
+              - generic [ref=e2731]: "0.20"
+              - generic [ref=e2732]: "0.26"
+              - generic [ref=e2733]: "0.31"
+              - generic [ref=e2734]: "0.37"
+              - generic [ref=e2735]: "0.42"
+              - generic [ref=e2736]: L0 / m
+              - generic [ref=e2737]: ΔL0 / mm
+              - generic [ref=e2739]: 理想−精确
+          - generic [ref=e2740]:
+            - heading "理想五杆的角度误差" [level=4] [ref=e2741]
+            - img [ref=e2742]:
+              - generic [ref=e2744]: "0.2"
+              - generic [ref=e2745]: "0.4"
+              - generic [ref=e2746]: "0.6"
+              - generic [ref=e2747]: "0.8"
+              - generic [ref=e2748]: "1.0"
+              - generic [ref=e2749]: "1.2"
+              - generic [ref=e2750]: "0.15"
+              - generic [ref=e2751]: "0.20"
+              - generic [ref=e2752]: "0.26"
+              - generic [ref=e2753]: "0.31"
+              - generic [ref=e2754]: "0.37"
+              - generic [ref=e2755]: "0.42"
+              - generic [ref=e2756]: L0 / m
+              - generic [ref=e2757]: Δθ_leg / deg
+              - generic [ref=e2759]: 理想−精确
+          - generic [ref=e2760]:
+            - heading [level=4] [ref=e2761]:
+              - text: 精确 J
+              - subscript [ref=e2762]: H
+              - text: ：腿长行
+            - img [ref=e2763]:
+              - generic [ref=e2765]: "-0.18"
+              - generic [ref=e2766]: "-0.11"
+              - generic [ref=e2767]: "-0.04"
+              - generic [ref=e2768]: "0.04"
+              - generic [ref=e2769]: "0.11"
+              - generic [ref=e2770]: "0.18"
+              - generic [ref=e2771]: "0.15"
+              - generic [ref=e2772]: "0.20"
+              - generic [ref=e2773]: "0.26"
+              - generic [ref=e2774]: "0.31"
+              - generic [ref=e2775]: "0.37"
+              - generic [ref=e2776]: "0.42"
+              - generic [ref=e2777]: L0 / m
+              - generic [ref=e2778]: m/rad
+              - generic [ref=e2780]: ∂L/∂q前
+              - generic [ref=e2782]: ∂L/∂q后
+          - generic [ref=e2783]:
+            - heading [level=4] [ref=e2784]:
+              - text: 精确 J
+              - subscript [ref=e2785]: H
+              - text: ：φ
+              - subscript [ref=e2786]: "0"
+              - text: 行
+            - img [ref=e2787]:
+              - generic [ref=e2789]: "-0.52"
+              - generic [ref=e2790]: "-0.51"
+              - generic [ref=e2791]: "-0.50"
+              - generic [ref=e2792]: "-0.50"
+              - generic [ref=e2793]: "-0.49"
+              - generic [ref=e2794]: "-0.48"
+              - generic [ref=e2795]: "0.15"
+              - generic [ref=e2796]: "0.20"
+              - generic [ref=e2797]: "0.26"
+              - generic [ref=e2798]: "0.31"
+              - generic [ref=e2799]: "0.37"
+              - generic [ref=e2800]: "0.42"
+              - generic [ref=e2801]: L0 / m
+              - generic [ref=e2802]: rad/rad
+              - generic [ref=e2804]: ∂φ0/∂q前
+              - generic [ref=e2806]: ∂φ0/∂q后
+        - generic [ref=e2807]: 验证结论： 圆交点公式、通用 XML 闭链求解和 MuJoCo 实际前向变换在浮点精度内一致，说明推导没有丢掉 XML 的关节树或 equality 关系。
+        - generic [ref=e2808]: 不要把名义几何验证等同于实车真值。 XML 没包含加工误差、轴承间隙、杆件柔性、同步结构变形和电机零位误差。上实车前仍需用少量可测姿态做参数辨识/校验。
+      - generic [ref=e2809]:
+        - heading "8. 与《串腿控制.pdf》哪里一样，哪里不同" [level=2] [ref=e2810]
+        - paragraph [ref=e2811]: PDF 第 1–4 页是轮腿倒立摆和 LQR；第 5–6 页进入标准五连杆与 VMC；第 7–10 页是仿真、变腿长 K 拟合和综合控制；第 11–13 页是支持力/离地检测。真正需要替换的只在第 5–6 页的机构运动学部分。
+        - table [ref=e2813]:
+          - rowgroup [ref=e2814]:
+            - row [ref=e2815]:
+              - columnheader "项目" [ref=e2816]
+              - columnheader "PDF / 当前理想代码" [ref=e2817]
+              - columnheader "XML 精确闭链" [ref=e2818]
+              - columnheader "结论" [ref=e2819]
+          - rowgroup [ref=e2820]:
+            - row [ref=e2821]:
+              - cell "虚拟输出" [ref=e2822]
+              - cell "y=[L0,φ0]ᵀ" [ref=e2823]
+              - cell "仍为 y=[L0,φ0]ᵀ" [ref=e2824]
+              - cell "相同" [ref=e2825]
+            - row [ref=e2827]:
+              - cell "主动输入" [ref=e2828]
+              - cell "q=[φ1,φ4]ᵀ，等同于主动杆角" [ref=e2829]
+              - cell "q=[jIJ前,jIO后]ᵀ，是真实电机广义角" [ref=e2830]
+              - cell "改变" [ref=e2831]
+            - row [ref=e2833]:
+              - cell "正运动学" [ref=e2834]
+              - cell "一个标准五杆圆交点 f(q)" [ref=e2835]
+              - cell "两次圆交点与复合刚体方向 H(q)" [ref=e2836]
+              - cell "替换" [ref=e2837]
+            - row [ref=e2839]:
+              - cell "雅可比" [ref=e2840]
+              - cell [ref=e2841]:
+                - text: J
+                - subscript [ref=e2842]: f
+                - text: =∂f/∂[φ1,φ4]
+              - cell [ref=e2843]:
+                - text: J
+                - subscript [ref=e2844]: H
+                - text: =∂H/∂[q前,q后]
+              - cell "替换数值" [ref=e2845]
+            - row [ref=e2847]:
+              - cell "虚功" [ref=e2848]
+              - cell [ref=e2849]:
+                - text: τ=J
+                - subscript [ref=e2850]: f
+                - superscript [ref=e2851]: T
+                - text: "[F0,Tp]"
+                - superscript [ref=e2852]: T
+              - cell [ref=e2853]:
+                - text: τ=J
+                - subscript [ref=e2854]: H
+                - superscript [ref=e2855]: T
+                - text: "[F0,Tp]"
+                - superscript [ref=e2856]: T
+              - cell "原理相同" [ref=e2857]
+            - row [ref=e2859]:
+              - cell "LQR 状态" [ref=e2860]
+              - cell "[θ,θ̇,x,ẋ,Pitch,Pitcḣ]" [ref=e2861]
+              - cell "不因机构正解改变" [ref=e2862]
+              - cell "相同" [ref=e2863]
+            - row [ref=e2865]:
+              - cell "平衡点" [ref=e2866]
+              - cell "θ=0、Pitch=0 处线性化" [ref=e2867]
+              - cell "保持 θ=0；修正 q→θ 的测量" [ref=e2868]
+              - cell "不平移" [ref=e2869]
+            - row [ref=e2871]:
+              - cell "逆解" [ref=e2872]
+              - cell "余弦定理直接求 φ1、φ4" [ref=e2873]
+              - cell [ref=e2874]:
+                - text: Newton 解 H(q)=y
+                - subscript [ref=e2875]: d
+              - cell "替换" [ref=e2876]
+            - row [ref=e2878]:
+              - cell "闭链分支/奇异" [ref=e2879]
+              - cell "基本未展开" [ref=e2880]
+              - cell [ref=e2881]:
+                - text: 必须跟踪圆交支路、h、det(J
+                - subscript [ref=e2882]: H
+                - text: )、cond(J
+                - subscript [ref=e2883]: H
+                - text: )
+              - cell "新增保护" [ref=e2884]
+            - row [ref=e2886]:
+              - cell "MIT 位置环" [ref=e2887]
+              - cell "PDF 未讨论" [ref=e2888]
+              - cell "是当前仿真/实车额外的内环，需与 VMC 解耦检查" [ref=e2889]
+              - cell "PDF 缺失" [ref=e2890]
+        - heading "按页码理解" [level=3] [ref=e2892]
+        - list [ref=e2893]:
+          - listitem [ref=e2894]: 第 2、4 页：θ、Pitch、LQR 线性化和平衡点逻辑保留。
+          - listitem [ref=e2895]: 第 5 页：变腿长调度 K(L0) 仍可用，但 L0 必须来自精确 H。
+          - listitem [ref=e2896]:
+            - text: 第 5–6 页：标准五杆 f(q) 与其解析 J
+            - subscript [ref=e2897]: f
+            - text: 要换成偏置闭链 H/J
+            - subscript [ref=e2898]: H
+            - text: 。
+          - listitem [ref=e2899]:
+            - text: 第 6 页：虚功到 τ=J
+            - superscript [ref=e2900]: T
+            - text: F 的推导原理完全保留。
+          - listitem [ref=e2901]: 第 10–12 页：腿长环、横滚补偿、支持力估计结构可保留，但它们依赖的 L0、θ、F/Tp 映射会因此更准确。
+      - generic [ref=e2902]:
+        - heading "9. 映射到当前 MuJoCo 工程，具体哪些地方要换" [level=2] [ref=e2903]
+        - paragraph [ref=e2904]:
+          - text: 本轮没有修改这些控制文件。下表是下一轮在
+          - code [ref=e2905]: mujoco_control_extract
+          - text: 内做 A/B 实验时的最小落点。
+        - table [ref=e2907]:
+          - rowgroup [ref=e2908]:
+            - row [ref=e2909]:
+              - columnheader "当前位置" [ref=e2910]
+              - columnheader "当前逻辑" [ref=e2911]
+              - columnheader "未来实验替换" [ref=e2912]
+              - columnheader "上层是否变化" [ref=e2913]
+          - rowgroup [ref=e2914]:
+            - row [ref=e2915]:
+              - cell [ref=e2916]:
+                - code [ref=e2917]: VMC_Calc.c:19–65
+                - text: VMC_calc_1
+              - cell "把固定-offset 后的 φ1/φ4 代入理想五杆，算 L0、φ0、θ" [ref=e2918]
+              - cell "输入真实主动 q，调用 H_exact(q)" [ref=e2919]
+              - cell "theta/Pitch/LQR 字段不变" [ref=e2920]
+            - row [ref=e2921]:
+              - cell [ref=e2922]:
+                - code [ref=e2923]: VMC_Calc.c:67–76
+                - text: VMC_calc_2
+              - cell "使用理想五杆解析 j11…j22" [ref=e2924]
+              - cell [ref=e2925]:
+                - text: 填入 J
+                - subscript [ref=e2926]: H
+                - text: ，再做同一个转置雅可比力映射
+              - cell "F0、Tp 不变" [ref=e2927]
+            - row [ref=e2928]:
+              - cell [ref=e2929]:
+                - code [ref=e2930]: VMC_Calc.c:109–147
+                - text: CalcPhi1AndPhi4
+              - cell "理想三角形余弦逆解" [ref=e2931]
+              - cell "Newton 求 H_exact⁻¹(L0,φ0)" [ref=e2932]
+              - cell "position_set 接口可保持" [ref=e2933]
+            - row [ref=e2934]:
+              - cell [ref=e2935]:
+                - code [ref=e2936]: ChassisL_Task.c:126–127
+              - cell "−q + 固定 offset → φ4/φ1" [ref=e2937]
+              - cell "明确保留“电机控制坐标”或改为 raw q；全链只选一种" [ref=e2938]
+              - cell "必须统一符号" [ref=e2939]
+            - row [ref=e2940]:
+              - cell [ref=e2941]:
+                - code [ref=e2942]: sim/main_mujoco.c:1483–1538
+              - cell "几何调试把腿投影到 base_x" [ref=e2943]
+              - cell "改用真正的腿平面轴 base_y，并核对 controller body_x 的负号" [ref=e2944]
+              - cell "这是诊断修正" [ref=e2945]
+            - row [ref=e2946]:
+              - cell "右腿 joint 映射" [ref=e2947]
+              - cell "数组顺序为 jAG后、jAB前" [ref=e2948]
+              - cell "若 H 的自然列是 [前,后]，右腿必须交换列和力矩输出" [ref=e2949]
+              - cell "防止列顺序翻转" [ref=e2950]
+        - heading "最小接口建议" [level=3] [ref=e2951]
+        - generic [ref=e2952]: "OffsetLegFK(q_front, q_rear, &L0, &phi0, &branch_state); OffsetLegJacobian(q_front, q_rear, J); // rows: [L0, phi0], cols: [front, rear] OffsetLegIK(L0_des, phi0_des, q_last, q_des); // Newton + branch continuity tau_front = J[0][0] * F0 + J[1][0] * Tp; tau_rear = J[0][1] * F0 + J[1][1] * Tp;"
+        - generic [ref=e2953]:
+          - text: 最危险的不是公式本身，而是坐标混用。 上面接口示意中的代码变量
+          - code [ref=e2954]: J
+          - text: 对应本文数学符号 J
+          - subscript [ref=e2955]: H
+          - text: 。如果它对 MuJoCo raw qpos 求导，就不能再不加说明地套用当前发送层的负号；如果它对现有
+          - code [ref=e2956]: phi1/phi4
+          - text: 控制坐标求导，则必须把 raw q 到该坐标的导数一起包含。左右腿、前后列、力矩发送顺序要写成接口契约。
+      - generic [ref=e2957]:
+        - heading "10. 这次推导能解释什么，不能解释什么" [level=2] [ref=e2958]
+        - generic [ref=e2959]:
+          - generic [ref=e2960]:
+            - heading "它能解决" [level=3] [ref=e2961]
+            - list [ref=e2962]:
+              - listitem [ref=e2963]: 电机角到真实 L0、φ0、θ 的构型相关偏差。
+              - listitem [ref=e2964]: 理想雅可比导致的 F0/Tp 力矩比例误差。
+              - listitem [ref=e2965]: 长腿区理想逆解给出不完全对应的电机位置。
+              - listitem [ref=e2966]: MuJoCo 初始被动关节需要 settle 才闭合的问题。
+          - generic [ref=e2967]:
+            - heading "它不能单独解决" [level=3] [ref=e2968]
+            - list [ref=e2969]:
+              - listitem [ref=e2970]:
+                - text: MIT
+                - code [ref=e2971]: p_des=0
+                - text: 与 VMC 力矩同时作用的冲突。
+              - listitem [ref=e2972]: LQR/轮端/关节的符号或左右顺序错误。
+              - listitem [ref=e2973]: 轮端和关节力矩饱和、控制延迟、软 equality 变形。
+              - listitem [ref=e2974]: 实车零位、杆长公差、间隙、摩擦与柔性。
+        - generic [ref=e2975]:
+          - text: 当前还发现一个独立问题： XML 根部四元数把局部 −Y 铰轴变到 base +X，所以腿真实运动平面是 base Y–Z；而
+          - code [ref=e2976]: measure_leg_axis_geometry()
+          - text: 使用 base_x 作为腿前向投影。base_x 接近铰轴，投影会接近零，因而它打印的 φ0 无法证明当前 VMC 角度正确。这个诊断问题必须先修再做 A/B 数据比较。
+      - generic [ref=e2977]:
+        - heading "11. 合理的下一步：只在 MuJoCo 做单变量 A/B" [level=2] [ref=e2978]
+        - list [ref=e2979]:
+          - listitem [ref=e2980]: 先修仿真诊断坐标：真实轮轴向量投影到 base Y–Z，明确与 controller body_x 的符号关系。
+          - listitem [ref=e2981]:
+            - text: 加入独立宏：
+            - code [ref=e2982]: SIM_EXACT_OFFSET_KINEMATICS_ENABLE
+            - text: ，0 时完整恢复当前理想五杆；1 时仅替换 H/J
+            - subscript [ref=e2983]: H
+            - text: /IK。
+          - listitem [ref=e2984]:
+            - text: 先只换状态估计 H：控制输出仍用旧理想雅可比 J
+            - subscript [ref=e2985]: f
+            - text: ，比较同一 q 下 L0、φ0、θ；确认坐标和左右镜像。
+          - listitem [ref=e2986]:
+            - generic [ref=e2987]:
+              - text: 再只换 J
+              - subscript [ref=e2988]: H
+              - superscript [ref=e2989]: T
+              - text: ：
+            - text: 关闭 MIT 位置刚度或固定为明确的低干扰配置，用小 F0、Tp 脉冲验证电机力矩方向和有限位移功率一致性。
+          - listitem [ref=e2990]:
+            - text: 最后换 IK：腿长从 0.15 m 缓慢扫到 0.35 m，比较实际轮轴目标、闭链 gap、cond(J
+            - subscript [ref=e2991]: H
+            - text: ) 和关节饱和。
+          - listitem [ref=e2992]:
+            - text: 通过后再谈 LQR：保持 Q/R 不变，先确认 H/J
+            - subscript [ref=e2993]: H
+            - text: 修正本身的影响；不要同时重调 LQR。
+        - heading "通过标准" [level=3] [ref=e2994]
+        - list [ref=e2995]:
+          - listitem [ref=e2996]: H_exact 与 MuJoCo 轮轴几何：L0 < 0.1 mm、角度 < 0.1°。
+          - listitem [ref=e2997]: 正逆解闭环：H(IK(y)) 在常用域内达到相同阈值，无分支跳变。
+          - listitem [ref=e2998]: 虚功检查：随机小 δq 下，τᵀδq 与 [F0,Tp]δy 相对误差 < 1%。
+          - listitem [ref=e2999]: 左右镜像动作：相同虚拟 F0/Tp 产生物理上对称的轮轴位移/机体作用。
+          - listitem [ref=e3000]:
+            - text: 任何一步出现 h²<0、cond(J
+            - subscript [ref=e3001]: H
+            - text: ) 过大或力矩饱和，都停在仿真，不上实车。
+        - generic [ref=e3002]: 当前交付边界：已经完成推导、实现离线精确求解器、二维工作域扫描和 MuJoCo 运行时交叉验证；没有改动 MCU 固件，也没有把新模型接入仿真控制环。
+      - generic [ref=e3003]:
+        - heading "复现文件与依据" [level=2] [ref=e3004]
+        - list [ref=e3005]:
+          - listitem [ref=e3006]:
+            - code [ref=e3007]: tools/derive_offset_kinematics.py
+            - text: ：XML 变换树闭链求解、显式两圆解、IK、J
+            - subscript [ref=e3008]: H
+            - text: 、二维扫描。
+          - listitem [ref=e3009]:
+            - code [ref=e3010]: tools/validate_offset_kinematics_mujoco.py
+            - text: ：MuJoCo 3.3.0 前向变换交叉验证。
+          - listitem [ref=e3011]:
+            - code [ref=e3012]: output/offset_kinematics_results.json
+            - text: 、
+            - code [ref=e3013]: offset_kinematics_sweep.csv
+            - text: 、
+            - code [ref=e3014]: offset_kinematics_grid.csv
+            - text: ：数值结果。
+          - listitem [ref=e3015]:
+            - code [ref=e3016]: wheel_leg_debug-main/串腿控制.pdf
+            - text: ：PDF 页 2、4–6、10–12 的坐标、LQR、五连杆与 VMC 对照。
+          - listitem [ref=e3017]:
+            - text: XML：
+            - code [ref=e3018]: jIO→jOP→wheel
+            - text: 、
+            - code [ref=e3019]: jIJ→jJM→jMK→jKN
+            - text: 和 L/N equality sites。
+        - paragraph [ref=e3020]: 源 XML：C:\Users\shun\Desktop\wheel_leg_debug-main2\mujoco_control_extract\sim\models\wheel_leg_urdf4_self_mesh_all.xml
+  - contentinfo [ref=e3021]: 本报告是工程内离线分析产物。数值结论对应 XML 名义几何；任何实车部署都应先经过仿真 A/B、小力矩方向测试与机械保护。

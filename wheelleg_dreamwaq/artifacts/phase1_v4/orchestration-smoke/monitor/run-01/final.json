@@ -1,0 +1,89 @@
+{
+  "anomalies": [],
+  "captured_at": "2026-10-05T05:55:45.721743+08:00",
+  "event_file": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_05-55-41_portable_v4-suite-20261005-055536-run01-seed562796538\\events.out.tfevents.1791150942.DESKTOP-P89OA5C.13292.0",
+  "latest": {
+    "Action/saturation_fraction": {
+      "step": 0,
+      "value": 0.3246527910232544
+    },
+    "Actuator/effort_saturation_fraction": {
+      "step": 0,
+      "value": 0.4381510615348816
+    },
+    "Loss/entropy": {
+      "step": 0,
+      "value": 8.521125793457031
+    },
+    "Loss/learning_rate": {
+      "step": 0,
+      "value": 5.852766480529681e-05
+    },
+    "Loss/surrogate": {
+      "step": 0,
+      "value": -0.017139818519353867
+    },
+    "Loss/value_function": {
+      "step": 0,
+      "value": 0.41358646750450134
+    },
+    "Metric/loop_closure_error_max_m": {
+      "step": 0,
+      "value": 0.00018409598851576447
+    },
+    "Metric/phi0_delta_abs_rad": {
+      "step": 0,
+      "value": 0.1138824075460434
+    },
+    "Policy/mean_noise_std": {
+      "step": 0,
+      "value": 1.001584529876709
+    },
+    "Termination/height_terminated": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/invalid": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/joint_velocity_terminated": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/root_angular_terminated": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/root_linear_terminated": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Termination/tilt_terminated": {
+      "step": 0,
+      "value": 0.0
+    },
+    "Tracking/base_height_abs_error": {
+      "step": 0,
+      "value": 0.030749395489692688
+    },
+    "Tracking/vx_abs_error": {
+      "step": 0,
+      "value": 0.6141993999481201
+    },
+    "Tracking/yaw_rate_abs_error": {
+      "step": 0,
+      "value": 1.265601396560669
+    },
+    "Train/mean_episode_length": {
+      "step": 0,
+      "value": 10.0
+    },
+    "Train/mean_reward": {
+      "step": 0,
+      "value": -0.5343479514122009
+    }
+  },
+  "reason": "post_run",
+  "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-05_05-55-41_portable_v4-suite-20261005-055536-run01-seed562796538"
+}

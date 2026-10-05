@@ -1,0 +1,80 @@
+{
+  "mujoco_version": "3.3.0",
+  "xml": "C:\\Users\\shun\\Desktop\\wheel_leg_debug-main2\\mujoco_control_extract\\sim\\models\\wheel_leg_urdf4_self_mesh_all.xml",
+  "method": "Strip unavailable visual meshes only; set active and offline-solved passive qpos; call mj_forward without dynamic settling.",
+  "max_abs_l0_difference_um": 1.6653345369377348e-10,
+  "max_abs_theta_difference_microdeg": 7.421294256806832e-08,
+  "max_equality_site_gap_um": 1.0217457208344716e-06,
+  "samples": [
+    {
+      "target_l0_m": 0.15,
+      "mujoco_l0_m": 0.14999999999865501,
+      "offline_l0_m": 0.14999999999865504,
+      "l0_difference_um": -2.7755575615628914e-11,
+      "mujoco_theta_leg_deg": 3.7336531406035006e-10,
+      "offline_theta_leg_deg": 3.734395270029181e-10,
+      "theta_difference_microdeg": -7.421294256806832e-08,
+      "max_equality_site_gap_um": 2.47471255503074e-07
+    },
+    {
+      "target_l0_m": 0.2,
+      "mujoco_l0_m": 0.2000000125216035,
+      "offline_l0_m": 0.20000001252160354,
+      "l0_difference_um": -5.551115123125783e-11,
+      "mujoco_theta_leg_deg": 1.412862254505335e-07,
+      "offline_theta_leg_deg": 1.4128620954776107e-07,
+      "theta_difference_microdeg": 1.5902772435741446e-08,
+      "max_equality_site_gap_um": 2.2645896440446625e-09
+    },
+    {
+      "target_l0_m": 0.25,
+      "mujoco_l0_m": 0.25000000003122397,
+      "offline_l0_m": 0.25000000003122397,
+      "l0_difference_um": 0.0,
+      "mujoco_theta_leg_deg": 1.2125355832816215e-09,
+      "offline_theta_leg_deg": 1.2125292221722596e-09,
+      "theta_difference_microdeg": 6.36110936200137e-09,
+      "max_equality_site_gap_um": 1.0103182026100663e-10
+    },
+    {
+      "target_l0_m": 0.3,
+      "mujoco_l0_m": 0.2999999981547341,
+      "offline_l0_m": 0.2999999981547342,
+      "l0_difference_um": -1.1102230246251565e-10,
+      "mujoco_theta_leg_deg": 2.278965510388946e-08,
+      "offline_theta_leg_deg": 2.2789649802964948e-08,
+      "theta_difference_microdeg": 5.300924511562949e-09,
+      "max_equality_site_gap_um": 3.227891107075167e-10
+    },
+    {
+      "target_l0_m": 0.35,
+      "mujoco_l0_m": 0.3500000000000694,
+      "offline_l0_m": 0.3500000000000694,
+      "l0_difference_um": 0.0,
+      "mujoco_theta_leg_deg": -1.4916801456060935e-11,
+      "offline_theta_leg_deg": -1.493951970378567e-11,
+      "theta_difference_microdeg": 2.2718247724735688e-08,
+      "max_equality_site_gap_um": 5.485291089374648e-09
+    },
+    {
+      "target_l0_m": 0.4,
+      "mujoco_l0_m": 0.40000000001376557,
+      "offline_l0_m": 0.40000000001376573,
+      "l0_difference_um": -1.6653345369377348e-10,
+      "mujoco_theta_leg_deg": -3.618652234550473e-09,
+      "offline_theta_leg_deg": -3.618644283163768e-09,
+      "theta_difference_microdeg": -7.951386705139853e-09,
+      "max_equality_site_gap_um": 1.0217457208344716e-06
+    },
+    {
+      "target_l0_m": 0.42,
+      "mujoco_l0_m": 0.419999996899162,
+      "offline_l0_m": 0.41999999689916206,
+      "l0_difference_um": -5.551115123125783e-11,
+      "mujoco_theta_leg_deg": 2.8564902578832893e-09,
+      "offline_theta_leg_deg": 2.8565016170072353e-09,
+      "theta_difference_microdeg": -1.135912394583808e-08,
+      "max_equality_site_gap_um": 7.817272998649018e-10
+    }
+  ]
+}
