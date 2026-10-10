@@ -1,0 +1,45 @@
+{
+  "base_task_contract_hash": "EC40FC36DA937CC9A7994CA3B47D20D7AD1814C5B835F9962F056940E4F592E3",
+  "closed_chain_reset_cache": {
+    "file_sha256": "1965D8C79689FEE6AD9E42234DDABBC39C5E27381B9676179F48B6449D380977",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_03-35-05_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run02-seed272508862\\closed_chain_reset_cache.pt",
+    "tensor_sha256": "B33F6F4F3147117DFDFCD0EB78839D2272AF4480BDF6EF47D0ADAFA02F1FE05A"
+  },
+  "completed_iterations": 1000,
+  "context_acceptance": true,
+  "context_acceptance_threshold": 0.006764558512255142,
+  "context_final_window_mean": 0.05083123677683075,
+  "dreamwaq_algorithm_contract_hash": "2924363841CF0104ED897ACD6AAA0AA03EF59B88B8DD198350D5451D815A2CED",
+  "dreamwaq_export_contract_hash": "3048CB2CEAC5DEE99E26F9B1D96DA04A5089122943169CAD542A8095B7682C19",
+  "duration_seconds": 2721.683993099956,
+  "estimator_monitor_state": {
+    "completed_rollouts": 1000,
+    "context_mu_feature_std_mean_initial": 0.06764558512255142,
+    "recent_context_mu_feature_std_mean": [
+      0.05098273228121475,
+      0.05010746062432627,
+      0.05102047394918213,
+      0.052558690300951935,
+      0.05235545043536699,
+      0.053837553667395205,
+      0.04956405839135713,
+      0.049130079445381364,
+      0.049869968884659305,
+      0.0488858997884723
+    ],
+    "schema_version": "EstimatorMonitorStateV1"
+  },
+  "event_files": [
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_03-35-05_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run02-seed272508862\\events.out.tfevents.1791660907.DESKTOP-P89OA5C.53264.0"
+  ],
+  "final_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_03-35-05_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run02-seed272508862\\model_999.pt",
+  "iterations_executed": 1000,
+  "iterations_requested": 1000,
+  "restored_learning_rate": null,
+  "resume_sequence_trace": null,
+  "resumed_from": null,
+  "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_03-35-05_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run02-seed272508862",
+  "run_manifest_sha256": "682B7A60311A0643FF941841E82A893C3094F5D25121612694FD130C5CDA8E01",
+  "runner_final_iteration_index": 999,
+  "starting_completed_iterations": 0
+}

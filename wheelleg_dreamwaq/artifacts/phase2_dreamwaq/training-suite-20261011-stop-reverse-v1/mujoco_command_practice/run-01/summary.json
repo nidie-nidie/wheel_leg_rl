@@ -1,0 +1,647 @@
+{
+  "base_task_contract_hash": "EC40FC36DA937CC9A7994CA3B47D20D7AD1814C5B835F9962F056940E4F592E3",
+  "command_practice_contract": {
+    "clock": "real_completed_control_steps_per_environment",
+    "control_dt_s": 0.02,
+    "factors": [
+      1,
+      0,
+      -1,
+      0,
+      1,
+      0
+    ],
+    "final_phase_behavior": "hold_last_factor",
+    "height_behavior": "hold_reset_sample",
+    "stage_end_control_steps": [
+      100,
+      150,
+      250,
+      300,
+      400,
+      500
+    ],
+    "update_timing": "after_reward_before_next_observation",
+    "version": "StopReverseCommandPracticeV1"
+  },
+  "command_practice_contract_hash": "609D62D191FA38F7F3F2CE40DAA9E28FFA3E44E378FF25B64564AA56BCEDC2CE",
+  "dynamics_semantics_hash": "A846A8E4E198A43DAE8F8D9BD2BA565F7B8DC2C67386FB0028BD2530FE1C42D6",
+  "evaluation_source_sha256": "2392AF3B384C0ADC52153319F791F96EC954E08FC24F8E71657971C5C549CA97",
+  "model_xml_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "performance_accepted": false,
+  "policy_manifest_sha256": "C4958C3CA2CDE886DA676BA41F9C5D75A9AE794B3A7761A2E3D1A894042B12A4",
+  "policy_sha256": "032012380704CC0FC2A87E7EC9EB50061A2CDC839D7A54775F92268E44C0B6C6",
+  "report_hash": "6A8A40B657A9CAD0DEEA9DB8D47A0D7C6574F56FD82012E71F645AFDF1A1C2BF",
+  "scenario_files": {
+    "forward_stop_reverse": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\mujoco_command_practice\\run-01\\forward_stop_reverse.csv",
+      "sha256": "CD492BF34C9642B670449CF538ADE6381D078C8BF7BB5EDC5E0CE46A093C3DE6"
+    },
+    "left_stop_right": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\mujoco_command_practice\\run-01\\left_stop_right.csv",
+      "sha256": "08EA291F43337356190A472D327C51EE9202048F316444CCB8472120FDC387B0"
+    },
+    "reverse_stop_forward": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\mujoco_command_practice\\run-01\\reverse_stop_forward.csv",
+      "sha256": "72E94E664310B0D3C5410E50AC304B4249725747BE1FB751362693312ED73C5E"
+    },
+    "right_stop_left": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\mujoco_command_practice\\run-01\\right_stop_left.csv",
+      "sha256": "BB9DEE882999B96CE53868286C57958B60597C3EC6AE43333913002BBEBCB758"
+    }
+  },
+  "scenarios": [
+    {
+      "completed": true,
+      "failure_reason": null,
+      "initial_command": [
+        0.5,
+        0.0,
+        0.2
+      ],
+      "name": "forward_stop_reverse",
+      "performance_accepted": false,
+      "stages": [
+        {
+          "completed": true,
+          "end_tick": 100,
+          "failures": [],
+          "first_correct_sign_time_s": 0.04,
+          "held_error_band_confirmation_time_s": 0.56,
+          "performance_accepted": true,
+          "stage_index": 0,
+          "start_tick": 0,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.0717147310269336,
+          "steady_yaw_mae_rad_s": 0.18096130492639922,
+          "stop_distance_m": null,
+          "stop_net_displacement_m": null,
+          "target": [
+            0.5,
+            0.0,
+            0.2
+          ],
+          "valid_ticks": 100
+        },
+        {
+          "completed": true,
+          "end_tick": 150,
+          "failures": [
+            "stop_yaw_mae"
+          ],
+          "first_correct_sign_time_s": null,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": false,
+          "stage_index": 1,
+          "start_tick": 100,
+          "steady_sample_ticks": 25,
+          "steady_vx_mae_mps": 0.031020704964163356,
+          "steady_yaw_mae_rad_s": 0.2191116526795515,
+          "stop_distance_m": 0.20758323103551055,
+          "stop_net_displacement_m": 0.18823333483989685,
+          "target": [
+            0.0,
+            0.0,
+            0.2
+          ],
+          "valid_ticks": 50
+        },
+        {
+          "completed": true,
+          "end_tick": 250,
+          "failures": [],
+          "first_correct_sign_time_s": 0.02,
+          "held_error_band_confirmation_time_s": 0.68,
+          "performance_accepted": true,
+          "stage_index": 2,
+          "start_tick": 150,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.05013021615345143,
+          "steady_yaw_mae_rad_s": 0.17281111872258803,
+          "stop_distance_m": null,
+          "stop_net_displacement_m": null,
+          "target": [
+            -0.5,
+            -0.0,
+            0.2
+          ],
+          "valid_ticks": 100
+        },
+        {
+          "completed": true,
+          "end_tick": 300,
+          "failures": [
+            "stop_vx_mae",
+            "stop_yaw_mae"
+          ],
+          "first_correct_sign_time_s": null,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": false,
+          "stage_index": 3,
+          "start_tick": 250,
+          "steady_sample_ticks": 25,
+          "steady_vx_mae_mps": 0.10549121699502872,
+          "steady_yaw_mae_rad_s": 0.15802799926572703,
+          "stop_distance_m": 0.19120167450195577,
+          "stop_net_displacement_m": 0.08730407406191869,
+          "target": [
+            0.0,
+            0.0,
+            0.2
+          ],
+          "valid_ticks": 50
+        },
+        {
+          "completed": true,
+          "end_tick": 400,
+          "failures": [],
+          "first_correct_sign_time_s": 0.02,
+          "held_error_band_confirmation_time_s": 0.44,
+          "performance_accepted": true,
+          "stage_index": 4,
+          "start_tick": 300,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.07565205882794802,
+          "steady_yaw_mae_rad_s": 0.16218874328907812,
+          "stop_distance_m": null,
+          "stop_net_displacement_m": null,
+          "target": [
+            0.5,
+            0.0,
+            0.2
+          ],
+          "valid_ticks": 100
+        },
+        {
+          "completed": true,
+          "end_tick": 500,
+          "failures": [
+            "stop_yaw_mae"
+          ],
+          "first_correct_sign_time_s": null,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": false,
+          "stage_index": 5,
+          "start_tick": 400,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.07641580789988069,
+          "steady_yaw_mae_rad_s": 0.221169603341794,
+          "stop_distance_m": 0.31505658198728786,
+          "stop_net_displacement_m": 0.2839686296690689,
+          "target": [
+            0.0,
+            0.0,
+            0.2
+          ],
+          "valid_ticks": 100
+        }
+      ],
+      "valid_ticks": 500
+    },
+    {
+      "completed": true,
+      "failure_reason": null,
+      "initial_command": [
+        -0.5,
+        0.0,
+        0.2
+      ],
+      "name": "reverse_stop_forward",
+      "performance_accepted": false,
+      "stages": [
+        {
+          "completed": true,
+          "end_tick": 100,
+          "failures": [],
+          "first_correct_sign_time_s": 0.02,
+          "held_error_band_confirmation_time_s": 0.7000000000000001,
+          "performance_accepted": true,
+          "stage_index": 0,
+          "start_tick": 0,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.04769514225573501,
+          "steady_yaw_mae_rad_s": 0.14768997534497028,
+          "stop_distance_m": null,
+          "stop_net_displacement_m": null,
+          "target": [
+            -0.5,
+            0.0,
+            0.2
+          ],
+          "valid_ticks": 100
+        },
+        {
+          "completed": true,
+          "end_tick": 150,
+          "failures": [],
+          "first_correct_sign_time_s": null,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": true,
+          "stage_index": 1,
+          "start_tick": 100,
+          "steady_sample_ticks": 25,
+          "steady_vx_mae_mps": 0.09324864153004685,
+          "steady_yaw_mae_rad_s": 0.13419787652780246,
+          "stop_distance_m": 0.20002608292663882,
+          "stop_net_displacement_m": 0.11314969657411988,
+          "target": [
+            -0.0,
+            0.0,
+            0.2
+          ],
+          "valid_ticks": 50
+        },
+        {
+          "completed": true,
+          "end_tick": 250,
+          "failures": [],
+          "first_correct_sign_time_s": 0.02,
+          "held_error_band_confirmation_time_s": 0.44,
+          "performance_accepted": true,
+          "stage_index": 2,
+          "start_tick": 150,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.0718129635542275,
+          "steady_yaw_mae_rad_s": 0.17658452350868925,
+          "stop_distance_m": null,
+          "stop_net_displacement_m": null,
+          "target": [
+            0.5,
+            -0.0,
+            0.2
+          ],
+          "valid_ticks": 100
+        },
+        {
+          "completed": true,
+          "end_tick": 300,
+          "failures": [
+            "stop_yaw_mae"
+          ],
+          "first_correct_sign_time_s": null,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": false,
+          "stage_index": 3,
+          "start_tick": 250,
+          "steady_sample_ticks": 25,
+          "steady_vx_mae_mps": 0.024543371834347266,
+          "steady_yaw_mae_rad_s": 0.1898835059017001,
+          "stop_distance_m": 0.197576572621145,
+          "stop_net_displacement_m": 0.18106216468453934,
+          "target": [
+            -0.0,
+            0.0,
+            0.2
+          ],
+          "valid_ticks": 50
+        },
+        {
+          "completed": true,
+          "end_tick": 400,
+          "failures": [],
+          "first_correct_sign_time_s": 0.02,
+          "held_error_band_confirmation_time_s": 0.66,
+          "performance_accepted": true,
+          "stage_index": 4,
+          "start_tick": 300,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.05720893598864578,
+          "steady_yaw_mae_rad_s": 0.1842546673583171,
+          "stop_distance_m": null,
+          "stop_net_displacement_m": null,
+          "target": [
+            -0.5,
+            0.0,
+            0.2
+          ],
+          "valid_ticks": 100
+        },
+        {
+          "completed": true,
+          "end_tick": 500,
+          "failures": [
+            "stop_yaw_mae"
+          ],
+          "first_correct_sign_time_s": null,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": false,
+          "stage_index": 5,
+          "start_tick": 400,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.09139670091560506,
+          "steady_yaw_mae_rad_s": 0.15956657607553196,
+          "stop_distance_m": 0.2924542946613345,
+          "stop_net_displacement_m": 0.02940648236602659,
+          "target": [
+            -0.0,
+            0.0,
+            0.2
+          ],
+          "valid_ticks": 100
+        }
+      ],
+      "valid_ticks": 500
+    },
+    {
+      "completed": true,
+      "failure_reason": null,
+      "initial_command": [
+        0.0,
+        0.6,
+        0.2
+      ],
+      "name": "left_stop_right",
+      "performance_accepted": false,
+      "stages": [
+        {
+          "completed": true,
+          "end_tick": 100,
+          "failures": [],
+          "first_correct_sign_time_s": 0.08,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": true,
+          "stage_index": 0,
+          "start_tick": 0,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.10018710099653916,
+          "steady_yaw_mae_rad_s": 0.2614949878044835,
+          "stop_distance_m": null,
+          "stop_net_displacement_m": null,
+          "target": [
+            0.0,
+            0.6,
+            0.2
+          ],
+          "valid_ticks": 100
+        },
+        {
+          "completed": true,
+          "end_tick": 150,
+          "failures": [
+            "stop_yaw_mae"
+          ],
+          "first_correct_sign_time_s": null,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": false,
+          "stage_index": 1,
+          "start_tick": 100,
+          "steady_sample_ticks": 25,
+          "steady_vx_mae_mps": 0.08534625548477948,
+          "steady_yaw_mae_rad_s": 0.19302381765424387,
+          "stop_distance_m": 0.09412075193424223,
+          "stop_net_displacement_m": 0.08951363823652642,
+          "target": [
+            0.0,
+            0.0,
+            0.2
+          ],
+          "valid_ticks": 50
+        },
+        {
+          "completed": true,
+          "end_tick": 250,
+          "failures": [
+            "reverse_response_time"
+          ],
+          "first_correct_sign_time_s": 0.02,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": false,
+          "stage_index": 2,
+          "start_tick": 150,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.10957213043847455,
+          "steady_yaw_mae_rad_s": 0.22354863209563158,
+          "stop_distance_m": null,
+          "stop_net_displacement_m": null,
+          "target": [
+            -0.0,
+            -0.6,
+            0.2
+          ],
+          "valid_ticks": 100
+        },
+        {
+          "completed": true,
+          "end_tick": 300,
+          "failures": [
+            "stop_yaw_mae"
+          ],
+          "first_correct_sign_time_s": null,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": false,
+          "stage_index": 3,
+          "start_tick": 250,
+          "steady_sample_ticks": 25,
+          "steady_vx_mae_mps": 0.09270916807527133,
+          "steady_yaw_mae_rad_s": 0.2583321971914457,
+          "stop_distance_m": 0.11153815125873497,
+          "stop_net_displacement_m": 0.10709509789758233,
+          "target": [
+            0.0,
+            0.0,
+            0.2
+          ],
+          "valid_ticks": 50
+        },
+        {
+          "completed": true,
+          "end_tick": 400,
+          "failures": [
+            "reverse_response_time"
+          ],
+          "first_correct_sign_time_s": 0.02,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": false,
+          "stage_index": 4,
+          "start_tick": 300,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.09946510905291271,
+          "steady_yaw_mae_rad_s": 0.17191943313776625,
+          "stop_distance_m": null,
+          "stop_net_displacement_m": null,
+          "target": [
+            0.0,
+            0.6,
+            0.2
+          ],
+          "valid_ticks": 100
+        },
+        {
+          "completed": true,
+          "end_tick": 500,
+          "failures": [],
+          "first_correct_sign_time_s": null,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": true,
+          "stage_index": 5,
+          "start_tick": 400,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.07215953162958971,
+          "steady_yaw_mae_rad_s": 0.14537523479200828,
+          "stop_distance_m": 0.1790655169186528,
+          "stop_net_displacement_m": 0.17040203082715744,
+          "target": [
+            0.0,
+            0.0,
+            0.2
+          ],
+          "valid_ticks": 100
+        }
+      ],
+      "valid_ticks": 500
+    },
+    {
+      "completed": true,
+      "failure_reason": null,
+      "initial_command": [
+        0.0,
+        -0.6,
+        0.2
+      ],
+      "name": "right_stop_left",
+      "performance_accepted": false,
+      "stages": [
+        {
+          "completed": true,
+          "end_tick": 100,
+          "failures": [],
+          "first_correct_sign_time_s": 0.02,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": true,
+          "stage_index": 0,
+          "start_tick": 0,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.11708240257901721,
+          "steady_yaw_mae_rad_s": 0.2765977541347618,
+          "stop_distance_m": null,
+          "stop_net_displacement_m": null,
+          "target": [
+            0.0,
+            -0.6,
+            0.2
+          ],
+          "valid_ticks": 100
+        },
+        {
+          "completed": true,
+          "end_tick": 150,
+          "failures": [
+            "stop_vx_mae"
+          ],
+          "first_correct_sign_time_s": null,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": false,
+          "stage_index": 1,
+          "start_tick": 100,
+          "steady_sample_ticks": 25,
+          "steady_vx_mae_mps": 0.11547152482867856,
+          "steady_yaw_mae_rad_s": 0.13640178513549336,
+          "stop_distance_m": 0.11498157493746837,
+          "stop_net_displacement_m": 0.11101160932639956,
+          "target": [
+            0.0,
+            -0.0,
+            0.2
+          ],
+          "valid_ticks": 50
+        },
+        {
+          "completed": true,
+          "end_tick": 250,
+          "failures": [
+            "reverse_response_time"
+          ],
+          "first_correct_sign_time_s": 0.02,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": false,
+          "stage_index": 2,
+          "start_tick": 150,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.08721902711866135,
+          "steady_yaw_mae_rad_s": 0.17665357126118694,
+          "stop_distance_m": null,
+          "stop_net_displacement_m": null,
+          "target": [
+            -0.0,
+            0.6,
+            0.2
+          ],
+          "valid_ticks": 100
+        },
+        {
+          "completed": true,
+          "end_tick": 300,
+          "failures": [
+            "stop_yaw_mae"
+          ],
+          "first_correct_sign_time_s": null,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": false,
+          "stage_index": 3,
+          "start_tick": 250,
+          "steady_sample_ticks": 25,
+          "steady_vx_mae_mps": 0.06533818629329267,
+          "steady_yaw_mae_rad_s": 0.18975598776166944,
+          "stop_distance_m": 0.092979619445174,
+          "stop_net_displacement_m": 0.08767862601072557,
+          "target": [
+            0.0,
+            -0.0,
+            0.2
+          ],
+          "valid_ticks": 50
+        },
+        {
+          "completed": true,
+          "end_tick": 400,
+          "failures": [
+            "reverse_response_time"
+          ],
+          "first_correct_sign_time_s": 0.02,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": false,
+          "stage_index": 4,
+          "start_tick": 300,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.1258407150859481,
+          "steady_yaw_mae_rad_s": 0.2892116632368031,
+          "stop_distance_m": null,
+          "stop_net_displacement_m": null,
+          "target": [
+            0.0,
+            -0.6,
+            0.2
+          ],
+          "valid_ticks": 100
+        },
+        {
+          "completed": true,
+          "end_tick": 500,
+          "failures": [],
+          "first_correct_sign_time_s": null,
+          "held_error_band_confirmation_time_s": null,
+          "performance_accepted": true,
+          "stage_index": 5,
+          "start_tick": 400,
+          "steady_sample_ticks": 75,
+          "steady_vx_mae_mps": 0.06101774000206161,
+          "steady_yaw_mae_rad_s": 0.14784806322713245,
+          "stop_distance_m": 0.15441638619610062,
+          "stop_net_displacement_m": 0.1385320610594088,
+          "target": [
+            0.0,
+            -0.0,
+            0.2
+          ],
+          "valid_ticks": 100
+        }
+      ],
+      "valid_ticks": 500
+    }
+  ],
+  "schema_version": "MujocoCommandPracticeEvaluationV1",
+  "smoke": false,
+  "source_checkpoint_sha256": "711ACBFCA237ABF8241D84728C6D424619C1813F4AFDBF81581DCC8D0ADEFEE3",
+  "statistics_source_sha256": "46852D11229478345EC503DAD9697A95ED331F1744E1FDB3F1EAE53453B8BF32",
+  "valid_sample_rule": "survived_post_action_sample_against_current_executed_command"
+}

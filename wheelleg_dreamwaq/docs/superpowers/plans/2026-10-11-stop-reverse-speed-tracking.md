@@ -84,7 +84,7 @@ Files: scripts/evaluate_command_practice_mujoco.py; sim2sim/mujoco/tests/test_co
 
 ## Task 7 — Four training seeds and sim2sim
 
-- [ ] Start the exact formal command in the spec, four fresh seeds, 1000 total updates each.
-- [ ] Monitor every 1800 s and record actual tracking, termination, saturation and estimator diagnostics; stop only for hard numerical/artifact issues. Do not alter sources mid-suite.
-- [ ] After all training, export/golden, candidate-only Isaac eight scenarios, formal MuJoCo eight scenarios, independent dynamic MuJoCo four scenarios, and formal ranking for every checkpoint.
-- [ ] Save report comparing the four current-physics candidates. Separate completed evidence, speed targets, estimator gate and unavailable old-baseline comparison; give explicit remaining failures and next training recommendation.
+- [x] Start the exact formal command in the spec, four fresh seeds, 1000 total updates each.
+- [x] Monitor every 1800 s and record actual tracking, termination, saturation and estimator diagnostics; stop only for hard numerical/artifact issues. Do not alter sources mid-suite.
+- [x] After all training, export/golden, candidate-only Isaac eight scenarios, formal MuJoCo eight scenarios, independent dynamic MuJoCo four scenarios, and formal ranking for every checkpoint.
+- [x] Save report comparing the four current-physics candidates. Separate completed evidence, speed targets, estimator gate and unavailable old-baseline comparison; give explicit remaining failures and next training recommendation.

@@ -1,0 +1,201 @@
+{
+  "baseline_isaac_report": null,
+  "baseline_status": "not_comparable",
+  "candidate_only": true,
+  "created_at": "2026-10-11T02:49:27.130840+08:00",
+  "fresh_start": true,
+  "iterations_per_run": 1000,
+  "mujoco_ranking_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\mujoco-ranking-summary.json",
+  "profile": "rtx5070",
+  "run_count": 4,
+  "runs": [
+    {
+      "baseline_acceptance": null,
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_02-49-31_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run01-seed1066832402\\model_999.pt",
+      "command_practice_acceptance": false,
+      "command_practice_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\mujoco_command_practice\\run-01\\summary.json",
+      "context_acceptance": true,
+      "current_profile_acceptance": false,
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\exports\\run-01",
+      "index": 1,
+      "isaac_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\isaac_evaluation\\run-01\\summary.json",
+      "isaac_speed_acceptance": false,
+      "isaac_speed_target_failures": [
+        "reverse:vx_mae_above_0.2"
+      ],
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\monitor\\run-01\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\monitor\\run-01\\initial.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\monitor\\run-01\\interval-20261011-031927.json"
+        ],
+        "status": "warning",
+        "warnings": [
+          "phi0_symmetry_degraded"
+        ]
+      },
+      "mujoco_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\mujoco_evaluation\\run-01\\summary.json",
+      "mujoco_speed_acceptance": false,
+      "mujoco_speed_target_failures": [
+        "low_stand:vx_mae_above_0.1"
+      ],
+      "phase2_acceptance": null,
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_02-49-31_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run01-seed1066832402",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_02-49-31_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run01-seed1066832402\\run_manifest.json",
+      "run_name": "dreamwaq-v1-suite-20261011-024927-run01-seed1066832402",
+      "seed": 1066832402,
+      "status": "completed_acceptance_failed",
+      "training_fingerprint_hash": "D3FA8A2064785C314BDD0F05BD6BD942ADB424937FA98572CD4CA93C787C1318",
+      "training_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_02-49-31_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run01-seed1066832402\\training_summary.json",
+      "velocity_acceptance": true
+    },
+    {
+      "baseline_acceptance": null,
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_03-35-05_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run02-seed272508862\\model_999.pt",
+      "command_practice_acceptance": false,
+      "command_practice_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\mujoco_command_practice\\run-02\\summary.json",
+      "context_acceptance": true,
+      "current_profile_acceptance": false,
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\exports\\run-02",
+      "index": 2,
+      "isaac_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\isaac_evaluation\\run-02\\summary.json",
+      "isaac_speed_acceptance": false,
+      "isaac_speed_target_failures": [
+        "nominal_stand:vx_mae_above_0.1",
+        "reverse:vx_mae_above_0.2"
+      ],
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\monitor\\run-02\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\monitor\\run-02\\initial.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\monitor\\run-02\\interval-20261011-040501.json"
+        ],
+        "status": "warning",
+        "warnings": [
+          "phi0_symmetry_degraded"
+        ]
+      },
+      "mujoco_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\mujoco_evaluation\\run-02\\summary.json",
+      "mujoco_speed_acceptance": false,
+      "mujoco_speed_target_failures": [
+        "nominal_stand:vx_mae_above_0.1",
+        "reverse:vx_mae_above_0.2"
+      ],
+      "phase2_acceptance": null,
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_03-35-05_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run02-seed272508862",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_03-35-05_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run02-seed272508862\\run_manifest.json",
+      "run_name": "dreamwaq-v1-suite-20261011-024927-run02-seed272508862",
+      "seed": 272508862,
+      "status": "completed_acceptance_failed",
+      "training_fingerprint_hash": "D3FA8A2064785C314BDD0F05BD6BD942ADB424937FA98572CD4CA93C787C1318",
+      "training_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_03-35-05_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run02-seed272508862\\training_summary.json",
+      "velocity_acceptance": true
+    },
+    {
+      "baseline_acceptance": null,
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_999.pt",
+      "command_practice_acceptance": false,
+      "command_practice_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\mujoco_command_practice\\run-03\\summary.json",
+      "context_acceptance": true,
+      "current_profile_acceptance": false,
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\exports\\run-03",
+      "index": 3,
+      "isaac_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\isaac_evaluation\\run-03\\summary.json",
+      "isaac_speed_acceptance": false,
+      "isaac_speed_target_failures": [
+        "reverse:vx_mae_above_0.2"
+      ],
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\monitor\\run-03\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\monitor\\run-03\\initial.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\monitor\\run-03\\interval-20261011-045030.json"
+        ],
+        "status": "warning",
+        "warnings": [
+          "phi0_symmetry_degraded"
+        ]
+      },
+      "mujoco_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\mujoco_evaluation\\run-03\\summary.json",
+      "mujoco_speed_acceptance": false,
+      "mujoco_speed_target_failures": [
+        "low_stand:vx_mae_above_0.1"
+      ],
+      "phase2_acceptance": null,
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\run_manifest.json",
+      "run_name": "dreamwaq-v1-suite-20261011-024927-run03-seed41882943",
+      "seed": 41882943,
+      "status": "completed_acceptance_failed",
+      "training_fingerprint_hash": "D3FA8A2064785C314BDD0F05BD6BD942ADB424937FA98572CD4CA93C787C1318",
+      "training_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\training_summary.json",
+      "velocity_acceptance": true
+    },
+    {
+      "baseline_acceptance": null,
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_05-06-04_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run04-seed638953086\\model_999.pt",
+      "command_practice_acceptance": false,
+      "command_practice_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\mujoco_command_practice\\run-04\\summary.json",
+      "context_acceptance": true,
+      "current_profile_acceptance": false,
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\exports\\run-04",
+      "index": 4,
+      "isaac_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\isaac_evaluation\\run-04\\summary.json",
+      "isaac_speed_acceptance": false,
+      "isaac_speed_target_failures": [
+        "reverse:vx_mae_above_0.2"
+      ],
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\monitor\\run-04\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\monitor\\run-04\\initial.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\monitor\\run-04\\interval-20261011-053600.json"
+        ],
+        "status": "warning",
+        "warnings": [
+          "phi0_symmetry_degraded"
+        ]
+      },
+      "mujoco_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\mujoco_evaluation\\run-04\\summary.json",
+      "mujoco_speed_acceptance": false,
+      "mujoco_speed_target_failures": [
+        "low_stand:vx_mae_above_0.1",
+        "reverse:vx_mae_above_0.2"
+      ],
+      "phase2_acceptance": null,
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_05-06-04_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run04-seed638953086",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_05-06-04_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run04-seed638953086\\run_manifest.json",
+      "run_name": "dreamwaq-v1-suite-20261011-024927-run04-seed638953086",
+      "seed": 638953086,
+      "status": "completed_acceptance_failed",
+      "training_fingerprint_hash": "D3FA8A2064785C314BDD0F05BD6BD942ADB424937FA98572CD4CA93C787C1318",
+      "training_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_05-06-04_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run04-seed638953086\\training_summary.json",
+      "velocity_acceptance": true
+    }
+  ],
+  "schema_version": "DreamWaQTrainingSuiteV1",
+  "seeds": [
+    1066832402,
+    272508862,
+    41882943,
+    638953086
+  ],
+  "shared_isaac_reset_cache": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\isaac_evaluation\\evaluation-reset-cache.pt",
+  "status": "completed",
+  "suite_id": "20261011-024927",
+  "suite_mode": "formal",
+  "suite_source_fingerprint_hash": "274842FD7E9C4EE34907BBC1AE92BAE338F8770D8E022D7B8E20BD9D460A2F1D",
+  "task_profile": "stop_reverse_v1",
+  "training_fingerprint_hash": "D3FA8A2064785C314BDD0F05BD6BD942ADB424937FA98572CD4CA93C787C1318",
+  "training_monitor_gate": {
+    "hard_anomalies": [],
+    "status": "warning",
+    "warnings": [
+      "phi0_symmetry_degraded"
+    ]
+  }
+}
