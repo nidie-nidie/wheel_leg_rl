@@ -10,6 +10,7 @@ import numpy as np
 from .versions import ACTION_ADAPTER_VERSION, HISTORY_ADAPTER_VERSION, OBSERVATION_ADAPTER_VERSION
 from .model_semantics import stable_hash
 from .physics import PHYSICS_SCHEMA_VERSION, validate_policy_physics
+from .command_practice import validate_command_practice
 
 
 def sha256_file(path: Path) -> str:
@@ -117,6 +118,7 @@ def load_policy_contract(
     if manifest.get("phase1_contract_version") == "Phase1RandomizedContractV1":
         if schemas.get("randomization") != "RandomizationSchemaV1":
             raise ValueError("Randomized policy manifest is missing RandomizationSchemaV1")
+    validate_command_practice(manifest)
     if manifest["network"]["output_dimension"] != 6:
         raise ValueError("Policy manifest output dimension does not match ActionV1")
     if schema_version == "PpoActorExportV1":

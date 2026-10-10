@@ -182,3 +182,60 @@ def test_dreamwaq_suite_completion_allows_acceptance_failure_but_not_missing_evi
     incomplete[1]["status"] = "mujoco_failed"
     assert not DREAMWAQ_MODULE._evaluation_suite_complete(incomplete, 2)
     assert not DREAMWAQ_MODULE._evaluation_suite_complete(complete[:1], 2)
+
+def test_new_profile_rejects_historical_comparison_before_training():
+    DREAMWAQ_MODULE._validate_task_mode("stop_reverse_v1", True)
+    DREAMWAQ_MODULE._validate_task_mode("legacy_v1", False)
+    with pytest.raises(ValueError, match="candidate-only"):
+        DREAMWAQ_MODULE._validate_task_mode("stop_reverse_v1", False)
+
+
+def test_failed_isaac_artifact_still_runs_both_mujoco_evaluations(tmp_path, monkeypatch):
+    root = tmp_path / "project"
+    root.mkdir()
+    suite = root / "suite"
+    run = root / "run"
+    run.mkdir()
+    (run / "training_summary.json").write_text(json.dumps({
+        "completed_iterations": 1, "resumed_from": None, "final_checkpoint": str(run / "model_0.pt"),
+        "context_acceptance": False,
+    }), encoding="utf-8")
+    monkeypatch.setattr(DREAMWAQ_MODULE, "PROJECT_ROOT", root)
+    monkeypatch.setattr(DREAMWAQ_MODULE, "_suite_source_fingerprint", lambda: ({"files": {}}, "A" * 64))
+    monkeypatch.setattr(DREAMWAQ_MODULE, "_assert_suite_source_fingerprint", lambda _: None)
+    monkeypatch.setattr(DREAMWAQ_MODULE, "_unique_seeds", lambda _: [123])
+    monkeypatch.setattr(DREAMWAQ_MODULE, "_training_fingerprint", lambda _: ({}, "B" * 64))
+    monkeypatch.setattr(DREAMWAQ_MODULE, "_monitor_report",
+                        lambda _: {"warnings": [], "hard_anomalies": [], "status": "ok"})
+    calls = []
+    def train(command, *args, **kwargs):
+        assert command[command.index("--task-profile") + 1] == "stop_reverse_v1"
+        (run / "run_manifest.json").write_text(json.dumps({
+            "seed": 123, "resume_provenance": {"schema_version": "ResumeMetadataV2", "mode": "fresh"}}))
+        return 0, run
+    def evaluate(command, log):
+        script = next(item for item in command if item.startswith("scripts/"))
+        calls.append(script)
+        output = Path(command[command.index("--output") + 1])
+        output.mkdir(parents=True, exist_ok=True)
+        if script == "scripts/evaluate_isaac.py":
+            assert "--candidate-only" in command and "--baseline-report" not in command
+            raise RuntimeError("missing Isaac artifact")
+        if script == "scripts/export_dreamwaq_actor.py":
+            for name in ("actor.ts", "policy_manifest.json", "golden_vectors.pt"):
+                (output / name).write_text("test fixture")
+        else:
+            (output / "summary.json").write_text(json.dumps({
+                "aggregate": {"scenarios": []}, "performance_accepted": False}))
+    monkeypatch.setattr(DREAMWAQ_MODULE, "_stream_process", train)
+    monkeypatch.setattr(DREAMWAQ_MODULE, "_run_checked", evaluate)
+    monkeypatch.setattr(sys, "argv", ["suite", "--mode", "smoke", "--runs", "1", "--iterations", "1",
+                                    "--task-profile", "stop_reverse_v1", "--candidate-only", "--output", str(suite)])
+    with pytest.raises(RuntimeError, match="complete export"):
+        DREAMWAQ_MODULE.main()
+    assert calls == ["scripts/export_dreamwaq_actor.py", "scripts/evaluate_isaac.py",
+                     "scripts/evaluate_mujoco.py", "scripts/evaluate_command_practice_mujoco.py"]
+    report = json.loads((suite / "training-suite-manifest.json").read_text())
+    assert report["runs"][0]["status"] == "evaluation_incomplete"
+    assert "isaac" in report["runs"][0]["evaluation_errors"]
+    assert report["baseline_isaac_report"] is None and report["baseline_status"] == "not_comparable"

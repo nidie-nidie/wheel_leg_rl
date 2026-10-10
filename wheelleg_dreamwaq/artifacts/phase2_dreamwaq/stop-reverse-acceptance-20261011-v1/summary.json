@@ -1,0 +1,67 @@
+{
+  "architecture_version": "v0.26",
+  "candidate_isaac_schema": "IsaacEvaluationV2",
+  "code_review": "docs/2026-10-11-stop-reverse-code-review.md",
+  "conflicting_profile_rejected": true,
+  "document_review": "docs/2026-10-11-stop-reverse-document-review.md",
+  "dynamic_batch_shapes": [
+    [
+      1,
+      6
+    ],
+    [
+      3,
+      6
+    ],
+    [
+      32,
+      6
+    ]
+  ],
+  "dynamic_mujoco_smoke_only": true,
+  "evidence_files": {
+    "acceptance-evidence.json": "F3DB8D041D209EDC9B2A3CE808356CA54BEA6F0AB910D231D0B796C596DDF0B0",
+    "dynamic/forward_stop_reverse.csv": "45FF20FFEEF573AABD70D3E77110DE9B10348F01CE0FD525ED3656F334246491",
+    "dynamic/left_stop_right.csv": "D8192D3384C5735B59397926B253F70AE37808139770FB51FA1906F501D6A0FB",
+    "dynamic/reverse_stop_forward.csv": "8418216C08BB9C7BE0DA611E380420ADD6FC1E3E70496FE71D20726E845D945C",
+    "dynamic/right_stop_left.csv": "9D7F2A1D305228D51767161DCAAA08225355E40AEBBFE49C2AEEFC3F16949DCB",
+    "dynamic/summary.json": "62C3B723A35F53BEB4B74FBAA0C0E90C5FC0FB98047983D17F56AEBEC94E88DC",
+    "eval-cache.pt": "A58A9A3BCB79E52B01A04FB276F89BAD0D84504C413A21A890D7AD837238E4FF",
+    "export/actor.ts": "261D2A3C1199B66E37B7D34BD4274995EEE4AEB6E1E1584F4BB17C0C735FC1C4",
+    "export/golden_vectors.pt": "958544B7ABED3A2EC3E811114F1AFFE623A89EF26612AAB714E2723ADD7AAD06",
+    "export/policy_manifest.json": "2DA92C871C60FE55FF8C11A88DAFF7C43A5D528974A3C3F89990D705C6F97B8C",
+    "isaac/summary.json": "E1DB9258984B79CEEDF097A9DAC80A1E903B45655CA1D16D0CA7D80FBD7C2A05",
+    "play.json": "CBB53DE374E3286C502773C714E24502D7DC1EA1045A48DBFED00F38ABD8A2A7",
+    "practice-final-mujoco-v1.xml": "87436275C5C3180233B4B3038496DA8350A75A132F3FAE92F2F2332CA16F53EF",
+    "practice-final-unit-v1.xml": "8B15F2085DC2623D204CBD47DD0434D5C76A509D5BC638C50F8C783D999FA9AC",
+    "practice-probe.json": "1A0944B603A3F088452043B8165D0A6582DA209F6DDD50707FCE1FEF0DE0B944",
+    "practice-runtime-v1.xml": "B18E52B2880872C66EF71379D37B55F97CEE5E567C4299DA614B7CD223C7C175"
+  },
+  "export_golden_tolerance": 1e-07,
+  "fixed_play_steps": 160,
+  "formal_command": ".venv/Scripts/python.exe scripts/run_dreamwaq_training_suite.py --mode formal --profile rtx5070 --task-profile stop_reverse_v1 --candidate-only --runs 4 --iterations 1000 --monitor-interval-seconds 1800",
+  "formal_performance_tested": false,
+  "fresh_updates": 2,
+  "historical_baseline_status": "not_comparable",
+  "main_unit_passed": 181,
+  "mujoco_unit_passed": 56,
+  "physx_probe_checks": 230,
+  "physx_probe_passed": true,
+  "protected_assets_diff": [],
+  "remaining_P0_P1": 0,
+  "resume_num_envs": [
+    32,
+    16
+  ],
+  "resume_total_updates": 3,
+  "schema_version": "StopReversePretrainingAcceptanceV1",
+  "source_evidence": {
+    "dynamic_evaluation": "E:\\wheel_leg_rl-main\\.git\\verification\\practice-runtime-v1\\test_profile_fresh_resume_fixe0\\dynamic\\summary.json",
+    "export": "E:\\wheel_leg_rl-main\\.git\\verification\\practice-runtime-v1\\test_profile_fresh_resume_fixe0\\export",
+    "isaac_evaluation": "E:\\wheel_leg_rl-main\\.git\\verification\\practice-runtime-v1\\test_profile_fresh_resume_fixe0\\isaac\\summary.json",
+    "last_resume": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_02-45-42_portable_fudan-v1_practice-resume16-40cfd808",
+    "play": "E:\\wheel_leg_rl-main\\.git\\verification\\practice-runtime-v1\\test_profile_fresh_resume_fixe0\\play.json",
+    "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_02-45-21_portable_fudan-v1_practice-source-40cfd808"
+  },
+  "task_profile": "stop_reverse_v1"
+}

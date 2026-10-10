@@ -94,10 +94,19 @@ def _evaluation_suite_complete(records: list[dict], expected_count: int) -> bool
     )
 
 
+def _validate_task_mode(task_profile: str, candidate_only: bool) -> None:
+    if task_profile not in {"legacy_v1", "stop_reverse_v1"}:
+        raise ValueError("Unknown task profile")
+    if task_profile == "stop_reverse_v1" and not candidate_only:
+        raise ValueError("Stop/reverse training requires --candidate-only; PhysicsV4 baseline is not comparable")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run the WheelLeg DreamWaQ training/evaluation suite.")
     parser.add_argument("--mode", choices=("formal", "smoke"), default="formal")
     parser.add_argument("--profile", choices=("portable", "rtx4060", "rtx5070"), default="rtx5070")
+    parser.add_argument("--task-profile", choices=("legacy_v1", "stop_reverse_v1"), default="legacy_v1")
+    parser.add_argument("--candidate-only", action="store_true")
     parser.add_argument("--iterations", type=int, default=FORMAL_ITERATIONS)
     parser.add_argument("--runs", type=int, default=FORMAL_RUN_COUNT)
     parser.add_argument("--monitor-interval-seconds", type=float, default=1800.0)
@@ -109,7 +118,8 @@ def main() -> None:
         raise ValueError("Formal DreamWaQ suite requires rtx5070, four runs, and 1000 iterations")
     if args.runs <= 0 or args.iterations <= 0 or args.monitor_interval_seconds <= 0.0:
         raise ValueError("Suite runs, iterations, and monitor interval must be positive")
-    if not BASELINE_CHECKPOINT.is_file():
+    _validate_task_mode(args.task_profile, args.candidate_only)
+    if not args.candidate_only and not BASELINE_CHECKPOINT.is_file():
         raise FileNotFoundError(BASELINE_CHECKPOINT)
 
     suite_id = datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -126,6 +136,8 @@ def main() -> None:
         "suite_id": suite_id,
         "suite_mode": args.mode,
         "profile": args.profile,
+        "task_profile": args.task_profile,
+        "candidate_only": args.candidate_only,
         "iterations_per_run": args.iterations,
         "run_count": args.runs,
         "fresh_start": True,
@@ -149,6 +161,8 @@ def main() -> None:
             "scripts/train_dreamwaq.py",
             "--profile",
             args.profile,
+            "--task-profile",
+            args.task_profile,
             "--max-iterations",
             str(args.iterations),
             "--seed",
@@ -238,110 +252,108 @@ def main() -> None:
 
     isaac_root = suite_dir / "isaac_evaluation"
     reset_cache = isaac_root / "evaluation-reset-cache.pt"
-    baseline_dir = isaac_root / "phase1r-baseline"
-    _run_checked(
-        [
-            sys.executable,
-            "scripts/evaluate_isaac.py",
-            "--checkpoint",
-            str(BASELINE_CHECKPOINT),
-            "--reset-cache",
-            str(reset_cache),
-            "--output",
-            str(baseline_dir),
-            "--headless",
-        ],
-        suite_dir / "isaac-baseline.log",
-    )
-    baseline_report = baseline_dir / "summary.json"
+    baseline_report = None
+    if not args.candidate_only:
+        baseline_dir = isaac_root / "phase1r-baseline"
+        _run_checked(
+            [sys.executable, "scripts/evaluate_isaac.py", "--checkpoint", str(BASELINE_CHECKPOINT),
+             "--reset-cache", str(reset_cache), "--output", str(baseline_dir), "--headless"],
+            suite_dir / "isaac-baseline.log",
+        )
+        baseline_report = baseline_dir / "summary.json"
 
+    from wheelleg_dreamwaq.schemas.isaac_evaluation import speed_tracking_target_failures
     mujoco_summaries: list[Path] = []
     for record in suite_manifest["runs"]:
-        if "checkpoint" not in record:
-            continue
         index = int(record["index"])
         checkpoint = Path(record["checkpoint"])
         export_dir = suite_dir / "exports" / f"run-{index:02d}"
+        errors = {}
         try:
             _assert_suite_source_fingerprint(source_hash)
             _run_checked(
-                [
-                    sys.executable,
-                    "scripts/export_dreamwaq_actor.py",
-                    "--checkpoint",
-                    str(checkpoint),
-                    "--output",
-                    str(export_dir),
-                ],
+                [sys.executable, "scripts/export_dreamwaq_actor.py", "--checkpoint", str(checkpoint),
+                 "--output", str(export_dir)],
                 suite_dir / f"run-{index:02d}-export.log",
             )
-            isaac_dir = isaac_root / f"run-{index:02d}"
-            _run_checked(
-                [
-                    sys.executable,
-                    "scripts/evaluate_isaac.py",
-                    "--checkpoint",
-                    str(checkpoint),
-                    "--reset-cache",
-                    str(reset_cache),
-                    "--baseline-report",
-                    str(baseline_report),
-                    "--output",
-                    str(isaac_dir),
-                    "--headless",
-                ],
-                suite_dir / f"run-{index:02d}-isaac.log",
-            )
-            isaac_report = json.loads((isaac_dir / "summary.json").read_text(encoding="utf-8"))
+            # Kit can exit successfully after an exception; require all export artifacts.
+            for name in ("actor.ts", "policy_manifest.json", "golden_vectors.pt"):
+                if not (export_dir / name).is_file():
+                    raise FileNotFoundError(export_dir / name)
             record["export_dir"] = str(export_dir)
-            record["isaac_evaluation"] = str(isaac_dir / "summary.json")
-            record["velocity_acceptance"] = bool(isaac_report["estimator"]["velocity_acceptance"])
-            record["baseline_acceptance"] = bool(
-                isaac_report["baseline_comparison"]["candidate_not_worse"]
-            )
         except Exception as error:
-            record.update({"status": "artifact_or_isaac_failed", "error": f"{type(error).__name__}: {error}"})
+            record.update({"status": "export_failed", "error": f"{type(error).__name__}: {error}"})
             _write_json(suite_manifest_path, suite_manifest)
             continue
 
+        isaac_dir = isaac_root / f"run-{index:02d}"
+        isaac_command = [sys.executable, "scripts/evaluate_isaac.py", "--checkpoint", str(checkpoint),
+                         "--reset-cache", str(reset_cache), "--output", str(isaac_dir), "--headless"]
+        isaac_command += ["--candidate-only"] if args.candidate_only else ["--baseline-report", str(baseline_report)]
+        try:
+            _run_checked(isaac_command, suite_dir / f"run-{index:02d}-isaac.log")
+            isaac_report = json.loads((isaac_dir / "summary.json").read_text(encoding="utf-8"))
+            record["isaac_evaluation"] = str(isaac_dir / "summary.json")
+            record["velocity_acceptance"] = bool(isaac_report["estimator"]["velocity_acceptance"])
+            record["baseline_acceptance"] = None if args.candidate_only else bool(
+                isaac_report["baseline_comparison"]["candidate_not_worse"])
+            if args.candidate_only:
+                record["isaac_speed_target_failures"] = speed_tracking_target_failures(isaac_report["aggregate"])
+                record["isaac_speed_acceptance"] = not record["isaac_speed_target_failures"]
+        except Exception as error:
+            errors["isaac"] = f"{type(error).__name__}: {error}"
+
+        # Valid exports are always evaluated in MuJoCo, even if Isaac evaluation fails.
         mujoco_dir = suite_dir / "mujoco_evaluation" / f"run-{index:02d}"
-        command = [
-            "uv",
-            "run",
-            "--project",
-            str(SIM2SIM_PROJECT),
-            "python",
-            "scripts/evaluate_mujoco.py",
-            "--policy",
-            str(export_dir / "actor.ts"),
-            "--manifest",
-            str(export_dir / "policy_manifest.json"),
-            "--output",
-            str(mujoco_dir),
-        ]
+        command = ["uv", "run", "--project", str(SIM2SIM_PROJECT), "python", "scripts/evaluate_mujoco.py",
+                   "--policy", str(export_dir / "actor.ts"), "--manifest", str(export_dir / "policy_manifest.json"),
+                   "--output", str(mujoco_dir)]
         if args.mode == "formal":
-            command.extend(
-                (
-                    "--suite-context",
-                    str(evaluation_context_path),
-                    "--run-index",
-                    str(index),
-                    "--completed-iterations",
-                    str(args.iterations),
-                )
-            )
+            command.extend(("--suite-context", str(evaluation_context_path), "--run-index", str(index),
+                            "--completed-iterations", str(args.iterations)))
         else:
             command.append("--smoke")
         try:
             _run_checked(command, suite_dir / f"run-{index:02d}-mujoco.log")
             summary_path = mujoco_dir / "summary.json"
+            mujoco_report = json.loads(summary_path.read_text(encoding="utf-8"))
             mujoco_summaries.append(summary_path)
             record["mujoco_evaluation"] = str(summary_path)
+            if args.candidate_only:
+                record["mujoco_speed_target_failures"] = speed_tracking_target_failures(mujoco_report["aggregate"])
+                record["mujoco_speed_acceptance"] = not record["mujoco_speed_target_failures"]
+        except Exception as error:
+            errors["mujoco"] = f"{type(error).__name__}: {error}"
+
+        if args.task_profile == "stop_reverse_v1":
+            dynamic_dir = suite_dir / "mujoco_command_practice" / f"run-{index:02d}"
+            dynamic_command = ["uv", "run", "--project", str(SIM2SIM_PROJECT), "python",
+                               "scripts/evaluate_command_practice_mujoco.py",
+                               "--policy", str(export_dir / "actor.ts"),
+                               "--manifest", str(export_dir / "policy_manifest.json"), "--output", str(dynamic_dir)]
+            if args.mode == "smoke":
+                dynamic_command.append("--smoke")
+            try:
+                _run_checked(dynamic_command, suite_dir / f"run-{index:02d}-command-practice.log")
+                dynamic_report = json.loads((dynamic_dir / "summary.json").read_text(encoding="utf-8"))
+                record["command_practice_evaluation"] = str(dynamic_dir / "summary.json")
+                record["command_practice_acceptance"] = bool(dynamic_report["performance_accepted"])
+            except Exception as error:
+                errors["command_practice"] = f"{type(error).__name__}: {error}"
+        if errors:
+            record.update({"status": "evaluation_incomplete", "evaluation_errors": errors})
+        elif args.candidate_only:
+            accepted = (record["context_acceptance"] and record["velocity_acceptance"]
+                        and record["isaac_speed_acceptance"] and record["mujoco_speed_acceptance"]
+                        and record.get("command_practice_acceptance", True))
+            record["baseline_acceptance"] = None
+            record["phase2_acceptance"] = None
+            record["current_profile_acceptance"] = accepted
+            record["status"] = "completed" if accepted else "completed_acceptance_failed"
+        else:
             accepted = record["context_acceptance"] and record["velocity_acceptance"] and record["baseline_acceptance"]
             record["phase2_acceptance"] = accepted
             record["status"] = "completed" if accepted else "completed_acceptance_failed"
-        except Exception as error:
-            record.update({"status": "mujoco_failed", "error": f"{type(error).__name__}: {error}"})
         _write_json(suite_manifest_path, suite_manifest)
 
     ranking_path = suite_dir / "mujoco-ranking-summary.json"
@@ -367,7 +379,8 @@ def main() -> None:
         }
         _write_json(ranking_path, ranking)
 
-    suite_manifest["baseline_isaac_report"] = str(baseline_report)
+    suite_manifest["baseline_isaac_report"] = None if baseline_report is None else str(baseline_report)
+    suite_manifest["baseline_status"] = "not_comparable" if args.candidate_only else "historical_comparison"
     suite_manifest["shared_isaac_reset_cache"] = str(reset_cache)
     suite_manifest["mujoco_ranking_summary"] = str(ranking_path)
     suite_complete = _evaluation_suite_complete(suite_manifest["runs"], args.runs)

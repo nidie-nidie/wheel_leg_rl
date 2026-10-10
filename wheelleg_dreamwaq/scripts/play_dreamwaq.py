@@ -55,6 +55,9 @@ from wheelleg_dreamwaq.schemas.randomization import (
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.agents import WheelLegFlatDreamWaQRunnerCfg
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.env import WheelLegFlatEnv
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.env_cfg import WheelLegFlatEnvCfg
+from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.training_profiles import (
+    apply_task_profile, disable_command_practice, task_profile_from_contract,
+)
 from wheelleg_dreamwaq.training.dreamwaq_checkpoint import validate_dreamwaq_checkpoint_metadata
 
 
@@ -97,6 +100,7 @@ def _fixed_command(direct_env: WheelLegFlatEnv) -> torch.Tensor | None:
 def _apply_command(direct_env: WheelLegFlatEnv, command: torch.Tensor | None) -> None:
     if command is not None:
         direct_env._commands.copy_(command.view(1, 3).expand_as(direct_env._commands))
+        direct_env._current_state().command.copy_(direct_env._commands)
 
 
 def main() -> None:
@@ -111,6 +115,8 @@ def main() -> None:
     env_cfg.scene.num_envs = args_cli.num_envs
     env_cfg.sim.device = args_cli.device
     env_cfg.randomization = FUDAN_STYLE_DOMAIN_RANDOMIZATION_V1
+    saved_profile = task_profile_from_contract(run_manifest["base_task_contract"])
+    apply_task_profile(env_cfg, saved_profile)
     agent_cfg = WheelLegFlatDreamWaQRunnerCfg()
     agent_cfg.seed = int(run_manifest["seed"])
     agent_cfg.device = args_cli.device
@@ -135,6 +141,8 @@ def main() -> None:
     policy = _build_policy(payload["model_state_dict"], args_cli.device)
 
     env_cfg.randomization = NOMINAL_EVALUATION_PROFILE_V1
+    if args_cli.fixed_command is not None:
+        disable_command_practice(env_cfg)
     direct_env = WheelLegFlatEnv(env_cfg)
     env = RslRlVecEnvWrapper(direct_env, clip_actions=agent_cfg.clip_actions)
     command = _fixed_command(direct_env)
@@ -179,6 +187,8 @@ def main() -> None:
         "checkpoint": str(checkpoint),
         "completed_iterations": metadata["completed_iterations"],
         "num_envs": args_cli.num_envs,
+        "task_profile": saved_profile,
+        "runtime_command_practice": env_cfg.commands.practice_schedule,
         "completed_steps": completed_steps,
         "fixed_command": None if command is None else command.tolist(),
         "mean_reward_per_step": float((reward_sum / completed_steps).mean().item()),

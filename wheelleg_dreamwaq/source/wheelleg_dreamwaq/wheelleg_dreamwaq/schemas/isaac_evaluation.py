@@ -316,3 +316,92 @@ def aggregate_scenarios(scenarios: list[dict[str, Any]]) -> dict[str, Any]:
 
 def candidate_not_worse_than_baseline(candidate: dict[str, Any], baseline: dict[str, Any]) -> bool:
     return policy_performance_key(candidate) <= policy_performance_key(baseline)
+
+
+CURRENT_ISAAC_EVALUATION_CONTRACT_VERSION = "IsaacEvaluationContractV2"
+CURRENT_ISAAC_EVALUATION_SCHEMA_VERSION = "IsaacEvaluationV2"
+
+
+def build_current_isaac_evaluation_contract(
+    *, base_task_contract: dict, evaluation_source: dict, reset_cache_identity: dict,
+    evaluation_reward_weights: dict, evaluation_commands: dict,
+) -> dict:
+    from dataclasses import asdict
+    from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.commands import CommandRanges, command_contract_payload
+    from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.rewards import RewardWeights
+
+    if base_task_contract.get("schemas", {}).get("physics") != "PhysicsV5":
+        raise ValueError("Current candidate evaluation requires PhysicsV5")
+    if evaluation_reward_weights != asdict(RewardWeights()):
+        raise ValueError("Current evaluation must use the fixed legacy scoring weights")
+    if evaluation_commands != command_contract_payload(CommandRanges()):
+        raise ValueError("Current evaluation must use fixed commands with practice disabled")
+    payload = build_isaac_evaluation_contract(
+        base_task_contract=base_task_contract, evaluation_source=evaluation_source,
+        reset_cache_identity=reset_cache_identity,
+    )
+    payload.pop("contract_hash")
+    payload.update({
+        "manifest_version": CURRENT_ISAAC_EVALUATION_CONTRACT_VERSION,
+        "evaluation_schema_version": CURRENT_ISAAC_EVALUATION_SCHEMA_VERSION,
+        "baseline": None,
+        "baseline_status": "not_comparable",
+        "evaluation_reward_weights": evaluation_reward_weights,
+        "evaluation_commands": evaluation_commands,
+        "physical_tracking": {
+            "sample_timing": "active_pre_action_frame",
+            "source": "cached_WheelLegState",
+            "units": ["m/s", "rad/s"],
+            "aggregation": "per_scenario_mean_over_active_pre_action_frames",
+            "post_reset_observation_counted": False,
+        },
+    })
+    payload["contract_hash"] = stable_contract_hash(payload)
+    return payload
+
+
+class PhysicalTrackingMAE:
+    """Physical units, sampled before act; reset observations never enter this accumulator."""
+
+    def __init__(self, num_envs: int, device: str | torch.device = "cpu"):
+        self.error_sums = torch.zeros((num_envs, 2), dtype=torch.float64, device=device)
+        self.counts = torch.zeros(num_envs, dtype=torch.long, device=device)
+
+    def update(self, velocities: torch.Tensor, commands: torch.Tensor, active: torch.Tensor) -> None:
+        if velocities.shape != self.error_sums.shape or commands.shape != (len(self.counts), 3):
+            raise ValueError("Physical tracking shape mismatch")
+        if active.shape != self.counts.shape or active.dtype != torch.bool:
+            raise ValueError("Physical tracking active mask mismatch")
+        if not bool(torch.isfinite(velocities[active]).all().item()) or not bool(
+            torch.isfinite(commands[active]).all().item()
+        ):
+            raise ValueError("Physical tracking active samples must be finite")
+        errors = torch.where(active.unsqueeze(-1), (velocities - commands[:, :2]).abs(), 0.0)
+        self.error_sums += errors.detach().to(dtype=torch.float64)
+        self.counts += active.to(dtype=torch.long)
+
+    def result(self, index: int) -> dict:
+        count = int(self.counts[index].item())
+        return {
+            "tracking_sample_frames": count,
+            "vx_mae": None if not count else float(self.error_sums[index, 0].item() / count),
+            "yaw_rate_mae": None if not count else float(self.error_sums[index, 1].item() / count),
+        }
+
+
+def speed_tracking_target_failures(aggregate: dict) -> list[str]:
+    scenarios = {item["name"]: item for item in aggregate["scenarios"]}
+    failures = []
+    for name, _ in FORMAL_SCENARIOS:
+        scenario = scenarios.get(name)
+        if scenario is None or not scenario.get("completed"):
+            failures.append(f"{name}:incomplete")
+            continue
+        limit = 0.10 if name in {"nominal_stand", "low_stand", "high_stand"} else (
+            0.20 if name in {"forward", "reverse"} else None
+        )
+        if limit is not None:
+            value = scenario.get("vx_mae")
+            if value is None or not math.isfinite(float(value)) or value > limit:
+                failures.append(f"{name}:vx_mae_above_{limit}")
+    return failures

@@ -50,7 +50,7 @@ from wheelleg_dreamwaq.schemas.randomization import (
     profile_contract_hash,
     profile_contract_payload,
 )
-from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.commands import COMMAND_SAMPLING_VERSION, CommandRanges
+from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.commands import COMMAND_SAMPLING_VERSION, CommandRanges, command_contract_payload
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.control import ControlLimits
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.rewards import REWARD_SCHEMA_VERSION, RewardWeights
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.terminations import TerminationLimits
@@ -232,7 +232,7 @@ def _base_task_payload(
             "is_finite_horizon": is_finite_horizon,
             "q_nominal": list(q_nominal),
             "control": asdict(control),
-            "commands": asdict(commands),
+            "commands": command_contract_payload(commands),
             "reward_weights": asdict(reward_weights),
             "termination": asdict(termination),
         },

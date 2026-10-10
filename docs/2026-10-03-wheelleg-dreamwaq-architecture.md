@@ -1867,3 +1867,9 @@ train/play/evaluate 在完整 checkpoint/hash 验证前重建保存的具名 pro
 
 
 终点外行为：StopReverseCommandPracticeV1 的 stage_end_control_steps 最后 500 是诊断 horizon，final_phase_behavior='hold_last_factor'；400 及以后均返回系数 0，包括 499、500、501，不能在第 500 次 step 生成下一策略帧时出现索引越界。负数/非整数步数拒绝。此行为也进入 practice_contract/hash。
+
+### 31.4 实施与训练前验收记录（2026-10-11）
+
+本节配置已实现。独立文档与代码复核均无剩余 P0/P1；代码复核发现的第二次换向响应门槛遗漏已修复，并有旧条件误报/新条件拒绝的确定性回归。主工程 181 项单测、MuJoCo 56 项测试通过；真实 PhysX probe 的 230 项检查通过。便携 fresh 2 updates、同规模 32 环境与跨规模 16 环境 resume 到总计 3 updates、冲突 profile 拒绝、固定命令 play 160 步、真实导出/loader/golden、候选 Isaac V2 八场景及动态 MuJoCo 入口 smoke 均通过运行验收。上述 smoke 权重不用于正式四次训练，也不构成性能达标证据。
+
+复核见 `wheelleg_dreamwaq/docs/2026-10-11-stop-reverse-code-review.md`；训练前验收摘要及原始工件见 `wheelleg_dreamwaq/artifacts/phase2_dreamwaq/stop-reverse-acceptance-20261011-v1/summary.json`。正式训练仍按 §31.3 的四个新种子、每个 1000 iteration、半小时监控和全部固定/动态 sim2sim 执行；其结果另行保存，不在训练中改写本架构或代码来源。

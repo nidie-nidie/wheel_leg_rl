@@ -62,6 +62,7 @@ from wheelleg_dreamwaq.kinematics.virtual_leg import (
     wrap_to_pi,
 )
 
+from .commands import CommandPracticeState, command_contract_payload
 from .control import compute_action_targets
 from .env_cfg import WheelLegFlatEnvCfg
 from .observations import build_observations
@@ -142,6 +143,9 @@ class WheelLegFlatEnv(DirectRLEnv):
         self._leg_position_targets = self._q_reference.clone()
         self._wheel_velocity_targets = torch.zeros((self.num_envs, 2), device=self.device)
         self._commands = torch.zeros((self.num_envs, 3), device=self.device)
+        practice = command_contract_payload(self.cfg.commands)["practice_contract"]
+        self._command_practice = None if practice is None else CommandPracticeState(self.num_envs, self.device)
+        self._command_practice_last_tick = self.common_step_counter
         self._previous_joint_velocity = controlled_joint_feedback_usd_to_control(
             self.robot.data.joint_vel[:, self._controlled_joint_ids]
         ).clone()
@@ -768,6 +772,14 @@ class WheelLegFlatEnv(DirectRLEnv):
         self._capture_resume_policy_observation(actor_obs)
         return {"policy": actor_obs, "critic": critic_obs}
 
+    def _advance_command_practice(self) -> None:
+        if self._command_practice is None or self.common_step_counter <= self._command_practice_last_tick:
+            return
+        self._commands.copy_(self._command_practice.advance())
+        # Partial reset clones WheelLegState fields, so command is not always an alias.
+        self._current_state().command.copy_(self._commands)
+        self._command_practice_last_tick = self.common_step_counter
+
     def _get_rewards(self) -> torch.Tensor:
         reward, weighted_terms = compute_reward(
             self._current_state(),
@@ -832,6 +844,7 @@ class WheelLegFlatEnv(DirectRLEnv):
         for name in self._termination_sums:
             log[f"Termination/{name}"] = self._termination_sums[name].mean()
         self.extras["log"] = log
+        self._advance_command_practice()
         return reward
 
     def _get_dones(self) -> tuple[torch.Tensor, torch.Tensor]:
@@ -890,6 +903,8 @@ class WheelLegFlatEnv(DirectRLEnv):
             self._leg_position_targets[env_ids] = self._q_reference[env_ids]
             self._wheel_velocity_targets[env_ids] = 0.0
             self._commands[env_ids] = self._randomization.sample_commands(len(env_ids), self.cfg.commands)
+            if self._command_practice is not None:
+                self._command_practice.reset(env_ids, self._commands[env_ids])
             self._capture_resume_reset_samples(
                 command=self._commands[env_ids],
                 root_velocity_world_usd=root_state[:, 7:],

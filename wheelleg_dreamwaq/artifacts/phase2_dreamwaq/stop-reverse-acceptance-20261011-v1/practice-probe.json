@@ -1,0 +1,1054 @@
+{
+  "schema_version": "IsaacCommandPracticeProbeV1",
+  "checks": [
+    {
+      "name": "reset/phase_zero",
+      "passed": true
+    },
+    {
+      "name": "reset/repeated_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "98/alive",
+      "passed": true
+    },
+    {
+      "name": "98/independent_ticks",
+      "passed": true
+    },
+    {
+      "name": "98/old_reward",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "98/old_tracking_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "98/old_command_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "98/current_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "98/cached_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "98/policy_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "98/critic_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "98/new_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "98/past_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "98/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "98/physical_dt",
+      "passed": true
+    },
+    {
+      "name": "98/command_rng",
+      "passed": true
+    },
+    {
+      "name": "98/extra_reads_clock",
+      "passed": true
+    },
+    {
+      "name": "98/extra_reads_ticks",
+      "passed": true
+    },
+    {
+      "name": "98/extra_reads_rng",
+      "passed": true
+    },
+    {
+      "name": "98/extra_reads_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "99/alive",
+      "passed": true
+    },
+    {
+      "name": "99/independent_ticks",
+      "passed": true
+    },
+    {
+      "name": "99/old_reward",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "99/old_tracking_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "99/old_command_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "99/current_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "99/cached_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "99/policy_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "99/critic_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "99/new_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "99/past_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "99/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "99/physical_dt",
+      "passed": true
+    },
+    {
+      "name": "99/command_rng",
+      "passed": true
+    },
+    {
+      "name": "99/extra_reads_clock",
+      "passed": true
+    },
+    {
+      "name": "99/extra_reads_ticks",
+      "passed": true
+    },
+    {
+      "name": "99/extra_reads_rng",
+      "passed": true
+    },
+    {
+      "name": "99/extra_reads_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "148/alive",
+      "passed": true
+    },
+    {
+      "name": "148/independent_ticks",
+      "passed": true
+    },
+    {
+      "name": "148/old_reward",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "148/old_tracking_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "148/old_command_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "148/current_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "148/cached_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "148/policy_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "148/critic_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "148/new_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "148/past_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "148/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "148/physical_dt",
+      "passed": true
+    },
+    {
+      "name": "148/command_rng",
+      "passed": true
+    },
+    {
+      "name": "148/extra_reads_clock",
+      "passed": true
+    },
+    {
+      "name": "148/extra_reads_ticks",
+      "passed": true
+    },
+    {
+      "name": "148/extra_reads_rng",
+      "passed": true
+    },
+    {
+      "name": "148/extra_reads_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "149/alive",
+      "passed": true
+    },
+    {
+      "name": "149/independent_ticks",
+      "passed": true
+    },
+    {
+      "name": "149/old_reward",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "149/old_tracking_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "149/old_command_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "149/current_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "149/cached_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "149/policy_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "149/critic_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "149/new_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "149/past_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "149/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "149/physical_dt",
+      "passed": true
+    },
+    {
+      "name": "149/command_rng",
+      "passed": true
+    },
+    {
+      "name": "149/extra_reads_clock",
+      "passed": true
+    },
+    {
+      "name": "149/extra_reads_ticks",
+      "passed": true
+    },
+    {
+      "name": "149/extra_reads_rng",
+      "passed": true
+    },
+    {
+      "name": "149/extra_reads_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "248/alive",
+      "passed": true
+    },
+    {
+      "name": "248/independent_ticks",
+      "passed": true
+    },
+    {
+      "name": "248/old_reward",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "248/old_tracking_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "248/old_command_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "248/current_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "248/cached_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "248/policy_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "248/critic_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "248/new_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "248/past_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "248/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "248/physical_dt",
+      "passed": true
+    },
+    {
+      "name": "248/command_rng",
+      "passed": true
+    },
+    {
+      "name": "248/extra_reads_clock",
+      "passed": true
+    },
+    {
+      "name": "248/extra_reads_ticks",
+      "passed": true
+    },
+    {
+      "name": "248/extra_reads_rng",
+      "passed": true
+    },
+    {
+      "name": "248/extra_reads_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "249/alive",
+      "passed": true
+    },
+    {
+      "name": "249/independent_ticks",
+      "passed": true
+    },
+    {
+      "name": "249/old_reward",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "249/old_tracking_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "249/old_command_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "249/current_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "249/cached_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "249/policy_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "249/critic_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "249/new_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "249/past_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "249/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "249/physical_dt",
+      "passed": true
+    },
+    {
+      "name": "249/command_rng",
+      "passed": true
+    },
+    {
+      "name": "249/extra_reads_clock",
+      "passed": true
+    },
+    {
+      "name": "249/extra_reads_ticks",
+      "passed": true
+    },
+    {
+      "name": "249/extra_reads_rng",
+      "passed": true
+    },
+    {
+      "name": "249/extra_reads_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "298/alive",
+      "passed": true
+    },
+    {
+      "name": "298/independent_ticks",
+      "passed": true
+    },
+    {
+      "name": "298/old_reward",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "298/old_tracking_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "298/old_command_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "298/current_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "298/cached_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "298/policy_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "298/critic_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "298/new_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "298/past_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "298/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "298/physical_dt",
+      "passed": true
+    },
+    {
+      "name": "298/command_rng",
+      "passed": true
+    },
+    {
+      "name": "298/extra_reads_clock",
+      "passed": true
+    },
+    {
+      "name": "298/extra_reads_ticks",
+      "passed": true
+    },
+    {
+      "name": "298/extra_reads_rng",
+      "passed": true
+    },
+    {
+      "name": "298/extra_reads_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "299/alive",
+      "passed": true
+    },
+    {
+      "name": "299/independent_ticks",
+      "passed": true
+    },
+    {
+      "name": "299/old_reward",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "299/old_tracking_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "299/old_command_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "299/current_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "299/cached_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "299/policy_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "299/critic_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "299/new_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "299/past_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "299/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "299/physical_dt",
+      "passed": true
+    },
+    {
+      "name": "299/command_rng",
+      "passed": true
+    },
+    {
+      "name": "299/extra_reads_clock",
+      "passed": true
+    },
+    {
+      "name": "299/extra_reads_ticks",
+      "passed": true
+    },
+    {
+      "name": "299/extra_reads_rng",
+      "passed": true
+    },
+    {
+      "name": "299/extra_reads_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "398/alive",
+      "passed": true
+    },
+    {
+      "name": "398/independent_ticks",
+      "passed": true
+    },
+    {
+      "name": "398/old_reward",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "398/old_tracking_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "398/old_command_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "398/current_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "398/cached_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "398/policy_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "398/critic_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "398/new_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "398/past_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "398/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "398/physical_dt",
+      "passed": true
+    },
+    {
+      "name": "398/command_rng",
+      "passed": true
+    },
+    {
+      "name": "398/extra_reads_clock",
+      "passed": true
+    },
+    {
+      "name": "398/extra_reads_ticks",
+      "passed": true
+    },
+    {
+      "name": "398/extra_reads_rng",
+      "passed": true
+    },
+    {
+      "name": "398/extra_reads_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "399/alive",
+      "passed": true
+    },
+    {
+      "name": "399/independent_ticks",
+      "passed": true
+    },
+    {
+      "name": "399/old_reward",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "399/old_tracking_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "399/old_command_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "399/current_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "399/cached_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "399/policy_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "399/critic_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "399/new_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "399/past_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "399/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "399/physical_dt",
+      "passed": true
+    },
+    {
+      "name": "399/command_rng",
+      "passed": true
+    },
+    {
+      "name": "399/extra_reads_clock",
+      "passed": true
+    },
+    {
+      "name": "399/extra_reads_ticks",
+      "passed": true
+    },
+    {
+      "name": "399/extra_reads_rng",
+      "passed": true
+    },
+    {
+      "name": "399/extra_reads_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "499/alive",
+      "passed": true
+    },
+    {
+      "name": "499/independent_ticks",
+      "passed": true
+    },
+    {
+      "name": "499/old_reward",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "499/old_tracking_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "499/old_command_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "499/current_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "499/cached_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "499/policy_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "499/critic_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "499/new_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "499/past_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "499/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "499/physical_dt",
+      "passed": true
+    },
+    {
+      "name": "499/command_rng",
+      "passed": true
+    },
+    {
+      "name": "499/extra_reads_clock",
+      "passed": true
+    },
+    {
+      "name": "499/extra_reads_ticks",
+      "passed": true
+    },
+    {
+      "name": "499/extra_reads_rng",
+      "passed": true
+    },
+    {
+      "name": "499/extra_reads_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "500/alive",
+      "passed": true
+    },
+    {
+      "name": "500/independent_ticks",
+      "passed": true
+    },
+    {
+      "name": "500/old_reward",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "500/old_tracking_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "500/old_command_log",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "500/current_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "500/cached_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "500/policy_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "500/critic_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "500/new_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "500/past_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "500/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "500/physical_dt",
+      "passed": true
+    },
+    {
+      "name": "500/command_rng",
+      "passed": true
+    },
+    {
+      "name": "500/extra_reads_clock",
+      "passed": true
+    },
+    {
+      "name": "500/extra_reads_ticks",
+      "passed": true
+    },
+    {
+      "name": "500/extra_reads_rng",
+      "passed": true
+    },
+    {
+      "name": "500/extra_reads_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "partial/no_physics",
+      "passed": true
+    },
+    {
+      "name": "partial/selected_clock",
+      "passed": true
+    },
+    {
+      "name": "partial/unselected_initial",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "partial/next_alive",
+      "passed": true
+    },
+    {
+      "name": "partial/next_ticks",
+      "passed": true
+    },
+    {
+      "name": "partial/next_cached_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "partial/next_critic_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "timeout/selected_only",
+      "passed": true
+    },
+    {
+      "name": "timeout/truncated",
+      "passed": true
+    },
+    {
+      "name": "timeout/real_clock",
+      "passed": true
+    },
+    {
+      "name": "timeout/repeated_reset_history",
+      "passed": true,
+      "max_abs_error": 0.0
+    },
+    {
+      "name": "timeout/other_command",
+      "passed": true,
+      "max_abs_error": 0.0
+    }
+  ],
+  "passed": true,
+  "physics_schema": "PhysicsV5",
+  "control_dt_s": 0.02
+}

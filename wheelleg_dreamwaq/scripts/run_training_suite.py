@@ -239,7 +239,11 @@ def _tensorboard_snapshot(run_dir: Path, output: Path, *, reason: str) -> dict:
     snapshot["event_file"] = str(event_file.resolve())
     tag_values = {}
     missing_tags = []
-    for tag in MONITOR_TAGS:
+    optional_tags = tuple(sorted(
+        tag for tag in scalar_tags
+        if tag not in MONITOR_TAGS and tag.startswith(("Reward/", "Loss/"))
+    ))
+    for tag in MONITOR_TAGS + optional_tags:
         if tag not in scalar_tags:
             missing_tags.append(tag)
             continue

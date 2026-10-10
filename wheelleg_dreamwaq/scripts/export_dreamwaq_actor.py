@@ -81,6 +81,7 @@ def _manifest_payload(
         "training_randomization": base["randomization"],
         "frames": base["frames"],
         "command_sampling": base["task"]["commands"],
+        "training_reward_weights": base["task"]["reward_weights"],
         "q_nominal": base["task"]["q_nominal"],
         "control": base["task"]["control"],
         "actuators": base["runtime"]["robot_except_asset_absolute_path"]["actuators"],

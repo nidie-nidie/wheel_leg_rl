@@ -1,0 +1,30 @@
+{
+  "base_task_contract_hash": "EC40FC36DA937CC9A7994CA3B47D20D7AD1814C5B835F9962F056940E4F592E3",
+  "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_02-45-42_portable_fudan-v1_practice-resume16-40cfd808\\model_2.pt",
+  "completed_iterations": 3,
+  "completed_steps": 160,
+  "dreamwaq_algorithm_contract_hash": "2924363841CF0104ED897ACD6AAA0AA03EF59B88B8DD198350D5451D815A2CED",
+  "dreamwaq_export_contract_hash": "3048CB2CEAC5DEE99E26F9B1D96DA04A5089122943169CAD542A8095B7682C19",
+  "estimator_monitor_state": {
+    "completed_rollouts": 3,
+    "context_mu_feature_std_mean_initial": 0.06965084143126449,
+    "recent_context_mu_feature_std_mean": [
+      0.06965084143126449,
+      0.07393198907741685,
+      0.06755054414719253
+    ],
+    "schema_version": "EstimatorMonitorStateV1"
+  },
+  "finite": true,
+  "fixed_command": [
+    0.0,
+    0.0,
+    0.20000000298023224
+  ],
+  "mean_reward_per_step": -0.0533517487347126,
+  "num_envs": 2,
+  "reset_count": 8,
+  "runtime_command_practice": "disabled",
+  "schema_version": "DreamWaQPlayV1",
+  "task_profile": "stop_reverse_v1"
+}

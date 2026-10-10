@@ -36,6 +36,7 @@ parser.add_argument("--max-iterations", type=int, default=None)
 parser.add_argument("--seed", type=int, default=42)
 parser.add_argument("--run-name", type=str, default="")
 parser.add_argument("--resume", type=Path, default=None)
+parser.add_argument("--task-profile", choices=("legacy_v1", "stop_reverse_v1"), default=None)
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 RUNTIME_INFO = validate_runtime(PROJECT_ROOT, device=args_cli.device)
@@ -64,6 +65,9 @@ from wheelleg_dreamwaq.schemas.randomization import (
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.agents import WheelLegFlatDreamWaQRunnerCfg
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.env import WheelLegFlatEnv
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.env_cfg import WheelLegFlatEnvCfg
+from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.training_profiles import (
+    apply_task_profile, resolve_task_profile, task_profile_from_contract,
+)
 from wheelleg_dreamwaq.training.checkpoint import (
     CLOSED_CHAIN_RESET_CACHE_FILENAME,
     checkpoint_cache_binding,
@@ -145,6 +149,7 @@ def _write_manifest(
         "command": sys.argv,
         "runner_class": DREAMWAQ_RUNNER_CLASS,
         "profile_name": profile_name,
+        "task_profile": task_profile_from_contract(base_task_contract),
         "profile": profile,
         "seed": agent_cfg.seed,
         "num_envs": env_cfg.scene.num_envs,
@@ -225,6 +230,12 @@ def main() -> Path:
     env_cfg.scene.num_envs = num_envs
     env_cfg.sim.device = args_cli.device
     env_cfg.randomization = FUDAN_STYLE_DOMAIN_RANDOMIZATION_V1
+    source_profile_contract = None
+    if args_cli.resume is not None:
+        source_path = args_cli.resume.resolve().parent / "run_manifest.json"
+        source_profile_contract = json.loads(source_path.read_text(encoding="utf-8"))["base_task_contract"]
+    args_cli.task_profile = resolve_task_profile(args_cli.task_profile, source_profile_contract)
+    apply_task_profile(env_cfg, args_cli.task_profile)
     agent_cfg = WheelLegFlatDreamWaQRunnerCfg()
     agent_cfg.seed = args_cli.seed
     agent_cfg.device = args_cli.device

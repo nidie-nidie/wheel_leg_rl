@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import asdict
 import json
 import os
 import traceback
@@ -23,6 +24,7 @@ parser.add_argument("--checkpoint", type=Path, required=True)
 parser.add_argument("--reset-cache", type=Path, required=True)
 parser.add_argument("--output", type=Path, required=True)
 parser.add_argument("--baseline-report", type=Path, default=None)
+parser.add_argument("--candidate-only", action="store_true", help="Current PhysicsV5 evaluation without the historical PhysicsV4 baseline.")
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 validate_runtime(PROJECT_ROOT, device=args_cli.device)
@@ -50,6 +52,7 @@ from wheelleg_dreamwaq.schemas.isaac_evaluation import (
     ISAAC_EVALUATION_SCHEMA_VERSION,
     PHASE1R_ISAAC_BASELINE,
     SampleWeightedVelocityMSE,
+    PhysicalTrackingMAE, build_current_isaac_evaluation_contract,
     aggregate_scenarios,
     build_evaluation_reset_cache_identity,
     build_evaluation_source_fingerprint,
@@ -71,6 +74,8 @@ from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.agents import (
 )
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.env import WheelLegFlatEnv
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.env_cfg import WheelLegFlatEnvCfg
+from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.commands import command_contract_payload
+from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.training_profiles import apply_task_profile, task_profile_from_contract
 from wheelleg_dreamwaq.training.checkpoint import (
     load_checkpoint_artifact,
     sha256_file,
@@ -152,6 +157,7 @@ def _load_policy_and_contracts(checkpoint: Path, asset_hash: str) -> tuple[str, 
         env_cfg.sim.device = args_cli.device
         profile_values = base["randomization"]["profile_contract"]["profile"]
         env_cfg.randomization = RandomizationProfileV1(**profile_values)
+        apply_task_profile(env_cfg, task_profile_from_contract(base))
         agent_cfg = WheelLegFlatDreamWaQRunnerCfg()
         agent_cfg.seed = int(manifest["seed"])
         agent_cfg.device = args_cli.device
@@ -175,6 +181,8 @@ def _load_policy_and_contracts(checkpoint: Path, asset_hash: str) -> tuple[str, 
         payload = torch.load(checkpoint, map_location=args_cli.device, weights_only=False)
         return "dreamwaq", _dreamwaq_policy(payload["model_state_dict"], args_cli.device), base, metadata
 
+    if args_cli.candidate_only:
+        raise ValueError("Candidate-only evaluation requires a current DreamWaQ checkpoint")
     payload, manifest, metadata = load_checkpoint_artifact(checkpoint, run_manifest_path)
     contract = manifest["contract"]
     if sha256_file(checkpoint) != PHASE1R_ISAAC_BASELINE["checkpoint_sha256"]:
@@ -237,6 +245,8 @@ def _load_baseline_report(path: Path, evaluation_contract: dict) -> dict:
 
 
 def main() -> None:
+    if args_cli.candidate_only and args_cli.baseline_report is not None:
+        raise ValueError("Candidate-only mode cannot consume a historical baseline report")
     checkpoint = args_cli.checkpoint.resolve()
     cache_path = args_cli.reset_cache.resolve()
     output = args_cli.output.resolve()
@@ -278,16 +288,25 @@ def main() -> None:
         evaluation_source=_source_fingerprint(),
         reset_cache_identity=cache_identity,
     )
+    if args_cli.candidate_only:
+        evaluation_contract = build_current_isaac_evaluation_contract(
+            base_task_contract=base_task_contract, evaluation_source=_source_fingerprint(),
+            reset_cache_identity=cache_identity,
+            evaluation_reward_weights=asdict(env_cfg.reward_weights),
+            evaluation_commands=command_contract_payload(env_cfg.commands),
+        )
 
     env = RslRlVecEnvWrapper(direct_env, clip_actions=1.0)
     commands = torch.tensor([command for _, command in FORMAL_SCENARIOS], dtype=torch.float32, device=direct_env.device)
     direct_env._commands.copy_(commands)
+    direct_env._current_state().command.copy_(direct_env._commands)
     base_observations = env.get_observations()
     expected_commands = env_cfg.normalization.normalize_command(commands)
     if not torch.allclose(base_observations["policy"][:, 6:9], expected_commands, rtol=0.0, atol=1.0e-6):
         raise RuntimeError("Fixed evaluation commands were not present in the first policy observation")
     history = FrameMajorHistoryV1(base_observations["policy"]) if policy_kind == "dreamwaq" else None
     velocity = SampleWeightedVelocityMSE() if policy_kind == "dreamwaq" else None
+    tracking = PhysicalTrackingMAE(EVALUATION_ENV_COUNT, direct_env.device) if args_cli.candidate_only else None
     active = torch.ones(EVALUATION_ENV_COUNT, dtype=torch.bool, device=direct_env.device)
     reward_sums = torch.zeros(EVALUATION_ENV_COUNT, dtype=torch.float64, device=direct_env.device)
     survival_steps = torch.zeros(EVALUATION_ENV_COUNT, dtype=torch.int64, device=direct_env.device)
@@ -300,6 +319,10 @@ def main() -> None:
             active_before = active.clone()
             if not active_before.any():
                 break
+            if tracking is not None:
+                state = direct_env._current_state()
+                tracking.update(torch.stack((state.root_com_linear_velocity[:, 0],
+                    state.root_angular_velocity[:, 2]), dim=-1), commands, active_before)
             if policy_kind == "dreamwaq":
                 assert history is not None and velocity is not None
                 observations = TensorDict(
@@ -354,11 +377,13 @@ def main() -> None:
         )
         if failure_reasons[index] is not None:
             summary["failure_reason"] = failure_reasons[index]
+        if tracking is not None:
+            summary.update(tracking.result(index))
         scenario_summaries.append(summary)
     aggregate = aggregate_scenarios(scenario_summaries)
     estimator = None if velocity is None else velocity.result()
     baseline_comparison = None
-    if policy_kind == "dreamwaq":
+    if policy_kind == "dreamwaq" and not args_cli.candidate_only:
         if args_cli.baseline_report is None:
             raise ValueError("DreamWaQ Isaac evaluation requires --baseline-report")
         baseline_report = _load_baseline_report(args_cli.baseline_report.resolve(), evaluation_contract)
@@ -373,7 +398,7 @@ def main() -> None:
         raise ValueError("Phase1R baseline generation cannot consume --baseline-report")
 
     report = {
-        "evaluation_schema_version": ISAAC_EVALUATION_SCHEMA_VERSION,
+        "evaluation_schema_version": evaluation_contract["evaluation_schema_version"],
         "evaluation_contract": evaluation_contract,
         "evaluation_contract_hash": evaluation_contract["contract_hash"],
         "policy_kind": policy_kind,
@@ -390,6 +415,8 @@ def main() -> None:
         "estimator": estimator,
         "baseline_comparison": baseline_comparison,
     }
+    if args_cli.candidate_only:
+        report["baseline_status"] = "not_comparable"
     if policy_kind == "phase1r_baseline":
         report["baseline_identity"] = PHASE1R_ISAAC_BASELINE
     report["report_hash"] = stable_contract_hash(report)

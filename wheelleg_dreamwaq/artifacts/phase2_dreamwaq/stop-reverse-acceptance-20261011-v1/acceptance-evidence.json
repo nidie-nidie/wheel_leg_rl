@@ -1,0 +1,8 @@
+{
+  "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_02-45-21_portable_fudan-v1_practice-source-40cfd808",
+  "last_resume": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_02-45-42_portable_fudan-v1_practice-resume16-40cfd808",
+  "export": "E:\\wheel_leg_rl-main\\.git\\verification\\practice-runtime-v1\\test_profile_fresh_resume_fixe0\\export",
+  "play": "E:\\wheel_leg_rl-main\\.git\\verification\\practice-runtime-v1\\test_profile_fresh_resume_fixe0\\play.json",
+  "isaac_evaluation": "E:\\wheel_leg_rl-main\\.git\\verification\\practice-runtime-v1\\test_profile_fresh_resume_fixe0\\isaac\\summary.json",
+  "dynamic_evaluation": "E:\\wheel_leg_rl-main\\.git\\verification\\practice-runtime-v1\\test_profile_fresh_resume_fixe0\\dynamic\\summary.json"
+}
