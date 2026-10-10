@@ -1,7 +1,7 @@
 # WheelLeg DreamWaQ Isaac Lab Architecture
 
 日期：2026-10-10  
-状态：Architecture v0.25；Phase 2 DreamWaQ/CENet 实现契约已冻结；v0.25 按用户授权删除三类人工限速作用，当前动力学为 PhysicsV5 / UnrestrictedVelocityPolicyV1 / MujocoEvaluationContractV3，见 §30；§29 的 PhysxRigidAngularBiasV1 仅作为历史记录；v0.23 的两个 reset 派生缓存失效修复继续有效；保留 deterministic Isaac evaluation 499-step timeout、网络维度、数学契约、termination 与 MuJoCo 500-tick 语义；旧 PhysicsV4 训练工件继续作为历史对照，不可当作 PhysicsV5 续训来源  
+状态：Architecture v0.26；v0.26 按用户授权加入具名停车/换向训练配置与 vx 两项奖励翻倍，默认 PPO 保持原行为，详见 §31；Phase 2 DreamWaQ/CENet 实现契约已冻结；v0.25 按用户授权删除三类人工限速作用，当前动力学为 PhysicsV5 / UnrestrictedVelocityPolicyV1 / MujocoEvaluationContractV3，见 §30；§29 的 PhysxRigidAngularBiasV1 仅作为历史记录；v0.23 的两个 reset 派生缓存失效修复继续有效；保留 deterministic Isaac evaluation 499-step timeout、网络维度、数学契约、termination 与 MuJoCo 500-tick 语义；旧 PhysicsV4 训练工件继续作为历史对照，不可当作 PhysicsV5 续训来源  
 适用范围：新建轮腿机器人平地强化学习工程，不修改或继承旧 WheelLeg 任务实现
 
 ## 1. 文档目的
@@ -736,6 +736,8 @@ V1 不包含 `vy`、绝对 yaw 或虚拟腿长 `L0` 命令。
 Actor 不观测真实机身高度。平地条件下，策略通过腿关节位置和投影重力学习高度命令对应的姿态，因此该目标是基于关节几何的间接闭环。复杂地形阶段必须重新评估高度语义。
 
 ### 12.1 CommandSamplingV2
+
+本节描述默认 legacy_v1 的 reset-only 行为；v0.26 新 stop_reverse_v1 的连续停车/换向练习是用户授权的具名例外，见 §31。
 
 `Phase1ContractV4` 在每个环境 reset 时只采样一次命令，并在该环境完整 `10 s` episode 内保持不变。这里的“连续均匀采样”只表示不同 episode 之间可从区间内取得任意实数，不表示一个 episode 内连续改变目标。
 
@@ -1716,6 +1718,7 @@ Phase 2 的“允许实施”使用较窄门槛：Phase 1R 环境、随机化、
 | ADR-066 | G-08 保留为未关闭的历史 PPO 性能门，但不再作为已经发生的 Phase 1R/Phase 2 诊断实施时序门；Phase 2 的窄实施许可由 G-15 表达，二者不得混称。 |
 | ADR-067 | ResetObservationCacheCoherenceV2 根据真实 red probe，在正式 `_reset_idx()` 读取新状态前只失效 Isaac Lab 2.3.2 `_root_link_vel_w`、`_root_com_pose_w`；保留读取语义、初态采样和快照合并，不推进任何时钟。任何其他 split 仍须停止定位；独立代码复核、运行验收和 RootCauseSuite 正式门分别记录。 |
 | ADR-068 | 历史 v0.24：保留 PhysicsV4 的 Isaac 刚体角速度上限 `100 deg/s`，MuJoCo 用 PhysxRigidAngularBiasV1 补充逐刚体世界系偏置力矩；每 `5 ms` 计算并保持五个 `1 ms` 步，不截断 qvel。评估采用 MujocoEvaluationContractV2。当前实现由 ADR-069 / §30 取代，历史工件独立保留。 |
+| ADR-070 | v0.26：新增 stop_reverse_v1 训练 profile，真实控制步驱动六段停车/换向命令，vx 两项奖励 1→2；默认 PPO 静态命令/原权重不变，history 与物理不变；独立当前条件 Isaac V2 验收禁止混用旧 PhysicsV4 基线；文档/代码各一次 agent 复核与运行验收后四个种子各从零训练 1000 iteration，再完成全部 sim2sim。 |
 | ADR-069 | v0.25：按用户明确授权解除刚体线/角速度和全部关节转速的人工限速作用；Isaac 显式使用有限 float32 最大值哨兵覆盖默认上限，MuJoCo 删除外加角速度补偿力矩和超速清零电机力矩分支，禁止用速度截断代替。当前 PhysicsV5 与 UnrestrictedVelocityPolicyV1 进入任务/export/reset-cache 身份；MujocoActionAdapterV2 与 MujocoEvaluationContractV3 区分新评估。保留 PD、effort、接触/摩擦、闭环、被动阻尼、armature、termination 和策略数学契约；旧 PhysicsV4 工件禁止重标或直接续训。 |
 
 ## 26. 决策门与当前状态
@@ -1834,3 +1837,33 @@ PPO 与 DreamWaQ 的旧 PhysicsV4 checkpoint/run manifest/reset cache 均保留�
 MuJoCo 验收覆盖超旧关节转速仍按 PD/effort 输出、超旧刚体速度不注入外力、已有外力保持、20 子步实际轨迹与直接物理参考精确相等，以及 history/reset 回归。PPO/DreamWaQ 正确 hash 的旧契约必须被拒绝；新的 export/loader/评估政策必须一致；四组旧 TorchScript golden-vector 数值仍需核验但不重标其物理身份。
 
 实施计划见 `wheelleg_dreamwaq/docs/superpowers/plans/2026-10-11-remove-artificial-speed-limit-forces.md`。原实现、参数 SHA256 和本轮验证工件保存在 `wheelleg_dreamwaq/artifacts/debug/sim2sim/remove-artificial-speed-limits-20261011-v1/`。
+
+
+## 31. v0.26：停车/换向练习与前后速度奖励
+
+用户于 2026-10-11 授权：先提交当前工作区并保留 Git 历史；随后先写文档并调用一个 agent 复核，再实施与一次代码 agent 复核，验证通过后四个独立种子各从零训练 1000 iteration，全部完成后运行 sim2sim。训练和复核串行；保留 §30 的 PhysicsV5。详细设计见 `wheelleg_dreamwaq/docs/superpowers/specs/2026-10-11-stop-reverse-speed-tracking-design.md`，实施计划见同目录 plans 下的 `2026-10-11-stop-reverse-speed-tracking.md`。
+
+### 31.1 具名训练配置
+
+默认 `legacy_v1` 保留 §12.1 的 reset-only 命令与 RewardSchemaV2 原权重。新增 `stop_reverse_v1`，使用 `StopReverseCommandPracticeV1`、`hold_for_episode=false`，并仅将 `tracking_vx` 与 `tracking_vx_enhance` 从 1.0 调到 2.0。后者的公式仍为宽范围负误差项，翻倍同时加强其惩罚。其余奖励、sigma 和 dt 不变。新字段默认 disabled，command_contract_payload 同时把启用时的阶段边界/factors/控制周期/更新时序纳入 contract hash；关闭时 payload=null；未知或矛盾配置必须拒绝。
+
+reset 仍由 CommandSamplingV2 使用原 command_rng 采样一次：站立/直行/旋转/组合为 20/30/20/30%，vx ±1.5 m/s、yaw ±1 rad/s、高度 0.16–0.24 m。练习只改变 reset 命令的前两项符号或置零，高度保持：真实控制步 0–99 原命令、100–149 停车、150–249 反向、250–299 停车、300–399 原方向、400 起停车直到 done。直行覆盖前后运动，旋转覆盖原地左右转，组合同步变化；站立始终为零。没有阶段 RNG、额外 force/torque、速度写回或中途 reset。
+
+### 31.2 时序与严格恢复
+
+每个环境的练习计数来自真实完成控制步，reset 只清对应行，不使用 RSL 随机初始化的 episode_length_buf。完成旧命令下的 reward/日志后，按 common_step_counter 去重推进一次，更新 _commands 并同步 WheelLegState.command；随后 partial reset 与 next observation 使用新命令。额外读观测/奖励不推进练习。命令切换不清五帧 history；其窗口仍为 t−4..t，真实 done 的 reset 填充保持原实现。
+
+train/play/evaluate 在完整 checkpoint/hash 验证前重建保存的具名 profile。resume 不得更改 profile 或奖励；固定命令 play/evaluation 在身份验证后关闭 runtime schedule，且不得被课程覆盖。export 保留真实训练配置与 hash，不能重标旧 checkpoint。网络、CENet、PPO/storage/history/AdaBoot、USD/XML、reset 缓存/初态/时钟、随机化 profile、PD/effort/阻尼/惯量与 termination 均不变。
+
+### 31.3 新物理条件验收与训练
+
+旧 PhysicsV4 的 PPO run-03 不能作为 PhysicsV5 新 profile 的同条件 baseline。保留旧 IsaacEvaluationContractV1 和严格比较路径；新增显式 candidate-only 的 IsaacEvaluationContractV2，绑定当前训练 base-task、真实统一评估 RewardWeights()（vx 系数仍为 1）、disabled runtime schedule、名义八环境/固定命令/499-step timeout 与原 estimator 指标。实际速度 MAE 在 act 前从当前缓存 state 读取物理单位 vx/wz，仅计 active_before；不得使用裁剪的归一化 critic 速度或 done 后 reset 帧替代。estimator MSE 仍保留原 critic[:,25:28] 定义。旧 baseline acceptance 记 null/not_comparable，不能当作通过；suite 必须在训练前选择正确模式。
+
+四个新候选使用相同 rtx5070、FudanStyleDomainRandomizationV1、平地和 PPO/CENet 超参数，只有 seed 不同；每半小时留证，训练中冻结来源 hash。全部完成后逐个 export/golden-vector、当前 Isaac 候选验收与 MujocoEvaluationContractV3 原八场景 500 tick/10 s。另建独立动态命令诊断检查 ±0.5 m/s 直行和 ±0.6 rad/s 原地转向的停车/反向，不改正式八场景排名或 MuJoCo 参数。
+
+预先声明效果目标：八场景全部存活；三站立场景 vx MAE≤0.10 m/s，前进/后退 vx MAE≤0.20 m/s；动态停车稳态 vx MAE≤0.10 m/s、yaw MAE≤0.15 rad/s，反向在 1 s 内达到并连续保持 0.2 s 的 0.15 误差带。停车距离为含段首边界位置的 COM 世界 XY 累计水平路程，并另报净位移；反向响应以阶段起点为零、连续 10 个有效样本窗口的结束确认。稳态窗排除段首 0.5 s；未到达或段未完成记 null/失败，跌倒后数据不计入有效速度统计。性能失败仍运行完其他候选评估并报告，不自动改配置或宣称已修复；不与旧物理 return 混比。
+
+本轮不扩大随机化或加地形，不加入自动速度 curriculum；文档、代码独立复核无 P0/P1，加上 CPU 单测、真实 Isaac 时序/partial reset/history、fresh/resume/play/export/golden 验证通过后才能启动四次正式训练。训练启动授权已由用户提供。
+
+
+终点外行为：StopReverseCommandPracticeV1 的 stage_end_control_steps 最后 500 是诊断 horizon，final_phase_behavior='hold_last_factor'；400 及以后均返回系数 0，包括 499、500、501，不能在第 500 次 step 生成下一策略帧时出现索引越界。负数/非整数步数拒绝。此行为也进入 practice_contract/hash。
