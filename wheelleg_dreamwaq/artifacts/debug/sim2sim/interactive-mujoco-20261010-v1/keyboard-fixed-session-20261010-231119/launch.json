@@ -1,0 +1,7 @@
+﻿{
+    "session":  "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\interactive-mujoco-20261010-v1\\keyboard-fixed-session-20261010-231119",
+    "launcher_pid":  55576,
+    "script":  "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\interactive-mujoco-20261010-v1\\play_keyboard.py",
+    "base_contact":  true,
+    "keyboard_renderer":  "custom_glfw_no_native_shortcuts"
+}

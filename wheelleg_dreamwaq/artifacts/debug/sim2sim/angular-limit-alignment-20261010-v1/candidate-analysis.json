@@ -1,0 +1,86 @@
+{
+  "schema_version": "Angular100RadCandidateV1",
+  "passed": true,
+  "formal_sources_unchanged": true,
+  "actual_usd_cap_deg_s": 5729.578125,
+  "actual_usd_cap_rad_s": 100.00000303149324,
+  "all_state_max_error_against_10000_deg_s": {
+    "baseline": 0.0,
+    "closure_off": 0.0
+  },
+  "aggregates": [
+    {
+      "case": "baseline",
+      "time_ms": 5,
+      "mean_angular_l2_rad_s": 0.23342225372040132,
+      "mean_joint_rms_rad_s": 0.06440514556754098,
+      "maximum_body_angular_rad_s": 10.432115203325264
+    },
+    {
+      "case": "baseline",
+      "time_ms": 10,
+      "mean_angular_l2_rad_s": 0.17900185995614018,
+      "mean_joint_rms_rad_s": 0.052605048281664846,
+      "maximum_body_angular_rad_s": 10.432115203325264
+    },
+    {
+      "case": "baseline",
+      "time_ms": 15,
+      "mean_angular_l2_rad_s": 0.07366518571504502,
+      "mean_joint_rms_rad_s": 0.027147070984861157,
+      "maximum_body_angular_rad_s": 10.432115203325264
+    },
+    {
+      "case": "baseline",
+      "time_ms": 20,
+      "mean_angular_l2_rad_s": 0.056385750558132,
+      "mean_joint_rms_rad_s": 0.024543930968596982,
+      "maximum_body_angular_rad_s": 10.432115203325264
+    },
+    {
+      "case": "closure_off",
+      "time_ms": 5,
+      "mean_angular_l2_rad_s": 0.001457587058034209,
+      "mean_joint_rms_rad_s": 0.00022090519052372283,
+      "maximum_body_angular_rad_s": 11.014167178477695
+    },
+    {
+      "case": "closure_off",
+      "time_ms": 10,
+      "mean_angular_l2_rad_s": 0.0047019993150393714,
+      "mean_joint_rms_rad_s": 0.00048290553408076166,
+      "maximum_body_angular_rad_s": 11.014167178477695
+    },
+    {
+      "case": "closure_off",
+      "time_ms": 15,
+      "mean_angular_l2_rad_s": 0.009930602696315868,
+      "mean_joint_rms_rad_s": 0.0007968785179910387,
+      "maximum_body_angular_rad_s": 11.014167178477695
+    },
+    {
+      "case": "closure_off",
+      "time_ms": 20,
+      "mean_angular_l2_rad_s": 0.017391325471103156,
+      "mean_joint_rms_rad_s": 0.0011708734055889186,
+      "maximum_body_angular_rad_s": 11.014167178477695
+    }
+  ],
+  "provenance_sha256": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\probe_isaac_100rad.py": "C4890446379272D0AB9C1A29028A8271191D114C7CAAD831AB9779633091E7B5",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\same-torque-20261010-v1\\inputs.json": "A81380AF0750C1F31C40B83ED8EBDD8C6009C0E98513C09CC606D4BBFF8EFFB1",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\same-torque-20261010-v1\\isaac-formal\\evidence.json": "3656D505ECAE9DA03D1ECAFE88EA13FD6E3A6AB6765C1766B2BDE091D124244E",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\ground-on-off-20261010-v1\\isaac-shared_first_action_hold-ground-off\\actions.json": "0E0E1E9EEDFC96F0ADE6311601599D60B9D6BBDE3042366B4163F46273C8F106",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\isaac-baseline-100rad\\evidence.json": "F5F031E484EA6358F4DCF0ADA75F80063D5803DD2174CECF1591EBACB705798C",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\mechanics-isolation-20261010-v1\\isaac-baseline-cap-10000\\evidence.json": "B7B4CD86D89E6A8AFDE755786E29E4448B603300F8F725872DAC50037B6E447E",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\mechanics-isolation-20261010-v1\\mujoco-baseline\\evidence.json": "AF94E80D8601E9AFE99C20D81766096E534B7DE6604B00B8654E3D27C4CABCC4",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\isaac-baseline-100rad-console.log": "8E47DB6436C1B69E32BA4CA18D0B87F59B163F94A0597836E585C25E5BED39FA",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\isaac-closure_off-100rad\\evidence.json": "A4CB4CEECFFFC79FA6F5D90D9D8AFD1056FF7E73A4744B4A78E3B782B826A6DC",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\mechanics-isolation-20261010-v1\\isaac-closure_off-cap-10000\\evidence.json": "D539922548100573F1AB81645854A344A39F498D68BA6038A222BDC17B1C3917",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\mechanics-isolation-20261010-v1\\mujoco-closure_off\\evidence.json": "4C46A32213C4F183A7CF4F8FC647D8022571F6E9AEE01A6F287681D648DB77A6",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\isaac-closure_off-100rad-console.log": "E0E5FBAE91B4E51BAA76F0369FBDF8A45AB216F081F1F7A76C50766309D95BFF",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\analyze_100rad_candidate.py": "5EFCDB4699731A0F533E96E5319571A15D1AD5EC5276A8D7FE3949915633E30E",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\check_100rad_candidate.py": "16BA42FA9E401D5337E2D8212473DD5D49BB13B684AD0292BFC9D415C40F33A5",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\candidate-execution.json": "5C71F94827BA6A177CAA0D0F8B33B362F7711250860F1A19873A665E6DB0090A"
+  }
+}

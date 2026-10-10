@@ -1,0 +1,197 @@
+{
+  "captured_at_singapore": "2026-10-10T01:42:43.609520+08:00",
+  "suite_id": "20261010-001232",
+  "suite_status": "training",
+  "runs": [
+    {
+      "index": 1,
+      "seed": 1375451991,
+      "status": "trained",
+      "latest_iteration": 999,
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_00-12-36_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run01-seed1375451991",
+      "monitor_status": "warning",
+      "hard_anomalies": [],
+      "warnings": [
+        "phi0_symmetry_degraded"
+      ],
+      "latest": {
+        "Action/saturation_fraction": {
+          "step": 999,
+          "value": 0.6664225459098816
+        },
+        "Actuator/effort_saturation_fraction": {
+          "step": 999,
+          "value": 0.002685546875
+        },
+        "Loss/entropy": {
+          "step": 999,
+          "value": 2.378711223602295
+        },
+        "Loss/learning_rate": {
+          "step": 999,
+          "value": 1.4999999621068127e-05
+        },
+        "Loss/surrogate": {
+          "step": 999,
+          "value": 0.002046249806880951
+        },
+        "Loss/value_function": {
+          "step": 999,
+          "value": 0.000778854067903012
+        },
+        "Metric/loop_closure_error_max_m": {
+          "step": 999,
+          "value": 6.262327951844782e-05
+        },
+        "Metric/phi0_delta_abs_rad": {
+          "step": 999,
+          "value": 0.42916858196258545
+        },
+        "Policy/mean_noise_std": {
+          "step": 999,
+          "value": 0.5729255080223083
+        },
+        "Termination/height_terminated": {
+          "step": 999,
+          "value": 0.0
+        },
+        "Termination/invalid": {
+          "step": 999,
+          "value": 0.0
+        },
+        "Termination/joint_velocity_terminated": {
+          "step": 999,
+          "value": 0.0
+        },
+        "Termination/root_angular_terminated": {
+          "step": 999,
+          "value": 0.0
+        },
+        "Termination/root_linear_terminated": {
+          "step": 999,
+          "value": 0.0
+        },
+        "Termination/tilt_terminated": {
+          "step": 999,
+          "value": 0.0
+        },
+        "Tracking/base_height_abs_error": {
+          "step": 999,
+          "value": 0.020426031202077866
+        },
+        "Tracking/vx_abs_error": {
+          "step": 999,
+          "value": 0.4361439645290375
+        },
+        "Tracking/yaw_rate_abs_error": {
+          "step": 999,
+          "value": 0.06824880093336105
+        },
+        "Train/mean_episode_length": {
+          "step": 999,
+          "value": 499.0
+        },
+        "Train/mean_reward": {
+          "step": 999,
+          "value": 17.15275001525879
+        }
+      },
+      "monitor_path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\monitor\\run-01\\final.json"
+    },
+    {
+      "index": 2,
+      "seed": 1145850885,
+      "status": "training",
+      "latest_iteration": 962,
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_00-58-39_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run02-seed1145850885",
+      "monitor_status": "warning",
+      "hard_anomalies": [],
+      "warnings": [
+        "phi0_symmetry_degraded"
+      ],
+      "latest": {
+        "Action/saturation_fraction": {
+          "step": 647,
+          "value": 0.6671278476715088
+        },
+        "Actuator/effort_saturation_fraction": {
+          "step": 647,
+          "value": 0.008219401352107525
+        },
+        "Loss/entropy": {
+          "step": 647,
+          "value": 2.4408621788024902
+        },
+        "Loss/learning_rate": {
+          "step": 647,
+          "value": 1.4999999621068127e-05
+        },
+        "Loss/surrogate": {
+          "step": 647,
+          "value": 0.003965080715715885
+        },
+        "Loss/value_function": {
+          "step": 647,
+          "value": 0.0007381947943940759
+        },
+        "Metric/loop_closure_error_max_m": {
+          "step": 647,
+          "value": 7.45042780181393e-05
+        },
+        "Metric/phi0_delta_abs_rad": {
+          "step": 647,
+          "value": 0.26836830377578735
+        },
+        "Policy/mean_noise_std": {
+          "step": 647,
+          "value": 0.5357232093811035
+        },
+        "Termination/height_terminated": {
+          "step": 647,
+          "value": 0.0
+        },
+        "Termination/invalid": {
+          "step": 647,
+          "value": 0.0
+        },
+        "Termination/joint_velocity_terminated": {
+          "step": 647,
+          "value": 0.0
+        },
+        "Termination/root_angular_terminated": {
+          "step": 647,
+          "value": 0.0
+        },
+        "Termination/root_linear_terminated": {
+          "step": 647,
+          "value": 0.0
+        },
+        "Termination/tilt_terminated": {
+          "step": 647,
+          "value": 0.0
+        },
+        "Tracking/base_height_abs_error": {
+          "step": 647,
+          "value": 0.01913304254412651
+        },
+        "Tracking/vx_abs_error": {
+          "step": 647,
+          "value": 0.43062660098075867
+        },
+        "Tracking/yaw_rate_abs_error": {
+          "step": 647,
+          "value": 0.09477768838405609
+        },
+        "Train/mean_episode_length": {
+          "step": 647,
+          "value": 499.0
+        },
+        "Train/mean_reward": {
+          "step": 647,
+          "value": 17.300695419311523
+        }
+      },
+      "monitor_path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\monitor\\run-02\\interval-20261010-012823.json"
+    }
+  ]
+}

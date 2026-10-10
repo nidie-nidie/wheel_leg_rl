@@ -1,0 +1,15 @@
+{
+  "actor_sha256": "5B714AF635AE3C93BD86853BD9141F0B8888BB49C0F275CBCCD531B6AF53B9BC",
+  "cross_engine_cpu_output_max_abs_error": 1.1920928955078125e-07,
+  "cross_engine_input_max_abs_error": 1.2965159612576826e-08,
+  "cross_engine_input_rms_error": 4.224892396547083e-09,
+  "device": "cpu",
+  "dtype": "float32",
+  "passed": true,
+  "report_hash": "E7BFAEB65CD3ED553BAA38630AD2545023C52BD36BDBD5CD6C5BA8936A32633F",
+  "same_input_limit": 1e-06,
+  "same_input_output_max_abs_error": 0.0,
+  "schema_version": "ActorCpuIdentityGateV1",
+  "serialized_input_sha256": "E3D02A2842D766F73B83545AFE796EF2036ED4FC1BA1473D51A154401B90392A",
+  "tick": 0
+}

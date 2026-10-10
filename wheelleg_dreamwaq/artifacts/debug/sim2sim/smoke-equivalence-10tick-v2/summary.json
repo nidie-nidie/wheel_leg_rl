@@ -1,0 +1,175 @@
+{
+  "debug_runs": 2,
+  "failures": [],
+  "identity_failures": [],
+  "passed": true,
+  "production_runs": 2,
+  "report_hash": "F5DD08BBA5858AB3C7BC513709EF111821DEDA5106F27C6887B436218A5A2E0A",
+  "schema_version": "IsaacCollectorEquivalenceV1",
+  "signals": {
+    "action_clipped": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "active_joint_position_canonical_post_step_pre_reset": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "active_joint_velocity_canonical_post_step_pre_reset": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 2.6061590688186698e-05,
+      "numeric_floor": 2.6061590688186698e-05,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "actor_obs_policy_pre_step": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "actor_output_raw": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "all_hinge_position_named_post_step_pre_reset": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "all_hinge_velocity_named_post_step_pre_reset": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 2.6061590688186698e-05,
+      "numeric_floor": 2.6061590688186698e-05,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "base_angular_velocity_control_post_step_pre_reset": {
+      "cross_path_max_error": 7.450580596923828e-09,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "base_com_position_diag_post_step_pre_reset": {
+      "cross_path_max_error": 4.76837158203125e-07,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "base_com_position_engine_world_post_step_pre_reset": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 4.8656465878593735e-06,
+      "numeric_floor": 4.8656465878593735e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "base_height_post_step_pre_reset": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "base_linear_velocity_control_post_step_pre_reset": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "base_orientation_control_wxyz_post_step_pre_reset": {
+      "cross_path_max_error": 5.16191365590357e-08,
+      "debug_envelope": 5.16191365590357e-08,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 5.16191365590357e-08
+    },
+    "control_tick": {
+      "exact_match": true,
+      "passed": true
+    },
+    "loop_closure_error_post_step_pre_reset": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "native_terminated_int8": {
+      "exact_match": true,
+      "passed": true
+    },
+    "native_truncated_int8": {
+      "exact_match": true,
+      "passed": true
+    },
+    "next_actor_obs_policy_returned": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "previous_action_before_inference": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "projected_gravity_post_step_pre_reset": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "virtual_leg_length_post_step_pre_reset": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 3.814697265625e-06,
+      "numeric_floor": 3.814697265625e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    },
+    "virtual_leg_phi0_post_step_pre_reset": {
+      "cross_path_max_error": 0.0,
+      "debug_envelope": 0.0,
+      "equivalence_limit": 6.505352757812943e-06,
+      "numeric_floor": 6.505352757812943e-06,
+      "passed": true,
+      "production_envelope": 0.0
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "protected_file_count": 101,
+  "formal_files_changed": [],
+  "diagnostic_sources": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\analyze.py": "C85B01D543D4A2A520E516AFF12CC827677B86182F6001E834D2E7BDD27BCFAA",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\probe_isaac.py": "E57E355449F43D7625832FCC2EB44B59DDCCDF4F1D8CFD272B8565DD8D8FAAFE",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\probe_mujoco.py": "AA601295D7444B7AFBD08D1F804C83B8FF4DC338D21BBA840FDEA95F8FBF3668",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\retry_isaac.py": "524E6CF375006C7A834C432752D6CD8F3826F268598C65C0CB15F484BDEF4412",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\run_diagnostic.py": "B52CC9C90D1448F52B0DA1708008B02B0F0066ECF76CD058F329C4558F5E9DFA",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\trace_recorder.py": "4D29BC0573DAF325100261AAE8523240501FCF58FD6940E4290AE17AE77B1D13"
+  }
+}

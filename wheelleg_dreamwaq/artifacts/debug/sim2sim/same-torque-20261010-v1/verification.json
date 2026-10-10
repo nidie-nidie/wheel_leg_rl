@@ -1,0 +1,36 @@
+{
+  "passed": true,
+  "protected_files_verified": 93,
+  "analysis_input_hashes_verified": 41,
+  "final_engine_mode_combinations": 8,
+  "total_completed_physics_processes": 14,
+  "matched_angular_error_5_20ms_rad_s": [
+    0.23342225372040132,
+    0.4310664325190916
+  ],
+  "external_torque_delivery_max_error_nm": 0.0,
+  "matched_initial_state_max_errors": {
+    "direct_shared": {
+      "all_joint_position_rad": 0.0,
+      "root_height_m": 0.0,
+      "normalized_root_orientation": 0.0,
+      "initial_velocity": 0.0
+    },
+    "direct_zero": {
+      "all_joint_position_rad": 0.0,
+      "root_height_m": 0.0,
+      "normalized_root_orientation": 0.0,
+      "initial_velocity": 0.0
+    }
+  },
+  "subagent_review_completed": true,
+  "subagent_review_blocking_findings": 0,
+  "artifacts_sha256": {
+    "report.md": "5E08C5A365A60F946F78FC638A4E567DA449A0C536AF71CA980A25D0756FDC46",
+    "review.md": "B4E701D052AC62FB6B3A0A701947E77C2609524273F88FB1F5A70E482FC9ED2E",
+    "analysis.json": "C869EDAFA4A2F6B9F6F6DA66EADAAD25721D04718A21A6C5D6A1BFC51C404270",
+    "response.png": "B46A47C6152856FB47F41C0A129CCBB3EF9B7A6E55EBEFB917875D32AADFB8D4",
+    "diagnostic-plan.md": "73339C8570E8BCC07D7ADCB386407F66CBC6F315B23AA7BEA28B064D3A817699"
+  },
+  "formal_architecture_sha256": "43AC9306FD065DA259C60033E702C264230BB6B9D767B3974EFCE940587B94FA"
+}

@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 import pytest
+import json
+import math
+import struct
 
 from wheelleg_dreamwaq.schemas.physics import (
     CONTROL_DT_S,
@@ -8,11 +11,13 @@ from wheelleg_dreamwaq.schemas.physics import (
     SIM_DT_S,
     SOLVER_POSITION_ITERATIONS,
     SOLVER_VELOCITY_ITERATIONS,
+    UNRESTRICTED_SIM_VELOCITY,
+    unrestricted_velocity_policy,
     validate_phase1_physics,
 )
 
 
-def test_phase1_v4_physics_constants_are_frozen() -> None:
+def test_physics_v5_retains_timing_and_solver_constants() -> None:
     assert SIM_DT_S == 0.005
     assert DECIMATION == 4
     assert CONTROL_DT_S == 0.02
@@ -24,6 +29,12 @@ def test_phase1_v4_physics_constants_are_frozen() -> None:
         solver_position_iterations=SOLVER_POSITION_ITERATIONS,
         solver_velocity_iterations=SOLVER_VELOCITY_ITERATIONS,
     )
+
+
+def test_unrestricted_velocity_policy_uses_a_finite_float32_sentinel() -> None:
+    assert math.isfinite(UNRESTRICTED_SIM_VELOCITY)
+    assert struct.unpack("f", struct.pack("f", UNRESTRICTED_SIM_VELOCITY))[0] == UNRESTRICTED_SIM_VELOCITY
+    assert json.loads(json.dumps(unrestricted_velocity_policy(), allow_nan=False)) == unrestricted_velocity_policy()
 
 
 @pytest.mark.parametrize(

@@ -1,0 +1,470 @@
+{
+  "aggregate": {
+    "completed_scenarios": 0,
+    "full_survival": false,
+    "metrics": {
+      "action_saturation_fraction": 0.3737228850305046,
+      "effort_saturation_fraction": 0.07254768373508826,
+      "height_mae": 0.007082728289743275,
+      "max_loop_closure_error_m": 0.0004757013207118922,
+      "max_tilt_rad": 0.755642675849543,
+      "phi0_delta_rms": 0.41378162599320434,
+      "pitch_rms": 0.17579870284833873,
+      "roll_rms": 0.051739873259274746,
+      "vx_mae": 0.5476216136508361,
+      "yaw_drift_rms": 0.10953530049756073,
+      "yaw_rate_mae": 0.19431839708890677
+    },
+    "run_id": "F0D675468806",
+    "scenario_count": 8,
+    "scenarios": [
+      {
+        "action_saturation_fraction": 0.41273584905660377,
+        "command": [
+          0.0,
+          0.0,
+          0.2
+        ],
+        "completed": false,
+        "effort_saturation_fraction": 0.0924135220125786,
+        "expected_ticks": 500,
+        "failure_reason": "tilt",
+        "height_mae": 0.0021098440302653155,
+        "height_max_abs_error": 0.03241536933024619,
+        "initial_yaw_rad": 0.0,
+        "max_loop_closure_error_m": 0.00022495822682390602,
+        "max_tilt_rad": 0.6839026911051783,
+        "name": "nominal_stand",
+        "phi0_delta_max_abs": 0.4664927343589933,
+        "phi0_delta_rms": 0.38877035441966795,
+        "pitch_max_abs": 0.6640224698495939,
+        "pitch_rms": 0.10861577153773644,
+        "prefix_score": 3.8423443495218637,
+        "roll_max_abs": 0.1777402352177606,
+        "roll_rms": 0.044679207934667856,
+        "survival_fraction": 0.424,
+        "ticks": 212,
+        "vx_mae": 0.4323165432970314,
+        "yaw_drift_max_abs": 0.12189086596440979,
+        "yaw_drift_rms": 0.10356302977961956,
+        "yaw_rate_mae": null
+      },
+      {
+        "action_saturation_fraction": 0.43892339544513453,
+        "command": [
+          0.0,
+          0.0,
+          0.17
+        ],
+        "completed": false,
+        "effort_saturation_fraction": 0.09451345755693581,
+        "expected_ticks": 500,
+        "failure_reason": "tilt",
+        "height_mae": 0.015141708650545425,
+        "height_max_abs_error": 0.04328838868139537,
+        "initial_yaw_rad": 0.0,
+        "max_loop_closure_error_m": 0.0004757013207118922,
+        "max_tilt_rad": 0.7928462742092376,
+        "name": "low_stand",
+        "phi0_delta_max_abs": 0.5317952575977936,
+        "phi0_delta_rms": 0.4624969533064634,
+        "pitch_max_abs": 0.7877155003703958,
+        "pitch_rms": 0.1944710652329221,
+        "prefix_score": 5.050293419243397,
+        "roll_max_abs": 0.16644909129374066,
+        "roll_rms": 0.06844791358371259,
+        "survival_fraction": 0.322,
+        "ticks": 161,
+        "vx_mae": 0.5257676922314495,
+        "yaw_drift_max_abs": 0.07132199996790674,
+        "yaw_drift_rms": 0.04317380250519018,
+        "yaw_rate_mae": null
+      },
+      {
+        "action_saturation_fraction": 0.2733333333333334,
+        "command": [
+          0.0,
+          0.0,
+          0.23
+        ],
+        "completed": false,
+        "effort_saturation_fraction": 0.0806111111111111,
+        "expected_ticks": 500,
+        "failure_reason": "tilt",
+        "height_mae": 0.005564155617957227,
+        "height_max_abs_error": 0.10060756218669312,
+        "initial_yaw_rad": 0.0,
+        "max_loop_closure_error_m": 0.0003171088534270531,
+        "max_tilt_rad": 0.7738636118017661,
+        "name": "high_stand",
+        "phi0_delta_max_abs": 0.468331044548578,
+        "phi0_delta_rms": 0.2962956697769979,
+        "pitch_max_abs": 0.7670938103629612,
+        "pitch_rms": 0.17065916377573076,
+        "prefix_score": 4.195338121148968,
+        "roll_max_abs": 0.17290463679873092,
+        "roll_rms": 0.06347472851952075,
+        "survival_fraction": 0.3,
+        "ticks": 150,
+        "vx_mae": 0.6260188569868689,
+        "yaw_drift_max_abs": 0.30138892147566543,
+        "yaw_drift_rms": 0.15701439291892563,
+        "yaw_rate_mae": null
+      },
+      {
+        "action_saturation_fraction": 0.27637130801687765,
+        "command": [
+          1.0,
+          0.0,
+          0.2
+        ],
+        "completed": false,
+        "effort_saturation_fraction": 0.026265822784810128,
+        "expected_ticks": 500,
+        "failure_reason": "tilt",
+        "height_mae": 0.005198592210296055,
+        "height_max_abs_error": 0.05317313260444273,
+        "initial_yaw_rad": 0.0,
+        "max_loop_closure_error_m": 0.0001489131006742296,
+        "max_tilt_rad": 0.7781814931798328,
+        "name": "forward",
+        "phi0_delta_max_abs": 0.6962628205940917,
+        "phi0_delta_rms": 0.6222160461070463,
+        "pitch_max_abs": 0.7536126860220551,
+        "pitch_rms": 0.20845919617891784,
+        "prefix_score": 6.396255258944455,
+        "roll_max_abs": 0.21654337426983658,
+        "roll_rms": 0.06000940536423278,
+        "survival_fraction": 0.158,
+        "ticks": 79,
+        "vx_mae": 0.5371426219762645,
+        "yaw_drift_max_abs": 0.3353736146053679,
+        "yaw_drift_rms": 0.210734960008819,
+        "yaw_rate_mae": null
+      },
+      {
+        "action_saturation_fraction": 0.515625,
+        "command": [
+          -1.0,
+          0.0,
+          0.2
+        ],
+        "completed": false,
+        "effort_saturation_fraction": 0.08411458333333333,
+        "expected_ticks": 500,
+        "failure_reason": "tilt",
+        "height_mae": 0.014759037948224564,
+        "height_max_abs_error": 0.05168549081451518,
+        "initial_yaw_rad": 0.0,
+        "max_loop_closure_error_m": 0.0002523219632212317,
+        "max_tilt_rad": 0.7917121250572224,
+        "name": "reverse",
+        "phi0_delta_max_abs": 0.18368857217974546,
+        "phi0_delta_rms": 0.09702392186256768,
+        "pitch_max_abs": 0.7889993774144689,
+        "pitch_rms": 0.18802013984527124,
+        "prefix_score": 2.6471445164120095,
+        "roll_max_abs": 0.07399028878319515,
+        "roll_rms": 0.019935097273702695,
+        "survival_fraction": 0.128,
+        "ticks": 64,
+        "vx_mae": 0.6059835441386474,
+        "yaw_drift_max_abs": 0.055846800560839856,
+        "yaw_drift_rms": 0.033190317275249244,
+        "yaw_rate_mae": null
+      },
+      {
+        "action_saturation_fraction": 0.42786069651741293,
+        "command": [
+          0.0,
+          0.6,
+          0.2
+        ],
+        "completed": false,
+        "effort_saturation_fraction": 0.07425373134328357,
+        "expected_ticks": 500,
+        "failure_reason": "tilt",
+        "height_mae": 0.0031108213163962522,
+        "height_max_abs_error": 0.03128589857403158,
+        "initial_yaw_rad": 0.0,
+        "max_loop_closure_error_m": 0.00021949690844523772,
+        "max_tilt_rad": 0.6622688228333687,
+        "name": "left_turn",
+        "phi0_delta_max_abs": 0.45359184232987904,
+        "phi0_delta_rms": 0.3619820063774819,
+        "pitch_max_abs": 0.6463247737358099,
+        "pitch_rms": 0.13568543600892358,
+        "prefix_score": 3.7662261914781734,
+        "roll_max_abs": 0.15607581325004688,
+        "roll_rms": 0.05128311374537145,
+        "survival_fraction": 0.268,
+        "ticks": 134,
+        "vx_mae": 0.606301191835855,
+        "yaw_drift_max_abs": null,
+        "yaw_drift_rms": null,
+        "yaw_rate_mae": 0.13899986124000924
+      },
+      {
+        "action_saturation_fraction": 0.35081585081585087,
+        "command": [
+          0.0,
+          -0.6,
+          0.2
+        ],
+        "completed": false,
+        "effort_saturation_fraction": 0.07360139860139861,
+        "expected_ticks": 500,
+        "failure_reason": "tilt",
+        "height_mae": 0.005179113919820118,
+        "height_max_abs_error": 0.051999688215293605,
+        "initial_yaw_rad": 0.0,
+        "max_loop_closure_error_m": 0.00014200680124846511,
+        "max_tilt_rad": 0.7851866896442885,
+        "name": "right_turn",
+        "phi0_delta_max_abs": 0.6793160939981921,
+        "phi0_delta_rms": 0.47247437170486356,
+        "pitch_max_abs": 0.7582958374564889,
+        "pitch_rms": 0.184556104955901,
+        "prefix_score": 4.701930166787056,
+        "roll_max_abs": 0.22777973237772056,
+        "roll_rms": 0.05120133681895566,
+        "survival_fraction": 0.286,
+        "ticks": 143,
+        "vx_mae": 0.547971215445276,
+        "yaw_drift_max_abs": null,
+        "yaw_drift_rms": null,
+        "yaw_rate_mae": 0.14926879223291944
+      },
+      {
+        "action_saturation_fraction": 0.2941176470588236,
+        "command": [
+          0.8,
+          0.5,
+          0.2
+        ],
+        "completed": false,
+        "effort_saturation_fraction": 0.05460784313725489,
+        "expected_ticks": 500,
+        "failure_reason": "tilt",
+        "height_mae": 0.005598552624441243,
+        "height_max_abs_error": 0.05987633369996942,
+        "initial_yaw_rad": 0.0,
+        "max_loop_closure_error_m": 0.00021098006824710896,
+        "max_tilt_rad": 0.7771796989654498,
+        "name": "combined",
+        "phi0_delta_max_abs": 0.6893396849751274,
+        "phi0_delta_rms": 0.6089936843905461,
+        "pitch_max_abs": 0.7604959467355998,
+        "pitch_rms": 0.21592274525130684,
+        "prefix_score": 5.8085402913694795,
+        "roll_max_abs": 0.18010911718659983,
+        "roll_rms": 0.05488818283403419,
+        "survival_fraction": 0.17,
+        "ticks": 85,
+        "vx_mae": 0.49947124329529574,
+        "yaw_drift_max_abs": null,
+        "yaw_drift_rms": null,
+        "yaw_rate_mae": 0.29468653779379167
+      }
+    ],
+    "score": 4.829355798198929,
+    "survival_fraction": 0.257
+  },
+  "evaluation_contract": {
+    "adapter_versions": {
+      "action": "MujocoActionAdapterV1",
+      "observation": "MujocoActorObsAdapterV1"
+    },
+    "control_dt_s": 0.02,
+    "dynamics_semantics_hash": "A846A8E4E198A43DAE8F8D9BD2BA565F7B8DC2C67386FB0028BD2530FE1C42D6",
+    "evaluation_implementation": {
+      "files": {
+        "scripts/evaluate_mujoco.py": "78AA718D893BD9D1B18033756B285604BCE88A3B806BAA663A4404865727DE78",
+        "scripts/rank_mujoco_runs.py": "8B66C84A3FEC1D6CCF4E7B6E6088AB114CAD91E8409F07E8A0D6A22F213B7BA2",
+        "sim2sim/mujoco/pyproject.toml": "0378D3334A67451966E7E516B3A99D829C27E58E97213C2A0D2B84AC87D0256B",
+        "sim2sim/mujoco/uv.lock": "7D80DCE923C67CA8F606DB9E40565BEC837D4F55C2205BB217385B4C346A27A4",
+        "sim2sim/mujoco/wheelleg_mujoco/__init__.py": "EB75ADC6A71A11DFD627C693771362E5520058A60C2FADCF8814FA9E1FFECCD6",
+        "sim2sim/mujoco/wheelleg_mujoco/contract.py": "E9C01F9F11DB3C4AA0EF4FF781EE898769D1345FE7FA8DACDD9A946EA8DE6A3A",
+        "sim2sim/mujoco/wheelleg_mujoco/control.py": "83080BC57A0399B11610CE5E06B4F607ADA1C0FB995344E23E531658EBBEFD62",
+        "sim2sim/mujoco/wheelleg_mujoco/evaluation.py": "DFB01D3B06AE25FD154FC03DC9BB13965F8664C5BAA957C36C8F23F6BD756970",
+        "sim2sim/mujoco/wheelleg_mujoco/metrics.py": "DB6B1A1CDB468701E0312D894F8FF1856651FF821A0FADEE1A9F400F04B5E7B3",
+        "sim2sim/mujoco/wheelleg_mujoco/model_map.py": "B08A421723D0DAA814316796C7B8C99D58D033B4D74ECC824BB69047C91E3EDC",
+        "sim2sim/mujoco/wheelleg_mujoco/model_semantics.py": "672049E647FB1DE89EF0289D15AB2EF611DB38B7FACB5669F82DBF7FFAD23D01",
+        "sim2sim/mujoco/wheelleg_mujoco/observation.py": "DD7F972D77FCCA25378BF403F61A67755C8AB4BA28738C97ABF2BBDD733970BD",
+        "sim2sim/mujoco/wheelleg_mujoco/runner.py": "D327FEDE5A957E8D63CF7BE2D922379456805FE0039046E6525FCFE78E636A4F",
+        "sim2sim/mujoco/wheelleg_mujoco/versions.py": "08F7FADFD1A8E9CE5FC823C26F5858AC33E78434C989CD67760B443EE491BC8C"
+      },
+      "hash": "E142CC07C31336416EDFB8C8F79B3E871B210865FD8A53F038A64D121492EF79",
+      "schema_version": "MujocoEvaluationSourceV1"
+    },
+    "evaluation_schema_version": "MujocoEvaluationV1",
+    "expected_ticks_per_scenario": 500,
+    "failure_limits": {
+      "base_height_m": [
+        0.1,
+        0.4
+      ],
+      "loop_closure_error_m": 0.005,
+      "root_angular_speed_rad_s": 35.0,
+      "root_linear_speed_mps": 20.0,
+      "tilt_rad": 0.8,
+      "virtual_leg_min_length_m": 0.05
+    },
+    "model_manifest_sha256": "C3DB4FE2797F6AC3628F0A9CB5E0B166FFD0CE802776A335922C474A045F7AE0",
+    "model_version": "MujocoModelV1",
+    "model_xml_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+    "phase1_contract_hash": "CC57F16B1BB75E169CCF21CD706E10C8D2D23498434ACED982AFFA8FD1F72848",
+    "physics_dt_s": 0.001,
+    "physics_steps_per_action": 20,
+    "ranking_version": "MujocoRankingV1",
+    "reset_initial_yaw_rad": 0.0,
+    "scenario_duration_s": 10.0,
+    "scenarios": [
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.2
+        ],
+        "name": "nominal_stand"
+      },
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.17
+        ],
+        "name": "low_stand"
+      },
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.23
+        ],
+        "name": "high_stand"
+      },
+      {
+        "command": [
+          1.0,
+          0.0,
+          0.2
+        ],
+        "name": "forward"
+      },
+      {
+        "command": [
+          -1.0,
+          0.0,
+          0.2
+        ],
+        "name": "reverse"
+      },
+      {
+        "command": [
+          0.0,
+          0.6,
+          0.2
+        ],
+        "name": "left_turn"
+      },
+      {
+        "command": [
+          0.0,
+          -0.6,
+          0.2
+        ],
+        "name": "right_turn"
+      },
+      {
+        "command": [
+          0.8,
+          0.5,
+          0.2
+        ],
+        "name": "combined"
+      }
+    ],
+    "schema_version": "MujocoEvaluationContractV1",
+    "smoke": false,
+    "training_suite": {
+      "context_hash": "6AC60664CB7608834A1D21F1E35248D8D1109AC6E18DD286A568D1BA85AFF6DB",
+      "iterations_per_run": 1000,
+      "run_count": 4,
+      "schema_version": "TrainingEvaluationContextV1",
+      "suite_id": "20261007-062147",
+      "suite_mode": "formal",
+      "suite_source_fingerprint_hash": "75610BAAC69A614D443A01FDE04E504A653C4431AB6B777C812C93B0B241CA0F",
+      "training_fingerprint_hash": "584A21A956B9FD1633300C145DB12A59D879ED123D149B0D4BF561441760878A"
+    }
+  },
+  "evaluation_contract_hash": "4BC616D82B458438FAA6E855C73768E161D01AAA65BB5B215DCF49245A1360E6",
+  "evaluation_schema_version": "MujocoEvaluationV1",
+  "expected_ticks_per_scenario": 500,
+  "model": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\models\\wheel_leg_urdf4_v1.xml",
+  "model_manifest_sha256": "C3DB4FE2797F6AC3628F0A9CB5E0B166FFD0CE802776A335922C474A045F7AE0",
+  "model_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "phase1_contract_hash": "CC57F16B1BB75E169CCF21CD706E10C8D2D23498434ACED982AFFA8FD1F72848",
+  "policy": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\exports\\run-02\\actor.ts",
+  "policy_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\exports\\run-02\\policy_manifest.json",
+  "policy_manifest_hash": "257B7F5583940940A62AFF059E7C5BDD86D1FB44A6D8A5FE011D7B7D829F1012",
+  "policy_manifest_sha256": "6BC5692E0215450B6CC52656A5FB951A42D86FA7490C2A0B4968291AA250B2E1",
+  "policy_sha256": "515530BB8BC77CA2465C5AAE17686EED546EF20718F8D3C262D5B4D4E5C08002",
+  "report_hash": "70187E5266DB5954F37DC2ADE1EF38E6335C55A66062D7CBD8BC86AA521EDBFE",
+  "scenario_files": {
+    "combined": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\evaluation\\run-02\\combined.csv",
+      "sha256": "B75D91FAD177828E9D50918D7A84D703C9617A4BEB706379A2C93B97C93184ED"
+    },
+    "forward": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\evaluation\\run-02\\forward.csv",
+      "sha256": "F5A85C6A8A879256B3ADC39264E542E41825D0563D263F9F2E6A217AE09D0D8B"
+    },
+    "high_stand": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\evaluation\\run-02\\high_stand.csv",
+      "sha256": "A702EAAF8D83D629BE2E70C3634C3C47E74BF6EE481C7BF34522D474596A2317"
+    },
+    "left_turn": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\evaluation\\run-02\\left_turn.csv",
+      "sha256": "B5A0B76E21FB0B825F842DBAAD6D2D188F4D291EC197E4301EC57E24B75E40C5"
+    },
+    "low_stand": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\evaluation\\run-02\\low_stand.csv",
+      "sha256": "9D9BE4251A2E54367308C111D037F0CE4B2BD0EF4212C78E31CD8E71B46E073B"
+    },
+    "nominal_stand": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\evaluation\\run-02\\nominal_stand.csv",
+      "sha256": "EB570A00AB339507C4B0BF2AD7F5D8A64274D3858CCF3E91768A42D502BE40A0"
+    },
+    "reverse": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\evaluation\\run-02\\reverse.csv",
+      "sha256": "180090B029751436B2EE0B61B6C8F44C14F9658471751A5C5BF2ED804F6E8942"
+    },
+    "right_turn": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\evaluation\\run-02\\right_turn.csv",
+      "sha256": "294D53E94F60DED785A8CF79BA47CF831D775524DCEBC34A3AEACE4C090CA5A6"
+    }
+  },
+  "scenario_order": [
+    "nominal_stand",
+    "low_stand",
+    "high_stand",
+    "forward",
+    "reverse",
+    "left_turn",
+    "right_turn",
+    "combined"
+  ],
+  "smoke": false,
+  "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_06-57-17_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run02-seed906945759\\model_999.pt",
+  "source_checkpoint_sha256": "F0D675468806BA938E1B00E763B5B7314D315C5684EC59727FE85585CB5098E3",
+  "training_run": {
+    "completed_iterations": 1000,
+    "run_count": 4,
+    "run_index": 2,
+    "schema_version": "TrainingEvaluationRunV1",
+    "suite_id": "20261007-062147",
+    "suite_source_fingerprint_hash": "75610BAAC69A614D443A01FDE04E504A653C4431AB6B777C812C93B0B241CA0F",
+    "training_fingerprint_hash": "584A21A956B9FD1633300C145DB12A59D879ED123D149B0D4BF561441760878A"
+  }
+}

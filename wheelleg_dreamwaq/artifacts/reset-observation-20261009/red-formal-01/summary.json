@@ -1,0 +1,484 @@
+{
+  "schema": "ResetObservationCoherenceProbeV1",
+  "kind": "formal",
+  "actual_class": "wheelleg_dreamwaq.tasks.direct.wheelleg_flat.env.WheelLegFlatEnv",
+  "seed": 20261009,
+  "num_envs": 2,
+  "profile": "NominalTrainingProfileV1",
+  "argv": [
+    "tests/integration/probes/reset_observation_coherence.py",
+    "--kind",
+    "formal",
+    "--output",
+    "artifacts/reset-observation-20261009/red-formal-01",
+    "--headless"
+  ],
+  "sources": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\tests\\integration\\probes\\reset_observation_coherence.py": "5A75391039BCFB3AF6A50AC27527BF1329EEB01C3A3C3F57E621200188A433D5",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\env.py": "5399B29B92B54851EB0A5FA880EA9386C82F202A5C337F19ABE4EDF300C2969C",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\algorithms\\dreamwaq\\history_wrapper.py": "605C727614E1C4FEF3B5F7A1BAB0492F9011B757F99FE6340B57D0BFE7008062",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\debug\\sim2sim\\isaac_debug_env.py": "3CDB03D723BEB8D2024E7A4F512ADF8C51560C3F1C8209AA9B9D01E7725F56C2",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\dependencies\\IsaacLab-v2.3.2\\source\\isaaclab\\isaaclab\\assets\\articulation\\articulation.py": "FB179AACDD848906367D01105020E1D36412BD0F1DA7187BE09F0781FF589309",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\dependencies\\IsaacLab-v2.3.2\\source\\isaaclab\\isaaclab\\assets\\articulation\\articulation_data.py": "D69495C66C409FB20823E4E467F9D90E63163B2050B77D2AC8E433221D1D208A"
+  },
+  "evidence_sha256": "041DC9A0435A7605D2CFE2142B41A7CBCC2D2DB74837B30CFE695C707B978FCB",
+  "checks": [
+    {
+      "name": "constructor/count",
+      "passed": true
+    },
+    {
+      "name": "constructor/clock",
+      "passed": true
+    },
+    {
+      "name": "constructor/critic_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "constructor/raw_com",
+      "passed": true,
+      "max_abs_error": 4.76837158203125e-07,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "constructor/raw_height",
+      "passed": true,
+      "max_abs_error": 1.4901161193847656e-08,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "constructor/critic_height",
+      "passed": true,
+      "max_abs_error": 3.8743019104003906e-07,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "constructor/actor_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "constructor/zero_action",
+      "passed": true
+    },
+    {
+      "name": "constructor/history",
+      "passed": true
+    },
+    {
+      "name": "repeat0/preparation_alive",
+      "passed": true
+    },
+    {
+      "name": "repeat0/nonzero_terminal",
+      "passed": true
+    },
+    {
+      "name": "repeat0/clock",
+      "passed": true
+    },
+    {
+      "name": "repeat0/count",
+      "passed": true
+    },
+    {
+      "name": "repeat0/critic_angular",
+      "passed": false,
+      "max_abs_error": 0.03406907990574837,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat0/raw_com",
+      "passed": false,
+      "max_abs_error": 0.0010511279106140137,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat0/raw_height",
+      "passed": false,
+      "max_abs_error": 0.0010511279106140137,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat0/critic_height",
+      "passed": false,
+      "max_abs_error": 0.026278197765350342,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "repeat0/actor_angular",
+      "passed": false,
+      "max_abs_error": 0.03406907990574837,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat0/zero_action",
+      "passed": true
+    },
+    {
+      "name": "repeat0/history",
+      "passed": true
+    },
+    {
+      "name": "repeat0/cached_rng",
+      "passed": true
+    },
+    {
+      "name": "repeat0/cached_count",
+      "passed": true
+    },
+    {
+      "name": "repeat0/cached_tensors",
+      "passed": true
+    },
+    {
+      "name": "repeat1/preparation_alive",
+      "passed": true
+    },
+    {
+      "name": "repeat1/nonzero_terminal",
+      "passed": true
+    },
+    {
+      "name": "repeat1/clock",
+      "passed": true
+    },
+    {
+      "name": "repeat1/count",
+      "passed": true
+    },
+    {
+      "name": "repeat1/critic_angular",
+      "passed": false,
+      "max_abs_error": 0.03446901589632034,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat1/raw_com",
+      "passed": false,
+      "max_abs_error": 0.001050904393196106,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat1/raw_height",
+      "passed": false,
+      "max_abs_error": 0.001050904393196106,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat1/critic_height",
+      "passed": false,
+      "max_abs_error": 0.02627260982990265,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "repeat1/actor_angular",
+      "passed": false,
+      "max_abs_error": 0.03446901589632034,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat1/zero_action",
+      "passed": true
+    },
+    {
+      "name": "repeat1/history",
+      "passed": true
+    },
+    {
+      "name": "repeat1/cached_rng",
+      "passed": true
+    },
+    {
+      "name": "repeat1/cached_count",
+      "passed": true
+    },
+    {
+      "name": "repeat1/cached_tensors",
+      "passed": true
+    },
+    {
+      "name": "repeat2/preparation_alive",
+      "passed": true
+    },
+    {
+      "name": "repeat2/nonzero_terminal",
+      "passed": true
+    },
+    {
+      "name": "repeat2/clock",
+      "passed": true
+    },
+    {
+      "name": "repeat2/count",
+      "passed": true
+    },
+    {
+      "name": "repeat2/critic_angular",
+      "passed": false,
+      "max_abs_error": 0.034543149173259735,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat2/raw_com",
+      "passed": false,
+      "max_abs_error": 0.0010502636432647705,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat2/raw_height",
+      "passed": false,
+      "max_abs_error": 0.0010502636432647705,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat2/critic_height",
+      "passed": false,
+      "max_abs_error": 0.026256591081619263,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "repeat2/actor_angular",
+      "passed": false,
+      "max_abs_error": 0.034543149173259735,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat2/zero_action",
+      "passed": true
+    },
+    {
+      "name": "repeat2/history",
+      "passed": true
+    },
+    {
+      "name": "repeat2/cached_rng",
+      "passed": true
+    },
+    {
+      "name": "repeat2/cached_count",
+      "passed": true
+    },
+    {
+      "name": "repeat2/cached_tensors",
+      "passed": true
+    },
+    {
+      "name": "repeat3/preparation_alive",
+      "passed": true
+    },
+    {
+      "name": "repeat3/nonzero_terminal",
+      "passed": true
+    },
+    {
+      "name": "repeat3/clock",
+      "passed": true
+    },
+    {
+      "name": "repeat3/count",
+      "passed": true
+    },
+    {
+      "name": "repeat3/critic_angular",
+      "passed": false,
+      "max_abs_error": 0.03464747220277786,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat3/raw_com",
+      "passed": false,
+      "max_abs_error": 0.0010503381490707397,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat3/raw_height",
+      "passed": false,
+      "max_abs_error": 0.0010503381490707397,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat3/critic_height",
+      "passed": false,
+      "max_abs_error": 0.026258453726768494,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "repeat3/actor_angular",
+      "passed": false,
+      "max_abs_error": 0.03464747220277786,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat3/zero_action",
+      "passed": true
+    },
+    {
+      "name": "repeat3/history",
+      "passed": true
+    },
+    {
+      "name": "repeat3/cached_rng",
+      "passed": true
+    },
+    {
+      "name": "repeat3/cached_count",
+      "passed": true
+    },
+    {
+      "name": "repeat3/cached_tensors",
+      "passed": true
+    },
+    {
+      "name": "partial/clock",
+      "passed": true
+    },
+    {
+      "name": "partial/other_snapshot",
+      "passed": true
+    },
+    {
+      "name": "partial/critic_angular",
+      "passed": false,
+      "max_abs_error": 0.03431803733110428,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "partial/raw_com",
+      "passed": false,
+      "max_abs_error": 0.0010382682085037231,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "partial/raw_height",
+      "passed": false,
+      "max_abs_error": 0.0010382682085037231,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "partial/critic_height",
+      "passed": false,
+      "max_abs_error": 0.02595670521259308,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "partial/actor_angular",
+      "passed": false,
+      "max_abs_error": 0.03431803733110428,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "partial/zero_action",
+      "passed": true
+    },
+    {
+      "name": "timeout/dones",
+      "passed": true
+    },
+    {
+      "name": "timeout/truncated",
+      "passed": true
+    },
+    {
+      "name": "timeout/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "timeout/time",
+      "passed": true
+    },
+    {
+      "name": "timeout/critic_angular",
+      "passed": false,
+      "max_abs_error": 0.03385796397924423,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "timeout/raw_com",
+      "passed": false,
+      "max_abs_error": 0.00103837251663208,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "timeout/raw_height",
+      "passed": false,
+      "max_abs_error": 0.00103837251663208,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "timeout/critic_height",
+      "passed": false,
+      "max_abs_error": 0.025959312915802002,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "timeout/actor_angular",
+      "passed": false,
+      "max_abs_error": 0.03385796397924423,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "timeout/zero_action",
+      "passed": true
+    },
+    {
+      "name": "timeout/history",
+      "passed": true
+    },
+    {
+      "name": "timeout/other_history",
+      "passed": true
+    },
+    {
+      "name": "failure/terminated",
+      "passed": false
+    },
+    {
+      "name": "failure/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "failure/critic_angular",
+      "passed": true,
+      "max_abs_error": 2.1827872842550278e-11,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "failure/raw_com",
+      "passed": true,
+      "max_abs_error": 2.384185791015625e-07,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "failure/raw_height",
+      "passed": true,
+      "max_abs_error": 2.384185791015625e-07,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "failure/critic_height",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "failure/actor_angular",
+      "passed": true,
+      "max_abs_error": 2.1827872842550278e-11,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "failure/zero_action",
+      "passed": true
+    },
+    {
+      "name": "failure/history",
+      "passed": false
+    }
+  ],
+  "passed": false
+}

@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://wheel-leg-motor-pace.local/schemas/actuator-model-v1.json",
+  "title": "Wheel-leg six-channel actuator model",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "model_maturity",
+    "sample_period_s",
+    "canonical_order",
+    "motor_order_version",
+    "motor_manifest_hash",
+    "source_session",
+    "fit_backend",
+    "motors",
+    "aggregate_metrics"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "wheel_leg_motor_pace/actuator_model/v1"
+    },
+    "generated_at_utc": {
+      "type": "string"
+    },
+    "model_maturity": {
+      "enum": ["provisional", "final"]
+    },
+    "sample_period_s": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "canonical_order": {
+      "const": [
+        "L_front",
+        "L_rear",
+        "R_rear",
+        "R_front",
+        "L_wheel",
+        "R_wheel"
+      ]
+    },
+    "motor_order_version": {
+      "const": 1
+    },
+    "motor_manifest_hash": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "source_session": {
+      "type": "object",
+      "required": [
+        "session_type",
+        "session_id",
+        "experiment_config_hash",
+        "firmware_build_id",
+        "robot_variant",
+        "sample_rate_hz",
+        "footer_valid",
+        "decode_issue_counts"
+      ]
+    },
+    "fit_backend": {
+      "type": "object"
+    },
+    "motors": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/definitions/motor"
+      }
+    },
+    "aggregate_metrics": {
+      "type": "object"
+    }
+  },
+  "definitions": {
+    "metricSet": {
+      "type": "object",
+      "required": [
+        "sample_count",
+        "rmse",
+        "p95_abs_error",
+        "max_abs_error",
+        "estimated_delay_steps",
+        "delay_error_steps",
+        "saturation_rate"
+      ],
+      "properties": {
+        "sample_count": {"type": "integer", "minimum": 0},
+        "rmse": {"type": "number", "minimum": 0},
+        "p95_abs_error": {"type": "number", "minimum": 0},
+        "max_abs_error": {"type": "number", "minimum": 0},
+        "estimated_delay_steps": {"type": "integer", "minimum": 0},
+        "delay_error_steps": {"type": "integer"},
+        "saturation_rate": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "motor": {
+      "type": "object",
+      "required": [
+        "canonical_index",
+        "name",
+        "motor_type",
+        "actuator_family",
+        "mujoco_joint",
+        "isaac_joint",
+        "position_sign",
+        "velocity_sign",
+        "torque_sign",
+        "position_zero_rad",
+        "gear_ratio",
+        "model",
+        "fit",
+        "validation"
+      ],
+      "properties": {
+        "canonical_index": {"type": "integer", "minimum": 0, "maximum": 5},
+        "name": {"type": "string"},
+        "motor_type": {"enum": ["DM8009", "LK9025"]},
+        "actuator_family": {"enum": ["leg_dm", "wheel_lk"]},
+        "mujoco_joint": {"type": "string"},
+        "isaac_joint": {"type": "string"},
+        "position_sign": {"enum": [-1, 1]},
+        "velocity_sign": {"enum": [-1, 1]},
+        "torque_sign": {"enum": [-1, 1]},
+        "position_zero_rad": {"type": "number"},
+        "gear_ratio": {"type": "number", "exclusiveMinimum": 0},
+        "model": {"type": "object"},
+        "fit": {"type": "object"},
+        "validation": {"type": "object"}
+      }
+    }
+  }
+}

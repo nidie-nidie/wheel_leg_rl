@@ -1,0 +1,61 @@
+[
+  {
+    "engine": "mujoco",
+    "command": [
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\.venv\\Scripts\\python.exe",
+      "-B",
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\probe_mujoco.py",
+      "--export",
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-04",
+      "--output",
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\mujoco"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 2.672000000020489,
+    "complete": true,
+    "log": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\mujoco-console.log"
+  },
+  {
+    "engine": "isaac",
+    "command": [
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\.venv\\Scripts\\python.exe",
+      "-B",
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\probe_isaac.py",
+      "--checkpoint",
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_02-30-21_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run04-seed342388981\\model_999.pt",
+      "--reset-cache",
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\isaac_evaluation\\evaluation-reset-cache.pt",
+      "--output",
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\isaac",
+      "--headless",
+      "--device",
+      "cuda:0"
+    ],
+    "exit_code": 1,
+    "elapsed_s": 51.21900000004098,
+    "complete": true,
+    "log": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\isaac-attempt01-console.log"
+  },
+  {
+    "engine": "isaac-retry",
+    "command": [
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\.venv\\Scripts\\python.exe",
+      "-B",
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\probe_isaac.py",
+      "--checkpoint",
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_02-30-21_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run04-seed342388981\\model_999.pt",
+      "--reset-cache",
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\isaac_evaluation\\evaluation-reset-cache.pt",
+      "--output",
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\isaac",
+      "--headless",
+      "--device",
+      "cuda:0"
+    ],
+    "exit_code": 0,
+    "elapsed_s": 50.92199999978766,
+    "complete": true,
+    "log": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\isaac-console.log",
+    "reason": "Diagnostic now excludes auto-reset state from final post-action sample"
+  }
+]

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "E:\wheel_leg_rl-main\wheelleg_dreamwaq\scripts\check_unrestricted_dynamics.py", line 189, in <module>
+    main()
+  File "E:\wheel_leg_rl-main\wheelleg_dreamwaq\scripts\check_unrestricted_dynamics.py", line 165, in main
+    "base_task_contract": build_base_task_contract_from_configs(cfg),
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: build_base_task_contract_from_configs() takes 0 positional arguments but 1 was given

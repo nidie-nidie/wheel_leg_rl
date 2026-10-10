@@ -1,0 +1,130 @@
+{
+  "created_at": "2026-10-07T06:21:47.600614+08:00",
+  "fresh_start": true,
+  "iterations_per_run": 1000,
+  "monitor_interval_seconds": 1800.0,
+  "profile": "rtx5070",
+  "ranking_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\training-suite-summary.json",
+  "run_count": 4,
+  "runs": [
+    {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_06-21-51_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run01-seed2013078852\\model_999.pt",
+      "evaluation_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\evaluation\\run-01\\summary.json",
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\exports\\run-01",
+      "index": 1,
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\monitor\\run-01\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\monitor\\run-01\\initial.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\monitor\\run-01\\interval-20261007-065147.json"
+        ],
+        "status": "warning",
+        "warnings": [
+          "entropy_collapsed_below_10_percent_of_initial"
+        ]
+      },
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_06-21-51_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run01-seed2013078852",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_06-21-51_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run01-seed2013078852\\run_manifest.json",
+      "run_name": "phase1r-v3-suite-20261007-062147-run01-seed2013078852",
+      "seed": 2013078852,
+      "status": "completed",
+      "training_fingerprint_hash": "584A21A956B9FD1633300C145DB12A59D879ED123D149B0D4BF561441760878A"
+    },
+    {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_06-57-17_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run02-seed906945759\\model_999.pt",
+      "evaluation_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\evaluation\\run-02\\summary.json",
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\exports\\run-02",
+      "index": 2,
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\monitor\\run-02\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\monitor\\run-02\\initial.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\monitor\\run-02\\interval-20261007-072712.json"
+        ],
+        "status": "warning",
+        "warnings": [
+          "entropy_collapsed_below_10_percent_of_initial",
+          "phi0_symmetry_degraded"
+        ]
+      },
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_06-57-17_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run02-seed906945759",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_06-57-17_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run02-seed906945759\\run_manifest.json",
+      "run_name": "phase1r-v3-suite-20261007-062147-run02-seed906945759",
+      "seed": 906945759,
+      "status": "completed",
+      "training_fingerprint_hash": "584A21A956B9FD1633300C145DB12A59D879ED123D149B0D4BF561441760878A"
+    },
+    {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_07-32-32_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run03-seed1884612625\\model_999.pt",
+      "evaluation_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\evaluation\\run-03\\summary.json",
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\exports\\run-03",
+      "index": 3,
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\monitor\\run-03\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\monitor\\run-03\\initial.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\monitor\\run-03\\interval-20261007-080228.json"
+        ],
+        "status": "warning",
+        "warnings": [
+          "entropy_collapsed_below_10_percent_of_initial"
+        ]
+      },
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_07-32-32_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run03-seed1884612625",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_07-32-32_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run03-seed1884612625\\run_manifest.json",
+      "run_name": "phase1r-v3-suite-20261007-062147-run03-seed1884612625",
+      "seed": 1884612625,
+      "status": "completed",
+      "training_fingerprint_hash": "584A21A956B9FD1633300C145DB12A59D879ED123D149B0D4BF561441760878A"
+    },
+    {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_08-07-49_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run04-seed1060811064\\model_999.pt",
+      "evaluation_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\evaluation\\run-04\\summary.json",
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\exports\\run-04",
+      "index": 4,
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\monitor\\run-04\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\monitor\\run-04\\initial.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\monitor\\run-04\\interval-20261007-083745.json"
+        ],
+        "status": "warning",
+        "warnings": [
+          "entropy_collapsed_below_10_percent_of_initial",
+          "vx_tracking_degraded"
+        ]
+      },
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_08-07-49_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run04-seed1060811064",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_08-07-49_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run04-seed1060811064\\run_manifest.json",
+      "run_name": "phase1r-v3-suite-20261007-062147-run04-seed1060811064",
+      "seed": 1060811064,
+      "status": "completed",
+      "training_fingerprint_hash": "584A21A956B9FD1633300C145DB12A59D879ED123D149B0D4BF561441760878A"
+    }
+  ],
+  "schema_version": "TrainingSuiteV3",
+  "seeds": [
+    2013078852,
+    906945759,
+    1884612625,
+    1060811064
+  ],
+  "status": "completed_with_warnings",
+  "suite_id": "20261007-062147",
+  "suite_mode": "formal",
+  "suite_source_fingerprint_hash": "75610BAAC69A614D443A01FDE04E504A653C4431AB6B777C812C93B0B241CA0F",
+  "training_fingerprint_hash": "584A21A956B9FD1633300C145DB12A59D879ED123D149B0D4BF561441760878A",
+  "training_monitor_gate": {
+    "hard_anomalies": [],
+    "status": "warning",
+    "warnings": [
+      "entropy_collapsed_below_10_percent_of_initial",
+      "phi0_symmetry_degraded",
+      "vx_tracking_degraded"
+    ]
+  }
+}

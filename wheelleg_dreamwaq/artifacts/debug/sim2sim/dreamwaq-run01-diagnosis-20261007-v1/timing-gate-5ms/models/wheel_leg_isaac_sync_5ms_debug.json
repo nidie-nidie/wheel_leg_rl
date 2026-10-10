@@ -1,0 +1,13 @@
+{
+  "debug_only": true,
+  "formal_ranking_eligible": false,
+  "schema_version": "DebugTimingModelCopyV1",
+  "source_model": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\models\\wheel_leg_urdf4_v1.xml",
+  "timing_profile": {
+    "control_dt_s": 0.02,
+    "name": "isaac_sync_5ms",
+    "physics_dt_s": 0.005,
+    "physics_steps_per_action": 4,
+    "torque_refresh_substeps": 1
+  }
+}

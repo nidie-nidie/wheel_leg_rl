@@ -1,0 +1,46 @@
+{
+  "created_at": "2026-10-07T06:04:53.584293+08:00",
+  "fresh_start": true,
+  "iterations_per_run": 1,
+  "monitor_interval_seconds": 60.0,
+  "profile": "portable",
+  "ranking_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-060453\\training-suite-summary.json",
+  "run_count": 1,
+  "runs": [
+    {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_06-04-57_portable_fudan-v1_phase1r-v3-suite-20261007-060453-run01-seed748413718\\model_0.pt",
+      "evaluation_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-060453\\evaluation\\run-01\\summary.json",
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-060453\\exports\\run-01",
+      "index": 1,
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-060453\\monitor\\run-01\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-060453\\monitor\\run-01\\initial.json"
+        ],
+        "status": "ok",
+        "warnings": []
+      },
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_06-04-57_portable_fudan-v1_phase1r-v3-suite-20261007-060453-run01-seed748413718",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_06-04-57_portable_fudan-v1_phase1r-v3-suite-20261007-060453-run01-seed748413718\\run_manifest.json",
+      "run_name": "phase1r-v3-suite-20261007-060453-run01-seed748413718",
+      "seed": 748413718,
+      "status": "completed",
+      "training_fingerprint_hash": "C6F4FBF775580C8079516BBDCE9EEF89DB017270D5CD11A5293A6826CE8CEF00"
+    }
+  ],
+  "schema_version": "TrainingSuiteV3",
+  "seeds": [
+    748413718
+  ],
+  "status": "completed",
+  "suite_id": "20261007-060453",
+  "suite_mode": "smoke",
+  "suite_source_fingerprint_hash": "89973E73C41DED541C00DAB42F461672B6CD03B848C0AAC7447976EA32854753",
+  "training_fingerprint_hash": "C6F4FBF775580C8079516BBDCE9EEF89DB017270D5CD11A5293A6826CE8CEF00",
+  "training_monitor_gate": {
+    "hard_anomalies": [],
+    "status": "ok",
+    "warnings": []
+  }
+}

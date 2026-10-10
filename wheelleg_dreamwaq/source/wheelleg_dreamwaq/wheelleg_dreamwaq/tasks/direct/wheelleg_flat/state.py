@@ -34,3 +34,14 @@ class WheelLegState:
         for name, value in vars(self).items():
             if isinstance(value, torch.Tensor) and not torch.isfinite(value).all():
                 raise RuntimeError(f"WheelLegState field contains NaN or Inf: {name}")
+
+    def replace_rows(self, source: "WheelLegState", env_ids: torch.Tensor) -> "WheelLegState":
+        fields = {}
+        for name, value in vars(self).items():
+            source_value = getattr(source, name)
+            merged = value.clone()
+            merged[env_ids] = source_value[env_ids]
+            fields[name] = merged
+        result = WheelLegState(**fields)
+        result.assert_finite()
+        return result

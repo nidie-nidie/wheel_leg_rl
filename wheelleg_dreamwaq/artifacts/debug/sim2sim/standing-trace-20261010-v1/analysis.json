@@ -1,0 +1,253 @@
+{
+  "schema_version": "StandingDiagnosticAnalysisV1",
+  "source_checkpoint_sha256": "89926828678CC28E0B0BA5A8463181395E0BE95E5961F7C7A65640243D5DC5FD",
+  "source_actor_sha256": "EDC3AC9F5DDB7646B8E9043F81AEC0C2A66C9456E95155DADCE9603984D07050",
+  "engines": {
+    "isaac": {
+      "sample_count": 499,
+      "steady_sample_count": 399,
+      "steady_window_s": [
+        2.0,
+        9.96
+      ],
+      "statistics": {
+        "actual_vx_mps": -0.45943353483850197,
+        "estimated_vx_mps": -0.4556168956415994,
+        "wheel_target_left_rad_s": -8.4105838529,
+        "wheel_target_right_rad_s": -8.38460153374905,
+        "wheel_actual_left_rad_s": -7.242565420337189,
+        "wheel_actual_right_rad_s": -7.226878046690671,
+        "pitch_rad": 0.024986263228399457,
+        "tilt_rad": 0.024992735585407794,
+        "base_height_m": 0.19429134556972294,
+        "leg_action_saturation_fraction": 1.0,
+        "vx_estimation_mae_mps": 0.00506575371986045,
+        "vx_estimation_rmse_mps": 0.006657604861720604,
+        "true_vx_only_offline_wheel_target_left_rad_s": -8.381387710571289,
+        "true_vx_only_offline_wheel_target_right_rad_s": -8.334771156311035,
+        "true_xyz_offline_wheel_target_left_rad_s": -8.361077308654785,
+        "true_xyz_offline_wheel_target_right_rad_s": -8.296856880187988
+      },
+      "action_replay_max_abs_error": 1.430511474609375e-06,
+      "estimator_replay_max_abs_error": 4.76837158203125e-07,
+      "samples": [
+        {
+          "tick": "0",
+          "time_s": "0.0",
+          "actual_vx_mps": "0.0",
+          "estimated_vx_mps": "0.05399680137634277",
+          "wheel_target_left_rad_s": "21.321846544742584",
+          "wheel_actual_left_rad_s": "0.0",
+          "pitch_rad": "0.0"
+        },
+        {
+          "tick": "1",
+          "time_s": "0.02",
+          "actual_vx_mps": "-0.06861108541488647",
+          "estimated_vx_mps": "0.02937924861907959",
+          "wheel_target_left_rad_s": "25.0",
+          "wheel_actual_left_rad_s": "3.567244291305542",
+          "pitch_rad": "0.04692526657572137"
+        },
+        {
+          "tick": "5",
+          "time_s": "0.1",
+          "actual_vx_mps": "-0.1238226443529129",
+          "estimated_vx_mps": "-0.04110614210367203",
+          "wheel_target_left_rad_s": "-3.5579316318035126",
+          "wheel_actual_left_rad_s": "9.692145347595215",
+          "pitch_rad": "0.14212205371749562"
+        },
+        {
+          "tick": "25",
+          "time_s": "0.5",
+          "actual_vx_mps": "-0.4107915759086609",
+          "estimated_vx_mps": "-0.4457826614379883",
+          "wheel_target_left_rad_s": "-6.9512635469436646",
+          "wheel_actual_left_rad_s": "-6.967309951782227",
+          "pitch_rad": "0.03045692645285026"
+        },
+        {
+          "tick": "50",
+          "time_s": "1.0",
+          "actual_vx_mps": "-0.4549986720085144",
+          "estimated_vx_mps": "-0.457396537065506",
+          "wheel_target_left_rad_s": "-8.441952615976334",
+          "wheel_actual_left_rad_s": "-7.658503532409668",
+          "pitch_rad": "0.02022024192368638"
+        },
+        {
+          "tick": "100",
+          "time_s": "2.0",
+          "actual_vx_mps": "-0.46957746148109436",
+          "estimated_vx_mps": "-0.4531228244304657",
+          "wheel_target_left_rad_s": "-7.491853088140488",
+          "wheel_actual_left_rad_s": "-7.1756768226623535",
+          "pitch_rad": "0.025798041855658115"
+        },
+        {
+          "tick": "250",
+          "time_s": "5.0",
+          "actual_vx_mps": "-0.4548751413822174",
+          "estimated_vx_mps": "-0.4592442810535431",
+          "wheel_target_left_rad_s": "-8.862382173538208",
+          "wheel_actual_left_rad_s": "-7.660554885864258",
+          "pitch_rad": "0.023874764615663673"
+        },
+        {
+          "tick": "498",
+          "time_s": "9.96",
+          "actual_vx_mps": "-0.4530985653400421",
+          "estimated_vx_mps": "-0.4547958970069885",
+          "wheel_target_left_rad_s": "-8.982057869434357",
+          "wheel_actual_left_rad_s": "-7.090697765350342",
+          "pitch_rad": "0.02720415106305425"
+        }
+      ]
+    },
+    "mujoco": {
+      "sample_count": 500,
+      "steady_sample_count": 399,
+      "steady_window_s": [
+        2.0,
+        9.96
+      ],
+      "statistics": {
+        "actual_vx_mps": -0.4981067893684026,
+        "estimated_vx_mps": -0.47261938019503924,
+        "wheel_target_left_rad_s": -9.167073029922065,
+        "wheel_target_right_rad_s": -9.172998662580524,
+        "wheel_actual_left_rad_s": -7.969817695365952,
+        "wheel_actual_right_rad_s": -7.974763533046776,
+        "pitch_rad": 0.018510002727612027,
+        "tilt_rad": 0.018510033781601758,
+        "base_height_m": 0.1937335315330953,
+        "leg_action_saturation_fraction": 1.0,
+        "vx_estimation_mae_mps": 0.025487409173363316,
+        "vx_estimation_rmse_mps": 0.025489350231236923,
+        "true_vx_only_offline_wheel_target_left_rad_s": -8.963390350341797,
+        "true_vx_only_offline_wheel_target_right_rad_s": -8.833914756774902,
+        "true_xyz_offline_wheel_target_left_rad_s": -8.870105743408203,
+        "true_xyz_offline_wheel_target_right_rad_s": -8.70154094696045
+      },
+      "action_replay_max_abs_error": 1.9073486328125e-06,
+      "estimator_replay_max_abs_error": 4.76837158203125e-07,
+      "samples": [
+        {
+          "tick": "0",
+          "time_s": "0.0",
+          "actual_vx_mps": "0.0",
+          "estimated_vx_mps": "0.053996939212083817",
+          "wheel_target_left_rad_s": "21.32184410095215",
+          "wheel_actual_left_rad_s": "0.0",
+          "pitch_rad": "0.0"
+        },
+        {
+          "tick": "1",
+          "time_s": "0.02000000000000001",
+          "actual_vx_mps": "-0.06988106203483525",
+          "estimated_vx_mps": "0.02770383656024933",
+          "wheel_target_left_rad_s": "25.0",
+          "wheel_actual_left_rad_s": "3.5701312244081542",
+          "pitch_rad": "0.045321081061753705"
+        },
+        {
+          "tick": "5",
+          "time_s": "0.10000000000000007",
+          "actual_vx_mps": "-0.12237739260559632",
+          "estimated_vx_mps": "-0.04255063831806183",
+          "wheel_target_left_rad_s": "-1.4010372161865234",
+          "wheel_actual_left_rad_s": "9.678879296552347",
+          "pitch_rad": "0.1612596203530706"
+        },
+        {
+          "tick": "25",
+          "time_s": "0.5000000000000003",
+          "actual_vx_mps": "-0.41645181856674274",
+          "estimated_vx_mps": "-0.4347342848777771",
+          "wheel_target_left_rad_s": "-7.972928047180176",
+          "wheel_actual_left_rad_s": "-6.604039727754481",
+          "pitch_rad": "0.03497721933308042"
+        },
+        {
+          "tick": "50",
+          "time_s": "1.0000000000000007",
+          "actual_vx_mps": "-0.4840639307125471",
+          "estimated_vx_mps": "-0.4643060266971588",
+          "wheel_target_left_rad_s": "-8.947504997253418",
+          "wheel_actual_left_rad_s": "-7.69839744893897",
+          "pitch_rad": "0.022731230026835577"
+        },
+        {
+          "tick": "100",
+          "time_s": "1.9999999999998905",
+          "actual_vx_mps": "-0.49830382199200823",
+          "estimated_vx_mps": "-0.47255536913871765",
+          "wheel_target_left_rad_s": "-9.171191215515137",
+          "wheel_actual_left_rad_s": "-7.969997324582089",
+          "pitch_rad": "0.018517356619367334"
+        },
+        {
+          "tick": "250",
+          "time_s": "5.000000000000004",
+          "actual_vx_mps": "-0.4983228898168571",
+          "estimated_vx_mps": "-0.4725559651851654",
+          "wheel_target_left_rad_s": "-9.171605110168457",
+          "wheel_actual_left_rad_s": "-7.969968627376614",
+          "pitch_rad": "0.018517522853743123"
+        },
+        {
+          "tick": "498",
+          "time_s": "9.95999999999992",
+          "actual_vx_mps": "-0.4985970241321547",
+          "estimated_vx_mps": "-0.4728499948978424",
+          "wheel_target_left_rad_s": "-9.175169944763184",
+          "wheel_actual_left_rad_s": "-7.978225739734617",
+          "pitch_rad": "0.018378886385244708"
+        }
+      ]
+    }
+  },
+  "training_command_sampling": {
+    "base_height": [
+      0.16,
+      0.24
+    ],
+    "hold_for_episode": true,
+    "mode_probabilities": [
+      0.2,
+      0.3,
+      0.2,
+      0.3
+    ],
+    "vx": [
+      -1.5,
+      1.5
+    ],
+    "yaw_rate": [
+      -1.0,
+      1.0
+    ]
+  },
+  "instrumentation_reproduction": {
+    "post_vx_max_abs_error": 0.0,
+    "raw_action_max_abs_error": 0.0,
+    "isaac_nominal_stand_reward_before": 22.441320539452136,
+    "isaac_nominal_stand_reward_after": 22.441320539452136,
+    "isaac_nominal_stand_reward_abs_difference": 0.0
+  },
+  "protected_files_unchanged": 101,
+  "offline_probe_limit": "Recorded observation replay only; does not demonstrate closed-loop recovery",
+  "evidence_sha256": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\isaac\\nominal_stand.csv": "5BB9DB7AF0AB689EAA8496D896A28233CF997028AD43B93B9FB70E488797CD12",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\isaac\\offline_true_vx_actions.csv": "0861340F6C58FAAAF65EBB8576AC0AB03C414C660E3BDFB81D2BC7B0684BA78D",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\isaac\\policy_inputs.npz": "77267B47B20B8B639CC5EEE3BF2F1126118103A96898CE17F0840FB8F24229EF",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\isaac\\summary.json": "C38B7688A7E1C070A3F22322B7CBF8D344DD07EFFAF59F94B2219333776FCC1D",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\isaac\\trace_identity.json": "0CD37750C1D02C26679E94A76E849CF609262066F7A29199EF1257AD3221374B",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\mujoco\\nominal_stand.csv": "7E7202C8D79B1A8E9999A6B806E6D4A5A5E5AE99D686A8F4B18034EF4ACC137A",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\mujoco\\offline_true_vx_actions.csv": "CF969BD275D2ADC475067B8801F298653300D1AAC38F4F1C213733CBB09B485E",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\mujoco\\policy_inputs.npz": "61E52B5F726601251024DC1B823A803D03F3F67C997F640518732368C7359634",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\mujoco\\runtime_identity.json": "FC9241ECD6B3D72CA744AB8AE07DD33A0461C89A8D3161CBAD39C82C9607D105",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\mujoco\\trace_identity.json": "A5089895E8AF995289F03387B0E50F7A24019BED8382BFBEE99B1EFEF5D8D17A"
+  }
+}

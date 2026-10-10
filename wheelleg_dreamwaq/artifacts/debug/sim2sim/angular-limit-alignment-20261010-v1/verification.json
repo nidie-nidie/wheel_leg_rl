@@ -1,0 +1,38 @@
+{
+  "schema_version": "AngularAlignmentVerificationV1",
+  "passed": true,
+  "verified_at": "2026-10-10T13:52:11.724758+00:00",
+  "tests_passed": 40,
+  "policy_scenarios_completed": 32,
+  "golden_max_abs_errors": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "immutable_old_artifacts": 28,
+  "architecture_sha256": "FDEF463B22E88F4C219791F0CA019AAAB5F9D2FE7DF47B96EE91B6E240F54225",
+  "analysis_provenance_files_verified": 99,
+  "artifacts_sha256": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\analyze_100rad_candidate.py": "5EFCDB4699731A0F533E96E5319571A15D1AD5EC5276A8D7FE3949915633E30E",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\analyze_aligned_results.py": "2605F56388DDFF43C493EAD8ED8C0A5BCE85404E36E3D26CBAE9FD720A0CEBF1",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\check_100rad_candidate.py": "16BA42FA9E401D5337E2D8212473DD5D49BB13B684AD0292BFC9D415C40F33A5",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\check_mujoco_limit_candidate.py": "D1C18B06C67F8E02D9D3CB53AE67C9A58B0EF2B2713428D261DD4D3AC51E3943",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\probe_isaac_100rad.py": "C4890446379272D0AB9C1A29028A8271191D114C7CAAD831AB9779633091E7B5",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\probe_mujoco_aligned.py": "7A24605B5001349193082BEC535124F1DE813BC55F6438EE5CB7DB66F3BD6F9B",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\probe_mujoco_limit.py": "8A3767D6845F48FCB0E178D62EDDDBF8AF19D460BB8C20279C726D8E2B324175",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\run_aligned_verification.py": "13224746486C0DBAEA967EE825E7664FCE8345BEEC5701AC1C83F29E63E73AF4",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\verify_results.py": "2B2C44CFC33F86AACE13D7DAA00CDFD8B5B95C6083AD23EFFBF855690B7E04B0",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\write_report.py": "1B76FF59160F39BA82E4F1EEAA2504D85F24F07BD5F40D2553166754E074C463",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\analysis.json": "F7235D0A5D4639D7FA9E48A06A0DE4C6E77D5B9A3C2AA000598CFC08463EF1D4",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\aligned-execution.json": "BC8E6FA339ED4AEEC8FCDDC6E2D81C2E7370783F74E0A137D31A39E7053B4A07",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\candidate-analysis.json": "920E931009DBEE995031BE47276C1BE7D0B7A8E36AB99C55971CCB03C15DAD1B",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\candidate-execution.json": "5C71F94827BA6A177CAA0D0F8B33B362F7711250860F1A19873A665E6DB0090A",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-candidate-execution.json": "EC84514869DC0E26BDB89E799941AF15563F170DEE7019223F2DC0A70F18B5EB",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-ranking-summary.json": "419A8C1CB6511C42E3E51059434538EECD73DCF34187C3631ABDA4D21CA818E2",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\production-changes.diff": "8FE139F890A18C25E14CC9C45E189420F744D390AB985E1CB73952A25D7ED69A",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\report.md": "9D0C6CB6526EE4E4BB8C29DEDBC0896CF89103DBE6A9A87F494348C14B09F832",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\physx-5.6.1-forwardDynamic2.cu": "FD19446E148E29F74BF937A44C8032860658E60640AD0925EAF480751388B2B8",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\protected-before.json": "9418AA310C77B0EE4EF1976DA858B146295AD79D0940A5412990536FB0C7FFCF"
+  }
+}

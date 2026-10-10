@@ -1,0 +1,32 @@
+{
+  "schema_version": "WheelLegBodyMappingV1",
+  "bodies": [
+    {"canonical": "base", "isaac": "base_link", "mujoco": "base", "source_audit": "base_link"},
+    {"canonical": "jIO", "isaac": "jIO", "mujoco": "jIO", "source_audit": "jIO"},
+    {"canonical": "jOP", "isaac": "jOP", "mujoco": "jOP", "source_audit": "jOP"},
+    {"canonical": "jwheel_left", "isaac": "jwheel_left", "mujoco": "jwheel_left", "source_audit": "jwheel_left"},
+    {"canonical": "jIO_dummy_child_link1", "isaac": "jIO_dummy_child_link1", "mujoco": "jIO_dummy_child_link1", "source_audit": "jIO_dummy_child_link1"},
+    {"canonical": "jIO_dummy_child_link2", "isaac": "jIO_dummy_child_link2", "mujoco": "jIO_dummy_child_link2", "source_audit": "jIO_dummy_child_link2"},
+    {"canonical": "jAG", "isaac": "jAG", "mujoco": "jAG", "source_audit": "jAG"},
+    {"canonical": "jGH", "isaac": "jGH", "mujoco": "jGH", "source_audit": "jGH"},
+    {"canonical": "jwheel_right", "isaac": "jwheel_right", "mujoco": "jwheel_right", "source_audit": "jwheel_right"},
+    {"canonical": "jAG_dummy_child_link1", "isaac": "jAG_dummy_child_link1", "mujoco": "jAG_dummy_child_link1", "source_audit": "jAG_dummy_child_link1"},
+    {"canonical": "jAG_dummy_child_link2", "isaac": "jAG_dummy_child_link2", "mujoco": "jAG_dummy_child_link2", "source_audit": "jAG_dummy_child_link2"},
+    {"canonical": "jIJ", "isaac": "jIJ", "mujoco": "jIJ", "source_audit": "jIJ"},
+    {"canonical": "jJM", "isaac": "jJM", "mujoco": "jJM", "source_audit": "jJM"},
+    {"canonical": "jMK", "isaac": "jMK", "mujoco": "jMK", "source_audit": "jMK"},
+    {"canonical": "jKN", "isaac": "jKN", "mujoco": "jKN", "source_audit": "jKN"},
+    {"canonical": "jKN_dummy_child_link1", "isaac": "jKN_dummy_child_link1", "mujoco": "jKN_dummy_child_link1", "source_audit": "jKN_dummy_child_link1"},
+    {"canonical": "jKN_dummy_child_link2", "isaac": "jKN_dummy_child_link2", "mujoco": "jKN_dummy_child_link2", "source_audit": "jKN_dummy_child_link2"},
+    {"canonical": "jMK_dummy_child1", "isaac": "jMK_dummy_child1", "mujoco": "jMK_dummy_child1", "source_audit": "jMK_dummy_child1"},
+    {"canonical": "jMK_dummy_child2", "isaac": "jMK_dummy_child2", "mujoco": "jMK_dummy_child2", "source_audit": "jMK_dummy_child2"},
+    {"canonical": "jAB", "isaac": "jAB", "mujoco": "jAB", "source_audit": "jAB"},
+    {"canonical": "jBE", "isaac": "jBE", "mujoco": "jBE", "source_audit": "jBE"},
+    {"canonical": "jEC", "isaac": "jEC", "mujoco": "jEC", "source_audit": "jEC"},
+    {"canonical": "jCF", "isaac": "jCF", "mujoco": "jCF", "source_audit": "jCF"},
+    {"canonical": "jCF_dummy_child_link1", "isaac": "jCF_dummy_child_link1", "mujoco": "jCF_dummy_child_link1", "source_audit": "jCF_dummy_child_link1"},
+    {"canonical": "jCF_dummy_child_link2", "isaac": "jCF_dummy_child_link2", "mujoco": "jCF_dummy_child_link2", "source_audit": "jCF_dummy_child_link2"},
+    {"canonical": "jEC_dummy_child_link1", "isaac": "jEC_dummy_child_link1", "mujoco": "jEC_dummy_child_link1", "source_audit": "jEC_dummy_child_link1"},
+    {"canonical": "jEC_dummy_child_link2", "isaac": "jEC_dummy_child_link2", "mujoco": "jEC_dummy_child_link2", "source_audit": "jEC_dummy_child_link2"}
+  ]
+}

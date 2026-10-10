@@ -1,0 +1,52 @@
+{
+  "command": [
+    0.0,
+    0.0,
+    0.2
+  ],
+  "control_dt_s": 0.02,
+  "control_ticks": 500,
+  "domain_randomization": false,
+  "external_disturbance": false,
+  "frozen_files": {
+    "actor": {
+      "path": "artifacts/phase1_v4/formal-4x1000-20261005/exports/run-01/actor.ts",
+      "sha256": "5B714AF635AE3C93BD86853BD9141F0B8888BB49C0F275CBCCD531B6AF53B9BC"
+    },
+    "checkpoint": {
+      "path": "logs/rsl_rl/wheelleg_flat_ppo/2026-10-05_07-11-36_rtx5070_v4-suite-20261005-071132-run01-seed250509479/model_999.pt",
+      "sha256": "04E040272EE3D2682DEFA053062D1EBE9AB3D13652DBC8D4760773A23A58197E"
+    },
+    "model_manifest": {
+      "path": "sim2sim/mujoco/model_manifest.json",
+      "sha256": "C3DB4FE2797F6AC3628F0A9CB5E0B166FFD0CE802776A335922C474A045F7AE0"
+    },
+    "model_xml": {
+      "path": "sim2sim/mujoco/models/wheel_leg_urdf4_v1.xml",
+      "sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1"
+    },
+    "policy_manifest": {
+      "path": "artifacts/phase1_v4/formal-4x1000-20261005/exports/run-01/policy_manifest.json",
+      "sha256": "EC9F42FD7BD5176D1B6865D0A3D67A6B49103899FE44BB056F16E9D048BA90F1"
+    },
+    "source_run_manifest": {
+      "path": "logs/rsl_rl/wheelleg_flat_ppo/2026-10-05_07-11-36_rtx5070_v4-suite-20261005-071132-run01-seed250509479/run_manifest.json",
+      "sha256": "CD3DA566179885DD628A09DC66BD57B17F177C00018FA1EF4F93EABD867A87C7"
+    }
+  },
+  "hold_command": true,
+  "initial_yaw_rad": 0.0,
+  "name": "nominal_stand_debug_v1",
+  "num_envs": 1,
+  "previous_action": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "random_seed": 0,
+  "scenario_hash": "B9F7D938F9FA2769E979364AA33BE4FEB71978F563D45B45BFBC2F76AEA8E056",
+  "scenario_version": "StandScenarioV1"
+}

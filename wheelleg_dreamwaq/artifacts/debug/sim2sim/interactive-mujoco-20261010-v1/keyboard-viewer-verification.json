@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "press_keys_verified": "WSADQEXRP + Escape",
+  "release_ignored": true,
+  "native_display_shortcuts_installed": false,
+  "visual_flags_changed": false,
+  "physics_state_and_external_force_changed": false,
+  "validation": "Calls the same handler registered with GLFW; renders the real OpenGL window"
+}

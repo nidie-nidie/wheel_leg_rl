@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "E:\wheel_leg_rl-main\wheelleg_dreamwaq\scripts\check_unrestricted_dynamics.py", line 184, in <module>
+    main()
+  File "E:\wheel_leg_rl-main\wheelleg_dreamwaq\scripts\check_unrestricted_dynamics.py", line 120, in main
+    actual = params[parameter][:, actuator.joint_indices]
+             ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: indices should be either on cpu or on the same device as the indexed tensor (cpu)

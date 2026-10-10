@@ -10,8 +10,8 @@
   "adapters": {
     "action": {
       "implementation_file": "wheelleg_mujoco/control.py",
-      "implementation_sha256": "83080BC57A0399B11610CE5E06B4F607ADA1C0FB995344E23E531658EBBEFD62",
-      "version": "MujocoActionAdapterV1"
+      "implementation_sha256": "F5A79CE5210BC887F6E3BCA21B58865D0C951B163CE555CC1A1D66D63E5926D1",
+      "version": "MujocoActionAdapterV2"
     },
     "observation": {
       "implementation_file": "wheelleg_mujoco/observation.py",

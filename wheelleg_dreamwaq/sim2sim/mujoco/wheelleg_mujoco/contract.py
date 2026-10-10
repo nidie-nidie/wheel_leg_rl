@@ -7,8 +7,9 @@ from pathlib import Path
 
 import numpy as np
 
-from .versions import ACTION_ADAPTER_VERSION, OBSERVATION_ADAPTER_VERSION
+from .versions import ACTION_ADAPTER_VERSION, HISTORY_ADAPTER_VERSION, OBSERVATION_ADAPTER_VERSION
 from .model_semantics import stable_hash
+from .physics import PHYSICS_SCHEMA_VERSION, validate_policy_physics
 
 
 def sha256_file(path: Path) -> str:
@@ -39,18 +40,20 @@ class AdapterContract:
     leg_kd: float
     wheel_kd: float
     effort_limits: np.ndarray
-    velocity_limits: np.ndarray
-    passive_velocity_limit: float
     physics_dt_s: float
     physics_steps_per_action: int
     control_dt_s: float
+    policy_input_dimension: int = 25
+    history_length: int = 1
+    history_layout: str = "current_frame"
+    isaac_physics_dt_s: float = 0.005
 
     @classmethod
     def from_policy_manifest(cls, payload: dict) -> "AdapterContract":
+        validate_policy_physics(payload)
         actuators = payload["actuators"]
         legs = actuators["legs"]
         wheels = actuators["wheels"]
-        passive = actuators["passive"]
         timing = payload["timing"]
         action = payload["action"]
         control = payload["control"]
@@ -71,14 +74,13 @@ class AdapterContract:
                 [float(legs["effort_limit_sim"])] * 4 + [float(wheels["effort_limit_sim"])] * 2,
                 dtype=np.float64,
             ),
-            velocity_limits=np.asarray(
-                [float(legs["velocity_limit_sim"])] * 4 + [float(wheels["velocity_limit_sim"])] * 2,
-                dtype=np.float64,
-            ),
-            passive_velocity_limit=float(passive["velocity_limit_sim"]),
             physics_dt_s=float(timing["mujoco_physics_dt_s"]),
             physics_steps_per_action=int(timing["mujoco_physics_steps_per_action"]),
             control_dt_s=float(timing["control_dt_s"]),
+            policy_input_dimension=int(payload["network"]["input_dimension"]),
+            history_length=int(payload["network"].get("history_length", 1)),
+            history_layout=str(payload["network"].get("history_layout", "current_frame")),
+            isaac_physics_dt_s=float(timing["isaac_sim_dt_s"]),
         )
 
 
@@ -100,14 +102,56 @@ def load_policy_contract(
         "control_frame": "ControlFrameV1",
         "critic_observation": "CriticObsV1",
         "normalization": "NormalizationV2",
-        "physics": "PhysicsV4",
+        "physics": PHYSICS_SCHEMA_VERSION,
         "reward": "RewardSchemaV2",
         "virtual_leg_kinematics": "VirtualLegKinematicsV1",
     }
-    if manifest.get("schema_version") != "PpoActorExportV1" or manifest.get("schemas") != expected_schemas:
+    schemas = manifest.get("schemas")
+    schema_version = manifest.get("schema_version")
+    if (
+        schema_version not in {"PpoActorExportV1", "DreamWaQPolicyExportV1"}
+        or not isinstance(schemas, dict)
+        or any(schemas.get(key) != value for key, value in expected_schemas.items())
+    ):
         raise ValueError("Unsupported policy manifest schema")
-    if manifest["network"]["input_dimension"] != 25 or manifest["network"]["output_dimension"] != 6:
-        raise ValueError("Policy manifest dimensions do not match ActorObsV1/ActionV1")
+    if manifest.get("phase1_contract_version") == "Phase1RandomizedContractV1":
+        if schemas.get("randomization") != "RandomizationSchemaV1":
+            raise ValueError("Randomized policy manifest is missing RandomizationSchemaV1")
+    if manifest["network"]["output_dimension"] != 6:
+        raise ValueError("Policy manifest output dimension does not match ActionV1")
+    if schema_version == "PpoActorExportV1":
+        if manifest["network"]["input_dimension"] != 25:
+            raise ValueError("PPO policy manifest input dimension does not match ActorObsV1")
+    else:
+        network = manifest["network"]
+        if (
+            network.get("input_dimension") != 125
+            or network.get("history_length") != 5
+            or network.get("current_observation_dimension") != 25
+            or network.get("history_layout") != "frame_major"
+            or network.get("dynamic_batch") is not True
+            or manifest.get("history_adapter_version") != HISTORY_ADAPTER_VERSION
+        ):
+            raise ValueError("DreamWaQ policy manifest history contract is invalid")
+        required_contract_fields = {
+            "base_task_contract_hash",
+            "dreamwaq_algorithm_contract_hash",
+            "dreamwaq_export_contract_hash",
+        }
+        if any(not isinstance(manifest.get(field), str) or len(manifest[field]) != 64 for field in required_contract_fields):
+            raise ValueError("DreamWaQ policy manifest contract hashes are missing")
+        golden_name = manifest.get("golden_vectors_file")
+        if golden_name != "golden_vectors.pt":
+            raise ValueError("DreamWaQ policy manifest golden-vector filename is invalid")
+        golden_path = manifest_path.parent / golden_name
+        if not golden_path.is_file() or sha256_file(golden_path) != manifest.get("golden_vectors_sha256"):
+            raise ValueError("DreamWaQ golden-vector artifact hash differs from the policy manifest")
+        if {path.name for path in manifest_path.parent.iterdir()} != {
+            "actor.ts",
+            "policy_manifest.json",
+            "golden_vectors.pt",
+        }:
+            raise ValueError("DreamWaQ export directory must contain exactly the frozen three artifacts")
     if manifest["action"]["canonical_joint_order"] != [
         "jIJ", "jIO", "jAB", "jAG", "jwheel_left", "jwheel_right"
     ]:

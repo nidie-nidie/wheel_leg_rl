@@ -1,0 +1,33 @@
+{
+  "actor_sha256": "5B714AF635AE3C93BD86853BD9141F0B8888BB49C0F275CBCCD531B6AF53B9BC",
+  "cross_engine_input_max_abs_error": 1.2965159612576826e-08,
+  "cross_engine_input_rms_error": 4.224892396547083e-09,
+  "device": "cpu",
+  "dtype": "float32",
+  "evaluation_identity_failures": [],
+  "input_run_hashes": {
+    "isaac_control_trace": "4A6B28B63FCA633DA9CD63D36A71ED686B301CE8D82AECB93E1486838E615F70",
+    "isaac_metadata": "3C7F2F55BD57578A93B05C134A0037705B88EF3F004D56AA9A419994667204CE",
+    "mujoco_control_trace": "41C5D6B7E937BA11B0358431058ABA73DACAD61E5896BC6136A30513D9E35478",
+    "mujoco_metadata": "626D48C9BF40F3FFFDC7E3E97474100787BD096EC75CD7E5D18CBF5B351A97D8"
+  },
+  "isaac_evaluation_versions": {
+    "numpy": "1.26.0",
+    "python": "3.11.16",
+    "torch": "2.7.0+cu128"
+  },
+  "mujoco_evaluation_versions": {
+    "numpy": "2.4.6",
+    "python": "3.11.16",
+    "torch": "2.7.0+cpu"
+  },
+  "passed": true,
+  "report_hash": "8C9351743F706526EF7985106878BF92F242CEBE0AD4EE51E3EDC77FAA9F4AD2",
+  "run_identity_failures": [],
+  "same_input_limit": 1e-06,
+  "same_input_output_max_abs_error": 0.0,
+  "schema_version": "ActorCpuIdentityGateV1",
+  "serialized_input_sha256": "E3D02A2842D766F73B83545AFE796EF2036ED4FC1BA1473D51A154401B90392A",
+  "stored_runtime_output_max_abs_error": 3.5762786865234375e-07,
+  "tick": 0
+}

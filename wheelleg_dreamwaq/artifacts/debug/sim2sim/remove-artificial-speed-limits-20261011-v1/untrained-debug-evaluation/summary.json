@@ -1,0 +1,88 @@
+{
+  "aggregate": {
+    "completed_scenarios": 1,
+    "full_survival": true,
+    "metrics": {
+      "action_saturation_fraction": 0.0,
+      "effort_saturation_fraction": 0.0,
+      "height_mae": 0.010129349543050725,
+      "max_loop_closure_error_m": 8.597871878049391e-05,
+      "max_tilt_rad": 0.014626446737052762,
+      "phi0_delta_rms": 0.013786577328448,
+      "pitch_rms": 0.011422615813757735,
+      "roll_rms": 0.0023054030370569054,
+      "vx_mae": 0.032988633492593254,
+      "yaw_drift_rms": 0.004148894165646193,
+      "yaw_rate_mae": null
+    },
+    "run_id": "1967D1B692D8",
+    "scenario_count": 1,
+    "scenarios": [
+      {
+        "action_saturation_fraction": 0.0,
+        "command": [
+          0.0,
+          0.0,
+          0.2
+        ],
+        "completed": true,
+        "effort_saturation_fraction": 0.0,
+        "expected_ticks": 2,
+        "failure_reason": null,
+        "height_mae": 0.010129349543050725,
+        "height_max_abs_error": 0.010140809585043764,
+        "initial_yaw_rad": 0.0,
+        "max_loop_closure_error_m": 8.597871878049391e-05,
+        "max_tilt_rad": 0.014626446737052762,
+        "name": "nominal_stand",
+        "phi0_delta_max_abs": 0.018095046577206286,
+        "phi0_delta_rms": 0.013786577328448,
+        "pitch_max_abs": 0.014287590898987774,
+        "pitch_rms": 0.011422615813757735,
+        "prefix_score": 0.4487207928683818,
+        "roll_max_abs": 0.003130232769769307,
+        "roll_rms": 0.0023054030370569054,
+        "survival_fraction": 1.0,
+        "ticks": 2,
+        "vx_mae": 0.032988633492593254,
+        "yaw_drift_max_abs": 0.005219367570230615,
+        "yaw_drift_rms": 0.004148894165646193,
+        "yaw_rate_mae": null
+      }
+    ],
+    "score": 0.4487207928683818,
+    "survival_fraction": 1.0
+  },
+  "debug_model": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\remove-artificial-speed-limits-20261011-v1\\untrained-debug-evaluation\\models\\wheel_leg_formal_1ms_debug.xml",
+  "debug_model_sha256": "A96E4DCB49BF0CC54A1B0763211ACC1FEBF4C0B028E543C9C50405482AA65889",
+  "debug_only": true,
+  "expected_ticks_per_scenario": 2,
+  "formal_model": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\models\\wheel_leg_urdf4_v1.xml",
+  "formal_model_sha256_after": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "formal_model_sha256_before": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "formal_ranking_eligible": false,
+  "policy": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\remove-artificial-speed-limits-20261011-v1\\untrained-export-loader-smoke\\export\\actor.ts",
+  "policy_kind": "dreamwaq",
+  "policy_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\remove-artificial-speed-limits-20261011-v1\\untrained-export-loader-smoke\\export\\policy_manifest.json",
+  "policy_manifest_sha256": "FFBCF9D1A5A3E616B51766DC2DD4541B82EA378CEFD30D4E36AD55F596594BB1",
+  "policy_sha256": "E5A2095B29C7094267BC2E5584B39F104339C456047D3F744A90477F8C8ACBD1",
+  "report_hash": "19A649AAEDA7A7AA97A691CCA6BB6517930BCBCB0B0DF01EDF159FA2A9CC2E55",
+  "scenario_files": {
+    "nominal_stand": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\remove-artificial-speed-limits-20261011-v1\\untrained-debug-evaluation\\nominal_stand.csv",
+      "sha256": "05DF3340AA145A1D8F207759CC4A5A89BF521131C0C4D8E84D19CD10104D48EC"
+    }
+  },
+  "scenario_order": [
+    "nominal_stand"
+  ],
+  "schema_version": "DebugMujocoTimingEvaluationV1",
+  "source_checkpoint_sha256": "1967D1B692D8227300E3AE803D95059D05860A90D91457B80A322EAC8B81D3C9",
+  "timing_profile": {
+    "control_dt_s": 0.02,
+    "name": "formal_1ms",
+    "physics_dt_s": 0.001,
+    "physics_steps_per_action": 20,
+    "torque_refresh_substeps": 1
+  }
+}

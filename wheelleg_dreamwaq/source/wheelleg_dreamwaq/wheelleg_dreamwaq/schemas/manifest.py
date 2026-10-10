@@ -33,14 +33,33 @@ from wheelleg_dreamwaq.schemas.observation import (
     ActorObsSlices,
     CriticObsSlices,
 )
-from wheelleg_dreamwaq.schemas.physics import PHYSICS_SCHEMA_VERSION
+from wheelleg_dreamwaq.schemas.physics import PHYSICS_SCHEMA_VERSION, unrestricted_velocity_policy
+from wheelleg_dreamwaq.schemas.randomization import (
+    CLOSED_CHAIN_RESET_CACHE_SCHEMA_VERSION,
+    RANDOMIZATION_SCHEMA_VERSION,
+    RandomizationProfileV1,
+    closed_chain_reset_contract_payload,
+    profile_contract_hash,
+    profile_contract_payload,
+)
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.commands import COMMAND_SAMPLING_VERSION, CommandRanges
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.control import ControlLimits
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.rewards import REWARD_SCHEMA_VERSION, RewardWeights
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.terminations import TerminationLimits
 
 
-PHASE1_CONTRACT_VERSION = "Phase1ContractV4"
+PHASE1_CONTRACT_VERSION = "Phase1RandomizedContractV3"
+HISTORICAL_RANDOMIZED_PHASE1_CONTRACT_VERSION = "Phase1RandomizedContractV2"
+LEGACY_RANDOMIZED_PHASE1_CONTRACT_VERSION = "Phase1RandomizedContractV1"
+HISTORICAL_PHASE1_CONTRACT_VERSION = "Phase1ContractV4"
+SUPPORTED_PHASE1_CONTRACT_VERSIONS = frozenset(
+    (
+        HISTORICAL_PHASE1_CONTRACT_VERSION,
+        HISTORICAL_RANDOMIZED_PHASE1_CONTRACT_VERSION,
+        LEGACY_RANDOMIZED_PHASE1_CONTRACT_VERSION,
+        PHASE1_CONTRACT_VERSION,
+    )
+)
 
 
 class ContractMismatchError(RuntimeError):
@@ -118,6 +137,7 @@ def build_phase1_contract(
     control: ControlLimits,
     commands: CommandRanges,
     normalization: NormalizationV1,
+    randomization: RandomizationProfileV1,
     reward_weights: RewardWeights,
     termination: TerminationLimits,
     actor_hidden_dims: tuple[int, ...] | list[int],
@@ -132,7 +152,7 @@ def build_phase1_contract(
 ) -> dict[str, Any]:
     if asset_bundle_hash != ASSET_BUNDLE_V2.bundle_hash:
         raise ValueError(
-            f"Phase1ContractV4 requires {ASSET_BUNDLE_V2.version} hash "
+            f"{PHASE1_CONTRACT_VERSION} requires {ASSET_BUNDLE_V2.version} hash "
             f"{ASSET_BUNDLE_V2.bundle_hash}, got {asset_bundle_hash}"
         )
     virtual_leg = build_virtual_leg_contract()
@@ -163,6 +183,8 @@ def build_phase1_contract(
             "physics": PHYSICS_SCHEMA_VERSION,
             "reward": REWARD_SCHEMA_VERSION,
             "virtual_leg_kinematics": VIRTUAL_LEG_KINEMATICS_VERSION,
+            "randomization": RANDOMIZATION_SCHEMA_VERSION,
+            "closed_chain_reset_cache": CLOSED_CHAIN_RESET_CACHE_SCHEMA_VERSION,
         },
         "action": {
             "dimension": ACTION_DIM,
@@ -202,6 +224,32 @@ def build_phase1_contract(
             "r_control_from_imu": R_CONTROL_FROM_IMU.tolist(),
         },
         "normalization": asdict(normalization),
+        "randomization": {
+            "profile_contract": profile_contract_payload(randomization),
+            "profile_hash": profile_contract_hash(randomization),
+            "process_start_fields": [
+                "wheel_friction",
+                "active_leg_reference",
+                "active_joint_kp_scale",
+                "active_joint_kd_scale",
+                "active_joint_effort_limit_scale",
+            ],
+            "episode_reset_fields": ["root_linear_velocity", "root_angular_velocity", "command"],
+            "observation_step_fields": ["actor_observation_noise"],
+            "reset_joint_state": {
+                "active_leg_position": "per_environment_q_reference",
+                "wheel_position": "closed_chain_reset_cache",
+                "passive_position": "closed_chain_reset_cache",
+                "all_joint_velocity": "zero",
+                "root_height": "closed_chain_reset_cache",
+                "passive_position_target": "none",
+                "passive_velocity_target": "zero",
+                "passive_stiffness": 0.0,
+                "passive_damping": 0.05,
+            },
+            "closed_chain_reset_cache": closed_chain_reset_contract_payload(sim_dt=sim_dt),
+            "resume": "load_source_dual_tensor_cache_restore_rng_then_full_environment_reset_v3",
+        },
         "virtual_leg": virtual_leg,
         "task": {
             "sim_dt": sim_dt,
@@ -213,6 +261,7 @@ def build_phase1_contract(
                 "control_dt": sim_dt * decimation,
                 "solver_position_iterations": solver_position_iterations,
                 "solver_velocity_iterations": solver_velocity_iterations,
+                "velocity_limit_policy": unrestricted_velocity_policy(),
             },
             "episode_length_s": episode_length_s,
             "is_finite_horizon": is_finite_horizon,
@@ -301,6 +350,7 @@ def build_phase1_contract_from_configs(
         control=env_cfg.control,
         commands=env_cfg.commands,
         normalization=env_cfg.normalization,
+        randomization=env_cfg.randomization,
         reward_weights=env_cfg.reward_weights,
         termination=env_cfg.termination,
         actor_hidden_dims=agent_cfg.policy.actor_hidden_dims,
@@ -317,10 +367,10 @@ def build_phase1_contract_from_configs(
 
 def validate_contract(saved: dict[str, Any], current: dict[str, Any]) -> None:
     for label, contract in (("saved", saved), ("current", current)):
-        if contract.get("manifest_version") != PHASE1_CONTRACT_VERSION:
+        if contract.get("manifest_version") not in SUPPORTED_PHASE1_CONTRACT_VERSIONS:
             raise ContractMismatchError(
                 f"{label} contract version is {contract.get('manifest_version')!r}, "
-                f"expected {PHASE1_CONTRACT_VERSION!r}"
+                f"expected one of {sorted(SUPPORTED_PHASE1_CONTRACT_VERSIONS)!r}"
             )
         embedded_hash = contract.get("contract_hash")
         calculated_hash = _stable_hash(_payload_without_hash(contract))
@@ -329,6 +379,11 @@ def validate_contract(saved: dict[str, Any], current: dict[str, Any]) -> None:
                 f"{label} contract embedded hash is invalid: {embedded_hash!r} != {calculated_hash!r}"
             )
 
+    if saved["manifest_version"] != current["manifest_version"]:
+        raise ContractMismatchError(
+            "Checkpoint contract version does not match the current runtime: "
+            f"{saved['manifest_version']!r} != {current['manifest_version']!r}"
+        )
     if saved["contract_hash"] != current["contract_hash"]:
         difference = _first_difference(_payload_without_hash(saved), _payload_without_hash(current))
         raise ContractMismatchError(

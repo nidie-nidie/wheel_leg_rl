@@ -1,0 +1,96 @@
+{
+  "passed": true,
+  "suite_id": "20261010-001232",
+  "suite_sha256": "A735E52308DE98A88401F5D8363EB362E9F91361DB569E2290F6CC2A1E15649E",
+  "seeds": [
+    1375451991,
+    1145850885,
+    1380466594,
+    342388981
+  ],
+  "runs": [
+    {
+      "run": 1,
+      "seed": 1375451991,
+      "checkpoint_sha256": "D15A2CFC5473234010B7C322E0C8FD8F22BAD888A6A10D673DC8ECB17B4DA342",
+      "training_duration_s": 2743.1014308999293,
+      "isaac_mean_return": 18.4621367057116,
+      "isaac_8_of_8": true,
+      "velocity_mse": 0.0009206561180380339,
+      "baseline_not_worse": false,
+      "mujoco_completed": 0,
+      "mujoco_survival_fraction": 0.11275,
+      "mujoco_score": 6.567744857091392,
+      "warnings": [
+        "phi0_symmetry_degraded"
+      ],
+      "hard_anomalies": [],
+      "isaac_report_sha256": "34E0BBF409F943A8EF31CA6BDA86D4C18B12CD88CCCF135373EC5C4C79F811ED",
+      "mujoco_report_sha256": "D3F9C3C00A557CF607B420C5D8D0D7A2954743A2C8466AAD790E61597204455F"
+    },
+    {
+      "run": 2,
+      "seed": 1145850885,
+      "checkpoint_sha256": "72042AE31B788146B397B23F151EC73E7F5A7FF9D564D2C9429B577F4E9F3A71",
+      "training_duration_s": 2743.9206407999154,
+      "isaac_mean_return": 18.904808772334945,
+      "isaac_8_of_8": true,
+      "velocity_mse": 0.001265106534052817,
+      "baseline_not_worse": false,
+      "mujoco_completed": 0,
+      "mujoco_survival_fraction": 0.11325,
+      "mujoco_score": 3.9456635363588863,
+      "warnings": [
+        "phi0_symmetry_degraded"
+      ],
+      "hard_anomalies": [],
+      "isaac_report_sha256": "3D91E6A943F68BA772D6E5DCE777A743A222D9EA6473669EE52695474AE28C22",
+      "mujoco_report_sha256": "5742B60E7F15357A36D3FFD08E3FEFDD9A81B130030B97147B4EDA18B0EF54C9"
+    },
+    {
+      "run": 3,
+      "seed": 1380466594,
+      "checkpoint_sha256": "37E2481BAE5A8CFD108ECDC35870F08D98E30E40FDEC73C23F2B69D17245F130",
+      "training_duration_s": 2744.054098600056,
+      "isaac_mean_return": 22.01398709625937,
+      "isaac_8_of_8": true,
+      "velocity_mse": 0.0013857206003320495,
+      "baseline_not_worse": false,
+      "mujoco_completed": 0,
+      "mujoco_survival_fraction": 0.101,
+      "mujoco_score": 2.76343658497244,
+      "warnings": [],
+      "hard_anomalies": [],
+      "isaac_report_sha256": "D613AACA9065A6E23CB789DD81EE00FBA1E8675EB81C6A01432E9748DFA5F7BF",
+      "mujoco_report_sha256": "9CAA936524BDFFD2A33DBE51E50AF0540A11A16DE60076025F7D22E872E9A476"
+    },
+    {
+      "run": 4,
+      "seed": 342388981,
+      "checkpoint_sha256": "89926828678CC28E0B0BA5A8463181395E0BE95E5961F7C7A65640243D5DC5FD",
+      "training_duration_s": 2735.754233099986,
+      "isaac_mean_return": 22.000675007255268,
+      "isaac_8_of_8": true,
+      "velocity_mse": 0.0013352788994262963,
+      "baseline_not_worse": false,
+      "mujoco_completed": 0,
+      "mujoco_survival_fraction": 0.10200000000000001,
+      "mujoco_score": 2.652485846065637,
+      "warnings": [],
+      "hard_anomalies": [],
+      "isaac_report_sha256": "065DD41EE300E69608AE48850366AD56DBE338AC06F747010DB7AEA16FCB677C",
+      "mujoco_report_sha256": "5AFC633D8F234BC6D1EB5260D5719B6E0E5AF226B4FE76D454CDCBBA8E153C5F"
+    }
+  ],
+  "all_32_mujoco_csv_hashes_verified": true,
+  "mujoco_ranking_best_run": "72042AE31B78",
+  "training_monitor_gate": {
+    "hard_anomalies": [],
+    "status": "warning",
+    "warnings": [
+      "phi0_symmetry_degraded"
+    ]
+  },
+  "training_acceptance_gate": "all four trained/context/velocity valid; baseline comparison failed for all four",
+  "scope": "fresh reset-v2 training and post-training sim2sim verification; formal RootCauseSuite G00/G01/G02 remains separate"
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": "ViewerBaseGroundContactDebugV1",
+  "formal_source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\models\\wheel_leg_urdf4_v1.xml",
+  "formal_source_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "debug_model": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\interactive-mujoco-20261010-v1\\models\\base_contact_debug.xml",
+  "debug_model_sha256": "F99C5553F665B0344F385F2C4A9D6E8AD9ECDFC1F1EA03D6A5E363556E7EDD9D",
+  "added_contact_pair": {
+    "name": "floor_base_debug",
+    "geom1": "floor",
+    "geom2": "base_proxy",
+    "dimension": 3,
+    "friction": [
+      1.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "solref": [
+      0.004,
+      1.0
+    ],
+    "solreffriction": [
+      0.0,
+      0.0
+    ],
+    "solimp": [
+      0.95,
+      0.99,
+      0.001,
+      0.5,
+      2.0
+    ]
+  },
+  "other_compiled_dynamics_unchanged": true,
+  "note": "Approximate existing base_proxy box; viewer experiment, not a formal evaluation model"
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "StandingDiagnosticVerificationV1",
+  "passed": true,
+  "sample_counts": {
+    "isaac": 499,
+    "mujoco": 500
+  },
+  "protected_files_unchanged": 101,
+  "history_and_previous_action_alignment": "exact",
+  "pre_post_velocity_alignment": "exact",
+  "isaac_final_auto_reset_state": "excluded from post-action comparison",
+  "source_actor_and_estimator_replay": "passed below 1e-5",
+  "formal_files_changed": [],
+  "diagnostic_sources": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\analyze.py": "CFC3F315CF3321AC35FD69C65A0D5FA9889A8E756DB1ABD9B59323F277D0BB4C",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\plot_trace.py": "0AC838501605F8A39AB61AEF3F69BAB27E410B89D3B0E1FEEBD0166047B4F25C",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\probe_isaac.py": "E57E355449F43D7625832FCC2EB44B59DDCCDF4F1D8CFD272B8565DD8D8FAAFE",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\probe_mujoco.py": "AA601295D7444B7AFBD08D1F804C83B8FF4DC338D21BBA840FDEA95F8FBF3668",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\retry_isaac.py": "524E6CF375006C7A834C432752D6CD8F3826F268598C65C0CB15F484BDEF4412",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\run_diagnostic.py": "B52CC9C90D1448F52B0DA1708008B02B0F0066ECF76CD058F329C4558F5E9DFA",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\trace_recorder.py": "4D29BC0573DAF325100261AAE8523240501FCF58FD6940E4290AE17AE77B1D13",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\standing-trace-20261010-v1\\verify_diagnostic.py": "6428CAAFD19E0828F1AD6BAE4B23BD792BB8B85900022D3155803C841F431657"
+  },
+  "analysis_sha256": "CE178B68862AA422C718465865BB55F6196C80CB648943F416ED85D03DCD790A",
+  "plot_sha256": "CA54D820BDFDCC2A0B4E77D78273C1867CBABE15D4B75DEEBE32EC489D88C2EF",
+  "report_sha256": "6BC6D5963AECA2C4A635FB7D25042CDC0CC9EBCFA9916B3E8E8302CD04A739E9"
+}

@@ -1,0 +1,40 @@
+{
+  "mode": "BASE CONTACT DEBUG",
+  "paused": false,
+  "time_s": 191.00000000054794,
+  "command": [
+    1.5,
+    0.0,
+    0.2
+  ],
+  "failure_reason": "",
+  "metrics": {
+    "base_height_m": 0.19845137305166208,
+    "roll_rad": 2.6767860015356784e-05,
+    "pitch_rad": 0.10409468474857667,
+    "yaw_rad": 0.24156097577185712,
+    "vx_mps": -0.38074569440782696,
+    "yaw_rate_rad_s": 0.006380280108128211,
+    "phi0_left_rad": 1.927742155498437,
+    "phi0_right_rad": 1.9277146241421184,
+    "phi0_delta_abs_rad": 2.7531356318721837e-05,
+    "l0_left_m": 0.19377356337003726,
+    "l0_right_m": 0.19378524168825745,
+    "max_loop_closure_error_m": 7.063310628808743e-05,
+    "tilt_rad": 0.10409468817780078,
+    "root_linear_speed_mps": 0.3828161136967648,
+    "root_angular_speed_rad_s": 0.006427887878082528,
+    "max_controlled_joint_speed_rad_s": 6.151586662167655,
+    "max_hinge_speed_rad_s": 6.151586662167655,
+    "action_saturation_fraction": 0.6666666666666666,
+    "effort_saturation_fraction": 0.0,
+    "velocity_limit_event_fraction": 0.0
+  },
+  "collision": {
+    "base_proxy_min_z_m": 0.15660018703822584,
+    "base_floor_contact_count": 0,
+    "base_floor_normal_force_n": 0.0
+  },
+  "display_uses_independent_state": true,
+  "keyboard_renderer": "custom_glfw_no_native_shortcuts"
+}

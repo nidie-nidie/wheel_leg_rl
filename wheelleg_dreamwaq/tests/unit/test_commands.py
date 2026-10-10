@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import pytest
 import torch
 
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.commands import (
@@ -52,3 +53,25 @@ def test_command_sampling_v2_contract_values() -> None:
     assert ranges.base_height == (0.16, 0.24)
     assert ranges.mode_probabilities == (0.20, 0.30, 0.20, 0.30)
     assert ranges.hold_for_episode is True
+
+
+def test_command_sampling_with_cpu_generator_is_reproducible() -> None:
+    first_generator = torch.Generator(device="cpu").manual_seed(99)
+    second_generator = torch.Generator(device="cpu").manual_seed(99)
+    first = sample_command_batch(32, device="cpu", ranges=CommandRanges(), generator=first_generator)
+    second = sample_command_batch(32, device="cpu", ranges=CommandRanges(), generator=second_generator)
+    assert torch.equal(first[0], second[0])
+    assert torch.equal(first[1], second[1])
+
+
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA is unavailable")
+def test_command_sampling_can_use_cpu_generator_for_cuda_output() -> None:
+    generator = torch.Generator(device="cpu").manual_seed(123)
+    commands, modes = sample_command_batch(
+        16,
+        device="cuda:0",
+        ranges=CommandRanges(),
+        generator=generator,
+    )
+    assert commands.device.type == "cuda"
+    assert modes.device.type == "cuda"

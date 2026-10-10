@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from wheelleg_mujoco.physics import PHYSICS_SCHEMA_VERSION, UNRESTRICTED_SIM_VELOCITY, unrestricted_velocity_policy
+
 import csv
 import json
 import math
@@ -177,6 +179,16 @@ def _formal_report(root: Path, run_index: int) -> dict:
     actor_hash = sha256_file(actor_path)
 
     policy_manifest = {
+        "schemas": {"physics": PHYSICS_SCHEMA_VERSION},
+        "velocity_limit_policy": unrestricted_velocity_policy(),
+        "rigid_body_properties": {
+            "max_linear_velocity": UNRESTRICTED_SIM_VELOCITY,
+            "max_angular_velocity": UNRESTRICTED_SIM_VELOCITY,
+        },
+        "actuators": {
+            name: {"velocity_limit_sim": UNRESTRICTED_SIM_VELOCITY}
+            for name in ("legs", "wheels", "passive")
+        },
         "actor_sha256": actor_hash,
         "source_checkpoint": str(checkpoint_path.resolve()),
         "source_checkpoint_sha256": checkpoint_hash,
@@ -216,6 +228,8 @@ def _formal_report(root: Path, run_index: int) -> dict:
         "control_dt_s": 0.02,
         "physics_dt_s": 0.001,
         "physics_steps_per_action": 20,
+        "physics_schema_version": PHYSICS_SCHEMA_VERSION,
+        "velocity_limit_policy": unrestricted_velocity_policy(),
         "expected_ticks_per_scenario": 500,
         "scenario_duration_s": 10.0,
         "scenarios": [{"name": name, "command": list(command)} for name, command in FORMAL_SCENARIOS],
@@ -302,8 +316,31 @@ def test_evaluation_source_fingerprint_covers_runtime_scripts_and_lock() -> None
     assert len(fingerprint["hash"]) == 64
     assert "sim2sim/mujoco/uv.lock" in files
     assert "sim2sim/mujoco/wheelleg_mujoco/evaluation.py" in files
+    assert "sim2sim/mujoco/wheelleg_mujoco/angular_limit.py" not in files
+    assert "sim2sim/mujoco/wheelleg_mujoco/physics.py" in files
     assert "scripts/evaluate_mujoco.py" in files
     assert "scripts/rank_mujoco_runs.py" in files
+
+
+@pytest.mark.parametrize("mutation", ("missing", "enabled", "old_adapter", "legacy", "old_physics"))
+def test_ranking_rejects_speed_limit_or_historical_runtime(tmp_path: Path, mutation: str) -> None:
+    reports = [_formal_report(tmp_path / f"run-{index}", index) for index in range(1, 5)]
+    report = reports[0]
+    contract = report["evaluation_contract"]
+    if mutation == "missing":
+        del contract["velocity_limit_policy"]
+    elif mutation == "enabled":
+        contract["velocity_limit_policy"]["external_speed_limit_torque"] = True
+    elif mutation == "old_adapter":
+        contract["rigid_body_angular_limit"] = {"version": "PhysxRigidAngularBiasV1"}
+    elif mutation == "old_physics":
+        contract["physics_schema_version"] = "PhysicsV4"
+    else:
+        contract["schema_version"] = "MujocoEvaluationContractV1"
+    report["evaluation_contract_hash"] = stable_hash(contract)
+    report["report_hash"] = stable_hash({key: value for key, value in report.items() if key != "report_hash"})
+    with pytest.raises(ValueError, match="velocity-limit policy|Unsupported MuJoCo evaluation contract"):
+        validate_evaluation_reports_for_ranking(reports)
 
 
 def test_formal_ranking_rejects_tampered_aggregate(tmp_path: Path) -> None:

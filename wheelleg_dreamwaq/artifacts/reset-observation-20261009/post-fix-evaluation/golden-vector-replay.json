@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "tolerance": 1e-07,
+  "stored_golden_batch_size": 32,
+  "stored_golden_max_abs_error": 0.0,
+  "source_checkpoint_sha256": "F3FE2AAEE7975AD64FB7C5F0686D7632AFAD81A16419415135AF56680595BA4C",
+  "actor_sha256": "4C2C64C2D9F9F88532FCEFF4AE45AA049F970646761D2D0ACE0A29678621D6C7",
+  "golden_vectors_sha256": "158A4545AB0CA02AEC5D485629DB02B79FFDD5AF10D202FF68DEA80040C1507E",
+  "dynamic_batch_results": [
+    {
+      "batch_size": 1,
+      "scripted_vs_checkpoint_eager_max_abs_error": 0.0,
+      "output_shape": [
+        1,
+        6
+      ],
+      "different_batch_vs_stored_full_batch_prefix_error_diagnostic_only": 1.430511474609375e-06
+    },
+    {
+      "batch_size": 3,
+      "scripted_vs_checkpoint_eager_max_abs_error": 0.0,
+      "output_shape": [
+        3,
+        6
+      ],
+      "different_batch_vs_stored_full_batch_prefix_error_diagnostic_only": 1.0728836059570312e-06
+    },
+    {
+      "batch_size": 32,
+      "scripted_vs_checkpoint_eager_max_abs_error": 0.0,
+      "output_shape": [
+        32,
+        6
+      ],
+      "different_batch_vs_stored_full_batch_prefix_error_diagnostic_only": 0.0
+    }
+  ],
+  "scope": "replay original export with original checkpoint eager inference; no new export and no training",
+  "harness_correction": "Initial ad hoc check incorrectly required the prefix of a stored batch-32 result to equal separately evaluated batches 1 and 3 at 1e-7; batch-dependent float32 rounding is ~1e-6. Official stored-vector gate replays the same batch; dynamic checks compare eager/scripted at matching batch. Both yield zero error."
+}

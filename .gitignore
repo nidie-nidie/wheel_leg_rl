@@ -35,12 +35,14 @@ venv/
 env/
 .uv-cache/
 .pip-cache/
+node_modules/
 
 # Isaac Lab / Omniverse local runtime state
 **/.runtime_cache/
 **/.runtime_config/
 **/.runtime_data/
 **/.runtime_home/
+**/runtime_cache/
 **/.nvidia-omniverse/
 **/.matplotlib-cache/
 **/.torch_extensions/
@@ -115,3 +117,8 @@ serial_leg_rl/assets/generated/*
 # Legacy or external workspaces not required by this Isaac Lab project
 mevius2-master/
 wheel_leg/third_party/
+
+# Local diagnostic caches and baseline copies
+wheelleg_dreamwaq/artifacts/**/kit-*/
+wheelleg_dreamwaq/artifacts/**/source-before/
+wheelleg_dreamwaq/wheel_leg_rl-mainwheelleg_dreamwaqdebugsim2simroot_cause_suiteruns*/

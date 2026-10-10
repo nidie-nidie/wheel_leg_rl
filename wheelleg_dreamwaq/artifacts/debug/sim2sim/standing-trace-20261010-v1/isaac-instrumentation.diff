@@ -1,0 +1,86 @@
+--- E:\wheel_leg_rl-main\wheelleg_dreamwaq\scripts\evaluate_isaac.py
++++ E:\wheel_leg_rl-main\wheelleg_dreamwaq\artifacts\debug\sim2sim\standing-trace-20261010-v1\probe_isaac.py
+@@ -12,7 +12,7 @@
+ 
+ os.environ.setdefault("OMNI_KIT_ACCEPT_EULA", "YES")
+ 
+-PROJECT_ROOT = Path(__file__).resolve().parents[1]
++PROJECT_ROOT = Path('E:\\wheel_leg_rl-main\\wheelleg_dreamwaq')
+ 
+ from isaaclab.app import AppLauncher
+ 
+@@ -77,6 +77,7 @@
+     validate_checkpoint_metadata,
+ )
+ from wheelleg_dreamwaq.training.dreamwaq_checkpoint import validate_dreamwaq_checkpoint_metadata
++from trace_recorder import StandingTrace
+ 
+ 
+ def _atomic_save(path: Path, payload: dict) -> None:
+@@ -295,6 +296,7 @@
+     terminated_flags = [False] * EVALUATION_ENV_COUNT
+     truncated_flags = [False] * EVALUATION_ENV_COUNT
+     failure_reasons: list[str | None] = [None] * EVALUATION_ENV_COUNT
++    trace = StandingTrace(output, "isaac", vars(env_cfg.normalization), env_cfg.control.wheel_action_scale)
+     try:
+         for action_step in range(1, EVALUATION_ACTION_STEPS + 1):
+             active_before = active.clone()
+@@ -311,14 +313,25 @@
+                     batch_size=[EVALUATION_ENV_COUNT],
+                 )
+                 with torch.inference_mode():
+-                    actions, estimated_velocity, _ = policy.act_inference_with_estimator(observations)
++                    actions, estimated_velocity, context_mu = policy.act_inference_with_estimator(observations)
+                 velocity.update(estimated_velocity, base_observations["critic"][:, 25:28], active_before)
+             else:
+                 with torch.inference_mode():
+                     actions = policy.act_inference(base_observations)
++            if bool(active_before[0].item()):
++                state = direct_env._current_state()
++                trace.before(action_step - 1, (action_step - 1) * direct_env.step_dt, commands[0],
++                    base_observations["policy"][0], history.flat()[0], state.root_com_linear_velocity[0],
++                    estimated_velocity[0], context_mu[0], actions[0],
++                    state.joint_position[0], state.joint_velocity[0], state.projected_gravity[0],
++                    state.base_height[0, 0].item(), base_observations["critic"][0, 25:28])
+             actions = actions.clone()
+             actions[~active_before] = 0.0
+             next_observations, rewards, dones, extras = env.step(actions)
++            if bool(active_before[0].item()):
++                state = direct_env._current_state()
++                trace.after(state.root_com_linear_velocity[0], direct_env._canonical_action[0],
++                            state.applied_torque[0], bool(dones[0].item()))
+             if not torch.isfinite(actions).all() or not torch.isfinite(rewards).all():
+                 raise RuntimeError("Isaac evaluation produced NaN or Inf")
+             reward_sums[active_before] += rewards[active_before].to(dtype=torch.float64)
+@@ -339,6 +352,7 @@
+                 history.append(next_observations["policy"], done)
+             base_observations = next_observations
+     finally:
++        trace.save()
+         env.close()
+ 
+     scenario_summaries = []
+@@ -358,22 +372,9 @@
+     aggregate = aggregate_scenarios(scenario_summaries)
+     estimator = None if velocity is None else velocity.result()
+     baseline_comparison = None
+-    if policy_kind == "dreamwaq":
+-        if args_cli.baseline_report is None:
+-            raise ValueError("DreamWaQ Isaac evaluation requires --baseline-report")
+-        baseline_report = _load_baseline_report(args_cli.baseline_report.resolve(), evaluation_contract)
+-        baseline_comparison = {
+-            "baseline_report": str(args_cli.baseline_report.resolve()),
+-            "baseline_report_hash": baseline_report["report_hash"],
+-            "baseline_performance_key": baseline_report["aggregate"]["performance_key"],
+-            "candidate_performance_key": aggregate["performance_key"],
+-            "candidate_not_worse": candidate_not_worse_than_baseline(aggregate, baseline_report["aggregate"]),
+-        }
+-    elif args_cli.baseline_report is not None:
+-        raise ValueError("Phase1R baseline generation cannot consume --baseline-report")
+ 
+     report = {
+-        "evaluation_schema_version": ISAAC_EVALUATION_SCHEMA_VERSION,
++        "evaluation_schema_version": "StandingIsaacDiagnosticV1",
+         "evaluation_contract": evaluation_contract,
+         "evaluation_contract_hash": evaluation_contract["contract_hash"],
+         "policy_kind": policy_kind,

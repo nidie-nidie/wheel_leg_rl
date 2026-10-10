@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -15,6 +16,15 @@ SPEC = importlib.util.spec_from_file_location(
 assert SPEC is not None and SPEC.loader is not None
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
+sys.modules["run_training_suite"] = MODULE
+
+DREAMWAQ_SPEC = importlib.util.spec_from_file_location(
+    "run_dreamwaq_training_suite",
+    PROJECT_ROOT / "scripts" / "run_dreamwaq_training_suite.py",
+)
+assert DREAMWAQ_SPEC is not None and DREAMWAQ_SPEC.loader is not None
+DREAMWAQ_MODULE = importlib.util.module_from_spec(DREAMWAQ_SPEC)
+DREAMWAQ_SPEC.loader.exec_module(DREAMWAQ_MODULE)
 
 
 def _manifest(seed: int) -> dict:
@@ -24,6 +34,14 @@ def _manifest(seed: int) -> dict:
         "seed": seed,
         "resume": None,
         "contract": {"hash": "same"},
+        "randomization_audit": {
+            "realized_plan_hash": f"plan-{seed}",
+            "actuator_plan_hash": f"actuator-{seed}",
+        },
+        "closed_chain_reset_cache": {
+            "file_sha256": f"file-{seed}",
+            "tensor_sha256": f"tensor-{seed}",
+        },
         "project_source_sha256": "source",
         "profile_name": "rtx5070",
         "profile": {"num_envs": 256, "num_mini_batches": 8},
@@ -35,6 +53,7 @@ def _manifest(seed: int) -> dict:
         "randomness": {
             "master_seed": seed,
             "effective_process_seed": seed,
+            "environment_streams": {"command_rng": {"seed": seed}},
             "cuda_matmul_allow_tf32": True,
         },
     }
@@ -133,3 +152,33 @@ def test_suite_source_fingerprint_covers_mujoco_runtime_and_lock() -> None:
     assert "sim2sim/mujoco/wheelleg_mujoco/evaluation.py" in payload["files"]
     assert "scripts/evaluate_mujoco.py" in payload["files"]
     assert "scripts/rank_mujoco_runs.py" in payload["files"]
+
+
+def test_dreamwaq_training_gate_rejects_hard_invalid_or_missing_runs() -> None:
+    valid = [
+        {"index": index, "status": "trained", "checkpoint": f"model-{index}.pt"}
+        for index in range(1, 5)
+    ]
+    assert DREAMWAQ_MODULE._training_gate_failures(valid, 4) == []
+
+    hard_invalid = [dict(record) for record in valid]
+    hard_invalid[2]["status"] = "training_hard_invalid"
+    assert DREAMWAQ_MODULE._training_gate_failures(hard_invalid, 4) == [
+        "run-3:training_hard_invalid"
+    ]
+
+    missing = valid[:-1]
+    assert DREAMWAQ_MODULE._training_gate_failures(missing, 4) == ["run_count:3!=4"]
+
+
+def test_dreamwaq_suite_completion_allows_acceptance_failure_but_not_missing_evidence() -> None:
+    complete = [
+        {"index": 1, "status": "completed"},
+        {"index": 2, "status": "completed_acceptance_failed"},
+    ]
+    assert DREAMWAQ_MODULE._evaluation_suite_complete(complete, 2)
+
+    incomplete = [dict(record) for record in complete]
+    incomplete[1]["status"] = "mujoco_failed"
+    assert not DREAMWAQ_MODULE._evaluation_suite_complete(incomplete, 2)
+    assert not DREAMWAQ_MODULE._evaluation_suite_complete(complete[:1], 2)

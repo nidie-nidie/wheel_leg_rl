@@ -1,0 +1,144 @@
+{
+  "passed": true,
+  "frozen_file_and_policy_record_count": 17,
+  "allowed_changed_keys": [
+    "architecture",
+    "formal_env"
+  ],
+  "records": [
+    {
+      "key": "architecture",
+      "path": "E:\\wheel_leg_rl-main\\docs\\2026-10-03-wheelleg-dreamwaq-architecture.md",
+      "before_sha256": "5C7AF59F56750B50BA3CF14D731DF619489C0BBDBCCDA620B885B610087BB3AE",
+      "after_sha256": "43AC9306FD065DA259C60033E702C264230BB6B9D767B3974EFCE940587B94FA",
+      "unchanged": false
+    },
+    {
+      "key": "mujoco_xml",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\models\\wheel_leg_urdf4_v1.xml",
+      "before_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+      "after_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+      "unchanged": true
+    },
+    {
+      "key": "mujoco_manifest",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\model_manifest.json",
+      "before_sha256": "C3DB4FE2797F6AC3628F0A9CB5E0B166FFD0CE802776A335922C474A045F7AE0",
+      "after_sha256": "C3DB4FE2797F6AC3628F0A9CB5E0B166FFD0CE802776A335922C474A045F7AE0",
+      "unchanged": true
+    },
+    {
+      "key": "mujoco_runner",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\runner.py",
+      "before_sha256": "B0C973A5335856E3991ECCF6014BA9B5CF65E638A8BD4701FC07EED1A446EDBB",
+      "after_sha256": "B0C973A5335856E3991ECCF6014BA9B5CF65E638A8BD4701FC07EED1A446EDBB",
+      "unchanged": true
+    },
+    {
+      "key": "mujoco_control",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\control.py",
+      "before_sha256": "83080BC57A0399B11610CE5E06B4F607ADA1C0FB995344E23E531658EBBEFD62",
+      "after_sha256": "83080BC57A0399B11610CE5E06B4F607ADA1C0FB995344E23E531658EBBEFD62",
+      "unchanged": true
+    },
+    {
+      "key": "mujoco_observation",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\observation.py",
+      "before_sha256": "DD7F972D77FCCA25378BF403F61A67755C8AB4BA28738C97ABF2BBDD733970BD",
+      "after_sha256": "DD7F972D77FCCA25378BF403F61A67755C8AB4BA28738C97ABF2BBDD733970BD",
+      "unchanged": true
+    },
+    {
+      "key": "formal_env",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\env.py",
+      "before_sha256": "5399B29B92B54851EB0A5FA880EA9386C82F202A5C337F19ABE4EDF300C2969C",
+      "after_sha256": "1EF7C18B830BE13DA6DD6BB0865A61A63822926F6403C69730B08C5E013D6A22",
+      "unchanged": false
+    },
+    {
+      "key": "formal_env_cfg",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\env_cfg.py",
+      "before_sha256": "AB7BAA693A73EFBB0F933A605EF02F94C0BDBCF95E468D3CF400E590F59101F5",
+      "after_sha256": "AB7BAA693A73EFBB0F933A605EF02F94C0BDBCF95E468D3CF400E590F59101F5",
+      "unchanged": true
+    },
+    {
+      "key": "asset_manifest",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\asset-bundle-v2-manifest.json",
+      "before_sha256": "CC4BF6006F103E9520E522BD8636BCDDAF69B2F121BFA73E65D984A9CFAA903B",
+      "after_sha256": "CC4BF6006F103E9520E522BD8636BCDDAF69B2F121BFA73E65D984A9CFAA903B",
+      "unchanged": true
+    },
+    {
+      "key": "source_audit",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\mujoco-usd-data.json",
+      "before_sha256": "411B3913D03F4523132177E42B416AFA736A026E7ADB567A81AD28ECB75D53C5",
+      "after_sha256": "411B3913D03F4523132177E42B416AFA736A026E7ADB567A81AD28ECB75D53C5",
+      "unchanged": true
+    },
+    {
+      "key": "usd_anchor_audit",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\usd-anchor-audit.json",
+      "before_sha256": "6231C16A830401B46516880821D3E8C4225BF8D2963367619D0F7FBC9D69BB5F",
+      "after_sha256": "6231C16A830401B46516880821D3E8C4225BF8D2963367619D0F7FBC9D69BB5F",
+      "unchanged": true
+    },
+    {
+      "key": "reset_cache",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261007-185711\\run-01-evaluation\\isaac\\evaluation-reset-cache.pt",
+      "before_sha256": "008EE5D50E1C622D4AC0408E3C5E1C0B8CFCA618ABD3163E221A39D203B3DECE",
+      "after_sha256": "008EE5D50E1C622D4AC0408E3C5E1C0B8CFCA618ABD3163E221A39D203B3DECE",
+      "unchanged": true
+    },
+    {
+      "key": "evaluation_summary",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261007-185711\\run-01-evaluation\\isaac\\dreamwaq-run01\\summary.json",
+      "before_sha256": "3F8FA420604B65A514CB767CF770DA6F00E48610C8832B5487AA3A02AFCDB9BA",
+      "after_sha256": "3F8FA420604B65A514CB767CF770DA6F00E48610C8832B5487AA3A02AFCDB9BA",
+      "unchanged": true
+    },
+    {
+      "key": "policy:dreamwaq_run01:actor",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261007-185711\\run-01-evaluation\\export\\actor.ts",
+      "before_sha256": "4C2C64C2D9F9F88532FCEFF4AE45AA049F970646761D2D0ACE0A29678621D6C7",
+      "after_sha256": "4C2C64C2D9F9F88532FCEFF4AE45AA049F970646761D2D0ACE0A29678621D6C7",
+      "unchanged": true
+    },
+    {
+      "key": "policy:dreamwaq_run01:manifest",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261007-185711\\run-01-evaluation\\export\\policy_manifest.json",
+      "before_sha256": "322232B78674217579E491FF9B88E1E688DB899A2C5064830F0D3149B0E992C3",
+      "after_sha256": "322232B78674217579E491FF9B88E1E688DB899A2C5064830F0D3149B0E992C3",
+      "unchanged": true
+    },
+    {
+      "key": "policy:phase1r_run03:actor",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\exports\\run-03\\actor.ts",
+      "before_sha256": "BFA655DF083EC8634DE18E4966E85A64219752F4E2875D3B2548BC7AA0E70AC6",
+      "after_sha256": "BFA655DF083EC8634DE18E4966E85A64219752F4E2875D3B2548BC7AA0E70AC6",
+      "unchanged": true
+    },
+    {
+      "key": "policy:phase1r_run03:manifest",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_randomized_v3\\training-suite-20261007-062147\\exports\\run-03\\policy_manifest.json",
+      "before_sha256": "53866E1078CFA2E2E337578ECC7DEE1A0E804B2D0D2892C90BA8FD7D6D9ADE40",
+      "after_sha256": "53866E1078CFA2E2E337578ECC7DEE1A0E804B2D0D2892C90BA8FD7D6D9ADE40",
+      "unchanged": true
+    }
+  ],
+  "reviewed_source_hashes": {
+    "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py": "1EF7C18B830BE13DA6DD6BB0865A61A63822926F6403C69730B08C5E013D6A22",
+    "tests/integration/probes/reset_observation_coherence.py": "DE7EC4008CAEF4F94B08BFE3923C2DEC0EA2DFC05C91E0934775553D61B4327A",
+    "tests/integration/test_reset_observation_coherence.py": "834DC336F9C03AE06A9CB97BD6803DBCCD336F8ED20DE949CAF38EAF04CC4B20",
+    "sim2sim/mujoco/tests/test_mujoco_adapters.py": "758C868C3F3AE73E98E3B4E3B863D9B66C1E331741878374F8BB95A33F7EB630"
+  },
+  "final_document_identities": {
+    "E:\\wheel_leg_rl-main\\docs\\2026-10-03-wheelleg-dreamwaq-architecture.md": "43AC9306FD065DA259C60033E702C264230BB6B9D767B3974EFCE940587B94FA",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\docs\\2026-10-09-wheelleg-reset-observation-cache-coherence-design.md": "0ABD42AC630FD708A04798DB8EC5401C43A64598CB897C8F73849A752E288674",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\docs\\2026-10-09-wheelleg-reset-observation-code-review.md": "7D4AEFD49242879200EDD2974AFDF7C6B88A84188B60FBFEE227BADD5020C65D",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\docs\\2026-10-09-wheelleg-reset-observation-implementation-results.md": "DE01496679465489611800A005A0F1C08EF2342F502D189C77B22DE2CB6FAC3D"
+  },
+  "evaluation_time_architecture_preserved": true,
+  "training_started": false,
+  "scope": "final artifact/source verification; does not close formal RootCauseSuite gates"
+}

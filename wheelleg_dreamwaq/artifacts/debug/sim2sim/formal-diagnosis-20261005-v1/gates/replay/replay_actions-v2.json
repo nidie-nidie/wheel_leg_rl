@@ -1,0 +1,8 @@
+{
+  "control_ticks": 500,
+  "key": "isaac_policy_replay",
+  "output_sha256": "D7AC6E7BEBA78FDF5B9DF9AACFF0D15E3632A2E24DBAB0797DF9CDD157CEE442",
+  "schema_version": "IsaacPolicyReplayActionsV1",
+  "source_control_trace": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\formal-diagnosis-20261005-v1\\data\\closed-loop-500-v2\\isaac\\control_trace.npz",
+  "source_control_trace_sha256": "DDBF450488E6327E719693A40E11732AD11D5869BB609935D93595B9B948413E"
+}

@@ -20,12 +20,18 @@ from wheelleg_mujoco.contract import AdapterContract  # noqa: E402
 from wheelleg_mujoco.control import MixedActionController  # noqa: E402
 from wheelleg_mujoco.model_map import build_model_map  # noqa: E402
 from wheelleg_mujoco.observation import KinematicState, build_actor_observation  # noqa: E402
+from wheelleg_dreamwaq.schemas.physics import unrestricted_velocity_policy as isaac_velocity_policy  # noqa: E402
+from wheelleg_mujoco.physics import unrestricted_velocity_policy as mujoco_velocity_policy  # noqa: E402
 
 import mujoco  # noqa: E402
 
 
 MODEL_PATH = ROOT_PROJECT / "sim2sim" / "mujoco" / "models" / "wheel_leg_urdf4_v1.xml"
 Q_NOMINAL = np.array((-0.33367134, 0.33367134, -0.33367134, 0.33367134))
+
+
+def test_cross_engine_unrestricted_velocity_policy_matches() -> None:
+    assert isaac_velocity_policy() == mujoco_velocity_policy()
 
 
 def _contract() -> AdapterContract:
@@ -44,8 +50,6 @@ def _contract() -> AdapterContract:
         leg_kd=4.0,
         wheel_kd=0.6,
         effort_limits=np.array((18.0, 18.0, 18.0, 18.0, 9.0, 9.0)),
-        velocity_limits=np.full(6, 45.0),
-        passive_velocity_limit=80.0,
         physics_dt_s=0.001,
         physics_steps_per_action=20,
         control_dt_s=0.02,

@@ -1,0 +1,47 @@
+{
+  "communication": {
+    "can_error_delta_total": 0,
+    "enqueue_fail_delta_total": 0,
+    "rx_count_delta_total": [
+      10490,
+      10490,
+      10490,
+      10490,
+      8728,
+      8729
+    ],
+    "tx_count_delta_total": [
+      10490,
+      10490,
+      10490,
+      10490,
+      8729,
+      8729
+    ],
+    "tx_event_lost_delta_total": 0,
+    "tx_fifo_high_water": 6
+  },
+  "events": 4,
+  "fit_samples": 0,
+  "footer_present": false,
+  "frames": 8561,
+  "issues": {
+    "missing_footer": 1,
+    "missing_session_header": 8225,
+    "missing_stage_config": 310,
+    "resync": 1,
+    "sequence_start": 1,
+    "stage_before_header": 4,
+    "timestamp_discontinuity": 8223,
+    "truncated_frame": 1
+  },
+  "samples": 8224,
+  "session_type": null,
+  "stage_configs": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "statuses": 329
+}

@@ -38,7 +38,30 @@ class WheelLegMujocoRuntime:
         self.model_map = build_model_map(self.model)
         self.controller = MixedActionController(self.model_map, contract)
         self.previous_action = np.zeros(6, dtype=np.float64)
+        if contract.policy_input_dimension not in (25, 125):
+            raise ValueError("Policy input dimension must be 25 for PPO or 125 for DreamWaQ")
+        if contract.policy_input_dimension == 125 and (
+            contract.history_length != 5 or contract.history_layout != "frame_major"
+        ):
+            raise ValueError("DreamWaQ MuJoCo history contract is invalid")
+        self._history: np.ndarray | None = None
         self.last_reset_metrics: dict[str, float] | None = None
+
+    def _reset_policy_observation(self, current: np.ndarray) -> np.ndarray:
+        if self.contract.policy_input_dimension == 25:
+            self._history = None
+            return current
+        self._history = np.repeat(current[None, :], self.contract.history_length, axis=0)
+        return self._history.reshape(-1).astype(np.float32, copy=True)
+
+    def _append_policy_observation(self, current: np.ndarray) -> np.ndarray:
+        if self.contract.policy_input_dimension == 25:
+            return current
+        if self._history is None or self._history.shape != (self.contract.history_length, 25):
+            raise RuntimeError("DreamWaQ MuJoCo history was not initialized by reset")
+        self._history[:-1] = self._history[1:]
+        self._history[-1] = current
+        return self._history.reshape(-1).astype(np.float32, copy=True)
 
     def reset(self, command: np.ndarray) -> np.ndarray:
         command = np.asarray(command, dtype=np.float64)
@@ -56,30 +79,28 @@ class WheelLegMujocoRuntime:
             self.contract,
             state,
         )
-        return build_actor_observation(state, command, self.previous_action, self.contract)
+        current = build_actor_observation(state, command, self.previous_action, self.contract)
+        return self._reset_policy_observation(current)
 
     def step(self, action: np.ndarray, command: np.ndarray) -> StepResult:
         command = np.asarray(command, dtype=np.float64)
         targets = self.controller.prepare(action)
         torque = np.zeros(6, dtype=np.float64)
         effort_saturation_count = 0
-        velocity_limit_event_count = 0
         for _ in range(self.contract.physics_steps_per_action):
             torque = self.controller.compute_torque(self.data, targets)
             effort_saturation_count += int(np.isclose(np.abs(torque), self.controller.effort_limits).sum())
-            velocity_limit_event_count += int(self.controller.last_velocity_limit_mask.sum())
             self.controller.apply_torque(self.data, torque)
             mujoco.mj_step(self.model, self.data)
         self.previous_action = targets.clipped_action.copy()
         state = collect_kinematic_state(self.model, self.data, self.model_map, self.contract)
-        observation = build_actor_observation(state, command, self.previous_action, self.contract)
+        current_observation = build_actor_observation(state, command, self.previous_action, self.contract)
+        observation = self._append_policy_observation(current_observation)
         metrics = collect_metrics(self.model, self.data, self.model_map, self.contract, state)
         metrics.update(
             {
                 "action_saturation_fraction": float(np.mean(np.abs(np.asarray(action)) >= 1.0)),
                 "effort_saturation_fraction": effort_saturation_count
-                / (self.contract.physics_steps_per_action * 6),
-                "velocity_limit_event_fraction": velocity_limit_event_count
                 / (self.contract.physics_steps_per_action * 6),
             }
         )

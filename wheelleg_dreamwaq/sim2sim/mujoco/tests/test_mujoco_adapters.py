@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+from dataclasses import replace
 from pathlib import Path
+import sys
 
 import mujoco
 import numpy as np
+import pytest
 
 from wheelleg_mujoco.contract import AdapterContract
 from wheelleg_mujoco.control import MixedActionController
@@ -14,6 +17,7 @@ from wheelleg_mujoco.runner import WheelLegMujocoRuntime
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT_ROOT.parents[1]))  # Shared debug modules, including isolated test runs.
 MODEL_PATH = PROJECT_ROOT / "models" / "wheel_leg_urdf4_v1.xml"
 Q_NOMINAL = np.array((-0.33367134, 0.33367134, -0.33367134, 0.33367134))
 
@@ -45,8 +49,6 @@ def _contract() -> AdapterContract:
         leg_kd=4.0,
         wheel_kd=0.6,
         effort_limits=np.array((18.0, 18.0, 18.0, 18.0, 9.0, 9.0)),
-        velocity_limits=np.full(6, 45.0),
-        passive_velocity_limit=80.0,
         physics_dt_s=0.001,
         physics_steps_per_action=20,
         control_dt_s=0.02,
@@ -98,9 +100,82 @@ def test_action_adapter_clips_scales_signs_and_saturates_torque() -> None:
     data.qvel[model_map.dof_addresses] = 50.0
     targets = controller.prepare(np.ones(6))
     torque = controller.compute_torque(data, targets)
-    assert np.all(torque <= 0.0)
-    assert np.all(controller.last_velocity_limit_mask[:4])
-    assert not np.any(controller.last_velocity_limit_mask[4:])
+    # Above the former 45 rad/s limit, only PD and motor effort clipping apply.
+    np.testing.assert_array_equal(torque[:4], np.full(4, 18.0))
+    np.testing.assert_array_equal(torque[4:], np.full(2, -9.0))
+
+
+def test_root_cause_target_probe_matches_formal_motor_torque_above_old_cap() -> None:
+    from debug.sim2sim.root_cause_suite.mujoco_worker import _formal_target_torque
+
+    model, data, model_map = _model_data()
+    contract = _contract()
+    data.qpos[model_map.qpos_addresses[:4]] = -10.0
+    data.qvel[model_map.dof_addresses] = 50.0
+    action = np.ones(6)
+    controller = MixedActionController(model_map, contract)
+    reference = controller.compute_torque(data, controller.prepare(action))
+    np.testing.assert_array_equal(_formal_target_torque(model, data, action, contract), reference)
+    np.testing.assert_array_equal(reference[:4], np.full(4, 18.0))
+
+
+def test_debug_timing_step_retains_motor_control_and_reports_no_speed_guard() -> None:
+    from debug.sim2sim.dreamwaq_debug_contract import TIMING_PROFILES
+    from debug.sim2sim.evaluate_debug_mujoco import step_with_debug_timing
+
+    runtime = WheelLegMujocoRuntime(MODEL_PATH, _contract())
+    action = np.full(6, 0.1)
+    command = np.array((0.0, 0.0, 0.20))
+    result = step_with_debug_timing(runtime, TIMING_PROFILES["formal_1ms"], action, command)
+    assert result.physics_steps == 20
+    assert result.metrics["velocity_limit_event_fraction"] == 0.0
+    assert np.isfinite(result.observation).all()
+    assert np.isfinite(result.applied_torque).all()
+
+
+def test_debug_joint_speed_failure_threshold_remains_diagnostic_only() -> None:
+    from debug.sim2sim.evaluate_debug_mujoco import _failure_reason
+
+    runtime = WheelLegMujocoRuntime(MODEL_PATH, _contract())
+    metrics = {
+        "base_height_m": 0.20, "tilt_rad": 0.0, "root_linear_speed_mps": 0.0,
+        "root_angular_speed_rad_s": 0.0, "max_hinge_speed_rad_s": 79.0,
+        "max_loop_closure_error_m": 0.0, "l0_left_m": 0.20, "l0_right_m": 0.20,
+    }
+    assert _failure_reason(runtime, metrics) is None
+    before = runtime.data.qvel.copy()
+    metrics["max_hinge_speed_rad_s"] = 81.0
+    assert _failure_reason(runtime, metrics) == "joint_velocity"
+    np.testing.assert_array_equal(runtime.data.qvel, before)
+
+
+@pytest.mark.parametrize("with_external_wrench", (False, True))
+def test_runtime_adds_no_speed_limit_wrench_and_matches_direct_physics(with_external_wrench: bool) -> None:
+    runtime = WheelLegMujocoRuntime(MODEL_PATH, _contract())
+    command = np.array((0.0, 0.0, 0.20))
+    runtime.reset(command)
+    # Remove ground contact; exceed both former rigid-body speed thresholds.
+    runtime.data.qpos[2] += 100.0
+    runtime.data.qvel[:6] = (200.0, 0.0, 0.0, 10.0, 0.0, 0.0)
+    mujoco.mj_forward(runtime.model, runtime.data)
+    if with_external_wrench:
+        runtime.data.xfrc_applied[runtime.model_map.base_body_id] = (1., 2., 3., 4., 5., 6.)
+    expected_wrench = runtime.data.xfrc_applied.copy()
+    reference = mujoco.MjData(runtime.model)
+    mujoco.mj_copyData(reference, runtime.model, runtime.data)
+    action = np.full(6, 0.2)
+    targets = runtime.controller.prepare(action)
+    for _ in range(runtime.contract.physics_steps_per_action):
+        torque = runtime.controller.compute_torque(reference, targets)
+        runtime.controller.apply_torque(reference, torque)
+        mujoco.mj_step(runtime.model, reference)
+    result = runtime.step(action, command)
+    np.testing.assert_array_equal(runtime.data.xfrc_applied, expected_wrench)
+    np.testing.assert_array_equal(runtime.data.qfrc_applied, np.zeros(runtime.model.nv))
+    np.testing.assert_array_equal(runtime.data.qpos, reference.qpos)
+    np.testing.assert_array_equal(runtime.data.qvel, reference.qvel)
+    assert result.physics_steps == 20
+    assert np.isfinite(result.observation).all()
 
 
 def test_observation_uses_com_height_and_frozen_normalization() -> None:
@@ -156,3 +231,50 @@ def test_runtime_executes_exactly_twenty_physics_steps_per_action() -> None:
     assert np.isfinite(result.observation).all()
     assert result.metrics["max_loop_closure_error_m"] < 5.0e-3
     assert result.metrics["base_height_m"] > 0.05
+
+
+def test_dreamwaq_runtime_owns_frame_major_history_without_changing_physics() -> None:
+    contract = replace(
+        _contract(),
+        policy_input_dimension=125,
+        history_length=5,
+        history_layout="frame_major",
+    )
+    runtime = WheelLegMujocoRuntime(MODEL_PATH, contract)
+    initial = runtime.reset(np.array((0.0, 0.0, 0.20)))
+    assert initial.shape == (125,)
+    initial_frames = initial.reshape(5, 25)
+    np.testing.assert_array_equal(initial_frames, np.repeat(initial_frames[:1], 5, axis=0))
+
+    start_time = runtime.data.time
+    result = runtime.step(np.zeros(6), np.array((0.0, 0.0, 0.20)))
+    assert abs(runtime.data.time - start_time - 0.02) < 1.0e-12
+    frames = result.observation.reshape(5, 25)
+    np.testing.assert_array_equal(frames[:4], initial_frames[1:])
+    assert result.observation.dtype == np.float32
+    assert np.isfinite(result.observation).all()
+
+
+def test_repeated_reset_discards_old_motion_and_repeats_current_history() -> None:
+    contract = replace(_contract(), policy_input_dimension=125, history_length=5, history_layout="frame_major")
+    runtime = WheelLegMujocoRuntime(MODEL_PATH, contract)
+    command = np.array((0.0, 0.0, 0.20))
+    expected = runtime.reset(command).copy()
+    expected_qpos = runtime.data.qpos.copy()
+    expected_qvel = runtime.data.qvel.copy()
+    expected_time = float(runtime.data.time)
+    for _ in range(4):
+        runtime.data.qvel[3:6] = (0.4, -0.6, 0.8)
+        mujoco.mj_forward(runtime.model, runtime.data)
+        moving = collect_kinematic_state(runtime.model, runtime.data, runtime.model_map, contract)
+        assert np.linalg.norm(moving.angular_velocity_control) > 0.1
+        advanced = runtime.step(np.full(6, 0.2), command)
+        assert not np.array_equal(advanced.observation, expected)
+        runtime.previous_action.fill(0.7)
+        actual = runtime.reset(command)
+        np.testing.assert_array_equal(actual, expected)
+        np.testing.assert_array_equal(runtime.data.qpos, expected_qpos)
+        np.testing.assert_array_equal(runtime.data.qvel, expected_qvel)
+        assert float(runtime.data.time) == expected_time
+        frames = actual.reshape(5, 25)
+        np.testing.assert_array_equal(frames, np.repeat(frames[:1], 5, axis=0))

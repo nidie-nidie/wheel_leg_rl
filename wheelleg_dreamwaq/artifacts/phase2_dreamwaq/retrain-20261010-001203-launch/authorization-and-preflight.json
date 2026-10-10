@@ -1,0 +1,47 @@
+{
+  "requested_at_singapore": "2026-10-10T00:12:03.524295+08:00",
+  "request": "fresh four distinct seeds, 1000 iterations each, 1800-second monitoring, evaluate all after all training",
+  "mode": "formal",
+  "profile": "rtx5070",
+  "fresh_start": true,
+  "monitor_interval_seconds": 1800,
+  "runtime": {
+    "python": "3.11.16",
+    "torch": "2.7.0+cu128",
+    "torch_cuda_runtime": "12.8",
+    "cuda_device_name": "NVIDIA GeForce RTX 5070",
+    "cuda_capability": [
+      12,
+      0
+    ],
+    "torch_arch_list": [
+      "sm_50",
+      "sm_60",
+      "sm_61",
+      "sm_70",
+      "sm_75",
+      "sm_80",
+      "sm_86",
+      "sm_90",
+      "sm_100",
+      "sm_120"
+    ],
+    "isaac_sim": "5.1.0.0",
+    "isaaclab_path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\dependencies\\IsaacLab-v2.3.2\\source\\isaaclab\\isaaclab\\__init__.py",
+    "isaaclab_rl_path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\dependencies\\IsaacLab-v2.3.2\\source\\isaaclab_rl\\isaaclab_rl\\__init__.py",
+    "rsl_rl_path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\.venv\\Lib\\site-packages\\rsl_rl\\__init__.py",
+    "rsl_rl": "3.1.2",
+    "tensordict_path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\.venv\\Lib\\site-packages\\tensordict\\__init__.py",
+    "tensordict": "0.14.2",
+    "isaac_lab_commit": "37ddf626871758333d6ed89cf64ad702aef127d0",
+    "cuda_probe": 357389824.0
+  },
+  "free_disk_bytes": 98944872448,
+  "architecture_sha256": "43AC9306FD065DA259C60033E702C264230BB6B9D767B3974EFCE940587B94FA",
+  "env_sha256": "1EF7C18B830BE13DA6DD6BB0865A61A63822926F6403C69730B08C5E013D6A22",
+  "reset_review": "docs/2026-10-09-wheelleg-reset-observation-code-review.md",
+  "reset_regression": "artifacts/reset-observation-20261009/post-fix-evaluation/final-verification.json",
+  "root_cause_suite_gates": "not rerun; this new authorized training/evaluation does not close G00/G01/G02 or P10-C70",
+  "suite_output": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2",
+  "launcher_log": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\retrain-20261010-001203-launch\\suite-console.log"
+}

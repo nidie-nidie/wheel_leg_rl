@@ -9,6 +9,8 @@ import torch
 from rsl_rl.modules import ActorCritic
 from tensordict import TensorDict
 
+from wheelleg_dreamwaq.schemas.manifest import SUPPORTED_PHASE1_CONTRACT_VERSIONS
+from wheelleg_dreamwaq.schemas.physics import PHYSICS_SCHEMA_VERSION
 from wheelleg_dreamwaq.training.checkpoint import load_checkpoint_artifact, sha256_file
 
 
@@ -64,9 +66,9 @@ def main() -> None:
     output = args.output.resolve()
     payload, run_manifest, metadata = load_checkpoint_artifact(checkpoint)
     contract = run_manifest["contract"]
-    if contract.get("manifest_version") != "Phase1ContractV4":
-        raise ValueError("Only Phase1ContractV4 checkpoints can be exported")
-    if contract["schemas"] != {
+    if contract.get("manifest_version") not in SUPPORTED_PHASE1_CONTRACT_VERSIONS:
+        raise ValueError("Unsupported WheelLeg Phase 1 checkpoint contract")
+    required_schemas = {
         "action": "ActionV1",
         "actor_observation": "ActorObsV1",
         "command": "CommandV1",
@@ -74,11 +76,15 @@ def main() -> None:
         "control_frame": "ControlFrameV1",
         "critic_observation": "CriticObsV1",
         "normalization": "NormalizationV2",
-        "physics": "PhysicsV4",
+        "physics": PHYSICS_SCHEMA_VERSION,
         "reward": "RewardSchemaV2",
         "virtual_leg_kinematics": "VirtualLegKinematicsV1",
-    }:
-        raise ValueError("Checkpoint schema set is not the frozen ContractV4 schema set")
+    }
+    if any(contract["schemas"].get(key) != value for key, value in required_schemas.items()):
+        raise ValueError("Checkpoint schema set is not compatible with PpoActorExportV1")
+    if contract["manifest_version"].startswith("Phase1RandomizedContractV"):
+        if contract["schemas"].get("randomization") != "RandomizationSchemaV1":
+            raise ValueError("Randomized checkpoint is missing RandomizationSchemaV1")
     if not MODEL_MANIFEST_PATH.is_file():
         raise FileNotFoundError(MODEL_MANIFEST_PATH)
     model_manifest = json.loads(MODEL_MANIFEST_PATH.read_text(encoding="utf-8"))
@@ -131,11 +137,14 @@ def main() -> None:
         "action": contract["action"],
         "observation": contract["observation"],
         "normalization": contract["normalization"],
+        "training_randomization": contract.get("randomization"),
         "frames": contract["frames"],
         "command_sampling": contract["task"]["commands"],
         "q_nominal": contract["task"]["q_nominal"],
         "control": contract["task"]["control"],
         "actuators": contract["runtime"]["robot_except_asset_absolute_path"]["actuators"],
+        "rigid_body_properties": contract["runtime"]["robot_except_asset_absolute_path"]["spawn"]["rigid_props"],
+        "velocity_limit_policy": contract["task"]["physics"]["velocity_limit_policy"],
         "initial_state": contract["runtime"]["robot_except_asset_absolute_path"]["init_state"],
         "timing": {
             "isaac_sim_dt_s": contract["task"]["sim_dt"],

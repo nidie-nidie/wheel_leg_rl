@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import math
 
+import pytest
 import torch
 
 from wheelleg_dreamwaq.schemas.frames import (
     R_CONTROL_FROM_USD,
     projected_gravity_from_quaternion,
+    transform_control_vector_to_usd,
     transform_usd_vector_to_control,
     quat_rotate_wxyz,
     upright_cosine_from_projected_gravity,
@@ -26,6 +28,23 @@ def test_usd_to_control_axis_mapping() -> None:
     result = transform_usd_vector_to_control(vectors)
     expected = torch.tensor([[0.0, 1.0, 0.0], [-1.0, 0.0, 0.0]])
     assert torch.allclose(result, expected)
+
+
+def test_control_usd_transform_round_trip_for_batched_vectors() -> None:
+    values = torch.tensor(
+        [
+            [[1.0, 2.0, 3.0], [-4.0, 5.0, -6.0]],
+            [[0.25, -0.5, 0.75], [9.0, 8.0, 7.0]],
+        ]
+    )
+    usd = transform_control_vector_to_usd(values)
+    recovered = transform_usd_vector_to_control(usd)
+    assert torch.allclose(recovered, values, atol=1.0e-7)
+
+
+def test_control_to_usd_rejects_non_vector_input() -> None:
+    with pytest.raises(ValueError, match="3D vectors"):
+        transform_control_vector_to_usd(torch.zeros(2, 4))
 
 
 def test_identity_quaternion_has_downward_projected_gravity() -> None:

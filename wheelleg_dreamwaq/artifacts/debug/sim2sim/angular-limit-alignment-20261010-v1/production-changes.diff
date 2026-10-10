@@ -1,0 +1,409 @@
+--- before/../docs/2026-10-03-wheelleg-dreamwaq-architecture.md
++++ after/../docs/2026-10-03-wheelleg-dreamwaq-architecture.md
+@@ -1,7 +1,7 @@
+ # WheelLeg DreamWaQ Isaac Lab Architecture
+ 
+-日期：2026-10-09  
+-状态：Architecture v0.23；Phase 2 DreamWaQ/CENet 实现契约已冻结；v0.23 根据真实 PhysX red probe 将 reset 修复收敛为 root-link velocity 与 root-COM pose 两个派生缓存失效；实现、独立代码复核与验收状态见专项记录；继承 v0.21 的 deterministic Isaac evaluation 499-step timeout、网络维度、数学契约、termination 与 MuJoCo 500-tick 语义；Phase1ContractV3/V4 与 Phase1RandomizedContractV3 继续作为基线和对照  
++日期：2026-10-10  
++状态：Architecture v0.24；Phase 2 DreamWaQ/CENet 实现契约已冻结；v0.24 保留 Isaac 原训练动力学，补充 MuJoCo 的 PhysxRigidAngularBiasV1 外力适配与 MujocoEvaluationContractV2，见 §29；v0.23 的两个 reset 派生缓存失效修复继续有效；继承 v0.21 的 deterministic Isaac evaluation 499-step timeout、网络维度、数学契约、termination 与 MuJoCo 500-tick 语义；Phase1ContractV3/V4 与 Phase1RandomizedContractV3 继续作为基线和对照  
+ 适用范围：新建轮腿机器人平地强化学习工程，不修改或继承旧 WheelLeg 任务实现
+ 
+ ## 1. 文档目的
+@@ -1715,6 +1715,7 @@
+ | ADR-065 | checkpoint/contract/finite/export/evaluation 协议错误是 hard failure；context/velocity/baseline 性能不达标是 acceptance failure。后者禁止标记通过，但有效工件仍必须导出并完成 MuJoCo 留证。 |
+ | ADR-066 | G-08 保留为未关闭的历史 PPO 性能门，但不再作为已经发生的 Phase 1R/Phase 2 诊断实施时序门；Phase 2 的窄实施许可由 G-15 表达，二者不得混称。 |
+ | ADR-067 | ResetObservationCacheCoherenceV2 根据真实 red probe，在正式 `_reset_idx()` 读取新状态前只失效 Isaac Lab 2.3.2 `_root_link_vel_w`、`_root_com_pose_w`；保留读取语义、初态采样和快照合并，不推进任何时钟。任何其他 split 仍须停止定位；独立代码复核、运行验收和 RootCauseSuite 正式门分别记录。 |
++| ADR-068 | v0.24 保留 PhysicsV4 的 Isaac 刚体角速度上限 `100 deg/s`，MuJoCo 用 PhysxRigidAngularBiasV1 补充逐刚体世界系偏置力矩；每 `5 ms` 计算并保持五个 `1 ms` 步，不截断 qvel。新评估采用 MujocoEvaluationContractV2，旧 V1 结果独立保留；这不修改 checkpoint 的训练条件，也不表示闭环性能通过。 |
+ 
+ ## 26. 决策门与当前状态
+ 
+@@ -1769,3 +1770,26 @@
+ - 现有实机协议映射参考：`E:\wheel_leg_rl-main\wheel_leg_debug-main2\wheel_leg_debug-main\上下位机通信协议\rm_test-dev\Components\Device\Src\Sim2Real.c`
+ - 现有实机协议顺序定义：`E:\wheel_leg_rl-main\wheel_leg_debug-main2\wheel_leg_debug-main\上下位机通信协议\rm_test-dev\Components\Device\Inc\Sim2Real.h`
+ - Isaac Lab 2.3.2 COM 速度字段参考：`E:\gogo_2026_09\A1_Base-codex-dreamwaq-pace-baseline-port\dependencies\isaaclab-src-2.3.2.post1\source\isaaclab\isaaclab\assets\articulation\articulation_data.py`
++
++## 29. v0.24：MuJoCo 刚体角速度限制适配
++
++本节保留当前 Isaac 训练动力学，并补齐 MuJoCo 缺少的运行时语义。`RigidBodyPropertiesCfg.max_angular_velocity` 的单位为 **deg/s**；当前 `100.0` 实际约为 `1.745329 rad/s`，不是 `100 rad/s`。本轮不推断原作者意图，也不放宽 Isaac 上限。旧 checkpoint、reset cache、Actor/Critic、history、AdaBoot、奖励、动作、命令、随机化、源 USD 和 MuJoCo XML 参数保持原语义。
++
++PhysX 5.6.1 GPU `forwardDynamic2.cu` 对超限 link 计算基于惯量的角速度偏置力矩，而非直接截断输出角速度。公开参考版本为 `107.3-physx-5.6.1` / commit `5ca9f472105a90d70d957c243cb0ef36fe251a9f`。本工程冻结的 MuJoCo 适配器名为 `PhysxRigidAngularBiasV1`，作用于全部 27 个机器人刚体，排除 world；公式为：
++
++```text
++limit = radians(100.0)
++I_world = R_inertia_world @ diag(body_inertia) @ R_inertia_world.T
++tau_world = 0                                      if |omega_world| <= limit
++tau_world = -I_world @ omega_world * (1-limit/|omega_world|) / 0.005 otherwise
++```
++
++每个 `5 ms` 段开始时，在独立 `MjData` 上用当时的 qpos/qvel 更新运动学，读取各刚体的世界系角速度和惯量主轴朝向。将 `tau_world` 加入 `xfrc_applied` 的力矩分量，保持五个 `1 ms` 步；下一段只替换本适配器自身的旧贡献，保留其他外力矩。该力矩属于刚体限速适配，不属于电机力矩；电机 ctrl、effort limit、PD、关节速度限制和被动阻尼仍按原控制器执行。禁止改写 live qvel、live qpos、模型惯量或闭合约束，禁止在运行中对 live data 调用 `mj_forward` 以计算此项。
++
++适配器的周期计数和保持力矩属于 runtime 状态，随 keyframe reset 清零，不推进任何物理时间。周期来自导出 manifest 已有的 `timing.isaac_sim_dt_s`，必须为 PhysicsV4 冻结的 `0.005 s`；MuJoCo 继续使用 `0.001 s`，每次策略动作仍执行 20 步。PhysicsV4 旧三件套按本节明确的 `100 deg/s` 加载，无需修改旧 actor、golden vectors、model manifest 或 checkpoint；若未来修改 Isaac 上限，必须另行升级相关动力学契约，不得继续沿用该缺省。
++
++新评估契约使用 `MujocoEvaluationContractV2`，在 XML 动力学身份之外显式记录本适配器的版本、上限及单位、更新/保持周期、坐标系、作用对象和力矩规则；source fingerprint 覆盖其实现。旧 V1 评估工件仍是有效的历史证据，但不得与 V2 混合排名或覆盖。八场景、500 tick/10 s、初态、命令、失败阈值与评分规则不变。Isaac 环境未改，因此不需要重复训练或重建其 reset cache 才能检查本次 MuJoCo 改动。
++
++验收必须包含世界系非球形惯量、逐刚体超限力矩、5 ms 保持/reset 和其他外力矩保留测试；正式 runtime 的无地面相同力矩诊断必须复现候选实现；四个既有 1000-iteration checkpoint 必须用新 runtime 重新完成八场景留证，并重新核验四组 TorchScript golden vectors。
++
++该适配器复现已公开的逐 link 偏置力矩项及其采样周期，**不宣称整个 PhysX 与 MuJoCo 求解器已等价**。候选诊断中，保留 Isaac 原上限、在 MuJoCo 按 5 ms 更新该项，闭合开启时 20 ms 平均根角速度差从 `0.431066` 降至 `0.089999 rad/s`；闭合关闭时从 `0.544934` 降至 `0.005342 rad/s`。首个 5 ms 的闭合响应差异仍在；短程改善不能替代策略闭环验收，也不关闭 RootCauseSuite 或 Phase 2 性能门。实施与正式复测记录位于 `wheelleg_dreamwaq/artifacts/debug/sim2sim/angular-limit-alignment-20261010-v1/`，实施计划见 `wheelleg_dreamwaq/docs/superpowers/plans/2026-10-10-mujoco-angular-limit-alignment.md`。
+--- before/sim2sim/mujoco/wheelleg_mujoco/runner.py
++++ after/sim2sim/mujoco/wheelleg_mujoco/runner.py
+@@ -7,6 +7,7 @@
+ import numpy as np
+ 
+ from .contract import AdapterContract
++from .angular_limit import AngularVelocityBiasLimiter
+ from .control import MixedActionController
+ from .metrics import collect_metrics
+ from .model_map import build_model_map
+@@ -37,6 +38,7 @@
+         self.data = mujoco.MjData(self.model)
+         self.model_map = build_model_map(self.model)
+         self.controller = MixedActionController(self.model_map, contract)
++        self.angular_limiter = AngularVelocityBiasLimiter(self.model, contract.isaac_physics_dt_s)
+         self.previous_action = np.zeros(6, dtype=np.float64)
+         if contract.policy_input_dimension not in (25, 125):
+             raise ValueError("Policy input dimension must be 25 for PPO or 125 for DreamWaQ")
+@@ -68,6 +70,7 @@
+         if command.shape != (3,):
+             raise ValueError(f"CommandV1 must have shape (3,), got {command.shape}")
+         mujoco.mj_resetDataKeyframe(self.model, self.data, self.model_map.reset_keyframe_id)
++        self.angular_limiter.reset()
+         self.data.ctrl[:] = 0.0
+         self.previous_action.fill(0.0)
+         mujoco.mj_forward(self.model, self.data)
+@@ -93,6 +96,7 @@
+             effort_saturation_count += int(np.isclose(np.abs(torque), self.controller.effort_limits).sum())
+             velocity_limit_event_count += int(self.controller.last_velocity_limit_mask.sum())
+             self.controller.apply_torque(self.data, torque)
++            self.angular_limiter.apply(self.data)
+             mujoco.mj_step(self.model, self.data)
+         self.previous_action = targets.clipped_action.copy()
+         state = collect_kinematic_state(self.model, self.data, self.model_map, self.contract)
+--- before/sim2sim/mujoco/wheelleg_mujoco/contract.py
++++ after/sim2sim/mujoco/wheelleg_mujoco/contract.py
+@@ -47,6 +47,7 @@
+     policy_input_dimension: int = 25
+     history_length: int = 1
+     history_layout: str = "current_frame"
++    isaac_physics_dt_s: float = 0.005
+ 
+     @classmethod
+     def from_policy_manifest(cls, payload: dict) -> "AdapterContract":
+@@ -85,6 +86,7 @@
+             policy_input_dimension=int(payload["network"]["input_dimension"]),
+             history_length=int(payload["network"].get("history_length", 1)),
+             history_layout=str(payload["network"].get("history_layout", "current_frame")),
++            isaac_physics_dt_s=float(timing["isaac_sim_dt_s"]),
+         )
+ 
+ 
+--- before/sim2sim/mujoco/wheelleg_mujoco/evaluation.py
++++ after/sim2sim/mujoco/wheelleg_mujoco/evaluation.py
+@@ -10,11 +10,12 @@
+ import numpy as np
+ 
+ from .contract import sha256_file
++from .angular_limit import angular_limit_contract
+ from .model_semantics import stable_hash
+ 
+ 
+ EVALUATION_SCHEMA_VERSION = "MujocoEvaluationV1"
+-EVALUATION_CONTRACT_VERSION = "MujocoEvaluationContractV1"
++EVALUATION_CONTRACT_VERSION = "MujocoEvaluationContractV2"
+ RANKING_VERSION = "MujocoRankingV1"
+ EVALUATION_SOURCE_VERSION = "MujocoEvaluationSourceV1"
+ FORMAL_RUN_COUNT = 4
+@@ -270,6 +271,7 @@
+         "control_dt_s": policy_manifest["timing"]["control_dt_s"],
+         "physics_dt_s": policy_manifest["timing"]["mujoco_physics_dt_s"],
+         "physics_steps_per_action": policy_manifest["timing"]["mujoco_physics_steps_per_action"],
++        "rigid_body_angular_limit": angular_limit_contract(policy_manifest["timing"]["isaac_sim_dt_s"]),
+         "expected_ticks_per_scenario": expected_ticks,
+         "scenario_duration_s": expected_ticks * policy_manifest["timing"]["control_dt_s"],
+         "scenarios": [
+@@ -443,6 +445,8 @@
+             raise ValueError("MuJoCo evaluation contract hash is invalid")
+         if contract.get("schema_version") != EVALUATION_CONTRACT_VERSION:
+             raise ValueError("Unsupported MuJoCo evaluation contract")
++        if contract.get("rigid_body_angular_limit") != angular_limit_contract():
++            raise ValueError("MuJoCo rigid-body angular limit differs from the current runtime")
+         if contract.get("evaluation_implementation") != current_implementation:
+             raise ValueError("MuJoCo evaluation implementation fingerprint differs from the current runtime")
+         if contract.get("smoke") is not False or contract.get("scenarios") != expected_scenarios:
+--- before/sim2sim/mujoco/tests/test_evaluation_metrics.py
++++ after/sim2sim/mujoco/tests/test_evaluation_metrics.py
+@@ -1,4 +1,6 @@
+ from __future__ import annotations
++
++from wheelleg_mujoco.angular_limit import angular_limit_contract
+ 
+ import csv
+ import json
+@@ -216,6 +218,7 @@
+         "control_dt_s": 0.02,
+         "physics_dt_s": 0.001,
+         "physics_steps_per_action": 20,
++        "rigid_body_angular_limit": angular_limit_contract(),
+         "expected_ticks_per_scenario": 500,
+         "scenario_duration_s": 10.0,
+         "scenarios": [{"name": name, "command": list(command)} for name, command in FORMAL_SCENARIOS],
+@@ -302,8 +305,28 @@
+     assert len(fingerprint["hash"]) == 64
+     assert "sim2sim/mujoco/uv.lock" in files
+     assert "sim2sim/mujoco/wheelleg_mujoco/evaluation.py" in files
++    assert "sim2sim/mujoco/wheelleg_mujoco/angular_limit.py" in files
+     assert "scripts/evaluate_mujoco.py" in files
+     assert "scripts/rank_mujoco_runs.py" in files
++
++
++@pytest.mark.parametrize("mutation", ("missing", "period", "units", "legacy"))
++def test_ranking_rejects_wrong_angular_limit_identity(tmp_path: Path, mutation: str) -> None:
++    reports = [_formal_report(tmp_path / f"run-{index}", index) for index in range(1, 5)]
++    report = reports[0]
++    contract = report["evaluation_contract"]
++    if mutation == "missing":
++        del contract["rigid_body_angular_limit"]
++    elif mutation == "period":
++        contract["rigid_body_angular_limit"]["update_period_s"] = .001
++    elif mutation == "units":
++        contract["rigid_body_angular_limit"]["max_angular_velocity_rad_s"] = 100.
++    else:
++        contract["schema_version"] = "MujocoEvaluationContractV1"
++    report["evaluation_contract_hash"] = stable_hash(contract)
++    report["report_hash"] = stable_hash({key: value for key, value in report.items() if key != "report_hash"})
++    with pytest.raises(ValueError, match="angular limit|Unsupported MuJoCo evaluation contract"):
++        validate_evaluation_reports_for_ranking(reports)
+ 
+ 
+ def test_formal_ranking_rejects_tampered_aggregate(tmp_path: Path) -> None:
+--- before/sim2sim/mujoco/wheelleg_mujoco/angular_limit.py
++++ after/sim2sim/mujoco/wheelleg_mujoco/angular_limit.py
+@@ -0,0 +1,75 @@
++"""PhysicsV4 per-link angular bias torque, sampled at the Isaac physics period."""
++from __future__ import annotations
++
++import mujoco
++import numpy as np
++
++
++ANGULAR_LIMIT_VERSION = "PhysxRigidAngularBiasV1"
++MAX_ANGULAR_VELOCITY_DEG_S = 100.0
++UPDATE_PERIOD_S = 0.005
++
++
++def angular_limit_contract(update_period_s: float = UPDATE_PERIOD_S) -> dict:
++    if float(update_period_s) != UPDATE_PERIOD_S:
++        raise ValueError("PhysicsV4 angular bias update period must be 0.005 s")
++    return {
++        "version": ANGULAR_LIMIT_VERSION,
++        "max_angular_velocity_deg_s": MAX_ANGULAR_VELOCITY_DEG_S,
++        "max_angular_velocity_rad_s": float(np.deg2rad(MAX_ANGULAR_VELOCITY_DEG_S)),
++        "update_period_s": UPDATE_PERIOD_S,
++        "sampling": "pre_step_zero_order_hold",
++        "frame": "world",
++        "bodies": "all_robot_bodies_except_world",
++        "torque_rule": "-I_world@omega*(1-limit/norm(omega))/update_period_when_over_limit",
++        "reset": "clear_counter_and_held_torque_after_keyframe_reset",
++        "velocity_write": False,
++    }
++
++
++class AngularVelocityBiasLimiter:
++    """Apply the published PhysX 5.6.1 angular bias term without writing qvel.
++
++    The torque is recomputed every 5 ms and held through the MuJoCo substeps.
++    Kinematics are refreshed on shadow data so live solver buffers stay intact.
++    Call reset after resetting the associated live MjData.
++    """
++
++    def __init__(self, model: mujoco.MjModel, update_period_s: float = UPDATE_PERIOD_S) -> None:
++        angular_limit_contract(update_period_s)
++        dt = float(model.opt.timestep)
++        if not np.isfinite(dt) or dt <= 0.:
++            raise ValueError("MuJoCo physics timestep must be finite and positive")
++        self._steps = round(update_period_s / dt)
++        if self._steps < 1 or abs(self._steps * dt - update_period_s) > 1.e-12:
++            raise ValueError("Angular bias update period must be an integer multiple of MuJoCo timestep")
++        self._model = model
++        self._shadow = mujoco.MjData(model)
++        self._limit = float(np.deg2rad(MAX_ANGULAR_VELOCITY_DEG_S))
++        self._held_torque = np.zeros((model.nbody, 3), dtype=np.float64)
++        self.reset()
++
++    def reset(self) -> None:
++        self._substep = 0
++        self._held_torque.fill(0.)
++
++    def apply(self, data: mujoco.MjData) -> None:
++        if self._substep % self._steps == 0:
++            mujoco.mj_copyData(self._shadow, self._model, data)
++            mujoco.mj_forward(self._model, self._shadow)
++            # Replace only our previous contribution; preserve other external torques.
++            data.xfrc_applied[:, 3:] -= self._held_torque
++            self._held_torque.fill(0.)
++            spatial = np.zeros(6, dtype=np.float64)
++            for body_id in range(1, self._model.nbody):
++                mujoco.mj_objectVelocity(
++                    self._model, self._shadow, mujoco.mjtObj.mjOBJ_BODY, body_id, spatial, 0,
++                )
++                omega = spatial[:3]
++                speed = float(np.linalg.norm(omega))
++                if speed > self._limit:
++                    rotation = self._shadow.ximat[body_id].reshape(3, 3)
++                    inertia = rotation @ np.diag(self._model.body_inertia[body_id]) @ rotation.T
++                    self._held_torque[body_id] = -(inertia @ omega) * (1. - self._limit / speed) / UPDATE_PERIOD_S
++            data.xfrc_applied[:, 3:] += self._held_torque
++        self._substep += 1
+--- before/sim2sim/mujoco/tests/test_angular_limit.py
++++ after/sim2sim/mujoco/tests/test_angular_limit.py
+@@ -0,0 +1,83 @@
++from __future__ import annotations
++
++import mujoco
++import numpy as np
++import pytest
++
++from wheelleg_mujoco.angular_limit import AngularVelocityBiasLimiter, angular_limit_contract
++
++
++def _free_body():
++    model = mujoco.MjModel.from_xml_string('''<mujoco>
++      <option timestep="0.001" gravity="0 0 0"/>
++      <worldbody><body><freejoint/>
++        <inertial pos="0 0 0" mass="1" diaginertia="2 3 4"/>
++      </body></worldbody></mujoco>''')
++    return model, mujoco.MjData(model)
++
++
++def test_units_and_world_inertia_without_changing_live_state():
++    model, data = _free_body()
++    # A 90-degree world-z rotation maps local Iy=3 onto world x.
++    data.qpos[3:7] = (np.sqrt(.5), 0., 0., np.sqrt(.5))
++    data.qvel[3:6] = (0., -2., 0.)  # Free-joint angular velocity is local.
++    mujoco.mj_forward(model, data)
++    assert np.allclose(data.cvel[1, :3], (2., 0., 0.))
++    state = {name: getattr(data, name).copy() for name in ("qpos", "qvel", "qacc", "xmat", "qfrc_constraint")}
++    limiter = AngularVelocityBiasLimiter(model)
++    limiter.apply(data)
++    expected_x = -3. * (2. - np.deg2rad(100.)) / .005
++    np.testing.assert_allclose(data.xfrc_applied[1, 3:], (expected_x, 0., 0.), atol=1.e-12)
++    assert data.time == 0.
++    for name, expected in state.items():
++        np.testing.assert_array_equal(getattr(data, name), expected)
++    identity = angular_limit_contract()
++    assert identity["max_angular_velocity_deg_s"] == 100.
++    assert identity["max_angular_velocity_rad_s"] == pytest.approx(np.deg2rad(100.))
++
++
++def test_hold_five_substeps_then_release_preserving_other_torque_and_reset():
++    model, data = _free_body()
++    limiter = AngularVelocityBiasLimiter(model)
++    data.qvel[3] = 2.
++    external = np.array((7., 8., 9.))
++    data.xfrc_applied[1, 3:] = external
++    limiter.apply(data)
++    held = data.xfrc_applied.copy()
++    assert held[1, 3] < external[0]
++    data.qvel.fill(0.)
++    for _ in range(4):
++        limiter.apply(data)
++        np.testing.assert_array_equal(data.xfrc_applied, held)
++    limiter.apply(data)
++    np.testing.assert_allclose(data.xfrc_applied[1, 3:], external, atol=1.e-12)
++    mujoco.mj_resetData(model, data)
++    limiter.reset()
++    limiter.apply(data)
++    np.testing.assert_array_equal(data.xfrc_applied, np.zeros_like(data.xfrc_applied))
++
++
++def test_sub_limit_velocity_has_no_bias_and_all_links_are_considered():
++    model = mujoco.MjModel.from_xml_string('''<mujoco>
++      <option timestep="0.001" gravity="0 0 0"/>
++      <worldbody>
++        <body name="a"><freejoint/><inertial pos="0 0 0" mass="1" diaginertia="2 3 4"/></body>
++        <body name="b" pos="2 0 0"><freejoint/><inertial pos="0 0 0" mass="1" diaginertia="2 3 4"/></body>
++      </worldbody></mujoco>''')
++    data = mujoco.MjData(model)
++    data.qvel[3] = 1.
++    data.qvel[9] = 2.
++    limiter = AngularVelocityBiasLimiter(model)
++    limiter.apply(data)
++    assert np.count_nonzero(data.xfrc_applied[0]) == 0
++    assert np.count_nonzero(data.xfrc_applied[1]) == 0
++    assert data.xfrc_applied[2, 3] < 0.
++
++
++def test_reject_nonintegral_or_wrong_isaac_period():
++    model, _ = _free_body()
++    with pytest.raises(ValueError, match="PhysicsV4"):
++        AngularVelocityBiasLimiter(model, update_period_s=.001)
++    model.opt.timestep = .002
++    with pytest.raises(ValueError, match="integer multiple"):
++        AngularVelocityBiasLimiter(model)
+--- before/docs/superpowers/plans/2026-10-10-mujoco-angular-limit-alignment.md
++++ after/docs/superpowers/plans/2026-10-10-mujoco-angular-limit-alignment.md
+@@ -0,0 +1,64 @@
++# MuJoCo 刚体角速度限制对齐实施计划
++
++> **For agentic workers:** Use superpowers:executing-plans to implement this plan task-by-task. 本轮由主 agent 顺序执行；用户未授权新增子 agent。
++
++**Goal:** 保留 Isaac 的训练动力学，在 MuJoCo 中补上已有 PhysX 刚体角速度限制，再检查相同力矩响应和四组旧策略的八场景表现。
++
++**Architecture:** 新增 MuJoCo 外力适配器，按 Isaac 的 5 ms 周期计算各机器人刚体的角速度限制力矩，并在五个 1 ms 物理步中保持该世界系力矩。运行器负责 reset 和每步调用；评估契约记录运行时适配器，区分 XML 动力学和补充的外力语义。策略、模型 XML 和训练端保持原语义。
++
++**Tech Stack:** Windows PowerShell、项目 Python 3.11、MuJoCo、NumPy、pytest、TorchScript。
++
++## 已确认的证据与范围
++
++- 原架构 v0.23 SHA256：`43AC9306FD065DA259C60033E702C264230BB6B9D767B3974EFCE940587B94FA`。
++- Isaac 配置 `assets/wheelleg.py` 的 `max_angular_velocity=100.0` 单位为 deg/s，约 1.745329 rad/s。本轮保留这个实际训练条件，不把旧 checkpoint 解释成在 100 rad/s 下训练。
++- PhysX 5.6.1 GPU 源码 `forwardDynamic2.cu` 使用惯量和超限角速度产生偏置力矩；并非输出速度硬截断。参考 commit：`5ca9f472105a90d70d957c243cb0ef36fe251a9f`，本地副本位于本轮诊断目录。
++- 诊断副本中，5 ms 更新的补偿将闭合开启时 20 ms 平均根角速度差从 0.431066 降至 0.089999 rad/s；闭合关闭时从 0.544934 降至 0.005342 rad/s。1 ms 更新不等价且表现更差，禁止采用。
++- 该实现对应 PhysX 已公开的逐 link 偏置力矩项和更新周期，不宣称移植了整个 PhysX/TGS 求解器。
++
++## 文件与依赖
++
++| 文件 | 职责与依赖方向 |
++|---|---|
++| `sim2sim/mujoco/wheelleg_mujoco/angular_limit.py`（新增） | 只依赖 MuJoCo/NumPy；计算世界系惯量和角速度限制力矩；管理 5 ms 更新、保持与 reset；提供可序列化契约 |
++| `sim2sim/mujoco/wheelleg_mujoco/contract.py` | 从 policy manifest 已有 timing 字段读取 Isaac 物理周期，传给运行器；原有三件套及 hash 校验保留 |
++| `sim2sim/mujoco/wheelleg_mujoco/runner.py` | 依赖 contract 和新适配器；在 reset 后清空适配器状态，在每次 `mj_step` 前调用；动作控制器不承担限速逻辑 |
++| `sim2sim/mujoco/wheelleg_mujoco/evaluation.py` | MuJoCo 评估契约升级 V2，显式记录角速度适配语义；source fingerprint 自动覆盖新增模块；拒绝混用旧评估契约 |
++| `sim2sim/mujoco/tests/test_angular_limit.py`（新增） | 验证单位、世界系惯量、逐刚体超限响应、更新/保持/reset、外部力矩保留和实时状态不被 observer 改写 |
++| `sim2sim/mujoco/tests/test_evaluation_metrics.py` | 补充 V2 契约 fixture 与角速度适配身份校验 |
++| `../docs/2026-10-03-wheelleg-dreamwaq-architecture.md` | 升级 v0.24，仅补充这项 sim2sim 外力适配语义、兼容性和证据边界 |
++| `artifacts/debug/sim2sim/angular-limit-alignment-20261010-v1/` | 原文件备份、候选诊断、正式复测、四组新评估、hash/diff 和结论；旧 suite 不覆盖 |
++
++## Task 1：写入架构
++
++- [x] 将架构升级 v0.24，保留现有冻结契约，新增 `PhysxRigidAngularBiasV1` 和 `MujocoEvaluationContractV2` 的运行时边界。
++- [x] 明确公式：当 `|omega| > radians(100)`，`tau_world = -I_world @ omega * (1-limit/|omega|) / 0.005`；否则为零。`I_world = R_inertia_world @ diag(body_inertia) @ R_inertia_world.T`。
++- [x] 每次计算发生在 5 ms 段开始，保持五个 1 ms 步；每段重新读取当时的 qpos/qvel，在独立 MjData 上更新运动学。禁止覆盖 live qvel 或调用 live `mj_forward`。
++
++## Task 2：测试与实现
++
++- [x] 新测试先运行，确认缺少模块时失败。使用一个非球形惯量的自由刚体检验世界系力矩，不仅重复实现表达式；验证 z 轴旋转后的 x/y 惯量互换。
++- [x] 实现独立类：初始化校验更新周期是物理周期整数倍；`reset()` 清空周期计数和保持力矩；`apply(data)` 只在段开始重新计算，替换自身上次贡献并保留其他外部力矩。
++- [x] 运行 `sim2sim/mujoco/.venv/Scripts/python.exe -B -m pytest sim2sim/mujoco/tests/test_angular_limit.py -q`，应全部通过。
++- [x] 在 contract 追加默认 0.005 s 的 Isaac 周期字段，在 `from_policy_manifest` 中读取 `timing['isaac_sim_dt_s']`。
++- [x] 运行器构造适配器；keyframe reset 之后调用适配器 reset；控制循环在 apply_torque 后、`mj_step` 前调用适配器 apply。新增逻辑不写 ctrl、history、previous_action 或模型参数。
++- [x] V2 evaluation contract 增加 `rigid_body_angular_limit`，包括版本、deg/s 与 rad/s、更新周期、保持方式、世界系及作用对象。ranking 重新验证该字段；旧 V1 评估不混入本轮。
++
++## Task 3：回归和相同力矩诊断
++
++- [x] 运行完整 MuJoCo tests；保持 USD、XML、网格、动作/观测适配器与模型 manifest hash 不变。
++- [x] 从原短程 probe 新建本轮副本：继承正式 runtime 新适配器，避免候选补偿重复施加；保留相同八组力矩、匹配初态、无地面、闭合开/关和 5/10/15/20 ms 采样。
++- [x] 新进程复跑两个 MuJoCo case；与候选 5 ms 补偿逐状态比较，预期完全相同；重新计算与 Isaac 原配置的误差、验证力矩提交和 reset 不推进时间。
++
++## Task 4：四组旧策略八场景评估
++
++- [x] 对原 suite `training-suite-20261010-001203-reset-v2` 的四个 actor 各运行 `scripts/evaluate_mujoco.py`，使用原 manifest、原 suite context、run index 1..4 和 completed iterations 1000，输出到本轮独立目录。
++- [x] 不加 `--smoke`，八场景各最多 500 ticks；已有失败条件、动作与命令保持原值。
++- [x] 运行 `scripts/rank_mujoco_runs.py` 生成新排名并验证全部 CSV/report/source hash；不改旧 suite manifest 或标记训练成功。
++- [x] 四个 actor 再验 golden vectors，max error <=1e-7；核对 actor、checkpoint、三件套和 reset-cache 的 hash 未变。
++
++## Task 5：形成结论
++
++- [x] 记录代码差异及准确行数、测试结果、相同力矩响应、四组新旧场景完成率/存活时长与失败原因。
++- [x] 明确是否只缩小动力学差异、是否八场景通过，以及剩余首步闭合响应是否仍存在。不得从短程改善直接宣称 sim2sim 闭环成功或必须重训。
++- [x] 本轮不训练。history、CENet、AdaBoot、loss、reward、randomization、USD、MuJoCo XML/dt/闭合参数、reset 初态及时间语义保持原样；旧 checkpoint 的训练/续训条件不变。

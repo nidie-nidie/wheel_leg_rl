@@ -1,0 +1,30 @@
+{
+  "content_sha256": {
+    "immediate_bipolar_0": "CCAE0E483EF308B004C328F1FAF1ECFB31D1E73068A59B9281FB5909CCAE8655",
+    "immediate_bipolar_1": "BA1A2A591B5325B4113A2542CECC0546C46AFE92A196C7D7A77E7AFEF435AFE1",
+    "immediate_bipolar_2": "BB50C747DFE2F8A5CB7898872C20F41FEA512F8CC7B14D744F08865C06EDEAEA",
+    "immediate_bipolar_3": "09027B627467B75C47142B081A70B5D5008E3EF502CFB9ED8816FE6C25C9306A",
+    "immediate_bipolar_4": "5CE83DF9512B57523FD150345A0D03DFDCAB8B93069D56830DE2E473D66A133A",
+    "immediate_bipolar_5": "A12F626F789615F15E51BEA42572CE16D9FFEBC2511932ABDC61397BFF479F57"
+  },
+  "file_sha256": "6D970353A3A690955C1D7A13D566D79B8329EC3C6D4B5F5C9EB240EFA879F007",
+  "schema_version": "ImmediateBipolarPulseV1",
+  "segments": [
+    {
+      "end": 8,
+      "start": 0,
+      "value": 0.1
+    },
+    {
+      "end": 12,
+      "start": 8,
+      "value": 0.0
+    },
+    {
+      "end": 20,
+      "start": 12,
+      "value": -0.1
+    }
+  ],
+  "ticks": 20
+}

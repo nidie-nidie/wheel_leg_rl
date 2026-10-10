@@ -1,0 +1,10 @@
+{
+  "actor": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\remove-artificial-speed-limits-20261011-v1\\untrained-export-loader-smoke\\export\\actor.ts",
+  "actor_sha256": "E5A2095B29C7094267BC2E5584B39F104339C456047D3F744A90477F8C8ACBD1",
+  "policy_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\remove-artificial-speed-limits-20261011-v1\\untrained-export-loader-smoke\\export\\policy_manifest.json",
+  "policy_manifest_sha256": "FFBCF9D1A5A3E616B51766DC2DD4541B82EA378CEFD30D4E36AD55F596594BB1",
+  "policy_manifest_hash": "6A56330C1688D8E4D315A868C26DE7CC40203B80386AE3228B1EE6582523C315",
+  "golden_vectors": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\remove-artificial-speed-limits-20261011-v1\\untrained-export-loader-smoke\\export\\golden_vectors.pt",
+  "golden_vectors_sha256": "B3CA092F0F8AA1A5992FBF9CEB1157070030C16992B420DD9E6ECDF410672311",
+  "verification_max_abs_error": 0.0
+}

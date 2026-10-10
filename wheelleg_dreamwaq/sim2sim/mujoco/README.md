@@ -1,7 +1,7 @@
 # WheelLeg MuJoCo Sim2Sim
 
 This directory is an isolated Python 3.11 / MuJoCo 3.14.0 runtime for
-`Phase1ContractV4`. It intentionally does not import Isaac Lab or the root
+`PhysicsV5` policy exports. It intentionally does not import Isaac Lab or the root
 training package.
 
 The generated model comes from the confirmed local XML
@@ -26,6 +26,19 @@ steps at 1 kHz. Leg actions become position targets with `Kp=120`, `Kd=4`, and
 an 18 Nm clamp. Wheel actions become velocity targets with `Kd=0.6` and a 9 Nm
 clamp. Actor observations use the same 25-dimensional order and
 `NormalizationV2` constants as the Isaac Lab environment.
+
+The runtime has no rigid-body linear/angular speed limiter, no external
+speed-limiting force/torque, and no joint-speed torque suppression. Physical
+contacts, closed-chain constraints, passive damping, armature and motor
+effort limits remain. `MujocoActionAdapterV2` and
+`MujocoEvaluationContractV3` identify this change. A recorded speed failure
+threshold stops evaluation; it never brakes the model.
+
+The former `PhysxRigidAngularBiasV1` adapter is removed. PhysicsV4 policies
+and V1/V2 evaluation results remain historical artifacts and are rejected by
+the current loader/ranking; do not edit old manifests to relabel them as V5.
+Fresh training and export must record `UnrestrictedVelocityPolicyV1`, the
+explicit Isaac velocity sentinels, and the current model-manifest identity.
 
 Export and deterministic evaluation are launched from the repository root:
 

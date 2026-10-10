@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "independent_physics_processes": 8,
+  "final_comparison_rows": 64,
+  "input_hashes_verified": 25,
+  "protected_production_hashes_verified": true,
+  "within_engine_ground_on_off_initial_state_exact": true,
+  "mujoco_unobserved_replay_cases": 32,
+  "probe_edits": {
+    "probe_isaac.py": {
+      "added": 28,
+      "removed": 2
+    },
+    "probe_mujoco.py": {
+      "added": 50,
+      "removed": 4
+    }
+  },
+  "analysis_script_lines": 155,
+  "report_sha256": "777020E2A5D41646173563BAED93E20EF3C92EE2463065688DD1957A283B58D6",
+  "analysis_sha256": "BA38ACFC476A24034877D9AF1F7D5ED4579B16BF10D055D40A849AAB72584600"
+}

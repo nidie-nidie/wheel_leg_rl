@@ -1,0 +1,141 @@
+{
+  "schema_version": "InitialGroundContactAnalysisV1",
+  "debug_only": true,
+  "formal_ranking_eligible": false,
+  "initial": {
+    "isaac_root_link_z_m": 0.20002998411655426,
+    "mujoco_root_link_z_m": 0.20003,
+    "isaac_wheel_gap_m": [
+      5.4687478101222986e-05,
+      0.00015285062398306265
+    ],
+    "mujoco_wheel_gap_m": [
+      1.5209915877889557e-06,
+      4.47049669327626e-06
+    ],
+    "isaac_max_abs_root_velocity": 0.0,
+    "mujoco_max_abs_root_velocity": 0.0,
+    "all_26_joint_initial_max_difference_rad": 4.495811157245733e-06,
+    "isaac_all_eight_env_gap_range_m": [
+      [
+        5.4687478101222986e-05,
+        0.00015209169660913152
+      ],
+      [
+        5.631109251209854e-05,
+        0.00015313461895378327
+      ]
+    ]
+  },
+  "cases": {
+    "zero_action": {
+      "isaac_first_nonzero_support_sample_s": [
+        0.005,
+        0.005
+      ],
+      "mujoco_first_nonzero_support_sample_s": [
+        0.002,
+        0.002
+      ],
+      "impulses": {
+        "0.005": {
+          "isaac_vertical_impulse_ns": [
+            0.08581869125366211,
+            0.0608435583114624
+          ],
+          "mujoco_normal_impulse_ns": [
+            0.04852922679067195,
+            0.04836498051338874
+          ]
+        },
+        "0.02": {
+          "isaac_vertical_impulse_ns": [
+            0.3534296703338623,
+            0.3343097925186157
+          ],
+          "mujoco_normal_impulse_ns": [
+            0.302441491465824,
+            0.30195714985520705
+          ]
+        },
+        "0.1": {
+          "isaac_vertical_impulse_ns": [
+            2.1457789325714116,
+            2.1450109815597536
+          ],
+          "mujoco_normal_impulse_ns": [
+            2.1133739673703973,
+            2.108109469468214
+          ]
+        }
+      }
+    },
+    "shared_first_action_hold": {
+      "isaac_first_nonzero_support_sample_s": [
+        0.005,
+        0.05
+      ],
+      "mujoco_first_nonzero_support_sample_s": [
+        0.002,
+        0.04200000000000003
+      ],
+      "impulses": {
+        "0.005": {
+          "isaac_vertical_impulse_ns": [
+            0.15602723121643067,
+            0.0
+          ],
+          "mujoco_normal_impulse_ns": [
+            0.03262240591210645,
+            0.0
+          ]
+        },
+        "0.02": {
+          "isaac_vertical_impulse_ns": [
+            0.6836575222015381,
+            0.0
+          ],
+          "mujoco_normal_impulse_ns": [
+            0.46916157207739784,
+            0.0
+          ]
+        },
+        "0.1": {
+          "isaac_vertical_impulse_ns": [
+            2.3569887363910675,
+            2.1570822572708126
+          ],
+          "mujoco_normal_impulse_ns": [
+            2.137140870812349,
+            2.220988972957881
+          ]
+        }
+      }
+    }
+  },
+  "isaac_contact_observer_max_errors": {
+    "root_pose_xyzw": 0.0,
+    "root_velocity_world": 0.0,
+    "joint_position": 0.0,
+    "joint_velocity": 0.0,
+    "wheel_collision_bottom_gap_m": 0.0
+  },
+  "mujoco_observer_exact_replay_cases": 16,
+  "protected_sources_verified_unchanged": true,
+  "input_sha256": {
+    "isaac-off\\evidence.json": "A792056091BE82B4E71797CA7E452C6297388952D53E5F27CB212F995529C504",
+    "isaac-on\\evidence.json": "04BE4D5EAA8745F9506100A3A2E9E613640476A5079CEB4C572E682A842DD01D",
+    "mujoco\\evidence.json": "1356CDA6A263A0035A04CDFA55F9FA5BC6842854D19F1A73AA12BB8D05C3D918",
+    "isaac-off\\actions.json": "0E0E1E9EEDFC96F0ADE6311601599D60B9D6BBDE3042366B4163F46273C8F106",
+    "mujoco-observer-neutrality.json": "A1070FFD8A54EB28CD7089D05457922D3CA2A68BAD0E5A28B461148FD42C63D1",
+    "probe_isaac.py": "D5E586E7E7857B3A0B2395C7081DD5CDEF53CA26E0E6035C337E812F72037D4A",
+    "probe_mujoco.py": "BA051C2D6788CD9823B52930FE0E162E4186DB3DAF1838C45A5366B6BBF8D186"
+  },
+  "conclusion": "Both formal startup paths reset nearly onto the ground at zero velocity. No gravity-driven pre-policy landing wait. Small collider gaps and startup contact response differ; no root-cause attribution is made.",
+  "limitations": [
+    "Isaac mesh support excludes convex cooking tolerance and contact/rest offsets.",
+    "5ms Isaac and 1ms MuJoCo sampling do not establish an exact 3ms contact delay.",
+    "Reset-time PhysX contact buffers are not a newly solved episode; only post-step force is used.",
+    "The shared first action is held for 100ms without policy feedback; this is not an eight-scenario policy evaluation."
+  ]
+}

@@ -1,0 +1,72 @@
+--- previous/probe_isaac.py
++++ current/probe_isaac.py
+@@ -23,6 +23,9 @@
+ parser.add_argument("--actor", type=Path, required=True)
+ parser.add_argument("--contact-sensors", action="store_true")
+ parser.add_argument("--actions-from", type=Path)
++parser.add_argument("--no-ground", action="store_true")
++parser.add_argument("--control-ticks", type=int, default=1)
++parser.add_argument("--case", choices=("both", "zero_action", "shared_first_action_hold"), default="both")
+ AppLauncher.add_app_launcher_args(parser)
+ args = parser.parse_args()
+ launcher = AppLauncher(args)
+@@ -62,6 +65,14 @@
+     # Only add observers in a separate config. Production reset/step are inherited.
+     def _setup_scene(self):
+         super()._setup_scene()
++        self.disabled_ground_colliders = []
++        if args.no_ground:
++            ground = self.sim.get_initial_stage().GetPrimAtPath(self.cfg.ground.prim_path)
++            for prim in Usd.PrimRange(ground):
++                if prim.HasAPI(UsdPhysics.CollisionAPI):
++                    UsdPhysics.CollisionAPI(prim).CreateCollisionEnabledAttr(False).Set(False)
++                    self.disabled_ground_colliders.append(str(prim.GetPath()))
++            assert self.disabled_ground_colliders, "No ground collider disabled"
+         self.probe_sensors = []
+         if args.contact_sensors:
+             for side in ("left", "right"):
+@@ -80,6 +91,8 @@
+ 
+ 
+ def main():
++    assert args.control_ticks > 0
++    assert not args.no_ground or (args.actions_from and args.contact_sensors)
+     args.output.mkdir(parents=True, exist_ok=False)
+     before = protected()
+     verify_asset_bundle(bundle=ASSET_BUNDLE_V2)
+@@ -191,6 +204,8 @@
+                           "initial_policy_history": cpu(history).tolist()}
+     (args.output / "actions.json").write_text(json.dumps(actions_record, indent=2), encoding="utf-8")
+     for name, action in (("zero_action", torch.zeros((8, 6), device=env.device)), ("shared_first_action_hold", shared)):
++        if args.case != "both" and name != args.case:
++            continue
+         case = name
+         step_index = 0
+         start = float(env.sim.current_time)
+@@ -198,13 +213,24 @@
+         assert step_index == 0 and float(env.sim.current_time) == start
+         env._commands.copy_(torch.tensor([command for _, command in FORMAL_SCENARIOS], device=env.device))
+         samples.append(snapshot("reset_returned_before_first_action"))
+-        for _ in range(5):
++        for _ in range(args.control_ticks):
+             _, _, dones, _ = wrapped.step(action)
+             assert not dones.any(), "Probe crossed an episode boundary"
+     env.sim.step = original_step
+     after = protected()
+     assert before == after
+-    report = {"schema_version": "InitialGroundContactIsaacProbeV1", "debug_only": True,
++    assert step_index * env.physics_dt == args.control_ticks * env.step_dt
++    if args.no_ground:
++        for sample in samples:
++            if sample["phase"] == "post_physics_step":
++                assert np.max(np.abs(sample["normal_force_world_n"])) == 0.0
++        for path in env.disabled_ground_colliders:
++            assert UsdPhysics.CollisionAPI(stage.GetPrimAtPath(path)).GetCollisionEnabledAttr().Get() is False
++    report = {"schema_version": "GroundOffIsaacProbeV1", "debug_only": True,
++              "ground_enabled": not args.no_ground, "control_ticks": args.control_ticks,
++              "test_case": args.case, "probe_sha256": digest(Path(__file__)),
++              "disabled_ground_colliders": env.disabled_ground_colliders,
++              "joint_names": list(env.robot.joint_names), "gravity_m_s2": list(env.sim.cfg.gravity),
+               "formal_ranking_eligible": False, "contact_sensors": args.contact_sensors,
+               "production_reset_and_step_inherited": True, "seed": cfg.seed, "num_envs": 8,
+               "physics_dt_s": env.physics_dt, "reset_physics_time_advanced_s": reset_after - reset_before,

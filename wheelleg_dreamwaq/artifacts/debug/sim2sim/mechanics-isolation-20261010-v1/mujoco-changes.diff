@@ -1,0 +1,81 @@
+--- E:\wheel_leg_rl-main\wheelleg_dreamwaq\artifacts\debug\sim2sim\same-torque-20261010-v1\probe_mujoco.py
++++ E:\wheel_leg_rl-main\wheelleg_dreamwaq\artifacts\debug\sim2sim\mechanics-isolation-20261010-v1\probe_mujoco.py
+@@ -2,6 +2,7 @@
+ from __future__ import annotations
+ 
+ import argparse
++from dataclasses import replace
+ import hashlib
+ import json
+ import sys
+@@ -28,6 +29,7 @@
+ parser.add_argument("--case", choices=("both", "zero_action", "shared_first_action_hold"), default="both")
+ parser.add_argument("--drive-mode", choices=("formal", "direct_shared", "direct_zero"), default="formal")
+ parser.add_argument("--torques-from", type=Path, required=True)
++parser.add_argument("--mechanics-case", choices=("baseline", "passive_off", "closure_off", "dt_5ms"), required=True)
+ parser.add_argument("--initial-state-from", type=Path)
+ args = parser.parse_args()
+ SUITE = PROJECT / "artifacts/phase2_dreamwaq/training-suite-20261010-001203-reset-v2"
+@@ -68,7 +70,34 @@
+         diagnostic_manifest = {"dynamics_semantics_hash": stable_hash(actual), "debug_only": True}
+         (args.output / "diagnostic-model-identity.json").write_text(json.dumps(diagnostic_manifest, indent=2), encoding="utf-8")
+         runtime = WheelLegMujocoRuntime(variant.model_path, contract, model_manifest=diagnostic_manifest)
++    assert args.drive_mode == "direct_shared" and args.initial_state_from is not None
+     model, data = runtime.model, runtime.data
++    mechanics_before = compiled_model_semantics(model)
++    expected_mechanics = json.loads(json.dumps(mechanics_before))
++    controlled_names = set(mechanics_before["controlled_joint_order"])
++    if args.mechanics_case == "passive_off":
++        passive_ids = [j for j in range(1, model.njnt)
++                       if mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_JOINT, j) not in controlled_names]
++        assert len(passive_ids) == 20
++        passive_dofs = model.jnt_dofadr[passive_ids]
++        assert np.all(model.dof_damping[passive_dofs] == 0.05)
++        model.dof_damping[passive_dofs] = 0.0
++        for joint in expected_mechanics["joints"]:
++            if joint["name"] != "base_free" and joint["name"] not in controlled_names:
++                joint["damping"] = [0.0]
++    elif args.mechanics_case == "closure_off":
++        assert model.neq == 8 and np.all(model.eq_active0)
++        model.eq_active0[:] = False
++        for equality in expected_mechanics["equalities"]:
++            equality["active_initial"] = False
++    elif args.mechanics_case == "dt_5ms":
++        model.opt.timestep = 0.005
++        expected_mechanics["options"]["timestep"] = 0.005
++        contract = replace(contract, physics_dt_s=0.005, physics_steps_per_action=4)
++        runtime.contract = contract
++    mechanics_after = compiled_model_semantics(model)
++    assert mechanics_after == expected_mechanics, "Unexpected compiled mechanics change"
++    assert contract.physics_dt_s * contract.physics_steps_per_action == contract.control_dt_s == 0.02
+     aids = runtime.model_map.actuator_ids
+     dofs = runtime.model_map.dof_addresses
+     assert np.all(model.actuator_dyntype[aids] == mujoco.mjtDyn.mjDYN_NONE)
+@@ -147,6 +176,7 @@
+                 "wheel_collision_bottom_gap_m": gaps,
+                 "normal_force_n": normal.tolist(), "contacts_last_solve": contacts,
+                 "current_geometry_contact_count": int(shadow.ncon),
++                "equality_active_live": data.eq_active.tolist(),
+                 "force_freshness": "last_solved_physics_step" if step_index else "reset_forward_only_no_time_advance",
+                 "joint_position": data.qpos[7:].tolist(), "joint_velocity": data.qvel[6:].tolist(),
+                 "external_ctrl_native_nm": data.ctrl[aids].tolist(),
+@@ -208,7 +238,9 @@
+     if args.no_ground:
+         assert floor_id == -1 and model.npair == 0
+         assert all(s["current_geometry_contact_count"] == 0 and not s["contacts_last_solve"] for s in samples)
+-    report = {"schema_version": "SameTorqueMujocoProbeV1", "debug_only": True,
++    report = {"schema_version": "MechanicsIsolationMujocoV1", "mechanics_case": args.mechanics_case,
++              "mechanics_before": mechanics_before, "mechanics_after": mechanics_after,
++              "only_declared_mechanics_changes": True, "control_substeps": contract.physics_steps_per_action, "debug_only": True,
+               "ground_enabled": not args.no_ground, "control_ticks": args.control_ticks,
+               "test_case": args.case, "drive_mode": args.drive_mode,
+               "torque_input_sha256": digest(args.torques_from), "free_base": True,
+@@ -217,7 +249,7 @@
+               "dof_damping": model.dof_damping.tolist(), "dof_armature": model.dof_armature.tolist(),
+               "equality_active": model.eq_active0.tolist(), "active_ctrl_ranges": model.actuator_ctrlrange[aids].tolist(), "probe_sha256": digest(Path(__file__)),
+               "variant_model_sha256": None if variant is None else variant.model_sha256,
+-              "non_contact_compiled_semantics_unchanged": True,
++              "base_no_ground_compiled_semantics_validated_before_intervention": True,
+               "observer_replay_max_errors": replay_errors, "gravity_m_s2": model.opt.gravity.tolist(),
+               "formal_ranking_eligible": False, "physics_dt_s": float(model.opt.timestep),
+               "reset_physics_time_advanced_s": 0.0, "ground_top_z_m": 0.0,

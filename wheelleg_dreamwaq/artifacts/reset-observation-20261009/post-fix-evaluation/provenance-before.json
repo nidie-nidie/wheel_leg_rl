@@ -1,0 +1,49 @@
+{
+  "scope": "post-fix diagnostic; not RootCauseSuite G00/G01/G02 or P10-C70 verdict",
+  "training_started": false,
+  "source_identity": {
+    "architecture": {
+      "path": "E:\\wheel_leg_rl-main\\docs\\2026-10-03-wheelleg-dreamwaq-architecture.md",
+      "sha256": "4E0987DE794964371995D6957BCDBFE052B5C1B51A79C2185C7F3F478E9F159A"
+    },
+    "env": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\env.py",
+      "sha256": "1EF7C18B830BE13DA6DD6BB0865A61A63822926F6403C69730B08C5E013D6A22"
+    },
+    "isaac_evaluator": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\evaluate_isaac.py",
+      "sha256": "B1822EB0821B5980B89737912A574F20CFEA44B47C549CA44BFC6F17FADC9093"
+    },
+    "mujoco_evaluator": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\evaluate_mujoco.py",
+      "sha256": "61E498E9CB18BE5E96D9CC24B5D5A714A21C4A8822D3418C96E6A168311C8B05"
+    },
+    "dreamwaq_checkpoint": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-07_18-57-15_rtx5070_fudan-v1_dreamwaq-v1-suite-20261007-185711-run01-seed917410003\\model_999.pt",
+      "sha256": "F3FE2AAEE7975AD64FB7C5F0686D7632AFAD81A16419415135AF56680595BA4C"
+    },
+    "baseline_checkpoint": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_07-32-32_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run03-seed1884612625\\model_999.pt",
+      "sha256": "31C1A7DB00AD00B68794D721B5B7DDD0E4765B583E3F916710D917D5053B56B4"
+    },
+    "actor": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261007-185711\\run-01-evaluation\\export\\actor.ts",
+      "sha256": "4C2C64C2D9F9F88532FCEFF4AE45AA049F970646761D2D0ACE0A29678621D6C7"
+    },
+    "policy_manifest": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261007-185711\\run-01-evaluation\\export\\policy_manifest.json",
+      "sha256": "322232B78674217579E491FF9B88E1E688DB899A2C5064830F0D3149B0E992C3"
+    },
+    "golden_vectors": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261007-185711\\run-01-evaluation\\export\\golden_vectors.pt",
+      "sha256": "158A4545AB0CA02AEC5D485629DB02B79FFDD5AF10D202FF68DEA80040C1507E"
+    },
+    "checkpoint_training_context": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261007-185711\\run-01-evaluation\\evaluation-suite-context.json",
+      "sha256": "17375C3077FAEC7F73A6082C44DD2E21FB09FEBFC85C07134BC4C5383AC05A44"
+    }
+  },
+  "output": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\reset-observation-20261009\\post-fix-evaluation",
+  "reset_cache_policy": "new nominal eight-environment cache shared by new Isaac baseline and DreamWaQ evaluation",
+  "mujoco_policy_policy": "reuse original exported actor with unchanged model and runtime"
+}

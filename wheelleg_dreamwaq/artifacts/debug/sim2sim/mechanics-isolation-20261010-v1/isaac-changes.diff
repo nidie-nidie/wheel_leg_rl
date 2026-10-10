@@ -1,0 +1,110 @@
+--- E:\wheel_leg_rl-main\wheelleg_dreamwaq\artifacts\debug\sim2sim\same-torque-20261010-v1\probe_isaac.py
++++ E:\wheel_leg_rl-main\wheelleg_dreamwaq\artifacts\debug\sim2sim\mechanics-isolation-20261010-v1\probe_isaac.py
+@@ -28,6 +28,7 @@
+ parser.add_argument("--case", choices=("both", "zero_action", "shared_first_action_hold"), default="both")
+ parser.add_argument("--drive-mode", choices=("formal", "direct_shared", "direct_zero"), default="formal")
+ parser.add_argument("--torques-from", type=Path, required=True)
++parser.add_argument("--mechanics-case", choices=("baseline", "passive_off", "closure_off", "dt_5ms"), required=True)
+ AppLauncher.add_app_launcher_args(parser)
+ args = parser.parse_args()
+ launcher = AppLauncher(args)
+@@ -76,6 +77,18 @@
+                     UsdPhysics.CollisionAPI(prim).CreateCollisionEnabledAttr(False).Set(False)
+                     self.disabled_ground_colliders.append(str(prim.GetPath()))
+             assert self.disabled_ground_colliders, "No ground collider disabled"
++        self.disabled_closure_paths = []
++        if args.mechanics_case == "closure_off":
++            stage = self.sim.get_initial_stage()
++            for index in range(self.cfg.scene.num_envs):
++                for relative in ("jIO/jIO_loop_closure", "jKN/jKN_loop_closure", "jEC/jAG_loop_closure", "jCF/jCF_revolute_joint"):
++                    path = f"/World/envs/env_{index}/Robot/{relative}"
++                    joint = UsdPhysics.Joint(stage.GetPrimAtPath(path))
++                    assert joint
++                    joint.CreateJointEnabledAttr(False).Set(False)
++                    assert joint.GetJointEnabledAttr().Get() is False
++                    self.disabled_closure_paths.append(path)
++            assert len(self.disabled_closure_paths) == 32
+         self.probe_sensors = []
+         if args.contact_sensors:
+             for side in ("left", "right"):
+@@ -97,7 +110,7 @@
+             joint = UsdPhysics.Joint(stage.GetPrimAtPath(path))
+             assert joint
+             enabled = joint.GetJointEnabledAttr().Get()
+-            assert enabled is not False
++            assert (enabled is not False) == (args.mechanics_case != "closure_off")
+             closure[path] = enabled is not False
+         return {"stiffness": cpu(view.get_dof_stiffnesses()).tolist(),
+                 "damping": cpu(view.get_dof_dampings()).tolist(),
+@@ -118,6 +131,9 @@
+             for name in ("legs", "wheels"):
+                 self.robot.actuators[name].stiffness.zero_()
+                 self.robot.actuators[name].damping.zero_()
++        if args.mechanics_case == "passive_off":
++            self.robot.write_joint_damping_to_sim(0.0, joint_ids=self._passive_joint_ids)
++            self.robot.actuators["passive"].damping.zero_()
+         self.drive_after = self.drive_identity()
+         expected = json.loads(json.dumps(self.drive_before))
+         if args.drive_mode != "formal":
+@@ -127,8 +143,16 @@
+                         row[joint] = 0.0
+                 for name in ("legs", "wheels"):
+                     expected["actuator_cache"][name][field] = np.zeros_like(expected["actuator_cache"][name][field]).tolist()
+-        assert self.drive_after == expected, "Unexpected change outside active PD gains"
+-        self._assert_passive_actuator_contract()
++        if args.mechanics_case == "passive_off":
++            for row in expected["damping"]:
++                for joint in self._passive_joint_ids:
++                    row[joint] = 0.0
++            expected["actuator_cache"]["passive"]["damping"] = np.zeros_like(expected["actuator_cache"]["passive"]["damping"]).tolist()
++        assert self.drive_after == expected, "Unexpected drive parameter change"
++        if args.mechanics_case != "passive_off":
++            self._assert_passive_actuator_contract()
++        else:
++            assert torch.count_nonzero(self.robot.data.joint_vel_target[:, self._passive_joint_ids]) == 0
+ 
+     def _apply_action(self):
+         if args.drive_mode == "formal":
+@@ -144,6 +168,7 @@
+ 
+ def main():
+     assert args.control_ticks > 0
++    assert args.mechanics_case != "dt_5ms" and args.drive_mode == "direct_shared"
+     assert not args.no_ground or (args.actions_from and args.contact_sensors)
+     args.output.mkdir(parents=True, exist_ok=False)
+     assert args.no_ground and args.case == "shared_first_action_hold" and args.control_ticks == 1
+@@ -283,8 +308,15 @@
+         assert float(env.sim.current_time) == start
+         samples.append(snapshot("reset_returned_before_first_action"))
+         for _ in range(args.control_ticks):
+-            _, _, dones, _ = wrapped.step(action)
+-            assert not dones.any(), "Probe crossed an episode boundary"
++            # Same DirectRLEnv physics loop, without closed-geometry reward/done checks.
++            env._pre_physics_step(action)
++            assert not env.sim.has_gui() and not env.sim.has_rtx_sensors()
++            for _ in range(env.cfg.decimation):
++                env._sim_step_counter += 1
++                env._apply_action()
++                env.scene.write_data_to_sim()
++                env.sim.step(render=False)
++                env.scene.update(dt=env.physics_dt)
+     env.sim.step = original_step
+     view.set_dof_actuation_forces = original_force_setter
+     controlled = env._controlled_joint_ids
+@@ -310,13 +342,14 @@
+                 assert np.max(np.abs(sample["normal_force_world_n"])) == 0.0
+         for path in env.disabled_ground_colliders:
+             assert UsdPhysics.CollisionAPI(stage.GetPrimAtPath(path)).GetCollisionEnabledAttr().Get() is False
+-    report = {"schema_version": "SameTorqueIsaacProbeV1", "debug_only": True,
++    report = {"schema_version": "MechanicsIsolationIsaacV1", "mechanics_case": args.mechanics_case,
++              "disabled_closure_paths": env.disabled_closure_paths, "physics_loop_only": True, "debug_only": True,
+               "ground_enabled": not args.no_ground, "control_ticks": args.control_ticks,
+               "test_case": args.case, "probe_sha256": digest(Path(__file__)),
+               "disabled_ground_colliders": env.disabled_ground_colliders,
+               "joint_names": list(env.robot.joint_names), "gravity_m_s2": list(env.sim.cfg.gravity),
+               "formal_ranking_eligible": False, "contact_sensors": args.contact_sensors,
+-              "production_reset_and_step_inherited": True, "production_apply_action_inherited": args.drive_mode == "formal",
++              "production_reset_inherited": True, "production_step_inherited": False, "production_apply_action_inherited": args.drive_mode == "formal",
+               "drive_mode": args.drive_mode, "torque_input_sha256": digest(args.torques_from),
+               "drive_before": env.drive_before, "drive_after": env.drive_after,
+               "active_joint_ids": list(controlled), "submitted_force_arguments_native_nm": submitted_forces,

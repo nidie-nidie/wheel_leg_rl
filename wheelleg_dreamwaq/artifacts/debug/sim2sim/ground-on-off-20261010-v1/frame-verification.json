@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "samples": 672,
+  "angular_body_qvel_vs_fresh_production_jacobian_max_error_rad_s": 1.0658141036401503e-14,
+  "input_sha256": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\ground-on-off-20261010-v1\\mujoco-zero_action-ground-on\\evidence.json": "36E03F2F17D5230CD612E5E7205AAFECA3278CAE35B47A3972ADE6F2AEFEFA77",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\ground-on-off-20261010-v1\\mujoco-zero_action-ground-off\\evidence.json": "4F6FC6706407DC493B09F23EEE1396A86BE00FF30B7102FD548A52AE59FDD54B",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\ground-on-off-20261010-v1\\mujoco-shared_first_action_hold-ground-on\\evidence.json": "BDCA9AE838D3621636C5904ADAD8634E42741913D2B698DF58D455AD11D7E7EC",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\ground-on-off-20261010-v1\\mujoco-shared_first_action_hold-ground-off\\evidence.json": "567F9F9ACA5B39DEE945F6EC931A9B399FB6D44353DE6CAAFAE61A6A5DEB34C2"
+  }
+}

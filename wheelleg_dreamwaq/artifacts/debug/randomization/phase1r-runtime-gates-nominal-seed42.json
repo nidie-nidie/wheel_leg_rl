@@ -1,0 +1,609 @@
+{
+  "actuator_sync": {
+    "errors": {
+      "controlled_effort_limit": 0.0,
+      "data_damping": 0.0,
+      "data_effort_limit": 0.0,
+      "data_stiffness": 0.0,
+      "legs_mirror_damping": 0.0,
+      "legs_mirror_effort_limit": 0.0,
+      "legs_mirror_effort_limit_sim": 0.0,
+      "legs_mirror_stiffness": 0.0,
+      "physx_damping": 0.0,
+      "physx_effort_limit": 0.0,
+      "physx_stiffness": 0.0,
+      "wheels_mirror_damping": 0.0,
+      "wheels_mirror_effort_limit": 0.0,
+      "wheels_mirror_effort_limit_sim": 0.0,
+      "wheels_mirror_stiffness": 0.0
+    },
+    "max_abs_error": 0.0,
+    "passed": true
+  },
+  "cache": {
+    "algorithm_version": "BoundaryClampedPhysXRelaxationV1",
+    "identity": {
+      "actuator_plan_hash": "B182F08927BC9A8BA77ED4311C9E181D4D528110D6DFD0678987ABE2E1A00A39",
+      "asset_bundle_hash": "E754AE888F5C5379B3B6152CFA5AD6BBAE20E8C7480CF7AD6960782A5267CB46",
+      "asset_bundle_version": "AssetBundleV2",
+      "joint_names": [
+        "jIO",
+        "jAG",
+        "jIJ",
+        "jAB",
+        "jOP",
+        "jIO_dummy_child_link1",
+        "jIO_dummy_child_link2",
+        "jGH",
+        "jAG_dummy_child_link1",
+        "jAG_dummy_child_link2",
+        "jJM",
+        "jBE",
+        "jwheel_left",
+        "jwheel_right",
+        "jMK",
+        "jEC",
+        "jKN",
+        "jMK_dummy_child1",
+        "jMK_dummy_child2",
+        "jCF",
+        "jEC_dummy_child_link1",
+        "jEC_dummy_child_link2",
+        "jKN_dummy_child_link1",
+        "jKN_dummy_child_link2",
+        "jCF_dummy_child_link1",
+        "jCF_dummy_child_link2"
+      ],
+      "master_seed": 42,
+      "num_envs": 8,
+      "passive_joint_names": [
+        "jOP",
+        "jIO_dummy_child_link1",
+        "jIO_dummy_child_link2",
+        "jGH",
+        "jAG_dummy_child_link1",
+        "jAG_dummy_child_link2",
+        "jJM",
+        "jMK",
+        "jKN",
+        "jKN_dummy_child_link1",
+        "jKN_dummy_child_link2",
+        "jMK_dummy_child1",
+        "jMK_dummy_child2",
+        "jBE",
+        "jEC",
+        "jCF",
+        "jCF_dummy_child_link1",
+        "jCF_dummy_child_link2",
+        "jEC_dummy_child_link1",
+        "jEC_dummy_child_link2"
+      ],
+      "physical_passive_branch_joint_names": [
+        "jJM",
+        "jMK",
+        "jKN",
+        "jOP",
+        "jBE",
+        "jEC",
+        "jCF",
+        "jGH"
+      ],
+      "physics_schema_version": "PhysicsV4",
+      "randomization_profile_hash": "EE24321AC290C4A4E7D063D7AF96AE83114565B9167EC045FD2BC944F7258381",
+      "realized_plan_hash": "28EC344E97ADDB6785E779741EFA42CE590F65E8715FD986A32424DE701D6448"
+    },
+    "metrics": {
+      "active_reference_error_max_rad": 0.0,
+      "branch_signature_mismatch_count": 0,
+      "environment_counters_after": {
+        "common_step_counter": 0,
+        "episode_length_max": 0,
+        "sim_step_counter": 0
+      },
+      "environment_counters_before": {
+        "common_step_counter": 0,
+        "episode_length_max": 0,
+        "sim_step_counter": 0
+      },
+      "finite": true,
+      "gravity_before": [
+        0.0,
+        0.0,
+        -9.8100004196167
+      ],
+      "gravity_restored_readback": [
+        0.0,
+        0.0,
+        -9.8100004196167
+      ],
+      "gravity_zero_readback": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hard_limit_violation_count": 0,
+      "joint_speed_max_rad_s": 0.0,
+      "length_error_max_m": 3.5315752029418945e-06,
+      "loop_error_max_m": 6.078504952711228e-07,
+      "passive_raw_delta_max_abs_rad": 6.288290023803711e-06,
+      "passive_wrapped_delta_max_abs_rad": 6.288290023803711e-06,
+      "per_joint_stats": {
+        "jAB": {
+          "max_abs_nominal_delta_rad": 4.470348358154297e-07,
+          "maximum_rad": -0.33367133140563965,
+          "minimum_rad": -0.33367133140563965
+        },
+        "jAG": {
+          "max_abs_nominal_delta_rad": 2.086162567138672e-07,
+          "maximum_rad": 0.33367133140563965,
+          "minimum_rad": 0.33367133140563965
+        },
+        "jAG_dummy_child_link1": {
+          "max_abs_nominal_delta_rad": 4.190951585769653e-08,
+          "maximum_rad": -0.008343498222529888,
+          "minimum_rad": -0.008343540132045746
+        },
+        "jAG_dummy_child_link2": {
+          "max_abs_nominal_delta_rad": 4.190951585769653e-08,
+          "maximum_rad": -0.008343487977981567,
+          "minimum_rad": -0.008343529887497425
+        },
+        "jBE": {
+          "max_abs_nominal_delta_rad": 2.4437904357910156e-06,
+          "maximum_rad": 0.37146902084350586,
+          "minimum_rad": 0.3714670240879059
+        },
+        "jCF": {
+          "max_abs_nominal_delta_rad": 1.8775463104248047e-06,
+          "maximum_rad": 0.3715077042579651,
+          "minimum_rad": 0.37150490283966064
+        },
+        "jCF_dummy_child_link1": {
+          "max_abs_nominal_delta_rad": 4.842877388000488e-08,
+          "maximum_rad": 0.015611138194799423,
+          "minimum_rad": 0.015611064620316029
+        },
+        "jCF_dummy_child_link2": {
+          "max_abs_nominal_delta_rad": 4.470348358154297e-08,
+          "maximum_rad": 0.016089294105768204,
+          "minimum_rad": 0.016089212149381638
+        },
+        "jEC": {
+          "max_abs_nominal_delta_rad": 3.248453140258789e-06,
+          "maximum_rad": 0.07562759518623352,
+          "minimum_rad": 0.07562490552663803
+        },
+        "jEC_dummy_child_link1": {
+          "max_abs_nominal_delta_rad": 3.14321368932724e-08,
+          "maximum_rad": 0.0027934277895838022,
+          "minimum_rad": 0.002793408464640379
+        },
+        "jEC_dummy_child_link2": {
+          "max_abs_nominal_delta_rad": 3.14321368932724e-08,
+          "maximum_rad": 0.0027936878614127636,
+          "minimum_rad": 0.0027936685364693403
+        },
+        "jGH": {
+          "max_abs_nominal_delta_rad": 3.606081008911133e-06,
+          "maximum_rad": 0.3714897930622101,
+          "minimum_rad": 0.37148475646972656
+        },
+        "jIJ": {
+          "max_abs_nominal_delta_rad": 1.7881393432617188e-07,
+          "maximum_rad": -0.33367133140563965,
+          "minimum_rad": -0.33367133140563965
+        },
+        "jIO": {
+          "max_abs_nominal_delta_rad": 2.384185791015625e-07,
+          "maximum_rad": 0.33367133140563965,
+          "minimum_rad": 0.33367133140563965
+        },
+        "jIO_dummy_child_link1": {
+          "max_abs_nominal_delta_rad": 1.1175870895385742e-08,
+          "maximum_rad": -0.019754569977521896,
+          "minimum_rad": -0.019754581153392792
+        },
+        "jIO_dummy_child_link2": {
+          "max_abs_nominal_delta_rad": 1.1175870895385742e-08,
+          "maximum_rad": -0.019754549488425255,
+          "minimum_rad": -0.01975456066429615
+        },
+        "jJM": {
+          "max_abs_nominal_delta_rad": 2.294778823852539e-06,
+          "maximum_rad": -0.37146618962287903,
+          "minimum_rad": -0.37146779894828796
+        },
+        "jKN": {
+          "max_abs_nominal_delta_rad": 4.500150680541992e-06,
+          "maximum_rad": -0.3715016841888428,
+          "minimum_rad": -0.3715061843395233
+        },
+        "jKN_dummy_child_link1": {
+          "max_abs_nominal_delta_rad": 9.685754776000977e-08,
+          "maximum_rad": -0.06563107669353485,
+          "minimum_rad": -0.06563123315572739
+        },
+        "jKN_dummy_child_link2": {
+          "max_abs_nominal_delta_rad": 9.685754776000977e-08,
+          "maximum_rad": -0.06613238155841827,
+          "minimum_rad": -0.06613253802061081
+        },
+        "jMK": {
+          "max_abs_nominal_delta_rad": 5.163252353668213e-06,
+          "maximum_rad": 0.07562562078237534,
+          "minimum_rad": 0.07562201470136642
+        },
+        "jMK_dummy_child1": {
+          "max_abs_nominal_delta_rad": 7.450580596923828e-09,
+          "maximum_rad": -0.06897038966417313,
+          "minimum_rad": -0.06897039711475372
+        },
+        "jMK_dummy_child2": {
+          "max_abs_nominal_delta_rad": 7.450580596923828e-09,
+          "maximum_rad": -0.0689741000533104,
+          "minimum_rad": -0.06897410750389099
+        },
+        "jOP": {
+          "max_abs_nominal_delta_rad": 6.288290023803711e-06,
+          "maximum_rad": -0.3714940845966339,
+          "minimum_rad": -0.3715019226074219
+        },
+        "jwheel_left": {
+          "max_abs_nominal_delta_rad": 0.0,
+          "maximum_rad": 0.0,
+          "minimum_rad": 0.0
+        },
+        "jwheel_right": {
+          "max_abs_nominal_delta_rad": 0.0,
+          "maximum_rad": 0.0,
+          "minimum_rad": 0.0
+        }
+      },
+      "phi0_error_max_rad": 1.0013580322265625e-05,
+      "physical_passive_branch_signature": [
+        [
+          -1,
+          1,
+          -1,
+          -1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          -1,
+          1,
+          -1,
+          -1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          -1,
+          1,
+          -1,
+          -1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          -1,
+          1,
+          -1,
+          -1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          -1,
+          1,
+          -1,
+          -1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          -1,
+          1,
+          -1,
+          -1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          -1,
+          1,
+          -1,
+          -1,
+          1,
+          1,
+          1,
+          1
+        ],
+        [
+          -1,
+          1,
+          -1,
+          -1,
+          1,
+          1,
+          1,
+          1
+        ]
+      ],
+      "underlying_physics_time_advanced_s": 0.05,
+      "wheel_error_max_m": 4.066269866598304e-06
+    },
+    "origin": "generated",
+    "resume_validation_metrics": null,
+    "schema_version": "ClosedChainResetCacheSchemaV1",
+    "tensor_sha256": "DD694D8620A938554BAE9B7DA33929CF7F56946A38E6B423432C5A8CCAC124B5"
+  },
+  "episode_reset_counter_unchanged": true,
+  "episode_reset_counters_after": {
+    "common_step_counter": 0,
+    "episode_length": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "sim_step_counter": 0
+  },
+  "episode_reset_counters_before": {
+    "common_step_counter": 0,
+    "episode_length": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "sim_step_counter": 0
+  },
+  "gate_a": {
+    "checks": {
+      "finite": true,
+      "leg_speed": true,
+      "length_fk": true,
+      "loop_closure": true,
+      "phi0_fk": true,
+      "saturation_consecutive": true,
+      "saturation_fraction": true,
+      "wheel_fk": true,
+      "wheel_penetration": true,
+      "wheel_speed": true
+    },
+    "duration_s": 0.2,
+    "maxima": {
+      "leg_speed_rad_s": 0.30349594354629517,
+      "length_error_m": 6.0677528381347656e-05,
+      "loop_error_m": 8.524558325007092e-06,
+      "phi0_error_rad": 0.00022292137145996094,
+      "wheel_error_m": 7.44821663829498e-05,
+      "wheel_penetration_m": 1.3165175914764404e-05,
+      "wheel_speed_rad_s": 0.27298736572265625
+    },
+    "maximum_consecutive_saturation_steps": 0,
+    "maximum_effort_saturation_fraction": 0.0,
+    "name": "GateAZeroRootVelocity",
+    "passed": true,
+    "physics_steps": 40,
+    "root_velocity_control_input": [
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ]
+  },
+  "gate_b": {
+    "checks": {
+      "finite": true,
+      "leg_speed": true,
+      "length_fk": true,
+      "loop_closure": true,
+      "phi0_fk": true,
+      "saturation_consecutive": true,
+      "saturation_fraction": true,
+      "wheel_fk": true,
+      "wheel_penetration": true,
+      "wheel_speed": true
+    },
+    "duration_s": 0.2,
+    "maxima": {
+      "leg_speed_rad_s": 0.30968940258026123,
+      "length_error_m": 6.079673767089844e-05,
+      "loop_error_m": 8.315235390909947e-06,
+      "phi0_error_rad": 0.0002225637435913086,
+      "wheel_error_m": 7.460638153133914e-05,
+      "wheel_penetration_m": 1.3601034879684448e-05,
+      "wheel_speed_rad_s": 0.27353742718696594
+    },
+    "maximum_consecutive_saturation_steps": 0,
+    "maximum_effort_saturation_fraction": 0.0,
+    "name": "GateBRandomRootVelocity",
+    "passed": true,
+    "physics_steps": 40,
+    "root_velocity_control_input": [
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ]
+  },
+  "num_envs": 8,
+  "passed": true,
+  "randomization_profile": "nominal",
+  "schema_version": "Phase1RandomizationRuntimeGateV1",
+  "seed": 42,
+  "wheel_collision_geometry": {
+    "jwheel_left": {
+      "body_local_aabb_max_m": [
+        0.062445998191833496,
+        0.0020000000949949026,
+        0.0625
+      ],
+      "body_local_aabb_min_m": [
+        -0.062453001737594604,
+        -0.0551999993622303,
+        -0.06230400130152702
+      ],
+      "collision_prim": "/World/envs/env_0/Robot/jwheel_left/collisions/collision_0/child_0",
+      "vertex_count": 14796,
+      "vertical_radius_m": 0.0625
+    },
+    "jwheel_right": {
+      "body_local_aabb_max_m": [
+        0.06249700114130974,
+        0.0551999993622303,
+        0.06242400035262108
+      ],
+      "body_local_aabb_min_m": [
+        -0.06233999878168106,
+        -0.0020000000949949026,
+        -0.062470000237226486
+      ],
+      "collision_prim": "/World/envs/env_0/Robot/jwheel_right/collisions/collision_0/child_0",
+      "vertex_count": 14796,
+      "vertical_radius_m": 0.062470000237226486
+    }
+  }
+}

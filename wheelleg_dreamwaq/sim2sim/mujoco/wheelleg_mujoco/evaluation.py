@@ -10,11 +10,14 @@ from typing import Any
 import numpy as np
 
 from .contract import sha256_file
+from .physics import PHYSICS_SCHEMA_VERSION, unrestricted_velocity_policy, validate_policy_physics
 from .model_semantics import stable_hash
 
 
 EVALUATION_SCHEMA_VERSION = "MujocoEvaluationV1"
-EVALUATION_CONTRACT_VERSION = "MujocoEvaluationContractV1"
+EVALUATION_CONTRACT_VERSION = "MujocoEvaluationContractV3"
+# A diagnostic failure threshold, never a physics speed cap or braking rule.
+JOINT_SPEED_FAILURE_THRESHOLD_RAD_S = 80.0
 RANKING_VERSION = "MujocoRankingV1"
 EVALUATION_SOURCE_VERSION = "MujocoEvaluationSourceV1"
 FORMAL_RUN_COUNT = 4
@@ -248,6 +251,14 @@ def build_evaluation_contract(
     smoke: bool,
     training_suite: dict | None = None,
 ) -> dict:
+    validate_policy_physics(policy_manifest)
+    policy_schema_version = policy_manifest["schema_version"]
+    if policy_schema_version == "DreamWaQPolicyExportV1":
+        task_contract_version = policy_manifest["base_task_contract_version"]
+        task_contract_hash = policy_manifest["base_task_contract_hash"]
+    else:
+        task_contract_version = policy_manifest["phase1_contract_version"]
+        task_contract_hash = policy_manifest["phase1_contract_hash"]
     return {
         "schema_version": EVALUATION_CONTRACT_VERSION,
         "evaluation_schema_version": EVALUATION_SCHEMA_VERSION,
@@ -255,10 +266,16 @@ def build_evaluation_contract(
         "smoke": smoke,
         "training_suite": training_suite,
         "evaluation_implementation": build_evaluation_source_fingerprint(),
-        "phase1_contract_hash": policy_manifest["phase1_contract_hash"],
+        "policy_export_schema_version": policy_schema_version,
+        "task_contract_version": task_contract_version,
+        "task_contract_hash": task_contract_hash,
+        "phase1_contract_hash": policy_manifest.get("phase1_contract_hash"),
+        "base_task_contract_hash": policy_manifest.get("base_task_contract_hash"),
         "control_dt_s": policy_manifest["timing"]["control_dt_s"],
         "physics_dt_s": policy_manifest["timing"]["mujoco_physics_dt_s"],
         "physics_steps_per_action": policy_manifest["timing"]["mujoco_physics_steps_per_action"],
+        "physics_schema_version": PHYSICS_SCHEMA_VERSION,
+        "velocity_limit_policy": unrestricted_velocity_policy(),
         "expected_ticks_per_scenario": expected_ticks,
         "scenario_duration_s": expected_ticks * policy_manifest["timing"]["control_dt_s"],
         "scenarios": [
@@ -277,6 +294,7 @@ def build_evaluation_contract(
             "tilt_rad": 0.80,
             "root_linear_speed_mps": 20.0,
             "root_angular_speed_rad_s": 35.0,
+            "joint_speed_rad_s": JOINT_SPEED_FAILURE_THRESHOLD_RAD_S,
             "loop_closure_error_m": 5.0e-3,
             "virtual_leg_min_length_m": 0.05,
         },
@@ -432,6 +450,12 @@ def validate_evaluation_reports_for_ranking(reports: list[dict]) -> dict:
             raise ValueError("MuJoCo evaluation contract hash is invalid")
         if contract.get("schema_version") != EVALUATION_CONTRACT_VERSION:
             raise ValueError("Unsupported MuJoCo evaluation contract")
+        if (
+            contract.get("physics_schema_version") != PHYSICS_SCHEMA_VERSION
+            or contract.get("velocity_limit_policy") != unrestricted_velocity_policy()
+            or "rigid_body_angular_limit" in contract
+        ):
+            raise ValueError("MuJoCo velocity-limit policy differs from the current runtime")
         if contract.get("evaluation_implementation") != current_implementation:
             raise ValueError("MuJoCo evaluation implementation fingerprint differs from the current runtime")
         if contract.get("smoke") is not False or contract.get("scenarios") != expected_scenarios:
@@ -441,8 +465,13 @@ def validate_evaluation_reports_for_ranking(reports: list[dict]) -> dict:
         training_suite = contract.get("training_suite")
         if not isinstance(training_suite, dict):
             raise ValueError("Formal MuJoCo evaluation is missing the training-suite context")
+        suite_schema = training_suite.get("schema_version")
+        expected_run_schema = {
+            "TrainingEvaluationContextV1": "TrainingEvaluationRunV1",
+            "DreamWaQTrainingEvaluationContextV1": "DreamWaQTrainingEvaluationRunV1",
+        }.get(suite_schema)
         if (
-            training_suite.get("schema_version") != "TrainingEvaluationContextV1"
+            expected_run_schema is None
             or training_suite.get("suite_mode") != "formal"
             or training_suite.get("run_count") != FORMAL_RUN_COUNT
             or training_suite.get("iterations_per_run") != FORMAL_ITERATIONS
@@ -462,7 +491,7 @@ def validate_evaluation_reports_for_ranking(reports: list[dict]) -> dict:
         if not isinstance(training_run, dict):
             raise ValueError("Formal MuJoCo evaluation is missing its training-run context")
         if (
-            training_run.get("schema_version") != "TrainingEvaluationRunV1"
+            training_run.get("schema_version") != expected_run_schema
             or training_run.get("suite_id") != training_suite.get("suite_id")
             or training_run.get("run_count") != FORMAL_RUN_COUNT
             or training_run.get("completed_iterations") != FORMAL_ITERATIONS
@@ -480,8 +509,14 @@ def validate_evaluation_reports_for_ranking(reports: list[dict]) -> dict:
             raise ValueError("MuJoCo ranking contains a missing or duplicate source checkpoint")
         checkpoint_hashes.add(checkpoint_hash)
         policy_manifest = _load_bound_policy_manifest(report, training_run)
-        if policy_manifest.get("phase1_contract_hash") != contract.get("phase1_contract_hash"):
-            raise ValueError("MuJoCo ranking policy manifest uses a different Phase1 contract")
+        validate_policy_physics(policy_manifest)
+        manifest_task_hash = policy_manifest.get(
+            "base_task_contract_hash",
+            policy_manifest.get("phase1_contract_hash"),
+        )
+        contract_task_hash = contract.get("task_contract_hash", contract.get("phase1_contract_hash"))
+        if manifest_task_hash != contract_task_hash:
+            raise ValueError("MuJoCo ranking policy manifest uses a different task contract")
         aggregate = report.get("aggregate", {})
         scenarios = aggregate.get("scenarios", [])
         if aggregate.get("scenario_count") != len(FORMAL_SCENARIOS) or len(scenarios) != len(FORMAL_SCENARIOS):
@@ -557,13 +592,16 @@ def build_ranking_summary(reports: list[dict], evaluation_paths: list[str]) -> d
     ranked = rank_runs(candidates)
     has_full_survival_candidate = any(candidate["full_survival"] for candidate in ranked)
     best_candidate = ranked[0]
+    training_suite = evaluation_contract.get("training_suite") or {}
+    dreamwaq = training_suite.get("schema_version") == "DreamWaQTrainingEvaluationContextV1"
     return {
-        "schema_version": "MujocoTrainingSuiteRankingV2",
+        "schema_version": "MujocoDreamWaQTrainingSuiteRankingV1" if dreamwaq else "MujocoTrainingSuiteRankingV2",
         "evaluation_contract": evaluation_contract,
         "evaluation_contract_hash": reports[0]["evaluation_contract_hash"],
         "has_full_survival_candidate": has_full_survival_candidate,
-        "phase1_qualified": False,
-        "qualification_status": "pending_g08",
+        "phase1_qualified": False if not dreamwaq else None,
+        "phase2_acceptance_status": "pending_isaac_and_context_gates" if dreamwaq else None,
+        "qualification_status": "pending_g08" if not dreamwaq else "mujoco_evidence_complete",
         "selected": None,
         "best_candidate": best_candidate,
         "diagnostic_candidate": None if has_full_survival_candidate else best_candidate,

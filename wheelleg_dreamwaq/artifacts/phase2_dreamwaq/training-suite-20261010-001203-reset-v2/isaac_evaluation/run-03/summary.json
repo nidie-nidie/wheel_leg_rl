@@ -1,0 +1,399 @@
+{
+  "aggregate": {
+    "completed_scenarios": 8,
+    "full_survival": true,
+    "mean_scenario_return": 22.01398709625937,
+    "mean_survival_fraction": 1.0,
+    "performance_key": [
+      0,
+      -22.013987
+    ],
+    "scenario_count": 8,
+    "scenarios": [
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.2
+        ],
+        "completed": true,
+        "failure_reason": null,
+        "name": "nominal_stand",
+        "reward_sum": 22.49812980275601,
+        "survival_fraction": 1.0,
+        "survival_steps": 499
+      },
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.17
+        ],
+        "completed": true,
+        "failure_reason": null,
+        "name": "low_stand",
+        "reward_sum": 18.432104302570224,
+        "survival_fraction": 1.0,
+        "survival_steps": 499
+      },
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.23
+        ],
+        "completed": true,
+        "failure_reason": null,
+        "name": "high_stand",
+        "reward_sum": 15.554851949797012,
+        "survival_fraction": 1.0,
+        "survival_steps": 499
+      },
+      {
+        "command": [
+          1.0,
+          0.0,
+          0.2
+        ],
+        "completed": true,
+        "failure_reason": null,
+        "name": "forward",
+        "reward_sum": 26.39236819301732,
+        "survival_fraction": 1.0,
+        "survival_steps": 499
+      },
+      {
+        "command": [
+          -1.0,
+          0.0,
+          0.2
+        ],
+        "completed": true,
+        "failure_reason": null,
+        "name": "reverse",
+        "reward_sum": 21.063813125365414,
+        "survival_fraction": 1.0,
+        "survival_steps": 499
+      },
+      {
+        "command": [
+          0.0,
+          0.6,
+          0.2
+        ],
+        "completed": true,
+        "failure_reason": null,
+        "name": "left_turn",
+        "reward_sum": 22.347829611040652,
+        "survival_fraction": 1.0,
+        "survival_steps": 499
+      },
+      {
+        "command": [
+          0.0,
+          -0.6,
+          0.2
+        ],
+        "completed": true,
+        "failure_reason": null,
+        "name": "right_turn",
+        "reward_sum": 22.255950121209025,
+        "survival_fraction": 1.0,
+        "survival_steps": 499
+      },
+      {
+        "command": [
+          0.8,
+          0.5,
+          0.2
+        ],
+        "completed": true,
+        "failure_reason": null,
+        "name": "combined",
+        "reward_sum": 27.566849664319307,
+        "survival_fraction": 1.0,
+        "survival_steps": 499
+      }
+    ]
+  },
+  "base_task_contract_hash": "B369AE9E51DC9B97BC53A81947CD2322E6A0C7E12354D6DF1C7290357A7CFF17",
+  "base_task_contract_version": "WheelLegBaseTaskContractV1",
+  "baseline_comparison": {
+    "baseline_performance_key": [
+      0,
+      -27.676683
+    ],
+    "baseline_report": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\isaac_evaluation\\phase1r-baseline\\summary.json",
+    "baseline_report_hash": "9D5435B2C4459E0A7D4AC0B7748F4A8AA9C336C099CC5107AC33796D702EA468",
+    "candidate_not_worse": false,
+    "candidate_performance_key": [
+      0,
+      -22.013987
+    ]
+  },
+  "estimator": {
+    "velocity_acceptance": true,
+    "velocity_eval_mse": 0.0013857206003320495,
+    "velocity_eval_mse_ratio": 0.0031934973356609257,
+    "velocity_sample_frames": 3992,
+    "velocity_scalar_samples": 11976,
+    "velocity_zero_baseline_mse": 0.43391944776595875
+  },
+  "evaluation_contract": {
+    "base_task_contract_hash": "B369AE9E51DC9B97BC53A81947CD2322E6A0C7E12354D6DF1C7290357A7CFF17",
+    "baseline": {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_ppo\\2026-10-07_07-32-32_rtx5070_fudan-v1_phase1r-v3-suite-20261007-062147-run03-seed1884612625\\model_999.pt",
+      "checkpoint_sha256": "31C1A7DB00AD00B68794D721B5B7DDD0E4765B583E3F916710D917D5053B56B4",
+      "completed_iterations": 1000,
+      "phase1_contract_hash": "CC57F16B1BB75E169CCF21CD706E10C8D2D23498434ACED982AFFA8FD1F72848",
+      "phase1_contract_version": "Phase1RandomizedContractV3",
+      "run_manifest_sha256": "026B6D8F151A9DFC3B13E6342EAE5B6851E34C78F2B01EABC2577F1ED4F54984",
+      "schema_version": "Phase1RIsaacBaselineV1",
+      "seed": 1884612625
+    },
+    "contract_hash": "9FB6B59624B48901C1CDAB8776EFA044FEDA4FF429095EFBB24227D69016A5A1",
+    "control": {
+      "action_steps": 499,
+      "control_dt_s": 0.02,
+      "duration_s": 9.98,
+      "expected_done": "truncated_on_action_step_499",
+      "policy_action": "deterministic_effective_mean",
+      "runtime_action_clip": [
+        -1.0,
+        1.0
+      ]
+    },
+    "done_semantics": {
+      "post_reset_observation_counted": false,
+      "terminated": "failure",
+      "truncated_before_step_499": "protocol_failure",
+      "truncated_on_step_499": "completed"
+    },
+    "environment_count": 8,
+    "estimator": {
+      "aggregation": "sample_weighted_over_frames_and_three_features",
+      "denominator_floor": 1e-08,
+      "maximum_zero_baseline_ratio": 0.8,
+      "sample_timing": "active_pre_action_frame",
+      "target": "critic[:,25:28]"
+    },
+    "evaluation_schema_version": "IsaacEvaluationV1",
+    "evaluation_source": {
+      "files": {
+        "scripts/evaluate_isaac.py": "B1822EB0821B5980B89737912A574F20CFEA44B47C549CA44BFC6F17FADC9093",
+        "source/wheelleg_dreamwaq/wheelleg_dreamwaq/deployment/observation_adapter.py": "2DFC47BC34220781145EBB7768A9A1A712F80D774AC9684B0AAA42663F62FB5E",
+        "source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/isaac_evaluation.py": "36052894D296B3CF103EAFA8F505F150ACAF8D5F60C7476E0B0FCA24276153CE",
+        "source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/observation.py": "E9053E20C4E736137632DD7A52E4AE9655D8DC31ED6E9A2F5EF84B74A9131F67"
+      },
+      "hash": "06F829B3A829107193CC60CA0C7C2461D1A2CD4D69A4E95E1AC669556B7F5CC5",
+      "schema_version": "IsaacEvaluationSourceV1"
+    },
+    "first_observation_sequence": [
+      "discard_upstream_wrapper_reset_observation",
+      "write_eight_fixed_commands",
+      "call_get_observations_once",
+      "fill_five_history_frames_from_first_policy_observation"
+    ],
+    "manifest_version": "IsaacEvaluationContractV1",
+    "performance_key": {
+      "comparison": "candidate_key <= baseline_key",
+      "full_survival": [
+        0,
+        "-round(mean_scenario_return,6)"
+      ],
+      "partial_survival": [
+        1,
+        "-completed_scenarios",
+        "-round(mean_survival_fraction,6)",
+        "-round(mean_scenario_return,6)"
+      ]
+    },
+    "randomization_profile": {
+      "actor_observation": "physical_noise_then_normalize",
+      "critic_actor_features": "clean_then_normalize",
+      "generator_device_rules": {
+        "cpu_streams": [
+          "actuator_gain_rng",
+          "command_rng",
+          "effort_limit_rng",
+          "joint_reference_rng",
+          "material_rng",
+          "reset_velocity_rng"
+        ],
+        "environment_device_streams": [
+          "observation_noise_rng"
+        ]
+      },
+      "implicit_torque_semantics": "implicit_pd_estimate",
+      "profile": {
+        "angular_velocity_noise_rad_s": 0.2,
+        "effort_limit_scale_range": [
+          0.95,
+          1.05
+        ],
+        "enabled": false,
+        "friction_bucket_count": 64,
+        "friction_range": [
+          0.6,
+          1.4
+        ],
+        "joint_reference_resample_limit": 32,
+        "joint_velocity_noise_rad_s": 1.5,
+        "kd_scale_range": [
+          0.95,
+          1.05
+        ],
+        "kp_scale_range": [
+          0.95,
+          1.05
+        ],
+        "leg_position_noise_rad": 0.02,
+        "leg_reference_offset_range_rad": [
+          -0.03,
+          0.03
+        ],
+        "max_leg_length_delta_m": 0.01,
+        "max_leg_phi0_delta_rad": 0.08726646259971647,
+        "max_lr_phi0_delta_rad": 0.08726646259971647,
+        "name": "NominalEvaluationProfileV1",
+        "projected_gravity_noise": 0.05,
+        "root_angular_range_rad_s": [
+          -0.1,
+          0.1
+        ],
+        "root_linear_xy_range_mps": [
+          -0.1,
+          0.1
+        ],
+        "root_linear_z_range_mps": [
+          -0.05,
+          0.05
+        ]
+      },
+      "schema_version": "RandomizationSchemaV1",
+      "seed_derivation_version": "RandomizationSeedDerivationV1",
+      "stream_lifecycle": {
+        "process_start": [
+          "material_rng",
+          "joint_reference_rng",
+          "actuator_gain_rng",
+          "effort_limit_rng"
+        ],
+        "runtime": [
+          "reset_velocity_rng",
+          "observation_noise_rng",
+          "command_rng"
+        ]
+      },
+      "streams": [
+        "material_rng",
+        "joint_reference_rng",
+        "actuator_gain_rng",
+        "effort_limit_rng",
+        "reset_velocity_rng",
+        "observation_noise_rng",
+        "command_rng"
+      ]
+    },
+    "randomization_profile_hash": "9BB183751C81D352469FB546B4EFF6C1CEE72AF19D76E2E026F87BFA680A809F",
+    "reset_cache": {
+      "cache_schema_version": "ClosedChainResetCacheSchemaV2",
+      "file_sha256": "008EE5D50E1C622D4AC0408E3C5E1C0B8CFCA618ABD3163E221A39D203B3DECE",
+      "identity_hash": "FDC18BB386CB64C64D56EE4BB46060D83BA42ED3F2EC038AB5B753C478BB4EBF",
+      "num_envs": 8,
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\isaac_evaluation\\evaluation-reset-cache.pt",
+      "relaxation_algorithm_version": "BoundaryClampedPhysXRelaxationV1",
+      "root_height_algorithm_version": "ClosedChainRootHeightAlignmentV1",
+      "schema_version": "IsaacEvaluationResetCacheIdentityV1",
+      "tensor_sha256": "446817DB7509AAC24F66D7111391FF9223D50FA8B33469C31CFF9B79CE3DF21D"
+    },
+    "scenarios": [
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.2
+        ],
+        "name": "nominal_stand"
+      },
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.17
+        ],
+        "name": "low_stand"
+      },
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.23
+        ],
+        "name": "high_stand"
+      },
+      {
+        "command": [
+          1.0,
+          0.0,
+          0.2
+        ],
+        "name": "forward"
+      },
+      {
+        "command": [
+          -1.0,
+          0.0,
+          0.2
+        ],
+        "name": "reverse"
+      },
+      {
+        "command": [
+          0.0,
+          0.6,
+          0.2
+        ],
+        "name": "left_turn"
+      },
+      {
+        "command": [
+          0.0,
+          -0.6,
+          0.2
+        ],
+        "name": "right_turn"
+      },
+      {
+        "command": [
+          0.8,
+          0.5,
+          0.2
+        ],
+        "name": "combined"
+      }
+    ],
+    "seed": 20261007
+  },
+  "evaluation_contract_hash": "9FB6B59624B48901C1CDAB8776EFA044FEDA4FF429095EFBB24227D69016A5A1",
+  "evaluation_schema_version": "IsaacEvaluationV1",
+  "policy_kind": "dreamwaq",
+  "report_hash": "24299E6C3E82E95B2E0712E245F7003FFE97BCDB6B6B2FBA898F831E99C1FE27",
+  "reset_cache": {
+    "cache_schema_version": "ClosedChainResetCacheSchemaV2",
+    "file_sha256": "008EE5D50E1C622D4AC0408E3C5E1C0B8CFCA618ABD3163E221A39D203B3DECE",
+    "identity_hash": "FDC18BB386CB64C64D56EE4BB46060D83BA42ED3F2EC038AB5B753C478BB4EBF",
+    "num_envs": 8,
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\isaac_evaluation\\evaluation-reset-cache.pt",
+    "relaxation_algorithm_version": "BoundaryClampedPhysXRelaxationV1",
+    "root_height_algorithm_version": "ClosedChainRootHeightAlignmentV1",
+    "schema_version": "IsaacEvaluationResetCacheIdentityV1",
+    "tensor_sha256": "446817DB7509AAC24F66D7111391FF9223D50FA8B33469C31CFF9B79CE3DF21D"
+  },
+  "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_01-44-30_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run03-seed1380466594\\model_999.pt",
+  "source_checkpoint_sha256": "37E2481BAE5A8CFD108ECDC35870F08D98E30E40FDEC73C23F2B69D17245F130",
+  "source_completed_iterations": 1000,
+  "source_run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_01-44-30_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run03-seed1380466594\\run_manifest.json",
+  "source_run_manifest_sha256": "4AF10F8B7A5E282CEE152D29C88AD3446963598232BB7086B2FC80FFCAD32276",
+  "source_seed": 1380466594
+}

@@ -1,0 +1,428 @@
+{
+  "analysis_date": "2026-10-05",
+  "diagnosis": {
+    "not_yet_proven": "The current evidence does not uniquely separate contact, closed-chain solver, and drive integration. Isaac contact instrumentation is currently unavailable.",
+    "ranked_candidates": [
+      "wheel contact geometry/contact-onset/contact-solver mismatch",
+      "closed-chain constraint formulation and solver compliance mismatch",
+      "PhysX implicit-drive versus MuJoCo explicit-PD integration difference, including 5 ms versus 1 ms substeps"
+    ],
+    "ruled_out_by_current_evidence": [
+      "reset state mismatch",
+      "canonical joint ordering or sign mismatch",
+      "Actor normalization mismatch at reset",
+      "TorchScript Actor inference mismatch",
+      "external action sequence mismatch",
+      "initial PD target or torque calculation mismatch"
+    ],
+    "strongest_current_conclusion": "The first material divergence is inside the physics response during control tick 0, before policy feedback can amplify it."
+  },
+  "failed_experiments": [
+    {
+      "name": "original_delayed_channel_pulses",
+      "reason": "The zero-action posture falls before the pulse begins at tick 25, so the six original pulse traces cannot attribute channel response."
+    },
+    {
+      "name": "isaac_contact_instrumentation",
+      "reason": "ContactSensor initialization rejected the unexpanded {ENV_REGEX_NS}/Robot prim path. No contact trace was accepted; the partial directory remains explicitly excluded from evidence."
+    }
+  ],
+  "first_tick_evidence": {
+    "closed_loop": {
+      "actor_observation_max_abs_error": 1.2965159612576826e-08,
+      "actor_output_max_abs_error": 3.5762786865234375e-07,
+      "joint_position_20ms_max_abs_error_rad": 0.0018440252238529423,
+      "joint_velocity_20ms_max_abs_error_rad_s": 0.09670018632596689,
+      "target_max_abs_error": 9.834766387939453e-06
+    },
+    "zero_action": {
+      "base_angular_velocity_20ms_max_abs_error_rad_s": 0.13149690699975355,
+      "base_linear_velocity_20ms_max_abs_error_m_s": 0.02618212738090872,
+      "initial_joint_position_max_abs_error_rad": 4.3708038299783425e-09,
+      "initial_joint_velocity_max_abs_error_rad_s": 0.0,
+      "initial_pd_torque_max_abs_error_nm": 1.5558196997389473e-06,
+      "initial_target_max_abs_error": 8.594360334512885e-09,
+      "joint_position_20ms_max_abs_error_rad": 0.0010531890686810708,
+      "joint_velocity_20ms_max_abs_error_rad_s": 0.023393771651469858
+    },
+    "zero_action_boundaries": [
+      {
+        "base_angular_velocity_max_abs_error_rad_s": 0.13123047735076443,
+        "base_linear_velocity_max_abs_error_m_s": 0.015388060880477943,
+        "joint_position_max_abs_error_rad": 0.000164696366635686,
+        "joint_velocity_max_abs_error_rad_s": 0.09464060224138751,
+        "time_ms": 5
+      },
+      {
+        "base_angular_velocity_max_abs_error_rad_s": 0.2322400454790302,
+        "base_linear_velocity_max_abs_error_m_s": 0.030945435483026536,
+        "joint_position_max_abs_error_rad": 0.0007039334025379373,
+        "joint_velocity_max_abs_error_rad_s": 0.0977328779795961,
+        "time_ms": 10
+      },
+      {
+        "base_angular_velocity_max_abs_error_rad_s": 0.11264724588737046,
+        "base_linear_velocity_max_abs_error_m_s": 0.02158160563537556,
+        "joint_position_max_abs_error_rad": 0.0008910149796946265,
+        "joint_velocity_max_abs_error_rad_s": 0.026472035250005826,
+        "time_ms": 15
+      },
+      {
+        "base_angular_velocity_max_abs_error_rad_s": 0.13149690699975355,
+        "base_linear_velocity_max_abs_error_m_s": 0.02618212738090872,
+        "joint_position_max_abs_error_rad": 0.0010531890686810708,
+        "joint_velocity_max_abs_error_rad_s": 0.023393771651469858,
+        "time_ms": 20
+      }
+    ]
+  },
+  "formal_gates": {
+    "actor_cpu_identity": {
+      "passed": true,
+      "report_hash": "8C9351743F706526EF7985106878BF92F242CEBE0AD4EE51E3EDC77FAA9F4AD2",
+      "same_input_output_max_abs_error": 0.0,
+      "stored_runtime_output_max_abs_error": 3.5762786865234375e-07
+    },
+    "collector_equivalence": {
+      "passed": true,
+      "report_hash": "BCD6A9036A76FCD26DF36353DE16B0E0F3D6229F8882BA5CDFF8C3B15FAF6A25"
+    },
+    "isaac_replay": {
+      "passed": true,
+      "report_hash": "CFCA7CACD433AD1379CD0D13D8725699C353A96D2C0A4A1B0E291F2240C194C9"
+    }
+  },
+  "frozen_actor_sha256": "5B714AF635AE3C93BD86853BD9141F0B8888BB49C0F275CBCCD531B6AF53B9BC",
+  "geometry_evidence": {
+    "actuator_formulation": {
+      "isaac": "PhysX implicit drives at 0.005 s physics dt",
+      "mujoco": "explicit PD torque motors at 0.001 s physics dt"
+    },
+    "constraint_formulation": {
+      "isaac": "four PhysicsRevoluteJoint loop closures",
+      "mujoco": "eight compliant connect constraints, two points per loop hinge"
+    },
+    "isaac_wheel_collision": {
+      "left_local_aabb_size_m": [
+        0.12489899992942809,
+        0.057199999457225204,
+        0.12480400130152702
+      ],
+      "points_per_wheel": 14796,
+      "right_local_aabb_size_m": [
+        0.1248369999229908,
+        0.057199999457225204,
+        0.12489400058984756
+      ],
+      "type": "Mesh convexHull"
+    },
+    "mujoco_wheel_collision": {
+      "first_observed_contact_time_s": 0.002,
+      "radius_m": 0.0625,
+      "reset_bottom_clearance_m": [
+        1.5209915877889557e-06,
+        4.47049669327626e-06
+      ],
+      "type": "sphere"
+    }
+  },
+  "pulse_response_summary": [
+    {
+      "abs_error_t0": 0.000996430881787358,
+      "abs_error_t11": 0.000526682414353663,
+      "abs_error_t19": 9.632433383377492e-05,
+      "abs_error_t7": 0.0004850710617173015,
+      "channel": 0,
+      "direct_signal": "joint_position_rad",
+      "isaac_direct_peak_abs": 0.03757092356681824,
+      "isaac_t0": 0.006904512643814087,
+      "isaac_t11": 0.00046944618225097656,
+      "isaac_t19": -0.03577372431755066,
+      "isaac_t7": 0.035592228174209595,
+      "isaac_target_delta_t0": 0.034999996423721313,
+      "joint": "jIJ",
+      "mujoco_direct_peak_abs": 0.03761090614433171,
+      "mujoco_t0": 0.007900943525601445,
+      "mujoco_t11": -5.723623210268647e-05,
+      "mujoco_t19": -0.035870048651384434,
+      "mujoco_t7": 0.036077299235926896,
+      "mujoco_target_delta_t0": 0.03500000052154062
+    },
+    {
+      "abs_error_t0": 0.000813760565645083,
+      "abs_error_t11": 0.0011081990058735558,
+      "abs_error_t19": 0.00039199105643988874,
+      "abs_error_t7": 0.0011263472490140036,
+      "channel": 1,
+      "direct_signal": "joint_position_rad",
+      "isaac_direct_peak_abs": 0.036509186029434204,
+      "isaac_t0": 0.006788879632949829,
+      "isaac_t11": 0.0010951757431030273,
+      "isaac_t19": -0.03534254431724548,
+      "isaac_t7": 0.03526696562767029,
+      "isaac_target_delta_t0": 0.034999996423721313,
+      "joint": "jIO",
+      "mujoco_direct_peak_abs": 0.037868714975192175,
+      "mujoco_t0": 0.007602640198594912,
+      "mujoco_t11": -1.3023262770528454e-05,
+      "mujoco_t19": -0.03573453537368537,
+      "mujoco_t7": 0.03639331287668429,
+      "mujoco_target_delta_t0": 0.03500000052154062
+    },
+    {
+      "abs_error_t0": 0.0008781152664196767,
+      "abs_error_t11": 0.000602738777334022,
+      "abs_error_t19": 0.0002910131109641889,
+      "abs_error_t7": 0.0018456815782170732,
+      "channel": 2,
+      "direct_signal": "joint_position_rad",
+      "isaac_direct_peak_abs": 0.03588065505027771,
+      "isaac_t0": 0.007026076316833496,
+      "isaac_t11": 0.0005445480346679688,
+      "isaac_t19": -0.03557628393173218,
+      "isaac_t7": 0.03422769904136658,
+      "isaac_target_delta_t0": 0.034999996423721313,
+      "joint": "jAB",
+      "mujoco_direct_peak_abs": 0.037600687946419076,
+      "mujoco_t0": 0.007904191583253173,
+      "mujoco_t11": -5.8190742666053286e-05,
+      "mujoco_t19": -0.03586729704269637,
+      "mujoco_t7": 0.03607338061958365,
+      "mujoco_target_delta_t0": 0.03500000052154062
+    },
+    {
+      "abs_error_t0": 0.0010821802161427585,
+      "abs_error_t11": 0.00022513624413755817,
+      "abs_error_t19": 0.0009189805318497446,
+      "abs_error_t7": 0.0011533465358708472,
+      "channel": 3,
+      "direct_signal": "joint_position_rad",
+      "isaac_direct_peak_abs": 0.03600192070007324,
+      "isaac_t0": 0.006524175405502319,
+      "isaac_t11": -0.00023868680000305176,
+      "isaac_t19": -0.03481742739677429,
+      "isaac_t7": 0.035234540700912476,
+      "isaac_target_delta_t0": 0.034999996423721313,
+      "joint": "jAG",
+      "mujoco_direct_peak_abs": 0.03786331631977352,
+      "mujoco_t0": 0.007606355621645078,
+      "mujoco_t11": -1.3550555865493585e-05,
+      "mujoco_t19": -0.03573640792862404,
+      "mujoco_t7": 0.03638788723678332,
+      "mujoco_target_delta_t0": 0.03500000052154062
+    },
+    {
+      "abs_error_t0": 0.014281973968024664,
+      "abs_error_t11": 0.056156295782854526,
+      "abs_error_t19": 0.03708281906678046,
+      "abs_error_t7": 0.04330338382627552,
+      "channel": 4,
+      "direct_signal": "joint_velocity_rad_s",
+      "isaac_direct_peak_abs": 2.0735998898744583,
+      "isaac_t0": 0.49868957698345184,
+      "isaac_t11": 0.8219814300537109,
+      "isaac_t19": -1.8658702075481415,
+      "isaac_t7": 2.0735998898744583,
+      "isaac_target_delta_t0": 2.5,
+      "joint": "jwheel_left",
+      "mujoco_direct_peak_abs": 2.116903273700734,
+      "mujoco_t0": 0.5129715509514765,
+      "mujoco_t11": 0.8781377258365655,
+      "mujoco_t19": -1.902953026614922,
+      "mujoco_t7": 2.116903273700734,
+      "mujoco_target_delta_t0": 2.500000037252903
+    },
+    {
+      "abs_error_t0": 0.014153491377752125,
+      "abs_error_t11": 0.1957478886198153,
+      "abs_error_t19": 0.16429294322568122,
+      "abs_error_t7": 0.02840558879180488,
+      "channel": 5,
+      "direct_signal": "joint_velocity_rad_s",
+      "isaac_direct_peak_abs": 2.088408201932907,
+      "isaac_t0": 0.4988304041326046,
+      "isaac_t11": 0.6821251511573792,
+      "isaac_t19": -1.7407167553901672,
+      "isaac_t7": 2.088408201932907,
+      "isaac_target_delta_t0": 2.5,
+      "joint": "jwheel_right",
+      "mujoco_direct_peak_abs": 2.116813790724712,
+      "mujoco_t0": 0.5129838955103567,
+      "mujoco_t11": 0.8778730397771944,
+      "mujoco_t19": -1.9050096986158485,
+      "mujoco_t7": 2.116813790724712,
+      "mujoco_target_delta_t0": 2.500000037252903
+    }
+  ],
+  "scenario_summary": [
+    {
+      "comparison_hash": "08A315C21BB05FA7B2ADE555FA839CA603E2278DE6F6BC370A8551712B6E9F4D",
+      "first_material_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_material_tick": 0,
+      "first_persistent_signal": null,
+      "first_persistent_tick": null,
+      "identity_passed": true,
+      "isaac_completed_ticks": 1,
+      "isaac_stopped_reason": "none",
+      "mujoco_completed_ticks": 1,
+      "mujoco_stopped_reason": "none",
+      "reset_passed": true,
+      "scenario": "closed-loop-001"
+    },
+    {
+      "comparison_hash": "B39DA0C7D08972316B80321CE39AC207A514F9D56AC464E23AC68E28EB7620AF",
+      "first_material_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_material_tick": 0,
+      "first_persistent_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_persistent_tick": 0,
+      "identity_passed": true,
+      "isaac_completed_ticks": 10,
+      "isaac_stopped_reason": "none",
+      "mujoco_completed_ticks": 10,
+      "mujoco_stopped_reason": "none",
+      "reset_passed": true,
+      "scenario": "closed-loop-010"
+    },
+    {
+      "comparison_hash": "0BA585DF43EC765F0240ECE0726447CA27A92F6B6E64358361A03B9D2BEFFBA2",
+      "first_material_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_material_tick": 0,
+      "first_persistent_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_persistent_tick": 0,
+      "identity_passed": true,
+      "isaac_completed_ticks": 50,
+      "isaac_stopped_reason": "none",
+      "mujoco_completed_ticks": 50,
+      "mujoco_stopped_reason": "none",
+      "reset_passed": true,
+      "scenario": "closed-loop-050"
+    },
+    {
+      "comparison_hash": "133F748B07E8C6F67753C5917A4AB5EDA64742438A5193E023EBB8AA2479605C",
+      "first_material_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_material_tick": 0,
+      "first_persistent_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_persistent_tick": 0,
+      "identity_passed": true,
+      "isaac_completed_ticks": 500,
+      "isaac_stopped_reason": "timeout",
+      "mujoco_completed_ticks": 270,
+      "mujoco_stopped_reason": "tilt",
+      "reset_passed": true,
+      "scenario": "closed-loop-500-v2"
+    },
+    {
+      "comparison_hash": "68CBC843453C5EDFA5F079F34477C4A65EC104D2EBB09CE13540EE365047E9E3",
+      "first_material_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_material_tick": 0,
+      "first_persistent_signal": "active_joint_velocity_canonical_post_step_pre_reset",
+      "first_persistent_tick": 0,
+      "identity_passed": true,
+      "isaac_completed_ticks": 26,
+      "isaac_stopped_reason": "tilt",
+      "mujoco_completed_ticks": 24,
+      "mujoco_stopped_reason": "tilt",
+      "reset_passed": true,
+      "scenario": "zero-action-500"
+    },
+    {
+      "comparison_hash": "0BF7A1754F25A41B9D052B10B97A52A1AA9163A364DD557B105517885D6B3471",
+      "first_material_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_material_tick": 0,
+      "first_persistent_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_persistent_tick": 0,
+      "identity_passed": true,
+      "isaac_completed_ticks": 500,
+      "isaac_stopped_reason": "timeout",
+      "mujoco_completed_ticks": 35,
+      "mujoco_stopped_reason": "tilt",
+      "reset_passed": true,
+      "scenario": "policy-replay-500-v2"
+    },
+    {
+      "comparison_hash": "742A5990BD3418183F69F88DCD966C910943E2FCDFF583EB74B516F899B808C6",
+      "first_material_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_material_tick": 0,
+      "first_persistent_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_persistent_tick": 0,
+      "identity_passed": true,
+      "isaac_completed_ticks": 20,
+      "isaac_stopped_reason": "none",
+      "mujoco_completed_ticks": 20,
+      "mujoco_stopped_reason": "none",
+      "reset_passed": true,
+      "scenario": "channel-pulse-immediate-0"
+    },
+    {
+      "comparison_hash": "687643C3E5139EA08A7A960A7D66C5885A4013BA834A95C5BEC38F5AD9980BA5",
+      "first_material_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_material_tick": 0,
+      "first_persistent_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_persistent_tick": 0,
+      "identity_passed": true,
+      "isaac_completed_ticks": 20,
+      "isaac_stopped_reason": "none",
+      "mujoco_completed_ticks": 20,
+      "mujoco_stopped_reason": "none",
+      "reset_passed": true,
+      "scenario": "channel-pulse-immediate-1"
+    },
+    {
+      "comparison_hash": "F364DF1968D00570240B28E199B12A965B18941AFC0D838267469E3136D86861",
+      "first_material_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_material_tick": 0,
+      "first_persistent_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_persistent_tick": 0,
+      "identity_passed": true,
+      "isaac_completed_ticks": 20,
+      "isaac_stopped_reason": "none",
+      "mujoco_completed_ticks": 20,
+      "mujoco_stopped_reason": "none",
+      "reset_passed": true,
+      "scenario": "channel-pulse-immediate-2"
+    },
+    {
+      "comparison_hash": "2F3D383F9F3CB51C571C81D66DD3AB246C767DAA49D520EB69429B1540DBE694",
+      "first_material_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_material_tick": 0,
+      "first_persistent_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_persistent_tick": 0,
+      "identity_passed": true,
+      "isaac_completed_ticks": 20,
+      "isaac_stopped_reason": "none",
+      "mujoco_completed_ticks": 20,
+      "mujoco_stopped_reason": "none",
+      "reset_passed": true,
+      "scenario": "channel-pulse-immediate-3"
+    },
+    {
+      "comparison_hash": "CE22C7AFBCE91B6519FAA92B1259918BCB17ED00CD9E002E31BE1A542FBC0494",
+      "first_material_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_material_tick": 0,
+      "first_persistent_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_persistent_tick": 0,
+      "identity_passed": true,
+      "isaac_completed_ticks": 20,
+      "isaac_stopped_reason": "none",
+      "mujoco_completed_ticks": 20,
+      "mujoco_stopped_reason": "none",
+      "reset_passed": true,
+      "scenario": "channel-pulse-immediate-4"
+    },
+    {
+      "comparison_hash": "458860238BF23C3818608FC8D5C6B0F38CDE041EDA481E426C394A02FD3FEF6E",
+      "first_material_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_material_tick": 0,
+      "first_persistent_signal": "active_joint_position_canonical_post_step_pre_reset",
+      "first_persistent_tick": 0,
+      "identity_passed": true,
+      "isaac_completed_ticks": 20,
+      "isaac_stopped_reason": "none",
+      "mujoco_completed_ticks": 20,
+      "mujoco_stopped_reason": "none",
+      "reset_passed": true,
+      "scenario": "channel-pulse-immediate-5"
+    }
+  ],
+  "schema_version": "WheelLegSim2SimDiagnosisV1"
+}

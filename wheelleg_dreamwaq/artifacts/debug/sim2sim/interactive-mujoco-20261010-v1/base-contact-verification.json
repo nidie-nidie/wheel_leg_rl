@@ -1,0 +1,46 @@
+{
+  "schema_version": "ViewerBaseContactVerificationV1",
+  "passed": true,
+  "forced_contact_proof": {
+    "formal": {
+      "base_proxy_min_z_m": -0.001999999999999988,
+      "base_floor_contact_count": 0,
+      "base_floor_normal_force_n": 0.0
+    },
+    "base_contact_debug": {
+      "base_proxy_min_z_m": -0.001999999999999988,
+      "base_floor_contact_count": 4,
+      "base_floor_normal_force_n": 3527.782679769879
+    }
+  },
+  "nominal_ten_second_qpos_qvel_differences": {
+    "qpos": 0.0,
+    "qvel": 0.0
+  },
+  "nominal_base_contact_count": 0,
+  "nominal_final_metrics": {
+    "base_height_m": 0.1937264569910502,
+    "roll_rad": 3.422120400128012e-05,
+    "pitch_rad": 0.01839312684772741,
+    "yaw_rad": 0.003771814801534,
+    "vx_mps": -0.4984623480250698,
+    "yaw_rate_rad_s": 0.0006475759943590269,
+    "phi0_left_rad": 1.9280618438125723,
+    "phi0_right_rad": 1.9280483421522001,
+    "phi0_delta_abs_rad": 1.350166037217271e-05,
+    "l0_left_m": 0.19384748799575516,
+    "l0_right_m": 0.19386379863665507,
+    "max_loop_closure_error_m": 6.882874765345897e-05,
+    "tilt_rad": 0.018393158679093146,
+    "root_linear_speed_mps": 0.4985460489239421,
+    "root_angular_speed_rad_s": 0.0008286422402802827,
+    "max_controlled_joint_speed_rad_s": 7.98199927135721,
+    "max_hinge_speed_rad_s": 7.98199927135721,
+    "action_saturation_fraction": 0.6666666666666666,
+    "effort_saturation_fraction": 0.0,
+    "velocity_limit_event_fraction": 0.0
+  },
+  "formal_files_unchanged": 101,
+  "training_performed": false,
+  "limit": "Existing approximate base box; real contact verified, policy fall recovery not established"
+}

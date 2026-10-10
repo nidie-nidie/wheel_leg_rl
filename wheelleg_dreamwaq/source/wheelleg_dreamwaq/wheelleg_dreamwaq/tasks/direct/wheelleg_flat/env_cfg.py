@@ -9,6 +9,7 @@ from isaaclab.utils import configclass
 from wheelleg_dreamwaq.assets.wheelleg import WHEELLEG_CFG
 from wheelleg_dreamwaq.schemas.normalization import NormalizationV2
 from wheelleg_dreamwaq.schemas.physics import DECIMATION, SIM_DT_S
+from wheelleg_dreamwaq.schemas.randomization import NOMINAL_TRAINING_PROFILE_V1
 
 from .commands import CommandRanges
 from .control import ControlLimits
@@ -68,5 +69,6 @@ class WheelLegFlatEnvCfg(DirectRLEnvCfg):
     ground = GroundPlaneCfg()
     commands = CommandRanges()
     normalization = NormalizationV2()
+    randomization = NOMINAL_TRAINING_PROFILE_V1
     reward_weights = RewardWeights()
     termination = TerminationLimits()

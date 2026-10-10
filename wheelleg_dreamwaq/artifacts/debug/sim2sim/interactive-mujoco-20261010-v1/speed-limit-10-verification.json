@@ -1,0 +1,93 @@
+﻿{
+    "passed":  true,
+    "recorded_at":  "2026-10-10T23:54:59.3382051+08:00",
+    "command_limit_mps":  10,
+    "normalized_target_limit":  6.666666666666667,
+    "formal_files_unchanged":  101,
+    "checks":  {
+                   "value":  [
+                                 {
+                                     "check":  "positive_negative_10mps_reset_history_policy",
+                                     "chunk_id":  "e04c1f",
+                                     "wall_time_seconds":  1.8755103,
+                                     "exit_code":  0,
+                                     "original_token_count":  253,
+                                     "output":  "KEYBOARD_SPEED_LIMIT_VERIFIED {\"command_limit_mps\": 10.0, \"trained_vx_scale\": 1.5, \"normalized_limit\": 6.666666666666667, \"positive_and_negative_reset_history_and_policy_tick\": \"passed\"}\r\nKEYBOARD_SMOKE_OK {\"base_height_m\": 0.19481120541332048, \"roll_rad\": 2.2016806965756885e-05, \"pitch_rad\": 0.03604275060500962, \"yaw_rad\": -0.002545399962375688, \"vx_mps\": -0.3818753497909378, \"yaw_rate_rad_s\": 0.0016315581986826016, \"phi0_left_rad\": 1.9278409440618074, \"phi0_right_rad\": 1.9278351866458956, \"phi0_delta_abs_rad\": 5.757415911800123e-06, \"l0_left_m\": 0.1938569685753318, \"l0_right_m\": 0.19386757315299283, \"max_loop_closure_error_m\": 6.956007583937661e-05, \"tilt_rad\": 0.03604275732661627, \"root_linear_speed_mps\": 0.3821050315435912, \"root_angular_speed_rad_s\": 0.003011501751187914, \"max_controlled_joint_speed_rad_s\": 6.122130779244125, \"max_hinge_speed_rad_s\": 6.122130779244125, \"action_saturation_fraction\": 0.6666666666666666, \"effort_saturation_fraction\": 0.0, \"velocity_limit_event_fraction\": 0.0}\r\n"
+                                 },
+                                 {
+                                     "check":  "formal_immutability",
+                                     "chunk_id":  "e87ffe",
+                                     "wall_time_seconds":  0.4982165,
+                                     "exit_code":  0,
+                                     "original_token_count":  15,
+                                     "output":  "STANDING_FINAL_VERIFIED {\u0027isaac\u0027: 499, \u0027mujoco\u0027: 500} 101\r\n"
+                                 }
+                             ],
+                   "Count":  2
+               },
+    "desktop_window_pid":  59424,
+    "desktop_window_title":  "WheelLeg MuJoCo | Run-04 keyboard control",
+    "session":  "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\interactive-mujoco-20261010-v1\\speed-limit-10-session-20261010-235431",
+    "status_snapshot":  {
+                            "mode":  "BASE CONTACT DEBUG",
+                            "paused":  false,
+                            "time_s":  25.7600000000085,
+                            "command":  [
+                                            0.7999999999999997,
+                                            0.0,
+                                            0.2
+                                        ],
+                            "failure_reason":  "",
+                            "metrics":  {
+                                            "base_height_m":  0.19229526059811994,
+                                            "roll_rad":  4.2544046124191033E-05,
+                                            "pitch_rad":  0.029473975292000805,
+                                            "yaw_rad":  -0.6267164084229231,
+                                            "vx_mps":  0.9442278242048913,
+                                            "yaw_rate_rad_s":  0.006058200815942924,
+                                            "phi0_left_rad":  1.2283855470255116,
+                                            "phi0_right_rad":  1.2283979658608906,
+                                            "phi0_delta_abs_rad":  1.2418835378946724E-05,
+                                            "l0_left_m":  0.1947305637725674,
+                                            "l0_right_m":  0.19475132961251834,
+                                            "max_loop_closure_error_m":  5.7937906786422661E-05,
+                                            "tilt_rad":  0.02947400598804881,
+                                            "root_linear_speed_mps":  0.9446424520492412,
+                                            "root_angular_speed_rad_s":  0.006374642930910448,
+                                            "max_controlled_joint_speed_rad_s":  15.145323409579232,
+                                            "max_hinge_speed_rad_s":  15.145323409579232,
+                                            "action_saturation_fraction":  0.6666666666666666,
+                                            "effort_saturation_fraction":  0.0,
+                                            "velocity_limit_event_fraction":  0.0
+                                        },
+                            "collision":  {
+                                              "base_proxy_min_z_m":  0.160725081757833,
+                                              "base_floor_contact_count":  0,
+                                              "base_floor_normal_force_n":  0.0
+                                          },
+                            "display_uses_independent_state":  true,
+                            "keyboard_renderer":  "custom_glfw_no_native_shortcuts",
+                            "command_limits":  {
+                                                   "lower":  [
+                                                                 -10.0,
+                                                                 -1.0,
+                                                                 0.16
+                                                             ],
+                                                   "upper":  [
+                                                                 10.0,
+                                                                 1.0,
+                                                                 0.24
+                                                             ]
+                                               },
+                            "trained_vx_normalization_scale":  1.5
+                        },
+    "startup_ready":  true,
+    "startup_stderr_empty":  true,
+    "evidence_sha256":  {
+                            "play_keyboard.py":  "C2027C5D53B5959F24C568E71D095B6B690117906678BC8CA64820E63ADBB587",
+                            "README.md":  "68A127BDFE7A11786103198F3818AF5F485912D74A040569410AB3F59F1E15A9",
+                            "speed-limit-plan.md":  "297683C66BE53D1D18F08A46B992D5526E331BD2BE3CEBC0950A1B86C8E63930",
+                            "speed-limit-10-check-execution.json":  "B404DC274C543053ACBFBE0C44CBAD51EC10C7BD80B5558E4145851D57C260E2"
+                        },
+    "acceptance_scope":  "Target delivery and reset/history checked; actual speed tracking not qualified"
+}

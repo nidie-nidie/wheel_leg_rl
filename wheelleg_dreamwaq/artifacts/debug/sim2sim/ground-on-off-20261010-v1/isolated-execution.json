@@ -1,0 +1,178 @@
+﻿[
+    {
+        "python":  ".venv/Scripts/python.exe",
+        "arguments":  [
+                          "-B",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/probe_isaac.py",
+                          "--output",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/isaac-zero_action-ground-on",
+                          "--actions-from",
+                          "artifacts/debug/sim2sim/initial-ground-contact-20261010-v1/isaac-off/actions.json",
+                          "--control-ticks",
+                          "1",
+                          "--case",
+                          "zero_action",
+                          "--reset-cache",
+                          "artifacts/phase2_dreamwaq/training-suite-20261010-001203-reset-v2/isaac_evaluation/evaluation-reset-cache.pt",
+                          "--actor",
+                          "artifacts/phase2_dreamwaq/training-suite-20261010-001203-reset-v2/exports/run-02/actor.ts",
+                          "--contact-sensors",
+                          "--headless",
+                          "--device",
+                          "cuda:0",
+                          "--kit_args=--/log/file=E:/wheel_leg_rl-main/wheelleg_dreamwaq/artifacts/debug/sim2sim/ground-on-off-20261010-v1/kit-isaac-zero_action-ground-on.log"
+                      ],
+        "tag":  "isaac-zero_action-ground-on",
+        "exit_code":  0
+    },
+    {
+        "python":  ".venv/Scripts/python.exe",
+        "arguments":  [
+                          "-B",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/probe_isaac.py",
+                          "--output",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/isaac-zero_action-ground-off",
+                          "--actions-from",
+                          "artifacts/debug/sim2sim/initial-ground-contact-20261010-v1/isaac-off/actions.json",
+                          "--control-ticks",
+                          "1",
+                          "--case",
+                          "zero_action",
+                          "--no-ground",
+                          "--reset-cache",
+                          "artifacts/phase2_dreamwaq/training-suite-20261010-001203-reset-v2/isaac_evaluation/evaluation-reset-cache.pt",
+                          "--actor",
+                          "artifacts/phase2_dreamwaq/training-suite-20261010-001203-reset-v2/exports/run-02/actor.ts",
+                          "--contact-sensors",
+                          "--headless",
+                          "--device",
+                          "cuda:0",
+                          "--kit_args=--/log/file=E:/wheel_leg_rl-main/wheelleg_dreamwaq/artifacts/debug/sim2sim/ground-on-off-20261010-v1/kit-isaac-zero_action-ground-off.log"
+                      ],
+        "tag":  "isaac-zero_action-ground-off",
+        "exit_code":  0
+    },
+    {
+        "python":  "sim2sim/mujoco/.venv/Scripts/python.exe",
+        "arguments":  [
+                          "-B",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/probe_mujoco.py",
+                          "--output",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/mujoco-zero_action-ground-on",
+                          "--actions-from",
+                          "artifacts/debug/sim2sim/initial-ground-contact-20261010-v1/isaac-off/actions.json",
+                          "--control-ticks",
+                          "1",
+                          "--case",
+                          "zero_action"
+                      ],
+        "tag":  "mujoco-zero_action-ground-on",
+        "exit_code":  0
+    },
+    {
+        "python":  "sim2sim/mujoco/.venv/Scripts/python.exe",
+        "arguments":  [
+                          "-B",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/probe_mujoco.py",
+                          "--output",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/mujoco-zero_action-ground-off",
+                          "--actions-from",
+                          "artifacts/debug/sim2sim/initial-ground-contact-20261010-v1/isaac-off/actions.json",
+                          "--control-ticks",
+                          "1",
+                          "--case",
+                          "zero_action",
+                          "--no-ground"
+                      ],
+        "tag":  "mujoco-zero_action-ground-off",
+        "exit_code":  0
+    },
+    {
+        "python":  ".venv/Scripts/python.exe",
+        "arguments":  [
+                          "-B",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/probe_isaac.py",
+                          "--output",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/isaac-shared_first_action_hold-ground-on",
+                          "--actions-from",
+                          "artifacts/debug/sim2sim/initial-ground-contact-20261010-v1/isaac-off/actions.json",
+                          "--control-ticks",
+                          "1",
+                          "--case",
+                          "shared_first_action_hold",
+                          "--reset-cache",
+                          "artifacts/phase2_dreamwaq/training-suite-20261010-001203-reset-v2/isaac_evaluation/evaluation-reset-cache.pt",
+                          "--actor",
+                          "artifacts/phase2_dreamwaq/training-suite-20261010-001203-reset-v2/exports/run-02/actor.ts",
+                          "--contact-sensors",
+                          "--headless",
+                          "--device",
+                          "cuda:0",
+                          "--kit_args=--/log/file=E:/wheel_leg_rl-main/wheelleg_dreamwaq/artifacts/debug/sim2sim/ground-on-off-20261010-v1/kit-isaac-shared_first_action_hold-ground-on.log"
+                      ],
+        "tag":  "isaac-shared_first_action_hold-ground-on",
+        "exit_code":  0
+    },
+    {
+        "python":  ".venv/Scripts/python.exe",
+        "arguments":  [
+                          "-B",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/probe_isaac.py",
+                          "--output",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/isaac-shared_first_action_hold-ground-off",
+                          "--actions-from",
+                          "artifacts/debug/sim2sim/initial-ground-contact-20261010-v1/isaac-off/actions.json",
+                          "--control-ticks",
+                          "1",
+                          "--case",
+                          "shared_first_action_hold",
+                          "--no-ground",
+                          "--reset-cache",
+                          "artifacts/phase2_dreamwaq/training-suite-20261010-001203-reset-v2/isaac_evaluation/evaluation-reset-cache.pt",
+                          "--actor",
+                          "artifacts/phase2_dreamwaq/training-suite-20261010-001203-reset-v2/exports/run-02/actor.ts",
+                          "--contact-sensors",
+                          "--headless",
+                          "--device",
+                          "cuda:0",
+                          "--kit_args=--/log/file=E:/wheel_leg_rl-main/wheelleg_dreamwaq/artifacts/debug/sim2sim/ground-on-off-20261010-v1/kit-isaac-shared_first_action_hold-ground-off.log"
+                      ],
+        "tag":  "isaac-shared_first_action_hold-ground-off",
+        "exit_code":  0
+    },
+    {
+        "python":  "sim2sim/mujoco/.venv/Scripts/python.exe",
+        "arguments":  [
+                          "-B",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/probe_mujoco.py",
+                          "--output",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/mujoco-shared_first_action_hold-ground-on",
+                          "--actions-from",
+                          "artifacts/debug/sim2sim/initial-ground-contact-20261010-v1/isaac-off/actions.json",
+                          "--control-ticks",
+                          "1",
+                          "--case",
+                          "shared_first_action_hold"
+                      ],
+        "tag":  "mujoco-shared_first_action_hold-ground-on",
+        "exit_code":  0
+    },
+    {
+        "python":  "sim2sim/mujoco/.venv/Scripts/python.exe",
+        "arguments":  [
+                          "-B",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/probe_mujoco.py",
+                          "--output",
+                          "artifacts/debug/sim2sim/ground-on-off-20261010-v1/mujoco-shared_first_action_hold-ground-off",
+                          "--actions-from",
+                          "artifacts/debug/sim2sim/initial-ground-contact-20261010-v1/isaac-off/actions.json",
+                          "--control-ticks",
+                          "1",
+                          "--case",
+                          "shared_first_action_hold",
+                          "--no-ground"
+                      ],
+        "tag":  "mujoco-shared_first_action_hold-ground-off",
+        "exit_code":  0
+    }
+]

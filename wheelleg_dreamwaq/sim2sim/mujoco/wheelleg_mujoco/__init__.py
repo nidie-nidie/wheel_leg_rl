@@ -1,4 +1,4 @@
-"""Self-contained MuJoCo runtime for the WheelLeg Phase1ContractV4 policy."""
+"""Self-contained MuJoCo runtime for WheelLeg Phase 1 PPO policies."""
 
 from .runner import WheelLegMujocoRuntime
 from .versions import MUJOCO_MODEL_VERSION

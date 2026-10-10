@@ -36,18 +36,20 @@ def sample_command_batch(
     if not torch.isclose(probabilities.sum(), torch.tensor(1.0, dtype=probabilities.dtype)):
         raise ValueError("mode_probabilities must sum to one")
 
-    unit = torch.rand((count, 3), device=device, generator=generator)
+    output_device = torch.device(device)
+    sampling_device = torch.device(generator.device) if generator is not None else output_device
+    unit = torch.rand((count, 3), device=sampling_device, generator=generator)
     low = unit.new_tensor((ranges.vx[0], ranges.yaw_rate[0], ranges.base_height[0]))
     high = unit.new_tensor((ranges.vx[1], ranges.yaw_rate[1], ranges.base_height[1]))
     commands = low + unit * (high - low)
 
-    mode_unit = torch.rand(count, device=device, generator=generator)
+    mode_unit = torch.rand(count, device=sampling_device, generator=generator)
     thresholds = torch.cumsum(mode_unit.new_tensor(ranges.mode_probabilities), dim=0)
     modes = torch.bucketize(mode_unit, thresholds[:-1])
     commands[modes == STAND_MODE, :2] = 0.0
     commands[modes == STRAIGHT_MODE, 1] = 0.0
     commands[modes == ROTATE_MODE, 0] = 0.0
-    return commands, modes
+    return commands.to(output_device), modes.to(output_device)
 
 
 def sample_commands(

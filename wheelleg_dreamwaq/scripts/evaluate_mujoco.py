@@ -14,6 +14,7 @@ from wheelleg_mujoco.contract import load_policy_contract, sha256_file
 from wheelleg_mujoco.evaluation import (
     EVALUATION_SCHEMA_VERSION,
     FORMAL_SCENARIOS,
+    JOINT_SPEED_FAILURE_THRESHOLD_RAD_S,
     aggregate_run,
     build_evaluation_contract,
     summarize_scenario,
@@ -60,7 +61,7 @@ def _failure_reason(runtime: WheelLegMujocoRuntime, metrics: dict[str, float]) -
         return "root_linear_velocity"
     if metrics["root_angular_speed_rad_s"] > 35.0:
         return "root_angular_velocity"
-    if metrics["max_hinge_speed_rad_s"] > runtime.contract.passive_velocity_limit:
+    if metrics["max_hinge_speed_rad_s"] > JOINT_SPEED_FAILURE_THRESHOLD_RAD_S:
         return "joint_velocity"
     if metrics["max_loop_closure_error_m"] > 5.0e-3:
         return "loop_closure"
@@ -109,8 +110,13 @@ def main() -> None:
         )
         if context_hash != calculated_context_hash:
             raise ValueError("Training evaluation context hash is invalid")
+        suite_schema = training_suite.get("schema_version")
+        run_schema = {
+            "TrainingEvaluationContextV1": "TrainingEvaluationRunV1",
+            "DreamWaQTrainingEvaluationContextV1": "DreamWaQTrainingEvaluationRunV1",
+        }.get(suite_schema)
         if (
-            training_suite.get("schema_version") != "TrainingEvaluationContextV1"
+            run_schema is None
             or training_suite.get("suite_mode") != "formal"
             or training_suite.get("run_count") != 4
             or training_suite.get("iterations_per_run") != 1000
@@ -121,7 +127,7 @@ def main() -> None:
         if args.completed_iterations != training_suite["iterations_per_run"]:
             raise ValueError("Formal evaluation checkpoint iteration count differs from the suite")
         training_run = {
-            "schema_version": "TrainingEvaluationRunV1",
+            "schema_version": run_schema,
             "suite_id": training_suite["suite_id"],
             "run_index": args.run_index,
             "run_count": training_suite["run_count"],
@@ -231,7 +237,10 @@ def main() -> None:
         "policy_manifest_hash": policy_manifest["manifest_hash"],
         "source_checkpoint": policy_manifest["source_checkpoint"],
         "source_checkpoint_sha256": policy_manifest["source_checkpoint_sha256"],
-        "phase1_contract_hash": policy_manifest["phase1_contract_hash"],
+        "task_contract_version": evaluation_contract["task_contract_version"],
+        "task_contract_hash": evaluation_contract["task_contract_hash"],
+        "phase1_contract_hash": policy_manifest.get("phase1_contract_hash"),
+        "base_task_contract_hash": policy_manifest.get("base_task_contract_hash"),
         "model": str(model_path),
         "model_sha256": model_manifest["model_xml"]["sha256"],
         "model_manifest_sha256": policy_manifest["mujoco_model"]["model_manifest_sha256"],

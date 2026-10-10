@@ -24,8 +24,6 @@ class MixedActionController:
         self.leg_kd = contract.leg_kd
         self.wheel_kd = contract.wheel_kd
         self.effort_limits = contract.effort_limits
-        self.velocity_limits = contract.velocity_limits
-        self.last_velocity_limit_mask = np.zeros(6, dtype=bool)
 
     def prepare(self, action: np.ndarray) -> ActionTargets:
         action = np.asarray(action, dtype=np.float64)
@@ -48,8 +46,6 @@ class MixedActionController:
         torque[:4] = self.leg_kp * (targets.leg_position_target_mujoco - position[:4]) - self.leg_kd * velocity[:4]
         torque[4:6] = self.wheel_kd * (targets.wheel_velocity_target_mujoco - velocity[4:6])
         torque = np.clip(torque, -self.effort_limits, self.effort_limits)
-        self.last_velocity_limit_mask = (np.abs(velocity) >= self.velocity_limits) & (torque * velocity > 0.0)
-        torque[self.last_velocity_limit_mask] = 0.0
         return torque
 
     def apply_torque(self, data: mujoco.MjData, torque: np.ndarray) -> None:

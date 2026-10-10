@@ -1,6 +1,6 @@
 # WheelLeg DreamWaQ
 
-Independent Isaac Lab project for the WheelLeg robot. The current implementation scope is the `Phase1ContractV4` asymmetric PPO flat-ground baseline plus its MuJoCo sim2sim validation path. DreamWaQ is intentionally not implemented until the PPO gate passes.
+Independent Isaac Lab project for the WheelLeg robot. The current code implements the `Phase1RandomizedContractV3` asymmetric PPO baseline, the Architecture v0.21 Phase 2 DreamWaQ/CENet stack, deterministic Isaac comparison, and the unchanged MuJoCo sim2sim path. The DreamWaQ implementation and pure-Python tests are present; real Isaac integration, final independent code review, four fresh 1000-iteration runs, and their evaluation evidence remain mandatory before a Phase 2 result can be accepted.
 
 ## Runtime
 
@@ -24,4 +24,4 @@ Hardware profiles may change only `num_envs` and PPO mini-batch count. Every run
 
 On Windows, `torch` and `tensordict==0.14.2` are intentionally imported before Isaac Kit in the train/play entry points. This ordering prevents a reproduced native DLL access violation and must not be moved behind `AppLauncher`.
 
-Formal training requires an independent code review with no blocking P0/P1 findings. The current suite runs four independent 1000-iteration seeds from scratch, exports each actor, and compares them with the same deterministic MuJoCo headless scenarios. DreamWaQ remains out of scope until that PPO suite is evaluated and the quantitative G-08 entry gate is explicitly approved.
+Formal training requires an independent code review with no blocking P0/P1 findings. The existing Phase 1R suite runs four independent 1000-iteration seeds from scratch, exports each actor, and compares them with the same deterministic MuJoCo headless scenarios. G-15 is closed for Phase 2 implementation because that comparable evidence chain exists; this is an implementation permit, not a claim that any Phase 1R checkpoint passed all eight MuJoCo scenarios. DreamWaQ formal training remains forbidden until the real Isaac integration, checkpoint/resume, play/export, TorchScript golden-vector, and final independent code-review gates pass.

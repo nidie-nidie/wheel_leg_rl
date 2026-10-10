@@ -1,0 +1,80 @@
+{
+  "action_saturation_fraction": 0.0009791666666666666,
+  "asset_bundle_hash": "E754AE888F5C5379B3B6152CFA5AD6BBAE20E8C7480CF7AD6960782A5267CB46",
+  "control_dt": 0.02,
+  "controlled_joint_names": [
+    "jIJ",
+    "jIO",
+    "jAB",
+    "jAG",
+    "jwheel_left",
+    "jwheel_right"
+  ],
+  "critic_observation_shape": [
+    8,
+    41
+  ],
+  "finite": true,
+  "leg_target_lower": [
+    -1.0,
+    -1.0,
+    -1.0,
+    -1.0
+  ],
+  "leg_target_upper": [
+    1.0,
+    1.0,
+    1.0,
+    1.0
+  ],
+  "max_abs_all_joint_velocity": 16.22814178466797,
+  "max_abs_applied_torque": 18.0,
+  "max_abs_controlled_velocity": 16.22814178466797,
+  "max_abs_leg_position": 0.6478517055511475,
+  "max_abs_root_angular_velocity": 11.360318183898926,
+  "max_abs_root_linear_velocity": 1.4065098762512207,
+  "max_actor_joint_velocity_error": 0.0,
+  "max_com_velocity_frame_error": 1.7881393432617188e-07,
+  "max_critic_joint_acceleration_error": 0.0,
+  "max_loop_closure_position_error": 0.0006866419571451843,
+  "max_phi0_delta_abs_rad": 0.47020259499549866,
+  "max_virtual_leg_length_error": 0.00256994366645813,
+  "max_virtual_leg_phi0_error_rad": 0.010286450386047363,
+  "max_virtual_leg_wheel_error": 0.003104936331510544,
+  "num_envs": 8,
+  "policy_observation_shape": [
+    8,
+    25
+  ],
+  "reset_count": 187,
+  "reset_previous_action_leak_count": 0,
+  "reward": {
+    "max": 0.04911937937140465,
+    "min": -1.1870436668395996
+  },
+  "reward_terms": [
+    "action_rate",
+    "action_smooth",
+    "ang_vel_xy",
+    "dof_acc",
+    "dof_pos_limits",
+    "dof_vel",
+    "lin_vel_z",
+    "orientation",
+    "phi0_symmetry",
+    "termination",
+    "torques",
+    "tracking_base_height",
+    "tracking_vx",
+    "tracking_vx_enhance",
+    "tracking_yaw_rate",
+    "tracking_yaw_rate_enhance"
+  ],
+  "seed": 42,
+  "steps": 1000,
+  "virtual_leg_length_range": [
+    0.13428851962089539,
+    0.27379336953163147
+  ],
+  "wheel_velocity_target_limit": 25.0
+}

@@ -4,7 +4,11 @@ import isaaclab.sim as sim_utils
 from isaaclab.actuators import ImplicitActuatorCfg
 from isaaclab.assets import ArticulationCfg
 
-from wheelleg_dreamwaq.schemas.physics import SOLVER_POSITION_ITERATIONS, SOLVER_VELOCITY_ITERATIONS
+from wheelleg_dreamwaq.schemas.physics import (
+    SOLVER_POSITION_ITERATIONS,
+    SOLVER_VELOCITY_ITERATIONS,
+    UNRESTRICTED_SIM_VELOCITY,
+)
 
 from .asset_contract import ASSET_BUNDLE_V2
 from .paths import asset_root_v2
@@ -47,8 +51,8 @@ WHEELLEG_CFG = ArticulationCfg(
             retain_accelerations=False,
             linear_damping=0.0,
             angular_damping=0.0,
-            max_linear_velocity=100.0,
-            max_angular_velocity=100.0,
+            max_linear_velocity=UNRESTRICTED_SIM_VELOCITY,
+            max_angular_velocity=UNRESTRICTED_SIM_VELOCITY,
             max_depenetration_velocity=1.0,
         ),
         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
@@ -94,7 +98,7 @@ WHEELLEG_CFG = ArticulationCfg(
         "legs": ImplicitActuatorCfg(
             joint_names_expr=LEG_JOINT_NAMES,
             effort_limit_sim=18.0,
-            velocity_limit_sim=45.0,
+            velocity_limit_sim=UNRESTRICTED_SIM_VELOCITY,
             stiffness=120.0,
             damping=4.0,
             armature=0.05,
@@ -105,7 +109,7 @@ WHEELLEG_CFG = ArticulationCfg(
         "wheels": ImplicitActuatorCfg(
             joint_names_expr=WHEEL_JOINT_NAMES,
             effort_limit_sim=9.0,
-            velocity_limit_sim=45.0,
+            velocity_limit_sim=UNRESTRICTED_SIM_VELOCITY,
             stiffness=0.0,
             damping=0.6,
             armature=0.05,
@@ -116,7 +120,7 @@ WHEELLEG_CFG = ArticulationCfg(
         "passive": ImplicitActuatorCfg(
             joint_names_expr=PASSIVE_JOINT_NAMES,
             effort_limit_sim=18.0,
-            velocity_limit_sim=80.0,
+            velocity_limit_sim=UNRESTRICTED_SIM_VELOCITY,
             stiffness=0.0,
             damping=0.05,
             armature=0.005,

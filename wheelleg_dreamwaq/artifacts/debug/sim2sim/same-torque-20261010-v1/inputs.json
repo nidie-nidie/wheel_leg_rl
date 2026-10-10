@@ -1,0 +1,528 @@
+{
+  "schema_version": "SameExternalTorqueInputsV1",
+  "debug_only": true,
+  "derivation": "Production MuJoCo PD at t=0 for the shared first action; clipped, canonical, float32-quantized once; held 20ms",
+  "not_measured_isaac_drive_torque": true,
+  "canonical_joint_order": [
+    "jIJ",
+    "jIO",
+    "jAB",
+    "jAG",
+    "jwheel_left",
+    "jwheel_right"
+  ],
+  "hold_duration_s": 0.02,
+  "effort_limits_nm": [
+    18.0,
+    18.0,
+    18.0,
+    18.0,
+    9.0,
+    9.0
+  ],
+  "shared_first_action_clipped": [
+    [
+      -1.0,
+      -0.4840227961540222,
+      0.008739780634641647,
+      -0.4116683602333069,
+      1.0,
+      0.9295885562896729
+    ],
+    [
+      -0.8247954845428467,
+      -1.0,
+      0.3480888307094574,
+      -0.7739003896713257,
+      1.0,
+      0.7950068712234497
+    ],
+    [
+      -1.0,
+      0.2271612584590912,
+      -0.39774277806282043,
+      -0.012649325653910637,
+      1.0,
+      0.9027373194694519
+    ],
+    [
+      -1.0,
+      -0.5017377138137817,
+      1.0,
+      1.0,
+      1.0,
+      0.6679650545120239
+    ],
+    [
+      -1.0,
+      -0.7819160223007202,
+      -1.0,
+      -1.0,
+      1.0,
+      1.0
+    ],
+    [
+      -0.9548531770706177,
+      -0.4078465402126312,
+      0.17437179386615753,
+      -0.4741623103618622,
+      1.0,
+      0.38419345021247864
+    ],
+    [
+      -1.0,
+      -0.5910801887512207,
+      -0.09218084812164307,
+      -0.27639317512512207,
+      1.0,
+      1.0
+    ],
+    [
+      -1.0,
+      -0.39066198468208313,
+      1.0,
+      1.0,
+      1.0,
+      0.24116772413253784
+    ]
+  ],
+  "shared_first_torque_control_nm": [
+    [
+      -18.0,
+      -18.0,
+      0.3670156002044678,
+      -17.2900447845459,
+      9.0,
+      9.0
+    ],
+    [
+      -18.0,
+      -18.0,
+      14.619675636291504,
+      -18.0,
+      9.0,
+      9.0
+    ],
+    [
+      -18.0,
+      9.54074478149414,
+      -16.705251693725586,
+      -0.5312452912330627,
+      9.0,
+      9.0
+    ],
+    [
+      -18.0,
+      -18.0,
+      18.0,
+      18.0,
+      9.0,
+      9.0
+    ],
+    [
+      -18.0,
+      -18.0,
+      -18.0,
+      -18.0,
+      9.0,
+      9.0
+    ],
+    [
+      -18.0,
+      -17.129581451416016,
+      7.3235602378845215,
+      -18.0,
+      9.0,
+      5.762901782989502
+    ],
+    [
+      -18.0,
+      -18.0,
+      -3.8716509342193604,
+      -11.608487129211426,
+      9.0,
+      9.0
+    ],
+    [
+      -18.0,
+      -16.4078311920166,
+      18.0,
+      18.0,
+      9.0,
+      3.617515802383423
+    ]
+  ],
+  "zero_torque_control_nm": [
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "reference_rows": [
+    {
+      "environment_index": 0,
+      "reset_joint_position_control": [
+        -0.33367151,
+        0.33367157,
+        -0.33367088,
+        0.33367112,
+        0.0,
+        -0.0
+      ],
+      "reset_joint_velocity_control": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "leg_target_native": [
+        -0.68367134,
+        0.1642633613460922,
+        -0.3306124167778754,
+        0.18958741391834258
+      ],
+      "wheel_target_native": [
+        25.0,
+        -23.23971390724182
+      ],
+      "initial_reference_torque_native_nm": [
+        -18.0,
+        -18.0,
+        0.36701558665495293,
+        -17.29004472979889,
+        9.0,
+        -9.0
+      ]
+    },
+    {
+      "environment_index": 1,
+      "reset_joint_position_control": [
+        -0.33367151,
+        0.33367157,
+        -0.33367088,
+        0.33367112,
+        0.0,
+        -0.0
+      ],
+      "reset_joint_velocity_control": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "leg_target_native": [
+        -0.6223497595899963,
+        -0.016328659999999995,
+        -0.2118402492516899,
+        0.06280620361503603
+      ],
+      "wheel_target_native": [
+        25.0,
+        -19.875171780586243
+      ],
+      "initial_reference_torque_native_nm": [
+        -18.0,
+        -18.0,
+        14.619675689797212,
+        -18.0,
+        9.0,
+        -9.0
+      ]
+    },
+    {
+      "environment_index": 2,
+      "reset_joint_position_control": [
+        -0.33367151,
+        0.33367157,
+        -0.33367088,
+        0.33367112,
+        0.0,
+        -0.0
+      ],
+      "reset_joint_velocity_control": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "leg_target_native": [
+        -0.68367134,
+        0.4131777804606819,
+        -0.47288131232198716,
+        0.32924407602113126
+      ],
+      "wheel_target_native": [
+        25.0,
+        -22.568432986736298
+      ],
+      "initial_reference_torque_native_nm": [
+        -18.0,
+        9.540745255281829,
+        -16.705251878638457,
+        -0.5312452774642473,
+        9.0,
+        -9.0
+      ]
+    },
+    {
+      "environment_index": 3,
+      "reset_joint_position_control": [
+        -0.33367151,
+        0.33367157,
+        -0.33367088,
+        0.33367112,
+        0.0,
+        -0.0
+      ],
+      "reset_joint_velocity_control": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "leg_target_native": [
+        -0.68367134,
+        0.1580631401651764,
+        0.016328659999999995,
+        0.68367134
+      ],
+      "wheel_target_native": [
+        25.0,
+        -16.699126362800598
+      ],
+      "initial_reference_torque_native_nm": [
+        -18.0,
+        -18.0,
+        18.0,
+        18.0,
+        9.0,
+        -9.0
+      ]
+    },
+    {
+      "environment_index": 4,
+      "reset_joint_position_control": [
+        -0.33367151,
+        0.33367157,
+        -0.33367088,
+        0.33367112,
+        0.0,
+        -0.0
+      ],
+      "reset_joint_velocity_control": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "leg_target_native": [
+        -0.68367134,
+        0.06000073219474794,
+        -0.68367134,
+        -0.016328659999999995
+      ],
+      "wheel_target_native": [
+        25.0,
+        -25.0
+      ],
+      "initial_reference_torque_native_nm": [
+        -18.0,
+        -18.0,
+        -18.0,
+        -18.0,
+        9.0,
+        -9.0
+      ]
+    },
+    {
+      "environment_index": 5,
+      "reset_joint_position_control": [
+        -0.33367151,
+        0.33367157,
+        -0.33367088,
+        0.33367112,
+        0.0,
+        -0.0
+      ],
+      "reset_joint_velocity_control": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "leg_target_native": [
+        -0.6678699519747162,
+        0.19092505092557907,
+        -0.27264121214684484,
+        0.16771453137334824
+      ],
+      "wheel_target_native": [
+        25.0,
+        -9.604836255311966
+      ],
+      "initial_reference_torque_native_nm": [
+        -18.0,
+        -17.129582288930507,
+        7.32356014237862,
+        -18.0,
+        9.0,
+        -5.76290175318718
+      ]
+    },
+    {
+      "environment_index": 6,
+      "reset_joint_position_control": [
+        -0.33367151,
+        0.33367157,
+        -0.33367088,
+        0.33367112,
+        0.0,
+        -0.0
+      ],
+      "reset_joint_velocity_control": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "leg_target_native": [
+        -0.68367134,
+        0.12679327393707274,
+        -0.36593463684257505,
+        0.23693372870620727
+      ],
+      "wheel_target_native": [
+        25.0,
+        -25.0
+      ],
+      "initial_reference_torque_native_nm": [
+        -18.0,
+        -18.0,
+        -3.871650821109005,
+        -11.608486955255126,
+        9.0,
+        -9.0
+      ]
+    },
+    {
+      "environment_index": 7,
+      "reset_joint_position_control": [
+        -0.33367151,
+        0.33367157,
+        -0.33367088,
+        0.33367112,
+        0.0,
+        -0.0
+      ],
+      "reset_joint_velocity_control": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "leg_target_native": [
+        -0.68367134,
+        0.1969396453612709,
+        0.016328659999999995,
+        0.68367134
+      ],
+      "wheel_target_native": [
+        25.0,
+        -6.029193103313446
+      ],
+      "initial_reference_torque_native_nm": [
+        -18.0,
+        -16.407830956647487,
+        18.0,
+        18.0,
+        9.0,
+        -3.6175158619880676
+      ]
+    }
+  ],
+  "input_sha256": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\ground-on-off-20261010-v1\\isaac-shared_first_action_hold-ground-off\\actions.json": "0E0E1E9EEDFC96F0ADE6311601599D60B9D6BBDE3042366B4163F46273C8F106",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\ground-on-off-20261010-v1\\mujoco-shared_first_action_hold-ground-off\\evidence.json": "567F9F9ACA5B39DEE945F6EC931A9B399FB6D44353DE6CAAFAE61A6A5DEB34C2",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\models\\wheel_leg_urdf4_v1.xml": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\model_manifest.json": "C3DB4FE2797F6AC3628F0A9CB5E0B166FFD0CE802776A335922C474A045F7AE0",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-02\\actor.ts": "550C88133A9F2D38A42EDB0E240181745833CE898BD132D158B5BCE834C6609A",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-02\\policy_manifest.json": "EB13064CA7E60C88938CD317F172D3F83FB01C4E025A21CA05356C2C1CCDE286"
+  },
+  "generator_sha256": "594EF7E6204181BC4FE03AEB786ECEB68E79440689F7B1C591A029389F864F4A"
+}

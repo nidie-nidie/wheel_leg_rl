@@ -1,0 +1,103 @@
+{
+  "captured_at_singapore": "2026-10-10T00:43:05.398749+08:00",
+  "suite_id": "20261010-001232",
+  "suite_status": "training",
+  "runs": [
+    {
+      "index": 1,
+      "seed": 1375451991,
+      "status": "training",
+      "latest_iteration": 664,
+      "log_tail": "m: 0.0001\n               Termination/invalid: 0.0000\n     Termination/height_terminated: 0.0000\n       Termination/tilt_terminated: 0.0000\nTermination/root_linear_terminated: 0.0000\nTermination/root_angular_terminated: 0.0000\nTermination/joint_velocity_terminated: 0.0000\n               Termination/timeout: 0.0044\n               Episode/tracking_vx: 5.3601\n       Episode/tracking_vx_enhance: -0.7952\n         Episode/tracking_yaw_rate: 9.4237\n Episode/tracking_yaw_rate_enhance: -0.1066\n      Episode/tracking_base_height: 7.6465\n                 Episode/lin_vel_z: -0.0159\n                Episode/ang_vel_xy: -0.2231\n               Episode/orientation: -0.4728\n                   Episode/dof_vel: -0.0004\n                   Episode/dof_acc: -0.0149\n                   Episode/torques: -0.0366\n               Episode/action_rate: -0.0164\n             Episode/action_smooth: -0.0503\n            Episode/dof_pos_limits: 0.0000\n             Episode/phi0_symmetry: -2.2021\n               Episode/termination: 0.0000\n        EpisodeTermination/invalid: 0.0000\nEpisodeTermination/height_terminated: 0.0000\nEpisodeTermination/tilt_terminated: 0.0000\nEpisodeTermination/root_linear_terminated: 0.0000\nEpisodeTermination/root_angular_terminated: 0.0000\nEpisodeTermination/joint_velocity_terminated: 0.0000\n        EpisodeTermination/timeout: 1.0000\n--------------------------------------------------------------------------------\n                   Total timesteps: 4085760\n                    Iteration time: 2.85s\n                      Time elapsed: 00:30:05\n                               ETA: 00:15:12\n\n",
+      "monitor_path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\monitor\\run-01\\interval-20261010-004232.json",
+      "monitor_status": "warning",
+      "hard_anomalies": [],
+      "warnings": [
+        "phi0_symmetry_degraded"
+      ],
+      "latest": {
+        "Action/saturation_fraction": {
+          "step": 652,
+          "value": 0.6657986640930176
+        },
+        "Actuator/effort_saturation_fraction": {
+          "step": 652,
+          "value": 0.0010308159980922937
+        },
+        "Loss/entropy": {
+          "step": 652,
+          "value": 2.701310873031616
+        },
+        "Loss/learning_rate": {
+          "step": 652,
+          "value": 5.062499985797331e-05
+        },
+        "Loss/surrogate": {
+          "step": 652,
+          "value": -0.002331351162865758
+        },
+        "Loss/value_function": {
+          "step": 652,
+          "value": 0.0004259191337041557
+        },
+        "Metric/loop_closure_error_max_m": {
+          "step": 652,
+          "value": 5.521885395864956e-05
+        },
+        "Metric/phi0_delta_abs_rad": {
+          "step": 652,
+          "value": 0.3860630989074707
+        },
+        "Policy/mean_noise_std": {
+          "step": 652,
+          "value": 0.5344802737236023
+        },
+        "Termination/height_terminated": {
+          "step": 652,
+          "value": 0.0
+        },
+        "Termination/invalid": {
+          "step": 652,
+          "value": 0.0
+        },
+        "Termination/joint_velocity_terminated": {
+          "step": 652,
+          "value": 0.0
+        },
+        "Termination/root_angular_terminated": {
+          "step": 652,
+          "value": 0.0
+        },
+        "Termination/root_linear_terminated": {
+          "step": 652,
+          "value": 0.0
+        },
+        "Termination/tilt_terminated": {
+          "step": 652,
+          "value": 0.0
+        },
+        "Tracking/base_height_abs_error": {
+          "step": 652,
+          "value": 0.0191592276096344
+        },
+        "Tracking/vx_abs_error": {
+          "step": 652,
+          "value": 0.43167644739151
+        },
+        "Tracking/yaw_rate_abs_error": {
+          "step": 652,
+          "value": 0.08093394339084625
+        },
+        "Train/mean_episode_length": {
+          "step": 652,
+          "value": 499.0
+        },
+        "Train/mean_reward": {
+          "step": 652,
+          "value": 17.091276168823242
+        }
+      },
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_00-12-36_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run01-seed1375451991"
+    }
+  ]
+}

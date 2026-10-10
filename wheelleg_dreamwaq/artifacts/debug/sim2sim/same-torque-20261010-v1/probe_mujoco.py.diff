@@ -1,0 +1,141 @@
+--- old/probe_mujoco.py
++++ new/probe_mujoco.py
+@@ -15,7 +15,9 @@
+ sys.path.insert(0, str(PROJECT))
+ from wheelleg_mujoco.contract import load_policy_contract
+ from wheelleg_mujoco.runner import WheelLegMujocoRuntime
++from wheelleg_mujoco.model_map import CONTROLLED_JOINT_SIGNS
+ from wheelleg_mujoco.model_semantics import compiled_model_semantics, stable_hash
++from wheelleg_mujoco.observation import collect_kinematic_state
+ from debug.sim2sim.root_cause_suite.variant_builders import build_robot_variant
+ 
+ parser = argparse.ArgumentParser(description=__doc__)
+@@ -24,6 +26,9 @@
+ parser.add_argument("--no-ground", action="store_true")
+ parser.add_argument("--control-ticks", type=int, default=1)
+ parser.add_argument("--case", choices=("both", "zero_action", "shared_first_action_hold"), default="both")
++parser.add_argument("--drive-mode", choices=("formal", "direct_shared", "direct_zero"), default="formal")
++parser.add_argument("--torques-from", type=Path, required=True)
++parser.add_argument("--initial-state-from", type=Path)
+ args = parser.parse_args()
+ SUITE = PROJECT / "artifacts/phase2_dreamwaq/training-suite-20261010-001203-reset-v2"
+ MODEL = PROJECT / "sim2sim/mujoco/models/wheel_leg_urdf4_v1.xml"
+@@ -36,7 +41,12 @@
+ 
+ 
+ def main():
+-    assert args.control_ticks > 0
++    assert args.control_ticks == 1 and args.no_ground and args.case == "shared_first_action_hold"
++    torque_record = json.loads(args.torques_from.read_text())
++    torque_key = "zero_torque_control_nm" if args.drive_mode == "direct_zero" else "shared_first_torque_control_nm"
++    torques = np.asarray(torque_record[torque_key], dtype=np.float64)
++    assert torques.shape == (8, 6) and np.isfinite(torques).all()
++    assert np.all(np.abs(torques) <= np.asarray(torque_record["effort_limits_nm"]))
+     args.output.mkdir(parents=True, exist_ok=False)
+     protected = [MODEL, MODEL_MANIFEST, EXPORT / "actor.ts", EXPORT / "policy_manifest.json"]
+     protected += list((PROJECT / "sim2sim/mujoco/wheelleg_mujoco").glob("*.py"))
+@@ -59,6 +69,43 @@
+         (args.output / "diagnostic-model-identity.json").write_text(json.dumps(diagnostic_manifest, indent=2), encoding="utf-8")
+         runtime = WheelLegMujocoRuntime(variant.model_path, contract, model_manifest=diagnostic_manifest)
+     model, data = runtime.model, runtime.data
++    aids = runtime.model_map.actuator_ids
++    dofs = runtime.model_map.dof_addresses
++    assert np.all(model.actuator_dyntype[aids] == mujoco.mjtDyn.mjDYN_NONE)
++    assert np.all(model.actuator_gaintype[aids] == mujoco.mjtGain.mjGAIN_FIXED)
++    assert np.all(model.actuator_biastype[aids] == mujoco.mjtBias.mjBIAS_NONE)
++    assert np.all(model.actuator_gainprm[aids, 0] == 1.0)
++    assert np.array_equal(model.actuator_gear[aids], np.tile([1., 0., 0., 0., 0., 0.], (6, 1)))
++    assert np.all(model.dof_damping[dofs] == 0.0)
++    formal_compute_torque = runtime.controller.compute_torque
++
++    def select_torque(index):
++        if args.drive_mode == "formal":
++            runtime.controller.compute_torque = formal_compute_torque
++        else:
++            fixed = torques[index] * CONTROLLED_JOINT_SIGNS
++            runtime.controller.compute_torque = lambda data, targets: fixed.copy()
++
++    initial_record = None if args.initial_state_from is None else json.loads(args.initial_state_from.read_text())
++    if initial_record is not None:
++        assert args.drive_mode != "formal", "Matched initial-state experiment is direct torque only"
++        initial_snapshot = next(s for s in initial_record["samples"] if s["phase"] == "reset_returned_before_first_action")
++        source_ids = [initial_record["joint_names"].index(mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_JOINT, j))
++                      for j in range(1, model.njnt)]
++
++    def align_initial_state(index):
++        if initial_record is None:
++            return
++        data.qpos[7:] = np.asarray(initial_snapshot["joint_position"])[index, source_ids]
++        data.qvel[6:] = np.asarray(initial_snapshot["joint_velocity"])[index, source_ids]
++        pose = np.asarray(initial_snapshot["root_pose_xyzw"])[index]
++        data.qpos[2] = pose[2]
++        quat = pose[[6, 3, 4, 5]]
++        data.qpos[3:7] = quat / np.linalg.norm(quat)
++        assert np.max(np.abs(initial_snapshot["root_velocity_world"][index])) == 0.0
++        data.qvel[:6] = 0.0
++        mujoco.mj_forward(model, data)  # Reset-only; never alter a live post-step solver buffer.
++
+     shadow = mujoco.MjData(model)
+     wheel_ids = [mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, name)
+                  for name in ("left_wheel_proxy", "right_wheel_proxy")]
+@@ -101,7 +148,11 @@
+                 "normal_force_n": normal.tolist(), "contacts_last_solve": contacts,
+                 "current_geometry_contact_count": int(shadow.ncon),
+                 "force_freshness": "last_solved_physics_step" if step_index else "reset_forward_only_no_time_advance",
+-                "joint_position": data.qpos[7:].tolist(), "joint_velocity": data.qvel[6:].tolist()}
++                "joint_position": data.qpos[7:].tolist(), "joint_velocity": data.qvel[6:].tolist(),
++                "external_ctrl_native_nm": data.ctrl[aids].tolist(),
++                "actuator_force_native_nm": data.actuator_force[aids].tolist(),
++                "generalized_actuator_force_native_nm": data.qfrc_actuator[dofs].tolist(),
++                "angular_control_fresh_jacobian_rad_s": collect_kinematic_state(model, shadow, runtime.model_map, contract).angular_velocity_control.tolist()}
+ 
+     original_step = mujoco.mj_step
+ 
+@@ -119,7 +170,9 @@
+                 if args.case != "both" and case != args.case:
+                     continue
+                 step_index = 0
++                select_torque(environment_index)
+                 runtime.reset(np.asarray(command))
++                align_initial_state(environment_index)
+                 assert step_index == 0 and data.time == 0.0
+                 samples.append(snapshot("reset_returned_before_first_action"))
+                 for _ in range(args.control_ticks):
+@@ -134,7 +187,9 @@
+         for case, action in (("zero_action", np.zeros(6)), ("shared_first_action_hold", actions[environment_index])):
+             if args.case != "both" and case != args.case:
+                 continue
++            select_torque(environment_index)
+             runtime.reset(np.asarray(command))
++            align_initial_state(environment_index)
+             for _ in range(args.control_ticks):
+                 runtime.step(action, np.asarray(command))
+             final = next(s for s in reversed(samples) if s["case"] == case and s["environment_index"] == environment_index)
+@@ -142,12 +197,25 @@
+                         float(np.max(np.abs(data.qvel - np.r_[final["root_qvel"], final["joint_velocity"]]))))
+             replay_errors.append(error)
+     assert max(replay_errors) == 0.0
++    for row in samples:
++        if row["physics_step"] == 0:
++            continue
++        if args.drive_mode != "formal":
++            expected = torques[row["environment_index"]] * CONTROLLED_JOINT_SIGNS
++            for field in ("external_ctrl_native_nm", "actuator_force_native_nm", "generalized_actuator_force_native_nm"):
++                assert np.array_equal(np.asarray(row[field]), expected), (field, row["physics_step"])
++        assert np.max(np.abs(np.asarray(row["joint_velocity"])[dofs - 6])) < 45.0
+     if args.no_ground:
+         assert floor_id == -1 and model.npair == 0
+         assert all(s["current_geometry_contact_count"] == 0 and not s["contacts_last_solve"] for s in samples)
+-    report = {"schema_version": "GroundOffMujocoProbeV1", "debug_only": True,
++    report = {"schema_version": "SameTorqueMujocoProbeV1", "debug_only": True,
+               "ground_enabled": not args.no_ground, "control_ticks": args.control_ticks,
+-              "test_case": args.case, "probe_sha256": digest(Path(__file__)),
++              "test_case": args.case, "drive_mode": args.drive_mode,
++              "torque_input_sha256": digest(args.torques_from), "free_base": True,
++              "matching_initial_state_sha256": None if args.initial_state_from is None else digest(args.initial_state_from),
++              "controlled_dof_ids": dofs.tolist(), "joint_names": [mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_JOINT, i) for i in range(1, model.njnt)],
++              "dof_damping": model.dof_damping.tolist(), "dof_armature": model.dof_armature.tolist(),
++              "equality_active": model.eq_active0.tolist(), "active_ctrl_ranges": model.actuator_ctrlrange[aids].tolist(), "probe_sha256": digest(Path(__file__)),
+               "variant_model_sha256": None if variant is None else variant.model_sha256,
+               "non_contact_compiled_semantics_unchanged": True,
+               "observer_replay_max_errors": replay_errors, "gravity_m_s2": model.opt.gravity.tolist(),

@@ -1,0 +1,169 @@
+--- old/probe_isaac.py
++++ new/probe_isaac.py
+@@ -1,4 +1,4 @@
+-"""Read-only production physics probe; all new files stay in this artifact directory."""
++"""Free-base same-external-torque diagnostic; production source is unchanged."""
+ from __future__ import annotations
+ 
+ import argparse
+@@ -26,6 +26,8 @@
+ parser.add_argument("--no-ground", action="store_true")
+ parser.add_argument("--control-ticks", type=int, default=1)
+ parser.add_argument("--case", choices=("both", "zero_action", "shared_first_action_hold"), default="both")
++parser.add_argument("--drive-mode", choices=("formal", "direct_shared", "direct_zero"), default="formal")
++parser.add_argument("--torques-from", type=Path, required=True)
+ AppLauncher.add_app_launcher_args(parser)
+ args = parser.parse_args()
+ launcher = AppLauncher(args)
+@@ -37,6 +39,7 @@
+ from wheelleg_dreamwaq.assets.asset_contract import ASSET_BUNDLE_V2, verify_asset_bundle
+ from wheelleg_dreamwaq.assets.paths import asset_root_v2
+ from wheelleg_dreamwaq.assets.wheelleg import WHEELLEG_CFG
++from wheelleg_dreamwaq.schemas.action import controlled_joint_feedback_usd_to_control
+ from wheelleg_dreamwaq.schemas.isaac_evaluation import EVALUATION_SEED, FORMAL_SCENARIOS
+ from wheelleg_dreamwaq.schemas.randomization import NOMINAL_EVALUATION_PROFILE_V1
+ from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.env import WheelLegFlatEnv
+@@ -85,6 +88,55 @@
+                 self.probe_sensors.append(sensor)
+ 
+ 
++    def drive_identity(self):
++        view = self.robot.root_physx_view
++        stage = self.sim.get_initial_stage()
++        closure = {}
++        for rel in ("jIO/jIO_loop_closure", "jKN/jKN_loop_closure", "jEC/jAG_loop_closure", "jCF/jCF_revolute_joint"):
++            path = f"/World/envs/env_0/Robot/{rel}"
++            joint = UsdPhysics.Joint(stage.GetPrimAtPath(path))
++            assert joint
++            enabled = joint.GetJointEnabledAttr().Get()
++            assert enabled is not False
++            closure[path] = enabled is not False
++        return {"stiffness": cpu(view.get_dof_stiffnesses()).tolist(),
++                "damping": cpu(view.get_dof_dampings()).tolist(),
++                "armature": cpu(view.get_dof_armatures()).tolist(),
++                "effort_limits": cpu(view.get_dof_max_forces()).tolist(),
++                "velocity_limits": cpu(view.get_dof_max_velocities()).tolist(),
++                "position_limits": cpu(view.get_dof_limits()).tolist(),
++                "closure_enabled": closure,
++                "actuator_cache": {name: {"stiffness": cpu(a.stiffness).tolist(), "damping": cpu(a.damping).tolist()}
++                                   for name, a in self.robot.actuators.items()}}
++
++    def configure_direct(self, torques):
++        self.drive_before = self.drive_identity()
++        self._probe_torques = torques.clone()
++        if args.drive_mode != "formal":
++            self.robot.write_joint_stiffness_to_sim(0.0, joint_ids=self._controlled_joint_ids)
++            self.robot.write_joint_damping_to_sim(0.0, joint_ids=self._controlled_joint_ids)
++            for name in ("legs", "wheels"):
++                self.robot.actuators[name].stiffness.zero_()
++                self.robot.actuators[name].damping.zero_()
++        self.drive_after = self.drive_identity()
++        expected = json.loads(json.dumps(self.drive_before))
++        if args.drive_mode != "formal":
++            for field in ("stiffness", "damping"):
++                for row in expected[field]:
++                    for joint in self._controlled_joint_ids:
++                        row[joint] = 0.0
++                for name in ("legs", "wheels"):
++                    expected["actuator_cache"][name][field] = np.zeros_like(expected["actuator_cache"][name][field]).tolist()
++        assert self.drive_after == expected, "Unexpected change outside active PD gains"
++        self._assert_passive_actuator_contract()
++
++    def _apply_action(self):
++        if args.drive_mode == "formal":
++            return super()._apply_action()
++        native = controlled_joint_feedback_usd_to_control(self._probe_torques)
++        self.robot.set_joint_effort_target(native, joint_ids=self._controlled_joint_ids)
++
++
+ def rotated(points, quat_xyzw):
+     q = quat_xyzw[:3]
+     return points + 2.0 * np.cross(q, np.cross(q, points) + quat_xyzw[3] * points)
+@@ -94,6 +146,12 @@
+     assert args.control_ticks > 0
+     assert not args.no_ground or (args.actions_from and args.contact_sensors)
+     args.output.mkdir(parents=True, exist_ok=False)
++    assert args.no_ground and args.case == "shared_first_action_hold" and args.control_ticks == 1
++    torque_record = json.loads(args.torques_from.read_text(encoding="utf-8"))
++    torque_key = "zero_torque_control_nm" if args.drive_mode == "direct_zero" else "shared_first_torque_control_nm"
++    torques = torch.tensor(torque_record[torque_key], dtype=torch.float32, device=args.device)
++    assert torques.shape == (8, 6) and torch.isfinite(torques).all()
++    assert torch.all(torques.abs() <= torques.new_tensor(torque_record["effort_limits_nm"]))
+     before = protected()
+     verify_asset_bundle(bundle=ASSET_BUNDLE_V2)
+     cache = torch.load(args.reset_cache, map_location="cpu", weights_only=False)
+@@ -141,6 +199,14 @@
+     view = env.robot.root_physx_view
+     offsets = {"contact_offsets": cpu(view.get_contact_offsets()).tolist(),
+                "rest_offsets": cpu(view.get_rest_offsets()).tolist()}
++    submitted_forces = []
++    original_force_setter = view.set_dof_actuation_forces
++
++    def observed_force_setter(forces, *positional, **keywords):
++        submitted_forces.append(cpu(forces).tolist())
++        return original_force_setter(forces, *positional, **keywords)
++
++    view.set_dof_actuation_forces = observed_force_setter
+     samples = []
+     case = "constructor"
+     step_index = 0
+@@ -170,7 +236,8 @@
+                 "normal_force_world_n": force,
+                 "force_freshness": "last_solved_physics_step" if step_index else "no_new_episode_physics_solve_yet",
+                 "joint_position": cpu(view.get_dof_positions()).tolist(),
+-                "joint_velocity": cpu(view.get_dof_velocities()).tolist()}
++                "joint_velocity": cpu(view.get_dof_velocities()).tolist(),
++                "external_force_argument_native_nm": submitted_forces[-1] if submitted_forces else None}
+ 
+     samples.append(snapshot("constructor_after_cache_load"))
+     original_step = env.sim.step
+@@ -212,11 +279,28 @@
+         wrapped.reset()
+         assert step_index == 0 and float(env.sim.current_time) == start
+         env._commands.copy_(torch.tensor([command for _, command in FORMAL_SCENARIOS], device=env.device))
++        env.configure_direct(torques)
++        assert float(env.sim.current_time) == start
+         samples.append(snapshot("reset_returned_before_first_action"))
+         for _ in range(args.control_ticks):
+             _, _, dones, _ = wrapped.step(action)
+             assert not dones.any(), "Probe crossed an episode boundary"
+     env.sim.step = original_step
++    view.set_dof_actuation_forces = original_force_setter
++    controlled = env._controlled_joint_ids
++    expected_torque = cpu(controlled_joint_feedback_usd_to_control(torques))
++    for row in samples:
++        if row["phase"] != "post_physics_step":
++            continue
++        force = np.asarray(row["external_force_argument_native_nm"])
++        actual = force[:, controlled]
++        if args.drive_mode == "formal":
++            assert np.max(np.abs(force)) == 0.0
++        else:
++            assert np.array_equal(actual, expected_torque)
++            assert np.max(np.abs(np.delete(force, controlled, axis=1))) == 0.0
++        assert np.max(np.abs(np.asarray(row["joint_velocity"])[:, controlled])) < 45.0
++    assert env.drive_identity() == env.drive_after
+     after = protected()
+     assert before == after
+     assert step_index * env.physics_dt == args.control_ticks * env.step_dt
+@@ -226,13 +310,18 @@
+                 assert np.max(np.abs(sample["normal_force_world_n"])) == 0.0
+         for path in env.disabled_ground_colliders:
+             assert UsdPhysics.CollisionAPI(stage.GetPrimAtPath(path)).GetCollisionEnabledAttr().Get() is False
+-    report = {"schema_version": "GroundOffIsaacProbeV1", "debug_only": True,
++    report = {"schema_version": "SameTorqueIsaacProbeV1", "debug_only": True,
+               "ground_enabled": not args.no_ground, "control_ticks": args.control_ticks,
+               "test_case": args.case, "probe_sha256": digest(Path(__file__)),
+               "disabled_ground_colliders": env.disabled_ground_colliders,
+               "joint_names": list(env.robot.joint_names), "gravity_m_s2": list(env.sim.cfg.gravity),
+               "formal_ranking_eligible": False, "contact_sensors": args.contact_sensors,
+-              "production_reset_and_step_inherited": True, "seed": cfg.seed, "num_envs": 8,
++              "production_reset_and_step_inherited": True, "production_apply_action_inherited": args.drive_mode == "formal",
++              "drive_mode": args.drive_mode, "torque_input_sha256": digest(args.torques_from),
++              "drive_before": env.drive_before, "drive_after": env.drive_after,
++              "active_joint_ids": list(controlled), "submitted_force_arguments_native_nm": submitted_forces,
++              "force_semantics": "External force tensor actually passed to PhysX setter; not original implicit-drive torque",
++              "free_base": not cfg.robot_cfg.spawn.articulation_props.fix_root_link, "seed": cfg.seed, "num_envs": 8,
+               "physics_dt_s": env.physics_dt, "reset_physics_time_advanced_s": reset_after - reset_before,
+               "cache_sha256": digest(args.reset_cache), "actor_sha256": digest(args.actor),
+               "ground_top_z_m": ground_top, "geometry": geometry, "compiled_shape_offsets": offsets,

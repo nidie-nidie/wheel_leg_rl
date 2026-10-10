@@ -1,0 +1,21 @@
+{
+  "schema_version": "StandingMujocoDiagnosticV1",
+  "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_02-30-21_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run04-seed342388981\\model_999.pt",
+  "source_checkpoint_sha256": "89926828678CC28E0B0BA5A8463181395E0BE95E5961F7C7A65640243D5DC5FD",
+  "actor_sha256": "EDC3AC9F5DDB7646B8E9043F81AEC0C2A66C9456E95155DADCE9603984D07050",
+  "model_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "angular_limit": {
+    "version": "PhysxRigidAngularBiasV1",
+    "max_angular_velocity_deg_s": 100.0,
+    "max_angular_velocity_rad_s": 1.7453292519943295,
+    "update_period_s": 0.005,
+    "sampling": "pre_step_zero_order_hold",
+    "frame": "world",
+    "bodies": "all_robot_bodies_except_world",
+    "torque_rule": "-I_world@omega*(1-limit/norm(omega))/update_period_when_over_limit",
+    "reset": "clear_counter_and_held_torque_after_keyframe_reset",
+    "velocity_write": false
+  },
+  "control_dt_s": 0.02,
+  "physics_dt_s": 0.001
+}

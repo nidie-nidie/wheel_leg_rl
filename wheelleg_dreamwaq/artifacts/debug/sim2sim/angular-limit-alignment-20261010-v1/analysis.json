@@ -1,0 +1,631 @@
+{
+  "schema_version": "AngularAlignmentResultsV1",
+  "passed": true,
+  "tests_passed": 40,
+  "training_performed": false,
+  "protected_original_files": 93,
+  "allowed_original_changes": [
+    "E:\\wheel_leg_rl-main\\docs\\2026-10-03-wheelleg-dreamwaq-architecture.md",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\contract.py",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\evaluation.py",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\runner.py"
+  ],
+  "immutable_input_count": 28,
+  "response": [
+    {
+      "case": "baseline",
+      "time_ms": 5,
+      "mean_angular_error_before_rad_s": 0.23342225372040132,
+      "mean_angular_error_after_rad_s": 0.23342225372040132,
+      "mean_joint_rms_before_rad_s": 0.06440514556754098,
+      "mean_joint_rms_after_rad_s": 0.06440514556754098
+    },
+    {
+      "case": "baseline",
+      "time_ms": 10,
+      "mean_angular_error_before_rad_s": 0.1804701677021805,
+      "mean_angular_error_after_rad_s": 0.1803723577493488,
+      "mean_joint_rms_before_rad_s": 0.05340318572725347,
+      "mean_joint_rms_after_rad_s": 0.053293478907201486
+    },
+    {
+      "case": "baseline",
+      "time_ms": 15,
+      "mean_angular_error_before_rad_s": 0.17194825327545085,
+      "mean_angular_error_after_rad_s": 0.08739507766959634,
+      "mean_joint_rms_before_rad_s": 0.045098096785118426,
+      "mean_joint_rms_after_rad_s": 0.03292932894230753
+    },
+    {
+      "case": "baseline",
+      "time_ms": 20,
+      "mean_angular_error_before_rad_s": 0.4310664325190916,
+      "mean_angular_error_after_rad_s": 0.0899986775334415,
+      "mean_joint_rms_before_rad_s": 0.09220107309820569,
+      "mean_joint_rms_after_rad_s": 0.03658002802883312
+    },
+    {
+      "case": "closure_off",
+      "time_ms": 5,
+      "mean_angular_error_before_rad_s": 0.001457587058034209,
+      "mean_angular_error_after_rad_s": 0.001457587058034209,
+      "mean_joint_rms_before_rad_s": 0.00022090519052372283,
+      "mean_joint_rms_after_rad_s": 0.00022090519052372283
+    },
+    {
+      "case": "closure_off",
+      "time_ms": 10,
+      "mean_angular_error_before_rad_s": 0.004404518473863493,
+      "mean_angular_error_after_rad_s": 0.004126409704637183,
+      "mean_joint_rms_before_rad_s": 0.0005849504671873439,
+      "mean_joint_rms_after_rad_s": 0.0004829695524806323
+    },
+    {
+      "case": "closure_off",
+      "time_ms": 15,
+      "mean_angular_error_before_rad_s": 0.16886645062267808,
+      "mean_angular_error_after_rad_s": 0.003845391928871873,
+      "mean_joint_rms_before_rad_s": 0.021820744835604974,
+      "mean_joint_rms_after_rad_s": 0.0008169661791232402
+    },
+    {
+      "case": "closure_off",
+      "time_ms": 20,
+      "mean_angular_error_before_rad_s": 0.5449336832832521,
+      "mean_angular_error_after_rad_s": 0.005342344587266162,
+      "mean_joint_rms_before_rad_s": 0.06945355207120818,
+      "mean_joint_rms_after_rad_s": 0.0012129681082705922
+    }
+  ],
+  "initial_state_max_errors": {
+    "baseline": 0.0,
+    "closure_off": 0.0
+  },
+  "candidate_reproduction_max_errors": {
+    "baseline": 0.0,
+    "closure_off": 0.0
+  },
+  "policies": [
+    {
+      "run_index": 1,
+      "source_seed": 1375451991,
+      "isaac_cap_deg_s": 100.0,
+      "golden_max_abs_error": 0.0,
+      "completed_before": 0,
+      "completed_after": 8,
+      "survival_before": 0.11275,
+      "survival_after": 1.0,
+      "score_after": 4.848664104795234,
+      "metrics_after": {
+        "action_saturation_fraction": 0.6666249999999999,
+        "effort_saturation_fraction": 0.0024854166666666666,
+        "height_mae": 0.012942229238160338,
+        "max_loop_closure_error_m": 0.00023937107249184434,
+        "max_tilt_rad": 0.053891037187201306,
+        "phi0_delta_rms": 0.6188350359648476,
+        "pitch_rms": 0.011568288966658125,
+        "roll_rms": 0.002087254222094042,
+        "vx_mae": 0.38766291040679945,
+        "yaw_drift_rms": 0.15585620455865642,
+        "yaw_rate_mae": 0.047435508032144504
+      },
+      "isaac_velocity_gate": true,
+      "isaac_not_worse_than_baseline": false,
+      "velocity_tracking": {
+        "nominal_stand": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": 0.28810170038992977,
+          "full_vx_mae_mps": 0.2881538667463282,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": 0.29489360638714734,
+          "steady_vx_mae_mps": 0.29489360638714734
+        },
+        "low_stand": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": 0.3096644516409802,
+          "full_vx_mae_mps": 0.3097169981340536,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": 0.3174481725012149,
+          "steady_vx_mae_mps": 0.3174481725012149
+        },
+        "high_stand": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": 0.291622711459121,
+          "full_vx_mae_mps": 0.2916783678734484,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": 0.29850400336728733,
+          "steady_vx_mae_mps": 0.29850400336728733
+        },
+        "forward": {
+          "target_vx_mps": 1.0,
+          "full_mean_vx_mps": 0.3115971444698166,
+          "full_vx_mae_mps": 0.6884028555301834,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": 0.319756755244312,
+          "steady_vx_mae_mps": 0.6802432447556881
+        },
+        "reverse": {
+          "target_vx_mps": -1.0,
+          "full_mean_vx_mps": -0.5437076258772559,
+          "full_vx_mae_mps": 0.45629237412274415,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.5606045728441554,
+          "steady_vx_mae_mps": 0.4393954271558445
+        },
+        "left_turn": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": 0.30393221953917693,
+          "full_vx_mae_mps": 0.3040121856578526,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": 0.31513701724835963,
+          "steady_vx_mae_mps": 0.31513701724835963
+        },
+        "right_turn": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": 0.2837163777653852,
+          "full_vx_mae_mps": 0.2837163777653852,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": 0.29342164070409427,
+          "steady_vx_mae_mps": 0.29342164070409427
+        },
+        "combined": {
+          "target_vx_mps": 0.8,
+          "full_mean_vx_mps": 0.3206697425756,
+          "full_vx_mae_mps": 0.47933025742440005,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": 0.330870655693395,
+          "steady_vx_mae_mps": 0.46912934430660513
+        }
+      }
+    },
+    {
+      "run_index": 2,
+      "source_seed": 1145850885,
+      "isaac_cap_deg_s": 100.0,
+      "golden_max_abs_error": 0.0,
+      "completed_before": 0,
+      "completed_after": 8,
+      "survival_before": 0.11325,
+      "survival_after": 1.0,
+      "score_after": 2.342593608555622,
+      "metrics_after": {
+        "action_saturation_fraction": 0.6665416666666666,
+        "effort_saturation_fraction": 0.004704166666666666,
+        "height_mae": 0.012262224365039601,
+        "max_loop_closure_error_m": 0.000473008250803233,
+        "max_tilt_rad": 0.11680403378677846,
+        "phi0_delta_rms": 0.18261993056543202,
+        "pitch_rms": 0.028106476907734615,
+        "roll_rms": 0.003879188665224049,
+        "vx_mae": 0.5010689601604167,
+        "yaw_drift_rms": 0.1111174534531711,
+        "yaw_rate_mae": 0.04795512658693315
+      },
+      "isaac_velocity_gate": true,
+      "isaac_not_worse_than_baseline": false,
+      "velocity_tracking": {
+        "nominal_stand": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.4772478292188949,
+          "full_vx_mae_mps": 0.4772478292188949,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.49056739910068003,
+          "steady_vx_mae_mps": 0.49056739910068003
+        },
+        "low_stand": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.5160424255773374,
+          "full_vx_mae_mps": 0.5160477692116233,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.5326067609672538,
+          "steady_vx_mae_mps": 0.5326067609672538
+        },
+        "high_stand": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.457105288532749,
+          "full_vx_mae_mps": 0.457105288532749,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.46863033930724285,
+          "steady_vx_mae_mps": 0.46863033930724285
+        },
+        "forward": {
+          "target_vx_mps": 1.0,
+          "full_mean_vx_mps": 0.3351923220574384,
+          "full_vx_mae_mps": 0.6648076779425617,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": 0.34576879603668714,
+          "steady_vx_mae_mps": 0.6542312039633128
+        },
+        "reverse": {
+          "target_vx_mps": -1.0,
+          "full_mean_vx_mps": -0.5428607684062332,
+          "full_vx_mae_mps": 0.4571392315937668,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.5591180272363188,
+          "steady_vx_mae_mps": 0.4408819727636812
+        },
+        "left_turn": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.47497063238895804,
+          "full_vx_mae_mps": 0.47497063238895804,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.48850062650666415,
+          "steady_vx_mae_mps": 0.48850062650666415
+        },
+        "right_turn": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.4860686623573518,
+          "full_vx_mae_mps": 0.4860686623573518,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.500166705802033,
+          "steady_vx_mae_mps": 0.500166705802033
+        },
+        "combined": {
+          "target_vx_mps": 0.8,
+          "full_mean_vx_mps": 0.3248354099625717,
+          "full_vx_mae_mps": 0.47516459003742834,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": 0.3369954632519607,
+          "steady_vx_mae_mps": 0.4630045367480393
+        }
+      }
+    },
+    {
+      "run_index": 3,
+      "source_seed": 1380466594,
+      "isaac_cap_deg_s": 100.0,
+      "golden_max_abs_error": 0.0,
+      "completed_before": 0,
+      "completed_after": 8,
+      "survival_before": 0.101,
+      "survival_after": 1.0,
+      "score_after": 1.0027111037332643,
+      "metrics_after": {
+        "action_saturation_fraction": 0.6662499999999999,
+        "effort_saturation_fraction": 0.0048291666666666665,
+        "height_mae": 0.012520667014395302,
+        "max_loop_closure_error_m": 0.0003364564728513512,
+        "max_tilt_rad": 0.1702930766036796,
+        "phi0_delta_rms": 0.003775104664651872,
+        "pitch_rms": 0.040469029853110204,
+        "roll_rms": 0.0013207924807980768,
+        "vx_mae": 0.3816165933484999,
+        "yaw_drift_rms": 0.04147609540354693,
+        "yaw_rate_mae": 0.015788550570116144
+      },
+      "isaac_velocity_gate": true,
+      "isaac_not_worse_than_baseline": false,
+      "velocity_tracking": {
+        "nominal_stand": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.46358471968345677,
+          "full_vx_mae_mps": 0.4636320367835339,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.47827291019255513,
+          "steady_vx_mae_mps": 0.47827291019255513
+        },
+        "low_stand": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.5161280516937359,
+          "full_vx_mae_mps": 0.5161280516937359,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.5373109978725394,
+          "steady_vx_mae_mps": 0.5373109978725394
+        },
+        "high_stand": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.44046267300222824,
+          "full_vx_mae_mps": 0.44046267300222824,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.45315748018398366,
+          "steady_vx_mae_mps": 0.45315748018398366
+        },
+        "forward": {
+          "target_vx_mps": 1.0,
+          "full_mean_vx_mps": 0.9607269708312786,
+          "full_vx_mae_mps": 0.03927302916872151,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": 0.9858008198792728,
+          "steady_vx_mae_mps": 0.014199180120727127
+        },
+        "reverse": {
+          "target_vx_mps": -1.0,
+          "full_mean_vx_mps": -0.5245477750881341,
+          "full_vx_mae_mps": 0.4754522249118659,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.5403182632334382,
+          "steady_vx_mae_mps": 0.45968173676656177
+        },
+        "left_turn": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.4681375843808574,
+          "full_vx_mae_mps": 0.46814228340196645,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.4840011700303961,
+          "steady_vx_mae_mps": 0.4840011700303961
+        },
+        "right_turn": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.47083071932875636,
+          "full_vx_mae_mps": 0.4708756327653955,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.486446999569752,
+          "steady_vx_mae_mps": 0.486446999569752
+        },
+        "combined": {
+          "target_vx_mps": 0.8,
+          "full_mean_vx_mps": 0.9515735952762461,
+          "full_vx_mae_mps": 0.17896681506055198,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": 0.9776149339379445,
+          "steady_vx_mae_mps": 0.17761493393794445
+        }
+      }
+    },
+    {
+      "run_index": 4,
+      "source_seed": 342388981,
+      "isaac_cap_deg_s": 100.0,
+      "golden_max_abs_error": 0.0,
+      "completed_before": 0,
+      "completed_after": 8,
+      "survival_before": 0.10200000000000001,
+      "survival_after": 1.0,
+      "score_after": 0.9297059163430226,
+      "metrics_after": {
+        "action_saturation_fraction": 0.6656666666666665,
+        "effort_saturation_fraction": 0.003864583333333333,
+        "height_mae": 0.012205997511744704,
+        "max_loop_closure_error_m": 0.00025859534910457026,
+        "max_tilt_rad": 0.16073635858078567,
+        "phi0_delta_rms": 0.004542380895472756,
+        "pitch_rms": 0.03273477139029401,
+        "roll_rms": 0.0008648481919851229,
+        "vx_mae": 0.3866965676528286,
+        "yaw_drift_rms": 0.034296320956198084,
+        "yaw_rate_mae": 0.017218405583655196
+      },
+      "isaac_velocity_gate": true,
+      "isaac_not_worse_than_baseline": false,
+      "velocity_tracking": {
+        "nominal_stand": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.4839066670531387,
+          "full_vx_mae_mps": 0.4839909981447845,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.49810825626444255,
+          "steady_vx_mae_mps": 0.49810825626444255
+        },
+        "low_stand": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.5325923411750283,
+          "full_vx_mae_mps": 0.5325923411750283,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.55163284521428,
+          "steady_vx_mae_mps": 0.55163284521428
+        },
+        "high_stand": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.43007888763551366,
+          "full_vx_mae_mps": 0.43007888763551366,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.4417008961510011,
+          "steady_vx_mae_mps": 0.4417008961510011
+        },
+        "forward": {
+          "target_vx_mps": 1.0,
+          "full_mean_vx_mps": 0.9303897047407168,
+          "full_vx_mae_mps": 0.06961029525928322,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": 0.9547861858244805,
+          "steady_vx_mae_mps": 0.0452138141755195
+        },
+        "reverse": {
+          "target_vx_mps": -1.0,
+          "full_mean_vx_mps": -0.5425582745506463,
+          "full_vx_mae_mps": 0.4574417254493537,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.5579537810077217,
+          "steady_vx_mae_mps": 0.44204621899227825
+        },
+        "left_turn": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.4871059413627719,
+          "full_vx_mae_mps": 0.48711777273562873,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.5025250586878113,
+          "steady_vx_mae_mps": 0.5025250586878113
+        },
+        "right_turn": {
+          "target_vx_mps": 0.0,
+          "full_mean_vx_mps": -0.4852625493895787,
+          "full_vx_mae_mps": 0.48530108595028776,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": -0.5003160538095123,
+          "steady_vx_mae_mps": 0.5003160538095123
+        },
+        "combined": {
+          "target_vx_mps": 0.8,
+          "full_mean_vx_mps": 0.9179211274215361,
+          "full_vx_mae_mps": 0.1474394348727489,
+          "steady_window_start_s": 2.0,
+          "steady_mean_vx_mps": 0.9433813901610972,
+          "steady_vx_mae_mps": 0.14338139016109716
+        }
+      }
+    }
+  ],
+  "best_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_02-30-21_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run04-seed342388981\\model_999.pt",
+  "best_run_id": "89926828678C",
+  "production_changes": [
+    {
+      "path": "../docs/2026-10-03-wheelleg-dreamwaq-architecture.md",
+      "added": 26,
+      "removed": 2
+    },
+    {
+      "path": "sim2sim/mujoco/wheelleg_mujoco/runner.py",
+      "added": 4,
+      "removed": 0
+    },
+    {
+      "path": "sim2sim/mujoco/wheelleg_mujoco/contract.py",
+      "added": 2,
+      "removed": 0
+    },
+    {
+      "path": "sim2sim/mujoco/wheelleg_mujoco/evaluation.py",
+      "added": 5,
+      "removed": 1
+    },
+    {
+      "path": "sim2sim/mujoco/tests/test_evaluation_metrics.py",
+      "added": 23,
+      "removed": 0
+    },
+    {
+      "path": "sim2sim/mujoco/wheelleg_mujoco/angular_limit.py",
+      "added": 75,
+      "removed": 0
+    },
+    {
+      "path": "sim2sim/mujoco/tests/test_angular_limit.py",
+      "added": 83,
+      "removed": 0
+    },
+    {
+      "path": "docs/superpowers/plans/2026-10-10-mujoco-angular-limit-alignment.md",
+      "added": 64,
+      "removed": 0
+    }
+  ],
+  "architecture_sha256": "FDEF463B22E88F4C219791F0CA019AAAB5F9D2FE7DF47B96EE91B6E240F54225",
+  "evaluation_implementation": {
+    "schema_version": "MujocoEvaluationSourceV1",
+    "files": {
+      "scripts/evaluate_mujoco.py": "61E498E9CB18BE5E96D9CC24B5D5A714A21C4A8822D3418C96E6A168311C8B05",
+      "scripts/rank_mujoco_runs.py": "8B66C84A3FEC1D6CCF4E7B6E6088AB114CAD91E8409F07E8A0D6A22F213B7BA2",
+      "sim2sim/mujoco/pyproject.toml": "0378D3334A67451966E7E516B3A99D829C27E58E97213C2A0D2B84AC87D0256B",
+      "sim2sim/mujoco/uv.lock": "7D80DCE923C67CA8F606DB9E40565BEC837D4F55C2205BB217385B4C346A27A4",
+      "sim2sim/mujoco/wheelleg_mujoco/__init__.py": "EB75ADC6A71A11DFD627C693771362E5520058A60C2FADCF8814FA9E1FFECCD6",
+      "sim2sim/mujoco/wheelleg_mujoco/angular_limit.py": "276DE64F6AF07609A2E70719FCF54363B95B5DD9D5260C06C5827B052B3B15A4",
+      "sim2sim/mujoco/wheelleg_mujoco/contract.py": "415EEF1A94FEA7F8BFF28BB0835B8691A8DD443FE7FFA64D9DABAACB61D6F3FD",
+      "sim2sim/mujoco/wheelleg_mujoco/control.py": "83080BC57A0399B11610CE5E06B4F607ADA1C0FB995344E23E531658EBBEFD62",
+      "sim2sim/mujoco/wheelleg_mujoco/evaluation.py": "D4D23B4E363356EA5029403FB348C2197FB8301A5756DCF20F931886DCB65775",
+      "sim2sim/mujoco/wheelleg_mujoco/metrics.py": "DB6B1A1CDB468701E0312D894F8FF1856651FF821A0FADEE1A9F400F04B5E7B3",
+      "sim2sim/mujoco/wheelleg_mujoco/model_map.py": "B08A421723D0DAA814316796C7B8C99D58D033B4D74ECC824BB69047C91E3EDC",
+      "sim2sim/mujoco/wheelleg_mujoco/model_semantics.py": "672049E647FB1DE89EF0289D15AB2EF611DB38B7FACB5669F82DBF7FFAD23D01",
+      "sim2sim/mujoco/wheelleg_mujoco/observation.py": "DD7F972D77FCCA25378BF403F61A67755C8AB4BA28738C97ABF2BBDD733970BD",
+      "sim2sim/mujoco/wheelleg_mujoco/runner.py": "C92C6E970FB46BE624B2419F997D750579D58C4B817DF119EB89715B466A4F4C",
+      "sim2sim/mujoco/wheelleg_mujoco/versions.py": "8B5A686A1BADE2D97CA022C222BE0B516368DE94B697D89EE9D4F3AF6EE2AD4D"
+    },
+    "hash": "29C93246B75EB4B1D80174B0F7AAFFFB935CDA58E51CBABB0308551238B31F1F"
+  },
+  "provenance_sha256": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-01\\actor.ts": "42DC3644936D5CF6C03049E1912398FC61AF24B41A7BBA5E7BBAA60DB89A0B0D",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-01\\golden_vectors.pt": "F7F56710761BAF3A8149197D37E23C3C5029E8A76CD27BAA3DF4DB505ECBB34C",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-01\\policy_manifest.json": "A4E45F5645EEB9968D898F135669C2FB66268372D152486945C3A12827D82D9A",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_00-12-36_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run01-seed1375451991\\model_999.pt": "D15A2CFC5473234010B7C322E0C8FD8F22BAD888A6A10D673DC8ECB17B4DA342",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_00-12-36_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run01-seed1375451991\\run_manifest.json": "4E36F34FCF45CECE6C94110E78B605815D8985A757E72BCA9422251A6AB87BBF",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-02\\actor.ts": "550C88133A9F2D38A42EDB0E240181745833CE898BD132D158B5BCE834C6609A",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-02\\golden_vectors.pt": "857C1ABF45FAC7AE3210718151D3A2044E6FED55813FC225A757768D98603618",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-02\\policy_manifest.json": "EB13064CA7E60C88938CD317F172D3F83FB01C4E025A21CA05356C2C1CCDE286",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_00-58-39_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run02-seed1145850885\\model_999.pt": "72042AE31B788146B397B23F151EC73E7F5A7FF9D564D2C9429B577F4E9F3A71",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_00-58-39_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run02-seed1145850885\\run_manifest.json": "3949ADB37B2D3F0C880AAF6E397387DE7CF621CA87986C9CDA6DE52F385A94B9",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-03\\actor.ts": "70AEDA6D545CAF9C51AA02611AFA3A8471FFE556571F3C4337A3CDA77AAF40CD",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-03\\golden_vectors.pt": "2014A09D5668BC20A33F43092E47A5C3D821F33D0DF47196E0E4352208362B0D",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-03\\policy_manifest.json": "905233564D3DF486AD0A724AB76DB7D0E715937B114A621E1A2B31AEC4C986B9",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_01-44-30_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run03-seed1380466594\\model_999.pt": "37E2481BAE5A8CFD108ECDC35870F08D98E30E40FDEC73C23F2B69D17245F130",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_01-44-30_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run03-seed1380466594\\run_manifest.json": "4AF10F8B7A5E282CEE152D29C88AD3446963598232BB7086B2FC80FFCAD32276",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-04\\actor.ts": "EDC3AC9F5DDB7646B8E9043F81AEC0C2A66C9456E95155DADCE9603984D07050",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-04\\golden_vectors.pt": "DC0B3C884E15DBE71AF847D57EBDD22120002DB076437743531D9A63986B19E5",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\exports\\run-04\\policy_manifest.json": "CBC326D580A84880CB047922269E63EF6461F84C38F5CC5122626D9087B7D186",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_02-30-21_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run04-seed342388981\\model_999.pt": "89926828678CC28E0B0BA5A8463181395E0BE95E5961F7C7A65640243D5DC5FD",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_02-30-21_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run04-seed342388981\\run_manifest.json": "BA9DD3873872B966EB7D2C32F56B9C87689C9F25E1DCB5276168FAA9F1A5CDD5",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\isaac_evaluation\\evaluation-reset-cache.pt": "008EE5D50E1C622D4AC0408E3C5E1C0B8CFCA618ABD3163E221A39D203B3DECE",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\training-suite-manifest.json": "A735E52308DE98A88401F5D8363EB362E9F91361DB569E2290F6CC2A1E15649E",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\evaluation-suite-context.json": "BA370037A8A8EBE73039BE00048FC8CE8868C16FFCDF07BF58C5E2773A80B424",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\mujoco-ranking-summary.json": "63871E9198DBBDFBAB74E0A3D39C2BEB8BA7C1028ED171D9062D920D910CD622",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\mujoco_evaluation\\run-01\\summary.json": "D3F9C3C00A557CF607B420C5D8D0D7A2954743A2C8466AAD790E61597204455F",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\mujoco_evaluation\\run-02\\summary.json": "5742B60E7F15357A36D3FFD08E3FEFDD9A81B130030B97147B4EDA18B0EF54C9",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\mujoco_evaluation\\run-03\\summary.json": "9CAA936524BDFFD2A33DBE51E50AF0540A11A16DE60076025F7D22E872E9A476",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\mujoco_evaluation\\run-04\\summary.json": "5AFC633D8F234BC6D1EB5260D5719B6E0E5AF226B4FE76D454CDCBBA8E153C5F",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\.venv\\Scripts\\python.exe": "FE80EA1AA630F8D6CF5BCBFA614ADDB7E0DC64645F61C2DBBB54894C93B67EBF",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\tests-console.log": "B68584F3D5920491E3CF366F3AD50D50870B898462A55605F6031CEEB85B7B16",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\probe_mujoco_aligned.py": "7A24605B5001349193082BEC535124F1DE813BC55F6438EE5CB7DB66F3BD6F9B",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\ground-on-off-20261010-v1\\isaac-shared_first_action_hold-ground-off\\actions.json": "0E0E1E9EEDFC96F0ADE6311601599D60B9D6BBDE3042366B4163F46273C8F106",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\same-torque-20261010-v1\\inputs.json": "A81380AF0750C1F31C40B83ED8EBDD8C6009C0E98513C09CC606D4BBFF8EFFB1",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\same-torque-20261010-v1\\isaac-formal\\evidence.json": "3656D505ECAE9DA03D1ECAFE88EA13FD6E3A6AB6765C1766B2BDE091D124244E",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\torque-baseline-console.log": "C1D2BF4AAA6376B3FEC6EDE52033E71AC9575B350FD33039992C88E98AAC1E81",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\torque-closure_off-console.log": "52251B5D5BDA911C098C0B6FC653E9BAE757B7CB7E2989A554A51BCD8BFBEB72",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\evaluate_mujoco.py": "61E498E9CB18BE5E96D9CC24B5D5A714A21C4A8822D3418C96E6A168311C8B05",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\evaluation-run-01-console.log": "64E4F0F6BF261ED9D2D84962F86467A84AA0D0EB9D19EC355DFDFE9003903B77",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\evaluation-run-02-console.log": "5D90F722D078FC945917F65B11DE635CBD43A9A825DE36D2DFF749667747D31F",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\evaluation-run-03-console.log": "FD7EC96CAF10B1DF2A75BA34226D07AB44C65E1198D8C87A54D77EA8D3F842B7",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\evaluation-run-04-console.log": "47D0A24CED1086E128DD0A2E032C421A1B3BD94B10DB403527B2A67971D3F22B",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\rank_mujoco_runs.py": "8B66C84A3FEC1D6CCF4E7B6E6088AB114CAD91E8409F07E8A0D6A22F213B7BA2",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-01\\summary.json": "3580BA6BE7C6256355E219201AABE86C39806F10F8A1EBEF3924079EDB35CAD1",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-02\\summary.json": "A9CE0EB42FA5E4BDD2ECC9BA9CC6F1481F2754346511E5C90ECF5F942F5B004B",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-03\\summary.json": "509A5F4DF93AECEF994F051F7237398E9DAE49CE8F62F7498A6E795543D9C07E",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-04\\summary.json": "0CB3DE6674CDB6EB35E2929DF489B42DC739A12FD261D9CC02959734E01EC23D",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\ranking-console.log": "5571C987FFA6C7C867AA31C0AAA16278C67EAAB4BF6ED4036C115C6BC93676B1",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-baseline-aligned\\evidence.json": "1450001A65D458E9D093B4987F7DF6B1C384B69A549DD5C50654AEBF73F13400",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-baseline-limit-0.005\\evidence.json": "4EEF5BB0055DC543753A3688B12EF05D5F66E41598A2FE6400E5B1DFEB9E065D",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\mechanics-isolation-20261010-v1\\isaac-baseline\\evidence.json": "578118F8D21EC4C9C5436F5BDE1C35282A77C03E3C44F5E933EE6478BE0230F8",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\mechanics-isolation-20261010-v1\\mujoco-baseline\\evidence.json": "AF94E80D8601E9AFE99C20D81766096E534B7DE6604B00B8654E3D27C4CABCC4",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-closure_off-aligned\\evidence.json": "F32932EC1925DA8CCA4F04E42E475B1A9B74A4DEA388995D3D6428C51FE829A7",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-closure_off-limit-0.005\\evidence.json": "DC047358E71BE3A3092CAE0308DA3E5412456A55BBEA15D0725FAFAFFDE63F18",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\mechanics-isolation-20261010-v1\\isaac-closure_off\\evidence.json": "9E859C0DE813EC55DEE00215C2941C2EB562270FD6270735DD9265B9C7433E72",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\mechanics-isolation-20261010-v1\\mujoco-closure_off\\evidence.json": "4C46A32213C4F183A7CF4F8FC647D8022571F6E9AEE01A6F287681D648DB77A6",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-01\\nominal_stand.csv": "FE0F58282698743B4A1B3294318282831A658688FE05D60DABEFB108AC2AA388",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-01\\low_stand.csv": "3DDA1A4C91F742A0A1E1E4205E332EA40EE06873DDD271649D211641D759770D",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-01\\high_stand.csv": "EC7598B87B7A6F3602D286DC07E702F9FBFDC45A7E83F82DD3BB13BA2F9DE5B4",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-01\\forward.csv": "6D3DFA82B99AB38EE743F9EB7E3317930F82CE768ACAC0EDDFF0B2EF8DBF6B0E",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-01\\reverse.csv": "63393BEF69A8C00747AE94AA9EE3662B715938328B10719D41E411C40FEC086D",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-01\\left_turn.csv": "1CEF7A365C824678BE96202B03CC5AB4E1380121C10C60E6C3521019DBDFA597",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-01\\right_turn.csv": "B8015385BE6681434073D9AB94C1F0BEB61D36E79A1EEA50259CD4F4C8EA7AEE",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-01\\combined.csv": "C051C8C34C6D6343719616FC119F8A6F050A05DB534260DE1304C05490F78E9E",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\isaac_evaluation\\run-01\\summary.json": "34E0BBF409F943A8EF31CA6BDA86D4C18B12CD88CCCF135373EC5C4C79F811ED",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-02\\nominal_stand.csv": "46D3E131C0DAD8860E943BF52DCC4CA9A1D860E03D98DA860A3BBFE8803E81DE",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-02\\low_stand.csv": "084F60A358258FAD7D18F0FCF7673FB6E37DB551908F422BBC5496F352EB518C",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-02\\high_stand.csv": "F86B0194D7E3753C76355BE62B11622714481B11924D82CC98B98B3BF10851EE",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-02\\forward.csv": "33502A7C7A8980CE120786E511A1D375FFBA2EF386C81A92E2F0F7BDDA2835BC",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-02\\reverse.csv": "DA87FE3BA246DA76B17CF6B273D45C825BECE35935BF35D99BA3782DBC6C6D33",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-02\\left_turn.csv": "159C1DBE8480FC03F268CB2CBD8F978B805E8A1ECC63EE86694FE88AD989940D",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-02\\right_turn.csv": "8EE2A539C8ABD96D2094620D506A4DDBB9AB3E9F6364CECCCCEF2D835EAB67E5",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-02\\combined.csv": "F7F6DD7C38DBBEE315003499088FB87E734D5D4EF42A51965C19EEBC70F89E2E",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\isaac_evaluation\\run-02\\summary.json": "3D91E6A943F68BA772D6E5DCE777A743A222D9EA6473669EE52695474AE28C22",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-03\\nominal_stand.csv": "2ED7DBC22FCB4F3ED2EA44AA8CDF22537879D1272A50B84C8D87BFC3B9CAE5E1",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-03\\low_stand.csv": "887BAE286569EA5E1020D2B61ECA9430658BB62F526A1495F29DB5E38ED23BFB",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-03\\high_stand.csv": "2C9080308978D93B842A8088412A444524F49F30D5A52C6ADEB6BFC068BF7774",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-03\\forward.csv": "14A8D5049D5846F0A6982B10617BCEE8B5008CDB2B11754B8173B064575BA9DF",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-03\\reverse.csv": "42316377EA8B5A5E1374F1F24772B2EAE218E0A72AD871CBB36CED86011056B3",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-03\\left_turn.csv": "7CBBD85C115494A0F750604911766CE8E210A74285BAF09EAFBEF6282E08113D",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-03\\right_turn.csv": "B39E080D8E98DE96DB7F7D64433A4874B3B322389FCA32D4FEA905D64701CFF9",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-03\\combined.csv": "8FB19BD5389751AF5D878219E79BFB1DE03C50A3159B7B8D44BF75681EF9F28A",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\isaac_evaluation\\run-03\\summary.json": "D613AACA9065A6E23CB789DD81EE00FBA1E8675EB81C6A01432E9748DFA5F7BF",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-04\\nominal_stand.csv": "D200915670D3E8C5C84009D9EE677A3A9AB59093C23B7D3BB0BE90F934C3E52C",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-04\\low_stand.csv": "2133B9E4C4E0BBACD8F5F25CDD502A0DFE192DED54BE07211DCA6F7E85451F10",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-04\\high_stand.csv": "0A55D571D5528CD4DF4987ED12493758E8B29EF2A40CE1074D97AC87F02B0E71",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-04\\forward.csv": "5C83A89B90EFDF3381DE8DB7C2F09950930C56B0E8E2156B1886D778258914F1",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-04\\reverse.csv": "31E2CD19D64B73418F27FC6B9B81532796DC3463295B56D57B942C5F90F48D38",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-04\\left_turn.csv": "553A37942089330B995595EDBEBBE8461D22C3D24B6BCB1B177324636AC390E5",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-04\\right_turn.csv": "0E9893930CD8E9245D40A7A23B8A92DBA8B4660A950E711DD513597308457AA9",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\angular-limit-alignment-20261010-v1\\mujoco-evaluation\\run-04\\combined.csv": "F3B05EC2B9188A14E5A3060529447CE930C07816245CF885B65A29D1C3567DDF",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261010-001203-reset-v2\\isaac_evaluation\\run-04\\summary.json": "065DD41EE300E69608AE48850366AD56DBE338AC06F747010DB7AEA16FCB677C",
+    "E:\\wheel_leg_rl-main\\docs\\2026-10-03-wheelleg-dreamwaq-architecture.md": "FDEF463B22E88F4C219791F0CA019AAAB5F9D2FE7DF47B96EE91B6E240F54225",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\runner.py": "C92C6E970FB46BE624B2419F997D750579D58C4B817DF119EB89715B466A4F4C",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\contract.py": "415EEF1A94FEA7F8BFF28BB0835B8691A8DD443FE7FFA64D9DABAACB61D6F3FD",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\evaluation.py": "D4D23B4E363356EA5029403FB348C2197FB8301A5756DCF20F931886DCB65775",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\tests\\test_evaluation_metrics.py": "AEEC5927040CE98A31DC497CBF4E5857F1DEFA56908A2C39D303B07A73F5B49D",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\angular_limit.py": "276DE64F6AF07609A2E70719FCF54363B95B5DD9D5260C06C5827B052B3B15A4",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\tests\\test_angular_limit.py": "87C7B6D5C740E2E6CC0F4124E945EC21F44E99557AAAF49D8DB1B9BCDBF4F2BE",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\docs\\superpowers\\plans\\2026-10-10-mujoco-angular-limit-alignment.md": "D13F0D32CFB805248A3A68F388EFA1BFE4201A8C85F382E4FFC1317EA3ADE7E7"
+  },
+  "phase2_performance_qualified": false,
+  "remaining_limits": [
+    "first_5ms_closed_constraint_response",
+    "standing_vx_drift",
+    "isaac_baseline_performance_gate"
+  ]
+}

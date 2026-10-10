@@ -1,0 +1,517 @@
+{
+  "schema": "ResetObservationCoherenceProbeV1",
+  "kind": "formal",
+  "actual_class": "wheelleg_dreamwaq.tasks.direct.wheelleg_flat.env.WheelLegFlatEnv",
+  "seed": 20261009,
+  "num_envs": 2,
+  "profile": "NominalTrainingProfileV1",
+  "argv": [
+    "tests/integration/probes/reset_observation_coherence.py",
+    "--kind",
+    "formal",
+    "--output",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\reset-observation-20261009\\pytest-green-02\\test_reset_observation_coheren0\\formal-loaded",
+    "--headless",
+    "--reset-cache",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\reset-observation-20261009\\pytest-green-02\\test_reset_observation_coheren0\\formal\\reset-cache.pt"
+  ],
+  "config": "{'viewer': {'eye': (7.5, 7.5, 7.5), 'lookat': (0.0, 0.0, 0.0), 'cam_prim_path': '/OmniverseKit_Persp', 'resolution': (1280, 720), 'origin_type': 'world', 'env_index': 0, 'asset_name': None, 'body_name': None}, 'sim': {'physics_prim_path': '/physicsScene', 'device': 'cuda:0', 'dt': 0.005, 'render_interval': 4, 'gravity': (0.0, 0.0, -9.81), 'enable_scene_query_support': False, 'use_fabric': True, 'physx': {'solver_type': 1, 'solve_articulation_contact_last': False, 'min_position_iteration_count': 1, 'max_position_iteration_count': 255, 'min_velocity_iteration_count': 0, 'max_velocity_iteration_count': 255, 'enable_ccd': False, 'enable_stabilization': False, 'enable_external_forces_every_iteration': False, 'enable_enhanced_determinism': False, 'bounce_threshold_velocity': 0.5, 'friction_offset_threshold': 0.04, 'friction_correlation_distance': 0.025, 'gpu_max_rigid_contact_count': 8388608, 'gpu_max_rigid_patch_count': 163840, 'gpu_found_lost_pairs_capacity': 2097152, 'gpu_found_lost_aggregate_pairs_capacity': 33554432, 'gpu_total_aggregate_pairs_capacity': 2097152, 'gpu_collision_stack_size': 67108864, 'gpu_heap_capacity': 67108864, 'gpu_temp_buffer_capacity': 16777216, 'gpu_max_num_partitions': 8, 'gpu_max_soft_body_contacts': 1048576, 'gpu_max_particle_contacts': 1048576}, 'physics_material': {'func': 'isaaclab.sim.spawners.materials.physics_materials:spawn_rigid_body_material', 'static_friction': 1.0, 'dynamic_friction': 1.0, 'restitution': 0.0, 'friction_combine_mode': 'multiply', 'restitution_combine_mode': 'multiply', 'compliant_contact_stiffness': 0.0, 'compliant_contact_damping': 0.0}, 'render': {'enable_translucency': None, 'enable_reflections': None, 'enable_global_illumination': None, 'antialiasing_mode': None, 'enable_dlssg': None, 'enable_dl_denoiser': None, 'dlss_mode': None, 'enable_direct_lighting': None, 'samples_per_pixel': None, 'enable_shadows': None, 'enable_ambient_occlusion': None, 'dome_light_upper_lower_strategy': None, 'carb_settings': None, 'rendering_mode': None}, 'create_stage_in_memory': False, 'logging_level': 'WARNING', 'save_logs_to_file': True, 'log_dir': None}, 'ui_window_class_type': 'isaaclab.envs.ui.base_env_window:BaseEnvWindow', 'seed': 20261009, 'decimation': 4, 'is_finite_horizon': False, 'episode_length_s': 10.0, 'scene': {'num_envs': 2, 'env_spacing': 1.5, 'lazy_sensor_update': True, 'replicate_physics': True, 'filter_collisions': True, 'clone_in_fabric': False}, 'events': None, 'observation_space': 25, 'num_observations': None, 'state_space': 41, 'num_states': None, 'observation_noise_model': None, 'action_space': 6, 'num_actions': None, 'action_noise_model': None, 'rerender_on_reset': False, 'num_rerenders_on_reset': 0, 'wait_for_textures': True, 'xr': None, 'log_dir': None, 'robot_cfg': {'class_type': 'isaaclab.assets.articulation.articulation:Articulation', 'prim_path': '/World/envs/env_.*/Robot', 'spawn': {'func': 'isaaclab.sim.spawners.from_files.from_files:spawn_from_usd', 'visible': True, 'semantic_tags': None, 'copy_from_source': True, 'mass_props': None, 'deformable_props': None, 'rigid_props': {'rigid_body_enabled': None, 'kinematic_enabled': None, 'disable_gravity': False, 'linear_damping': 0.0, 'angular_damping': 0.0, 'max_linear_velocity': 100.0, 'max_angular_velocity': 100.0, 'max_depenetration_velocity': 1.0, 'max_contact_impulse': None, 'enable_gyroscopic_forces': None, 'retain_accelerations': False, 'solver_position_iteration_count': None, 'solver_velocity_iteration_count': None, 'sleep_threshold': None, 'stabilization_threshold': None}, 'collision_props': None, 'activate_contact_sensors': False, 'scale': None, 'articulation_props': {'articulation_enabled': None, 'enabled_self_collisions': False, 'solver_position_iteration_count': 96, 'solver_velocity_iteration_count': 4, 'sleep_threshold': None, 'stabilization_threshold': None, 'fix_root_link': None}, 'fixed_tendons_props': None, 'spatial_tendons_props': None, 'joint_drive_props': None, 'visual_material_path': 'material', 'visual_material': None, 'usd_path': 'E:/wheel_leg_rl-main/wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd', 'variants': None}, 'init_state': {'pos': (0.0, 0.0, 0.20003), 'rot': (1.0, 0.0, 0.0, 0.0), 'lin_vel': (0.0, 0.0, 0.0), 'ang_vel': (0.0, 0.0, 0.0), 'joint_pos': {'jIO': 0.33367157, 'jAG': 0.33367112, 'jIJ': -0.33367151, 'jAB': -0.33367088, 'jOP': -0.37150037, 'jIO_dummy_child_link1': -0.01975457, 'jIO_dummy_child_link2': -0.01975455, 'jGH': 0.37148619, 'jAG_dummy_child_link1': -0.00834354, 'jAG_dummy_child_link2': -0.00834353, 'jJM': -0.37146848, 'jBE': 0.37146658, 'jwheel_left': 0.0, 'jwheel_right': 0.0, 'jMK': 0.07562718, 'jEC': 0.07562435, 'jKN': -0.37150618, 'jMK_dummy_child1': -0.0689704, 'jMK_dummy_child2': -0.06897411, 'jCF': 0.37150583, 'jEC_dummy_child_link1': 0.00279344, 'jEC_dummy_child_link2': 0.0027937, 'jKN_dummy_child_link1': -0.06563117, 'jKN_dummy_child_link2': -0.06613248, 'jCF_dummy_child_link1': 0.01561109, 'jCF_dummy_child_link2': 0.01608925}, 'joint_vel': {'.*': 0.0}}, 'collision_group': 0, 'debug_vis': False, 'articulation_root_prim_path': '/base_link', 'soft_joint_pos_limit_factor': 1.0, 'actuators': {'legs': {'class_type': 'isaaclab.actuators.actuator_pd:ImplicitActuator', 'joint_names_expr': ['jIJ', 'jIO', 'jAB', 'jAG'], 'effort_limit': None, 'velocity_limit': None, 'effort_limit_sim': 18.0, 'velocity_limit_sim': 45.0, 'stiffness': 120.0, 'damping': 4.0, 'armature': 0.05, 'friction': 0.0, 'dynamic_friction': 0.0, 'viscous_friction': 0.0}, 'wheels': {'class_type': 'isaaclab.actuators.actuator_pd:ImplicitActuator', 'joint_names_expr': ['jwheel_left', 'jwheel_right'], 'effort_limit': None, 'velocity_limit': None, 'effort_limit_sim': 9.0, 'velocity_limit_sim': 45.0, 'stiffness': 0.0, 'damping': 0.6, 'armature': 0.05, 'friction': 0.0, 'dynamic_friction': 0.0, 'viscous_friction': 0.0}, 'passive': {'class_type': 'isaaclab.actuators.actuator_pd:ImplicitActuator', 'joint_names_expr': ['jOP', 'jIO_dummy_child_link1', 'jIO_dummy_child_link2', 'jGH', 'jAG_dummy_child_link1', 'jAG_dummy_child_link2', 'jJM', 'jMK', 'jKN', 'jKN_dummy_child_link1', 'jKN_dummy_child_link2', 'jMK_dummy_child1', 'jMK_dummy_child2', 'jBE', 'jEC', 'jCF', 'jCF_dummy_child_link1', 'jCF_dummy_child_link2', 'jEC_dummy_child_link1', 'jEC_dummy_child_link2'], 'effort_limit': None, 'velocity_limit': None, 'effort_limit_sim': 18.0, 'velocity_limit_sim': 80.0, 'stiffness': 0.0, 'damping': 0.05, 'armature': 0.005, 'friction': 0.0, 'dynamic_friction': 0.0, 'viscous_friction': 0.0}}, 'actuator_value_resolution_debug_print': False}, 'q_nominal': (-0.33367134, 0.33367134, -0.33367134, 0.33367134), 'control': {'leg_action_scale': 0.35, 'wheel_action_scale': 25.0, 'leg_target_lower': (-1.0, -1.0, -1.0, -1.0), 'leg_target_upper': (1.0, 1.0, 1.0, 1.0)}, 'ground': {'translation': (0.0, 0.0, -0.05), 'spawn': {'func': 'isaaclab.sim.spawners.shapes.shapes:spawn_cuboid', 'visible': True, 'semantic_tags': None, 'copy_from_source': True, 'mass_props': None, 'rigid_props': None, 'collision_props': {'collision_enabled': True, 'contact_offset': None, 'rest_offset': None, 'torsional_patch_radius': None, 'min_torsional_patch_radius': None}, 'activate_contact_sensors': False, 'visual_material_path': 'material', 'visual_material': {'func': 'isaaclab.sim.spawners.materials.visual_materials:spawn_preview_surface', 'diffuse_color': (0.2, 0.22, 0.25), 'emissive_color': (0.0, 0.0, 0.0), 'roughness': 0.5, 'metallic': 0.0, 'opacity': 1.0}, 'physics_material_path': 'material', 'physics_material': {'func': 'isaaclab.sim.spawners.materials.physics_materials:spawn_rigid_body_material', 'static_friction': 1.0, 'dynamic_friction': 1.0, 'restitution': 0.0, 'friction_combine_mode': 'multiply', 'restitution_combine_mode': 'multiply', 'compliant_contact_stiffness': 0.0, 'compliant_contact_damping': 0.0}, 'size': (100.0, 100.0, 0.1)}, 'prim_path': '/World/Ground'}, 'commands': {'vx': (0.0, 0.0), 'yaw_rate': (0.0, 0.0), 'base_height': (0.2, 0.2), 'mode_probabilities': (0.2, 0.3, 0.2, 0.3), 'hold_for_episode': True}, 'normalization': {'angular_velocity_scale': 0.25, 'angular_velocity_clip': 5.0, 'projected_gravity_clip': 1.0, 'vx_max_abs': 1.5, 'yaw_rate_max_abs': 1.0, 'nominal_base_height': 0.2, 'height_command_span': 0.04, 'leg_position_scale': 1.0, 'leg_position_clip': 1.5, 'joint_velocity_scale': 0.05, 'joint_velocity_clip': 5.0, 'root_linear_velocity_scale': 2.0, 'root_linear_velocity_clip': 6.0, 'joint_acceleration_scale': 0.002, 'joint_acceleration_clip': 10.0, 'applied_torque_scale': 0.05, 'applied_torque_clip': 5.0}, 'randomization': {'name': 'NominalTrainingProfileV1', 'enabled': False, 'friction_range': (0.6, 1.4), 'friction_bucket_count': 64, 'leg_reference_offset_range_rad': (-0.03, 0.03), 'kp_scale_range': (0.95, 1.05), 'kd_scale_range': (0.95, 1.05), 'effort_limit_scale_range': (0.95, 1.05), 'root_linear_xy_range_mps': (-0.1, 0.1), 'root_linear_z_range_mps': (-0.05, 0.05), 'root_angular_range_rad_s': (-0.1, 0.1), 'angular_velocity_noise_rad_s': 0.2, 'projected_gravity_noise': 0.05, 'leg_position_noise_rad': 0.02, 'joint_velocity_noise_rad_s': 1.5, 'joint_reference_resample_limit': 32, 'max_leg_length_delta_m': 0.01, 'max_leg_phi0_delta_rad': 0.08726646259971647, 'max_lr_phi0_delta_rad': 0.08726646259971647}, 'reward_weights': {'tracking_vx': 1.0, 'tracking_vx_enhance': 1.0, 'tracking_yaw_rate': 1.0, 'tracking_yaw_rate_enhance': 1.0, 'tracking_base_height': 1.0, 'lin_vel_z': -1.0, 'ang_vel_xy': -0.2, 'orientation': -100.0, 'dof_vel': -5e-05, 'dof_acc': -2.5e-07, 'torques': -0.0001, 'action_rate': -0.01, 'action_smooth': -0.01, 'dof_pos_limits': -1.0, 'phi0_symmetry': -1.0, 'termination': -5.0, 'tracking_sigma': 0.25, 'height_sigma': 0.001, 'soft_leg_limit': 0.95}, 'termination': {'min_base_height': 0.1, 'max_base_height': 0.4, 'max_tilt_rad': 0.8, 'max_root_linear_velocity': 20.0, 'max_root_angular_velocity': 35.0, 'max_joint_velocity': 80.0, 'grace_steps': 10}}",
+  "sources": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\tests\\integration\\probes\\reset_observation_coherence.py": "DE7EC4008CAEF4F94B08BFE3923C2DEC0EA2DFC05C91E0934775553D61B4327A",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\env.py": "1EF7C18B830BE13DA6DD6BB0865A61A63822926F6403C69730B08C5E013D6A22",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\algorithms\\dreamwaq\\history_wrapper.py": "605C727614E1C4FEF3B5F7A1BAB0492F9011B757F99FE6340B57D0BFE7008062",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\debug\\sim2sim\\isaac_debug_env.py": "3CDB03D723BEB8D2024E7A4F512ADF8C51560C3F1C8209AA9B9D01E7725F56C2",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\dependencies\\IsaacLab-v2.3.2\\source\\isaaclab\\isaaclab\\assets\\articulation\\articulation.py": "FB179AACDD848906367D01105020E1D36412BD0F1DA7187BE09F0781FF589309",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\dependencies\\IsaacLab-v2.3.2\\source\\isaaclab\\isaaclab\\assets\\articulation\\articulation_data.py": "D69495C66C409FB20823E4E467F9D90E63163B2050B77D2AC8E433221D1D208A",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\dependencies\\IsaacLab-v2.3.2\\source\\isaaclab\\isaaclab\\envs\\direct_rl_env.py": "3A7573303D83EC8C816D11CA6E8C8997C92F6765AE5D2E0D2A369E65D2CEC3C0",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\dependencies\\IsaacLab-v2.3.2\\source\\isaaclab_rl\\isaaclab_rl\\rsl_rl\\vecenv_wrapper.py": "1D27C1A7AC75D6BC62CE5376BCEB23CAC08C168A1343930A72073ACDDAF76693"
+  },
+  "evidence_sha256": "9B04A7801251988148AAD770D4CC00506EC847983497C5D54A8B295DC5767A2F",
+  "checks": [
+    {
+      "name": "constructor/count",
+      "passed": true
+    },
+    {
+      "name": "constructor/clock",
+      "passed": true
+    },
+    {
+      "name": "constructor/critic_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "constructor/raw_com",
+      "passed": true,
+      "max_abs_error": 4.76837158203125e-07,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "constructor/raw_height",
+      "passed": true,
+      "max_abs_error": 1.4901161193847656e-08,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "constructor/critic_height",
+      "passed": true,
+      "max_abs_error": 3.8743019104003906e-07,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "constructor/actor_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "constructor/zero_action",
+      "passed": true
+    },
+    {
+      "name": "constructor/history",
+      "passed": true
+    },
+    {
+      "name": "cache_origin",
+      "passed": true
+    },
+    {
+      "name": "repeat0/preparation_alive",
+      "passed": true
+    },
+    {
+      "name": "repeat0/nonzero_terminal",
+      "passed": true
+    },
+    {
+      "name": "repeat0/resume_first",
+      "passed": true
+    },
+    {
+      "name": "repeat0/clock",
+      "passed": true
+    },
+    {
+      "name": "repeat0/count",
+      "passed": true
+    },
+    {
+      "name": "repeat0/critic_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat0/raw_com",
+      "passed": true,
+      "max_abs_error": 4.76837158203125e-07,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat0/raw_height",
+      "passed": true,
+      "max_abs_error": 1.4901161193847656e-08,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat0/critic_height",
+      "passed": true,
+      "max_abs_error": 3.8743019104003906e-07,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "repeat0/actor_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat0/zero_action",
+      "passed": true
+    },
+    {
+      "name": "repeat0/history",
+      "passed": true
+    },
+    {
+      "name": "repeat0/cached_rng",
+      "passed": true
+    },
+    {
+      "name": "repeat0/cached_count",
+      "passed": true
+    },
+    {
+      "name": "repeat0/cached_tensors",
+      "passed": true
+    },
+    {
+      "name": "repeat1/preparation_alive",
+      "passed": true
+    },
+    {
+      "name": "repeat1/nonzero_terminal",
+      "passed": true
+    },
+    {
+      "name": "repeat1/resume_first",
+      "passed": true
+    },
+    {
+      "name": "repeat1/clock",
+      "passed": true
+    },
+    {
+      "name": "repeat1/count",
+      "passed": true
+    },
+    {
+      "name": "repeat1/critic_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat1/raw_com",
+      "passed": true,
+      "max_abs_error": 4.76837158203125e-07,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat1/raw_height",
+      "passed": true,
+      "max_abs_error": 1.4901161193847656e-08,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat1/critic_height",
+      "passed": true,
+      "max_abs_error": 3.8743019104003906e-07,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "repeat1/actor_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat1/zero_action",
+      "passed": true
+    },
+    {
+      "name": "repeat1/history",
+      "passed": true
+    },
+    {
+      "name": "repeat1/cached_rng",
+      "passed": true
+    },
+    {
+      "name": "repeat1/cached_count",
+      "passed": true
+    },
+    {
+      "name": "repeat1/cached_tensors",
+      "passed": true
+    },
+    {
+      "name": "repeat2/preparation_alive",
+      "passed": true
+    },
+    {
+      "name": "repeat2/nonzero_terminal",
+      "passed": true
+    },
+    {
+      "name": "repeat2/resume_first",
+      "passed": true
+    },
+    {
+      "name": "repeat2/clock",
+      "passed": true
+    },
+    {
+      "name": "repeat2/count",
+      "passed": true
+    },
+    {
+      "name": "repeat2/critic_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat2/raw_com",
+      "passed": true,
+      "max_abs_error": 4.76837158203125e-07,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat2/raw_height",
+      "passed": true,
+      "max_abs_error": 1.4901161193847656e-08,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat2/critic_height",
+      "passed": true,
+      "max_abs_error": 3.8743019104003906e-07,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "repeat2/actor_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat2/zero_action",
+      "passed": true
+    },
+    {
+      "name": "repeat2/history",
+      "passed": true
+    },
+    {
+      "name": "repeat2/cached_rng",
+      "passed": true
+    },
+    {
+      "name": "repeat2/cached_count",
+      "passed": true
+    },
+    {
+      "name": "repeat2/cached_tensors",
+      "passed": true
+    },
+    {
+      "name": "repeat3/preparation_alive",
+      "passed": true
+    },
+    {
+      "name": "repeat3/nonzero_terminal",
+      "passed": true
+    },
+    {
+      "name": "repeat3/resume_first",
+      "passed": true
+    },
+    {
+      "name": "repeat3/clock",
+      "passed": true
+    },
+    {
+      "name": "repeat3/count",
+      "passed": true
+    },
+    {
+      "name": "repeat3/critic_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat3/raw_com",
+      "passed": true,
+      "max_abs_error": 4.76837158203125e-07,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat3/raw_height",
+      "passed": true,
+      "max_abs_error": 1.4901161193847656e-08,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat3/critic_height",
+      "passed": true,
+      "max_abs_error": 3.8743019104003906e-07,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "repeat3/actor_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "repeat3/zero_action",
+      "passed": true
+    },
+    {
+      "name": "repeat3/history",
+      "passed": true
+    },
+    {
+      "name": "repeat3/cached_rng",
+      "passed": true
+    },
+    {
+      "name": "repeat3/cached_count",
+      "passed": true
+    },
+    {
+      "name": "repeat3/cached_tensors",
+      "passed": true
+    },
+    {
+      "name": "reset_rng_replay",
+      "passed": true
+    },
+    {
+      "name": "empty/unchanged",
+      "passed": true
+    },
+    {
+      "name": "partial/clock",
+      "passed": true
+    },
+    {
+      "name": "partial/other_snapshot",
+      "passed": true
+    },
+    {
+      "name": "partial/critic_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "partial/raw_com",
+      "passed": true,
+      "max_abs_error": 4.76837158203125e-07,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "partial/raw_height",
+      "passed": true,
+      "max_abs_error": 1.4901161193847656e-08,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "partial/critic_height",
+      "passed": true,
+      "max_abs_error": 3.8743019104003906e-07,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "partial/actor_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "partial/zero_action",
+      "passed": true
+    },
+    {
+      "name": "timeout/dones",
+      "passed": true
+    },
+    {
+      "name": "timeout/truncated",
+      "passed": true
+    },
+    {
+      "name": "timeout/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "timeout/time",
+      "passed": true
+    },
+    {
+      "name": "timeout/critic_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "timeout/raw_com",
+      "passed": true,
+      "max_abs_error": 4.76837158203125e-07,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "timeout/raw_height",
+      "passed": true,
+      "max_abs_error": 1.4901161193847656e-08,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "timeout/critic_height",
+      "passed": true,
+      "max_abs_error": 3.8743019104003906e-07,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "timeout/actor_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "timeout/zero_action",
+      "passed": true
+    },
+    {
+      "name": "timeout/history",
+      "passed": true
+    },
+    {
+      "name": "timeout/other_history",
+      "passed": true
+    },
+    {
+      "name": "failure/terminated",
+      "passed": true
+    },
+    {
+      "name": "failure/physics_steps",
+      "passed": true
+    },
+    {
+      "name": "failure/critic_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "failure/raw_com",
+      "passed": true,
+      "max_abs_error": 4.76837158203125e-07,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "failure/raw_height",
+      "passed": true,
+      "max_abs_error": 1.4901161193847656e-08,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "failure/critic_height",
+      "passed": true,
+      "max_abs_error": 3.8743019104003906e-07,
+      "tolerance": 1e-05
+    },
+    {
+      "name": "failure/actor_angular",
+      "passed": true,
+      "max_abs_error": 0.0,
+      "tolerance": 1e-06
+    },
+    {
+      "name": "failure/zero_action",
+      "passed": true
+    },
+    {
+      "name": "failure/history",
+      "passed": true
+    }
+  ],
+  "passed": true
+}

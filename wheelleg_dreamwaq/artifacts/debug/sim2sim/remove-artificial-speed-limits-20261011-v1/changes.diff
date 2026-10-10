@@ -1,0 +1,1516 @@
+--- before/docs/2026-10-03-wheelleg-dreamwaq-architecture.md
++++ after/docs/2026-10-03-wheelleg-dreamwaq-architecture.md
+@@ -1,7 +1,7 @@
+ # WheelLeg DreamWaQ Isaac Lab Architecture
+ 
+ 日期：2026-10-10  
+-状态：Architecture v0.24；Phase 2 DreamWaQ/CENet 实现契约已冻结；v0.24 保留 Isaac 原训练动力学，补充 MuJoCo 的 PhysxRigidAngularBiasV1 外力适配与 MujocoEvaluationContractV2，见 §29；v0.23 的两个 reset 派生缓存失效修复继续有效；继承 v0.21 的 deterministic Isaac evaluation 499-step timeout、网络维度、数学契约、termination 与 MuJoCo 500-tick 语义；Phase1ContractV3/V4 与 Phase1RandomizedContractV3 继续作为基线和对照  
++状态：Architecture v0.25；Phase 2 DreamWaQ/CENet 实现契约已冻结；v0.25 按用户授权删除三类人工限速作用，当前动力学为 PhysicsV5 / UnrestrictedVelocityPolicyV1 / MujocoEvaluationContractV3，见 §30；§29 的 PhysxRigidAngularBiasV1 仅作为历史记录；v0.23 的两个 reset 派生缓存失效修复继续有效；保留 deterministic Isaac evaluation 499-step timeout、网络维度、数学契约、termination 与 MuJoCo 500-tick 语义；旧 PhysicsV4 训练工件继续作为历史对照，不可当作 PhysicsV5 续训来源  
+ 适用范围：新建轮腿机器人平地强化学习工程，不修改或继承旧 WheelLeg 任务实现
+ 
+ ## 1. 文档目的
+@@ -112,9 +112,9 @@
+ | `q_nominal` | `[-0.33367134, +0.33367134, -0.33367134, +0.33367134] rad`，顺序为 ActionV1 前四维 |
+ | 腿动作 | `q_target = clamp(q_nominal + 0.35 * action, -1.0, +1.0)` |
+ | 轮动作 | control-frame `25.0 rad/s * action`，再应用 USD `[+1,-1]` 符号 |
+-| 腿 actuator | effort `18 Nm`，velocity `45 rad/s`，stiffness `120`，damping `4`，armature `0.05` |
+-| 轮 actuator | effort `9 Nm`，velocity `45 rad/s`，stiffness `0`，damping `0.6`，armature `0.05` |
+-| passive actuator | effort `18 Nm`，velocity `80 rad/s`，stiffness `0`，damping `0.05`，armature `0.005` |
++| 腿 actuator | effort `18 Nm`，求解器速度限速禁用（§30；历史 V4 为 `45 rad/s`），stiffness `120`，damping `4`，armature `0.05` |
++| 轮 actuator | effort `9 Nm`，求解器速度限速禁用（§30；历史 V4 为 `45 rad/s`），stiffness `0`，damping `0.6`，armature `0.05` |
++| passive actuator | effort `18 Nm`，求解器速度限速禁用（§30；历史 V4 为 `80 rad/s`），stiffness `0`，damping `0.05`，armature `0.005` |
+ | V4 physics/control timing | `sim_dt=0.005 s`、`decimation=4`、`control_dt=0.02 s` |
+ | V4 articulation solver | position iterations `96`、velocity iterations `4` |
+ | collision policy | `WheelOnlyCollisionV2` |
+@@ -1715,7 +1715,8 @@
+ | ADR-065 | checkpoint/contract/finite/export/evaluation 协议错误是 hard failure；context/velocity/baseline 性能不达标是 acceptance failure。后者禁止标记通过，但有效工件仍必须导出并完成 MuJoCo 留证。 |
+ | ADR-066 | G-08 保留为未关闭的历史 PPO 性能门，但不再作为已经发生的 Phase 1R/Phase 2 诊断实施时序门；Phase 2 的窄实施许可由 G-15 表达，二者不得混称。 |
+ | ADR-067 | ResetObservationCacheCoherenceV2 根据真实 red probe，在正式 `_reset_idx()` 读取新状态前只失效 Isaac Lab 2.3.2 `_root_link_vel_w`、`_root_com_pose_w`；保留读取语义、初态采样和快照合并，不推进任何时钟。任何其他 split 仍须停止定位；独立代码复核、运行验收和 RootCauseSuite 正式门分别记录。 |
+-| ADR-068 | v0.24 保留 PhysicsV4 的 Isaac 刚体角速度上限 `100 deg/s`，MuJoCo 用 PhysxRigidAngularBiasV1 补充逐刚体世界系偏置力矩；每 `5 ms` 计算并保持五个 `1 ms` 步，不截断 qvel。新评估采用 MujocoEvaluationContractV2，旧 V1 结果独立保留；这不修改 checkpoint 的训练条件，也不表示闭环性能通过。 |
++| ADR-068 | 历史 v0.24：保留 PhysicsV4 的 Isaac 刚体角速度上限 `100 deg/s`，MuJoCo 用 PhysxRigidAngularBiasV1 补充逐刚体世界系偏置力矩；每 `5 ms` 计算并保持五个 `1 ms` 步，不截断 qvel。评估采用 MujocoEvaluationContractV2。当前实现由 ADR-069 / §30 取代，历史工件独立保留。 |
++| ADR-069 | v0.25：按用户明确授权解除刚体线/角速度和全部关节转速的人工限速作用；Isaac 显式使用有限 float32 最大值哨兵覆盖默认上限，MuJoCo 删除外加角速度补偿力矩和超速清零电机力矩分支，禁止用速度截断代替。当前 PhysicsV5 与 UnrestrictedVelocityPolicyV1 进入任务/export/reset-cache 身份；MujocoActionAdapterV2 与 MujocoEvaluationContractV3 区分新评估。保留 PD、effort、接触/摩擦、闭环、被动阻尼、armature、termination 和策略数学契约；旧 PhysicsV4 工件禁止重标或直接续训。 |
+ 
+ ## 26. 决策门与当前状态
+ 
+@@ -1773,6 +1774,8 @@
+ 
+ ## 29. v0.24：MuJoCo 刚体角速度限制适配
+ 
++**历史设计：本节已被 v0.25 的 §30 取代。下述适配器不再存在于当前正式 runtime；公式、结果和工件仅解释旧训练/评估条件。**
++
+ 本节保留当前 Isaac 训练动力学，并补齐 MuJoCo 缺少的运行时语义。`RigidBodyPropertiesCfg.max_angular_velocity` 的单位为 **deg/s**；当前 `100.0` 实际约为 `1.745329 rad/s`，不是 `100 rad/s`。本轮不推断原作者意图，也不放宽 Isaac 上限。旧 checkpoint、reset cache、Actor/Critic、history、AdaBoot、奖励、动作、命令、随机化、源 USD 和 MuJoCo XML 参数保持原语义。
+ 
+ PhysX 5.6.1 GPU `forwardDynamic2.cu` 对超限 link 计算基于惯量的角速度偏置力矩，而非直接截断输出角速度。公开参考版本为 `107.3-physx-5.6.1` / commit `5ca9f472105a90d70d957c243cb0ef36fe251a9f`。本工程冻结的 MuJoCo 适配器名为 `PhysxRigidAngularBiasV1`，作用于全部 27 个机器人刚体，排除 world；公式为：
+@@ -1793,3 +1796,41 @@
+ 验收必须包含世界系非球形惯量、逐刚体超限力矩、5 ms 保持/reset 和其他外力矩保留测试；正式 runtime 的无地面相同力矩诊断必须复现候选实现；四个既有 1000-iteration checkpoint 必须用新 runtime 重新完成八场景留证，并重新核验四组 TorchScript golden vectors。
+ 
+ 该适配器复现已公开的逐 link 偏置力矩项及其采样周期，**不宣称整个 PhysX 与 MuJoCo 求解器已等价**。候选诊断中，保留 Isaac 原上限、在 MuJoCo 按 5 ms 更新该项，闭合开启时 20 ms 平均根角速度差从 `0.431066` 降至 `0.089999 rad/s`；闭合关闭时从 `0.544934` 降至 `0.005342 rad/s`。首个 5 ms 的闭合响应差异仍在；短程改善不能替代策略闭环验收，也不关闭 RootCauseSuite 或 Phase 2 性能门。实施与正式复测记录位于 `wheelleg_dreamwaq/artifacts/debug/sim2sim/angular-limit-alignment-20261010-v1/`，实施计划见 `wheelleg_dreamwaq/docs/superpowers/plans/2026-10-10-mujoco-angular-limit-alignment.md`。
++
++## 30. v0.25：删除人工限速作用
++
++用户于 2026-10-11 明确授权删除三类人工限速，包括 MuJoCo 为对齐旧训练而补加的作用。删除范围是没有真实硬件依据、仅为满足速度上限而额外施加的力/力矩。正常电机 PD、输出 effort 上限、接触/摩擦、重力、闭环反力、被动阻尼及 armature 不在删除范围；穿透修正仍属于接触求解。源 USD、MuJoCo XML/mesh、质量/惯量、动作、命令、奖励、随机化采样、观测、五帧 history、CENet 和 AdaBoot 均不变。
++
++### 30.1 Isaac 显式解除上限
++
++当前 physics schema 为 `PhysicsV5`。单纯删除 `max_linear_velocity`、`max_angular_velocity` 或 `velocity_limit_sim` 会继承 USD/PhysX 默认值，不能视为解除限速。三个字段均显式使用 `UNRESTRICTED_SIM_VELOCITY = float.fromhex("0x1.fffffep+127")`，即有限 float32 最大值 `3.4028234663852886e38`。刚体角速度属性的单位仍为 deg/s，线速度为 m/s，关节速度为 rad/s；这个数是引擎哨兵，不代表真实电机额定速度，不作为 action、command 或 observation 的归一化上限。禁止写入 Infinity/NaN，禁止设置低于该哨兵的替代操作性限速。
++
++`UnrestrictedVelocityPolicyV1` 明确记录 rigid-body linear/angular 与 joint speed limit 均为 `disabled`，`external_speed_limit_force=False`、`external_speed_limit_torque=False` 和 `runtime_velocity_write=False`。政策进入 PPO 与 DreamWaQ base-task 的 `task.physics.velocity_limit_policy` 和 hash，并进入两种 policy export。导出同时记录实际 rigid-body properties 与 actuator 参数，MuJoCo 加载器校验 schema、政策和三组 actuator/两个 rigid 上限的一致性。
++
++`sim_dt=0.005 s`、`decimation=4`、control period `0.02 s`、solver iterations `96/4` 不变。线/角 damping 仍为 0；主动腿 `120/4/18 Nm/0.05 armature`、轮 `0/0.6/9 Nm/0.05 armature`、被动关节 `0/0.05/18 Nm/0.005 armature` 不变；既有随机化仍按原 profile 作用于主动参数。
++
++### 30.2 MuJoCo 删除适配与速度分支
++
++删除正式 `angular_limit.py`、limiter 构造/reset/apply 以及专测该历史适配的测试。运行时不再为限速写 `xfrc_applied` 或 `qfrc_applied`。原有合法外力应保留，不得用全局清零外力作为“删除适配”的实现。
++
++`MixedActionController` 删除 `(abs(qd) >= velocity_limit) & (tau * qd > 0)` 的超速清零分支。控制仅为原腿位置 PD、轮速度 P 和原 effort clipping，真实电机控制仍可以产生制动力矩。删除不再消费的 adapter 速度字段及 `velocity_limit_event_fraction` 指标，不用 qvel/qpos 截断或投影替代。
++
++现有 MuJoCo debug collector/evaluator 和 RootCauseSuite target-torque 参考同步删除旧限速作用及对已删除字段的读取。既有 trace schema 中的限速/guard 事件字段保留并明确写 0，表示当前没有此类作用；原 `80 rad/s` 诊断失败阈值独立保留。绑定旧权重和旧 hash 的冻结诊断入口仍属于历史条件，当前 runtime 拒绝混用，不改写其冻结注册或历史结果。
++
++action adapter 升级为 `MujocoActionAdapterV2`。`model_manifest.json` 仅更新其版本和实现 SHA256；XML 与 `MujocoDynamicsSemanticsV1` hash 不变。MuJoCo 仍为 `0.001 s` / 20 substeps / 500 tick / 10 s；几何、contacts、8 个 equality constraints 和各自 solver 参数不变。
++
++### 30.3 兼容性、评估和训练边界
++
++评估契约升级为 `MujocoEvaluationContractV3`，记录 `PhysicsV5` 与无人工限速政策；旧 V1/V2 报告不得进入当前排名，也不得覆盖。原评估线/角/关节速度失败阈值保留，其中 `80 rad/s` 是诊断失败阈值，不向机器人施力，也不再通过 actuator 物理上限字段读取。
++
++PPO 与 DreamWaQ 的旧 PhysicsV4 checkpoint/run manifest/reset cache 均保留原件。当前模型/optimizer resume 和 Isaac play 沿用严格完整契约校验并拒绝旧物理身份。export 不得把旧 checkpoint 重标为 PhysicsV5；正式 MuJoCo loader 拒绝旧 PhysicsV4 包。旧权重如需在新动力学下测试，须另建明确标记的诊断链，不能伪装为同条件训练/正式验收；本次不新增此类绕过路径。
++
++新随机化环境重新生成 PhysicsV5 reset cache，reset 时序、双 tensor 内容定义和原两个缓存失效修复不变。下一次正式训练必须从新 run 开始，不从旧优化状态直接续训。本次只删除、验证和留证，不启动训练，不宣称站立/速度跟踪或 sim2real 性能改善。
++
++### 30.4 验收
++
++验收需在真实 Isaac runtime 读回 27 个刚体属性和 26 个 DOF 限速，核验原 effort/damping/armature；无接触、无重力单刚体以 `200 m/s` / `10 rad/s` 超过旧上限运行，设置旧 `100 m/s` / `100 deg/s` 的另一个刚体作为负面对照。名义与随机化环境均须短程 finite、reset、闭环和观测维度验收，随机化环境还须证实旧 PhysicsV4 cache 被拒绝。
++
++MuJoCo 验收覆盖超旧关节转速仍按 PD/effort 输出、超旧刚体速度不注入外力、已有外力保持、20 子步实际轨迹与直接物理参考精确相等，以及 history/reset 回归。PPO/DreamWaQ 正确 hash 的旧契约必须被拒绝；新的 export/loader/评估政策必须一致；四组旧 TorchScript golden-vector 数值仍需核验但不重标其物理身份。
++
++实施计划见 `wheelleg_dreamwaq/docs/superpowers/plans/2026-10-11-remove-artificial-speed-limit-forces.md`。原实现、参数 SHA256 和本轮验证工件保存在 `wheelleg_dreamwaq/artifacts/debug/sim2sim/remove-artificial-speed-limits-20261011-v1/`。
+--- before/wheelleg_dreamwaq/debug/sim2sim/collect_dreamwaq_mujoco_trace.py
++++ after/wheelleg_dreamwaq/debug/sim2sim/collect_dreamwaq_mujoco_trace.py
+@@ -174,10 +174,9 @@
+             if timing.refreshes_at(substep):
+                 commanded_native = runtime.controller.compute_torque(runtime.data, targets).copy()
+             effort_event = (np.abs(unclipped_native) > runtime.contract.effort_limits).astype(np.int8)
+-            velocity_event = (
+-                np.abs(pre["active_joint_velocity_engine_native"]) >= runtime.contract.velocity_limits
+-            ).astype(np.int8)
+-            guard_event = runtime.controller.last_velocity_limit_mask.astype(np.int8).copy()
++            # PhysicsV5 has no joint-speed limiter; retain explicit inactive trace fields.
++            velocity_event = np.zeros(6, dtype=np.int8)
++            guard_event = np.zeros(6, dtype=np.int8)
+             runtime.controller.apply_torque(runtime.data, commanded_native)
+             runtime.data.xfrc_applied[:] = 0.0
+             mujoco.mj_step(runtime.model, runtime.data)
+--- before/wheelleg_dreamwaq/debug/sim2sim/collect_mujoco_isolation_trace.py
++++ after/wheelleg_dreamwaq/debug/sim2sim/collect_mujoco_isolation_trace.py
+@@ -348,7 +348,6 @@
+         torque_native_rows = []
+         torque_canonical_rows = []
+         effort_limit_rows = []
+-        velocity_limit_rows = []
+         wheel_force_rows = []
+         for _ in range(contract.physics_steps_per_action):
+             torque_native = controller.compute_torque(data, targets).copy()
+@@ -359,7 +358,6 @@
+             effort_limit_rows.append(
+                 np.isclose(np.abs(torque_native), controller.effort_limits, rtol=0.0, atol=1.0e-12)
+             )
+-            velocity_limit_rows.append(controller.last_velocity_limit_mask.copy())
+             wheel_force_rows.append(_wheel_contact_force(model, data))
+         post = _snapshot(model, data, model_map, contract)
+         torque_native_array = np.asarray(torque_native_rows)
+@@ -387,7 +385,7 @@
+                     torque_native_array.sum(axis=0) * contract.physics_dt_s
+                 ),
+                 "effort_limit_fraction": np.asarray(effort_limit_rows).mean(axis=0),
+-                "velocity_limit_fraction": np.asarray(velocity_limit_rows).mean(axis=0),
++                "velocity_limit_fraction": np.zeros(6, dtype=np.float64),  # PhysicsV5: disabled.
+                 "active_joint_position_canonical": post["active_joint_position_canonical"],
+                 "active_joint_velocity_canonical": post["active_joint_velocity_canonical"],
+                 "active_joint_position_engine_native": model_map.joint_position_mujoco(data).copy(),
+--- before/wheelleg_dreamwaq/debug/sim2sim/collect_mujoco_trace.py
++++ after/wheelleg_dreamwaq/debug/sim2sim/collect_mujoco_trace.py
+@@ -567,14 +567,12 @@
+             unclipped_native, clipped_native = _torque_reference(runtime, pre, targets)
+             commanded_native = runtime.controller.compute_torque(runtime.data, targets).copy()
+             expected_command = clipped_native.copy()
+-            expected_command[runtime.controller.last_velocity_limit_mask] = 0.0
+             if not np.allclose(expected_command, commanded_native, rtol=0.0, atol=1.0e-12):
+                 raise ValueError("MuJoCo controller torque differs from the frozen debug reference")
+             effort_event = (np.abs(unclipped_native) > contract.effort_limits).astype(np.int8)
+-            velocity_event = (
+-                np.abs(pre["active_joint_velocity_engine_native"]) >= contract.velocity_limits
+-            ).astype(np.int8)
+-            guard_event = runtime.controller.last_velocity_limit_mask.astype(np.int8).copy()
++            # PhysicsV5 has no joint-speed limiter; retain explicit inactive trace fields.
++            velocity_event = np.zeros(6, dtype=np.int8)
++            guard_event = np.zeros(6, dtype=np.int8)
+             runtime.controller.apply_torque(runtime.data, commanded_native)
+             external_torque_control, external_torque_world = _apply_base_pitch_torque(
+                 runtime, pitch_torque_pulse, tick
+--- before/wheelleg_dreamwaq/debug/sim2sim/evaluate_debug_mujoco.py
++++ after/wheelleg_dreamwaq/debug/sim2sim/evaluate_debug_mujoco.py
+@@ -9,7 +9,12 @@
+ import mujoco
+ import numpy as np
+ 
+-from wheelleg_mujoco.evaluation import FORMAL_SCENARIOS, aggregate_run, summarize_scenario
++from wheelleg_mujoco.evaluation import (
++    FORMAL_SCENARIOS,
++    JOINT_SPEED_FAILURE_THRESHOLD_RAD_S,
++    aggregate_run,
++    summarize_scenario,
++)
+ from wheelleg_mujoco.metrics import collect_metrics
+ from wheelleg_mujoco.observation import build_actor_observation, collect_kinematic_state
+ from wheelleg_mujoco.runner import StepResult, WheelLegMujocoRuntime
+@@ -63,7 +68,7 @@
+         return "root_linear_velocity"
+     if metrics["root_angular_speed_rad_s"] > 35.0:
+         return "root_angular_velocity"
+-    if metrics["max_hinge_speed_rad_s"] > runtime.contract.passive_velocity_limit:
++    if metrics["max_hinge_speed_rad_s"] > JOINT_SPEED_FAILURE_THRESHOLD_RAD_S:
+         return "joint_velocity"
+     if metrics["max_loop_closure_error_m"] > 5.0e-3:
+         return "loop_closure"
+@@ -82,14 +87,12 @@
+     targets = runtime.controller.prepare(action)
+     torque = np.zeros(6, dtype=np.float64)
+     effort_saturation_count = 0
+-    velocity_limit_event_count = 0
+     for substep in range(timing.physics_steps_per_action):
+         if timing.refreshes_at(substep):
+             torque = runtime.controller.compute_torque(runtime.data, targets).copy()
+         effort_saturation_count += int(
+             np.isclose(np.abs(torque), runtime.controller.effort_limits).sum()
+         )
+-        velocity_limit_event_count += int(runtime.controller.last_velocity_limit_mask.sum())
+         runtime.controller.apply_torque(runtime.data, torque)
+         mujoco.mj_step(runtime.model, runtime.data)
+     runtime.previous_action = targets.clipped_action.copy()
+@@ -107,8 +110,7 @@
+             "action_saturation_fraction": float(np.mean(np.abs(np.asarray(action)) >= 1.0)),
+             "effort_saturation_fraction": effort_saturation_count
+             / (timing.physics_steps_per_action * 6),
+-            "velocity_limit_event_fraction": velocity_limit_event_count
+-            / (timing.physics_steps_per_action * 6),
++            "velocity_limit_event_fraction": 0.0,  # PhysicsV5: no speed-limit force/torque.
+         }
+     )
+     return StepResult(
+--- before/wheelleg_dreamwaq/debug/sim2sim/root_cause_suite/mujoco_worker.py
++++ after/wheelleg_dreamwaq/debug/sim2sim/root_cause_suite/mujoco_worker.py
+@@ -839,8 +839,6 @@
+     torque[:4] = contract.leg_kp * (leg_target - q[:4]) - contract.leg_kd * qd[:4]
+     torque[4:] = contract.wheel_kd * (wheel_target - qd[4:])
+     torque = np.clip(torque, -contract.effort_limits, contract.effort_limits)
+-    velocity_mask = (np.abs(qd) >= contract.velocity_limits) & (torque * qd > 0.0)
+-    torque[velocity_mask] = 0.0
+     return torque
+ 
+ 
+@@ -1075,10 +1073,7 @@
+                     maximum_direct_effort_error,
+                     float(np.max(np.abs(canonical_force - selected))),
+                 )
+-            velocity_event = (
+-                np.abs(snapshot["controlled_velocity_canonical"])
+-                >= np.asarray(contract.velocity_limits)
+-            ).astype(np.int8)
++            velocity_event = np.zeros(6, dtype=np.int8)  # PhysicsV5: no joint-speed limiter.
+             trace_rows.append(
+                 {
+                     **snapshot,
+--- before/wheelleg_dreamwaq/scripts/evaluate_mujoco.py
++++ after/wheelleg_dreamwaq/scripts/evaluate_mujoco.py
+@@ -14,6 +14,7 @@
+ from wheelleg_mujoco.evaluation import (
+     EVALUATION_SCHEMA_VERSION,
+     FORMAL_SCENARIOS,
++    JOINT_SPEED_FAILURE_THRESHOLD_RAD_S,
+     aggregate_run,
+     build_evaluation_contract,
+     summarize_scenario,
+@@ -60,7 +61,7 @@
+         return "root_linear_velocity"
+     if metrics["root_angular_speed_rad_s"] > 35.0:
+         return "root_angular_velocity"
+-    if metrics["max_hinge_speed_rad_s"] > runtime.contract.passive_velocity_limit:
++    if metrics["max_hinge_speed_rad_s"] > JOINT_SPEED_FAILURE_THRESHOLD_RAD_S:
+         return "joint_velocity"
+     if metrics["max_loop_closure_error_m"] > 5.0e-3:
+         return "loop_closure"
+--- before/wheelleg_dreamwaq/scripts/export_dreamwaq_actor.py
++++ after/wheelleg_dreamwaq/scripts/export_dreamwaq_actor.py
+@@ -15,6 +15,7 @@
+ )
+ from wheelleg_dreamwaq.training.checkpoint import sha256_file
+ from wheelleg_dreamwaq.training.dreamwaq_checkpoint import load_dreamwaq_checkpoint_artifact
++from wheelleg_dreamwaq.schemas.physics import PHYSICS_SCHEMA_VERSION, unrestricted_velocity_policy
+ 
+ 
+ PROJECT_ROOT = Path(__file__).resolve().parents[1]
+@@ -48,6 +49,11 @@
+     model_manifest: dict,
+ ) -> dict:
+     base = run_manifest["base_task_contract"]
++    if (
++        base["schemas"].get("physics") != PHYSICS_SCHEMA_VERSION
++        or base["task"]["physics"].get("velocity_limit_policy") != unrestricted_velocity_policy()
++    ):
++        raise ValueError("Checkpoint physics differs from PhysicsV5; old checkpoints cannot be relabeled")
+     algorithm = run_manifest["dreamwaq_algorithm_contract"]
+     export = run_manifest["dreamwaq_export_contract"]
+     return {
+@@ -78,6 +84,8 @@
+         "q_nominal": base["task"]["q_nominal"],
+         "control": base["task"]["control"],
+         "actuators": base["runtime"]["robot_except_asset_absolute_path"]["actuators"],
++        "rigid_body_properties": base["runtime"]["robot_except_asset_absolute_path"]["spawn"]["rigid_props"],
++        "velocity_limit_policy": base["task"]["physics"]["velocity_limit_policy"],
+         "initial_state": base["runtime"]["robot_except_asset_absolute_path"]["init_state"],
+         "network": {
+             "input_dimension": 125,
+--- before/wheelleg_dreamwaq/scripts/export_ppo_actor.py
++++ after/wheelleg_dreamwaq/scripts/export_ppo_actor.py
+@@ -10,6 +10,7 @@
+ from tensordict import TensorDict
+ 
+ from wheelleg_dreamwaq.schemas.manifest import SUPPORTED_PHASE1_CONTRACT_VERSIONS
++from wheelleg_dreamwaq.schemas.physics import PHYSICS_SCHEMA_VERSION
+ from wheelleg_dreamwaq.training.checkpoint import load_checkpoint_artifact, sha256_file
+ 
+ 
+@@ -75,7 +76,7 @@
+         "control_frame": "ControlFrameV1",
+         "critic_observation": "CriticObsV1",
+         "normalization": "NormalizationV2",
+-        "physics": "PhysicsV4",
++        "physics": PHYSICS_SCHEMA_VERSION,
+         "reward": "RewardSchemaV2",
+         "virtual_leg_kinematics": "VirtualLegKinematicsV1",
+     }
+@@ -142,6 +143,8 @@
+         "q_nominal": contract["task"]["q_nominal"],
+         "control": contract["task"]["control"],
+         "actuators": contract["runtime"]["robot_except_asset_absolute_path"]["actuators"],
++        "rigid_body_properties": contract["runtime"]["robot_except_asset_absolute_path"]["spawn"]["rigid_props"],
++        "velocity_limit_policy": contract["task"]["physics"]["velocity_limit_policy"],
+         "initial_state": contract["runtime"]["robot_except_asset_absolute_path"]["init_state"],
+         "timing": {
+             "isaac_sim_dt_s": contract["task"]["sim_dt"],
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/README.md
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/README.md
+@@ -1,7 +1,7 @@
+ # WheelLeg MuJoCo Sim2Sim
+ 
+ This directory is an isolated Python 3.11 / MuJoCo 3.14.0 runtime for
+-`Phase1ContractV4`. It intentionally does not import Isaac Lab or the root
++`PhysicsV5` policy exports. It intentionally does not import Isaac Lab or the root
+ training package.
+ 
+ The generated model comes from the confirmed local XML
+@@ -27,6 +27,19 @@
+ clamp. Actor observations use the same 25-dimensional order and
+ `NormalizationV2` constants as the Isaac Lab environment.
+ 
++The runtime has no rigid-body linear/angular speed limiter, no external
++speed-limiting force/torque, and no joint-speed torque suppression. Physical
++contacts, closed-chain constraints, passive damping, armature and motor
++effort limits remain. `MujocoActionAdapterV2` and
++`MujocoEvaluationContractV3` identify this change. A recorded speed failure
++threshold stops evaluation; it never brakes the model.
++
++The former `PhysxRigidAngularBiasV1` adapter is removed. PhysicsV4 policies
++and V1/V2 evaluation results remain historical artifacts and are rejected by
++the current loader/ranking; do not edit old manifests to relabel them as V5.
++Fresh training and export must record `UnrestrictedVelocityPolicyV1`, the
++explicit Isaac velocity sentinels, and the current model-manifest identity.
++
+ Export and deterministic evaluation are launched from the repository root:
+ 
+ ```powershell
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/model_manifest.json
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/model_manifest.json
+@@ -10,8 +10,8 @@
+   "adapters": {
+     "action": {
+       "implementation_file": "wheelleg_mujoco/control.py",
+-      "implementation_sha256": "83080BC57A0399B11610CE5E06B4F607ADA1C0FB995344E23E531658EBBEFD62",
+-      "version": "MujocoActionAdapterV1"
++      "implementation_sha256": "F5A79CE5210BC887F6E3BCA21B58865D0C951B163CE555CC1A1D66D63E5926D1",
++      "version": "MujocoActionAdapterV2"
+     },
+     "observation": {
+       "implementation_file": "wheelleg_mujoco/observation.py",
+@@ -2463,4 +2463,4 @@
+     "radius_m": 0.0625,
+     "type": "sphere"
+   }
+-}+}
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/tests/test_angular_limit.py
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/tests/test_angular_limit.py
+@@ -1,83 +0,0 @@
+-from __future__ import annotations
+-
+-import mujoco
+-import numpy as np
+-import pytest
+-
+-from wheelleg_mujoco.angular_limit import AngularVelocityBiasLimiter, angular_limit_contract
+-
+-
+-def _free_body():
+-    model = mujoco.MjModel.from_xml_string('''<mujoco>
+-      <option timestep="0.001" gravity="0 0 0"/>
+-      <worldbody><body><freejoint/>
+-        <inertial pos="0 0 0" mass="1" diaginertia="2 3 4"/>
+-      </body></worldbody></mujoco>''')
+-    return model, mujoco.MjData(model)
+-
+-
+-def test_units_and_world_inertia_without_changing_live_state():
+-    model, data = _free_body()
+-    # A 90-degree world-z rotation maps local Iy=3 onto world x.
+-    data.qpos[3:7] = (np.sqrt(.5), 0., 0., np.sqrt(.5))
+-    data.qvel[3:6] = (0., -2., 0.)  # Free-joint angular velocity is local.
+-    mujoco.mj_forward(model, data)
+-    assert np.allclose(data.cvel[1, :3], (2., 0., 0.))
+-    state = {name: getattr(data, name).copy() for name in ("qpos", "qvel", "qacc", "xmat", "qfrc_constraint")}
+-    limiter = AngularVelocityBiasLimiter(model)
+-    limiter.apply(data)
+-    expected_x = -3. * (2. - np.deg2rad(100.)) / .005
+-    np.testing.assert_allclose(data.xfrc_applied[1, 3:], (expected_x, 0., 0.), atol=1.e-12)
+-    assert data.time == 0.
+-    for name, expected in state.items():
+-        np.testing.assert_array_equal(getattr(data, name), expected)
+-    identity = angular_limit_contract()
+-    assert identity["max_angular_velocity_deg_s"] == 100.
+-    assert identity["max_angular_velocity_rad_s"] == pytest.approx(np.deg2rad(100.))
+-
+-
+-def test_hold_five_substeps_then_release_preserving_other_torque_and_reset():
+-    model, data = _free_body()
+-    limiter = AngularVelocityBiasLimiter(model)
+-    data.qvel[3] = 2.
+-    external = np.array((7., 8., 9.))
+-    data.xfrc_applied[1, 3:] = external
+-    limiter.apply(data)
+-    held = data.xfrc_applied.copy()
+-    assert held[1, 3] < external[0]
+-    data.qvel.fill(0.)
+-    for _ in range(4):
+-        limiter.apply(data)
+-        np.testing.assert_array_equal(data.xfrc_applied, held)
+-    limiter.apply(data)
+-    np.testing.assert_allclose(data.xfrc_applied[1, 3:], external, atol=1.e-12)
+-    mujoco.mj_resetData(model, data)
+-    limiter.reset()
+-    limiter.apply(data)
+-    np.testing.assert_array_equal(data.xfrc_applied, np.zeros_like(data.xfrc_applied))
+-
+-
+-def test_sub_limit_velocity_has_no_bias_and_all_links_are_considered():
+-    model = mujoco.MjModel.from_xml_string('''<mujoco>
+-      <option timestep="0.001" gravity="0 0 0"/>
+-      <worldbody>
+-        <body name="a"><freejoint/><inertial pos="0 0 0" mass="1" diaginertia="2 3 4"/></body>
+-        <body name="b" pos="2 0 0"><freejoint/><inertial pos="0 0 0" mass="1" diaginertia="2 3 4"/></body>
+-      </worldbody></mujoco>''')
+-    data = mujoco.MjData(model)
+-    data.qvel[3] = 1.
+-    data.qvel[9] = 2.
+-    limiter = AngularVelocityBiasLimiter(model)
+-    limiter.apply(data)
+-    assert np.count_nonzero(data.xfrc_applied[0]) == 0
+-    assert np.count_nonzero(data.xfrc_applied[1]) == 0
+-    assert data.xfrc_applied[2, 3] < 0.
+-
+-
+-def test_reject_nonintegral_or_wrong_isaac_period():
+-    model, _ = _free_body()
+-    with pytest.raises(ValueError, match="PhysicsV4"):
+-        AngularVelocityBiasLimiter(model, update_period_s=.001)
+-    model.opt.timestep = .002
+-    with pytest.raises(ValueError, match="integer multiple"):
+-        AngularVelocityBiasLimiter(model)
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/tests/test_cross_engine_golden.py
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/tests/test_cross_engine_golden.py
+@@ -20,12 +20,18 @@
+ from wheelleg_mujoco.control import MixedActionController  # noqa: E402
+ from wheelleg_mujoco.model_map import build_model_map  # noqa: E402
+ from wheelleg_mujoco.observation import KinematicState, build_actor_observation  # noqa: E402
++from wheelleg_dreamwaq.schemas.physics import unrestricted_velocity_policy as isaac_velocity_policy  # noqa: E402
++from wheelleg_mujoco.physics import unrestricted_velocity_policy as mujoco_velocity_policy  # noqa: E402
+ 
+ import mujoco  # noqa: E402
+ 
+ 
+ MODEL_PATH = ROOT_PROJECT / "sim2sim" / "mujoco" / "models" / "wheel_leg_urdf4_v1.xml"
+ Q_NOMINAL = np.array((-0.33367134, 0.33367134, -0.33367134, 0.33367134))
++
++
++def test_cross_engine_unrestricted_velocity_policy_matches() -> None:
++    assert isaac_velocity_policy() == mujoco_velocity_policy()
+ 
+ 
+ def _contract() -> AdapterContract:
+@@ -44,8 +50,6 @@
+         leg_kd=4.0,
+         wheel_kd=0.6,
+         effort_limits=np.array((18.0, 18.0, 18.0, 18.0, 9.0, 9.0)),
+-        velocity_limits=np.full(6, 45.0),
+-        passive_velocity_limit=80.0,
+         physics_dt_s=0.001,
+         physics_steps_per_action=20,
+         control_dt_s=0.02,
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/tests/test_evaluation_metrics.py
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/tests/test_evaluation_metrics.py
+@@ -1,6 +1,6 @@
+ from __future__ import annotations
+ 
+-from wheelleg_mujoco.angular_limit import angular_limit_contract
++from wheelleg_mujoco.physics import PHYSICS_SCHEMA_VERSION, UNRESTRICTED_SIM_VELOCITY, unrestricted_velocity_policy
+ 
+ import csv
+ import json
+@@ -179,6 +179,16 @@
+     actor_hash = sha256_file(actor_path)
+ 
+     policy_manifest = {
++        "schemas": {"physics": PHYSICS_SCHEMA_VERSION},
++        "velocity_limit_policy": unrestricted_velocity_policy(),
++        "rigid_body_properties": {
++            "max_linear_velocity": UNRESTRICTED_SIM_VELOCITY,
++            "max_angular_velocity": UNRESTRICTED_SIM_VELOCITY,
++        },
++        "actuators": {
++            name: {"velocity_limit_sim": UNRESTRICTED_SIM_VELOCITY}
++            for name in ("legs", "wheels", "passive")
++        },
+         "actor_sha256": actor_hash,
+         "source_checkpoint": str(checkpoint_path.resolve()),
+         "source_checkpoint_sha256": checkpoint_hash,
+@@ -218,7 +228,8 @@
+         "control_dt_s": 0.02,
+         "physics_dt_s": 0.001,
+         "physics_steps_per_action": 20,
+-        "rigid_body_angular_limit": angular_limit_contract(),
++        "physics_schema_version": PHYSICS_SCHEMA_VERSION,
++        "velocity_limit_policy": unrestricted_velocity_policy(),
+         "expected_ticks_per_scenario": 500,
+         "scenario_duration_s": 10.0,
+         "scenarios": [{"name": name, "command": list(command)} for name, command in FORMAL_SCENARIOS],
+@@ -305,27 +316,30 @@
+     assert len(fingerprint["hash"]) == 64
+     assert "sim2sim/mujoco/uv.lock" in files
+     assert "sim2sim/mujoco/wheelleg_mujoco/evaluation.py" in files
+-    assert "sim2sim/mujoco/wheelleg_mujoco/angular_limit.py" in files
++    assert "sim2sim/mujoco/wheelleg_mujoco/angular_limit.py" not in files
++    assert "sim2sim/mujoco/wheelleg_mujoco/physics.py" in files
+     assert "scripts/evaluate_mujoco.py" in files
+     assert "scripts/rank_mujoco_runs.py" in files
+ 
+ 
+-@pytest.mark.parametrize("mutation", ("missing", "period", "units", "legacy"))
+-def test_ranking_rejects_wrong_angular_limit_identity(tmp_path: Path, mutation: str) -> None:
++@pytest.mark.parametrize("mutation", ("missing", "enabled", "old_adapter", "legacy", "old_physics"))
++def test_ranking_rejects_speed_limit_or_historical_runtime(tmp_path: Path, mutation: str) -> None:
+     reports = [_formal_report(tmp_path / f"run-{index}", index) for index in range(1, 5)]
+     report = reports[0]
+     contract = report["evaluation_contract"]
+     if mutation == "missing":
+-        del contract["rigid_body_angular_limit"]
+-    elif mutation == "period":
+-        contract["rigid_body_angular_limit"]["update_period_s"] = .001
+-    elif mutation == "units":
+-        contract["rigid_body_angular_limit"]["max_angular_velocity_rad_s"] = 100.
++        del contract["velocity_limit_policy"]
++    elif mutation == "enabled":
++        contract["velocity_limit_policy"]["external_speed_limit_torque"] = True
++    elif mutation == "old_adapter":
++        contract["rigid_body_angular_limit"] = {"version": "PhysxRigidAngularBiasV1"}
++    elif mutation == "old_physics":
++        contract["physics_schema_version"] = "PhysicsV4"
+     else:
+         contract["schema_version"] = "MujocoEvaluationContractV1"
+     report["evaluation_contract_hash"] = stable_hash(contract)
+     report["report_hash"] = stable_hash({key: value for key, value in report.items() if key != "report_hash"})
+-    with pytest.raises(ValueError, match="angular limit|Unsupported MuJoCo evaluation contract"):
++    with pytest.raises(ValueError, match="velocity-limit policy|Unsupported MuJoCo evaluation contract"):
+         validate_evaluation_reports_for_ranking(reports)
+ 
+ 
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/tests/test_mujoco_adapters.py
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/tests/test_mujoco_adapters.py
+@@ -2,9 +2,11 @@
+ 
+ from dataclasses import replace
+ from pathlib import Path
++import sys
+ 
+ import mujoco
+ import numpy as np
++import pytest
+ 
+ from wheelleg_mujoco.contract import AdapterContract
+ from wheelleg_mujoco.control import MixedActionController
+@@ -15,6 +17,7 @@
+ 
+ 
+ PROJECT_ROOT = Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(PROJECT_ROOT.parents[1]))  # Shared debug modules, including isolated test runs.
+ MODEL_PATH = PROJECT_ROOT / "models" / "wheel_leg_urdf4_v1.xml"
+ Q_NOMINAL = np.array((-0.33367134, 0.33367134, -0.33367134, 0.33367134))
+ 
+@@ -46,8 +49,6 @@
+         leg_kd=4.0,
+         wheel_kd=0.6,
+         effort_limits=np.array((18.0, 18.0, 18.0, 18.0, 9.0, 9.0)),
+-        velocity_limits=np.full(6, 45.0),
+-        passive_velocity_limit=80.0,
+         physics_dt_s=0.001,
+         physics_steps_per_action=20,
+         control_dt_s=0.02,
+@@ -99,9 +100,82 @@
+     data.qvel[model_map.dof_addresses] = 50.0
+     targets = controller.prepare(np.ones(6))
+     torque = controller.compute_torque(data, targets)
+-    assert np.all(torque <= 0.0)
+-    assert np.all(controller.last_velocity_limit_mask[:4])
+-    assert not np.any(controller.last_velocity_limit_mask[4:])
++    # Above the former 45 rad/s limit, only PD and motor effort clipping apply.
++    np.testing.assert_array_equal(torque[:4], np.full(4, 18.0))
++    np.testing.assert_array_equal(torque[4:], np.full(2, -9.0))
++
++
++def test_root_cause_target_probe_matches_formal_motor_torque_above_old_cap() -> None:
++    from debug.sim2sim.root_cause_suite.mujoco_worker import _formal_target_torque
++
++    model, data, model_map = _model_data()
++    contract = _contract()
++    data.qpos[model_map.qpos_addresses[:4]] = -10.0
++    data.qvel[model_map.dof_addresses] = 50.0
++    action = np.ones(6)
++    controller = MixedActionController(model_map, contract)
++    reference = controller.compute_torque(data, controller.prepare(action))
++    np.testing.assert_array_equal(_formal_target_torque(model, data, action, contract), reference)
++    np.testing.assert_array_equal(reference[:4], np.full(4, 18.0))
++
++
++def test_debug_timing_step_retains_motor_control_and_reports_no_speed_guard() -> None:
++    from debug.sim2sim.dreamwaq_debug_contract import TIMING_PROFILES
++    from debug.sim2sim.evaluate_debug_mujoco import step_with_debug_timing
++
++    runtime = WheelLegMujocoRuntime(MODEL_PATH, _contract())
++    action = np.full(6, 0.1)
++    command = np.array((0.0, 0.0, 0.20))
++    result = step_with_debug_timing(runtime, TIMING_PROFILES["formal_1ms"], action, command)
++    assert result.physics_steps == 20
++    assert result.metrics["velocity_limit_event_fraction"] == 0.0
++    assert np.isfinite(result.observation).all()
++    assert np.isfinite(result.applied_torque).all()
++
++
++def test_debug_joint_speed_failure_threshold_remains_diagnostic_only() -> None:
++    from debug.sim2sim.evaluate_debug_mujoco import _failure_reason
++
++    runtime = WheelLegMujocoRuntime(MODEL_PATH, _contract())
++    metrics = {
++        "base_height_m": 0.20, "tilt_rad": 0.0, "root_linear_speed_mps": 0.0,
++        "root_angular_speed_rad_s": 0.0, "max_hinge_speed_rad_s": 79.0,
++        "max_loop_closure_error_m": 0.0, "l0_left_m": 0.20, "l0_right_m": 0.20,
++    }
++    assert _failure_reason(runtime, metrics) is None
++    before = runtime.data.qvel.copy()
++    metrics["max_hinge_speed_rad_s"] = 81.0
++    assert _failure_reason(runtime, metrics) == "joint_velocity"
++    np.testing.assert_array_equal(runtime.data.qvel, before)
++
++
++@pytest.mark.parametrize("with_external_wrench", (False, True))
++def test_runtime_adds_no_speed_limit_wrench_and_matches_direct_physics(with_external_wrench: bool) -> None:
++    runtime = WheelLegMujocoRuntime(MODEL_PATH, _contract())
++    command = np.array((0.0, 0.0, 0.20))
++    runtime.reset(command)
++    # Remove ground contact; exceed both former rigid-body speed thresholds.
++    runtime.data.qpos[2] += 100.0
++    runtime.data.qvel[:6] = (200.0, 0.0, 0.0, 10.0, 0.0, 0.0)
++    mujoco.mj_forward(runtime.model, runtime.data)
++    if with_external_wrench:
++        runtime.data.xfrc_applied[runtime.model_map.base_body_id] = (1., 2., 3., 4., 5., 6.)
++    expected_wrench = runtime.data.xfrc_applied.copy()
++    reference = mujoco.MjData(runtime.model)
++    mujoco.mj_copyData(reference, runtime.model, runtime.data)
++    action = np.full(6, 0.2)
++    targets = runtime.controller.prepare(action)
++    for _ in range(runtime.contract.physics_steps_per_action):
++        torque = runtime.controller.compute_torque(reference, targets)
++        runtime.controller.apply_torque(reference, torque)
++        mujoco.mj_step(runtime.model, reference)
++    result = runtime.step(action, command)
++    np.testing.assert_array_equal(runtime.data.xfrc_applied, expected_wrench)
++    np.testing.assert_array_equal(runtime.data.qfrc_applied, np.zeros(runtime.model.nv))
++    np.testing.assert_array_equal(runtime.data.qpos, reference.qpos)
++    np.testing.assert_array_equal(runtime.data.qvel, reference.qvel)
++    assert result.physics_steps == 20
++    assert np.isfinite(result.observation).all()
+ 
+ 
+ def test_observation_uses_com_height_and_frozen_normalization() -> None:
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/angular_limit.py
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/angular_limit.py
+@@ -1,75 +0,0 @@
+-"""PhysicsV4 per-link angular bias torque, sampled at the Isaac physics period."""
+-from __future__ import annotations
+-
+-import mujoco
+-import numpy as np
+-
+-
+-ANGULAR_LIMIT_VERSION = "PhysxRigidAngularBiasV1"
+-MAX_ANGULAR_VELOCITY_DEG_S = 100.0
+-UPDATE_PERIOD_S = 0.005
+-
+-
+-def angular_limit_contract(update_period_s: float = UPDATE_PERIOD_S) -> dict:
+-    if float(update_period_s) != UPDATE_PERIOD_S:
+-        raise ValueError("PhysicsV4 angular bias update period must be 0.005 s")
+-    return {
+-        "version": ANGULAR_LIMIT_VERSION,
+-        "max_angular_velocity_deg_s": MAX_ANGULAR_VELOCITY_DEG_S,
+-        "max_angular_velocity_rad_s": float(np.deg2rad(MAX_ANGULAR_VELOCITY_DEG_S)),
+-        "update_period_s": UPDATE_PERIOD_S,
+-        "sampling": "pre_step_zero_order_hold",
+-        "frame": "world",
+-        "bodies": "all_robot_bodies_except_world",
+-        "torque_rule": "-I_world@omega*(1-limit/norm(omega))/update_period_when_over_limit",
+-        "reset": "clear_counter_and_held_torque_after_keyframe_reset",
+-        "velocity_write": False,
+-    }
+-
+-
+-class AngularVelocityBiasLimiter:
+-    """Apply the published PhysX 5.6.1 angular bias term without writing qvel.
+-
+-    The torque is recomputed every 5 ms and held through the MuJoCo substeps.
+-    Kinematics are refreshed on shadow data so live solver buffers stay intact.
+-    Call reset after resetting the associated live MjData.
+-    """
+-
+-    def __init__(self, model: mujoco.MjModel, update_period_s: float = UPDATE_PERIOD_S) -> None:
+-        angular_limit_contract(update_period_s)
+-        dt = float(model.opt.timestep)
+-        if not np.isfinite(dt) or dt <= 0.:
+-            raise ValueError("MuJoCo physics timestep must be finite and positive")
+-        self._steps = round(update_period_s / dt)
+-        if self._steps < 1 or abs(self._steps * dt - update_period_s) > 1.e-12:
+-            raise ValueError("Angular bias update period must be an integer multiple of MuJoCo timestep")
+-        self._model = model
+-        self._shadow = mujoco.MjData(model)
+-        self._limit = float(np.deg2rad(MAX_ANGULAR_VELOCITY_DEG_S))
+-        self._held_torque = np.zeros((model.nbody, 3), dtype=np.float64)
+-        self.reset()
+-
+-    def reset(self) -> None:
+-        self._substep = 0
+-        self._held_torque.fill(0.)
+-
+-    def apply(self, data: mujoco.MjData) -> None:
+-        if self._substep % self._steps == 0:
+-            mujoco.mj_copyData(self._shadow, self._model, data)
+-            mujoco.mj_forward(self._model, self._shadow)
+-            # Replace only our previous contribution; preserve other external torques.
+-            data.xfrc_applied[:, 3:] -= self._held_torque
+-            self._held_torque.fill(0.)
+-            spatial = np.zeros(6, dtype=np.float64)
+-            for body_id in range(1, self._model.nbody):
+-                mujoco.mj_objectVelocity(
+-                    self._model, self._shadow, mujoco.mjtObj.mjOBJ_BODY, body_id, spatial, 0,
+-                )
+-                omega = spatial[:3]
+-                speed = float(np.linalg.norm(omega))
+-                if speed > self._limit:
+-                    rotation = self._shadow.ximat[body_id].reshape(3, 3)
+-                    inertia = rotation @ np.diag(self._model.body_inertia[body_id]) @ rotation.T
+-                    self._held_torque[body_id] = -(inertia @ omega) * (1. - self._limit / speed) / UPDATE_PERIOD_S
+-            data.xfrc_applied[:, 3:] += self._held_torque
+-        self._substep += 1
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/contract.py
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/contract.py
+@@ -9,6 +9,7 @@
+ 
+ from .versions import ACTION_ADAPTER_VERSION, HISTORY_ADAPTER_VERSION, OBSERVATION_ADAPTER_VERSION
+ from .model_semantics import stable_hash
++from .physics import PHYSICS_SCHEMA_VERSION, validate_policy_physics
+ 
+ 
+ def sha256_file(path: Path) -> str:
+@@ -39,8 +40,6 @@
+     leg_kd: float
+     wheel_kd: float
+     effort_limits: np.ndarray
+-    velocity_limits: np.ndarray
+-    passive_velocity_limit: float
+     physics_dt_s: float
+     physics_steps_per_action: int
+     control_dt_s: float
+@@ -51,10 +50,10 @@
+ 
+     @classmethod
+     def from_policy_manifest(cls, payload: dict) -> "AdapterContract":
++        validate_policy_physics(payload)
+         actuators = payload["actuators"]
+         legs = actuators["legs"]
+         wheels = actuators["wheels"]
+-        passive = actuators["passive"]
+         timing = payload["timing"]
+         action = payload["action"]
+         control = payload["control"]
+@@ -75,11 +74,6 @@
+                 [float(legs["effort_limit_sim"])] * 4 + [float(wheels["effort_limit_sim"])] * 2,
+                 dtype=np.float64,
+             ),
+-            velocity_limits=np.asarray(
+-                [float(legs["velocity_limit_sim"])] * 4 + [float(wheels["velocity_limit_sim"])] * 2,
+-                dtype=np.float64,
+-            ),
+-            passive_velocity_limit=float(passive["velocity_limit_sim"]),
+             physics_dt_s=float(timing["mujoco_physics_dt_s"]),
+             physics_steps_per_action=int(timing["mujoco_physics_steps_per_action"]),
+             control_dt_s=float(timing["control_dt_s"]),
+@@ -108,7 +102,7 @@
+         "control_frame": "ControlFrameV1",
+         "critic_observation": "CriticObsV1",
+         "normalization": "NormalizationV2",
+-        "physics": "PhysicsV4",
++        "physics": PHYSICS_SCHEMA_VERSION,
+         "reward": "RewardSchemaV2",
+         "virtual_leg_kinematics": "VirtualLegKinematicsV1",
+     }
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/control.py
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/control.py
+@@ -24,8 +24,6 @@
+         self.leg_kd = contract.leg_kd
+         self.wheel_kd = contract.wheel_kd
+         self.effort_limits = contract.effort_limits
+-        self.velocity_limits = contract.velocity_limits
+-        self.last_velocity_limit_mask = np.zeros(6, dtype=bool)
+ 
+     def prepare(self, action: np.ndarray) -> ActionTargets:
+         action = np.asarray(action, dtype=np.float64)
+@@ -48,8 +46,6 @@
+         torque[:4] = self.leg_kp * (targets.leg_position_target_mujoco - position[:4]) - self.leg_kd * velocity[:4]
+         torque[4:6] = self.wheel_kd * (targets.wheel_velocity_target_mujoco - velocity[4:6])
+         torque = np.clip(torque, -self.effort_limits, self.effort_limits)
+-        self.last_velocity_limit_mask = (np.abs(velocity) >= self.velocity_limits) & (torque * velocity > 0.0)
+-        torque[self.last_velocity_limit_mask] = 0.0
+         return torque
+ 
+     def apply_torque(self, data: mujoco.MjData, torque: np.ndarray) -> None:
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/evaluation.py
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/evaluation.py
+@@ -10,12 +10,14 @@
+ import numpy as np
+ 
+ from .contract import sha256_file
+-from .angular_limit import angular_limit_contract
++from .physics import PHYSICS_SCHEMA_VERSION, unrestricted_velocity_policy, validate_policy_physics
+ from .model_semantics import stable_hash
+ 
+ 
+ EVALUATION_SCHEMA_VERSION = "MujocoEvaluationV1"
+-EVALUATION_CONTRACT_VERSION = "MujocoEvaluationContractV2"
++EVALUATION_CONTRACT_VERSION = "MujocoEvaluationContractV3"
++# A diagnostic failure threshold, never a physics speed cap or braking rule.
++JOINT_SPEED_FAILURE_THRESHOLD_RAD_S = 80.0
+ RANKING_VERSION = "MujocoRankingV1"
+ EVALUATION_SOURCE_VERSION = "MujocoEvaluationSourceV1"
+ FORMAL_RUN_COUNT = 4
+@@ -249,6 +251,7 @@
+     smoke: bool,
+     training_suite: dict | None = None,
+ ) -> dict:
++    validate_policy_physics(policy_manifest)
+     policy_schema_version = policy_manifest["schema_version"]
+     if policy_schema_version == "DreamWaQPolicyExportV1":
+         task_contract_version = policy_manifest["base_task_contract_version"]
+@@ -271,7 +274,8 @@
+         "control_dt_s": policy_manifest["timing"]["control_dt_s"],
+         "physics_dt_s": policy_manifest["timing"]["mujoco_physics_dt_s"],
+         "physics_steps_per_action": policy_manifest["timing"]["mujoco_physics_steps_per_action"],
+-        "rigid_body_angular_limit": angular_limit_contract(policy_manifest["timing"]["isaac_sim_dt_s"]),
++        "physics_schema_version": PHYSICS_SCHEMA_VERSION,
++        "velocity_limit_policy": unrestricted_velocity_policy(),
+         "expected_ticks_per_scenario": expected_ticks,
+         "scenario_duration_s": expected_ticks * policy_manifest["timing"]["control_dt_s"],
+         "scenarios": [
+@@ -290,6 +294,7 @@
+             "tilt_rad": 0.80,
+             "root_linear_speed_mps": 20.0,
+             "root_angular_speed_rad_s": 35.0,
++            "joint_speed_rad_s": JOINT_SPEED_FAILURE_THRESHOLD_RAD_S,
+             "loop_closure_error_m": 5.0e-3,
+             "virtual_leg_min_length_m": 0.05,
+         },
+@@ -445,8 +450,12 @@
+             raise ValueError("MuJoCo evaluation contract hash is invalid")
+         if contract.get("schema_version") != EVALUATION_CONTRACT_VERSION:
+             raise ValueError("Unsupported MuJoCo evaluation contract")
+-        if contract.get("rigid_body_angular_limit") != angular_limit_contract():
+-            raise ValueError("MuJoCo rigid-body angular limit differs from the current runtime")
++        if (
++            contract.get("physics_schema_version") != PHYSICS_SCHEMA_VERSION
++            or contract.get("velocity_limit_policy") != unrestricted_velocity_policy()
++            or "rigid_body_angular_limit" in contract
++        ):
++            raise ValueError("MuJoCo velocity-limit policy differs from the current runtime")
+         if contract.get("evaluation_implementation") != current_implementation:
+             raise ValueError("MuJoCo evaluation implementation fingerprint differs from the current runtime")
+         if contract.get("smoke") is not False or contract.get("scenarios") != expected_scenarios:
+@@ -500,6 +509,7 @@
+             raise ValueError("MuJoCo ranking contains a missing or duplicate source checkpoint")
+         checkpoint_hashes.add(checkpoint_hash)
+         policy_manifest = _load_bound_policy_manifest(report, training_run)
++        validate_policy_physics(policy_manifest)
+         manifest_task_hash = policy_manifest.get(
+             "base_task_contract_hash",
+             policy_manifest.get("phase1_contract_hash"),
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/runner.py
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/runner.py
+@@ -7,7 +7,6 @@
+ import numpy as np
+ 
+ from .contract import AdapterContract
+-from .angular_limit import AngularVelocityBiasLimiter
+ from .control import MixedActionController
+ from .metrics import collect_metrics
+ from .model_map import build_model_map
+@@ -38,7 +37,6 @@
+         self.data = mujoco.MjData(self.model)
+         self.model_map = build_model_map(self.model)
+         self.controller = MixedActionController(self.model_map, contract)
+-        self.angular_limiter = AngularVelocityBiasLimiter(self.model, contract.isaac_physics_dt_s)
+         self.previous_action = np.zeros(6, dtype=np.float64)
+         if contract.policy_input_dimension not in (25, 125):
+             raise ValueError("Policy input dimension must be 25 for PPO or 125 for DreamWaQ")
+@@ -70,7 +68,6 @@
+         if command.shape != (3,):
+             raise ValueError(f"CommandV1 must have shape (3,), got {command.shape}")
+         mujoco.mj_resetDataKeyframe(self.model, self.data, self.model_map.reset_keyframe_id)
+-        self.angular_limiter.reset()
+         self.data.ctrl[:] = 0.0
+         self.previous_action.fill(0.0)
+         mujoco.mj_forward(self.model, self.data)
+@@ -90,13 +87,10 @@
+         targets = self.controller.prepare(action)
+         torque = np.zeros(6, dtype=np.float64)
+         effort_saturation_count = 0
+-        velocity_limit_event_count = 0
+         for _ in range(self.contract.physics_steps_per_action):
+             torque = self.controller.compute_torque(self.data, targets)
+             effort_saturation_count += int(np.isclose(np.abs(torque), self.controller.effort_limits).sum())
+-            velocity_limit_event_count += int(self.controller.last_velocity_limit_mask.sum())
+             self.controller.apply_torque(self.data, torque)
+-            self.angular_limiter.apply(self.data)
+             mujoco.mj_step(self.model, self.data)
+         self.previous_action = targets.clipped_action.copy()
+         state = collect_kinematic_state(self.model, self.data, self.model_map, self.contract)
+@@ -108,8 +102,6 @@
+                 "action_saturation_fraction": float(np.mean(np.abs(np.asarray(action)) >= 1.0)),
+                 "effort_saturation_fraction": effort_saturation_count
+                 / (self.contract.physics_steps_per_action * 6),
+-                "velocity_limit_event_fraction": velocity_limit_event_count
+-                / (self.contract.physics_steps_per_action * 6),
+             }
+         )
+         return StepResult(
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/versions.py
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/versions.py
+@@ -2,5 +2,5 @@
+ 
+ MUJOCO_MODEL_VERSION = "MujocoModelV1"
+ OBSERVATION_ADAPTER_VERSION = "MujocoActorObsAdapterV1"
+-ACTION_ADAPTER_VERSION = "MujocoActionAdapterV1"
++ACTION_ADAPTER_VERSION = "MujocoActionAdapterV2"
+ HISTORY_ADAPTER_VERSION = "MujocoFrameMajorHistoryAdapterV1"
+--- before/wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/assets/wheelleg.py
++++ after/wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/assets/wheelleg.py
+@@ -4,7 +4,11 @@
+ from isaaclab.actuators import ImplicitActuatorCfg
+ from isaaclab.assets import ArticulationCfg
+ 
+-from wheelleg_dreamwaq.schemas.physics import SOLVER_POSITION_ITERATIONS, SOLVER_VELOCITY_ITERATIONS
++from wheelleg_dreamwaq.schemas.physics import (
++    SOLVER_POSITION_ITERATIONS,
++    SOLVER_VELOCITY_ITERATIONS,
++    UNRESTRICTED_SIM_VELOCITY,
++)
+ 
+ from .asset_contract import ASSET_BUNDLE_V2
+ from .paths import asset_root_v2
+@@ -47,8 +51,8 @@
+             retain_accelerations=False,
+             linear_damping=0.0,
+             angular_damping=0.0,
+-            max_linear_velocity=100.0,
+-            max_angular_velocity=100.0,
++            max_linear_velocity=UNRESTRICTED_SIM_VELOCITY,
++            max_angular_velocity=UNRESTRICTED_SIM_VELOCITY,
+             max_depenetration_velocity=1.0,
+         ),
+         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
+@@ -94,7 +98,7 @@
+         "legs": ImplicitActuatorCfg(
+             joint_names_expr=LEG_JOINT_NAMES,
+             effort_limit_sim=18.0,
+-            velocity_limit_sim=45.0,
++            velocity_limit_sim=UNRESTRICTED_SIM_VELOCITY,
+             stiffness=120.0,
+             damping=4.0,
+             armature=0.05,
+@@ -105,7 +109,7 @@
+         "wheels": ImplicitActuatorCfg(
+             joint_names_expr=WHEEL_JOINT_NAMES,
+             effort_limit_sim=9.0,
+-            velocity_limit_sim=45.0,
++            velocity_limit_sim=UNRESTRICTED_SIM_VELOCITY,
+             stiffness=0.0,
+             damping=0.6,
+             armature=0.05,
+@@ -116,7 +120,7 @@
+         "passive": ImplicitActuatorCfg(
+             joint_names_expr=PASSIVE_JOINT_NAMES,
+             effort_limit_sim=18.0,
+-            velocity_limit_sim=80.0,
++            velocity_limit_sim=UNRESTRICTED_SIM_VELOCITY,
+             stiffness=0.0,
+             damping=0.05,
+             armature=0.005,
+--- before/wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/dreamwaq_manifest.py
++++ after/wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/dreamwaq_manifest.py
+@@ -41,7 +41,7 @@
+     ActorObsSlices,
+     CriticObsSlices,
+ )
+-from wheelleg_dreamwaq.schemas.physics import PHYSICS_SCHEMA_VERSION
++from wheelleg_dreamwaq.schemas.physics import PHYSICS_SCHEMA_VERSION, unrestricted_velocity_policy
+ from wheelleg_dreamwaq.schemas.randomization import (
+     CLOSED_CHAIN_RESET_CACHE_SCHEMA_VERSION,
+     RANDOMIZATION_SCHEMA_VERSION,
+@@ -226,6 +226,7 @@
+                 "control_dt": sim_dt * decimation,
+                 "solver_position_iterations": solver_position_iterations,
+                 "solver_velocity_iterations": solver_velocity_iterations,
++                "velocity_limit_policy": unrestricted_velocity_policy(),
+             },
+             "episode_length_s": episode_length_s,
+             "is_finite_horizon": is_finite_horizon,
+--- before/wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/manifest.py
++++ after/wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/manifest.py
+@@ -33,7 +33,7 @@
+     ActorObsSlices,
+     CriticObsSlices,
+ )
+-from wheelleg_dreamwaq.schemas.physics import PHYSICS_SCHEMA_VERSION
++from wheelleg_dreamwaq.schemas.physics import PHYSICS_SCHEMA_VERSION, unrestricted_velocity_policy
+ from wheelleg_dreamwaq.schemas.randomization import (
+     CLOSED_CHAIN_RESET_CACHE_SCHEMA_VERSION,
+     RANDOMIZATION_SCHEMA_VERSION,
+@@ -261,6 +261,7 @@
+                 "control_dt": sim_dt * decimation,
+                 "solver_position_iterations": solver_position_iterations,
+                 "solver_velocity_iterations": solver_velocity_iterations,
++                "velocity_limit_policy": unrestricted_velocity_policy(),
+             },
+             "episode_length_s": episode_length_s,
+             "is_finite_horizon": is_finite_horizon,
+--- before/wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/physics.py
++++ after/wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/physics.py
+@@ -1,12 +1,28 @@
+ from __future__ import annotations
+ 
+ 
+-PHYSICS_SCHEMA_VERSION = "PhysicsV4"
++PHYSICS_SCHEMA_VERSION = "PhysicsV5"
++# Explicitly override inherited USD/PhysX caps without introducing non-finite
++# configuration or a replacement operational speed limit.
++UNRESTRICTED_SIM_VELOCITY = float.fromhex("0x1.fffffep+127")
+ SIM_DT_S = 0.005
+ DECIMATION = 4
+ CONTROL_DT_S = 0.02
+ SOLVER_POSITION_ITERATIONS = 96
+ SOLVER_VELOCITY_ITERATIONS = 4
++
++
++def unrestricted_velocity_policy() -> dict:
++    return {
++        "version": "UnrestrictedVelocityPolicyV1",
++        "rigid_body_linear_speed_limit": "disabled",
++        "rigid_body_angular_speed_limit": "disabled",
++        "joint_speed_limit": "disabled",
++        "external_speed_limit_force": False,
++        "external_speed_limit_torque": False,
++        "runtime_velocity_write": False,
++        "isaac_velocity_sentinel": UNRESTRICTED_SIM_VELOCITY,
++    }
+ 
+ 
+ def validate_phase1_physics(
+@@ -30,8 +46,8 @@
+     )
+     if actual != expected:
+         raise ValueError(
+-            "Phase1ContractV4 physics mismatch: "
++            "PhysicsV5 physics mismatch: "
+             f"actual={actual}, expected={expected}"
+         )
+     if abs(float(sim_dt) * int(decimation) - CONTROL_DT_S) > 1.0e-12:
+-        raise ValueError("Phase1ContractV4 control period must be exactly 0.02 s")
++        raise ValueError("PhysicsV5 control period must be exactly 0.02 s")
+--- before/wheelleg_dreamwaq/tests/unit/test_dreamwaq_manifest.py
++++ after/wheelleg_dreamwaq/tests/unit/test_dreamwaq_manifest.py
+@@ -17,6 +17,7 @@
+     build_dreamwaq_algorithm_contract,
+     build_dreamwaq_export_contract,
+     validate_named_contract,
++    stable_contract_hash,
+ )
+ from wheelleg_dreamwaq.schemas.manifest import build_phase1_contract
+ from wheelleg_dreamwaq.schemas.normalization import NormalizationV2
+@@ -146,6 +147,18 @@
+     validate_named_contract(first, second, DREAMWAQ_ALGORITHM_CONTRACT_VERSION)
+ 
+ 
++def test_dreamwaq_resume_rejects_valid_historical_physics_contract() -> None:
++    current = build_base_task_contract_from_phase1_contract(_phase1_contract())
++    historical = deepcopy(current)
++    historical["schemas"]["physics"] = "PhysicsV4"
++    del historical["task"]["physics"]["velocity_limit_policy"]
++    historical["contract_hash"] = stable_contract_hash(
++        {key: value for key, value in historical.items() if key != "contract_hash"}
++    )
++    with pytest.raises(DreamWaQContractMismatchError, match="does not match the current runtime"):
++        validate_named_contract(historical, current, BASE_TASK_CONTRACT_VERSION)
++
++
+ @pytest.mark.parametrize(
+     ("path", "value"),
+     [
+--- before/wheelleg_dreamwaq/tests/unit/test_manifest.py
++++ after/wheelleg_dreamwaq/tests/unit/test_manifest.py
+@@ -1,6 +1,8 @@
+ from __future__ import annotations
+ 
+ from copy import deepcopy
++import hashlib
++import json
+ 
+ import pytest
+ 
+@@ -17,6 +19,7 @@
+     SIM_DT_S,
+     SOLVER_POSITION_ITERATIONS,
+     SOLVER_VELOCITY_ITERATIONS,
++    unrestricted_velocity_policy,
+ )
+ from wheelleg_dreamwaq.schemas.randomization import (
+     FUDAN_STYLE_DOMAIN_RANDOMIZATION_V1,
+@@ -79,7 +82,7 @@
+     assert first["asset_bundle_version"] == "AssetBundleV2"
+     assert first["asset_bundle_hash"] == ASSET_BUNDLE_V2.bundle_hash
+     assert first["schemas"]["normalization"] == "NormalizationV2"
+-    assert first["schemas"]["physics"] == "PhysicsV4"
++    assert first["schemas"]["physics"] == "PhysicsV5"
+     assert first["schemas"]["reward"] == "RewardSchemaV2"
+     assert first["schemas"]["virtual_leg_kinematics"] == "VirtualLegKinematicsV1"
+     assert first["schemas"]["randomization"] == "RandomizationSchemaV1"
+@@ -92,6 +95,7 @@
+         "control_dt": 0.02,
+         "solver_position_iterations": 96,
+         "solver_velocity_iterations": 4,
++        "velocity_limit_policy": unrestricted_velocity_policy(),
+     }
+     assert first["virtual_leg"]["asset_bundle_hash"] == ASSET_BUNDLE_V2.bundle_hash
+     assert len(first["virtual_leg"]["semantic_sha256"]) == 64
+@@ -120,6 +124,19 @@
+ 
+     with pytest.raises(ContractMismatchError, match="embedded hash"):
+         validate_contract(changed, saved)
++
++
++def test_contract_rejects_correctly_hashed_historical_braking_physics() -> None:
++    current = _contract()
++    historical = deepcopy(current)
++    historical["schemas"]["physics"] = "PhysicsV4"
++    del historical["task"]["physics"]["velocity_limit_policy"]
++    payload = {key: value for key, value in historical.items() if key != "contract_hash"}
++    historical["contract_hash"] = hashlib.sha256(
++        json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("ascii")
++    ).hexdigest().upper()
++    with pytest.raises(ContractMismatchError, match="does not match the current runtime"):
++        validate_contract(historical, current)
+ 
+ 
+ def test_contract_rejects_historical_v3_contract() -> None:
+--- before/wheelleg_dreamwaq/tests/unit/test_physics.py
++++ after/wheelleg_dreamwaq/tests/unit/test_physics.py
+@@ -1,6 +1,9 @@
+ from __future__ import annotations
+ 
+ import pytest
++import json
++import math
++import struct
+ 
+ from wheelleg_dreamwaq.schemas.physics import (
+     CONTROL_DT_S,
+@@ -8,11 +11,13 @@
+     SIM_DT_S,
+     SOLVER_POSITION_ITERATIONS,
+     SOLVER_VELOCITY_ITERATIONS,
++    UNRESTRICTED_SIM_VELOCITY,
++    unrestricted_velocity_policy,
+     validate_phase1_physics,
+ )
+ 
+ 
+-def test_phase1_v4_physics_constants_are_frozen() -> None:
++def test_physics_v5_retains_timing_and_solver_constants() -> None:
+     assert SIM_DT_S == 0.005
+     assert DECIMATION == 4
+     assert CONTROL_DT_S == 0.02
+@@ -24,6 +29,12 @@
+         solver_position_iterations=SOLVER_POSITION_ITERATIONS,
+         solver_velocity_iterations=SOLVER_VELOCITY_ITERATIONS,
+     )
++
++
++def test_unrestricted_velocity_policy_uses_a_finite_float32_sentinel() -> None:
++    assert math.isfinite(UNRESTRICTED_SIM_VELOCITY)
++    assert struct.unpack("f", struct.pack("f", UNRESTRICTED_SIM_VELOCITY))[0] == UNRESTRICTED_SIM_VELOCITY
++    assert json.loads(json.dumps(unrestricted_velocity_policy(), allow_nan=False)) == unrestricted_velocity_policy()
+ 
+ 
+ @pytest.mark.parametrize(
+--- before/wheelleg_dreamwaq/scripts/check_unrestricted_dynamics.py
++++ after/wheelleg_dreamwaq/scripts/check_unrestricted_dynamics.py
+@@ -0,0 +1,202 @@
++"""Read back PhysicsV5 and test speed-cap removal without training."""
++from __future__ import annotations
++
++import argparse
++from copy import deepcopy
++import json
++import os
++import traceback
++from pathlib import Path
++
++os.environ.setdefault("OMNI_KIT_ACCEPT_EULA", "YES")
++
++from isaaclab.app import AppLauncher
++
++parser = argparse.ArgumentParser(description=__doc__)
++parser.add_argument("--output", type=Path, required=True)
++parser.add_argument("--steps", type=int, default=100)
++parser.add_argument("--randomized", action="store_true")
++AppLauncher.add_app_launcher_args(parser)
++args = parser.parse_args()
++app_launcher = AppLauncher(args)
++simulation_app = app_launcher.app
++
++import torch
++import isaaclab.sim as sim_utils
++from isaaclab.assets import RigidObject, RigidObjectCfg
++from pxr import PhysxSchema, Usd, UsdPhysics
++
++from wheelleg_dreamwaq.assets.asset_contract import ASSET_BUNDLE_V2
++from wheelleg_dreamwaq.schemas.physics import (
++    PHYSICS_SCHEMA_VERSION,
++    UNRESTRICTED_SIM_VELOCITY,
++    unrestricted_velocity_policy,
++)
++from wheelleg_dreamwaq.schemas.randomization import FUDAN_STYLE_DOMAIN_RANDOMIZATION_V1
++from wheelleg_dreamwaq.schemas.dreamwaq_manifest import build_base_task_contract_from_configs
++from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.env import WheelLegFlatEnv
++from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.env_cfg import WheelLegFlatEnvCfg
++
++
++class ProbeEnv(WheelLegFlatEnv):
++    def _setup_scene(self) -> None:
++        super()._setup_scene()
++        self.speed_probes = {}
++        for index, (label, limit) in enumerate((
++            ("historical_caps", 100.0),
++            ("unrestricted", UNRESTRICTED_SIM_VELOCITY),
++        )):
++            cfg = RigidObjectCfg(
++                prim_path=f"/World/{label}",
++                spawn=sim_utils.CuboidCfg(
++                    size=(0.2, 0.2, 0.2),
++                    rigid_props=sim_utils.RigidBodyPropertiesCfg(
++                        disable_gravity=True,
++                        linear_damping=0.0,
++                        angular_damping=0.0,
++                        max_linear_velocity=limit,
++                        max_angular_velocity=limit,
++                    ),
++                    collision_props=sim_utils.CollisionPropertiesCfg(collision_enabled=False),
++                    mass_props=sim_utils.MassPropertiesCfg(mass=1.0),
++                ),
++                init_state=RigidObjectCfg.InitialStateCfg(pos=(0.0, 0.0, 100.0 + index)),
++            )
++            body = RigidObject(cfg)
++            self.speed_probes[label] = body
++            self.scene.rigid_objects[label] = body
++
++
++def main() -> None:
++    if args.steps <= 0:
++        raise ValueError("--steps must be positive")
++    cfg = WheelLegFlatEnvCfg()
++    cfg.scene.num_envs = 8
++    cfg.sim.device = args.device
++    if args.randomized:
++        cfg.randomization = FUDAN_STYLE_DOMAIN_RANDOMIZATION_V1
++    env = ProbeEnv(cfg)
++    try:
++        env.reset()
++        joint_limits = env.robot.root_physx_view.get_dof_max_velocities()
++        assert tuple(joint_limits.shape) == (8, 26)
++        assert torch.equal(joint_limits, torch.full_like(joint_limits, UNRESTRICTED_SIM_VELOCITY))
++        bodies = []
++        root = env.sim.stage.GetPrimAtPath("/World/envs/env_0/Robot")
++        for prim in Usd.PrimRange(root):
++            if prim.HasAPI(UsdPhysics.RigidBodyAPI):
++                api = PhysxSchema.PhysxRigidBodyAPI(prim)
++                linear = api.GetMaxLinearVelocityAttr().Get()
++                angular = api.GetMaxAngularVelocityAttr().Get()
++                assert linear == UNRESTRICTED_SIM_VELOCITY, (str(prim.GetPath()), linear)
++                assert angular == UNRESTRICTED_SIM_VELOCITY, (str(prim.GetPath()), angular)
++                bodies.append({"path": str(prim.GetPath()), "linear_limit": linear, "angular_limit_deg_s": angular})
++        assert len(bodies) == 27
++        historical_cache_rejected = None
++        if args.randomized:
++            cache = env.closed_chain_reset_cache_artifact
++            assert cache["identity"]["physics_schema_version"] == PHYSICS_SCHEMA_VERSION
++            historical = deepcopy(cache)
++            historical["identity"]["physics_schema_version"] = "PhysicsV4"
++            try:
++                env._load_closed_chain_reset_cache(historical)
++            except RuntimeError as error:
++                assert "identity mismatch" in str(error)
++                historical_cache_rejected = True
++            else:
++                raise AssertionError("Historical PhysicsV4 cache was accepted")
++        params = {
++            "effort": env.robot.root_physx_view.get_dof_max_forces(),
++            "damping": env.robot.root_physx_view.get_dof_dampings(),
++            "armature": env.robot.root_physx_view.get_dof_armatures(),
++        }
++        for name, actuator in env.robot.actuators.items():
++            if args.randomized and name != "passive":
++                continue  # Realized active gains/efforts remain managed by the existing profile.
++            group_cfg = cfg.robot_cfg.actuators[name]
++            for parameter, expected in (
++                ("effort", group_cfg.effort_limit_sim),
++                ("damping", group_cfg.damping),
++                ("armature", group_cfg.armature),
++            ):
++                indices = actuator.joint_indices
++                if isinstance(indices, torch.Tensor):
++                    indices = indices.to(params[parameter].device)
++                actual = params[parameter][:, indices]
++                assert torch.allclose(actual, torch.full_like(actual, expected), rtol=0., atol=1.e-6)
++        for body in env.speed_probes.values():
++            state = body.data.default_root_state.clone()
++            state[:, 7] = 200.0
++            state[:, 10] = 10.0
++            body.write_root_state_to_sim(state)
++        for _ in range(3):
++            env.sim.step(render=False)
++            for body in env.speed_probes.values():
++                body.update(env.physics_dt)
++        probe_results = {
++            label: {
++                "linear_speed_mps": float(body.data.root_com_lin_vel_w.norm(dim=-1)[0]),
++                "angular_speed_rad_s": float(body.data.root_link_ang_vel_w.norm(dim=-1)[0]),
++            }
++            for label, body in env.speed_probes.items()
++        }
++        assert abs(probe_results["unrestricted"]["linear_speed_mps"] - 200.0) < 1.e-3
++        assert abs(probe_results["unrestricted"]["angular_speed_rad_s"] - 10.0) < 1.e-3
++        assert probe_results["historical_caps"]["linear_speed_mps"] < 150.0
++        assert probe_results["historical_caps"]["angular_speed_rad_s"] < 5.0
++        observations, _ = env.reset()
++        max_loop_error = 0.0
++        reset_count = 0
++        generator = torch.Generator(device=env.device).manual_seed(20261011)
++        with torch.inference_mode():
++            for _ in range(args.steps):
++                actions = 2.0 * torch.rand((8, 6), generator=generator, device=env.device) - 1.0
++                observations, rewards, terminated, truncated, _ = env.step(actions)
++                assert torch.isfinite(observations["policy"]).all()
++                assert torch.isfinite(observations["critic"]).all()
++                assert torch.isfinite(rewards).all()
++                anchors = env._world_anchors(env._loop_body_ids, env._loop_local_anchors).reshape(8, -1, 2, 3)
++                loop_error = torch.linalg.vector_norm(anchors[:, :, 0] - anchors[:, :, 1], dim=-1)
++                max_loop_error = max(max_loop_error, float(loop_error.max()))
++                reset_count += int((terminated | truncated).sum())
++        assert max_loop_error <= 0.005
++        report = {
++            "physics_schema_version": PHYSICS_SCHEMA_VERSION,
++            "velocity_limit_policy": unrestricted_velocity_policy(),
++            "base_task_contract": build_base_task_contract_from_configs(
++                asset_bundle_hash=ASSET_BUNDLE_V2.bundle_hash,
++                env_cfg=cfg,
++                clip_actions=1.0,
++            ),
++            "randomized": args.randomized,
++            "historical_cache_rejected": historical_cache_rejected,
++            "robot_bodies": bodies,
++            "joint_velocity_limit_shape": list(joint_limits.shape),
++            "joint_velocity_limits": joint_limits[0].tolist(),
++            "motor_effort_damping_armature": {name: value[0].tolist() for name, value in params.items()},
++            "free_body_probes": probe_results,
++            "steps": args.steps,
++            "policy_shape": list(observations["policy"].shape),
++            "critic_shape": list(observations["critic"].shape),
++            "max_loop_error_m": max_loop_error,
++            "reset_count": reset_count,
++            "finite": True,
++        }
++        args.output.parent.mkdir(parents=True, exist_ok=True)
++        args.output.write_text(json.dumps(report, indent=2, sort_keys=True, allow_nan=False), encoding="utf-8")
++        print("UNRESTRICTED_DYNAMICS_VERIFIED", args.output, flush=True)
++    finally:
++        env.close()
++
++
++if __name__ == "__main__":
++    try:
++        main()
++    except Exception:
++        error = traceback.format_exc()
++        args.output.parent.mkdir(parents=True, exist_ok=True)
++        args.output.with_suffix(".error.txt").write_text(error, encoding="utf-8")
++        print(error, flush=True)
++        raise
++    finally:
++        simulation_app.close()
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/physics.py
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/physics.py
+@@ -0,0 +1,31 @@
++"""PhysicsV5 runtime identity; this module has no Isaac dependency."""
++
++PHYSICS_SCHEMA_VERSION = "PhysicsV5"
++UNRESTRICTED_SIM_VELOCITY = float.fromhex("0x1.fffffep+127")
++
++
++def unrestricted_velocity_policy() -> dict:
++    return {
++        "version": "UnrestrictedVelocityPolicyV1",
++        "rigid_body_linear_speed_limit": "disabled",
++        "rigid_body_angular_speed_limit": "disabled",
++        "joint_speed_limit": "disabled",
++        "external_speed_limit_force": False,
++        "external_speed_limit_torque": False,
++        "runtime_velocity_write": False,
++        "isaac_velocity_sentinel": UNRESTRICTED_SIM_VELOCITY,
++    }
++
++
++def validate_policy_physics(payload: dict) -> None:
++    if payload.get("schemas", {}).get("physics") != PHYSICS_SCHEMA_VERSION:
++        raise ValueError("Policy physics differs from the current PhysicsV5 runtime; old policies require historical runtime")
++    if payload.get("velocity_limit_policy") != unrestricted_velocity_policy():
++        raise ValueError("Policy velocity-limit policy differs from the unrestricted runtime")
++    rigid = payload.get("rigid_body_properties", {})
++    for field in ("max_linear_velocity", "max_angular_velocity"):
++        if rigid.get(field) != UNRESTRICTED_SIM_VELOCITY:
++            raise ValueError(f"Policy retains a rigid-body speed limit: {field}")
++    for name in ("legs", "wheels", "passive"):
++        if payload.get("actuators", {}).get(name, {}).get("velocity_limit_sim") != UNRESTRICTED_SIM_VELOCITY:
++            raise ValueError(f"Policy retains a joint speed limit: {name}")
+--- before/wheelleg_dreamwaq/sim2sim/mujoco/tests/test_physics_contract.py
++++ after/wheelleg_dreamwaq/sim2sim/mujoco/tests/test_physics_contract.py
+@@ -0,0 +1,49 @@
++from __future__ import annotations
++
++from copy import deepcopy
++
++import pytest
++
++from wheelleg_mujoco.physics import (
++    PHYSICS_SCHEMA_VERSION,
++    UNRESTRICTED_SIM_VELOCITY,
++    unrestricted_velocity_policy,
++    validate_policy_physics,
++)
++
++
++def _payload() -> dict:
++    return {
++        "schemas": {"physics": PHYSICS_SCHEMA_VERSION},
++        "velocity_limit_policy": unrestricted_velocity_policy(),
++        "rigid_body_properties": {
++            "max_linear_velocity": UNRESTRICTED_SIM_VELOCITY,
++            "max_angular_velocity": UNRESTRICTED_SIM_VELOCITY,
++        },
++        "actuators": {
++            name: {"velocity_limit_sim": UNRESTRICTED_SIM_VELOCITY}
++            for name in ("legs", "wheels", "passive")
++        },
++    }
++
++
++def test_accepts_current_unrestricted_policy() -> None:
++    validate_policy_physics(_payload())
++
++
++@pytest.mark.parametrize("mutation", ("old_schema", "missing", "torque", "linear", "angular", "active", "passive"))
++def test_rejects_old_physics_or_policies_retaining_speed_limits(mutation: str) -> None:
++    payload = deepcopy(_payload())
++    if mutation == "old_schema":
++        payload["schemas"]["physics"] = "PhysicsV4"
++    elif mutation == "missing":
++        del payload["velocity_limit_policy"]
++    elif mutation == "torque":
++        payload["velocity_limit_policy"]["external_speed_limit_torque"] = True
++    elif mutation in ("linear", "angular"):
++        payload["rigid_body_properties"][f"max_{mutation}_velocity"] = 100.0
++    else:
++        name = "legs" if mutation == "active" else "passive"
++        payload["actuators"][name]["velocity_limit_sim"] = 45.0 if mutation == "active" else 80.0
++    with pytest.raises(ValueError, match="physics|velocity-limit|speed limit"):
++        validate_policy_physics(payload)
+--- before/wheelleg_dreamwaq/tests/integration/test_unrestricted_dynamics.py
++++ after/wheelleg_dreamwaq/tests/integration/test_unrestricted_dynamics.py
+@@ -0,0 +1,29 @@
++from __future__ import annotations
++
++import json
++from pathlib import Path
++
++import pytest
++
++from conftest import run_project_script
++
++
++@pytest.mark.integration
++@pytest.mark.parametrize("randomized", (False, True))
++def test_isaac_has_no_operational_velocity_caps(tmp_path: Path, randomized: bool) -> None:
++    output = tmp_path / "unrestricted-dynamics.json"
++    arguments = ["scripts/check_unrestricted_dynamics.py", "--output", str(output), "--headless"]
++    if randomized:
++        arguments.append("--randomized")
++    run_project_script(arguments)
++    report = json.loads(output.read_text(encoding="utf-8"))
++    assert report["physics_schema_version"] == "PhysicsV5"
++    assert len(report["robot_bodies"]) == 27
++    assert report["joint_velocity_limit_shape"] == [8, 26]
++    assert report["policy_shape"] == [8, 25]
++    assert report["critic_shape"] == [8, 41]
++    assert report["free_body_probes"]["unrestricted"]["linear_speed_mps"] == pytest.approx(200.0, abs=1.e-3)
++    assert report["free_body_probes"]["unrestricted"]["angular_speed_rad_s"] == pytest.approx(10.0, abs=1.e-3)
++    assert report["finite"] is True
++    if randomized:
++        assert report["historical_cache_rejected"] is True

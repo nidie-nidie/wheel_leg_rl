@@ -3,8 +3,12 @@ from __future__ import annotations
 import torch
 
 from wheelleg_dreamwaq.schemas.normalization import NormalizationV1
+from wheelleg_dreamwaq.schemas.observation import ActorObsSlices, CriticObsSlices
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.control import ControlLimits, compute_action_targets
-from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.observations import build_observations
+from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.observations import (
+    ActorObservationNoiseV1,
+    build_observations,
+)
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.rewards import RewardWeights, compute_reward, compute_reward_terms
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.state import WheelLegState
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.terminations import TerminationLimits, compute_dones
@@ -59,6 +63,70 @@ def test_phase1_observation_dimensions_are_frozen() -> None:
     assert critic.shape == (2, 41)
     assert torch.isfinite(actor).all()
     assert torch.isfinite(critic).all()
+
+
+def test_observation_supports_per_environment_leg_reference() -> None:
+    state = _state()
+    references = torch.tensor(
+        [
+            [-0.30, 0.35, -0.30, 0.35],
+            [-0.20, 0.25, -0.20, 0.25],
+        ]
+    )
+    actor, critic = build_observations(
+        state,
+        q_reference=references,
+        normalization=NormalizationV1(),
+    )
+    expected_error = state.joint_position[:, :4] - references
+    assert torch.allclose(actor[:, ActorObsSlices.LEG_POSITION_ERROR], expected_error)
+    assert torch.allclose(critic[:, CriticObsSlices.ACTOR_OBS], actor)
+
+
+def test_actor_noise_is_added_in_physical_units_and_critic_stays_clean() -> None:
+    state = _state(1)
+    normalization = NormalizationV1()
+    reference = torch.tensor([-0.30, 0.35, -0.30, 0.35])
+    noise = ActorObservationNoiseV1(
+        angular_velocity=torch.full((1, 3), 0.20),
+        projected_gravity=torch.full((1, 3), 0.05),
+        leg_position_error=torch.full((1, 4), 0.02),
+        joint_velocity=torch.full((1, 6), 1.50),
+    )
+    actor, critic = build_observations(
+        state,
+        q_reference=reference,
+        normalization=normalization,
+        actor_noise=noise,
+    )
+    clean_actor, _ = build_observations(
+        state,
+        q_reference=reference,
+        normalization=normalization,
+    )
+
+    assert torch.allclose(
+        actor[:, ActorObsSlices.ANGULAR_VELOCITY]
+        - clean_actor[:, ActorObsSlices.ANGULAR_VELOCITY],
+        torch.full((1, 3), 0.05),
+    )
+    assert torch.allclose(
+        actor[:, ActorObsSlices.PROJECTED_GRAVITY]
+        - clean_actor[:, ActorObsSlices.PROJECTED_GRAVITY],
+        torch.full((1, 3), 0.05),
+    )
+    assert torch.allclose(
+        actor[:, ActorObsSlices.LEG_POSITION_ERROR]
+        - clean_actor[:, ActorObsSlices.LEG_POSITION_ERROR],
+        torch.full((1, 4), 0.02),
+    )
+    assert torch.allclose(
+        actor[:, ActorObsSlices.JOINT_VELOCITY]
+        - clean_actor[:, ActorObsSlices.JOINT_VELOCITY],
+        torch.full((1, 6), 0.075),
+    )
+    assert torch.allclose(critic[:, CriticObsSlices.ACTOR_OBS], clean_actor)
+    assert actor.untyped_storage().data_ptr() != critic.untyped_storage().data_ptr()
 
 
 def test_tracking_reward_prefers_matching_velocity_and_height() -> None:

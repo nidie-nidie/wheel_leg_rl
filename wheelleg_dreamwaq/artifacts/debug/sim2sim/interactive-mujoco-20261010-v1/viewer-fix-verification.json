@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "formal_files_unchanged": 101,
+  "live_data_viewer_failure_s": 1.1999999999999786,
+  "independent_display_errors": {
+    "qpos": 0.0,
+    "qvel": 0.0,
+    "xfrc_applied": 0.0
+  },
+  "base_contact_verified": true,
+  "evidence_sha256": {
+    "play_keyboard.py": "AE0F2B8896CD58C6BC5068953D3F9714F81208F19095247FAEAA14F95C20FDCB",
+    "base_contact.py": "B34B1C0AD9AD3FD685DD9292CC5EC8350588F5C6A99074B3B8D90E7EA1BBE795",
+    "viewer-sync-probe.json": "C2433F6DE8176FD0E9106BEE4768B99F7860F0FD89CD3BF33A553CF73987F95F",
+    "base-contact-verification.json": "10FCE8E6B37294EA483BE351C028D98986661A6385A56B583E82E82DC87E2418",
+    "viewer-fix-report.md": "7056021C85E88C592F03B78D5E8A66871D661BD834F3E0035844A9221C1B8797"
+  }
+}

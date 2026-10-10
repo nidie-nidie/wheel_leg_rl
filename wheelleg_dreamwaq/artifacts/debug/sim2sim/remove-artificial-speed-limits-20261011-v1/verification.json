@@ -1,0 +1,152 @@
+{
+  "architecture_sha256": "43CB011D1AA4C63CED5F343FBC2FF010DFA46E4F33E9D2F45511DCEEC04EB427",
+  "architecture_version": "v0.25",
+  "audit": {
+    "baseline_sources": 212,
+    "changed_source_files": 32,
+    "model_manifest_only_action_version_and_hash_changed": true,
+    "protected_files": 23,
+    "protected_unchanged": true
+  },
+  "contracts": {
+    "action_adapter": "MujocoActionAdapterV2",
+    "evaluation": "MujocoEvaluationContractV3",
+    "physics": "PhysicsV5",
+    "velocity_policy": "UnrestrictedVelocityPolicyV1"
+  },
+  "export_loader": {
+    "current_formal_loader_accepted": true,
+    "debug_evaluation_ran": true,
+    "debug_traces": {
+      "formal_1ms": {
+        "completed_control_ticks": 2,
+        "speed_limit_guard_events": 0
+      },
+      "isaac_sync_5ms": {
+        "completed_control_ticks": 2,
+        "speed_limit_guard_events": 0
+      }
+    },
+    "historical_packages_rejected": {
+      "run-01": "Unsupported policy manifest schema",
+      "run-02": "Unsupported policy manifest schema",
+      "run-03": "Unsupported policy manifest schema",
+      "run-04": "Unsupported policy manifest schema"
+    },
+    "physics_schema_version": "PhysicsV5",
+    "torchscript_golden_max_abs_error": 0.0,
+    "verification_only": "fresh untrained weights, zero optimization updates, no performance claim"
+  },
+  "historical_golden": {
+    "policy_physics_relabelled": false,
+    "runs": [
+      {
+        "actor_sha256": "42DC3644936D5CF6C03049E1912398FC61AF24B41A7BBA5E7BBAA60DB89A0B0D",
+        "historical_physics": "PhysicsV4",
+        "max_abs_error": 0.0,
+        "run": "run-01"
+      },
+      {
+        "actor_sha256": "550C88133A9F2D38A42EDB0E240181745833CE898BD132D158B5BCE834C6609A",
+        "historical_physics": "PhysicsV4",
+        "max_abs_error": 0.0,
+        "run": "run-02"
+      },
+      {
+        "actor_sha256": "70AEDA6D545CAF9C51AA02611AFA3A8471FFE556571F3C4337A3CDA77AAF40CD",
+        "historical_physics": "PhysicsV4",
+        "max_abs_error": 0.0,
+        "run": "run-03"
+      },
+      {
+        "actor_sha256": "EDC3AC9F5DDB7646B8E9043F81AEC0C2A66C9456E95155DADCE9603984D07050",
+        "historical_physics": "PhysicsV4",
+        "max_abs_error": 0.0,
+        "run": "run-04"
+      }
+    ]
+  },
+  "implementation_complete": true,
+  "independent_review": {
+    "additional_review_agents_spawned": 0,
+    "agent": "/root/speed_limit_removal_review",
+    "independent_cpu_tests_passed": 20,
+    "initial_findings_fixed": [
+      "5 live debug interface/old braking omissions",
+      "isolated test import path"
+    ],
+    "over_or_under_deletion_found_after_fixes": false,
+    "remaining_P0_P1": 0,
+    "scope": "deletion boundaries, contracts, engine reports and CPU runtime; no training or performance validation",
+    "user_explicitly_authorized": true
+  },
+  "isaac": {
+    "nominal": {
+      "finite": true,
+      "free_body_probes": {
+        "historical_caps": {
+          "angular_speed_rad_s": 1.7453296184539795,
+          "linear_speed_mps": 100.0
+        },
+        "unrestricted": {
+          "angular_speed_rad_s": 10.000003814697266,
+          "linear_speed_mps": 200.0
+        }
+      },
+      "historical_cache_rejected": null,
+      "max_loop_error_m": 0.0003656577900983393,
+      "physics_schema_version": "PhysicsV5",
+      "randomized": false,
+      "reset_count": 36,
+      "steps": 100
+    },
+    "randomized": {
+      "finite": true,
+      "free_body_probes": {
+        "historical_caps": {
+          "angular_speed_rad_s": 1.7453296184539795,
+          "linear_speed_mps": 100.0
+        },
+        "unrestricted": {
+          "angular_speed_rad_s": 10.000003814697266,
+          "linear_speed_mps": 200.0
+        }
+      },
+      "historical_cache_rejected": true,
+      "max_loop_error_m": 0.00031364147434942424,
+      "physics_schema_version": "PhysicsV5",
+      "randomized": true,
+      "reset_count": 37,
+      "steps": 100
+    }
+  },
+  "next_training": "start a fresh PhysicsV5 run; randomization/terrain changes not applied",
+  "performance_improvement_claimed": false,
+  "tests": {
+    "isaac-integration.xml": {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "tests": 2
+    },
+    "mujoco-isolated-tests.xml": {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "tests": 20
+    },
+    "mujoco-tests-final.xml": {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "tests": 51
+    },
+    "unit-tests-final.xml": {
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "tests": 167
+    }
+  },
+  "training_started": false
+}

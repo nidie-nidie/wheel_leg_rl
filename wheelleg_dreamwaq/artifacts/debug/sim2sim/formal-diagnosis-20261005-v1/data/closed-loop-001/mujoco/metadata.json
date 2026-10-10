@@ -1,0 +1,166 @@
+{
+  "action_sequence_identity": {
+    "content_sha256": null,
+    "file_sha256": null,
+    "key": null,
+    "rows": null,
+    "sidecar_sha256": null,
+    "source": "policy_closed_loop",
+    "source_control_trace_sha256": null
+  },
+  "actor_sha256": "5B714AF635AE3C93BD86853BD9141F0B8888BB49C0F275CBCCD531B6AF53B9BC",
+  "all_hinge_order": [
+    "jIO",
+    "jOP",
+    "jwheel_left",
+    "jIO_dummy_child_link1",
+    "jIO_dummy_child_link2",
+    "jAG",
+    "jGH",
+    "jwheel_right",
+    "jAG_dummy_child_link1",
+    "jAG_dummy_child_link2",
+    "jIJ",
+    "jJM",
+    "jMK",
+    "jKN",
+    "jKN_dummy_child_link1",
+    "jKN_dummy_child_link2",
+    "jMK_dummy_child1",
+    "jMK_dummy_child2",
+    "jAB",
+    "jBE",
+    "jEC",
+    "jCF",
+    "jCF_dummy_child_link1",
+    "jCF_dummy_child_link2",
+    "jEC_dummy_child_link1",
+    "jEC_dummy_child_link2"
+  ],
+  "canonical_from_engine_native": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    -1.0
+  ],
+  "canonical_joint_order": [
+    "jIJ",
+    "jIO",
+    "jAB",
+    "jAG",
+    "jwheel_left",
+    "jwheel_right"
+  ],
+  "collection_id": "9bcc82bff3db4da8ada3f01cd3ad4af7",
+  "command": [
+    0.0,
+    0.0,
+    0.2
+  ],
+  "completed_control_ticks": 1,
+  "contact_active_force_threshold_n": 1.0,
+  "contact_observation_mode": "native",
+  "contact_processing_state": "native_mujoco_contacts",
+  "control_dt_s": 0.02,
+  "engine": "mujoco",
+  "engine_version": "3.14.0",
+  "frozen_files": {
+    "actor": {
+      "path": "artifacts/phase1_v4/formal-4x1000-20261005/exports/run-01/actor.ts",
+      "sha256": "5B714AF635AE3C93BD86853BD9141F0B8888BB49C0F275CBCCD531B6AF53B9BC"
+    },
+    "checkpoint": {
+      "path": "logs/rsl_rl/wheelleg_flat_ppo/2026-10-05_07-11-36_rtx5070_v4-suite-20261005-071132-run01-seed250509479/model_999.pt",
+      "sha256": "04E040272EE3D2682DEFA053062D1EBE9AB3D13652DBC8D4760773A23A58197E"
+    },
+    "model_manifest": {
+      "path": "sim2sim/mujoco/model_manifest.json",
+      "sha256": "C3DB4FE2797F6AC3628F0A9CB5E0B166FFD0CE802776A335922C474A045F7AE0"
+    },
+    "model_xml": {
+      "path": "sim2sim/mujoco/models/wheel_leg_urdf4_v1.xml",
+      "sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1"
+    },
+    "policy_manifest": {
+      "path": "artifacts/phase1_v4/formal-4x1000-20261005/exports/run-01/policy_manifest.json",
+      "sha256": "EC9F42FD7BD5176D1B6865D0A3D67A6B49103899FE44BB056F16E9D048BA90F1"
+    },
+    "source_run_manifest": {
+      "path": "logs/rsl_rl/wheelleg_flat_ppo/2026-10-05_07-11-36_rtx5070_v4-suite-20261005-071132-run01-seed250509479/run_manifest.json",
+      "sha256": "CD3DA566179885DD628A09DC66BD57B17F177C00018FA1EF4F93EABD867A87C7"
+    }
+  },
+  "inference_device": "cpu",
+  "inference_dtype": "float32",
+  "model_manifest_sha256": "C3DB4FE2797F6AC3628F0A9CB5E0B166FFD0CE802776A335922C474A045F7AE0",
+  "model_xml_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "mujoco_ccd_iterations": 35,
+  "mujoco_ccd_tolerance": 1e-06,
+  "mujoco_integrator": "mjINT_EULER",
+  "mujoco_iterations": 100,
+  "mujoco_line_search_iterations": 50,
+  "mujoco_line_search_tolerance": 0.01,
+  "mujoco_noslip_iterations": 0,
+  "mujoco_noslip_tolerance": 1e-06,
+  "mujoco_solver": "mjSOL_NEWTON",
+  "mujoco_source_sha256": {
+    "mujoco_action_adapter": "83080BC57A0399B11610CE5E06B4F607ADA1C0FB995344E23E531658EBBEFD62",
+    "mujoco_contract": "D8BBB3EE8E5C02F5F6669A2BC052A135C9360D5741F28FD35944ECCBD0D7E588",
+    "mujoco_observation_adapter": "DD7F972D77FCCA25378BF403F61A67755C8AB4BA28738C97ABF2BBDD733970BD",
+    "mujoco_runtime": "D327FEDE5A957E8D63CF7BE2D922379456805FE0039046E6525FCFE78E636A4F"
+  },
+  "mujoco_tolerance": 1e-08,
+  "numpy_version": "2.4.6",
+  "observer_mode": "explicit_mujoco_runtime",
+  "physics_dt_s": 0.001,
+  "physics_pipeline": "cpu",
+  "physics_steps_per_action": 20,
+  "policy_manifest_sha256": "EC9F42FD7BD5176D1B6865D0A3D67A6B49103899FE44BB056F16E9D048BA90F1",
+  "python_version": "3.11.16",
+  "r_diag_from_engine_world": [
+    [
+      0.0,
+      -1.0,
+      0.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "random_seed": 0,
+  "render_mode": "headless",
+  "requested_control_ticks": 1,
+  "scenario_hash": "B9F7D938F9FA2769E979364AA33BE4FEB71978F563D45B45BFBC2F76AEA8E056",
+  "scenario_variant": "closed_loop",
+  "schema_version": "Sim2SimDebugTraceV1",
+  "simulation_device": "cpu",
+  "stopped_reason": "none",
+  "stopped_reason_code": 0,
+  "substep_continuity_atol": 1e-12,
+  "termination_reason_codes": {
+    "0": "none",
+    "1": "height",
+    "2": "tilt",
+    "3": "root_linear_velocity",
+    "4": "root_angular_velocity",
+    "5": "joint_velocity",
+    "6": "loop_closure",
+    "7": "virtual_leg_length",
+    "8": "unexpected_contact",
+    "9": "non_finite"
+  },
+  "torch_version": "2.7.0+cpu",
+  "unavailable_fields": {
+    "isaac_host_pd_torque_estimate": "not available in MuJoCo",
+    "physx_internal_drive_torque": "PhysX public API unavailable"
+  }
+}

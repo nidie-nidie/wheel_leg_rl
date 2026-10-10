@@ -1,0 +1,28 @@
+{
+  "schema_version": "StandingBoundaryTraceV1",
+  "engine": "isaac",
+  "sample_count": 499,
+  "sampling": "pre_action_same_timestep",
+  "velocity_output": "CENet normalized output divided by root_linear_velocity_scale",
+  "normalization": {
+    "angular_velocity_scale": 0.25,
+    "angular_velocity_clip": 5.0,
+    "projected_gravity_clip": 1.0,
+    "vx_max_abs": 1.5,
+    "yaw_rate_max_abs": 1.0,
+    "nominal_base_height": 0.2,
+    "height_command_span": 0.04,
+    "leg_position_scale": 1.0,
+    "leg_position_clip": 1.5,
+    "joint_velocity_scale": 0.05,
+    "joint_velocity_clip": 5.0,
+    "root_linear_velocity_scale": 2.0,
+    "root_linear_velocity_clip": 6.0,
+    "joint_acceleration_scale": 0.002,
+    "joint_acceleration_clip": 10.0,
+    "applied_torque_scale": 0.05,
+    "applied_torque_clip": 5.0
+  },
+  "wheel_action_scale": 25.0,
+  "history": "unchanged current production history"
+}

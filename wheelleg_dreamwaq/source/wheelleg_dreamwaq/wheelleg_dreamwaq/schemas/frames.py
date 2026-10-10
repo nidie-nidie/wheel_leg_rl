@@ -32,6 +32,13 @@ def transform_usd_vector_to_control(values: torch.Tensor) -> torch.Tensor:
     return values @ rotation.T
 
 
+def transform_control_vector_to_usd(values: torch.Tensor) -> torch.Tensor:
+    if values.shape[-1] != 3:
+        raise ValueError(f"Expected 3D vectors, got last dimension {values.shape[-1]}")
+    rotation = R_CONTROL_FROM_USD.to(dtype=values.dtype, device=values.device)
+    return values @ rotation
+
+
 def quat_rotate_inverse_wxyz(quaternion: torch.Tensor, vector: torch.Tensor) -> torch.Tensor:
     if quaternion.shape[-1] != 4 or vector.shape[-1] != 3:
         raise ValueError("Expected quaternion [...,4] and vector [...,3]")

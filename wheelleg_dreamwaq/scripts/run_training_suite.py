@@ -20,6 +20,9 @@ SIM2SIM_PROJECT = PROJECT_ROOT / "sim2sim" / "mujoco"
 FORMAL_RUN_COUNT = 4
 FORMAL_ITERATIONS = 1000
 SUITE_SOURCE_SCHEMA_VERSION = "TrainingSuiteSourceV1"
+TRAINING_SUITE_SCHEMA_VERSION = "TrainingSuiteV3"
+TRAINING_SUITE_ARTIFACT_DIR = "phase1_randomized_v3"
+TRAINING_RUN_PREFIX = "phase1r-v3"
 RUN_DIR_PATTERN = re.compile(r"^\[INFO\] Run directory: (.+)$")
 MONITOR_TAGS = (
     "Train/mean_reward",
@@ -104,11 +107,14 @@ def _training_fingerprint(run_manifest: dict) -> tuple[dict, str]:
     payload = json.loads(json.dumps(run_manifest))
     for key in ("command", "created_at", "seed", "resume"):
         payload.pop(key, None)
+    payload.pop("randomization_audit", None)
+    payload.pop("closed_chain_reset_cache", None)
     randomness = payload.get("randomness", {})
     randomness.pop("master_seed", None)
     randomness.pop("effective_process_seed", None)
+    randomness.pop("environment_streams", None)
     # The raw YAML files retain per-run seed, run name, and log directory for provenance.
-    # Phase1ContractV4 is the canonical seed-independent environment/agent semantic record.
+    # Phase1RandomizedContractV3 is the canonical seed-independent semantic record.
     resolved_hashes = payload.get("resolved_config_sha256", {})
     resolved_hashes.pop("environment", None)
     resolved_hashes.pop("agent", None)
@@ -385,7 +391,8 @@ def main() -> None:
     _validate_suite_mode(args.mode, runs=args.runs, iterations=args.iterations)
 
     suite_id = datetime.now().strftime("%Y%m%d-%H%M%S")
-    suite_dir = (args.output or PROJECT_ROOT / "artifacts" / "phase1_v4" / f"training-suite-{suite_id}").resolve()
+    suite_root = PROJECT_ROOT / "artifacts" / TRAINING_SUITE_ARTIFACT_DIR
+    suite_dir = (args.output or suite_root / f"training-suite-{suite_id}").resolve()
     suite_dir.mkdir(parents=True, exist_ok=False)
     suite_source_payload, suite_source_hash = _suite_source_fingerprint()
     _write_json(suite_dir / "suite-source-fingerprint.json", suite_source_payload)
@@ -397,7 +404,7 @@ def main() -> None:
             seeds.append(candidate)
     suite_manifest_path = suite_dir / "training-suite-manifest.json"
     suite_manifest = {
-        "schema_version": "TrainingSuiteV2",
+        "schema_version": TRAINING_SUITE_SCHEMA_VERSION,
         "created_at": datetime.now().astimezone().isoformat(),
         "suite_id": suite_id,
         "suite_mode": args.mode,
@@ -419,7 +426,7 @@ def main() -> None:
     suite_hard_anomalies = set()
     for index, seed in enumerate(seeds, start=1):
         _assert_suite_source_fingerprint(suite_source_hash)
-        run_name = f"v4-suite-{suite_id}-run{index:02d}-seed{seed}"
+        run_name = f"{TRAINING_RUN_PREFIX}-suite-{suite_id}-run{index:02d}-seed{seed}"
         record = {"index": index, "seed": seed, "run_name": run_name, "status": "training"}
         suite_manifest["runs"].append(record)
         _write_json(suite_manifest_path, suite_manifest)
@@ -434,6 +441,8 @@ def main() -> None:
             str(seed),
             "--run-name",
             run_name,
+            "--randomization-profile",
+            "fudan-v1",
             "--headless",
         ]
         return_code, run_dir = _stream_process(
@@ -445,11 +454,19 @@ def main() -> None:
         if return_code != 0 or run_dir is None:
             record.update({"status": "training_failed", "return_code": return_code})
             _write_json(suite_manifest_path, suite_manifest)
-            raise RuntimeError(f"Training run {index} failed with code {return_code}")
+            continue
         _assert_suite_source_fingerprint(suite_source_hash)
         training_summary = json.loads((run_dir / "training_summary.json").read_text(encoding="utf-8"))
         if training_summary["completed_iterations"] != args.iterations or training_summary["resumed_from"] is not None:
-            raise RuntimeError(f"Run {index} did not complete as a fresh {args.iterations}-iteration training")
+            record.update(
+                {
+                    "status": "training_summary_rejected",
+                    "run_dir": str(run_dir),
+                    "training_summary": str(run_dir / "training_summary.json"),
+                }
+            )
+            _write_json(suite_manifest_path, suite_manifest)
+            continue
         run_manifest_path = run_dir / "run_manifest.json"
         run_manifest = json.loads(run_manifest_path.read_text(encoding="utf-8"))
         if (
@@ -459,9 +476,8 @@ def main() -> None:
             or run_manifest.get("max_iterations") != args.iterations
         ):
             record.update({"status": "run_manifest_rejected", "run_manifest": str(run_manifest_path)})
-            suite_manifest["status"] = "failed"
             _write_json(suite_manifest_path, suite_manifest)
-            raise RuntimeError(f"Run {index} manifest does not describe the requested fresh training")
+            continue
         fingerprint_payload, fingerprint_hash = _training_fingerprint(run_manifest)
         if reference_fingerprint is None:
             reference_fingerprint = (fingerprint_payload, fingerprint_hash)
@@ -488,33 +504,33 @@ def main() -> None:
                     "run_manifest": str(run_manifest_path),
                 }
             )
-            suite_manifest["status"] = "failed"
             _write_json(suite_manifest_path, suite_manifest)
-            raise RuntimeError(f"Run {index} differs from the suite training fingerprint")
+            continue
         monitor_report = _monitor_report(suite_dir / "monitor" / f"run-{index:02d}")
         suite_warnings.update(monitor_report["warnings"])
         suite_hard_anomalies.update(monitor_report["hard_anomalies"])
         checkpoint = Path(training_summary["final_checkpoint"])
-        if monitor_report["hard_anomalies"]:
-            record.update(
-                {
-                    "status": "monitor_blocked",
-                    "run_dir": str(run_dir),
-                    "checkpoint": str(checkpoint),
-                    "run_manifest": str(run_manifest_path),
-                    "training_fingerprint_hash": fingerprint_hash,
-                    "monitor": monitor_report,
-                }
-            )
-            suite_manifest["status"] = "review_required"
-            suite_manifest["training_monitor_gate"] = {
-                "status": "hard_anomaly",
-                "warnings": sorted(suite_warnings),
-                "hard_anomalies": sorted(suite_hard_anomalies),
+        record.update(
+            {
+                "status": "trained_monitor_anomaly" if monitor_report["hard_anomalies"] else "trained",
+                "run_dir": str(run_dir),
+                "checkpoint": str(checkpoint),
+                "run_manifest": str(run_manifest_path),
+                "training_fingerprint_hash": fingerprint_hash,
+                "monitor": monitor_report,
             }
-            _write_json(suite_manifest_path, suite_manifest)
-            raise RuntimeError(f"Training run {index} produced a blocking monitor anomaly")
+        )
+        _write_json(suite_manifest_path, suite_manifest)
 
+    for record in suite_manifest["runs"]:
+        checkpoint_value = record.get("checkpoint")
+        if checkpoint_value is None:
+            continue
+        index = int(record["index"])
+        checkpoint = Path(checkpoint_value)
+        training_summary = json.loads(
+            (Path(record["run_dir"]) / "training_summary.json").read_text(encoding="utf-8")
+        )
         export_dir = suite_dir / "exports" / f"run-{index:02d}"
         export_command = [
             sys.executable,
@@ -524,9 +540,14 @@ def main() -> None:
             "--output",
             str(export_dir),
         ]
-        _assert_suite_source_fingerprint(suite_source_hash)
-        _run_checked(export_command, suite_dir / f"run-{index:02d}-export.log")
-        _assert_suite_source_fingerprint(suite_source_hash)
+        try:
+            _assert_suite_source_fingerprint(suite_source_hash)
+            _run_checked(export_command, suite_dir / f"run-{index:02d}-export.log")
+            _assert_suite_source_fingerprint(suite_source_hash)
+        except Exception as error:
+            record.update({"status": "export_failed", "export_error": f"{type(error).__name__}: {error}"})
+            _write_json(suite_manifest_path, suite_manifest)
+            continue
 
         evaluation_dir = suite_dir / "evaluation" / f"run-{index:02d}"
         evaluation_command = [
@@ -557,19 +578,25 @@ def main() -> None:
                     str(training_summary["completed_iterations"]),
                 )
             )
-        _assert_suite_source_fingerprint(suite_source_hash)
-        _run_checked(evaluation_command, suite_dir / f"run-{index:02d}-evaluation.log")
-        _assert_suite_source_fingerprint(suite_source_hash)
+        try:
+            _assert_suite_source_fingerprint(suite_source_hash)
+            _run_checked(evaluation_command, suite_dir / f"run-{index:02d}-evaluation.log")
+            _assert_suite_source_fingerprint(suite_source_hash)
+        except Exception as error:
+            record.update(
+                {
+                    "status": "evaluation_failed",
+                    "export_dir": str(export_dir),
+                    "evaluation_error": f"{type(error).__name__}: {error}",
+                }
+            )
+            _write_json(suite_manifest_path, suite_manifest)
+            continue
         evaluation_summary = evaluation_dir / "summary.json"
         evaluation_summaries.append(evaluation_summary)
         record.update(
             {
-                "status": "completed",
-                "run_dir": str(run_dir),
-                "checkpoint": str(checkpoint),
-                "run_manifest": str(run_manifest_path),
-                "training_fingerprint_hash": fingerprint_hash,
-                "monitor": monitor_report,
+                "status": "completed_monitor_anomaly" if record["monitor"]["hard_anomalies"] else "completed",
                 "export_dir": str(export_dir),
                 "evaluation_summary": str(evaluation_summary),
             }
@@ -582,7 +609,13 @@ def main() -> None:
         "warnings": sorted(suite_warnings),
         "hard_anomalies": sorted(suite_hard_anomalies),
     }
-    if args.mode == "formal":
+    completed_evaluations = len(evaluation_summaries)
+    incomplete_records = [
+        record
+        for record in suite_manifest["runs"]
+        if record.get("status") not in {"completed", "completed_monitor_anomaly"}
+    ]
+    if args.mode == "formal" and completed_evaluations == args.runs:
         _assert_suite_source_fingerprint(suite_source_hash)
         ranking_command = [
             "uv",
@@ -599,6 +632,22 @@ def main() -> None:
         _assert_suite_source_fingerprint(suite_source_hash)
         ranking = json.loads(ranking_path.read_text(encoding="utf-8"))
         ranking["training_monitor_gate"] = monitor_gate
+    elif args.mode == "formal":
+        ranking = {
+            "schema_version": "TrainingSuiteIncompleteV1",
+            "suite_mode": "formal",
+            "evaluation_summaries": [str(path.resolve()) for path in evaluation_summaries],
+            "expected_evaluation_count": args.runs,
+            "completed_evaluation_count": completed_evaluations,
+            "training_monitor_gate": monitor_gate,
+            "phase1_qualified": False,
+            "qualification_status": "incomplete_training_or_evaluation",
+            "failed_runs": [
+                {"index": record["index"], "status": record.get("status")}
+                for record in incomplete_records
+            ],
+            "selected": None,
+        }
     else:
         ranking = {
             "schema_version": "TrainingSuiteSmokeV1",
@@ -614,16 +663,27 @@ def main() -> None:
         }
     _write_json(ranking_path, ranking)
     suite_manifest["status"] = (
-        "review_required" if suite_hard_anomalies else "completed_with_warnings" if suite_warnings else "completed"
+        "failed"
+        if incomplete_records
+        else "review_required"
+        if suite_hard_anomalies
+        else "completed_with_warnings"
+        if suite_warnings
+        else "completed"
     )
     suite_manifest["training_monitor_gate"] = monitor_gate
     suite_manifest["ranking_summary"] = str(ranking_path)
     _write_json(suite_manifest_path, suite_manifest)
     latest_pointer = "latest_training_suite.txt" if args.mode == "formal" else "latest_training_smoke.txt"
-    (PROJECT_ROOT / "artifacts" / "phase1_v4" / latest_pointer).write_text(
+    suite_root.mkdir(parents=True, exist_ok=True)
+    (suite_root / latest_pointer).write_text(
         str(suite_dir), encoding="utf-8"
     )
     print(json.dumps({"suite_dir": str(suite_dir), "ranking_summary": str(ranking_path)}, indent=2), flush=True)
+    if incomplete_records:
+        raise RuntimeError(
+            f"Training suite completed with {len(incomplete_records)} incomplete run(s); see {suite_manifest_path}"
+        )
 
 
 if __name__ == "__main__":

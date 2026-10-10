@@ -1,0 +1,86 @@
+{
+  "completed_control_ticks": 33,
+  "contact_force_threshold_n": 1.0,
+  "control_dt_s": 0.02,
+  "frozen_files": {
+    "actor": {
+      "path": "artifacts/phase1_v4/formal-4x1000-20261005/exports/run-01/actor.ts",
+      "sha256": "5B714AF635AE3C93BD86853BD9141F0B8888BB49C0F275CBCCD531B6AF53B9BC"
+    },
+    "checkpoint": {
+      "path": "logs/rsl_rl/wheelleg_flat_ppo/2026-10-05_07-11-36_rtx5070_v4-suite-20261005-071132-run01-seed250509479/model_999.pt",
+      "sha256": "04E040272EE3D2682DEFA053062D1EBE9AB3D13652DBC8D4760773A23A58197E"
+    },
+    "model_manifest": {
+      "path": "sim2sim/mujoco/model_manifest.json",
+      "sha256": "C3DB4FE2797F6AC3628F0A9CB5E0B166FFD0CE802776A335922C474A045F7AE0"
+    },
+    "model_xml": {
+      "path": "sim2sim/mujoco/models/wheel_leg_urdf4_v1.xml",
+      "sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1"
+    },
+    "policy_manifest": {
+      "path": "artifacts/phase1_v4/formal-4x1000-20261005/exports/run-01/policy_manifest.json",
+      "sha256": "EC9F42FD7BD5176D1B6865D0A3D67A6B49103899FE44BB056F16E9D048BA90F1"
+    },
+    "source_run_manifest": {
+      "path": "logs/rsl_rl/wheelleg_flat_ppo/2026-10-05_07-11-36_rtx5070_v4-suite-20261005-071132-run01-seed250509479/run_manifest.json",
+      "sha256": "CD3DA566179885DD628A09DC66BD57B17F177C00018FA1EF4F93EABD867A87C7"
+    }
+  },
+  "initial_state": {
+    "active_joint_position_canonical": [
+      -0.33367151,
+      0.33367157,
+      -0.33367088,
+      0.33367112,
+      0.0,
+      -0.0
+    ],
+    "base_com_position_world": [
+      -3.1987592808563337e-07,
+      0.0039364818266307555,
+      0.20973755655123638
+    ],
+    "base_rpy_control_rad": [
+      0.0,
+      0.08726646259971647,
+      0.0
+    ],
+    "loop_closure_error_m": [
+      6.528927706228321e-07,
+      6.528927706228321e-07,
+      7.047626794526658e-07,
+      7.047626794526658e-07,
+      3.8439158622542654e-07,
+      3.8439158622542654e-07,
+      2.588366246284947e-07,
+      2.588366246284947e-07
+    ],
+    "pitch_deg": 5.0
+  },
+  "model_has_free_joint": true,
+  "model_path": "sim2sim/mujoco/models/wheel_leg_urdf4_v1.xml",
+  "model_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "mujoco_version": "3.14.0",
+  "numpy_version": "2.4.6",
+  "physics_dt_s": 0.001,
+  "physics_steps_per_action": 20,
+  "requested_control_ticks": 50,
+  "scenario": {
+    "control_ticks": 50,
+    "has_ground_contact": true,
+    "initial_pitch_deg": 5.0,
+    "kind": "grounded_pitch",
+    "model_relative": "sim2sim/mujoco/models/wheel_leg_urdf4_v1.xml",
+    "pulse_amplitude": 0.0,
+    "pulse_channel": null,
+    "pulse_end_tick": 0,
+    "pulse_start_tick": 0,
+    "wheel_common_action": 0.2,
+    "wheel_pulse_mode": null
+  },
+  "scenario_hash": "CB7D8A335795F2B0DE0281E19BE04144F35029B193FEE8508A973240D38572E8",
+  "schema_version": "MujocoIsolationTraceV1",
+  "stopped_reason": "tilt"
+}

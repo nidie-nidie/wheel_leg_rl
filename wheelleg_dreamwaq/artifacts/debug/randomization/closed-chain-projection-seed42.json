@@ -1,0 +1,80 @@
+{
+  "num_envs": 8,
+  "rows": [
+    {
+      "active_reference_error_max_rad": 0.0,
+      "joint_speed_max_rad_s": 0.0,
+      "length_error_max_m": 0.0071150511503219604,
+      "loop_error_max_m": 0.012225202284753323,
+      "phi0_error_max_rad": 0.02545475959777832,
+      "step": 0,
+      "wheel_error_max_m": 0.008793868124485016
+    },
+    {
+      "active_reference_error_max_rad": 0.009913146495819092,
+      "joint_speed_max_rad_s": 4.930502891540527,
+      "length_error_max_m": 0.0016831308603286743,
+      "loop_error_max_m": 0.0004157059302087873,
+      "phi0_error_max_rad": 0.005995989311486483,
+      "step": 1,
+      "wheel_error_max_m": 0.002083907602354884
+    },
+    {
+      "active_reference_error_max_rad": 1.633167266845703e-05,
+      "joint_speed_max_rad_s": 0.010959695093333721,
+      "length_error_max_m": 7.82310962677002e-06,
+      "loop_error_max_m": 1.2672121556533966e-06,
+      "phi0_error_max_rad": 2.944469451904297e-05,
+      "step": 5,
+      "wheel_error_max_m": 9.881315236270893e-06
+    },
+    {
+      "active_reference_error_max_rad": 1.4901161193847656e-06,
+      "joint_speed_max_rad_s": 0.0016238954849541187,
+      "length_error_max_m": 5.245208740234375e-06,
+      "loop_error_max_m": 5.840038852511498e-07,
+      "phi0_error_max_rad": 1.823902130126953e-05,
+      "step": 10,
+      "wheel_error_max_m": 6.435318027797621e-06
+    },
+    {
+      "active_reference_error_max_rad": 1.430511474609375e-06,
+      "joint_speed_max_rad_s": 0.0007733968086540699,
+      "length_error_max_m": 4.291534423828125e-06,
+      "loop_error_max_m": 7.27567396552331e-07,
+      "phi0_error_max_rad": 1.5020370483398438e-05,
+      "step": 25,
+      "wheel_error_max_m": 5.260869784251554e-06
+    },
+    {
+      "active_reference_error_max_rad": 1.1622905731201172e-06,
+      "joint_speed_max_rad_s": 0.0008012033649720252,
+      "length_error_max_m": 4.291534423828125e-06,
+      "loop_error_max_m": 7.907449912636366e-07,
+      "phi0_error_max_rad": 1.7642974853515625e-05,
+      "step": 50,
+      "wheel_error_max_m": 5.565079845837317e-06
+    },
+    {
+      "active_reference_error_max_rad": 1.4007091522216797e-06,
+      "joint_speed_max_rad_s": 0.0010198901873081923,
+      "length_error_max_m": 4.976987838745117e-06,
+      "loop_error_max_m": 6.743495646333031e-07,
+      "phi0_error_max_rad": 1.800060272216797e-05,
+      "step": 100,
+      "wheel_error_max_m": 6.113563358667307e-06
+    },
+    {
+      "active_reference_error_max_rad": 1.7881393432617188e-06,
+      "joint_speed_max_rad_s": 0.0013605005806311965,
+      "length_error_max_m": 4.753470420837402e-06,
+      "loop_error_max_m": 7.633119025740598e-07,
+      "phi0_error_max_rad": 1.6808509826660156e-05,
+      "step": 200,
+      "wheel_error_max_m": 5.794387107016519e-06
+    }
+  ],
+  "schema_version": "ClosedChainProjectionPreflightV1",
+  "seed": 42,
+  "steps": 200
+}

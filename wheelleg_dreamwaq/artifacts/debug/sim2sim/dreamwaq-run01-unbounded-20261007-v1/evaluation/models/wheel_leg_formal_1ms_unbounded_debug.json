@@ -1,0 +1,27 @@
+{
+  "debug_only": true,
+  "disabled_limits": [
+    "runtime_action_clip",
+    "leg_target_clip",
+    "active_effort_clip",
+    "active_velocity_guard",
+    "mjcf_joint_range",
+    "mjcf_actuator_ctrlrange",
+    "mjcf_actuator_forcerange"
+  ],
+  "formal_ranking_eligible": false,
+  "limit_profile": "unbounded",
+  "output_model": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\dreamwaq-run01-unbounded-20261007-v1\\evaluation\\models\\wheel_leg_formal_1ms_unbounded_debug.xml",
+  "output_model_sha256": "E8A23D9D3BAB4270D950773C7479FB1217E826CF5273F5F9BA30D8C75586EFD3",
+  "retained_termination_conditions": true,
+  "schema_version": "DebugUnboundedMujocoModelV1",
+  "source_model": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\models\\wheel_leg_urdf4_v1.xml",
+  "source_model_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "timing_profile": {
+    "control_dt_s": 0.02,
+    "name": "formal_1ms",
+    "physics_dt_s": 0.001,
+    "physics_steps_per_action": 20,
+    "torque_refresh_substeps": 1
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "current_formal_loader_accepted": true,
+  "debug_evaluation_ran": true,
+  "debug_traces": {
+    "formal_1ms": {
+      "completed_control_ticks": 2,
+      "speed_limit_guard_events": 0
+    },
+    "isaac_sync_5ms": {
+      "completed_control_ticks": 2,
+      "speed_limit_guard_events": 0
+    }
+  },
+  "historical_packages_rejected": {
+    "run-01": "Unsupported policy manifest schema",
+    "run-02": "Unsupported policy manifest schema",
+    "run-03": "Unsupported policy manifest schema",
+    "run-04": "Unsupported policy manifest schema"
+  },
+  "physics_schema_version": "PhysicsV5",
+  "torchscript_golden_max_abs_error": 0.0,
+  "verification_only": "fresh untrained weights, zero optimization updates, no performance claim"
+}

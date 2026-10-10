@@ -1,0 +1,166 @@
+{
+  "action_sequence_identity": {
+    "content_sha256": "CCAE0E483EF308B004C328F1FAF1ECFB31D1E73068A59B9281FB5909CCAE8655",
+    "file_sha256": "6D970353A3A690955C1D7A13D566D79B8329EC3C6D4B5F5C9EB240EFA879F007",
+    "key": "immediate_bipolar_0",
+    "rows": 20,
+    "sidecar_sha256": null,
+    "source": "npz",
+    "source_control_trace_sha256": null
+  },
+  "actor_sha256": "5B714AF635AE3C93BD86853BD9141F0B8888BB49C0F275CBCCD531B6AF53B9BC",
+  "all_hinge_order": [
+    "jIO",
+    "jOP",
+    "jwheel_left",
+    "jIO_dummy_child_link1",
+    "jIO_dummy_child_link2",
+    "jAG",
+    "jGH",
+    "jwheel_right",
+    "jAG_dummy_child_link1",
+    "jAG_dummy_child_link2",
+    "jIJ",
+    "jJM",
+    "jMK",
+    "jKN",
+    "jKN_dummy_child_link1",
+    "jKN_dummy_child_link2",
+    "jMK_dummy_child1",
+    "jMK_dummy_child2",
+    "jAB",
+    "jBE",
+    "jEC",
+    "jCF",
+    "jCF_dummy_child_link1",
+    "jCF_dummy_child_link2",
+    "jEC_dummy_child_link1",
+    "jEC_dummy_child_link2"
+  ],
+  "canonical_from_engine_native": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    -1.0
+  ],
+  "canonical_joint_order": [
+    "jIJ",
+    "jIO",
+    "jAB",
+    "jAG",
+    "jwheel_left",
+    "jwheel_right"
+  ],
+  "clone_in_fabric": false,
+  "collection_id": "86160349e1634bb88335aab98d8a35e3",
+  "command": [
+    0.0,
+    0.0,
+    0.2
+  ],
+  "completed_control_ticks": 20,
+  "configured_episode_length_s": 10.0,
+  "contact_active_force_threshold_n": 1.0,
+  "contact_observation_mode": "disabled",
+  "contact_processing_state": "baseline_without_contact_report_observer",
+  "control_dt_s": 0.02,
+  "engine": "isaac_sim",
+  "engine_version": "5.1.0.0",
+  "formal_source_sha256": {
+    "formal_action_adapter": "D00C01AEF017DAAC90F9B8FE857EDBF9779A56F7C226AC27E8895B6095DC20A6",
+    "formal_action_schema": "EDF75616BDEEB78024AD6A971599DBC5B46C73E0C59E0DE47AF8075EDA6B404E",
+    "formal_environment": "6134D4E4D024F6520BE7336B8039FAB1F489464EB895CE408266DA9422E22134",
+    "formal_environment_config": "D9F7AAD810990118D6C2315B0992D37920248B42A287B4B15D55A14EF7B71E3F",
+    "formal_frame_schema": "6BFFEC5457D70D3281AF58C9CD55ED5E3CC817C4287FF416F094360774E88880",
+    "formal_normalization_schema": "2321989228EA2B0F27922DAB6894B391E233BD6965F626D88B9A67932562D021",
+    "formal_observation_adapter": "16D28FD4DE323D56C52DDB730B4B582A3EB059CA5CE3091D43A372349DB31386"
+  },
+  "frozen_files": {
+    "actor": {
+      "path": "artifacts/phase1_v4/formal-4x1000-20261005/exports/run-01/actor.ts",
+      "sha256": "5B714AF635AE3C93BD86853BD9141F0B8888BB49C0F275CBCCD531B6AF53B9BC"
+    },
+    "checkpoint": {
+      "path": "logs/rsl_rl/wheelleg_flat_ppo/2026-10-05_07-11-36_rtx5070_v4-suite-20261005-071132-run01-seed250509479/model_999.pt",
+      "sha256": "04E040272EE3D2682DEFA053062D1EBE9AB3D13652DBC8D4760773A23A58197E"
+    },
+    "model_manifest": {
+      "path": "sim2sim/mujoco/model_manifest.json",
+      "sha256": "C3DB4FE2797F6AC3628F0A9CB5E0B166FFD0CE802776A335922C474A045F7AE0"
+    },
+    "model_xml": {
+      "path": "sim2sim/mujoco/models/wheel_leg_urdf4_v1.xml",
+      "sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1"
+    },
+    "policy_manifest": {
+      "path": "artifacts/phase1_v4/formal-4x1000-20261005/exports/run-01/policy_manifest.json",
+      "sha256": "EC9F42FD7BD5176D1B6865D0A3D67A6B49103899FE44BB056F16E9D048BA90F1"
+    },
+    "source_run_manifest": {
+      "path": "logs/rsl_rl/wheelleg_flat_ppo/2026-10-05_07-11-36_rtx5070_v4-suite-20261005-071132-run01-seed250509479/run_manifest.json",
+      "sha256": "CD3DA566179885DD628A09DC66BD57B17F177C00018FA1EF4F93EABD867A87C7"
+    }
+  },
+  "inference_device": "cuda:0",
+  "inference_dtype": "float32",
+  "isaac_lab_commit": "37ddf626871758333d6ed89cf64ad702aef127d0",
+  "isaac_lab_extension_version": "0.54.2",
+  "isaac_lab_version": "2.3.2",
+  "model_manifest_sha256": "C3DB4FE2797F6AC3628F0A9CB5E0B166FFD0CE802776A335922C474A045F7AE0",
+  "model_xml_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "numpy_version": "1.26.0",
+  "observer_mode": "debug_step_subclass",
+  "physics_dt_s": 0.005,
+  "physics_pipeline": "gpu",
+  "physics_steps_per_action": 4,
+  "policy_manifest_sha256": "EC9F42FD7BD5176D1B6865D0A3D67A6B49103899FE44BB056F16E9D048BA90F1",
+  "python_version": "3.11.16",
+  "r_diag_from_engine_world": [
+    [
+      0.0,
+      -1.0,
+      0.0
+    ],
+    [
+      1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "random_seed": 0,
+  "render_mode": "headless",
+  "requested_control_ticks": 20,
+  "scenario_hash": "B9F7D938F9FA2769E979364AA33BE4FEB71978F563D45B45BFBC2F76AEA8E056",
+  "scenario_variant": "channel_pulse",
+  "schema_version": "Sim2SimDebugTraceV1",
+  "simulation_device": "cuda:0",
+  "solver_position_iterations": 96,
+  "solver_velocity_iterations": 4,
+  "stopped_reason": "none",
+  "stopped_reason_code": 0,
+  "substep_continuity_atol": 1e-06,
+  "termination_reason_codes": {
+    "0": "none",
+    "1": "invalid",
+    "2": "height",
+    "3": "tilt",
+    "4": "root_linear_velocity",
+    "5": "root_angular_velocity",
+    "6": "joint_velocity",
+    "7": "timeout"
+  },
+  "torch_version": "2.7.0+cu128",
+  "unavailable_fields": {
+    "mujoco_commanded_torque": "not available in Isaac Sim",
+    "physx_internal_drive_torque": "PhysX public API unavailable",
+    "unexpected_contact": "not collected in the baseline without contact sensors"
+  },
+  "use_fabric": true
+}

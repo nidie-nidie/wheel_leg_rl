@@ -1,0 +1,43 @@
+{
+  "actor": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261007-185711\\run-01-evaluation\\export\\actor.ts",
+  "actor_sha256": "4C2C64C2D9F9F88532FCEFF4AE45AA049F970646761D2D0ACE0A29678621D6C7",
+  "command": [
+    0.0,
+    0.0,
+    0.2
+  ],
+  "debug_model": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\dreamwaq-run01-unbounded-20261007-v1\\viewer\\models\\wheel_leg_formal_1ms_unbounded_viewer.xml",
+  "debug_model_sha256": "E8A23D9D3BAB4270D950773C7479FB1217E826CF5273F5F9BA30D8C75586EFD3",
+  "debug_only": true,
+  "formal_model": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\models\\wheel_leg_urdf4_v1.xml",
+  "formal_model_sha256_after_setup": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "formal_model_sha256_before": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "formal_ranking_eligible": false,
+  "limit_profile": "unbounded",
+  "mujoco_version": "3.14.0",
+  "policy_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261007-185711\\run-01-evaluation\\export\\policy_manifest.json",
+  "policy_manifest_sha256": "322232B78674217579E491FF9B88E1E688DB899A2C5064830F0D3149B0E992C3",
+  "python_version": "3.11.16",
+  "schema_version": "DebugUnboundedMujocoViewerV1",
+  "terminal_hold_s": 0.75,
+  "termination_profile": {
+    "conditions": [
+      "non_finite_metric",
+      "base_height_outside_0.10_0.40_m",
+      "tilt_above_0.80_rad",
+      "root_linear_speed_above_20_mps",
+      "root_angular_speed_above_35_rad_s",
+      "max_hinge_speed_above_80_rad_s",
+      "loop_closure_error_above_0.005_m",
+      "virtual_leg_length_at_or_below_0.05_m",
+      "unexpected_contact"
+    ],
+    "retained": true
+  },
+  "timing_profile": {
+    "control_dt_s": 0.02,
+    "name": "formal_1ms",
+    "physics_dt_s": 0.001,
+    "physics_steps_per_action": 20
+  }
+}

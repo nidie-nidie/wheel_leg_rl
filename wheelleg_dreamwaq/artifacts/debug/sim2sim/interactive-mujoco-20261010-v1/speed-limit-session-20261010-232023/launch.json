@@ -1,0 +1,8 @@
+﻿{
+    "session":  "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\interactive-mujoco-20261010-v1\\speed-limit-session-20261010-232023",
+    "launcher_pid":  6028,
+    "script":  "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\interactive-mujoco-20261010-v1\\play_keyboard.py",
+    "base_contact":  true,
+    "max_speed_mps":  2,
+    "keyboard_renderer":  "custom_glfw_no_native_shortcuts"
+}

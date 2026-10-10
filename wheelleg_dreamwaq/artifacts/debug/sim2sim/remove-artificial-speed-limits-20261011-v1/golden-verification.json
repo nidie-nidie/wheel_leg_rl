@@ -1,0 +1,29 @@
+{
+  "policy_physics_relabelled": false,
+  "runs": [
+    {
+      "run": "run-01",
+      "max_abs_error": 0.0,
+      "historical_physics": "PhysicsV4",
+      "actor_sha256": "42DC3644936D5CF6C03049E1912398FC61AF24B41A7BBA5E7BBAA60DB89A0B0D"
+    },
+    {
+      "run": "run-02",
+      "max_abs_error": 0.0,
+      "historical_physics": "PhysicsV4",
+      "actor_sha256": "550C88133A9F2D38A42EDB0E240181745833CE898BD132D158B5BCE834C6609A"
+    },
+    {
+      "run": "run-03",
+      "max_abs_error": 0.0,
+      "historical_physics": "PhysicsV4",
+      "actor_sha256": "70AEDA6D545CAF9C51AA02611AFA3A8471FFE556571F3C4337A3CDA77AAF40CD"
+    },
+    {
+      "run": "run-04",
+      "max_abs_error": 0.0,
+      "historical_physics": "PhysicsV4",
+      "actor_sha256": "EDC3AC9F5DDB7646B8E9043F81AEC0C2A66C9456E95155DADCE9603984D07050"
+    }
+  ]
+}

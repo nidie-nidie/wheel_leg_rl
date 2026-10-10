@@ -1,0 +1,10 @@
+{
+  "context_hash": "622E03B08681DF810028654CF65ACC4E6F577F38489A076230289112782EC754",
+  "iterations_per_run": 1000,
+  "run_count": 4,
+  "schema_version": "DreamWaQTrainingEvaluationContextV1",
+  "suite_id": "20261007-185711",
+  "suite_mode": "formal",
+  "suite_source_fingerprint_hash": "6EC694E753A47F763EB00EF87017BB9EB40E0EDA34B4B153FAE1AF1D80D24A4D",
+  "training_fingerprint_hash": "52AE454E13C93F55F58CE8D5CE64974440218B7E8F5BFD881C3070524D503DBD"
+}

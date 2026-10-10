@@ -1,0 +1,40 @@
+{
+  "communication": {
+    "can_error_delta_total": 0,
+    "enqueue_fail_delta_total": 0,
+    "rx_count_delta_total": [
+      1499,
+      1499,
+      1499,
+      1499,
+      461,
+      461
+    ],
+    "tx_count_delta_total": [
+      1499,
+      1499,
+      1499,
+      1499,
+      461,
+      461
+    ],
+    "tx_event_lost_delta_total": 0,
+    "tx_fifo_high_water": 6
+  },
+  "events": 2,
+  "fit_samples": 926,
+  "footer_present": false,
+  "frames": 1204,
+  "issues": {
+    "missing_footer": 1,
+    "timestamp_discontinuity": 227,
+    "truncated_frame": 1
+  },
+  "samples": 1153,
+  "session_type": 1,
+  "stage_configs": [
+    1,
+    2
+  ],
+  "statuses": 46
+}

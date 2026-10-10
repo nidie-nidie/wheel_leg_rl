@@ -1,0 +1,38 @@
+[
+  {
+    "check": "default_2mps_runtime",
+    "expected_exit": 0,
+    "chunk_id": "98c034",
+    "wall_time_seconds": 1.9152923,
+    "exit_code": 0,
+    "original_token_count": 253,
+    "output": "KEYBOARD_SPEED_LIMIT_VERIFIED {\"command_limit_mps\": 2.0, \"trained_vx_scale\": 1.5, \"normalized_limit\": 1.3333333333333333, \"positive_and_negative_reset_history_and_policy_tick\": \"passed\"}\r\nKEYBOARD_SMOKE_OK {\"base_height_m\": 0.19481120541332048, \"roll_rad\": 2.2016806965756885e-05, \"pitch_rad\": 0.03604275060500962, \"yaw_rad\": -0.002545399962375688, \"vx_mps\": -0.3818753497909378, \"yaw_rate_rad_s\": 0.0016315581986826016, \"phi0_left_rad\": 1.9278409440618074, \"phi0_right_rad\": 1.9278351866458956, \"phi0_delta_abs_rad\": 5.757415911800123e-06, \"l0_left_m\": 0.1938569685753318, \"l0_right_m\": 0.19386757315299283, \"max_loop_closure_error_m\": 6.956007583937661e-05, \"tilt_rad\": 0.03604275732661627, \"root_linear_speed_mps\": 0.3821050315435912, \"root_angular_speed_rad_s\": 0.003011501751187914, \"max_controlled_joint_speed_rad_s\": 6.122130779244125, \"max_hinge_speed_rad_s\": 6.122130779244125, \"action_saturation_fraction\": 0.6666666666666666, \"effort_saturation_fraction\": 0.0, \"velocity_limit_event_fraction\": 0.0}\r\n"
+  },
+  {
+    "check": "formal_immutability",
+    "expected_exit": 0,
+    "chunk_id": "f0806a",
+    "wall_time_seconds": 0.5209813,
+    "exit_code": 0,
+    "original_token_count": 15,
+    "output": "STANDING_FINAL_VERIFIED {'isaac': 499, 'mujoco': 500} 101\r\n"
+  },
+  {
+    "check": "invalid_negative_limit_rejected",
+    "expected_exit": "nonzero",
+    "chunk_id": "72b5d8",
+    "wall_time_seconds": 1.4583874,
+    "exit_code": 1,
+    "original_token_count": 65,
+    "output": "usage: play_keyboard.py [-h] [--export EXPORT] [--duration DURATION] [--smoke]\r\n                        [--base-contact] [--max-speed MAX_SPEED]\r\n                        [--session SESSION]\r\nplay_keyboard.py: error: --max-speed must be finite and positive\r\n"
+  },
+  {
+    "check": "original_1_5mps_runtime",
+    "expected_exit": 0,
+    "chunk_id": "50d8a6",
+    "wall_time_seconds": 1.85244,
+    "exit_code": 0,
+    "original_token_count": 249,
+    "output": "KEYBOARD_SPEED_LIMIT_VERIFIED {\"command_limit_mps\": 1.5, \"trained_vx_scale\": 1.5, \"normalized_limit\": 1.0, \"positive_and_negative_reset_history_and_policy_tick\": \"passed\"}\r\nKEYBOARD_SMOKE_OK {\"base_height_m\": 0.19481120541332048, \"roll_rad\": 2.2016806965756885e-05, \"pitch_rad\": 0.03604275060500962, \"yaw_rad\": -0.002545399962375688, \"vx_mps\": -0.3818753497909378, \"yaw_rate_rad_s\": 0.0016315581986826016, \"phi0_left_rad\": 1.9278409440618074, \"phi0_right_rad\": 1.9278351866458956, \"phi0_delta_abs_rad\": 5.757415911800123e-06, \"l0_left_m\": 0.1938569685753318, \"l0_right_m\": 0.19386757315299283, \"max_loop_closure_error_m\": 6.956007583937661e-05, \"tilt_rad\": 0.03604275732661627, \"root_linear_speed_mps\": 0.3821050315435912, \"root_angular_speed_rad_s\": 0.003011501751187914, \"max_controlled_joint_speed_rad_s\": 6.122130779244125, \"max_hinge_speed_rad_s\": 6.122130779244125, \"action_saturation_fraction\": 0.6666666666666666, \"effort_saturation_fraction\": 0.0, \"velocity_limit_event_fraction\": 0.0}\r\n"
+  }
+]
