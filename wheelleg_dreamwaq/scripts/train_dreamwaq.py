@@ -35,8 +35,11 @@ parser.add_argument("--num-envs", type=int, default=None)
 parser.add_argument("--max-iterations", type=int, default=None)
 parser.add_argument("--seed", type=int, default=42)
 parser.add_argument("--run-name", type=str, default="")
-parser.add_argument("--resume", type=Path, default=None)
-parser.add_argument("--task-profile", choices=("legacy_v1", "stop_reverse_v1", "stop_reverse_smooth_v1"), default=None)
+initialization_group = parser.add_mutually_exclusive_group()
+initialization_group.add_argument("--resume", type=Path, default=None)
+initialization_group.add_argument("--initialize-from", type=Path, default=None,
+    help="Experimental weights-only initialization; new optimizer/RNG/iteration, never ordinary resume.")
+parser.add_argument("--task-profile", choices=("legacy_v1", "stop_reverse_v1", "stop_reverse_smooth_v1", "stop_reverse_reversal12_v1", "stop_reverse_reversal8_v1"), default=None)
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 RUNTIME_INFO = validate_runtime(PROJECT_ROOT, device=args_cli.device)
@@ -82,6 +85,7 @@ from wheelleg_dreamwaq.training.dreamwaq_checkpoint import (
     resume_dreamwaq_runner_from_checkpoint,
     validate_dreamwaq_checkpoint_metadata,
 )
+from wheelleg_dreamwaq.training.weights_initialization import load_weights_initialization
 
 
 def _load_profile(name: str) -> dict[str, int]:
@@ -142,6 +146,7 @@ def _write_manifest(
     randomization_audit: dict,
     cache_metadata: dict,
     resume_provenance: dict,
+    weights_initialization: dict | None = None,
 ) -> None:
     architecture_path = PROJECT_ROOT.parent / "docs" / "2026-10-03-wheelleg-dreamwaq-architecture.md"
     manifest = {
@@ -198,6 +203,8 @@ def _write_manifest(
             "environment_streams": randomization_audit["streams"],
         },
     }
+    if weights_initialization is not None:
+        manifest["weights_initialization"] = weights_initialization
     temporary = path.with_name(f".{path.name}.tmp")
     temporary.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
     os.replace(temporary, path)
@@ -267,6 +274,19 @@ def main() -> Path:
     source_num_envs = None
     same_num_envs = False
     starting_completed_iterations = 0
+    weights_initialization = None
+    initial_model_state = None
+    if args_cli.initialize_from is not None:
+        initial_model_state, source_manifest, source_metadata, weights_initialization = load_weights_initialization(
+            args_cli.initialize_from, base_task_contract, algorithm_contract, export_contract)
+        if int(source_metadata["seed"]) != args_cli.seed:
+            raise ValueError("weights-only trial requires the source seed for identical reset cache identity")
+        source_cache_artifact, source_cache_metadata, source_cache_path = load_closed_chain_reset_cache_artifact(
+            args_cli.initialize_from.resolve().parent / "run_manifest.json", manifest=source_manifest)
+        source_num_envs = int(source_metadata["hardware_profile"]["effective_num_envs"])
+        same_num_envs = source_num_envs == num_envs
+        if not same_num_envs:
+            raise ValueError("weights-only trial requires the source environment count")
     if resume_checkpoint is not None:
         source_manifest_path = resume_checkpoint.parent / "run_manifest.json"
         source_metadata = validate_dreamwaq_checkpoint_metadata(
@@ -278,6 +298,7 @@ def main() -> Path:
             requested_seed=args_cli.seed,
         )
         source_manifest = json.loads(source_manifest_path.read_text(encoding="utf-8"))
+        weights_initialization = source_manifest.get("weights_initialization")
         source_cache_artifact, source_cache_metadata, source_cache_path = load_closed_chain_reset_cache_artifact(
             source_manifest_path,
             manifest=source_manifest,
@@ -366,6 +387,7 @@ def main() -> Path:
         randomization_audit=randomization_audit,
         cache_metadata=cache_metadata,
         resume_provenance=resume_provenance,
+        weights_initialization=weights_initialization,
     )
     run_manifest_hash = sha256_file(run_manifest_path)
     env = DreamWaQHistoryVecEnvWrapper(direct_env, clip_actions=agent_cfg.clip_actions)
@@ -391,6 +413,8 @@ def main() -> Path:
         "reset_cache_binding": checkpoint_cache_binding(cache_metadata),
         "resume_provenance": resume_provenance,
     }
+    if weights_initialization is not None:
+        checkpoint_metadata["weights_initialization"] = weights_initialization
     runner = DreamWaQContractOnPolicyRunner(
         env,
         agent_dict,
@@ -400,6 +424,11 @@ def main() -> Path:
         environment_rng_state_factory=direct_env.get_randomization_rng_state,
     )
 
+    initial_model_tensor_sha256 = None
+    if initial_model_state is not None:
+        runner.alg.policy.load_state_dict(initial_model_state, strict=True)
+        initial_model_tensor_sha256 = canonical_tensor_sha256(runner.alg.policy.state_dict())
+        print(f"[INFO] Weights-only initialization: {weights_initialization}", flush=True)
     restored_learning_rate = None
     if resume_checkpoint is not None:
         assert source_metadata is not None
@@ -503,6 +532,12 @@ def main() -> Path:
         "context_acceptance_threshold": monitor.acceptance_threshold(1.0e-3, 0.10),
         "context_acceptance": monitor.passes_context_gate(1.0e-3, 0.10, require_full_window=True),
     }
+    if weights_initialization is not None:
+        summary["weights_initialization"] = weights_initialization
+    if initial_model_tensor_sha256 is not None:
+        summary["initial_model_tensor_sha256"] = initial_model_tensor_sha256
+    if direct_env._leg_reversal_reward is not None:
+        summary["leg_reversal_gain_state"] = direct_env._leg_reversal_reward.state_dict()
     (run_dir / "training_summary.json").write_text(
         json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8"
     )

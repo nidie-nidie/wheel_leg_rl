@@ -290,6 +290,11 @@ def build_base_task_contract_from_configs(*, asset_bundle_hash: str, env_cfg: An
         is_finite_horizon=bool(env_cfg.is_finite_horizon),
         runtime=runtime,
     )
+    reversal = getattr(env_cfg, "leg_reversal", None)
+    if reversal is not None and reversal.enabled:
+        from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.leg_reversal import reversal_contract_payload
+        payload["task"]["leg_reversal"] = reversal_contract_payload(
+            reversal, float(env_cfg.sim.dt) * int(env_cfg.decimation))
     return _with_hash(payload)
 
 

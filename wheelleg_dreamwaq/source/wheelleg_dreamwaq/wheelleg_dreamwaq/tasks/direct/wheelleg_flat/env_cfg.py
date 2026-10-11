@@ -14,6 +14,7 @@ from wheelleg_dreamwaq.schemas.randomization import NOMINAL_TRAINING_PROFILE_V1
 from .commands import CommandRanges
 from .control import ControlLimits
 from .rewards import RewardWeights
+from .leg_reversal import LegReversalConfig
 from .terminations import TerminationLimits
 
 
@@ -71,4 +72,5 @@ class WheelLegFlatEnvCfg(DirectRLEnvCfg):
     normalization = NormalizationV2()
     randomization = NOMINAL_TRAINING_PROFILE_V1
     reward_weights = RewardWeights()
+    leg_reversal = LegReversalConfig()
     termination = TerminationLimits()

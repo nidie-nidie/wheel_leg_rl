@@ -1,7 +1,7 @@
 # WheelLeg DreamWaQ Isaac Lab Architecture
 
 日期：2026-10-10  
-状态：Architecture v0.27；v0.27 按用户授权新增 action_smooth 加倍的独立配置与一种子从零对照，见 §32；v0.26 按用户授权加入具名停车/换向训练配置与 vx 两项奖励翻倍，默认 PPO 保持原行为，详见 §31；Phase 2 DreamWaQ/CENet 实现契约已冻结；v0.25 按用户授权删除三类人工限速作用，当前动力学为 PhysicsV5 / UnrestrictedVelocityPolicyV1 / MujocoEvaluationContractV3，见 §30；§29 的 PhysxRigidAngularBiasV1 仅作为历史记录；v0.23 的两个 reset 派生缓存失效修复继续有效；保留 deterministic Isaac evaluation 499-step timeout、网络维度、数学契约、termination 与 MuJoCo 500-tick 语义；旧 PhysicsV4 训练工件继续作为历史对照，不可当作 PhysicsV5 续训来源
+状态：Architecture v0.28；v0.28 按用户授权增加四腿目标换向软约束、ROGER-style有界单项调权与一种子三组200轮探索，见 §33；v0.27 按用户授权新增 action_smooth 加倍的独立配置与一种子从零对照，见 §32；v0.26 按用户授权加入具名停车/换向训练配置与 vx 两项奖励翻倍，默认 PPO 保持原行为，详见 §31；Phase 2 DreamWaQ/CENet 实现契约已冻结；v0.25 按用户授权删除三类人工限速作用，当前动力学为 PhysicsV5 / UnrestrictedVelocityPolicyV1 / MujocoEvaluationContractV3，见 §30；§29 的 PhysxRigidAngularBiasV1 仅作为历史记录；v0.23 的两个 reset 派生缓存失效修复继续有效；保留 deterministic Isaac evaluation 499-step timeout、网络维度、数学契约、termination 与 MuJoCo 500-tick 语义；旧 PhysicsV4 训练工件继续作为历史对照，不可当作 PhysicsV5 续训来源
 适用范围：新建轮腿机器人平地强化学习工程，不修改或继承旧 WheelLeg 任务实现
 
 ## 1. 文档目的
@@ -1894,3 +1894,17 @@ train/play/evaluate 在完整 checkpoint/hash 验证前重建保存的具名 pro
 | ADR | 决策 |
 | --- | --- |
 | ADR-071 | 新增兼容的 stop_reverse_smooth_v1，唯一配置变化为 action_smooth=-0.02；先一种子 fresh1000轮，保留旧 profile、严格 resume 与四组门槛，运动对照后再决定扩种子。 |
+
+## 33. 腿目标换向软约束及单项调权探索（v0.28）
+
+用户授权先试验。设计见 wheelleg_dreamwaq/docs/superpowers/specs/2026-10-11-leg-reversal-design.md，计划见对应plans/2026-10-11-leg-reversal.md。保留 stop_reverse_v1 原奖励及六维 action_smooth=-0.01。新增 stop_reverse_reversal12_v1 / stop_reverse_reversal8_v1，仅候选探索，不修改默认PPO、正式4×1000入口、PhysicsV5、资产、动作、命令、随机化、网络/history或termination。
+
+四腿最终目标按控制步记录局部峰谷；累计反向0.01rad计一次，一周期两次。50×20ms滑窗，满窗前不惩罚/调权；partial reset清所选窗口，不清全局gain。各腿f为每秒次数，z=max(f/N-1,0)，新增奖励=-dt*0.02*lambda*sum(z)。24步内同一lambda，结束按有效窗（包括零值）逐腿平均z，lambda_next=clip(max(mean(z))²,0,1)，初始0。这是ROGER-style有界单项调权，不是论文的多通道价值函数/主奖励衰减，不宣称论文保证。
+
+enabled合同显式保存LegTargetReversalV1参数/算法，disabled不增键，旧hash保持。gain仅rollout边界保存，次数与checkpoint iteration一致；resume保留new-environment语义，窗口重新等1秒。普通resume仍禁止跨奖励合同。互斥--initialize-from只复制网络/normalizer；原奖励/命令/随机化/物理/动作/算法/export合同完全校验，仅允许加本约束；optimizer、monitor、gain、过程RNG从新实验起点，manifest/checkpoint保存源hash。
+
+来源是当前PhysicsV5 stop_reverse_v1 run03 seed41882943 model_999。三组同种子/硬件/源网络：baseline/N12/N8各200轮，串行、每30分钟监控。先CPU/真实Isaac时序、partial reset、恢复、导出/golden，再训练。之后原Isaac/MuJoCo八场景及换向专项，同时报告目标换向、实际qvel/qacc、vx/yaw误差、姿态、饱和和存活。不以目标安静替代机械抖动验收，不把一种子200轮当正式验收，不自动扩大训练。
+
+| ADR | 决策 |
+| --- | --- |
+| ADR-072 | 保留六维action_smooth，以四腿目标0.01rad迟滞/1s換向次数新增软成本，12/8预算、0.02成本上限、24步有界调权；严格身份/resume、独立weights-only初始化，先一种子三组200轮。 |

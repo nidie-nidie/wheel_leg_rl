@@ -24,6 +24,8 @@ from wheelleg_dreamwaq.schemas.dreamwaq_manifest import (
     validate_named_contract,
 )
 from wheelleg_dreamwaq.schemas.manifest import ContractMismatchError
+from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.leg_reversal import validate_gain_state
+from wheelleg_dreamwaq.training.weights_initialization import validate_weights_initialization
 from wheelleg_dreamwaq.schemas.randomization import (
     PROCESS_START_RANDOMIZATION_STREAMS,
     RANDOMIZATION_STREAMS,
@@ -116,8 +118,11 @@ DREAMWAQ_DYNAMIC_METADATA_FIELDS = frozenset(
         "rng_state",
         "environment_rng_state",
         "estimator_monitor_state",
+        "leg_reversal_gain_state",
     }
 )
+
+DREAMWAQ_OPTIONAL_METADATA_FIELDS = frozenset({"leg_reversal_gain_state", "weights_initialization"})
 
 HARDWARE_PROFILE_FIELDS = frozenset(
     {
@@ -306,6 +311,10 @@ class DreamWaQContractOnPolicyRunner(ContractOnPolicyRunner):
             checkpoint_metadata_factory=checkpoint_metadata_factory,
             environment_rng_state_factory=environment_rng_state_factory,
         )
+        self._leg_reversal_reward = getattr(env.unwrapped, "_leg_reversal_reward", None)
+        if self._leg_reversal_reward is not None:
+            if self._leg_reversal_reward.cfg.rollout_steps != self.num_steps_per_env:
+                raise ValueError("Reversal gain rollout length differs from runner")
         if not isinstance(self.alg, DreamWaQPPO) or not isinstance(self.alg.policy, DreamWaQActorCritic):
             raise TypeError("DreamWaQContractOnPolicyRunner constructed an unexpected algorithm or policy")
 
@@ -341,6 +350,13 @@ class DreamWaQContractOnPolicyRunner(ContractOnPolicyRunner):
                 "estimator_monitor_state": monitor.to_dict(),
             }
         )
+        controller = getattr(self, "_leg_reversal_reward", None)
+        if controller is not None:
+            state = controller.state_dict()
+            validate_gain_state(state, state["contract"], completed_iterations)
+            checkpoint_infos["leg_reversal_gain_state"] = state
+        if "weights_initialization" in checkpoint_infos:
+            validate_weights_initialization(checkpoint_infos["weights_initialization"])
         validate_resume_provenance(checkpoint_infos.get("resume_provenance"))
         try:
             validate_randomization_rng_state_payload(checkpoint_infos["environment_rng_state"])
@@ -348,7 +364,7 @@ class DreamWaQContractOnPolicyRunner(ContractOnPolicyRunner):
             raise RuntimeError(f"DreamWaQ environment RNG state is invalid before save: {error}") from error
         if infos is not None:
             checkpoint_infos["rsl_rl_infos"] = copy.deepcopy(infos)
-        allowed = DREAMWAQ_METADATA_FIELDS | {"rsl_rl_infos"}
+        allowed = DREAMWAQ_METADATA_FIELDS | DREAMWAQ_OPTIONAL_METADATA_FIELDS | {"rsl_rl_infos"}
         if set(checkpoint_infos) - allowed or not DREAMWAQ_METADATA_FIELDS.issubset(checkpoint_infos):
             raise RuntimeError("DreamWaQ checkpoint metadata fields are incomplete or unexpected")
         OnPolicyRunner.save(self, path, infos=checkpoint_infos)
@@ -403,7 +419,7 @@ def validate_dreamwaq_checkpoint_metadata(
     metadata = payload.get("infos")
     if not isinstance(metadata, dict):
         raise ContractMismatchError("DreamWaQ checkpoint metadata dictionary is missing")
-    allowed = DREAMWAQ_METADATA_FIELDS | {"rsl_rl_infos"}
+    allowed = DREAMWAQ_METADATA_FIELDS | DREAMWAQ_OPTIONAL_METADATA_FIELDS | {"rsl_rl_infos"}
     if not DREAMWAQ_METADATA_FIELDS.issubset(metadata) or set(metadata) - allowed:
         raise ContractMismatchError("DreamWaQ checkpoint metadata fields are incomplete or unexpected")
     if metadata["metadata_version"] != DREAMWAQ_CHECKPOINT_METADATA_VERSION:
@@ -453,6 +469,14 @@ def validate_dreamwaq_checkpoint_metadata(
     if provenance != manifest.get("resume_provenance"):
         raise ContractMismatchError("DreamWaQ checkpoint resume provenance differs from its run manifest")
 
+    initialization = metadata.get("weights_initialization")
+    if initialization != manifest.get("weights_initialization"):
+        raise ContractMismatchError("weights initialization differs from run manifest")
+    if initialization is not None:
+        validate_weights_initialization(initialization)
+        if initialization["target_base_task_contract_hash"] != current_base_task_contract["contract_hash"]:
+            raise ContractMismatchError("weights initialization target contract mismatch")
+
     checkpoint_iteration = payload["iter"]
     if not isinstance(checkpoint_iteration, int) or isinstance(checkpoint_iteration, bool) or checkpoint_iteration < 0:
         raise ContractMismatchError("DreamWaQ checkpoint iteration is invalid")
@@ -481,6 +505,14 @@ def validate_dreamwaq_checkpoint_metadata(
         raise ContractMismatchError(f"DreamWaQ estimator monitor state is invalid: {error}") from error
     if monitor.completed_rollouts != completed_iterations:
         raise ContractMismatchError("DreamWaQ estimator monitor rollout count differs from completed iterations")
+    reversal_contract = current_base_task_contract.get("task", {}).get("leg_reversal")
+    if reversal_contract is not None:
+        try:
+            validate_gain_state(metadata.get("leg_reversal_gain_state"), reversal_contract, completed_iterations)
+        except (ValueError, TypeError) as error:
+            raise ContractMismatchError(f"reversal gain state invalid: {error}") from error
+    elif "leg_reversal_gain_state" in metadata:
+        raise ContractMismatchError("Disabled reversal contract cannot contain gain state")
     return metadata
 
 
@@ -554,6 +586,11 @@ def resume_dreamwaq_runner_from_checkpoint(
     runner.alg.set_estimator_monitor_state(
         EstimatorMonitorStateV1.from_dict(metadata["estimator_monitor_state"])
     )
+    if "leg_reversal_gain_state" in metadata:
+        controller = getattr(runner, "_leg_reversal_reward", None)
+        if controller is None:
+            raise ContractMismatchError("Cannot restore reversal gain without an enabled environment")
+        controller.load_state_dict(metadata["leg_reversal_gain_state"])
     restore_rng_state(metadata["rng_state"])
     restore_environment_rng_state(metadata["environment_rng_state"])
     return completed_iterations
