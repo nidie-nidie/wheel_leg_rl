@@ -16,6 +16,12 @@
 - [x] tests/unit/test_leg_reversal.py：迟滞、慢移动、停顿、窗口到期、partial reset、零有效窗、gain上限、固定rollout、state往返；tests/unit/test_leg_reversal_checkpoint.py：旧hash/profile重建、非法初始化/metadata、resume。
 - [x] tests/integration/probes/leg_reversal.py：真实PhysX每控制步一次、重复读取/partial reset不走时间；tests/integration/test_leg_reversal.py：真实短fresh/resume、weights-only、play/export/golden。
 - [x] .venv/Scripts/python.exe -m pytest tests/unit -q；新Isaac集成；git diff/protected hash确认控制/物理/命令/随机化/history不变。
-- [ ] 独立实验脚本与artifact目录，三组同源weights-only各200轮，保存来源fingerprint/命令/30分钟监控；正式4×1000套件不改。
-- [ ] 每组export/golden、Isaac八场景、MuJoCo八场景和四换向专项，复用原规则；同目标计数和实际关节运动验收。
-- [ ] 写结果报告和最终hash核验，结论限定探索，不自动扩大或推送。
+- [x] 独立实验脚本与artifact目录，三组同源weights-only各200轮，保存来源fingerprint/命令/30分钟监控；正式4×1000套件不改。
+- [x] 每组export/golden、Isaac八场景、MuJoCo八场景和四换向专项，复用原规则；同目标计数和实际关节运动验收。
+- [x] 写结果报告和最终hash核验，结论限定探索，不自动扩大或推送。
+
+## 完成记录
+
+三组各200轮训练、导出/golden、Isaac/MuJoCo八场景及四项停车换向诊断均已完成。最终独立核验12000帧；换向率/20ms加速度最大误差均0，116个受保护文件hash不变。
+
+结果：当前配置未解决左腿抽搐，不扩大训练。详见[训练结果](../../2026-10-11-leg-reversal-trial-results.md)。实现提交42d8c35仅在本地；本次未调用子agent。
