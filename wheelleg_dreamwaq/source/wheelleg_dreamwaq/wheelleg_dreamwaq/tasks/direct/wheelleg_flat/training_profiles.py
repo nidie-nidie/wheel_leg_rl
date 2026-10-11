@@ -5,17 +5,18 @@ from typing import Any
 
 from .commands import STOP_REVERSE_COMMAND_PRACTICE_VERSION, command_contract_payload
 
-TASK_PROFILE_NAMES = ("legacy_v1", "stop_reverse_v1")
+TASK_PROFILE_NAMES = ("legacy_v1", "stop_reverse_v1", "stop_reverse_smooth_v1")
 
 
 def apply_task_profile(env_cfg: Any, name: str) -> None:
     if name not in TASK_PROFILE_NAMES:
         raise ValueError(f"Unknown DreamWaQ task profile: {name}")
-    enabled = name == "stop_reverse_v1"
+    enabled = name != "legacy_v1"
     env_cfg.commands = replace(env_cfg.commands, hold_for_episode=not enabled,
         practice_schedule=STOP_REVERSE_COMMAND_PRACTICE_VERSION if enabled else "disabled")
     env_cfg.reward_weights = replace(env_cfg.reward_weights,
-        tracking_vx=2.0 if enabled else 1.0, tracking_vx_enhance=2.0 if enabled else 1.0)
+        tracking_vx=2.0 if enabled else 1.0, tracking_vx_enhance=2.0 if enabled else 1.0,
+        action_smooth=-0.02 if name == "stop_reverse_smooth_v1" else -0.01)
     command_contract_payload(env_cfg.commands)
 
 
@@ -25,7 +26,12 @@ def task_profile_from_contract(contract: dict) -> str:
     if schedule == "disabled":
         return "legacy_v1"
     if schedule == STOP_REVERSE_COMMAND_PRACTICE_VERSION:
-        return "stop_reverse_v1"
+        smooth = contract["task"]["reward_weights"]["action_smooth"]
+        if smooth == -0.01:
+            return "stop_reverse_v1"
+        if smooth == -0.02:
+            return "stop_reverse_smooth_v1"
+        raise ValueError(f"Unknown saved action_smooth weight: {smooth}")
     raise ValueError(f"Unknown saved task profile schedule: {schedule}")
 
 

@@ -128,3 +128,59 @@ def test_isaac_and_numpy_practice_have_identical_boundary_math():
     for tick, factor in zip(ticks, factors):
         result = module.command_at_tick(np.array([.5, .6, .2]), tick, module.STAGE_PAYLOAD)
         np.testing.assert_array_equal(result, np.array([.5 * factor, .6 * factor, .2]))
+
+
+def test_smooth_profile_only_changes_one_reward_and_preserves_commands_rng():
+    old, new = _cfg(), _cfg()
+    apply_task_profile(old, "stop_reverse_v1")
+    apply_task_profile(new, "stop_reverse_smooth_v1")
+    assert old.commands == new.commands
+    differences = {k for k, v in asdict(new.reward_weights).items()
+                   if v != asdict(old.reward_weights)[k]}
+    assert differences == {"action_smooth"}
+    assert new.reward_weights.action_smooth == -0.02
+    assert old.reward_weights.action_smooth == -0.01
+    first, second = torch.Generator().manual_seed(101), torch.Generator().manual_seed(101)
+    a = sample_command_batch(256, device="cpu", ranges=old.commands, generator=first)
+    b = sample_command_batch(256, device="cpu", ranges=new.commands, generator=second)
+    assert torch.equal(a[0], b[0]) and torch.equal(a[1], b[1])
+    assert torch.equal(first.get_state(), second.get_state())
+    apply_task_profile(new, "stop_reverse_v1")
+    assert new.commands == old.commands and new.reward_weights == old.reward_weights
+    apply_task_profile(new, "legacy_v1")
+    assert new.reward_weights == RewardWeights()
+
+
+def test_smooth_profile_doubles_actual_nonzero_reward_without_changing_other_terms():
+    old, new = _cfg(), _cfg()
+    apply_task_profile(old, "stop_reverse_v1")
+    apply_task_profile(new, "stop_reverse_smooth_v1")
+    state = _state(3)
+    state.last_applied_action[:] = torch.tensor([.3, -.2, .1, -.4, .8, -.9])
+    state.previous_applied_action[:] = torch.tensor([-.2, .4, -.1, .2, -.6, .7])
+    state.previous_previous_applied_action[:] = .1
+    kwargs = dict(control_dt=.02, terminated=torch.tensor([False, True, False]))
+    old_total, old_terms = compute_reward(state, old.reward_weights, **kwargs)
+    new_total, new_terms = compute_reward(state, new.reward_weights, **kwargs)
+    assert (old_terms["action_smooth"] < 0).all()
+    for name in old_terms:
+        assert torch.equal(new_terms[name], old_terms[name] * (2 if name == "action_smooth" else 1))
+    assert torch.allclose(new_total - old_total, old_terms["action_smooth"], atol=1e-7)
+
+
+@pytest.mark.parametrize("profile,smooth", [("stop_reverse_v1", -.01),
+                                           ("stop_reverse_smooth_v1", -.02)])
+def test_saved_smooth_profile_roundtrip_and_cross_profile_rejection(profile, smooth):
+    cfg = _cfg()
+    apply_task_profile(cfg, profile)
+    saved = {"task": {"commands": command_contract_payload(cfg.commands),
+                      "reward_weights": asdict(cfg.reward_weights)}}
+    assert task_profile_from_contract(saved) == profile
+    assert resolve_task_profile(None, saved) == profile
+    assert saved["task"]["reward_weights"]["action_smooth"] == smooth
+    other = "stop_reverse_v1" if profile == "stop_reverse_smooth_v1" else "stop_reverse_smooth_v1"
+    with pytest.raises(ValueError, match="profile"):
+        resolve_task_profile(other, saved)
+    saved["task"]["reward_weights"]["action_smooth"] = -.03
+    with pytest.raises(ValueError, match="smooth"):
+        task_profile_from_contract(saved)

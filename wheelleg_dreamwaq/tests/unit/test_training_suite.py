@@ -239,3 +239,9 @@ def test_failed_isaac_artifact_still_runs_both_mujoco_evaluations(tmp_path, monk
     assert report["runs"][0]["status"] == "evaluation_incomplete"
     assert "isaac" in report["runs"][0]["evaluation_errors"]
     assert report["baseline_isaac_report"] is None and report["baseline_status"] == "not_comparable"
+
+
+def test_smooth_profile_suite_requires_current_candidate_evaluation():
+    DREAMWAQ_MODULE._validate_task_mode("stop_reverse_smooth_v1", True)
+    with pytest.raises(ValueError):
+        DREAMWAQ_MODULE._validate_task_mode("stop_reverse_smooth_v1", False)

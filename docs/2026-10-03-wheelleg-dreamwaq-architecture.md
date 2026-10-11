@@ -1,7 +1,7 @@
 # WheelLeg DreamWaQ Isaac Lab Architecture
 
 日期：2026-10-10  
-状态：Architecture v0.26；v0.26 按用户授权加入具名停车/换向训练配置与 vx 两项奖励翻倍，默认 PPO 保持原行为，详见 §31；Phase 2 DreamWaQ/CENet 实现契约已冻结；v0.25 按用户授权删除三类人工限速作用，当前动力学为 PhysicsV5 / UnrestrictedVelocityPolicyV1 / MujocoEvaluationContractV3，见 §30；§29 的 PhysxRigidAngularBiasV1 仅作为历史记录；v0.23 的两个 reset 派生缓存失效修复继续有效；保留 deterministic Isaac evaluation 499-step timeout、网络维度、数学契约、termination 与 MuJoCo 500-tick 语义；旧 PhysicsV4 训练工件继续作为历史对照，不可当作 PhysicsV5 续训来源  
+状态：Architecture v0.27；v0.27 按用户授权新增 action_smooth 加倍的独立配置与一种子从零对照，见 §32；v0.26 按用户授权加入具名停车/换向训练配置与 vx 两项奖励翻倍，默认 PPO 保持原行为，详见 §31；Phase 2 DreamWaQ/CENet 实现契约已冻结；v0.25 按用户授权删除三类人工限速作用，当前动力学为 PhysicsV5 / UnrestrictedVelocityPolicyV1 / MujocoEvaluationContractV3，见 §30；§29 的 PhysxRigidAngularBiasV1 仅作为历史记录；v0.23 的两个 reset 派生缓存失效修复继续有效；保留 deterministic Isaac evaluation 499-step timeout、网络维度、数学契约、termination 与 MuJoCo 500-tick 语义；旧 PhysicsV4 训练工件继续作为历史对照，不可当作 PhysicsV5 续训来源
 适用范围：新建轮腿机器人平地强化学习工程，不修改或继承旧 WheelLeg 任务实现
 
 ## 1. 文档目的
@@ -1873,3 +1873,24 @@ train/play/evaluate 在完整 checkpoint/hash 验证前重建保存的具名 pro
 本节配置已实现。独立文档与代码复核均无剩余 P0/P1；代码复核发现的第二次换向响应门槛遗漏已修复，并有旧条件误报/新条件拒绝的确定性回归。主工程 181 项单测、MuJoCo 56 项测试通过；真实 PhysX probe 的 230 项检查通过。便携 fresh 2 updates、同规模 32 环境与跨规模 16 环境 resume 到总计 3 updates、冲突 profile 拒绝、固定命令 play 160 步、真实导出/loader/golden、候选 Isaac V2 八场景及动态 MuJoCo 入口 smoke 均通过运行验收。上述 smoke 权重不用于正式四次训练，也不构成性能达标证据。
 
 复核见 `wheelleg_dreamwaq/docs/2026-10-11-stop-reverse-code-review.md`；训练前验收摘要及原始工件见 `wheelleg_dreamwaq/artifacts/phase2_dreamwaq/stop-reverse-acceptance-20261011-v1/summary.json`。正式训练仍按 §31.3 的四个新种子、每个 1000 iteration、半小时监控和全部固定/动态 sim2sim 执行；其结果另行保存，不在训练中改写本架构或代码来源。
+
+
+## 32. 动作平滑加倍与一种子从零对照（2026-10-11）
+
+### 32.1 配置与兼容
+
+新增具名 stop_reverse_smooth_v1，相对 §31 的 stop_reverse_v1 仅将 action_smooth 从 -0.01 调至 -0.02。原 legacy_v1 与 stop_reverse_v1 保留原奖励、命令与加载语义。action_rate=-0.01，两项 vx 权重仍为 2.0；奖励公式、sigma、dt 与其余权重不变。此项只在训练中计分，不新增运行时滤波、force/torque 或硬限制。
+
+完整 task contract 已包含 reward_weights，新旧 profile 通过相同 StopReverseCommandPracticeV1 schedule 与 action_smooth=-0.01/-0.02 重建；未知 smooth 值 fail fast。普通 resume 继续禁止跨 profile/奖励。play/evaluate 按原合同验证后关闭练习；export 保留真实训练奖励。旧 run/checkpoint/export 保留原件。
+
+### 32.2 实验与验收
+
+用户批准先用 run-03 相同种子 41882943，新配置从零训练1000 iteration，rtx5070、256环境、8 mini-batches；不自动扩为四种子。未使用旧网络/optimizer，无 --resume。训练期间架构/代码冻结，1800秒监控。网络、storage/history/CENet/AdaBoot、随机化范围、地形、USD/XML、PD/effort/阻尼/惯量、动作/命令、reset、termination 均不变。
+
+训练前验证唯一配置差异、实际奖励贡献、旧/新配置重建和跨 profile resume 拒绝，执行新 profile 的真实 Isaac fresh/resume/play/export/golden。训练后完成当前 Isaac 八场景、原 MuJoCo 八场景、停车/换向专项，以及固定停车的逐腿/逐轮运动对照。
+
+四组正式套件4×1000门槛不变。一种子八场景 MuJoCo 使用独立且明确标识的诊断入口，仅适配 suite 上下文模式/数量和脚本根路径；原策略/模型校验、场景、初态、时序、指标/失败规则不变，以 diff/hash 留证，不进入正式四组排名。主对照为旧 stop_reverse_v1 seed41882943 的1000轮模型，1401轮仅额外参考。按实际速度、抖动和换向判断；奖励加倍不构成性能通过，平均奖励量级不能当作梯度比例。
+
+| ADR | 决策 |
+| --- | --- |
+| ADR-071 | 新增兼容的 stop_reverse_smooth_v1，唯一配置变化为 action_smooth=-0.02；先一种子 fresh1000轮，保留旧 profile、严格 resume 与四组门槛，运动对照后再决定扩种子。 |

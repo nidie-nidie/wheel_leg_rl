@@ -95,9 +95,9 @@ def _evaluation_suite_complete(records: list[dict], expected_count: int) -> bool
 
 
 def _validate_task_mode(task_profile: str, candidate_only: bool) -> None:
-    if task_profile not in {"legacy_v1", "stop_reverse_v1"}:
+    if task_profile not in {"legacy_v1", "stop_reverse_v1", "stop_reverse_smooth_v1"}:
         raise ValueError("Unknown task profile")
-    if task_profile == "stop_reverse_v1" and not candidate_only:
+    if task_profile != "legacy_v1" and not candidate_only:
         raise ValueError("Stop/reverse training requires --candidate-only; PhysicsV4 baseline is not comparable")
 
 
@@ -105,7 +105,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run the WheelLeg DreamWaQ training/evaluation suite.")
     parser.add_argument("--mode", choices=("formal", "smoke"), default="formal")
     parser.add_argument("--profile", choices=("portable", "rtx4060", "rtx5070"), default="rtx5070")
-    parser.add_argument("--task-profile", choices=("legacy_v1", "stop_reverse_v1"), default="legacy_v1")
+    parser.add_argument("--task-profile", choices=("legacy_v1", "stop_reverse_v1", "stop_reverse_smooth_v1"), default="legacy_v1")
     parser.add_argument("--candidate-only", action="store_true")
     parser.add_argument("--iterations", type=int, default=FORMAL_ITERATIONS)
     parser.add_argument("--runs", type=int, default=FORMAL_RUN_COUNT)
@@ -325,7 +325,7 @@ def main() -> None:
         except Exception as error:
             errors["mujoco"] = f"{type(error).__name__}: {error}"
 
-        if args.task_profile == "stop_reverse_v1":
+        if args.task_profile != "legacy_v1":
             dynamic_dir = suite_dir / "mujoco_command_practice" / f"run-{index:02d}"
             dynamic_command = ["uv", "run", "--project", str(SIM2SIM_PROJECT), "python",
                                "scripts/evaluate_command_practice_mujoco.py",

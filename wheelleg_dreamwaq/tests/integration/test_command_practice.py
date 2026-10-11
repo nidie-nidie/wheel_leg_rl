@@ -23,22 +23,25 @@ def test_real_physx_command_reward_and_history_timing(tmp_path):
 
 
 @pytest.mark.integration
-def test_profile_fresh_resume_fixed_play_export_and_current_evaluation(tmp_path):
+@pytest.mark.parametrize("task_profile,smooth_weight",
+                         [("stop_reverse_v1", -.01), ("stop_reverse_smooth_v1", -.02)])
+def test_profile_fresh_resume_fixed_play_export_and_current_evaluation(tmp_path, task_profile, smooth_weight):
     seed, suffix = 20261011, uuid.uuid4().hex[:8]
-    source_dir = _run_training(["--profile", "portable", "--task-profile", "stop_reverse_v1",
+    source_dir = _run_training(["--profile", "portable", "--task-profile", task_profile,
                                "--max-iterations", "2", "--seed", str(seed),
                                "--run-name", f"practice-source-{suffix}"])
     source = _load_run(source_dir)
     assert source[0]["completed_iterations"] == 2
-    assert source[1]["task_profile"] == "stop_reverse_v1"
+    assert source[1]["task_profile"] == task_profile
     assert source[1]["base_task_contract"]["task"]["reward_weights"]["tracking_vx"] == 2.
+    assert source[1]["base_task_contract"]["task"]["reward_weights"]["action_smooth"] == smooth_weight
     checkpoint = source[2]
     for count in (32, 16):
         target_dir = _run_training(["--profile", "portable", "--num-envs", str(count), "--max-iterations", "3",
                                    "--seed", str(seed), "--run-name", f"practice-resume{count}-{suffix}",
                                    "--resume", str(source[2])])
         summary, manifest, checkpoint, payload = _load_run(target_dir)
-        assert manifest["task_profile"] == "stop_reverse_v1"  # inferred without CLI override
+        assert manifest["task_profile"] == task_profile  # inferred without CLI override
         assert summary["starting_completed_iterations"] == 2 and summary["iterations_executed"] == 1
         assert summary["completed_iterations"] == 3
         assert payload["infos"]["estimator_monitor_state"]["completed_rollouts"] == 3
@@ -46,7 +49,9 @@ def test_profile_fresh_resume_fixed_play_export_and_current_evaluation(tmp_path)
         _load_resume_trace(target_dir, summary, num_envs=count)
     environment = {**os.environ, "OMNI_KIT_ACCEPT_EULA": "YES"}
     denied = subprocess.run([sys.executable, "scripts/train_dreamwaq.py", "--resume", str(source[2]),
-                             "--profile", "portable", "--task-profile", "legacy_v1", "--max-iterations", "3",
+                             "--profile", "portable", "--task-profile",
+                             "stop_reverse_v1" if task_profile == "stop_reverse_smooth_v1" else "stop_reverse_smooth_v1",
+                             "--max-iterations", "3",
                              "--seed", str(seed), "--headless"], cwd=PROJECT_ROOT,
                              capture_output=True, text=True, encoding="utf-8", errors="replace",
                              env=environment, timeout=900)
@@ -57,12 +62,13 @@ def test_profile_fresh_resume_fixed_play_export_and_current_evaluation(tmp_path)
                         "--steps", "160", "--fixed-command", "0", "0", ".2",
                         "--output", str(play_path), "--headless"], timeout=900)
     play = json.loads(play_path.read_text(encoding="utf-8"))
-    assert play["runtime_command_practice"] == "disabled" and play["task_profile"] == "stop_reverse_v1"
+    assert play["runtime_command_practice"] == "disabled" and play["task_profile"] == task_profile
     assert play["completed_steps"] == 160 and play["finite"]
     export = tmp_path / "export"
     run_project_script(["scripts/export_dreamwaq_actor.py", "--checkpoint", str(checkpoint), "--output", str(export)])
     manifest = json.loads((export / "policy_manifest.json").read_text(encoding="utf-8"))
     assert manifest["training_reward_weights"]["tracking_vx"] == manifest["training_reward_weights"]["tracking_vx_enhance"] == 2.
+    assert manifest["training_reward_weights"]["action_smooth"] == smooth_weight
     assert manifest["command_sampling"]["practice_contract"]["stage_end_control_steps"] == [100, 150, 250, 300, 400, 500]
     golden = torch.load(export / "golden_vectors.pt", map_location="cpu", weights_only=False)
     actor = torch.jit.load(str(export / "actor.ts"), map_location="cpu").eval()
