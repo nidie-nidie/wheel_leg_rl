@@ -22,6 +22,8 @@
 #define PACE_HOST_RX_RING_SIZE 512U
 #define PACE_TICK_RING_SIZE 16U
 #define PACE_ALL_MOTORS_MASK 0x3FU
+#define PACE_TERMINAL_RESERVED_SLOTS 2U
+#define PACE_STOP_CONFIRM_TIMEOUT_US 2000000U
 #define PACE_ARM_POLL_DIVIDER (PACE_CONTROL_RATE_HZ / 100U)
 #define PACE_SAMPLE_DIVIDER (PACE_CONTROL_RATE_HZ / PACE_SAMPLE_RATE_HZ)
 #define PACE_STATUS_DIVIDER (PACE_SAMPLE_RATE_HZ / PACE_STATUS_RATE_HZ)
@@ -45,7 +47,8 @@ typedef enum
     PACE_EVENT_ARM_TIMEOUT = 7,
     PACE_EVENT_COUNTER_SATURATION = 8,
     PACE_EVENT_HOST_ABORT = 9,
-    PACE_EVENT_SCHEDULER_OVERRUN = 10
+    PACE_EVENT_SCHEDULER_OVERRUN = 10,
+    PACE_EVENT_STOP_UNCONFIRMED = 11
 } pace_app_event_code_t;
 
 typedef enum
@@ -58,7 +61,8 @@ typedef enum
     PACE_STOP_UART_FAILURE = 5,
     PACE_STOP_CAN_FAILURE = 6,
     PACE_STOP_ARM_TIMEOUT = 7,
-    PACE_STOP_SCHEDULER_OVERRUN = 8
+    PACE_STOP_SCHEDULER_OVERRUN = 8,
+    PACE_STOP_UNCONFIRMED = 9
 } pace_app_stop_reason_t;
 
 static pace_motor_registry_t pace_registry;
@@ -68,6 +72,10 @@ static pace_experiment_config_t pace_default_config;
 static pace_safety_limits_t pace_safety_limits;
 static pace_command_parser_t pace_command_parser;
 
+/* DMA1/2 cannot access DTCM. Both linkers place this section in AXI SRAM. */
+#if defined(__GNUC__) || defined(__CC_ARM) || defined(__ARMCC_VERSION)
+__attribute__((section(".pace_dma"), aligned(32), used))
+#endif
 static uint8_t pace_uart_rx_dma[PACE_UART_RX_DMA_SIZE];
 static uint8_t pace_host_rx_ring[PACE_HOST_RX_RING_SIZE];
 static volatile uint16_t pace_host_rx_head;
@@ -90,6 +98,15 @@ static uint32_t pace_arm_tick_count;
 static uint8_t pace_arm_enable_count[PACE_MOTOR_COUNT];
 static uint8_t pace_arm_enable_pending_mask;
 static uint8_t pace_safe_command_pending_mask;
+static uint8_t pace_safe_command_inflight_mask;
+static uint32_t pace_safe_confirm_base[PACE_MOTOR_COUNT];
+static uint32_t pace_safe_start_us;
+static bool pace_safe_shutdown_active;
+static uint32_t pace_next_enable_us;
+static uint8_t pace_enable_pair_index;
+static uint8_t pace_enable_pair_repeat;
+static uint32_t pace_autostart_start_us;
+static bool pace_autostart_started;
 static uint16_t pace_current_safety_flags;
 static pace_app_stop_reason_t pace_normal_stop_reason;
 static bool pace_session_header_emitted;
@@ -104,6 +121,7 @@ static uint32_t pace_session_queue_full_base;
 static uint32_t pace_session_hal_error_base;
 static uint32_t pace_session_tx_event_lost_base;
 static uint32_t pace_session_unmatched_event_base;
+static uint32_t pace_session_rx_lost_base;
 
 static bool pace_terminal_event_pending;
 static pace_event_frame_data_t pace_terminal_event;
@@ -176,7 +194,7 @@ static bool pace_app_pop_tick(uint32_t *now_us)
     return true;
 }
 
-static bool pace_app_push_frame(const uint8_t *frame, uint16_t length)
+static bool pace_app_push_terminal_frame(const uint8_t *frame, uint16_t length)
 {
     if (!pace_capture_push(&pace_capture, frame, length))
     {
@@ -184,6 +202,19 @@ static bool pace_app_push_frame(const uint8_t *frame, uint16_t length)
     }
     pace_stream_sequence++;
     return true;
+}
+
+static bool pace_app_push_frame(const uint8_t *frame, uint16_t length)
+{
+    /* Ring capacity is slot_count - 1. Keep room for terminal event/footer. */
+    if (pace_capture_depth(&pace_capture) >=
+        (PACE_CAPTURE_SLOT_COUNT - 1U - PACE_TERMINAL_RESERVED_SLOTS))
+    {
+        pace_capture.overflow = true;
+        pace_capture.rejected_frames++;
+        return false;
+    }
+    return pace_app_push_terminal_frame(frame, length);
 }
 
 static bool pace_app_emit_event(uint32_t now_us,
@@ -241,7 +272,8 @@ static void pace_app_flush_terminal_frames(void)
     uint8_t frame[PACE_CAPTURE_SLOT_SIZE];
     size_t length;
 
-    if (!pace_session_header_emitted || pace_transport_stats()->failed)
+    if (!pace_session_header_emitted || pace_transport_stats()->failed ||
+        pace_safe_shutdown_active)
     {
         return;
     }
@@ -253,7 +285,7 @@ static void pace_app_flush_terminal_frames(void)
     {
         length = pace_frame_encode_event(frame, sizeof(frame), pace_stream_sequence,
                                          &pace_terminal_event);
-        if ((length == 0U) || !pace_app_push_frame(frame, (uint16_t)length))
+        if ((length == 0U) || !pace_app_push_terminal_frame(frame, (uint16_t)length))
         {
             return;
         }
@@ -262,6 +294,10 @@ static void pace_app_flush_terminal_frames(void)
     if (pace_footer_pending)
     {
         pace_footer_frame_data_t footer;
+        if (pace_capture_depth(&pace_capture) >= (PACE_CAPTURE_SLOT_COUNT - 1U))
+        {
+            return;
+        }
         memset(&footer, 0, sizeof(footer));
         footer.stop_time_us = pace_footer_time_us;
         footer.total_frames = pace_stream_sequence + 1U;
@@ -271,13 +307,21 @@ static void pace_app_flush_terminal_frames(void)
         footer.stop_reason = (uint16_t)pace_footer_reason;
         footer.experiment_config_hash = pace_experiment.config.experiment_config_hash;
         length = pace_frame_encode_footer(frame, sizeof(frame), pace_stream_sequence, &footer);
-        if ((length == 0U) || !pace_app_push_frame(frame, (uint16_t)length))
+        if ((length == 0U) || !pace_app_push_terminal_frame(frame, (uint16_t)length))
         {
             return;
         }
         pace_footer_pending = false;
         pace_session_header_emitted = false;
     }
+}
+
+static void pace_app_begin_safe_shutdown(uint32_t now_us)
+{
+    pace_safe_command_pending_mask = PACE_ALL_MOTORS_MASK;
+    pace_safe_command_inflight_mask = 0U;
+    pace_safe_start_us = now_us;
+    pace_safe_shutdown_active = true;
 }
 
 static void pace_app_enter_fault(uint32_t now_us,
@@ -292,7 +336,7 @@ static void pace_app_enter_fault(uint32_t now_us,
     }
     pace_experiment_abort(&pace_experiment);
     pace_session_statistics_complete = false;
-    pace_safe_command_pending_mask = PACE_ALL_MOTORS_MASK;
+    pace_app_begin_safe_shutdown(now_us);
     pace_app_schedule_terminal(now_us, event_code, stop_reason, argument0, argument1);
 }
 
@@ -304,41 +348,82 @@ static bool pace_app_send_encoded(const pace_encoded_command_t *encoded)
 static void pace_app_try_safe_commands(void)
 {
     uint8_t index;
+    uint32_t now_us;
+    if (!pace_safe_shutdown_active)
+    {
+        return;
+    }
+    now_us = pace_time_now_us();
     for (index = 0U; index < PACE_MOTOR_COUNT; ++index)
     {
-        pace_encoded_command_t encoded;
+        const uint8_t bit = (uint8_t)(1U << index);
+        const pace_command_mode_t expected = (index < PACE_DM_MOTOR_COUNT) ?
+            PACE_COMMAND_DM_DISABLE : PACE_COMMAND_LK_STOP;
+        pace_encoded_command_t encoded = {0};
         bool packed;
-        if ((pace_safe_command_pending_mask & (uint8_t)(1U << index)) == 0U)
+        uint32_t primask = __get_PRIMASK();
+        __disable_irq();
+        if ((pace_safe_command_inflight_mask & bit) != 0U)
         {
-            continue;
+            const pace_motor_state_t *state = &pace_registry.motors[index];
+            if ((state->tx_count != pace_safe_confirm_base[index]) &&
+                state->tx_valid &&
+                (state->last_confirmed_command.command_mode == expected))
+            {
+                pace_safe_command_inflight_mask &= (uint8_t)~bit;
+            }
         }
-        if (index < PACE_DM_MOTOR_COUNT)
+        if ((pace_safe_command_pending_mask & bit) != 0U)
         {
-            packed = pace_dm_pack_special(index, PACE_COMMAND_DM_DISABLE, &encoded);
+            packed = (index < PACE_DM_MOTOR_COUNT) ?
+                pace_dm_pack_special(index, expected, &encoded) :
+                pace_lk_pack_special(index, expected, &encoded);
+            pace_safe_confirm_base[index] = pace_registry.motors[index].tx_count;
+            if (packed && pace_app_send_encoded(&encoded))
+            {
+                pace_safe_command_pending_mask &= (uint8_t)~bit;
+                pace_safe_command_inflight_mask |= bit;
+            }
         }
-        else
+        if (primask == 0U)
         {
-            packed = pace_lk_pack_special(index, PACE_COMMAND_LK_STOP, &encoded);
+            __enable_irq();
         }
-        if (packed && pace_app_send_encoded(&encoded))
-        {
-            pace_safe_command_pending_mask &= (uint8_t)~(1U << index);
-        }
+    }
+    if ((pace_safe_command_pending_mask | pace_safe_command_inflight_mask) == 0U)
+    {
+        pace_safe_shutdown_active = false;
+    }
+    else if ((now_us - pace_safe_start_us) >= PACE_STOP_CONFIRM_TIMEOUT_US)
+    {
+        /* A sent footer is not evidence of a stopped motor. Preserve failure. */
+        const uint32_t outstanding = pace_safe_command_pending_mask |
+                                     pace_safe_command_inflight_mask;
+        pace_experiment_abort(&pace_experiment);
+        pace_session_statistics_complete = false;
+        pace_footer_reason = PACE_STOP_UNCONFIRMED;
+        pace_terminal_event.event_code = PACE_EVENT_STOP_UNCONFIRMED;
+        pace_terminal_event.severity = 2U;
+        pace_terminal_event.argument0 = outstanding;
+        pace_terminal_event_pending = true;
+        pace_safe_shutdown_active = false;
     }
 }
 
-static void pace_app_snapshot_registry(uint32_t now_us,
+static void pace_app_snapshot_registry(uint32_t *now_us,
                                        pace_motor_registry_t *snapshot)
 {
     uint32_t primask = __get_PRIMASK();
     __disable_irq();
-    pace_motor_registry_refresh_ages(&pace_registry, now_us,
-                                     pace_safety_limits.feedback_timeout_us);
     *snapshot = pace_registry;
+    *now_us = pace_time_now_us();
     if (primask == 0U)
     {
         __enable_irq();
     }
+    /* Refresh the copy at the clock read with that copy, never live ISR state. */
+    pace_motor_registry_refresh_ages(snapshot, *now_us,
+                                     pace_safety_limits.feedback_timeout_us);
 }
 
 static bool pace_app_all_feedback_valid(const pace_motor_registry_t *registry)
@@ -346,7 +431,9 @@ static bool pace_app_all_feedback_valid(const pace_motor_registry_t *registry)
     uint8_t index;
     for (index = 0U; index < PACE_MOTOR_COUNT; ++index)
     {
-        if (!registry->motors[index].rx_valid)
+        if (!registry->motors[index].rx_valid ||
+            !registry->motors[index].online ||
+            (registry->motors[index].rx_age_us > pace_safety_limits.feedback_timeout_us))
         {
             return false;
         }
@@ -394,11 +481,12 @@ static void pace_app_reset_session_counters(void)
     }
     pace_previous_tx_event_lost = stats.tx_event_lost_count;
     pace_previous_can_error = stats.can_error_count + stats.hal_error_count +
-                              stats.unmatched_tx_event_count;
+                              stats.unmatched_tx_event_count + stats.rx_fifo_lost_count;
     pace_session_queue_full_base = stats.queue_full_count;
     pace_session_hal_error_base = stats.hal_error_count;
     pace_session_tx_event_lost_base = stats.tx_event_lost_count;
     pace_session_unmatched_event_base = stats.unmatched_tx_event_count;
+    pace_session_rx_lost_base = stats.rx_fifo_lost_count;
 }
 
 static void pace_app_invalidate_motor_history(void)
@@ -422,6 +510,8 @@ static bool pace_app_emit_session_header(uint32_t now_us)
     header.session_type = pace_experiment.config.session_type;
     header.motor_order_version = PACE_MOTOR_ORDER_VERSION;
     header.wire_endianness = 1U;
+    header.timestamp_timebase = PACE_TIMESTAMP_TIM5_ISR_SERVICE;
+    header.control_rate_hz = PACE_CONTROL_RATE_HZ;
     header.session_id = now_us ^ PACE_FIRMWARE_BUILD_ID;
     header.sample_rate_hz = PACE_SAMPLE_RATE_HZ;
     header.status_rate_hz = PACE_STATUS_RATE_HZ;
@@ -456,6 +546,11 @@ static bool pace_app_arm_configured_session(uint32_t now_us)
     memset(pace_arm_enable_count, 0, sizeof(pace_arm_enable_count));
     pace_arm_enable_pending_mask = PACE_ALL_MOTORS_MASK;
     pace_safe_command_pending_mask = 0U;
+    pace_safe_command_inflight_mask = 0U;
+    pace_safe_shutdown_active = false;
+    pace_enable_pair_index = 0U;
+    pace_enable_pair_repeat = 0U;
+    pace_next_enable_us = now_us;
     pace_normal_stop_reason = PACE_STOP_COMPLETE;
     return true;
 }
@@ -489,63 +584,20 @@ static bool pace_app_send_enable_pair(uint8_t left_index, uint8_t right_index)
            pace_app_send_encoded(&left) && pace_app_send_encoded(&right);
 }
 
-static bool pace_app_run_reference_enable_sequence(void)
-{
-    uint8_t repeat;
-
-    for (repeat = 0U; repeat < PACE_MOTOR_ENABLE_REPEAT_COUNT; ++repeat)
-    {
-        if (!pace_app_send_enable_pair(PACE_MOTOR_L_FRONT,
-                                       PACE_MOTOR_R_REAR))
-        {
-            return false;
-        }
-        osDelay(PACE_MOTOR_ENABLE_INTERVAL_MS);
-    }
-    for (repeat = 0U; repeat < PACE_MOTOR_ENABLE_REPEAT_COUNT; ++repeat)
-    {
-        if (!pace_app_send_enable_pair(PACE_MOTOR_L_REAR,
-                                       PACE_MOTOR_R_FRONT))
-        {
-            return false;
-        }
-        osDelay(PACE_MOTOR_ENABLE_INTERVAL_MS);
-    }
-    for (repeat = 0U; repeat < PACE_MOTOR_ENABLE_REPEAT_COUNT; ++repeat)
-    {
-        if (!pace_app_send_enable_pair(PACE_MOTOR_L_WHEEL,
-                                       PACE_MOTOR_R_WHEEL))
-        {
-            return false;
-        }
-        osDelay(PACE_MOTOR_ENABLE_INTERVAL_MS);
-    }
-    return true;
-}
-
 #if PACE_ONE_WAY_AUTOSTART
-static bool pace_app_run_reference_autostart(void)
+static bool pace_app_run_reference_autostart(uint32_t now_us)
 {
-    osDelay(PACE_AUTOSTART_DELAY_MS);
+    if (pace_autostart_started ||
+        ((now_us - pace_autostart_start_us) < (PACE_AUTOSTART_DELAY_MS * 1000U)))
+    {
+        return true;
+    }
+    pace_autostart_started = true;
     pace_experiment_default_config(&pace_default_config,
                                    PACE_SESSION_COMMISSIONING);
-    if (!pace_experiment_configure(&pace_experiment, &pace_default_config) ||
-        !pace_app_run_reference_enable_sequence())
-    {
-        return false;
-    }
-
-    /* TIM6 has been running during the reference startup delay. Discard its
-     * pre-session ticks so capture begins from a clean control boundary. */
-    pace_tick_tail = pace_tick_head;
-    pace_tick_overflow = false;
-    if (!pace_app_arm_configured_session(pace_time_now_us()))
-    {
-        return false;
-    }
-    /* The reference sequence above already delivered all enable frames. */
-    pace_arm_enable_pending_mask = 0U;
-    return pace_app_emit_session_header(pace_time_now_us());
+    return pace_experiment_configure(&pace_experiment, &pace_default_config) &&
+           pace_app_arm_configured_session(now_us) &&
+           pace_app_emit_session_header(now_us);
 }
 #endif
 
@@ -582,6 +634,10 @@ static uint16_t pace_app_can_error_flags(const pace_can_port_stats_t *stats)
         (stats->hal_error_count != pace_session_hal_error_base))
     {
         flags |= (uint16_t)(1U << 10);
+    }
+    if (stats->rx_fifo_lost_count != pace_session_rx_lost_base)
+    {
+        flags |= (uint16_t)(1U << 11);
     }
     return flags;
 }
@@ -721,7 +777,7 @@ static bool pace_app_emit_status(uint32_t now_us,
         }
     }
     can_error = stats->can_error_count + stats->hal_error_count +
-                stats->unmatched_tx_event_count;
+                stats->unmatched_tx_event_count + stats->rx_fifo_lost_count;
     data.enqueue_fail_delta = pace_app_delta_u16(enqueue_fail,
                                                  &pace_previous_enqueue_fail,
                                                  &saturated);
@@ -751,7 +807,7 @@ static bool pace_app_send_experiment_commands(const pace_experiment_output_t *ou
     uint8_t index;
     for (index = 0U; index < PACE_MOTOR_COUNT; ++index)
     {
-        pace_encoded_command_t encoded;
+        pace_encoded_command_t encoded = {0};
         bool packed = false;
         if ((output->send_mask & (uint8_t)(1U << index)) == 0U)
         {
@@ -792,7 +848,7 @@ static bool pace_app_send_arm_probe(void)
     uint8_t index;
     for (index = 0U; index < PACE_MOTOR_COUNT; ++index)
     {
-        pace_encoded_command_t encoded;
+        pace_encoded_command_t encoded = {0};
         bool packed;
         if (index < PACE_DM_MOTOR_COUNT)
         {
@@ -813,31 +869,35 @@ static bool pace_app_send_arm_probe(void)
 
 static void pace_app_try_arm_enable(void)
 {
-    uint8_t index;
-    for (index = 0U; index < PACE_MOTOR_COUNT; ++index)
+    static const uint8_t left[3] = {
+        PACE_MOTOR_L_FRONT, PACE_MOTOR_L_REAR, PACE_MOTOR_L_WHEEL
+    };
+    static const uint8_t right[3] = {
+        PACE_MOTOR_R_REAR, PACE_MOTOR_R_FRONT, PACE_MOTOR_R_WHEEL
+    };
+    uint32_t now_us = pace_time_now_us();
+    uint8_t lhs;
+    uint8_t rhs;
+    if ((pace_enable_pair_index >= 3U) ||
+        ((int32_t)(now_us - pace_next_enable_us) < 0))
     {
-        pace_encoded_command_t encoded;
-        bool packed;
-        if ((pace_arm_enable_pending_mask & (uint8_t)(1U << index)) == 0U)
-        {
-            continue;
-        }
-        if (index < PACE_DM_MOTOR_COUNT)
-        {
-            packed = pace_dm_pack_special(index, PACE_COMMAND_DM_ENABLE, &encoded);
-        }
-        else
-        {
-            packed = pace_lk_pack_special(index, PACE_COMMAND_LK_ENABLE, &encoded);
-        }
-        if (packed && pace_app_send_encoded(&encoded))
-        {
-            pace_arm_enable_count[index]++;
-            if (pace_arm_enable_count[index] >= PACE_MOTOR_ENABLE_REPEAT_COUNT)
-            {
-                pace_arm_enable_pending_mask &= (uint8_t)~(1U << index);
-            }
-        }
+        return;
+    }
+    lhs = left[pace_enable_pair_index];
+    rhs = right[pace_enable_pair_index];
+    if (!pace_app_send_enable_pair(lhs, rhs))
+    {
+        return;
+    }
+    pace_arm_enable_count[lhs]++;
+    pace_arm_enable_count[rhs]++;
+    pace_enable_pair_repeat++;
+    pace_next_enable_us = now_us + (PACE_MOTOR_ENABLE_INTERVAL_MS * 1000U);
+    if (pace_enable_pair_repeat >= PACE_MOTOR_ENABLE_REPEAT_COUNT)
+    {
+        pace_arm_enable_pending_mask &= (uint8_t)~((1U << lhs) | (1U << rhs));
+        pace_enable_pair_repeat = 0U;
+        pace_enable_pair_index++;
     }
 }
 
@@ -845,7 +905,6 @@ static void pace_app_handle_armed_tick(uint32_t now_us,
                                        const pace_motor_registry_t *registry)
 {
     pace_arm_tick_count++;
-    pace_app_try_arm_enable();
     if ((pace_arm_enable_pending_mask == 0U) &&
         ((pace_arm_tick_count % PACE_ARM_POLL_DIVIDER) == 0U) &&
         !pace_app_send_arm_probe())
@@ -857,7 +916,9 @@ static void pace_app_handle_armed_tick(uint32_t now_us,
         }
         return;
     }
-    if (pace_app_all_feedback_valid(registry))
+    if ((pace_arm_enable_pending_mask == 0U) &&
+        (pace_can_port_pending_count() == 0U) &&
+        pace_app_all_feedback_valid(registry))
     {
         if (!pace_experiment_begin(&pace_experiment, registry, now_us))
         {
@@ -875,7 +936,7 @@ static void pace_app_handle_armed_tick(uint32_t now_us,
 
 static void pace_app_finish_session(uint32_t now_us)
 {
-    pace_safe_command_pending_mask = PACE_ALL_MOTORS_MASK;
+    pace_app_begin_safe_shutdown(now_us);
     pace_app_schedule_terminal(now_us, PACE_EVENT_SESSION_COMPLETE,
                                pace_normal_stop_reason, pace_sample_count, 0U);
 }
@@ -891,7 +952,8 @@ static void pace_app_handle_running_tick(uint32_t now_us,
                            (can_stats->tx_event_lost_count !=
                             pace_session_tx_event_lost_base) ||
                            (can_stats->unmatched_tx_event_count !=
-                            pace_session_unmatched_event_base);
+                            pace_session_unmatched_event_base) ||
+                           (can_stats->rx_fifo_lost_count != pace_session_rx_lost_base);
 
     pace_current_safety_flags = pace_safety_check(registry, &pace_safety_limits,
                                                   now_us, pace_session_start_us,
@@ -963,7 +1025,7 @@ static void pace_app_handle_tick(uint32_t now_us)
     pace_can_port_stats_t can_stats_snapshot;
     uint32_t primask;
 
-    pace_app_snapshot_registry(now_us, &registry_snapshot);
+    pace_app_snapshot_registry(&now_us, &registry_snapshot);
     if ((pace_sample_count % PACE_STATUS_DIVIDER) == 0U)
     {
         pace_can_port_refresh_protocol_state();
@@ -1004,21 +1066,10 @@ static bool pace_app_ready_for_new_session(void)
     return (pace_capture_depth(&pace_capture) == 0U) &&
            !pace_transport_stats()->inflight &&
            !pace_footer_pending &&
+           !pace_safe_shutdown_active &&
            (pace_safe_command_pending_mask == 0U) &&
+           (pace_safe_command_inflight_mask == 0U) &&
            (pace_can_port_pending_count() == 0U);
-}
-
-static bool pace_app_final_contract_is_ready(void)
-{
-    return (PACE_FINAL_CONTRACT_READY == 1U) &&
-           (PACE_FINAL_CONTRACT_VERSION > 0U) &&
-           (PACE_FINAL_CONTRACT_HASH != 0UL) &&
-           (PACE_FINAL_ACTION_RATE_HZ > 0U) &&
-           (PACE_FINAL_COMMAND_HOLD_METHOD > 0U) &&
-           (PACE_FINAL_DM_POSITION_AMPLITUDE_RAD > 0.0f) &&
-           (PACE_FINAL_DM_BANDWIDTH_HZ > 0.0f) &&
-           (PACE_FINAL_LK_COMMAND_MODE > 0U) &&
-           (PACE_FINAL_SAFETY_LIMIT_SET_ID > 0U);
 }
 
 static void pace_app_handle_host_command(const pace_host_command_t *command)
@@ -1043,15 +1094,22 @@ static void pace_app_handle_host_command(const pace_host_command_t *command)
                 pace_experiment_default_config(&pace_default_config, session_type);
                 (void)pace_experiment_configure(&pace_experiment, &pace_default_config);
             }
-            else if ((session_type == PACE_SESSION_FINAL_IDENTIFICATION) &&
-                     pace_app_final_contract_is_ready())
+            else if (session_type == PACE_SESSION_FINAL_IDENTIFICATION)
             {
-                pace_experiment_default_config(&pace_default_config, session_type);
-                pace_default_config.experiment_config_hash = PACE_FINAL_CONTRACT_HASH;
-                pace_default_config.safety_limit_set_id =
-                    PACE_FINAL_SAFETY_LIMIT_SET_ID;
-                (void)pace_experiment_configure(&pace_experiment,
-                                                &pace_default_config);
+                if (pace_experiment_final_config(&pace_default_config))
+                {
+                    (void)pace_experiment_configure(&pace_experiment,
+                                                    &pace_default_config);
+                }
+                else
+                {
+                    /* A rejected request must not leave an older recipe armed. */
+                    pace_experiment_reset(&pace_experiment);
+                }
+            }
+            else
+            {
+                pace_experiment_reset(&pace_experiment);
             }
         }
         break;
@@ -1076,7 +1134,7 @@ static void pace_app_handle_host_command(const pace_host_command_t *command)
         }
         else if (pace_experiment.state == PACE_STATE_ARMED)
         {
-            pace_safe_command_pending_mask = PACE_ALL_MOTORS_MASK;
+            pace_app_begin_safe_shutdown(now_us);
             pace_normal_stop_reason = PACE_STOP_HOST_REQUEST;
             pace_app_schedule_terminal(now_us, PACE_EVENT_SESSION_COMPLETE,
                                        PACE_STOP_HOST_REQUEST, 0U, 0U);
@@ -1089,7 +1147,7 @@ static void pace_app_handle_host_command(const pace_host_command_t *command)
             pace_motor_registry_t registry_snapshot;
             pace_can_port_stats_t can_stats_snapshot;
             uint32_t primask;
-            pace_app_snapshot_registry(now_us, &registry_snapshot);
+            pace_app_snapshot_registry(&now_us, &registry_snapshot);
             primask = __get_PRIMASK();
             __disable_irq();
             can_stats_snapshot = *pace_can_port_stats();
@@ -1182,6 +1240,21 @@ bool pace_app_init(void)
     pace_tick_tail = 0U;
     pace_tick_overflow = false;
     pace_safe_command_pending_mask = 0U;
+    pace_safe_command_inflight_mask = 0U;
+    pace_safe_shutdown_active = false;
+    pace_session_header_emitted = false;
+    pace_session_statistics_complete = true;
+    pace_terminal_event_pending = false;
+    pace_footer_pending = false;
+    pace_stream_sequence = 0U;
+    pace_sample_count = 0U;
+    pace_running_tick_count = 0U;
+    pace_arm_enable_pending_mask = 0U;
+    pace_enable_pair_index = 0U;
+    pace_enable_pair_repeat = 0U;
+    pace_autostart_started = false;
+    memset(pace_safe_confirm_base, 0, sizeof(pace_safe_confirm_base));
+    memset(pace_arm_enable_count, 0, sizeof(pace_arm_enable_count));
     pace_motor_registry_init(&pace_registry);
     pace_capture_init(&pace_capture);
     pace_experiment_init(&pace_experiment);
@@ -1204,52 +1277,72 @@ bool pace_app_init(void)
     {
         return false;
     }
+    pace_autostart_start_us = pace_time_now_us();
     return true;
+}
+
+void pace_app_poll(void)
+{
+    uint32_t latest_tick_us = 0U;
+    uint32_t discarded_tick_us;
+    uint8_t tick_count = 0U;
+    uint32_t now_us = pace_time_now_us();
+#if PACE_ONE_WAY_AUTOSTART
+    if (!pace_app_run_reference_autostart(now_us))
+    {
+        pace_app_enter_fault(now_us, PACE_EVENT_CAN_SEND_FAILURE,
+                             PACE_STOP_CAN_FAILURE, 0U, 0U);
+    }
+#else
+    pace_app_parse_host_stream();
+    if (!pace_uart_port_service_rx() || pace_host_rx_overflow)
+    {
+        pace_app_enter_fault(now_us, PACE_EVENT_UART_FAILURE,
+                             PACE_STOP_UART_FAILURE, 0U, 0U);
+    }
+#endif
+    if (pace_experiment.state == PACE_STATE_ARMED)
+    {
+        pace_app_try_arm_enable();
+    }
+    while (pace_app_pop_tick(&discarded_tick_us))
+    {
+        latest_tick_us = discarded_tick_us;
+        tick_count++;
+    }
+    if ((pace_tick_overflow || (tick_count > 1U)) &&
+        ((pace_experiment.state == PACE_STATE_RUNNING) ||
+         (pace_experiment.state == PACE_STATE_STOPPING)))
+    {
+        /* No bursts of stale control work against the latest ISR feedback. */
+        pace_app_enter_fault(now_us, PACE_EVENT_SCHEDULER_OVERRUN,
+                             PACE_STOP_SCHEDULER_OVERRUN, tick_count, 0U);
+    }
+    pace_tick_overflow = false;
+    if (tick_count > 0U)
+    {
+        pace_app_handle_tick(latest_tick_us);
+    }
+    if (pace_transport_stats()->failed)
+    {
+        pace_app_enter_fault(pace_time_now_us(), PACE_EVENT_UART_FAILURE,
+                             PACE_STOP_UART_FAILURE, 0U, 0U);
+    }
+    pace_app_try_safe_commands();
+    pace_app_flush_terminal_frames();
+}
+
+void pace_app_transport_poll(void)
+{
+    pace_transport_kick();
 }
 
 void pace_app_capture_task(void const *argument)
 {
     (void)argument;
-#if PACE_ONE_WAY_AUTOSTART
-    if (!pace_app_run_reference_autostart())
-    {
-        pace_app_enter_fault(pace_time_now_us(), PACE_EVENT_CAN_SEND_FAILURE,
-                             PACE_STOP_CAN_FAILURE, 0U, 0U);
-    }
-#endif
     for (;;)
     {
-        uint32_t now_us;
-#if !PACE_ONE_WAY_AUTOSTART
-        pace_app_parse_host_stream();
-        if (pace_host_rx_overflow &&
-            ((pace_experiment.state == PACE_STATE_ARMED) ||
-             (pace_experiment.state == PACE_STATE_RUNNING) ||
-             (pace_experiment.state == PACE_STATE_STOPPING)))
-        {
-            pace_app_enter_fault(pace_time_now_us(), PACE_EVENT_UART_FAILURE,
-                                 PACE_STOP_UART_FAILURE, 0U, 0U);
-        }
-#endif
-        if (pace_tick_overflow &&
-            ((pace_experiment.state == PACE_STATE_ARMED) ||
-             (pace_experiment.state == PACE_STATE_RUNNING) ||
-             (pace_experiment.state == PACE_STATE_STOPPING)))
-        {
-            pace_app_enter_fault(pace_time_now_us(), PACE_EVENT_SCHEDULER_OVERRUN,
-                                 PACE_STOP_SCHEDULER_OVERRUN, 0U, 0U);
-        }
-        while (pace_app_pop_tick(&now_us))
-        {
-            pace_app_handle_tick(now_us);
-        }
-        if (pace_transport_stats()->failed)
-        {
-            pace_app_enter_fault(pace_time_now_us(), PACE_EVENT_UART_FAILURE,
-                                 PACE_STOP_UART_FAILURE, 0U, 0U);
-        }
-        pace_app_try_safe_commands();
-        pace_app_flush_terminal_frames();
+        pace_app_poll();
         osDelay(1U);
     }
 }
@@ -1259,12 +1352,16 @@ void pace_app_transport_task(void const *argument)
     (void)argument;
     for (;;)
     {
-        pace_transport_kick();
+        pace_app_transport_poll();
         osDelay(1U);
     }
 }
 
 pace_experiment_state_t pace_app_state(void)
 {
+    if ((pace_experiment.state == PACE_STATE_COMPLETE) && pace_safe_shutdown_active)
+    {
+        return PACE_STATE_STOPPING;
+    }
     return pace_experiment.state;
 }

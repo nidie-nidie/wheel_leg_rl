@@ -88,7 +88,10 @@ def file_type(path: str) -> str:
 
 
 def build_project() -> None:
-    tree = ET.parse(BASE_DIR / "rm_test.uvprojx")
+    template = BASE_DIR / "rm_test.uvprojx"
+    if not template.exists():
+        template = ROOT / "MDK-ARM/wheel_leg_motor_PACE.uvprojx"
+    tree = ET.parse(template)
     root = tree.getroot()
     target = root.find("./Targets/Target")
     if target is None:
@@ -102,13 +105,11 @@ def build_project() -> None:
         ".//TargetArmAds/Cads/VariousControls/Define": "USE_HAL_DRIVER,STM32H723xx",
         ".//TargetArmAds/Cads/VariousControls/IncludePath": ";".join(INCLUDE_PATHS),
         ".//TargetArmAds/Aads/VariousControls/IncludePath": "../Core/Inc",
-        ".//TargetArmAds/LDads/umfTarg": "1",
+        ".//TargetArmAds/LDads/umfTarg": "0",
         ".//TargetArmAds/ArmAdsMisc/OnChipMemories/OCR_RVCT10/StartAddress": "0x24000000",
         ".//TargetArmAds/ArmAdsMisc/OnChipMemories/OCR_RVCT10/Size": "0x20000",
-        # Let uVision generate the linker scatter description from the target's
-        # IROM/IRAM settings.  The former path pointed at a file that does not
-        # exist and made every otherwise successful build fail at link time.
-        ".//TargetArmAds/LDads/ScatterFile": "",
+        # Dedicated AXI SRAM allocation keeps UART DMA away from DTCM.
+        ".//TargetArmAds/LDads/ScatterFile": "../Config/pace_memory.sct",
     }
     for path, value in replacements.items():
         set_text(root, path, value)
@@ -151,7 +152,10 @@ def add_option_file(group: ET.Element, group_number: int, number: int, path: str
 
 
 def build_options() -> None:
-    tree = ET.parse(BASE_DIR / "rm_test.uvoptx")
+    template = BASE_DIR / "rm_test.uvoptx"
+    if not template.exists():
+        template = ROOT / "MDK-ARM/wheel_leg_motor_PACE.uvoptx"
+    tree = ET.parse(template)
     root = tree.getroot()
     set_text(root, "./Target/TargetName", "wheel_leg_motor_PACE")
     for old_group in list(root.findall("Group")):

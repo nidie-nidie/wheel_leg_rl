@@ -167,7 +167,7 @@ class DecoderTest(unittest.TestCase):
         stream = session_header() + stage_config() + malformed + bytes(corrupted) + valid + footer(5, 6)
         decoded = decode_bytes(stream)
         codes = [issue.code for issue in decoded.issues]
-        self.assertIn("malformed_frame", codes)
+        self.assertIn("invalid_length", codes)
         self.assertIn("crc_error", codes)
         self.assertIn("sequence_gap", codes)
         self.assertEqual(1, len(decoded.samples))

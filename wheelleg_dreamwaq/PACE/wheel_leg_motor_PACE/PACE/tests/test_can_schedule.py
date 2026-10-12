@@ -32,20 +32,14 @@ class CanScheduleTest(unittest.TestCase):
         self.assertEqual(define_int("PACE_AUTOSTART_DELAY_MS"), 10000)
         self.assertEqual(define_int("PACE_MOTOR_ENABLE_REPEAT_COUNT"), 10)
         self.assertEqual(define_int("PACE_MOTOR_ENABLE_INTERVAL_MS"), 1)
-        start = APP.index("static bool pace_app_run_reference_enable_sequence")
-        stop = APP.index("#if PACE_ONE_WAY_AUTOSTART", start)
+        start = APP.index("static void pace_app_try_arm_enable")
+        stop = APP.index("static void pace_app_handle_armed_tick", start)
         sequence = APP[start:stop]
-        expected_pairs = [
-            ("PACE_MOTOR_L_FRONT", "PACE_MOTOR_R_REAR"),
-            ("PACE_MOTOR_L_REAR", "PACE_MOTOR_R_FRONT"),
-            ("PACE_MOTOR_L_WHEEL", "PACE_MOTOR_R_WHEEL"),
-        ]
-        positions = []
-        for left, right in expected_pairs:
-            marker = f"pace_app_send_enable_pair({left},\n                                       {right})"
-            positions.append(sequence.index(marker))
-        self.assertEqual(positions, sorted(positions))
-        self.assertEqual(sequence.count("osDelay(PACE_MOTOR_ENABLE_INTERVAL_MS)"), 3)
+        self.assertIn("PACE_MOTOR_L_FRONT, PACE_MOTOR_L_REAR, PACE_MOTOR_L_WHEEL", sequence)
+        self.assertIn("PACE_MOTOR_R_REAR, PACE_MOTOR_R_FRONT, PACE_MOTOR_R_WHEEL", sequence)
+        self.assertIn("pace_app_send_enable_pair(lhs, rhs)", sequence)
+        self.assertIn("PACE_MOTOR_ENABLE_INTERVAL_MS * 1000U", sequence)
+        self.assertNotIn("osDelay", sequence)
 
     def test_documented_stage_loads_remain_below_target(self):
         self.assertAlmostEqual(bus_load_percent([100] * 6), 15.6, places=3)
@@ -75,21 +69,21 @@ class CanScheduleTest(unittest.TestCase):
             "PACE_STAGE_LK_VELOCITY",
             "PACE_STAGE_STOP",
         ]
-        start = EXPERIMENT.index("expected_stage_ids")
-        block = EXPERIMENT[start : start + 500]
-        positions = [block.index(stage) for stage in expected]
-        self.assertEqual(positions, sorted(positions))
+        for stage in expected:
+            self.assertIn(stage, EXPERIMENT)
+        header = (ROOT / "PACE" / "Inc" / "pace_experiment.h").read_text(encoding="utf-8")
+        self.assertIn("#define PACE_EXPERIMENT_STAGE_COUNT 26U", header)
+        self.assertIn("#define PACE_EXPERIMENT_MAX_STAGES 32U", header)
+        self.assertIn("config->stage_count", EXPERIMENT)
+        self.assertIn("pace_experiment_config_hash(config)", EXPERIMENT)
         self.assertIn("experiment->state != PACE_STATE_CONFIGURED", EXPERIMENT)
         self.assertIn("experiment->state != PACE_STATE_RUNNING", EXPERIMENT)
 
     def test_final_session_remains_locked_until_contract_is_frozen(self):
         self.assertEqual(define_int("PACE_FINAL_CONTRACT_READY"), 0)
-        self.assertIn("(PACE_FINAL_CONTRACT_READY == 1U)", APP)
-        self.assertRegex(
-            APP,
-            r"PACE_SESSION_FINAL_IDENTIFICATION\)\s*&&\s*"
-            r"pace_app_final_contract_is_ready\(\)",
-        )
+        self.assertIn("pace_experiment_final_config", EXPERIMENT)
+        self.assertIn("PACE_FINAL_ZERO_VERIFIED != 1U", EXPERIMENT)
+        self.assertIn("config->experiment_config_hash != PACE_FINAL_CONTRACT_HASH", EXPERIMENT)
 
     def test_status_encoder_uses_the_full_128_byte_buffer(self):
         self.assertIn("uint8_t frame[PACE_STATUS_MAX_FRAME_SIZE];", APP)

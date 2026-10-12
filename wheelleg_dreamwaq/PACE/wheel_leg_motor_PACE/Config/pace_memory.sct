@@ -1,0 +1,18 @@
+; STM32H723: preserve the original 1 MiB flash / 128 KiB DTCM / 128 KiB AXI budget.
+; DMA1/2 buffers must use AXI SRAM, never the DTCM region at 0x20000000.
+LR_IROM1 0x08000000 0x00100000 {
+  ER_IROM1 0x08000000 0x00100000 {
+    *.o (RESET, +First)
+    *(InRoot$$Sections)
+    .ANY (+RO +XO)
+  }
+  RW_DMA 0x24000000 0x00001000 {
+    * (.pace_dma)
+  }
+  RW_IRAM1 0x20000000 0x00020000 {
+    .ANY (+RW +ZI)
+  }
+  RW_IRAM2 0x24001000 0x0001F000 {
+    .ANY (+RW +ZI)
+  }
+}

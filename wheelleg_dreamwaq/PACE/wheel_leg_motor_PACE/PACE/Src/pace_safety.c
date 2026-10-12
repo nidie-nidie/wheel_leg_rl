@@ -43,7 +43,8 @@ uint16_t pace_safety_check(const pace_motor_registry_t *registry,
     for (index = 0U; index < PACE_MOTOR_COUNT; ++index)
     {
         const pace_motor_state_t *state = &registry->motors[index];
-        if (!state->rx_valid || (state->rx_age_us > limits->feedback_timeout_us))
+        if (!state->rx_valid || !state->online ||
+            (state->rx_age_us > limits->feedback_timeout_us))
         {
             flags |= PACE_SAFETY_FEEDBACK_TIMEOUT;
             continue;

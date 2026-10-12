@@ -31,6 +31,8 @@ class DynamicsSeries:
     saturated: np.ndarray
     valid: np.ndarray
     sample_period_s: float
+    desired_velocity: np.ndarray = None
+    feedforward: np.ndarray = None
 
 
 def fit_and_validation_roles(session_type: int) -> Tuple[str, str]:
@@ -69,11 +71,11 @@ def _sample_period(time_s: np.ndarray) -> float:
         raise ValueError("at least three samples are required")
     differences = np.diff(time_s)
     positive = differences[differences > 0.0]
-    if positive.size == 0:
+    if positive.size != differences.size:
         raise ValueError("sample timestamps are not increasing")
     period = float(np.median(positive))
     if np.any(np.abs(positive - period) > max(1.0e-7, period * 0.05)):
-        raise ValueError("selected fitting rows are not uniformly sampled")
+        raise ValueError("selected fitting segment exceeds 5% timestamp jitter; resample or recapture before fixed-step delay fitting")
     return period
 
 
@@ -115,6 +117,8 @@ def dm_series(rows: Sequence[Mapping[str, object]], motor_index: int) -> Dynamic
         saturated=_boolean(rows, prefix + "saturated"),
         valid=valid,
         sample_period_s=period,
+        desired_velocity=_numeric(rows, prefix + "cmd_dq_rad_s"),
+        feedforward=_numeric(rows, prefix + "cmd_tau_nm"),
     )
 
 
@@ -148,13 +152,16 @@ def wheel_series(
 def delayed(values: np.ndarray, steps: int) -> Tuple[np.ndarray, np.ndarray]:
     if steps < 0:
         raise ValueError("delay steps cannot be negative")
+    if values.size == 0:
+        raise ValueError("cannot delay an empty series")
     output = np.empty_like(values)
     valid = np.ones(values.shape, dtype=np.bool_)
     if steps == 0:
         output[:] = values
         return output, valid
-    output[:steps] = values[0]
-    output[steps:] = values[:-steps]
+    output[:min(steps, values.size)] = values[0]
+    if steps < values.size:
+        output[steps:] = values[:-steps]
     valid[:steps] = False
     return output, valid
 
@@ -174,11 +181,48 @@ def require_dm_baseline(rows: Sequence[Mapping[str, object]], motor_index: int) 
     kd = _numeric(rows, prefix + "kd")
     dq = _numeric(rows, prefix + "cmd_dq_rad_s")
     tau = _numeric(rows, prefix + "cmd_tau_nm")
-    if np.max(np.abs(kp - DM_BASELINE_KP)) > (500.0 / 4095.0 + 1.0e-6):
-        raise ValueError(f"DM{motor_index} baseline Kp is not {DM_BASELINE_KP}")
-    if np.max(np.abs(kd - DM_BASELINE_KD)) > (5.0 / 4095.0 + 1.0e-6):
-        raise ValueError(f"DM{motor_index} baseline Kd is not {DM_BASELINE_KD}")
+    if not np.all(np.isfinite(kp)) or np.any(kp <= 0) or np.ptp(kp) > 1e-6:
+        raise ValueError(f"DM{motor_index} Kp must be positive and constant within a segment")
+    if not np.all(np.isfinite(kd)) or np.any(kd < 0) or np.ptp(kd) > 1e-6:
+        raise ValueError(f"DM{motor_index} Kd must be nonnegative and constant within a segment")
     if np.max(np.abs(dq)) > (1.5 * DM_VELOCITY_QUANTUM):
         raise ValueError(f"DM{motor_index} baseline dq_des is not zero")
     if np.max(np.abs(tau)) > (1.5 * DM_TORQUE_QUANTUM):
         raise ValueError(f"DM{motor_index} baseline torque feed-forward is not zero")
+
+
+def segment_rows(rows, motor_index, *, stage_id=None, role=None, mode=None):
+    """Select active channels without joining unrelated config/segment intervals."""
+    prefix = f"m{motor_index}_"
+    segments = []
+    current = []
+    previous_key = None
+    for row in rows:
+        selected = ((stage_id is None or int(row["stage_id"]) == stage_id)
+                    and (role is None or str(row["role"]) == role)
+                    and (mode is None or int(row[prefix + "command_mode"]) == mode)
+                    and bool(row.get(prefix + "active", True)))
+        key = (row.get("segment_id", row["stage_id"]), row.get("config_seq", row["stage_id"]))
+        if not selected or (current and key != previous_key):
+            if current:
+                segments.append(current)
+                current = []
+        if selected:
+            current.append(row)
+            previous_key = key
+    if current:
+        segments.append(current)
+    if not segments:
+        raise ValueError(f"no active fitting segments for motor {motor_index}, role {role}, mode {mode}")
+    return segments
+
+
+def series_segments(value):
+    return [value] if isinstance(value, DynamicsSeries) else list(value)
+
+
+def validate_delay_period(series_sets):
+    periods = [series.sample_period_s for group in series_sets for series in series_segments(group)]
+    if not periods or not np.allclose(periods, periods[0], rtol=0.05, atol=1e-7):
+        raise ValueError("fitting segments use incompatible sample periods")
+    return float(np.median(periods))

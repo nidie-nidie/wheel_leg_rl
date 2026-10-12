@@ -10,6 +10,7 @@ import numpy as np
 
 from .decoder import DecodedSession
 from .manifest import MotorManifest, load_firmware_manifest
+from .session_metadata import manifest_from_snapshot
 
 
 DM_POSITION_MIN = -12.5
@@ -92,6 +93,8 @@ class NormalizedDataset:
                 tensors[key] = torch.from_numpy(values)
             else:
                 metadata[key] = values.tolist()
+        path = pathlib.Path(path)
+        path.parent.mkdir(parents=True, exist_ok=True)
         torch.save({"tensors": tensors, "metadata": metadata, "manifest": self.manifest.to_dict()}, path)
 
     def long_view(self, motor_indices: Sequence[int]) -> List[Dict[str, object]]:
@@ -137,6 +140,11 @@ def _base_row(decoded: DecodedSession, sample) -> Dict[str, object]:
         "stage_id": sample.stage_id,
         "config_seq": sample.config_seq,
         "role": sample.role,
+        "segment_id": sample.stage_config.segment_id if sample.stage_config else 0,
+        "group_mask": sample.stage_config.group_mask if sample.stage_config and sample.stage_config.header.version == 2 else sample.active_mask,
+        "action_update_rate_hz": sample.stage_config.action_update_rate_hz if sample.stage_config else 0,
+        "command_hold_method": sample.stage_config.command_hold_method if sample.stage_config else 0,
+        "center_source": sample.stage_config.center_source if sample.stage_config else 0,
         "fit_eligible": sample.fit_eligible,
         "active_mask": sample.active_mask,
         "online_mask": sample.online_mask,
@@ -154,8 +162,11 @@ def _add_common_motor_fields(row: Dict[str, object], prefix: str, sample, index:
     saturated = bool(sample.saturation_mask & (1 << index))
     mode = sample.stage_config.command_mode[index] if sample.stage_config else 0
     rate = sample.stage_config.command_rate_hz[index] if sample.stage_config else 0
+    fresh_limit = max(10000, int(3e6 / rate)) if rate else 0
     row.update(
         {
+            prefix + "feedback_fresh": rx_valid and block.rx_age_us <= fresh_limit,
+            prefix + "active": bool((sample.stage_config.group_mask if sample.stage_config and sample.stage_config.header.version == 2 else sample.active_mask) & (1 << index)),
             prefix + "name": motor.motor_name,
             prefix + "type": motor.motor_type,
             prefix + "command_mode": mode,
@@ -171,7 +182,8 @@ def _add_common_motor_fields(row: Dict[str, object], prefix: str, sample, index:
             prefix + "tx_time_us": -1 if block.tx_time_us is None else block.tx_time_us,
             prefix + "rx_time_us": -1 if block.rx_time_us is None else block.rx_time_us,
             prefix + "fit_eligible": sample.fit_eligible and tx_valid and rx_valid and
-            not block.tx_age_saturated and not block.rx_age_saturated and not saturated,
+            not block.tx_age_saturated and not block.rx_age_saturated and not saturated and
+            bool(sample.online_mask & (1 << index)) and block.rx_age_us <= fresh_limit and block.tx_age_us <= fresh_limit,
         }
     )
 
@@ -180,7 +192,9 @@ def normalize_session(
     decoded: DecodedSession,
     manifest: MotorManifest = None,
 ) -> NormalizedDataset:
-    manifest = manifest or load_firmware_manifest()
+    if manifest is None:
+        snapshot = (decoded.metadata or {}).get("calibration_snapshot")
+        manifest = manifest_from_snapshot(snapshot) if snapshot else load_firmware_manifest()
     manifest.validate()
     if decoded.header:
         if decoded.header.motor_order_version != manifest.version:
@@ -191,10 +205,20 @@ def normalize_session(
     rows: List[Dict[str, object]] = []
     for sample in decoded.samples:
         row = _base_row(decoded, sample)
+        candidates = [((sample.sample_time_us - status.status_time_us) & 0xFFFFFFFF, status) for status in decoded.statuses]
+        candidates = [pair for pair in candidates if pair[0] < 0x80000000]
+        status_age, status = min(candidates, key=lambda pair: pair[0]) if candidates else (None, None)
+        row["status_age_us"] = -1 if status_age is None else status_age
+        row["status_time_us"] = -1 if status is None else sample.extended_time_us - status_age
         for index, block in enumerate(sample.dm):
             motor = manifest.motors[index]
             prefix = f"m{index}_"
             _add_common_motor_fields(row, prefix, sample, index, motor, block)
+            row[prefix + "temp_mos_c"] = status.dm_temp_mos[index] if status else math.nan
+            row[prefix + "temp_rotor_c"] = status.dm_temp_rotor[index] if status else math.nan
+            center = sample.stage_config.dm_center_rad[index] if sample.stage_config and sample.stage_config.dm_center_rad else math.nan
+            row[prefix + "center_motor_rad"] = center
+            row[prefix + "center_rad"] = _canonical_position(center, motor.position_sign, motor.position_zero_rad, motor.gear_ratio)
             cmd_q_motor = _uint_to_float(block.cmd_q_raw, DM_POSITION_MIN, DM_POSITION_MAX, 16)
             cmd_dq_motor = _uint_to_float(block.cmd_dq_raw, DM_VELOCITY_MIN, DM_VELOCITY_MAX, 12)
             cmd_tau_motor = _uint_to_float(block.cmd_tau_raw, DM_TORQUE_MIN, DM_TORQUE_MAX, 12)
@@ -235,6 +259,7 @@ def normalize_session(
             motor = manifest.motors[index]
             prefix = f"m{index}_"
             _add_common_motor_fields(row, prefix, sample, index, motor, block)
+            row[prefix + "temp_c"] = status.lk_temp[local_index] if status else math.nan
             mode = sample.stage_config.command_mode[index] if sample.stage_config else 0
             cmd_torque = block.cmd_primary_raw * LK_CURRENT_A_PER_COMMAND * LK_TORQUE_CONSTANT
             cmd_velocity = block.cmd_primary_raw * 0.01 * DEG_TO_RAD

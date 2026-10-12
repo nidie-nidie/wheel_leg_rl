@@ -14,7 +14,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from fit.model_manifest import load_model_manifest, verify_against_firmware_manifest
+from fit.model_manifest import load_model_manifest, verify_against_firmware_manifest, delay_steps_for_period, require_identified_motor_properties
 from pace_raw.manifest import load_firmware_manifest
 
 
@@ -30,6 +30,10 @@ class _DelayLine:
     def reset(self) -> None:
         self._values.clear()
         self._values.extend([0.0] * (self.delay_steps + 1))
+
+    def prime(self, value):
+        self._values.clear()
+        self._values.extend([float(value)] * (self.delay_steps + 1))
 
     def push(self, value: float) -> float:
         self._values.append(float(value))
@@ -48,21 +52,28 @@ def _friction_torque(parameters: Mapping[str, float], velocity: float) -> float:
 class ActuatorReplay:
     """Stateful six-channel actuator model in the firmware canonical order."""
 
-    def __init__(self, value: Union[pathlib.Path, str, Mapping[str, object]]):
+    def __init__(self, value: Union[pathlib.Path, str, Mapping[str, object]], *, runtime_period_s):
         self.manifest = load_model_manifest(value)
         verify_against_firmware_manifest(self.manifest, load_firmware_manifest())
         self.motors = self.manifest["motors"]
+        self.runtime_period_s = float(runtime_period_s)
+        def steps(parameters):
+            return delay_steps_for_period(parameters, self.runtime_period_s, self.manifest["sample_period_s"])
+        self._steps = steps
         self.dm_delay = [
-            _DelayLine(int(self.motors[index]["model"]["delay_steps"]))
+            _DelayLine(steps(self.motors[index]["model"]))
             for index in range(4)
         ]
+        self.dm_velocity_delay = [_DelayLine(line.delay_steps) for line in self.dm_delay]
+        self.dm_feedforward_delay = [_DelayLine(line.delay_steps) for line in self.dm_delay]
+        self.dm_initialized = [False] * 4
         self.wheel_delay = []
         self.wheel_mode = [None, None]
         for index in range(4, 6):
             model = self.motors[index]["model"]
             maximum = max(
-                int(model["torque_mode"]["delay_steps"]),
-                int(model["velocity_mode"]["delay_steps"]),
+                steps(model["torque_mode"]),
+                steps(model["velocity_mode"]),
             )
             self.wheel_delay.append(_DelayLine(maximum))
 
@@ -71,9 +82,10 @@ class ActuatorReplay:
         return tuple(motor["name"] for motor in self.motors)
 
     def reset(self) -> None:
-        for line in self.dm_delay + self.wheel_delay:
+        for line in self.dm_delay + self.dm_velocity_delay + self.dm_feedforward_delay + self.wheel_delay:
             line.reset()
         self.wheel_mode = [None, None]
+        self.dm_initialized = [False] * 4
 
     def compute_dm_effort(
         self,
@@ -110,16 +122,21 @@ class ActuatorReplay:
             fitted = self.motors[index]["model"]
             controller = fitted["controller"]
             encoder_position = position[index] - float(fitted["encoder_bias_rad"])
+            if not self.dm_initialized[index]:
+                self.dm_delay[index].prime(encoder_position)
+                self.dm_initialized[index] = True
+            delayed_target = self.dm_delay[index].push(target_position[index])
+            delayed_velocity = self.dm_velocity_delay[index].push(target_velocity[index])
+            delayed_feedforward = self.dm_feedforward_delay[index].push(torque_feedforward[index])
             effort = (
                 float(controller["kp"])
-                * (target_position[index] - encoder_position)
+                * (delayed_target - encoder_position)
                 + float(controller["kd"])
-                * (target_velocity[index] - velocity[index])
-                + torque_feedforward[index]
+                * (delayed_velocity - velocity[index])
+                + delayed_feedforward
             )
-            delayed_effort = self.dm_delay[index].push(effort)
             limit = float(fitted["effort_limit_nm"])
-            output[index] = np.clip(delayed_effort, -limit, limit)
+            output[index] = np.clip(effort, -limit, limit)
         return output
 
     def compute_wheel_effort(
@@ -138,16 +155,17 @@ class ActuatorReplay:
         for local_index, motor_index in enumerate((4, 5)):
             fitted = self.motors[motor_index]["model"]
             if self.wheel_mode[local_index] != mode:
-                selected_delay = int(fitted[mode + "_mode"]["delay_steps"])
+                selected_delay = self._steps(fitted[mode + "_mode"])
                 self.wheel_delay[local_index] = _DelayLine(selected_delay)
                 self.wheel_mode[local_index] = mode
+            delayed_command = self.wheel_delay[local_index].push(command[local_index])
             if mode == "torque":
-                effort = command[local_index]
+                effort = delayed_command
             else:
                 torque_model = fitted["torque_mode"]
                 velocity_model = fitted["velocity_mode"]
                 acceleration = (
-                    float(velocity_model["command_gain"]) * command[local_index]
+                    float(velocity_model["command_gain"]) * delayed_command
                     - velocity[local_index]
                 ) / float(velocity_model["time_constant_s"])
                 effort = (
@@ -155,9 +173,8 @@ class ActuatorReplay:
                     + float(torque_model["viscous_friction"]) * velocity[local_index]
                     + _friction_torque(torque_model, velocity[local_index])
                 )
-            delayed_effort = self.wheel_delay[local_index].push(effort)
             limit = float(fitted["effort_limit_nm"])
-            output[local_index] = np.clip(delayed_effort, -limit, limit)
+            output[local_index] = np.clip(effort, -limit, limit)
         return output
 
     def compute_effort(
@@ -193,6 +210,7 @@ class ActuatorReplay:
             damping.append(float(fitted["viscous_friction"]))
             frictionloss.append(float(fitted["dynamic_friction"]))
         return {
+            "parameter_semantics": [motor["model"].get("parameter_semantics", "unknown") for motor in self.motors],
             "joint_order": [motor["mujoco_joint"] for motor in self.motors],
             "armature": armature,
             "damping": damping,
@@ -203,6 +221,7 @@ class ActuatorReplay:
         indices = np.asarray(dof_indices, dtype=np.int64)
         if indices.shape != (6,):
             raise ValueError("dof_indices must follow the six-channel canonical order")
+        require_identified_motor_properties(self.manifest)
         patch = self.joint_parameter_patch()
         mj_model.dof_armature[indices] = patch["armature"]
         mj_model.dof_damping[indices] = patch["damping"]
@@ -220,8 +239,9 @@ class ActuatorReplay:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Print the MuJoCo fitted joint parameter patch")
     parser.add_argument("manifest", type=pathlib.Path)
+    parser.add_argument("--runtime-period", required=True, type=float)
     args = parser.parse_args()
-    replay = ActuatorReplay(args.manifest)
+    replay = ActuatorReplay(args.manifest, runtime_period_s=args.runtime_period)
     print(json.dumps(replay.joint_parameter_patch(), indent=2, sort_keys=True))
 
 

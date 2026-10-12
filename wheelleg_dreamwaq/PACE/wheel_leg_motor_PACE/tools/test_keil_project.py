@@ -1,4 +1,5 @@
 import pathlib
+import tempfile
 import unittest
 import xml.etree.ElementTree as ET
 
@@ -15,18 +16,26 @@ IOC = (ROOT / "wheel_leg_motor_PACE.ioc").read_text(encoding="utf-8")
 class KeilProjectTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        cls.output = tempfile.TemporaryDirectory()
+        cls.previous_output = generate_keil_project.OUTPUT_DIR
+        generate_keil_project.OUTPUT_DIR = pathlib.Path(cls.output.name)
         generate_keil_project.build_project()
         generate_keil_project.build_options()
-        cls.root = ET.parse(PROJECT).getroot()
+        cls.root = ET.parse(generate_keil_project.OUTPUT_DIR / PROJECT.name).getroot()
+        cls.addClassCleanup(cls.output.cleanup)
+        cls.addClassCleanup(setattr, generate_keil_project, "OUTPUT_DIR", cls.previous_output)
 
     def test_target_and_output_are_renamed(self):
         self.assertEqual(self.root.findtext("./Targets/Target/TargetName"), "wheel_leg_motor_PACE")
         self.assertEqual(self.root.findtext(".//TargetCommonOption/OutputName"), "wheel_leg_motor_PACE")
 
-    def test_linker_uses_generated_scatter_file(self):
-        self.assertEqual(self.root.findtext(".//TargetArmAds/LDads/umfTarg"), "1")
+    def test_linker_keeps_dma_outside_dtcm(self):
+        self.assertEqual(self.root.findtext(".//TargetArmAds/LDads/umfTarg"), "0")
         self.assertEqual(self.root.findtext(".//TargetArmAds/LDads/useFile"), "0")
-        self.assertFalse(self.root.findtext(".//TargetArmAds/LDads/ScatterFile"))
+        self.assertEqual(self.root.findtext(".//TargetArmAds/LDads/ScatterFile"), "../Config/pace_memory.sct")
+        scatter = (ROOT / "Config/pace_memory.sct").read_text(encoding="utf-8")
+        self.assertIn("RW_DMA 0x24000000 0x00001000", scatter)
+        self.assertIn("* (.pace_dma)", scatter)
 
     def test_target_ram_regions_are_valid(self):
         ram2 = ".//TargetArmAds/ArmAdsMisc/OnChipMemories/OCR_RVCT10"

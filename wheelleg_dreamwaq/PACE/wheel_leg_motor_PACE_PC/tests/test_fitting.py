@@ -15,6 +15,7 @@ import jsonschema
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from helpers_v2 import decoded_fixture
 from fit.common import DynamicsSeries, require_dm_baseline
 from fit.fit_leg_dm import fit_leg_series
 from fit.fit_leg_dm import fit_leg_dm
@@ -29,8 +30,9 @@ from fit.model_manifest import (
     replace_motor_result,
     validate_model_manifest,
     write_model_manifest,
+    require_matching_source,
 )
-from isaac.leg_dm_adapter import load_leg_dm_contract
+from isaac.leg_dm_adapter import load_leg_dm_contract, pace_dc_motor_cfg_kwargs, apply_joint_properties
 from isaac.wheel_lk_adapter import load_wheel_lk_contract
 from pace_raw.manifest import load_firmware_manifest
 
@@ -149,22 +151,7 @@ def metric_stub():
 
 def complete_manifest():
     firmware = load_firmware_manifest()
-    decoded = types.SimpleNamespace(
-        header=types.SimpleNamespace(
-            session_type=1,
-            sample_rate_hz=500,
-            motor_order_version=1,
-            scale_manifest_hash=firmware.manifest_hash,
-            session_id=7,
-            experiment_config_hash=0x50414331,
-            firmware_build_id=0x20260928,
-            robot_variant=0x574C5031,
-        ),
-        footer=types.SimpleNamespace(
-            overflow=False, statistics_complete=True, dropped_frames=0
-        ),
-        summary=lambda: {"issues": {}},
-    )
+    decoded = decoded_fixture(rate=500)
     dataset = types.SimpleNamespace(decoded=decoded, manifest=firmware)
     model = create_model_manifest(dataset)
     for index in range(4):
@@ -180,6 +167,9 @@ def complete_manifest():
                 "encoder_bias_rad": 0.01,
                 "friction_transition_velocity_rad_s": 0.05,
                 "delay_steps": 3,
+                "delay_s": .006,
+                "identification_sample_period_s": .002,
+                "delay_semantics": "target_before_pd",
                 "controller": {
                     "kp": 20.0,
                     "kd": 0.6,
@@ -205,11 +195,17 @@ def complete_manifest():
                     "dynamic_friction": 0.03,
                     "friction_transition_velocity_rad_s": 0.10,
                     "delay_steps": 2,
+                    "delay_s": .004,
+                    "identification_sample_period_s": .002,
+                    "delay_semantics": "command_before_response",
                 },
                 "velocity_mode": {
                     "command_gain": 0.94,
                     "time_constant_s": 0.08,
                     "delay_steps": 2,
+                    "delay_s": .004,
+                    "identification_sample_period_s": .002,
+                    "delay_semantics": "command_before_response",
                 },
                 "effort_limit_nm": 2.41,
                 "parameter_semantics": "synthetic_test",
@@ -222,22 +218,7 @@ def complete_manifest():
 
 def pipeline_dataset():
     firmware = load_firmware_manifest()
-    decoded = types.SimpleNamespace(
-        header=types.SimpleNamespace(
-            session_type=1,
-            sample_rate_hz=500,
-            motor_order_version=1,
-            scale_manifest_hash=firmware.manifest_hash,
-            session_id=9,
-            experiment_config_hash=0x50414331,
-            firmware_build_id=0x20260928,
-            robot_variant=0x574C5031,
-        ),
-        footer=types.SimpleNamespace(
-            overflow=False, statistics_complete=True, dropped_frames=0
-        ),
-        summary=lambda: {"issues": {}},
-    )
+    decoded = decoded_fixture(rate=500)
     dm_parameters = [
         {"armature": 0.06, "viscous": 0.11, "friction": 0.035, "bias": -0.020},
         {"armature": 0.08, "viscous": 0.14, "friction": 0.045, "bias": 0.015},
@@ -273,6 +254,8 @@ def pipeline_dataset():
                 "time_s": time_offset + series_set[0].time_s[sample_index],
                 "stage_id": stage_id,
                 "role": role,
+                "segment_id": stage_id,
+                "config_seq": stage_id,
             }
             for index, series in enumerate(series_set):
                 prefix = f"m{index}_"
@@ -305,14 +288,16 @@ def pipeline_dataset():
                 )
             rows.append(row)
 
-    def add_wheel_stage(stage_id, mode, series_set, time_offset):
+    def add_wheel_stage(stage_id, mode, series_set, time_offset, role="FIT", segment_id=None):
         command_key = "cmd_torque_nm" if mode == 5 else "cmd_velocity_rad_s"
         other_key = "cmd_velocity_rad_s" if mode == 5 else "cmd_torque_nm"
         for sample_index in range(series_set[0].time_s.size):
             row = {
                 "time_s": time_offset + series_set[0].time_s[sample_index],
                 "stage_id": stage_id,
-                "role": "PROVISIONAL_FIT",
+                "role": role,
+                "segment_id": segment_id or stage_id,
+                "config_seq": segment_id or stage_id,
             }
             for index in range(4):
                 prefix = f"m{index}_"
@@ -345,10 +330,12 @@ def pipeline_dataset():
                 )
             rows.append(row)
 
-    add_dm_stage(2, "PROVISIONAL_FIT", dm_fit, 0.0)
+    add_dm_stage(2, "FIT", dm_fit, 0.0)
     add_dm_stage(3, "VALIDATION", dm_validation, 8.0)
     add_wheel_stage(4, 5, wheel_torque, 16.0)
     add_wheel_stage(5, 6, wheel_velocity, 24.0)
+    add_wheel_stage(4, 5, wheel_torque, 32.0, role="VALIDATION", segment_id=14)
+    add_wheel_stage(5, 6, wheel_velocity, 40.0, role="VALIDATION", segment_id=15)
     return types.SimpleNamespace(decoded=decoded, manifest=firmware, rows=rows)
 
 
@@ -423,7 +410,7 @@ class FittingTest(unittest.TestCase):
             write_model_manifest(model, path)
             leg = load_leg_dm_contract(path)
             wheel = load_wheel_lk_contract(path)
-            replay = ActuatorReplay(path)
+            replay = ActuatorReplay(path, runtime_period_s=.002)
         self.assertEqual([0, 1, 2, 3], leg["canonical_indices"])
         self.assertEqual([4, 5], wheel["canonical_indices"])
         self.assertEqual([2.41, 2.41], wheel["effort_limit_nm"])
@@ -440,6 +427,75 @@ class FittingTest(unittest.TestCase):
         self.assertTrue(np.allclose(third, 0.0))
         self.assertTrue(np.all(fourth > 0.0))
 
+    def test_nested_controller_and_velocity_divisor_are_validated(self):
+        model=complete_manifest()
+        model["motors"][0]["model"]["controller"]["kp"]=float("nan")
+        with self.assertRaisesRegex(ValueError,"controller kp"):
+            validate_model_manifest(model)
+        model=complete_manifest()
+        model["motors"][4]["model"]["velocity_mode"]["time_constant_s"]=0.
+        with self.assertRaisesRegex(ValueError,"time_constant_s"):
+            validate_model_manifest(model)
+
+    def test_invalid_command_source_does_not_reenter_after_delay(self):
+        from fit.fit_leg_dm import _design
+        from fit.fit_wheel_lk import _torque_design,_velocity_design
+        series=dm_fixture({"armature":.08,"viscous":.15,"friction":.04,"bias":.01},5,.3)
+        series.valid[10]=False
+        series.command[10]=999.
+        for design in (_design,_torque_design,_velocity_design):
+            with self.subTest(design=design.__name__):
+                _,_,mask=design(series,5)
+                self.assertFalse(mask[15])
+
+    def test_source_downgrade_and_cross_session_merge_rejected(self):
+        model=complete_manifest()
+        for version in (None,1):
+            model["source_session"]["protocol_version"]=version
+            with self.assertRaisesRegex(ValueError,"verified V2"):
+                validate_model_manifest(model)
+        dataset=pipeline_dataset()
+        model=create_model_manifest(dataset)
+        model["source_session"]["session_id"]+=1
+        with self.assertRaisesRegex(ValueError,"different source"):
+            require_matching_source(model,dataset)
+
+    def test_runtime_delay_and_target_before_pd_are_explicit(self):
+        model=complete_manifest()
+        with self.assertRaisesRegex(ValueError,"resampling"):
+            ActuatorReplay(model,runtime_period_s=.005)
+        with self.assertRaisesRegex(ValueError,"target_before_pd"):
+            pace_dc_motor_cfg_kwargs(model,runtime_period_s=.002,actuator_delay_semantics="effort_after_pd")
+        replay=ActuatorReplay(model,runtime_period_s=.002)
+        zero=np.zeros(4)
+        replay.compute_dm_effort(zero,zero,zero)
+        moving=np.full(4,.1)
+        effort=replay.compute_dm_effort(zero,moving,zero)
+        np.testing.assert_allclose(effort,np.full(4,-2.))
+
+    def test_effective_inertia_cannot_be_applied_as_motor_armature(self):
+        model=complete_manifest()
+        for motor in model["motors"]:
+            motor["model"]["parameter_semantics"]="effective_joint_space_initializer"
+        replay=ActuatorReplay(model,runtime_period_s=.002)
+        with self.assertRaisesRegex(ValueError,"mounted robot load"):
+            replay.apply_to_mujoco_model(None,range(6))
+        with self.assertRaisesRegex(ValueError,"mounted robot load"):
+            apply_joint_properties(None,range(4),model)
+
+    def test_joint_segmentation_recovers_known_parameters_without_boundary_history(self):
+        expected={"armature":.08,"viscous":.15,"friction":.04,"bias":.01}
+        fit=[];held=[]
+        for index in range(4):
+            fit.append([dm_fixture(expected,3,index*.2,.5),dm_fixture(expected,3,index*.2+.8,1.0)])
+            held.append([dm_fixture(expected,3,index*.2+1.4,.8)])
+            fit[-1][1].time_s[:]+=100.
+            held[-1][0].time_s[:]+=200.
+        delay,parameters,_,metrics=fit_leg_series(fit,held,max_delay_steps=5)
+        self.assertEqual(3,delay)
+        self.assertAlmostEqual(.08,parameters[0]["armature"],places=5)
+        self.assertLess(metrics[0]["rmse"],1e-6)
+
     def test_full_provisional_fit_pipeline_builds_complete_manifest(self):
         dataset = pipeline_dataset()
         model = fit_leg_dm(dataset)
@@ -451,7 +507,7 @@ class FittingTest(unittest.TestCase):
         self.assertEqual(4, model["motors"][4]["model"]["velocity_mode"]["delay_steps"])
         self.assertEqual(2.41, model["motors"][4]["model"]["effort_limit_nm"])
         self.assertEqual(2.41, model["motors"][5]["model"]["effort_limit_nm"])
-        self.assertFalse(model["motors"][4]["validation"]["available"])
+        self.assertTrue(model["motors"][4]["validation"]["available"])
 
 
 if __name__ == "__main__":

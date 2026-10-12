@@ -40,6 +40,9 @@ typedef struct
     uint32_t tx_event_lost_count;
     uint32_t unmatched_tx_event_count;
     uint32_t can_error_count;
+    uint32_t rx_fifo_lost_count;
+    uint32_t rx_fifo_full_count;
+    uint32_t rx_invalid_count;
     uint32_t last_enqueue_to_tx_us;
     uint32_t max_enqueue_to_tx_us;
     uint32_t last_command_period_us[PACE_MOTOR_COUNT];

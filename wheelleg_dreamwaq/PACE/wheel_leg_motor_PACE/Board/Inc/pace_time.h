@@ -12,6 +12,7 @@ typedef void (*pace_time_tick_callback_t)(uint32_t now_us);
 
 bool pace_time_init(void);
 uint32_t pace_time_now_us(void);
+/* V2 service timestamp; raw FDCAN time is deliberately not spliced. */
 uint32_t pace_time_expand_fdcan_timestamp(uint16_t raw_timestamp, uint32_t observed_now_us);
 void pace_time_set_tick_callback(pace_time_tick_callback_t callback);
 uint32_t pace_time_tick_count(void);

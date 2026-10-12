@@ -4,6 +4,7 @@ import copy
 import json
 import math
 import pathlib
+import re
 from datetime import datetime, timezone
 from typing import Dict, Mapping, MutableMapping, Union
 
@@ -35,6 +36,8 @@ def create_model_manifest(dataset: NormalizedDataset) -> Dict[str, object]:
     if header is None:
         raise ValueError("a fitted model requires a decoded session header")
     dataset.manifest.validate()
+    from pace_raw.quality import require_fit_quality
+    require_fit_quality(dataset)
     motors = []
     for entry in dataset.manifest.motors:
         motors.append(
@@ -50,6 +53,7 @@ def create_model_manifest(dataset: NormalizedDataset) -> Dict[str, object]:
                 "torque_sign": entry.torque_sign,
                 "position_zero_rad": entry.position_zero_rad,
                 "gear_ratio": entry.gear_ratio,
+                "calibration_verified": entry.calibration_verified,
                 "model": None,
                 "fit": None,
                 "validation": None,
@@ -70,6 +74,14 @@ def create_model_manifest(dataset: NormalizedDataset) -> Dict[str, object]:
             "firmware_build_id": header.firmware_build_id,
             "robot_variant": header.robot_variant,
             "sample_rate_hz": header.sample_rate_hz,
+            "protocol_version": header.header.version,
+            "raw_sha256": dataset.decoded.metadata["raw_sha256"],
+            "calibration_sha256": dataset.decoded.metadata["calibration_sha256"],
+            "metadata_sha256": dataset.decoded.metadata["metadata_sha256"],
+            "firmware_binary_sha256": dataset.decoded.metadata.get("firmware_binary_sha256"),
+            "fixture": dataset.decoded.metadata.get("fixture"),
+            "quality_passed": True,
+            "timestamp_semantics": dataset.decoded.metadata["timestamp_semantics"],
             "footer_valid": bool(
                 dataset.decoded.footer
                 and not dataset.decoded.footer.overflow
@@ -100,7 +112,7 @@ def validate_model_manifest(model: Mapping[str, object], require_complete: bool 
         raise ValueError("fitted model canonical order is invalid")
     if int(model.get("motor_order_version", -1)) != 1:
         raise ValueError("unsupported fitted-model motor order version")
-    if float(model.get("sample_period_s", 0.0)) <= 0.0:
+    if not math.isfinite(float(model.get("sample_period_s", 0.0))) or float(model.get("sample_period_s", 0.0)) <= 0.0:
         raise ValueError("sample_period_s must be positive")
     source = model.get("source_session")
     if not isinstance(source, Mapping):
@@ -108,6 +120,14 @@ def validate_model_manifest(model: Mapping[str, object], require_complete: bool 
     expected_maturity = maturity_from_session_type(int(source.get("session_type", 0)))
     if model.get("model_maturity") != expected_maturity:
         raise ValueError("model maturity disagrees with its source session type")
+    if source.get("protocol_version") != 2 or source.get("quality_passed") is not True:
+        raise ValueError("runnable model requires verified V2 source quality; legacy models are diagnostic only")
+    for key in ("raw_sha256", "calibration_sha256", "metadata_sha256"):
+        value = source.get(key)
+        if not isinstance(value, str) or re.fullmatch(r"[0-9a-f]{64}", value) is None:
+            raise ValueError(f"source identity {key} is invalid")
+    if source.get("decode_issue_counts"):
+        raise ValueError("fitted model source contains decode issues")
     if require_complete and not bool(source.get("footer_valid", False)):
         raise ValueError("a complete fitted model requires a valid source footer")
 
@@ -157,9 +177,48 @@ def validate_model_manifest(model: Mapping[str, object], require_complete: bool 
                 actuator["effort_limit_nm"]
             ) <= 0.0:
                 raise ValueError(f"invalid effort limit for {expected_name}")
+            if index < 4:
+                controller = actuator["controller"]
+                if not isinstance(controller, Mapping):
+                    raise ValueError("DM controller must be an object")
+                for key in ("kp", "kd", "dq_des_rad_s", "torque_feedforward_nm"):
+                    value = float(controller.get(key, float("nan")))
+                    if not math.isfinite(value) or (key == "kp" and value <= 0) or (key == "kd" and value < 0):
+                        raise ValueError(f"invalid DM controller {key}")
+            else:
+                for mode, keys in (("torque_mode", ("armature", "viscous_friction", "static_friction", "dynamic_friction", "delay_steps")),
+                                   ("velocity_mode", ("command_gain", "time_constant_s", "delay_steps"))):
+                    parameter = actuator[mode]
+                    if not isinstance(parameter, Mapping) or any(key not in parameter for key in keys):
+                        raise ValueError(f"incomplete LK {mode}")
+                for key in ("command_gain", "time_constant_s"):
+                    value = float(actuator["velocity_mode"][key])
+                    if not math.isfinite(value) or value <= 0:
+                        raise ValueError(f"LK velocity {key} must be positive and finite")
+            parameters = [actuator] if index < 4 else [actuator["torque_mode"], actuator["velocity_mode"]]
+            for parameter in parameters:
+                if not isinstance(parameter, Mapping):
+                    raise ValueError("actuator mode must be an object")
+                for key, value in parameter.items():
+                    if isinstance(value, (int, float)) and (not math.isfinite(float(value)) or (key in ("armature", "delay_s", "delay_steps", "viscous_friction", "static_friction", "dynamic_friction") and value < 0)):
+                        raise ValueError(f"invalid actuator parameter {key}")
+                if source.get("protocol_version") == 2:
+                    if "delay_s" not in parameter or "delay_semantics" not in parameter or "identification_sample_period_s" not in parameter:
+                        raise ValueError("V2 actuator requires physical delay and its semantics")
+                    expected_semantics = "target_before_pd" if index < 4 else "command_before_response"
+                    if parameter["delay_semantics"] != expected_semantics:
+                        raise ValueError("actuator delay semantics mismatch")
+                    delay = float(parameter["delay_steps"])
+                    period = float(parameter["identification_sample_period_s"])
+                    if delay != int(delay) or period <= 0 or abs(period - float(model["sample_period_s"])) > .05 * float(model["sample_period_s"]):
+                        raise ValueError("delay steps/identification sample period are inconsistent")
+                    if abs(float(parameter["delay_s"]) - int(delay) * period) > 1e-8:
+                        raise ValueError("physical delay disagrees with identification period")
             if model.get("model_maturity") == "final":
+                if not entry.get("calibration_verified") or not source.get("firmware_binary_sha256"):
+                    raise ValueError("final model requires verified calibration and firmware binary identity")
                 validation = entry.get("validation")
-                if not isinstance(validation, Mapping) or validation.get("available") is False:
+                if not isinstance(validation, Mapping) or validation.get("available") is not True:
                     raise ValueError(f"final model lacks held-out validation for {expected_name}")
 
 
@@ -222,3 +281,32 @@ def verify_against_firmware_manifest(
         for key, expected in checks.items():
             if fitted.get(key) != expected:
                 raise ValueError(f"fitted model {key} differs for {source.motor_name}")
+
+
+def require_matching_source(model, dataset):
+    current = create_model_manifest(dataset)
+    for key in ("sample_period_s", "motor_manifest_hash", "motor_order_version"):
+        if model.get(key) != current[key]:
+            raise ValueError(f"cannot merge actuator models with different {key}")
+    for key in ("session_id", "experiment_config_hash", "firmware_build_id", "raw_sha256", "calibration_sha256", "metadata_sha256"):
+        if model["source_session"].get(key) != current["source_session"].get(key):
+            raise ValueError(f"cannot merge different source sessions/calibrations: {key}")
+
+
+def delay_steps_for_period(parameters, runtime_period_s, source_period_s):
+    period = float(runtime_period_s)
+    if not math.isfinite(period) or period <= 0:
+        raise ValueError("runtime actuator period must be positive and finite")
+    seconds = float(parameters.get("delay_s", int(parameters["delay_steps"]) * float(source_period_s)))
+    steps = seconds / period
+    rounded = round(steps)
+    if abs(steps - rounded) > 1e-6:
+        raise ValueError("physical delay is not representable at runtime period; explicit resampling is required")
+    return int(rounded)
+
+
+def require_identified_motor_properties(model):
+    """Mounted-system regression inertia must not be added to modeled robot inertia."""
+    for motor in model["motors"]:
+        if motor["model"].get("parameter_semantics") != "identified_motor_properties":
+            raise ValueError("joint property application requires independently identified motor properties; effective_joint_space_initializer includes mounted robot load")

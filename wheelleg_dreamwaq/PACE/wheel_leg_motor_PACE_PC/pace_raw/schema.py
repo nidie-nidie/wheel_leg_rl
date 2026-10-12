@@ -7,7 +7,9 @@ from typing import List, Optional, Tuple, Union
 
 
 MAGIC = b"PA"
-PROTOCOL_VERSION = 1
+PROTOCOL_VERSION = 2
+SUPPORTED_VERSIONS = (1, 2)
+STAGE_CONFIG_V2_SIZE = 128
 SESSION_HEADER = 0x01
 SAMPLE = 0x02
 STAGE_CONFIG = 0x03
@@ -41,6 +43,7 @@ class CommonHeader:
     frame_type: int
     frame_length: int
     sequence: int
+    version: int = 1
 
 
 @dataclasses.dataclass
@@ -61,6 +64,8 @@ class SessionHeaderFrame:
     firmware_build_id: int
     robot_variant: int
     raw: bytes
+    timestamp_timebase: int = 0
+    control_rate_hz: int = 0
 
 
 @dataclasses.dataclass
@@ -133,6 +138,15 @@ class StageConfigFrame:
     safety_limit_set_id: int
     experiment_config_hash: int
     raw: bytes
+    experiment_role: int = 0
+    group_mask: int = 0
+    segment_id: int = 0
+    action_update_rate_hz: int = 0
+    command_hold_method: int = 0
+    center_source: int = 0
+    phase_rad: float = 0.0
+    dm_center_rad: Tuple[float, ...] = ()
+    excitation_multiplier: Tuple[float, ...] = ()
 
 
 @dataclasses.dataclass
@@ -193,17 +207,27 @@ def crc32(frame_without_crc: bytes) -> int:
     return zlib.crc32(frame_without_crc) & 0xFFFFFFFF
 
 
+def expected_frame_size(version: int, frame_type: int):
+    if version not in SUPPORTED_VERSIONS:
+        return None
+    if frame_type == STATUS:
+        return -1
+    if frame_type == STAGE_CONFIG and version == 2:
+        return STAGE_CONFIG_V2_SIZE
+    return FRAME_SIZES.get(frame_type)
+
+
 def _decode_common(frame: bytes) -> CommonHeader:
     if len(frame) < 14:
         raise FrameDecodeError("frame shorter than common header plus CRC")
     magic, version, frame_type, frame_length, sequence = struct.unpack_from("<2sBBHI", frame, 0)
     if magic != MAGIC:
         raise FrameDecodeError("bad magic")
-    if version != PROTOCOL_VERSION:
+    if version not in SUPPORTED_VERSIONS:
         raise FrameDecodeError("unsupported protocol version")
     if frame_length != len(frame):
         raise FrameDecodeError("declared frame length does not match available bytes")
-    if frame_type in FRAME_SIZES and frame_length != FRAME_SIZES[frame_type]:
+    if frame_type in FRAME_SIZES and frame_length != expected_frame_size(version, frame_type):
         raise FrameDecodeError("fixed frame type has an invalid length")
     if frame_type == STATUS:
         if not STATUS_MIN_SIZE <= frame_length <= STATUS_MAX_SIZE:
@@ -215,7 +239,7 @@ def _decode_common(frame: bytes) -> CommonHeader:
     expected_crc = struct.unpack_from("<I", frame, frame_length - 4)[0]
     if expected_crc != crc32(frame[:-4]):
         raise FrameDecodeError("CRC mismatch")
-    return CommonHeader(frame_type, frame_length, sequence)
+    return CommonHeader(frame_type, frame_length, sequence, version)
 
 
 def _decode_session(frame: bytes, header: CommonHeader) -> SessionHeaderFrame:
@@ -235,6 +259,8 @@ def _decode_session(frame: bytes, header: CommonHeader) -> SessionHeaderFrame:
         scale_manifest_hash=struct.unpack_from("<I", frame, 42)[0],
         firmware_build_id=struct.unpack_from("<I", frame, 46)[0],
         robot_variant=struct.unpack_from("<I", frame, 50)[0],
+        timestamp_timebase=frame[13] if header.version == 2 else 0,
+        control_rate_hz=struct.unpack_from("<H", frame, 32)[0] if header.version == 2 else 0,
         raw=frame,
     )
 
@@ -262,7 +288,7 @@ def _decode_sample(frame: bytes, header: CommonHeader) -> SampleFrame:
 
 
 def _decode_stage(frame: bytes, header: CommonHeader) -> StageConfigFrame:
-    return StageConfigFrame(
+    result = StageConfigFrame(
         header=header,
         config_seq=frame[10],
         stage_id=frame[11],
@@ -279,6 +305,17 @@ def _decode_stage(frame: bytes, header: CommonHeader) -> StageConfigFrame:
         experiment_config_hash=struct.unpack_from("<I", frame, 68)[0],
         raw=frame,
     )
+    if header.version == 2:
+        result.experiment_role = frame[72]
+        result.group_mask = frame[73]
+        result.segment_id = struct.unpack_from("<H", frame, 74)[0]
+        result.action_update_rate_hz = struct.unpack_from("<H", frame, 76)[0]
+        result.command_hold_method = frame[78]
+        result.center_source = frame[79]
+        result.phase_rad = struct.unpack_from("<f", frame, 80)[0]
+        result.dm_center_rad = struct.unpack_from("<4f", frame, 84)
+        result.excitation_multiplier = struct.unpack_from("<6f", frame, 100)
+    return result
 
 
 def _decode_status(frame: bytes, header: CommonHeader) -> StatusFrame:

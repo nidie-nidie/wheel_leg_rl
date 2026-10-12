@@ -3,68 +3,186 @@
 
 /* TIM6 and motor/CAN scheduling stay at 500 Hz. UART7 only exports every
  * second snapshot so the wireless serial bridge has comfortable headroom. */
+#ifndef PACE_CONTROL_RATE_HZ
 #define PACE_CONTROL_RATE_HZ 500U
+#endif
+#ifndef PACE_SAMPLE_RATE_HZ
 #define PACE_SAMPLE_RATE_HZ 250U
+#endif
+#ifndef PACE_STATUS_RATE_HZ
 #define PACE_STATUS_RATE_HZ 10U
+#endif
+#ifndef PACE_ACTION_UPDATE_RATE_HZ
+#define PACE_ACTION_UPDATE_RATE_HZ 50U
+#endif
+#ifndef PACE_INITIAL_FEEDBACK_MAX_AGE_US
+#define PACE_INITIAL_FEEDBACK_MAX_AGE_US 30000U
+#endif
+#ifndef PACE_CAN_NOMINAL_BITRATE
 #define PACE_CAN_NOMINAL_BITRATE 1000000U
+#endif
+#ifndef PACE_UART_BAUD
 #define PACE_UART_BAUD 921600U
+#endif
 
 /* Standalone acquisition mode.  Keep the reference motor-enable ordering and
  * 1 ms repetition interval, but intentionally wait ten seconds before the
  * sequence so the passive PC recorder can be opened before any PACE frame is
  * emitted.  UART7 is transmit-only in this mode; stopping early requires the
  * hardware emergency stop/power switch. */
+#ifndef PACE_ONE_WAY_AUTOSTART
 #define PACE_ONE_WAY_AUTOSTART 1U
+#endif
+#ifndef PACE_AUTOSTART_DELAY_MS
 #define PACE_AUTOSTART_DELAY_MS 10000U
+#endif
+#ifndef PACE_MOTOR_ENABLE_REPEAT_COUNT
 #define PACE_MOTOR_ENABLE_REPEAT_COUNT 10U
+#endif
+#ifndef PACE_MOTOR_ENABLE_INTERVAL_MS
 #define PACE_MOTOR_ENABLE_INTERVAL_MS 1U
+#endif
 
+#ifndef PACE_DM_BASELINE_KP
 #define PACE_DM_BASELINE_KP 20.0f
+#endif
+#ifndef PACE_DM_BASELINE_KD
 #define PACE_DM_BASELINE_KD 0.6f
+#endif
+#ifndef PACE_DM_FIT_AMPLITUDE_RAD
 #define PACE_DM_FIT_AMPLITUDE_RAD 0.15f
+#endif
+#ifndef PACE_DM_FIT_FREQUENCY_START_HZ
 #define PACE_DM_FIT_FREQUENCY_START_HZ 0.20f
+#endif
+#ifndef PACE_DM_FIT_FREQUENCY_END_HZ
 #define PACE_DM_FIT_FREQUENCY_END_HZ 5.00f
+#endif
+#ifndef PACE_DM_VALIDATION_AMPLITUDE_RAD
 #define PACE_DM_VALIDATION_AMPLITUDE_RAD 0.12f
+#endif
+#ifndef PACE_DM_VALIDATION_FREQUENCY_START_HZ
 #define PACE_DM_VALIDATION_FREQUENCY_START_HZ 0.35f
+#endif
+#ifndef PACE_DM_VALIDATION_FREQUENCY_END_HZ
 #define PACE_DM_VALIDATION_FREQUENCY_END_HZ 6.00f
+#endif
 
+#ifndef PACE_LK_TORQUE_AMPLITUDE_NM
 #define PACE_LK_TORQUE_AMPLITUDE_NM 0.10f
+#endif
+#ifndef PACE_LK_TORQUE_FREQUENCY_START_HZ
 #define PACE_LK_TORQUE_FREQUENCY_START_HZ 0.20f
+#endif
+#ifndef PACE_LK_TORQUE_FREQUENCY_END_HZ
 #define PACE_LK_TORQUE_FREQUENCY_END_HZ 4.00f
+#endif
+#ifndef PACE_LK_VELOCITY_AMPLITUDE_RAD_S
 #define PACE_LK_VELOCITY_AMPLITUDE_RAD_S 4.00f
+#endif
+#ifndef PACE_LK_VELOCITY_FREQUENCY_START_HZ
 #define PACE_LK_VELOCITY_FREQUENCY_START_HZ 0.20f
+#endif
+#ifndef PACE_LK_VELOCITY_FREQUENCY_END_HZ
 #define PACE_LK_VELOCITY_FREQUENCY_END_HZ 3.00f
+#endif
 
+#ifndef PACE_STAGE_STATIC_DURATION_MS
 #define PACE_STAGE_STATIC_DURATION_MS 2000U
+#endif
+#ifndef PACE_STAGE_DM_FIT_DURATION_MS
 #define PACE_STAGE_DM_FIT_DURATION_MS 12000U
+#endif
+#ifndef PACE_STAGE_DM_VALIDATION_DURATION_MS
 #define PACE_STAGE_DM_VALIDATION_DURATION_MS 6000U
+#endif
+#ifndef PACE_STAGE_LK_TORQUE_DURATION_MS
 #define PACE_STAGE_LK_TORQUE_DURATION_MS 8000U
+#endif
+#ifndef PACE_STAGE_LK_VELOCITY_DURATION_MS
 #define PACE_STAGE_LK_VELOCITY_DURATION_MS 8000U
+#endif
+#ifndef PACE_STAGE_STOP_DURATION_MS
 #define PACE_STAGE_STOP_DURATION_MS 1000U
+#endif
+#ifndef PACE_ARM_TIMEOUT_MS
 #define PACE_ARM_TIMEOUT_MS 2000U
+#endif
 
+#ifndef PACE_DEFAULT_SAFETY_LIMIT_SET_ID
 #define PACE_DEFAULT_SAFETY_LIMIT_SET_ID 1U
-#define PACE_DEFAULT_CONFIG_HASH 0x50414331UL
-#define PACE_FIRMWARE_BUILD_ID 0x20260928UL
+#endif
+/* Recipe identity is calculated from explicit field bytes, never a fixed tag. */
+#ifndef PACE_FIRMWARE_BUILD_ID
+#define PACE_FIRMWARE_BUILD_ID 0x20261012UL
+#endif
+#ifndef PACE_ROBOT_VARIANT_ID
 #define PACE_ROBOT_VARIANT_ID 0x574C5031UL
+#endif
 
 /*
  * Final identification remains compile-time locked until the low-level RL
  * actuator contract is frozen. A non-zero hash must bind every field below.
  */
+#ifndef PACE_FINAL_CONTRACT_READY
 #define PACE_FINAL_CONTRACT_READY 0U
+#endif
+#ifndef PACE_FINAL_ZERO_VERIFIED
+#define PACE_FINAL_ZERO_VERIFIED 0U
+#endif
+#ifndef PACE_FINAL_CONTRACT_VERSION
 #define PACE_FINAL_CONTRACT_VERSION 0U
+#endif
+#ifndef PACE_FINAL_CONTRACT_HASH
 #define PACE_FINAL_CONTRACT_HASH 0x00000000UL
+#endif
+#ifndef PACE_FINAL_ACTION_RATE_HZ
 #define PACE_FINAL_ACTION_RATE_HZ 0U
+#endif
+#ifndef PACE_FINAL_COMMAND_HOLD_METHOD
 #define PACE_FINAL_COMMAND_HOLD_METHOD 0U
+#endif
+#ifndef PACE_FINAL_DM_L_FRONT_NOMINAL_RAD
 #define PACE_FINAL_DM_L_FRONT_NOMINAL_RAD 0.0f
+#endif
+#ifndef PACE_FINAL_DM_L_REAR_NOMINAL_RAD
 #define PACE_FINAL_DM_L_REAR_NOMINAL_RAD 0.0f
+#endif
+#ifndef PACE_FINAL_DM_R_REAR_NOMINAL_RAD
 #define PACE_FINAL_DM_R_REAR_NOMINAL_RAD 0.0f
+#endif
+#ifndef PACE_FINAL_DM_R_FRONT_NOMINAL_RAD
 #define PACE_FINAL_DM_R_FRONT_NOMINAL_RAD 0.0f
+#endif
+#ifndef PACE_FINAL_DM_POSITION_AMPLITUDE_RAD
 #define PACE_FINAL_DM_POSITION_AMPLITUDE_RAD 0.0f
+#endif
+#ifndef PACE_FINAL_DM_BANDWIDTH_HZ
 #define PACE_FINAL_DM_BANDWIDTH_HZ 0.0f
+#endif
+#ifndef PACE_FINAL_DM_TORQUE_FEEDFORWARD_POLICY
 #define PACE_FINAL_DM_TORQUE_FEEDFORWARD_POLICY 0U
+#endif
+#ifndef PACE_FINAL_DM_KP
+#define PACE_FINAL_DM_KP 0.0f
+#endif
+#ifndef PACE_FINAL_DM_KD
+#define PACE_FINAL_DM_KD 0.0f
+#endif
+#ifndef PACE_FINAL_LK_COMMAND_MODE
 #define PACE_FINAL_LK_COMMAND_MODE 0U
+#endif
+#ifndef PACE_FINAL_LK_TORQUE_AMPLITUDE_NM
+#define PACE_FINAL_LK_TORQUE_AMPLITUDE_NM 0.0f
+#endif
+#ifndef PACE_FINAL_LK_VELOCITY_AMPLITUDE_RAD_S
+#define PACE_FINAL_LK_VELOCITY_AMPLITUDE_RAD_S 0.0f
+#endif
+#ifndef PACE_FINAL_LK_BANDWIDTH_HZ
+#define PACE_FINAL_LK_BANDWIDTH_HZ 0.0f
+#endif
+#ifndef PACE_FINAL_SAFETY_LIMIT_SET_ID
 #define PACE_FINAL_SAFETY_LIMIT_SET_ID 0U
+#endif
 
 #endif

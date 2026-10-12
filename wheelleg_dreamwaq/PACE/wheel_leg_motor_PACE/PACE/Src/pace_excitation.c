@@ -61,5 +61,6 @@ float pace_excitation_validation(float time_s,
     const float secondary = 0.35f * amplitude *
                             pace_excitation_envelope(time_s, duration_s) *
                             sinf(PACE_TWO_PI_F * 1.37f * time_s + phase_rad * 0.5f);
-    return primary + secondary;
+    /* The declared amplitude bounds the sum, including the independent tone. */
+    return (primary + secondary) / 1.35f;
 }
