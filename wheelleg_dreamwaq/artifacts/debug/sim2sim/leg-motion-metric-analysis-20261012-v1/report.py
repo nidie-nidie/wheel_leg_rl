@@ -1,0 +1,205 @@
+"""Make a readable evidence report and standalone scientific plots."""
+from pathlib import Path
+import csv,json
+import numpy as np
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.font_manager import FontProperties
+
+OUT=Path(__file__).resolve().parent
+PREVIOUS=OUT.parent/"reversal-noise-diagnosis-20261011-v1"
+FONT=FontProperties(fname=r"C:\Windows\Fonts\msyh.ttc")
+plt.rcParams.update({"font.family":FONT.get_name(),"axes.unicode_minus":False,"font.size":10,"figure.dpi":110})
+ARMS=("baseline","budget12","budget8")
+ARM_LABEL={"baseline":"原奖励对照组","budget12":"12次/秒组","budget8":"8次/秒组"}
+SCENARIOS={"nominal_stand":"停车","forward":"前进 +1 m/s","reverse":"后退 −1 m/s"}
+JOINT_LABEL=("左前 jIJ","左后 jIO","右前 jAB","右后 jAG")
+COLORS=("#4c566a","#0072B2","#D55E00")
+R=json.loads((OUT/"results.json").read_text(encoding="utf-8"))
+def item(arm,scenario): return next(x for x in R["trajectories"] if x["arm"]==arm and x["scenario"]==scenario)
+def table(headers,rows):
+    return "| "+" | ".join(headers)+" |\n| "+" | ".join(["---"]*len(headers))+" |\n"+"\n".join("| "+" | ".join(map(str,row))+" |" for row in rows)+"\n"
+def pair(r,key,scale=1): return " / ".join(f"{r['joints'][j][key]*scale:.3f}" for j in (0,1))
+def pct(x,y): return (x/y-1)*100
+
+def plots():
+    x=np.arange(4); width=.24
+    fig,axs=plt.subplots(3,1,figsize=(10,9),sharex=True)
+    metrics=[("target_second_rms",1000,"目标二阶变化 RMS（mrad/步²）"),
+             ("acceleration_rms",1,"实际角加速度 RMS（rad/s²）"),
+             ("velocity_rms",1,"实际角速度 RMS（rad/s）")]
+    for ax,(key,scale,label) in zip(axs,metrics):
+        for k,(arm,color) in enumerate(zip(ARMS,COLORS)):
+            vals=np.array([j[key] for j in item(arm,"nominal_stand")["joints"]])*scale
+            bars=ax.bar(x+(k-1)*width,vals,width,label=ARM_LABEL[arm],color=color)
+            ax.bar_label(bars,labels=[f"{v:.2f}" for v in vals],fontsize=8,padding=3)
+        ax.set_ylabel(label); ax.grid(axis="y",alpha=.2); ax.set_axisbelow(True)
+        ax.margins(y=.18)
+    axs[0].legend(ncol=3,loc="upper right")
+    axs[-1].set_xticks(x,JOINT_LABEL)
+    fig.suptitle("停车：目标指令与实际机械运动分别评价\n同种子三组200轮模型，reset后第2～10秒")
+    fig.tight_layout(rect=(0,0,1,.93))
+    fig.savefig(OUT/"parking-metric-comparison.png",dpi=160); plt.close(fig)
+    for scenario in SCENARIOS:
+        fig,axs=plt.subplots(4,3,figsize=(14,10),sharex=True,sharey="row")
+        limits=[]
+        for j in range(4):
+            ys=[]
+            for arm in ARMS:
+                d=np.load(PREVIOUS/"captures"/f"{arm}-{scenario}.npz")
+                keep=(d["time_s"]>=5-1e-8)&(d["time_s"]<=5.7+1e-8)
+                ys.extend((np.rad2deg(d["leg_target"][keep,j]),np.rad2deg(d["q_after"][keep,j])))
+            lo=min(y.min() for y in ys); hi=max(y.max() for y in ys)
+            pad=max((hi-lo)*.12,.3); limits.append((lo-pad,hi+pad))
+        for k,arm in enumerate(ARMS):
+            d=np.load(PREVIOUS/"captures"/f"{arm}-{scenario}.npz")
+            keep=(d["time_s"]>=5-1e-8)&(d["time_s"]<=5.7+1e-8)
+            for j in range(4):
+                ax=axs[j,k]
+                ax.step(d["time_s"][keep]-.02,np.rad2deg(d["leg_target"][keep,j]),where="post",label="目标角",color="#E69F00",lw=1.2)
+                ax.plot(d["time_s"][keep],np.rad2deg(d["q_after"][keep,j]),label="实际角",color="#0072B2",lw=1.2)
+                ax.set_ylim(*limits[j]); ax.grid(alpha=.2)
+                if k==0: ax.set_ylabel(JOINT_LABEL[j]+"\n角度（°）")
+                if j==0: ax.set_title(ARM_LABEL[arm]); ax.legend(loc="best",fontsize=8)
+                if j==3: ax.set_xlabel("reset后时间（s）")
+        fig.suptitle(SCENARIOS[scenario]+"：四个电机的目标与实际角度\n目标在控制区间开始更新，实际角度在区间结束采样；列间使用相同纵轴范围")
+        fig.tight_layout(rect=(0,0,1,.94))
+        fig.savefig(OUT/f"aligned-joints-{scenario}.png",dpi=150); plt.close(fig)
+    fig,axs=plt.subplots(5,3,figsize=(15,12),sharex=True)
+    specs=(("vx_mps",1,"实际车速（m/s）"),("pitch_rad",180/np.pi,"身体 pitch（°）"),
+           ("phi0_left_rad",180/np.pi,"左虚拟腿 φ0（°）"),("l0_left_m",1000,"左虚拟腿长（mm）"),
+           ("base_height_m",1000,"身体高度（mm）"))
+    for k,scenario in enumerate(SCENARIOS):
+        for arm,color in zip(ARMS,COLORS):
+            record=item(arm,scenario)
+            with Path(record["sources"]["reference"]).open(encoding="utf-8",newline="") as f: rows=list(csv.DictReader(f))[100:]
+            t=np.array([float(r["time_s"]) for r in rows])
+            for j,(key,scale,label) in enumerate(specs):
+                axs[j,k].plot(t,[float(r[key])*scale for r in rows],color=color,label=ARM_LABEL[arm],lw=.85,alpha=.85)
+                axs[j,k].grid(alpha=.2)
+                if k==0: axs[j,k].set_ylabel(label)
+                if j==4: axs[j,k].set_xlabel("reset后时间（s）")
+        axs[0,k].axhline({"nominal_stand":0,"forward":1,"reverse":-1}[scenario],color="black",ls="--",lw=.8,label="速度命令")
+        axs[4,k].axhline(200,color="black",ls="--",lw=.7)
+        axs[0,k].set_title(SCENARIOS[scenario])
+    axs[0,0].legend(fontsize=8,ncol=2)
+    fig.suptitle("整车表现与虚拟腿运动：同一轨迹、同一时间轴\n这些曲线用于检查控制效果；同步振荡不能单独证明动作是否必要")
+    fig.tight_layout(rect=(0,0,1,.95))
+    fig.savefig(OUT/"vehicle-and-virtual-leg.png",dpi=150); plt.close(fig)
+
+def report():
+    b=item("baseline","nominal_stand"); n=item("budget12","nominal_stand")
+    rows=[]
+    for arm in ARMS:
+        p=item(arm,"nominal_stand")
+        rows.append([ARM_LABEL[arm],pair(p,"target_reversal_rate_per_s"),pair(p,"target_second_rms",1000),
+                     pair(p,"acceleration_rms"),pair(p,"velocity_rms"),f"{p['vehicle']['vx_mae_mps']:.5f}"])
+    text="""# 腿部抖动约束指标：已有数据分析
+
+**建议采用“四个腿部驱动关节各自的实际角加速度平方”，以一段时间的平均值作为软约束预算；报告时开平方，显示为实际角加速度RMS。目标角变化保留为辅助诊断，暂不继续用换向次数作为主要约束。**
+
+本次没有新增训练或仿真运行，只分析已核验的原轨迹。新增文件都在本目录，生产代码、奖励、动作、随机化、网络、USD、MuJoCo参数和既有结果保持原样。没有调用子agent。
+
+## 1. 数据、对象与时间对应
+
+三组模型来自同一个1000轮模型、同一种子、相同weights-only初始化，各新增200轮：原奖励对照组、12次/秒组、8次/秒组。本分析使用它们各自的停车/前进(+1m/s)/后退(−1m/s)轨迹，目标高度均0.20m。
+
+每条原轨迹500帧，总4500帧；统一分析动作后2s<t≤10s的400帧，总3600帧/14400个关节样本。另分成72个不重叠1秒窗口。窗口共享同一条物理轨迹，不是72次独立试验。
+
+每条腿两个物理驱动关节：左前jIJ、左后jIO、右前jAB、右后jAG。四个电机独立统计，不将左右或前后相反的变化相互抵消。φ0是虚拟腿角，不是这些电机关节角。
+
+目标角在每20ms控制区间开始更新，实际位置/速度/整车信号在区间结束采样。actual_acceleration=(v_after−v_before)/0.02，等于该20ms区间的平均角加速度；不是MuJoCo的1ms瞬时qacc。绘图已保留这个时间差。50Hz采样的Nyquist为25Hz，本数据不能完整判断更高频机械振动。
+
+## 2. 只看指令不足以评价实际抖动
+
+停车窗口的左前/左后读数如下。目标二阶变化是q*_t−2q*_(t−1)+q*_(t−2)；RMS越大，目标变化越急。车速误差也采用同一2～10秒窗口，与旧报告的全程0～10秒指标不同。
+
+"""
+    text+=table(["组别","目标换向 次/s","目标二阶变化 mrad/步²","实际加速度RMS rad/s²","实际速度RMS rad/s","停车车速MAE m/s"],rows)
+    text+=f"""
+12次/秒组与原奖励对照组相比：
+
+- 左前目标二阶变化下降{-pct(n['joints'][0]['target_second_rms'],b['joints'][0]['target_second_rms']):.1f}%，实际角加速度RMS却增加{pct(n['joints'][0]['acceleration_rms'],b['joints'][0]['acceleration_rms']):.1f}%，实际角速度增加{pct(n['joints'][0]['velocity_rms'],b['joints'][0]['velocity_rms']):.1f}%。
+- 左后换向次数下降约6.8%，实际角加速度RMS增加{pct(n['joints'][1]['acceleration_rms'],b['joints'][1]['acceleration_rms']):.1f}%，实际角速度增加{pct(n['joints'][1]['velocity_rms'],b['joints'][1]['velocity_rms']):.1f}%。
+- 所有九条轨迹的右腿目标都固定：目标增量与目标二阶变化为0；实际关节仍在运动。右腿raw动作全程饱和到裁剪边界，不能用右腿的“0换向”定义健康阈值。
+
+所以目标变化是输入端的指标，实际加速度是运动端的指标。目标成本变小，不能推出机械运动一定变平顺。
+
+[停车指标对比图](parking-metric-comparison.png)
+
+## 3. 各场景实际机械运动
+
+"""
+    rows=[]
+    for scenario in SCENARIOS:
+        for arm in ARMS:
+            p=item(arm,scenario)
+            rows.append([SCENARIOS[scenario],ARM_LABEL[arm],pair(p,"acceleration_rms"),pair(p,"velocity_rms"),
+                f"{p['vehicle']['vx_mae_mps']:.5f}",f"{np.rad2deg(p['vehicle']['pitch_rad_centered_rms']):.3f}"])
+    text+=table(["场景","组别","左前/左后加速度RMS rad/s²","左前/左后速度RMS rad/s","车速MAE m/s","pitch波动RMS °"],rows)
+    f=item("budget12","forward"); fb=item("baseline","forward")
+    text+=f"""
+12次/秒组前进时，左前/左后的实际角加速度从{pair(fb,'acceleration_rms')}降到{pair(f,'acceleration_rms')} rad/s²，确实有一条“实际运动明显更平顺”的轨迹可作为对照；但同一窗口车速误差从{fb['vehicle']['vx_mae_mps']:.5f}升至{f['vehicle']['vx_mae_mps']:.5f}m/s。这说明选好抖动指标仍须同时验收跟踪表现；不能把最小运动直接当作最佳控制，也不能仅用这三组数据证明二者无法兼得。
+
+停车三组的左侧目标和实际角速度主要峰分别为9.75/9.125/10Hz；身体pitch也有同频分量。左侧实际角加速度的Hann谱能量有99.3%以上位于8Hz及以上，5Hz及以上超过99.6%。这是持续快速变化的证据，但同步频率无法证明这些变化是否必要。
+
+实际位置总变化幅度还会包含慢漂移。8次/秒组停车左后位置波动RMS比对照组更大，而角速度和加速度更小；其位置谱5Hz以上的比例仅32.9%，对照组为67.6%。所以只用“关节角摆动范围”也会把慢变化与快速抽动混在一起。本次3/5/8Hz分界仅用于敏感性检查，没有将频率过滤器作为新奖励。
+
+[停车目标/实际角度](aligned-joints-nominal_stand.png) · [前进目标/实际角度](aligned-joints-forward.png) · [后退目标/实际角度](aligned-joints-reverse.png)
+
+[车速、pitch、φ0、腿长和高度](vehicle-and-virtual-leg.png)
+
+## 4. 探索噪声与既有奖励的范围
+
+使用上一轮保存的相同history和64份标准噪声，离线重算目标增量/二阶变化；采样动作没有施加到物理轨迹。目标二阶变化同样对探索敏感：三组九轨迹左侧“采样/mean”的RMS比为2.5～22.9。即使固定单一history、网络mean不变，单独探索采样也产生约0.13～0.17rad的目标二阶变化RMS。因此不能认为把换向次数改成目标二阶变化，就自动解决了探索影响。
+
+**实际加速度也会响应真正施加到电机的探索动作。** 本次没有采样闭环物理数据，不能量化噪声造成的实际加速度，更不能承诺换指标后ROGER不会再封顶。训练接入后必须单独检查真实rollout的成本与gain。
+
+现有action_smooth覆盖六维动作，dof_acc覆盖四腿关节和两个轮关节。在这些确定性部署轨迹里，六维action_smooth原始成本中，腿部分只占{min(x['existing_six_dimension_cost']['action_smooth_leg_share'] for x in R['trajectories'])*100:.2f}%～{max(x['existing_six_dimension_cost']['action_smooth_leg_share'] for x in R['trajectories'])*100:.2f}%；dof_acc中腿部分占{min(x['existing_six_dimension_cost']['acceleration_leg_share'] for x in R['trajectories'])*100:.2f}%～{max(x['existing_six_dimension_cost']['acceleration_leg_share'] for x in R['trajectories'])*100:.2f}%。停车对照组，两个轮子合计占这两项总成本的99.14%和92.22%。这只是该轨迹的数值贡献，不能据此确定训练梯度或证明它们是抽搐根因，但说明“提高一个六维总权重”并不等价于“单独调节腿部抖动约束”。
+
+原六维action_smooth可以保留。若后续接入本建议，应明确使用现有dof_acc的腿部四维信号，并与原项统一安排，避免对同一腿加速度无意重复惩罚。轮子部分不跟随腿部ROGER增益一起加重。
+
+## 5. 推荐的指标与软约束含义
+
+对每个驱动关节j，按实际速度反馈计算：
+
+a_(t,j)=(qdot_(t,j)−qdot_(t−1,j))/0.02
+
+基础成本是a_(t,j)²。以1秒/50个控制步为例，监控量：
+
+C_j=mean(a_(t,j)²)，A_j=sqrt(C_j)
+
+C_j是平均角加速度平方，适合用作成本；A_j是角加速度RMS，单位rad/s²，便于看数值和设预算。四个电机分别计算，不先平均成一个数。若每关节允许的RMS为B_j，则C_j与B_j²比较，超过预算的部分才作为软约束超额；原来的“12次/秒”不能直接换算成B_j。
+
+选择它的理由：
+
+1. 直接看机械运动；目标不变但实际振动时也能记录到。
+2. 抽动幅度更大或反向更快，通常会产生更大的成本；不会像计数那样“一次就是一次”。
+3. 恒定角度或恒定角速度的理想运动，角加速度为0；比单纯惩罚所有腿运动更符合“减少急促变化”的目的。
+4. 工程已有真实速度反馈、20ms差分和dof_acc信号，接入可以沿用现有语义。
+
+这是一项软成本：超过预算会扣分，ROGER用于调节其权重，电机仍能执行控制动作。它不自动区分“救车”和“多余抽动”；必要平衡动作仍可能产生较大加速度。
+
+**本分析能支持优先选这个指标，不能给出已验证安全的数值阈值。** 原奖励停车39～40rad/s²是当前有抽动的读数，不是健康上限；右腿小读数又受动作饱和影响。现有数据缺少命令切换、扰动恢复与大幅平衡修正轨迹，直接要求所有场景达到5～7rad/s²没有依据。1秒窗口也只是本次可解释的统计尺度，实际奖励/调权更新接入需要另行确定。
+
+下一步若实施小范围试验，应同时保留目标二阶变化、实际速度/位置、φ0/腿长、车速与姿态的监控，并以跟踪、存活和换向表现作为独立验收。降低成本是一个目标，整体控制通过验收才算有效。
+
+## 6. 核验与复现
+
+- 原CSV与已核验捕获中的目标、速度、20ms加速度逐值重算，最大误差0.0。
+- input-identity.json保存输入/源码/既有修改的hash；verification.json记录最终独立标量重算、输出核验及受保护文件检查。
+- results.json保存36个关节/场景汇总、72个窗口、频谱、探索对照、合成例子与六维成本拆分。
+- aligned-data.csv保存3600帧按时间对齐的数据；joint-metrics.csv保存36行逐关节汇总。
+- 合成例子：同样5Hz、振幅10倍时，目标二阶变化与实际加速度RMS均约10倍，平方成本约100倍；恒速例子的角加速度为数值0。合成例子验证指标数学性质，不是机器人安全验证。
+
+复现顺序：用项目.venv运行analyze.py、report.py、verify.py。只读取原轨迹，运行脚本不会启动训练或物理仿真。最终检查结果见[verification.json](verification.json)。
+
+局限：一个种子、三组200轮、固定命令和平地。没有新训练结果，没有推力恢复试验，未证明根因或阈值安全，也未证明ROGER优于固定权重。
+"""
+    (OUT/"report.md").write_bytes(text.encode("utf-8"))
+
+def main():
+    plots(); report()
+    print(json.dumps({"report":str(OUT/"report.md"),"plots":[p.name for p in OUT.glob("*.png")]}))
+if __name__=="__main__": main()

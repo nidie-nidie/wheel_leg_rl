@@ -1,0 +1,1294 @@
+{
+  "schema": "SplitSmoothSnapshotTraceV1",
+  "unchanged_frozen_files": {
+    "artifacts/debug/sim2sim/split-action-smooth-20261013-v1/run_experiment.py": "FAAB2082AD5F21B709FAF09E173CEA72D7B8FF62C098E12ADC661749AD3EB4FA",
+    "artifacts/debug/sim2sim/split-action-smooth-20261013-v1/sample_physics.py": "1792D2CD9DA7D6AF32124465830E77D448F627D6532932A56C327C74777D5C35",
+    "scripts/train_dreamwaq.py": "44AD504C147B588A0CF02965C6384548330DBC44E4B7F400361555DA3178BB3A",
+    "sim2sim/mujoco/model_manifest.json": "E83642558F85AE261F60FBC90A38BE830B61A9F438F43A33E34C7726512C6811",
+    "sim2sim/mujoco/models/wheel_leg_urdf4_v1.xml": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+    "sim2sim/mujoco/wheelleg_mujoco/contract.py": "C8E174FE748E481B358524C85F8669E014AB6ABA2B7B7F6BFB4A342B16EF2CB9",
+    "sim2sim/mujoco/wheelleg_mujoco/control.py": "F5A79CE5210BC887F6E3BCA21B58865D0C951B163CE555CC1A1D66D63E5926D1",
+    "sim2sim/mujoco/wheelleg_mujoco/runner.py": "728A5A2681C05A33C033A538B823205FF47474868FCBCA5D25F3A3F15EF67EAB",
+    "source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/dreamwaq_manifest.py": "CA2731C7960F50DA69A42361D3584F46621377C0A43AC186A28276AFAD528F43",
+    "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py": "A29AA76EFD5C2E62EE1A7E625AEBFE18A3C46E697B330A7DC1A6406AE7E5D29B",
+    "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/rewards.py": "BE6EFC7E5C39B3CB6FDE71805A84703F78FDDBC11A34CFC0C2F8A94D4B44AFE8",
+    "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/training_profiles.py": "1E70D21A64EC803979254C1C032F5836174D23D344E45FC5254A927DA4199632"
+  },
+  "training_started": false,
+  "isaac_started": false,
+  "checkpoint_inputs": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_999.pt": "3D621280CF7F11088C972B0DD84CF2E698C29A4C8CDA8BC370BB80A2669DF885",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_0.pt": "7829FA2195C170AF47BE15718D59724CAB8AAE6E18049522CDAF4205E56925D3",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_100.pt": "03B57298050B0F93416F7DF41A838804E31430D7D24DF6C34A9439940CC7EA58",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_200.pt": "3DC70C7968EC137F60AF2E63E6FF826FA3E45465C009482E7F87E4E3ED9AAB52",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_300.pt": "A0EA05C0B518AA895F494E4B10C21731C9BF24179B62B7DC9AB187B6174198F1",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_500.pt": "5E7C401B5A6B0598F7672ECD8CD65F47062010B63349886F9C8414EE8C6C305B",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_700.pt": "676FF987A218AC95B64797AD3209F539D88AA20F5C304A7A8565074DC965D2BC",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_900.pt": "4DAA715611EC6074B697695E9B7A59AF0DD1A158B6FD848AEF611136FBF4E63B",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_999.pt": "DF301CBF3199ABA5016A2D7423E2EC29925A9F22EB8359D71B4EBFF40014CA4B"
+  },
+  "results": [
+    {
+      "label": "baseline",
+      "completed_iterations": 1000,
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_999.pt",
+      "checkpoint_sha256": "3D621280CF7F11088C972B0DD84CF2E698C29A4C8CDA8BC370BB80A2669DF885",
+      "manual_graph_max_error": 0.0,
+      "same_input_negative_clip_fraction": [
+        0.0,
+        0.5,
+        0.5,
+        0.5,
+        0.6,
+        0.0
+      ],
+      "effective_std": [
+        0.17398568987846375,
+        0.19329173862934113,
+        0.9308534264564514,
+        0.8906398415565491,
+        1.047504186630249,
+        0.9157454967498779
+      ],
+      "scenes": {
+        "nominal_stand": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": true,
+          "reset_raw_action": [
+            0.3223457336425781,
+            -0.22904640436172485,
+            -1.105648398399353,
+            -1.4048792123794556,
+            0.781378448009491,
+            3.410604953765869
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.26,
+            0.0
+          ],
+          "raw_mean": [
+            0.2929588556289673,
+            0.19028805196285248,
+            -3.907090187072754,
+            -3.083223342895508,
+            -0.04964236170053482,
+            0.025805048644542694
+          ],
+          "target_range_deg": [
+            7.74941809856182,
+            4.087378152179683,
+            0.0,
+            0.0
+          ],
+          "leg_second_difference_mean": 0.039883170276880264,
+          "actual_acceleration_rms_20ms": [
+            52.434696875562885,
+            33.647538326810505,
+            6.876276416507194,
+            4.981454568274268
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.724125,
+            0.181
+          ],
+          "torque_rms_per_joint": [
+            4.521392858520528,
+            2.532444082254391,
+            1.9859395152811423,
+            2.375350518411976,
+            7.9728359019617505,
+            6.363018639385472
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.9998139067035254,
+            0.9999789541208055,
+            0.0009250292981805609,
+            0.012204902301328393,
+            0.48342767314152113,
+            0.6628835540583499
+          ],
+          "vx_mae_mps": 0.024979267847767633,
+          "yaw_mae_rad_s": 0.11915348397095529,
+          "phi0_delta_mean_rad": 0.4385029905386588
+        },
+        "forward": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": true,
+          "reset_raw_action": [
+            0.39088571071624756,
+            0.5504575371742249,
+            -0.4290143549442291,
+            -1.8928358554840088,
+            -3.5759270191192627,
+            1.4942936897277832
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            0.0,
+            0.0,
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "raw_mean": [
+            0.6241973638534546,
+            0.385018914937973,
+            -3.8130767345428467,
+            -3.3487138748168945,
+            0.6900100111961365,
+            0.5986658334732056
+          ],
+          "target_range_deg": [
+            1.3119570791733068,
+            1.6515142988544274,
+            0.0,
+            0.0
+          ],
+          "leg_second_difference_mean": 0.001019644900225103,
+          "actual_acceleration_rms_20ms": [
+            4.784318196463278,
+            4.254165668539162,
+            0.8455153513105577,
+            0.9312983352752913
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "torque_rms_per_joint": [
+            2.1888764169419295,
+            2.252036388583823,
+            2.1488195456620427,
+            2.242788380907359,
+            0.5444119662045247,
+            1.007992633174772
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.9843959540090574,
+            0.9992493896733543,
+            0.001256153027118899,
+            0.004198585245168024,
+            0.5628768809270044,
+            0.6281781847945805
+          ],
+          "vx_mae_mps": 0.007692784802125612,
+          "yaw_mae_rad_s": 0.19676276100547557,
+          "phi0_delta_mean_rad": 0.5279272814416334
+        }
+      }
+    },
+    {
+      "label": "leg02",
+      "completed_iterations": 1,
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_0.pt",
+      "checkpoint_sha256": "7829FA2195C170AF47BE15718D59724CAB8AAE6E18049522CDAF4205E56925D3",
+      "manual_graph_max_error": 0.0,
+      "same_input_negative_clip_fraction": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "effective_std": [
+        0.9950624108314514,
+        1.0161036252975464,
+        0.9957422614097595,
+        1.0008509159088135,
+        0.9919764995574951,
+        0.9915993809700012
+      ],
+      "scenes": {
+        "nominal_stand": {
+          "ticks": 32,
+          "failure_reason": "tilt",
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            -0.08022318035364151,
+            0.0023840777575969696,
+            0.06776811182498932,
+            0.060696765780448914,
+            0.06908810883760452,
+            0.11306794732809067
+          ],
+          "original_torque_call_count": 640
+        },
+        "forward": {
+          "ticks": 32,
+          "failure_reason": "tilt",
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            -0.08228091150522232,
+            0.02506258711218834,
+            0.08521167188882828,
+            0.07597425580024719,
+            0.06827995181083679,
+            0.11706588417291641
+          ],
+          "original_torque_call_count": 640
+        }
+      }
+    },
+    {
+      "label": "leg02",
+      "completed_iterations": 101,
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_100.pt",
+      "checkpoint_sha256": "03B57298050B0F93416F7DF41A838804E31430D7D24DF6C34A9439940CC7EA58",
+      "manual_graph_max_error": 0.0,
+      "same_input_negative_clip_fraction": [
+        0.5,
+        0.0,
+        0.125,
+        0.5,
+        0.0,
+        0.375
+      ],
+      "effective_std": [
+        0.8128580451011658,
+        0.7108803987503052,
+        0.689546525478363,
+        0.7034459114074707,
+        0.9637651443481445,
+        1.0469313859939575
+      ],
+      "scenes": {
+        "nominal_stand": {
+          "ticks": 49,
+          "failure_reason": "tilt",
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            0.148386150598526,
+            -0.10878565907478333,
+            0.14876297116279602,
+            0.03057742863893509,
+            0.6957947611808777,
+            0.24197791516780853
+          ],
+          "original_torque_call_count": 980
+        },
+        "forward": {
+          "ticks": 52,
+          "failure_reason": "tilt",
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            0.10408228635787964,
+            -0.041644129902124405,
+            0.1329672634601593,
+            -0.008523061871528625,
+            0.5957711338996887,
+            0.18739736080169678
+          ],
+          "original_torque_call_count": 1040
+        }
+      }
+    },
+    {
+      "label": "leg02",
+      "completed_iterations": 201,
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_200.pt",
+      "checkpoint_sha256": "3DC70C7968EC137F60AF2E63E6FF826FA3E45465C009482E7F87E4E3ED9AAB52",
+      "manual_graph_max_error": 0.0,
+      "same_input_negative_clip_fraction": [
+        0.5,
+        0.75,
+        0.0,
+        0.5,
+        0.0,
+        0.5
+      ],
+      "effective_std": [
+        0.7837521433830261,
+        0.6813973784446716,
+        0.5769218802452087,
+        0.5875363349914551,
+        0.8799922466278076,
+        1.0323525667190552
+      ],
+      "scenes": {
+        "nominal_stand": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            -0.521649956703186,
+            -1.308465600013733,
+            0.7465706467628479,
+            -0.24948666989803314,
+            2.948110818862915,
+            0.5556626319885254
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw_mean": [
+            -2.906764268875122,
+            -2.4647598266601562,
+            0.6462876200675964,
+            0.42013970017433167,
+            0.08954022079706192,
+            0.17692148685455322
+          ],
+          "target_range_deg": [
+            0.0,
+            0.0,
+            18.251369989240224,
+            26.193387341499314
+          ],
+          "leg_second_difference_mean": 2.682474374771118,
+          "actual_acceleration_rms_20ms": [
+            13.93289952251461,
+            22.801835013081707,
+            159.0048334410919,
+            164.99560836814808
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.164125,
+            0.187125,
+            0.0195,
+            0.0
+          ],
+          "torque_rms_per_joint": [
+            1.8965906234962822,
+            2.557463310321659,
+            11.341562607673346,
+            10.446260664311422,
+            4.041906744454202,
+            2.029598548737113
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.008828384662137211,
+            0.018673617342309944,
+            0.6946615308768759,
+            0.7912210016133316,
+            0.7195667606325626,
+            0.6560984222672271
+          ],
+          "vx_mae_mps": 0.18046656462869065,
+          "yaw_mae_rad_s": 0.3801528453176923,
+          "phi0_delta_mean_rad": 0.5363528952938794
+        },
+        "forward": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            -0.1793329417705536,
+            -1.540104627609253,
+            1.0431201457977295,
+            -0.6621453166007996,
+            1.5385544300079346,
+            -0.7245815992355347
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw_mean": [
+            -2.2167809009552,
+            -2.4260382652282715,
+            1.086082935333252,
+            0.8883915543556213,
+            0.361530065536499,
+            0.5390785336494446
+          ],
+          "target_range_deg": [
+            0.0,
+            0.0,
+            0.03233121270044438,
+            5.4562330977054065
+          ],
+          "leg_second_difference_mean": 0.12557484209537506,
+          "actual_acceleration_rms_20ms": [
+            3.6957656984172633,
+            1.5287488037184453,
+            12.795151767483786,
+            47.4742639419887
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "torque_rms_per_joint": [
+            2.0646890361499795,
+            2.2778264380968034,
+            2.276067784394133,
+            4.347532931523538,
+            1.203285334886442,
+            0.4246480655419906
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.060339827944950804,
+            0.018281132245711908,
+            0.44067380201237255,
+            0.573620683099326,
+            0.7034176452810135,
+            0.6042878459814758
+          ],
+          "vx_mae_mps": 0.3040575758858894,
+          "yaw_mae_rad_s": 0.4399611004234783,
+          "phi0_delta_mean_rad": 0.6809746195551282
+        }
+      }
+    },
+    {
+      "label": "leg02",
+      "completed_iterations": 301,
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_300.pt",
+      "checkpoint_sha256": "A0EA05C0B518AA895F494E4B10C21731C9BF24179B62B7DC9AB187B6174198F1",
+      "manual_graph_max_error": 0.0,
+      "same_input_negative_clip_fraction": [
+        0.5,
+        1.0,
+        0.0,
+        0.5,
+        0.0,
+        0.125
+      ],
+      "effective_std": [
+        0.8219860196113586,
+        0.7298008799552917,
+        0.5211165547370911,
+        0.47847780585289,
+        0.8690465092658997,
+        1.0302711725234985
+      ],
+      "scenes": {
+        "nominal_stand": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            -1.3324170112609863,
+            -1.7578949928283691,
+            0.3559274971485138,
+            -0.04053902626037598,
+            3.1292073726654053,
+            0.8720534443855286
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0025,
+            0.0
+          ],
+          "raw_mean": [
+            -3.5139272212982178,
+            -3.105869770050049,
+            0.5462785959243774,
+            0.22472558915615082,
+            0.08262208849191666,
+            0.13849148154258728
+          ],
+          "target_range_deg": [
+            0.0,
+            0.0,
+            21.7674924635812,
+            20.720315095414154
+          ],
+          "leg_second_difference_mean": 2.006258487701416,
+          "actual_acceleration_rms_20ms": [
+            12.589441413779488,
+            17.651315084493504,
+            144.84691473441055,
+            144.60150653673216
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.147,
+            0.106625,
+            0.09925,
+            0.014125
+          ],
+          "torque_rms_per_joint": [
+            1.914672272226582,
+            2.5078605050087703,
+            10.531643411842843,
+            9.48491666793245,
+            5.157649113062739,
+            4.524313496747313
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.0011926297916920823,
+            0.0028686835484869784,
+            0.7695977124950182,
+            0.9105615536061967,
+            0.7071454732314324,
+            0.6436597389234798
+          ],
+          "vx_mae_mps": 0.16397201658488242,
+          "yaw_mae_rad_s": 0.3290842644652044,
+          "phi0_delta_mean_rad": 0.4905766915456058
+        },
+        "forward": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            -0.8287214040756226,
+            -2.003108501434326,
+            1.432527780532837,
+            0.41405272483825684,
+            1.312448263168335,
+            -2.1799182891845703
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw_mean": [
+            -2.5040857791900635,
+            -2.6810598373413086,
+            0.9839665293693542,
+            0.9737077951431274,
+            0.5776121616363525,
+            0.960341215133667
+          ],
+          "target_range_deg": [
+            0.0,
+            0.0,
+            3.0430449601604006,
+            3.5993070067331008
+          ],
+          "leg_second_difference_mean": 0.02653425745666027,
+          "actual_acceleration_rms_20ms": [
+            1.8098273397562645,
+            1.8715983720447638,
+            16.240485347418048,
+            22.13795197548768
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "torque_rms_per_joint": [
+            1.814832642470395,
+            2.0594422288020615,
+            2.703186019539249,
+            2.993348062942344,
+            0.7538301044560808,
+            0.5322792668982131
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.03368695158705951,
+            0.010690899023941974,
+            0.5121467362576878,
+            0.521739282655859,
+            0.6513043464907712,
+            0.4866876157462741
+          ],
+          "vx_mae_mps": 0.1688730747362503,
+          "yaw_mae_rad_s": 1.0786747070493783,
+          "phi0_delta_mean_rad": 0.6908629350340517
+        }
+      }
+    },
+    {
+      "label": "leg02",
+      "completed_iterations": 501,
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_500.pt",
+      "checkpoint_sha256": "5E7C401B5A6B0598F7672ECD8CD65F47062010B63349886F9C8414EE8C6C305B",
+      "manual_graph_max_error": 0.0,
+      "same_input_negative_clip_fraction": [
+        0.5,
+        1.0,
+        0.0,
+        0.45,
+        0.0,
+        0.375
+      ],
+      "effective_std": [
+        0.9274515509605408,
+        0.8228928446769714,
+        0.43968987464904785,
+        0.2980506420135498,
+        0.8905001282691956,
+        1.0268497467041016
+      ],
+      "scenes": {
+        "nominal_stand": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            -1.011425495147705,
+            -1.6381566524505615,
+            0.6231334209442139,
+            -0.03739506006240845,
+            2.8329951763153076,
+            0.40836530923843384
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.005,
+            0.0
+          ],
+          "raw_mean": [
+            -3.755946159362793,
+            -3.0060372352600098,
+            0.40561214089393616,
+            0.23403297364711761,
+            -0.03065171092748642,
+            0.03358259052038193
+          ],
+          "target_range_deg": [
+            0.0,
+            0.0,
+            8.364253200758247,
+            8.912280643201528
+          ],
+          "leg_second_difference_mean": 0.10666227340698242,
+          "actual_acceleration_rms_20ms": [
+            2.2880269511736544,
+            8.636813600928223,
+            27.063989161700867,
+            45.40745635649377
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.63375,
+            0.0
+          ],
+          "torque_rms_per_joint": [
+            1.6340541142367293,
+            2.4992599019488697,
+            3.3065407877117794,
+            4.17388619808848,
+            7.308992793841341,
+            4.774093037365184
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.0018023334762625393,
+            0.00834326269063829,
+            0.9074831422004427,
+            0.9927553428690724,
+            0.624617597577436,
+            0.6469542617200864
+          ],
+          "vx_mae_mps": 0.057804355915216876,
+          "yaw_mae_rad_s": 0.05342068542173857,
+          "phi0_delta_mean_rad": 0.47031724287588844
+        },
+        "forward": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            -0.7021769285202026,
+            -1.958601474761963,
+            1.6931782960891724,
+            0.5809294581413269,
+            0.8341497182846069,
+            -3.3591113090515137
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw_mean": [
+            -3.558384418487549,
+            -2.8619441986083984,
+            0.5117194056510925,
+            0.5883437395095825,
+            0.543032705783844,
+            0.6300354599952698
+          ],
+          "target_range_deg": [
+            0.0,
+            0.0,
+            6.552899369900053,
+            6.136441818750044
+          ],
+          "leg_second_difference_mean": 0.03578924387693405,
+          "actual_acceleration_rms_20ms": [
+            4.613351040533896,
+            4.699575651249649,
+            21.44452667739162,
+            30.375495792553647
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.120875,
+            0.0
+          ],
+          "torque_rms_per_joint": [
+            2.1232810954588315,
+            2.246553898307626,
+            2.702129509401455,
+            3.223631853783786,
+            5.861266360266195,
+            3.6483099996462554
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.003130236785555017,
+            0.012312029965099596,
+            0.8642421261439179,
+            0.9113833387969759,
+            0.6119340974868236,
+            0.5757385590768161
+          ],
+          "vx_mae_mps": 0.09533008751277838,
+          "yaw_mae_rad_s": 0.2148948970184891,
+          "phi0_delta_mean_rad": 0.5427077320583686
+        }
+      }
+    },
+    {
+      "label": "leg02",
+      "completed_iterations": 701,
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_700.pt",
+      "checkpoint_sha256": "676FF987A218AC95B64797AD3209F539D88AA20F5C304A7A8565074DC965D2BC",
+      "manual_graph_max_error": 0.0,
+      "same_input_negative_clip_fraction": [
+        0.5,
+        0.975,
+        0.0,
+        0.5,
+        0.0,
+        0.5
+      ],
+      "effective_std": [
+        1.0105749368667603,
+        0.9173242449760437,
+        0.3465420603752136,
+        0.1950332522392273,
+        0.9264343976974487,
+        1.067768931388855
+      ],
+      "scenes": {
+        "nominal_stand": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            -1.0475283861160278,
+            -1.9097496271133423,
+            0.6430156826972961,
+            -0.13437512516975403,
+            2.3180859088897705,
+            -0.5234576463699341
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.2025,
+            0.015
+          ],
+          "raw_mean": [
+            -3.8373467922210693,
+            -3.728619337081909,
+            0.382134348154068,
+            0.09403706341981888,
+            0.016705350950360298,
+            0.024552157148718834
+          ],
+          "target_range_deg": [
+            0.0,
+            0.0,
+            8.568635256481382,
+            5.104563924913446
+          ],
+          "leg_second_difference_mean": 0.04778601601719856,
+          "actual_acceleration_rms_20ms": [
+            6.059008141400379,
+            4.37449469216869,
+            42.162349264736754,
+            21.93979314060403
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.6035,
+            0.286625
+          ],
+          "torque_rms_per_joint": [
+            1.7159786061569036,
+            2.451109949255898,
+            4.285994471804995,
+            2.1399773029559594,
+            7.71474957716538,
+            6.23373232986252
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.003178081547460921,
+            0.0016811225623745542,
+            0.9569365562260345,
+            0.9999964343786241,
+            0.5246772538490431,
+            0.5982211425281251
+          ],
+          "vx_mae_mps": 0.04079015744277199,
+          "yaw_mae_rad_s": 0.07639095553695015,
+          "phi0_delta_mean_rad": 0.4417243586704022
+        },
+        "forward": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            -0.8239565491676331,
+            -2.2055869102478027,
+            1.3531618118286133,
+            0.3744378983974457,
+            0.1719169318675995,
+            -4.1982293128967285
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw_mean": [
+            -3.789668083190918,
+            -3.5336921215057373,
+            0.8232580423355103,
+            0.4934839904308319,
+            0.5700225830078125,
+            0.6714761257171631
+          ],
+          "target_range_deg": [
+            0.0,
+            0.0,
+            4.194366747602952,
+            2.608272683637827
+          ],
+          "leg_second_difference_mean": 0.021900685504078865,
+          "actual_acceleration_rms_20ms": [
+            5.012668230011713,
+            4.262666581620508,
+            25.131311750907088,
+            15.702440525487797
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.2415,
+            0.0
+          ],
+          "torque_rms_per_joint": [
+            2.112811163343709,
+            2.3126005046693203,
+            2.8515344314047426,
+            2.2555699021272617,
+            6.108166355528758,
+            3.321518637605538
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.0030364361571345137,
+            0.002963806782167896,
+            0.6931315685016535,
+            0.995068052388573,
+            0.5899653643246393,
+            0.5555018826824836
+          ],
+          "vx_mae_mps": 0.026921389014647662,
+          "yaw_mae_rad_s": 0.15685795451069567,
+          "phi0_delta_mean_rad": 0.5830118071831246
+        }
+      }
+    },
+    {
+      "label": "leg02",
+      "completed_iterations": 901,
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_900.pt",
+      "checkpoint_sha256": "4DAA715611EC6074B697695E9B7A59AF0DD1A158B6FD848AEF611136FBF4E63B",
+      "manual_graph_max_error": 0.0,
+      "same_input_negative_clip_fraction": [
+        0.5,
+        1.0,
+        0.0,
+        0.475,
+        0.0,
+        0.5
+      ],
+      "effective_std": [
+        1.0743155479431152,
+        1.0020360946655273,
+        0.2428305298089981,
+        0.14086677134037018,
+        0.9551697373390198,
+        1.0934650897979736
+      ],
+      "scenes": {
+        "nominal_stand": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            -1.4738279581069946,
+            -2.128340721130371,
+            0.4746685326099396,
+            -0.053160130977630615,
+            2.387446880340576,
+            -0.3778136074542999
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0175,
+            0.2325
+          ],
+          "raw_mean": [
+            -4.1457200050354,
+            -4.015890121459961,
+            0.35373780131340027,
+            0.07183254510164261,
+            0.02050088718533516,
+            0.011938336305320263
+          ],
+          "target_range_deg": [
+            0.0,
+            0.0,
+            11.055301181735208,
+            5.488864326465139
+          ],
+          "leg_second_difference_mean": 0.12225961685180664,
+          "actual_acceleration_rms_20ms": [
+            5.6075985696810555,
+            8.853711204955342,
+            66.7623284079772,
+            33.405700475792905
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.002625,
+            0.0,
+            0.350375,
+            0.792125
+          ],
+          "torque_rms_per_joint": [
+            1.7436612718401083,
+            2.456444064880204,
+            5.741572231184105,
+            2.207020570207061,
+            6.942688868722074,
+            8.470900463493336
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.0019903226479311216,
+            0.0016730877942653854,
+            0.9896556852879925,
+            0.9999999993999014,
+            0.6273186065412052,
+            0.4248431825432325
+          ],
+          "vx_mae_mps": 0.02781926091777408,
+          "yaw_mae_rad_s": 0.0885566057096825,
+          "phi0_delta_mean_rad": 0.43233656533921605
+        },
+        "forward": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": null,
+          "reset_raw_action": [
+            -1.594464659690857,
+            -2.5994670391082764,
+            0.8991222977638245,
+            0.3352142572402954,
+            -0.30541080236434937,
+            -5.055431842803955
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw_mean": [
+            -4.178343296051025,
+            -4.147082328796387,
+            0.41621097922325134,
+            0.22870181500911713,
+            0.5697973370552063,
+            0.5986447334289551
+          ],
+          "target_range_deg": [
+            0.0,
+            0.0,
+            5.233220164228497,
+            2.3221078637836596
+          ],
+          "leg_second_difference_mean": 0.013620330020785332,
+          "actual_acceleration_rms_20ms": [
+            5.251145465888674,
+            2.9185753063039845,
+            28.014711641443796,
+            10.75587675189836
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.040625,
+            0.003125
+          ],
+          "torque_rms_per_joint": [
+            2.026357201786374,
+            2.3228816868982833,
+            3.2008049170464736,
+            2.139607332360136,
+            5.086054617826894,
+            3.890435647053855
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.0016530668461690273,
+            0.0009009919045503521,
+            0.9904132343786566,
+            0.9999999648146576,
+            0.5973538563435769,
+            0.5607629518644337
+          ],
+          "vx_mae_mps": 0.1191851309505279,
+          "yaw_mae_rad_s": 0.10747446061689649,
+          "phi0_delta_mean_rad": 0.46618686329370307
+        }
+      }
+    },
+    {
+      "label": "leg02",
+      "completed_iterations": 1000,
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_999.pt",
+      "checkpoint_sha256": "DF301CBF3199ABA5016A2D7423E2EC29925A9F22EB8359D71B4EBFF40014CA4B",
+      "manual_graph_max_error": 0.0,
+      "same_input_negative_clip_fraction": [
+        0.5,
+        0.925,
+        0.0,
+        0.375,
+        0.0,
+        0.5
+      ],
+      "effective_std": [
+        1.1017217636108398,
+        1.0248222351074219,
+        0.2120944857597351,
+        0.12753894925117493,
+        0.9691455960273743,
+        1.1045265197753906
+      ],
+      "scenes": {
+        "nominal_stand": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": true,
+          "reset_raw_action": [
+            -1.672639012336731,
+            -2.0363593101501465,
+            0.6121107339859009,
+            0.09733941406011581,
+            2.8762221336364746,
+            -0.20548442006111145
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.4225,
+            0.25
+          ],
+          "raw_mean": [
+            -4.754089832305908,
+            -3.9862329959869385,
+            0.40578919649124146,
+            0.13726377487182617,
+            -0.026165807619690895,
+            0.16425162553787231
+          ],
+          "target_range_deg": [
+            0.0,
+            0.0,
+            9.24397588826114,
+            3.294044999303921
+          ],
+          "leg_second_difference_mean": 0.06343592703342438,
+          "actual_acceleration_rms_20ms": [
+            8.327647325158985,
+            5.796115822562754,
+            48.86473967998668,
+            20.94967215285062
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.956625,
+            0.8745
+          ],
+          "torque_rms_per_joint": [
+            1.7744221773671034,
+            2.4498087167199962,
+            5.152201414182247,
+            2.318965930325704,
+            8.943283217659703,
+            8.82863885858549
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.0009644512127783958,
+            0.0032499751157527568,
+            0.9922578173593564,
+            0.999999999968871,
+            0.22086491188570723,
+            0.37811086333459193
+          ],
+          "vx_mae_mps": 0.023098204787136315,
+          "yaw_mae_rad_s": 0.17542043916082078,
+          "phi0_delta_mean_rad": 0.45293056209769483
+        },
+        "forward": {
+          "ticks": 500,
+          "failure_reason": null,
+          "final_raw_action_time_q_exact": true,
+          "reset_raw_action": [
+            -1.6672673225402832,
+            -2.390470266342163,
+            1.1676043272018433,
+            0.5296754240989685,
+            0.46527934074401855,
+            -5.206528663635254
+          ],
+          "original_torque_call_count": 10000,
+          "negative_clip_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0,
+            0.0025,
+            0.04
+          ],
+          "raw_mean": [
+            -4.863325595855713,
+            -4.392185211181641,
+            0.394684374332428,
+            0.28044894337654114,
+            0.6275738477706909,
+            0.8053297400474548
+          ],
+          "target_range_deg": [
+            0.0,
+            0.0,
+            7.8788048052642665,
+            5.615417315746992
+          ],
+          "leg_second_difference_mean": 0.030532991513609886,
+          "actual_acceleration_rms_20ms": [
+            6.342739352247581,
+            4.174793473635577,
+            39.27602606152376,
+            18.239527896975513
+          ],
+          "effort_saturation_per_joint": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.21425,
+            0.221875
+          ],
+          "torque_rms_per_joint": [
+            1.9905496374174945,
+            2.349631052011648,
+            3.9529953142698955,
+            2.328532271927301,
+            6.196484425598909,
+            6.416567467693455
+          ],
+          "conditional_sample_within_action_bounds_probability_mean": [
+            0.00028753430933451204,
+            0.000592731334506809,
+            0.9954099518486623,
+            0.9999998706244814,
+            0.5232509895347609,
+            0.42770878183417177
+          ],
+          "vx_mae_mps": 0.08598312042229794,
+          "yaw_mae_rad_s": 0.1208746295000474,
+          "phi0_delta_mean_rad": 0.4718878054185538
+        }
+      }
+    }
+  ],
+  "elapsed_wall_s": 8.495525899808854
+}

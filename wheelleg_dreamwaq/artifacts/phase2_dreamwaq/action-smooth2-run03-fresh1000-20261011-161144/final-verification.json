@@ -1,0 +1,54 @@
+{
+  "verified_at": "2026-10-11T17:16:48.310846+08:00",
+  "training_status": "completed_fresh_1000",
+  "source_fingerprint_unchanged": true,
+  "architecture_sha256": "EB46B120F667B331EB857240154942BE573E3C479FD96E96F78FA21A1F556114",
+  "protected_file_count": 110,
+  "protected_files_changed": [],
+  "only_training_reward_change": [
+    {
+      "path": ".contract_hash",
+      "before": "EC40FC36DA937CC9A7994CA3B47D20D7AD1814C5B835F9962F056940E4F592E3",
+      "after": "8D2705CEC4F1851B4B61315A8BF6A00CA6BED227638CF5E9686249A57B6BFD91"
+    },
+    {
+      "path": ".task.reward_weights.action_smooth",
+      "before": -0.01,
+      "after": -0.02
+    }
+  ],
+  "checkpoint_sha256": "8BC8B90DDEAAA3DA4B0A7CCCB434C73C6FBA4DE9A2043B131F385876060B975F",
+  "export_actor_and_golden_file_hashes_verified": true,
+  "saved_golden_max_abs_error": 0,
+  "evaluation_report_hashes_verified": [
+    "isaac_evaluation",
+    "mujoco_evaluation",
+    "mujoco_command_practice"
+  ],
+  "evaluation_trace_files_verified": 12,
+  "same_condition_comparison_identity": {
+    "base_contract_changes": [
+      {
+        "after": "8D2705CEC4F1851B4B61315A8BF6A00CA6BED227638CF5E9686249A57B6BFD91",
+        "before": "EC40FC36DA937CC9A7994CA3B47D20D7AD1814C5B835F9962F056940E4F592E3",
+        "path": ".contract_hash"
+      },
+      {
+        "after": -0.02,
+        "before": -0.01,
+        "path": ".task.reward_weights.action_smooth"
+      }
+    ],
+    "isaac_protocol_and_cache_identical": true,
+    "mujoco_protocol_model_failure_scoring_identical": true
+  },
+  "stationary_window_frames_per_policy": 400,
+  "speed_target_failures": {
+    "isaac_evaluation": [
+      "reverse:vx_mae_above_0.2"
+    ],
+    "mujoco_evaluation": []
+  },
+  "dynamic_performance_accepted": false,
+  "recommendation": "Do not expand the unchanged configuration to four seeds; partial jitter improvement with tracking regression."
+}

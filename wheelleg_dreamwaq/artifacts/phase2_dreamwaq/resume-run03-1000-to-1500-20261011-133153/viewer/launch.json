@@ -1,0 +1,25 @@
+{
+  "pid": 16444,
+  "command": [
+    "C:\\Users\\changba01\\.local\\bin\\uv.exe",
+    "run",
+    "--offline",
+    "--frozen",
+    "--project",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco",
+    "python",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\interactive-mujoco-20261010-v1\\play_keyboard.py",
+    "--export",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\resume-run03-1000-to-1500-20261011-133153\\stopped-export",
+    "--max-speed",
+    "10",
+    "--session",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\resume-run03-1000-to-1500-20261011-133153\\viewer"
+  ],
+  "export": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\resume-run03-1000-to-1500-20261011-133153\\stopped-export",
+  "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_13-32-11_rtx5070_fudan-v1_dreamwaq-stop-reverse-run03-resume1500-20261011-133153-seed41882943\\model_1400.pt",
+  "source_completed_iterations": 1401,
+  "actor_sha256": "D43C57A409EE60CEAE2367896DD102EEA2A1C180D359F057CF990472C64EB301",
+  "source_seed": 41882943,
+  "launched_at": "2026-10-11T14:08:27.385844+08:00"
+}

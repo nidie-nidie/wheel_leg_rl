@@ -15,6 +15,7 @@ from .commands import CommandRanges
 from .control import ControlLimits
 from .rewards import RewardWeights
 from .leg_reversal import LegReversalConfig
+from .leg_acceleration import LegAccelerationConfig
 from .terminations import TerminationLimits
 
 
@@ -73,4 +74,5 @@ class WheelLegFlatEnvCfg(DirectRLEnvCfg):
     randomization = NOMINAL_TRAINING_PROFILE_V1
     reward_weights = RewardWeights()
     leg_reversal = LegReversalConfig()
+    leg_acceleration = LegAccelerationConfig()
     termination = TerminationLimits()

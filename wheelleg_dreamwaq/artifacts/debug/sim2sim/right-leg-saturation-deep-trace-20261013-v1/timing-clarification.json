@@ -1,0 +1,21 @@
+{
+  "scope": "Documentation/provenance correction only; algorithm and all recorded trajectories unchanged",
+  "review_finding": "Initial gate is25same-command samples: decision tick24 at physical0.48s; after command change0.50s",
+  "before_sha256": {
+    "report.md": "C18F487236C033D7624D6BC3EA56F011E31145CB8CDC7D435CBAF544C9EB493B",
+    "candidate-spec.json": "5B66FB18599EB6EDA32E652F8898E1CAD45455043E32E20E53B8FACC17AFE120",
+    "frozen-candidate-results.json": "1F209C617856854D844477837BA17D6F7A08BEAB369EB01F80A92500489F3235",
+    "verification.json": "090F47837E48914138827B6C0F339C8BD9BEA6A3CE7FF4687833F25525584537",
+    "frozen_candidate.py": "24DACBE8B37159C898AB48FFCBBD815F4237A421C9CB2BD080F21D40B2E443E8",
+    "verify_frozen_candidate.py": "856E0BDE14E6FBE2F1E72210C9B1DBDAB1369CE983291EF98CE19078EBD838A6"
+  },
+  "after_sha256": {
+    "report.md": "162BDFB2B2B92B06526522548C71E84629CFCE0D4B1E39C288743F34CCDAE85B",
+    "candidate-spec.json": "B6FE0396E870FCE32647554C78F6446C968061EAB381AB8702B9279BA06F572E",
+    "frozen-candidate-results.json": "45B26A220BFC0E89BA185E83A76F540B8A542199528489F774CA89684C3379B6",
+    "frozen_candidate.py": "B071A0A03BE50345DBB0C6E4D2C5C5142FACE5D2144A2CA64FD7C3CC7682AB1F",
+    "verify_frozen_candidate.py": "3477C3AB93E54A68187F5053CAD1263A94FAB6F80E407729BBA6D7D0190ACD7D"
+  },
+  "candidate_npz_sha256_unchanged": "745D7849DFE544942775B274FCE629BACF80AD83E90E8D1BEEDBAC4B4F2BA787",
+  "reviewed_original_snapshots": "wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-deep-trace-20261013-v1\\final-conclusion-review\\reviewed-parent-artifacts"
+}

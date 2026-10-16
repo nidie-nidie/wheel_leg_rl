@@ -1,0 +1,8 @@
+{
+  "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_16-07-26_portable_fudan-v1_practice-source-027f459a",
+  "last_resume": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_16-07-48_portable_fudan-v1_practice-resume16-027f459a",
+  "export": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth-acceptance-20261011\\integration\\test_profile_fresh_resume_fixe0\\export",
+  "play": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth-acceptance-20261011\\integration\\test_profile_fresh_resume_fixe0\\play.json",
+  "isaac_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth-acceptance-20261011\\integration\\test_profile_fresh_resume_fixe0\\isaac\\summary.json",
+  "dynamic_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth-acceptance-20261011\\integration\\test_profile_fresh_resume_fixe0\\dynamic\\summary.json"
+}

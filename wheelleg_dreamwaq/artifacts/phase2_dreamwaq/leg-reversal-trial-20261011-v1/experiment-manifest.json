@@ -1,0 +1,275 @@
+{
+  "acceptance": {
+    "real_isaac_integration_passed": 2,
+    "unit_passed": 201
+  },
+  "all_protected_hashes_unchanged": true,
+  "architecture_sha256": "7064A8423962BE49F4110E970C24AAE081D029FF84B1D75567BFBAC807C5FFCA",
+  "arms": [
+    {
+      "actor_sha256": "CEB7E00D997EF2B1F2E3CE8C6FE298E4C1497682D415FE8312973857F2F5D96E",
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200\\model_199.pt",
+      "checkpoint_sha256": "BCDD726CE5D6F89600547F34CA285282053D4D07B07575604172E6A11A5912B7",
+      "command_practice": {
+        "summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\baseline\\command_practice\\summary.json",
+        "summary_sha256": "1D67615C2593AE996EB0A8CE4EB2B01005A6EB123E2D3C4A30EF89E9261DBD8F"
+      },
+      "context_acceptance": true,
+      "duration_seconds": 580.5421523000114,
+      "export": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\baseline\\export",
+      "gain_state": null,
+      "index": 1,
+      "isaac": {
+        "summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\baseline\\isaac\\summary.json",
+        "summary_sha256": "6D2A4EDE50E3A8940A4B75BB61563EA0D9F143320BE7C118FA5C90712BD1F585"
+      },
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\monitor\\baseline\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\monitor\\baseline\\initial.json"
+        ],
+        "status": "warning",
+        "warnings": [
+          "phi0_symmetry_degraded"
+        ]
+      },
+      "mujoco": {
+        "summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\baseline\\mujoco\\summary.json",
+        "summary_sha256": "4DDAAF78B76EF8B72FB7B11A769DB1884E5324E9B18AF3BE6087A295CD120578"
+      },
+      "name": "baseline",
+      "profile": "stop_reverse_v1",
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200",
+      "status": "evaluated",
+      "training_command": [
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\.venv\\Scripts\\python.exe",
+        "scripts/train_dreamwaq.py",
+        "--profile",
+        "rtx5070",
+        "--task-profile",
+        "stop_reverse_v1",
+        "--seed",
+        "41882943",
+        "--max-iterations",
+        "200",
+        "--initialize-from",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_999.pt",
+        "--run-name",
+        "leg-reversal-trial-baseline-200",
+        "--headless"
+      ],
+      "training_fingerprint_hash": "5376E57672CFFFF62AC4A87BDE148A1423A3E4FD07487FE81EFC60DD0F729D45"
+    },
+    {
+      "actor_sha256": "318912707C28274E8AB837B96426E2BC9C535D05ED7FB11DCE21DC2F1B548194",
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_22-05-56_rtx5070_fudan-v1_leg-reversal-trial-budget12-200\\model_199.pt",
+      "checkpoint_sha256": "FA8068BBA18F0B95013FE3B7B1ED1853672DFF8A11E0874EF16721EDB9B3ED30",
+      "command_practice": {
+        "summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget12\\command_practice\\summary.json",
+        "summary_sha256": "C3902EFEFE383ACA6788E62452981D2CDE05300FCD3EECE756F599BE49591BB3"
+      },
+      "context_acceptance": true,
+      "duration_seconds": 619.9255577998701,
+      "export": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget12\\export",
+      "gain_state": {
+        "completed_rollouts": 200,
+        "contract": {
+          "amplitude_rad": 0.01,
+          "budget_per_second": 12.0,
+          "control_dt": 0.02,
+          "cost": "sum_j(max(rate_j/budget_per_second-1,0))",
+          "enabled": true,
+          "event_rule": "opposite_excursion_from_running_extremum_greater_equal_amplitude",
+          "first_direction_is_event": false,
+          "gain_update": "clip(max_j(mean_valid_excess_j)^2,0,1)",
+          "max_penalty_weight": 0.02,
+          "resume_local_window": "clear_for_new_environment_and_warm_up",
+          "reward": "-control_dt*max_penalty_weight*gain_used*cost",
+          "rollout_steps": 24,
+          "schema_version": "LegTargetReversalV1",
+          "signal": "final_leg_position_targets_after_clip_scale_and_limits",
+          "warmup": "exclude_until_full_window",
+          "window_seconds": 1.0,
+          "window_steps": 50,
+          "zero_excess_included": true
+        },
+        "gain": 1.0,
+        "latest": {
+          "gain_next": 1.0,
+          "gain_used": 1.0,
+          "mean_excess": [
+            1.5726979755666264,
+            1.581613186316866,
+            0.0,
+            0.46765992725329864
+          ],
+          "mean_rate": [
+            30.740980075390414,
+            30.606533835936098,
+            0.7470831089570993,
+            10.748878118829655
+          ],
+          "valid_windows": 5571,
+          "weighted_reward_per_step_mean": -0.0013136719018920218
+        },
+        "schema_version": "LegReversalGainStateV1"
+      },
+      "index": 2,
+      "isaac": {
+        "summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget12\\isaac\\summary.json",
+        "summary_sha256": "28C0959E134D967A0EF147CF60179D2484B77BB768F39C7938C29DC606674C20"
+      },
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\monitor\\budget12\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\monitor\\budget12\\initial.json"
+        ],
+        "status": "warning",
+        "warnings": [
+          "phi0_symmetry_degraded"
+        ]
+      },
+      "mujoco": {
+        "summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget12\\mujoco\\summary.json",
+        "summary_sha256": "B736ABE3CCE81F734E22CC649527C9891D28623283D05CBF3B9C7C8B5716611C"
+      },
+      "name": "budget12",
+      "profile": "stop_reverse_reversal12_v1",
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_22-05-56_rtx5070_fudan-v1_leg-reversal-trial-budget12-200",
+      "status": "evaluated",
+      "training_command": [
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\.venv\\Scripts\\python.exe",
+        "scripts/train_dreamwaq.py",
+        "--profile",
+        "rtx5070",
+        "--task-profile",
+        "stop_reverse_reversal12_v1",
+        "--seed",
+        "41882943",
+        "--max-iterations",
+        "200",
+        "--initialize-from",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_999.pt",
+        "--run-name",
+        "leg-reversal-trial-budget12-200",
+        "--headless"
+      ],
+      "training_fingerprint_hash": "A1C5E6F31B307FB5955F15F93DF85A8AC216A345BA0055B900DB827D5311A318"
+    },
+    {
+      "actor_sha256": "DDBFAF9FEC6CBF08B92EE7A91E7D6961AA6E016149BAAFC6327642CCF1F92E1E",
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_22-16-23_rtx5070_fudan-v1_leg-reversal-trial-budget8-200\\model_199.pt",
+      "checkpoint_sha256": "55F2EAC3C4F83541C33D7F71C0F107E01EF4B2ADF4848101D209AD14746779EC",
+      "command_practice": {
+        "summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget8\\command_practice\\summary.json",
+        "summary_sha256": "775998CCB9D580D4A893AE6796CF357724247EA7E6719264D0905AF8641D0065"
+      },
+      "context_acceptance": true,
+      "duration_seconds": 653.2792291999795,
+      "export": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget8\\export",
+      "gain_state": {
+        "completed_rollouts": 200,
+        "contract": {
+          "amplitude_rad": 0.01,
+          "budget_per_second": 8.0,
+          "control_dt": 0.02,
+          "cost": "sum_j(max(rate_j/budget_per_second-1,0))",
+          "enabled": true,
+          "event_rule": "opposite_excursion_from_running_extremum_greater_equal_amplitude",
+          "first_direction_is_event": false,
+          "gain_update": "clip(max_j(mean_valid_excess_j)^2,0,1)",
+          "max_penalty_weight": 0.02,
+          "resume_local_window": "clear_for_new_environment_and_warm_up",
+          "reward": "-control_dt*max_penalty_weight*gain_used*cost",
+          "rollout_steps": 24,
+          "schema_version": "LegTargetReversalV1",
+          "signal": "final_leg_position_targets_after_clip_scale_and_limits",
+          "warmup": "exclude_until_full_window",
+          "window_seconds": 1.0,
+          "window_steps": 50,
+          "zero_excess_included": true
+        },
+        "gain": 1.0,
+        "latest": {
+          "gain_next": 1.0,
+          "gain_used": 1.0,
+          "mean_excess": [
+            2.869256630556593,
+            2.8697002241314906,
+            0.0014008218154650729,
+            0.7006443780351139
+          ],
+          "mean_rate": [
+            30.91352259992529,
+            30.84105341800523,
+            0.6473664549869257,
+            8.568546880836758
+          ],
+          "valid_windows": 5354,
+          "weighted_reward_per_step_mean": -0.0022451252666257915
+        },
+        "schema_version": "LegReversalGainStateV1"
+      },
+      "index": 3,
+      "isaac": {
+        "summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget8\\isaac\\summary.json",
+        "summary_sha256": "824F515360D597E58140CAF6C5168740C1AEF186B2A5E5304F6679CB7A7D3D6C"
+      },
+      "monitor": {
+        "hard_anomalies": [],
+        "snapshots": [
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\monitor\\budget8\\final.json",
+          "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\monitor\\budget8\\initial.json"
+        ],
+        "status": "warning",
+        "warnings": [
+          "phi0_symmetry_degraded"
+        ]
+      },
+      "mujoco": {
+        "summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget8\\mujoco\\summary.json",
+        "summary_sha256": "DA7AA6BA8F68D13DB69EBD97B8546CE8C870706ABE0EE69DDC2D9F575D0CDE07"
+      },
+      "name": "budget8",
+      "profile": "stop_reverse_reversal8_v1",
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_22-16-23_rtx5070_fudan-v1_leg-reversal-trial-budget8-200",
+      "status": "evaluated",
+      "training_command": [
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\.venv\\Scripts\\python.exe",
+        "scripts/train_dreamwaq.py",
+        "--profile",
+        "rtx5070",
+        "--task-profile",
+        "stop_reverse_reversal8_v1",
+        "--seed",
+        "41882943",
+        "--max-iterations",
+        "200",
+        "--initialize-from",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_999.pt",
+        "--run-name",
+        "leg-reversal-trial-budget8-200",
+        "--headless"
+      ],
+      "training_fingerprint_hash": "FCE86B176117A7FA5E02445DF4C1BB8A11BD97A1242205704ADF07EA7E4EA1CD"
+    }
+  ],
+  "diagnostic_sha256": "B03FC1A5645AF7B761EFD2AAA5333639C07D872D8447E0E49BBF8EBD94FD23BC",
+  "finished_at": "2026-10-11T22:30:19.643723+08:00",
+  "iterations_per_arm": 200,
+  "matched_network_start": true,
+  "matched_reset_cache": true,
+  "monitor_interval_seconds": 1800,
+  "pid": 19788,
+  "schema_version": "LegReversalTrialV1",
+  "seed": 41882943,
+  "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_999.pt",
+  "source_checkpoint_sha256": "3D621280CF7F11088C972B0DD84CF2E698C29A4C8CDA8BC370BB80A2669DF885",
+  "source_fingerprint_hash": "FA40027FA51DE3C185D1526F26D94C7A5D6EC6941C34CAF2117A355FF3906C16",
+  "source_model_tensor_sha256": "E856686DAAC3ECC78E5B883EC2B3D11A28FCD6F3EE33EC3DF1403E5DEADE469A",
+  "started_at": "2026-10-11T21:56:05.290197+08:00",
+  "status": "evaluated",
+  "weights_only": true
+}

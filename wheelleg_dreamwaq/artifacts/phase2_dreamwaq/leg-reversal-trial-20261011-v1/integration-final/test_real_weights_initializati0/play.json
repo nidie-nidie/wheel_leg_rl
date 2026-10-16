@@ -1,0 +1,31 @@
+{
+  "base_task_contract_hash": "1D1759AA38F9E470F1A58E41AA7F7AF447524D829CDA93056C659C32B20272E6",
+  "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-48-46_portable_fudan-v1_reversal-resume-60e7790b\\model_3.pt",
+  "completed_iterations": 4,
+  "completed_steps": 8,
+  "dreamwaq_algorithm_contract_hash": "2924363841CF0104ED897ACD6AAA0AA03EF59B88B8DD198350D5451D815A2CED",
+  "dreamwaq_export_contract_hash": "3048CB2CEAC5DEE99E26F9B1D96DA04A5089122943169CAD542A8095B7682C19",
+  "estimator_monitor_state": {
+    "completed_rollouts": 4,
+    "context_mu_feature_std_mean_initial": 0.06561966339316737,
+    "recent_context_mu_feature_std_mean": [
+      0.06561966339316737,
+      0.0700190472052982,
+      0.06852568412884683,
+      0.06416187062568002
+    ],
+    "schema_version": "EstimatorMonitorStateV1"
+  },
+  "finite": true,
+  "fixed_command": [
+    0.0,
+    0.0,
+    0.20000000298023224
+  ],
+  "mean_reward_per_step": 0.050933223217725754,
+  "num_envs": 2,
+  "reset_count": 0,
+  "runtime_command_practice": "disabled",
+  "schema_version": "DreamWaQPlayV1",
+  "task_profile": "stop_reverse_reversal12_v1"
+}

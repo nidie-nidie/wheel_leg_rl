@@ -39,7 +39,7 @@ initialization_group = parser.add_mutually_exclusive_group()
 initialization_group.add_argument("--resume", type=Path, default=None)
 initialization_group.add_argument("--initialize-from", type=Path, default=None,
     help="Experimental weights-only initialization; new optimizer/RNG/iteration, never ordinary resume.")
-parser.add_argument("--task-profile", choices=("legacy_v1", "stop_reverse_v1", "stop_reverse_smooth_v1", "stop_reverse_reversal12_v1", "stop_reverse_reversal8_v1"), default=None)
+parser.add_argument("--task-profile", choices=("legacy_v1", "stop_reverse_v1", "stop_reverse_smooth_v1", "stop_reverse_reversal12_v1", "stop_reverse_reversal8_v1", "stop_reverse_accel80_v1", "stop_reverse_accel75_v1", "stop_reverse_accel70_v1", "stop_reverse_accel85_v1", "stop_reverse_accel90_v1", "stop_reverse_split_smooth_v1", "stop_reverse_split_smooth04_v1"), default=None)
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 RUNTIME_INFO = validate_runtime(PROJECT_ROOT, device=args_cli.device)
@@ -538,6 +538,8 @@ def main() -> Path:
         summary["initial_model_tensor_sha256"] = initial_model_tensor_sha256
     if direct_env._leg_reversal_reward is not None:
         summary["leg_reversal_gain_state"] = direct_env._leg_reversal_reward.state_dict()
+    if direct_env._leg_acceleration_reward is not None:
+        summary["leg_acceleration_gain_state"] = direct_env._leg_acceleration_reward.state_dict()
     (run_dir / "training_summary.json").write_text(
         json.dumps(summary, indent=2, sort_keys=True), encoding="utf-8"
     )

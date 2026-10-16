@@ -1,0 +1,41 @@
+{
+  "window_iterations_inclusive": [
+    900,
+    999
+  ],
+  "final_1000_complete": true,
+  "scope": "Aggregate randomized training/exploration, not deterministic MuJoCo performance.",
+  "normalization": "Reward/action_smooth divided by abs(weight)*0.02 to compare action second differences with changed weights.",
+  "metrics": {
+    "Tracking/vx_abs_error": {
+      "old": 0.14917773112654686,
+      "new": 0.1584130722284317,
+      "delta": 0.009235341101884842
+    },
+    "Tracking/yaw_rate_abs_error": {
+      "old": 0.4198238182067871,
+      "new": 0.35151366353034974,
+      "delta": -0.06831015467643736
+    },
+    "Reward/action_smooth": {
+      "old": 8.363141649169847,
+      "new": 5.323685228358954,
+      "delta": -3.039456420810893
+    },
+    "Reward/action_rate": {
+      "old": 3.0233438475988805,
+      "new": 2.277729893103242,
+      "delta": -0.7456139544956386
+    },
+    "Metric/phi0_delta_abs_rad": {
+      "old": 0.42839172571897505,
+      "new": 0.44558948010206223,
+      "delta": 0.017197754383087183
+    },
+    "Action/saturation_fraction": {
+      "old": 0.5499965196847916,
+      "new": 0.5752167868614196,
+      "delta": 0.025220267176628064
+    }
+  }
+}

@@ -9,6 +9,7 @@ from typing import Any
 import mujoco
 import numpy as np
 
+from wheelleg_mujoco.control import ActionTargets
 from wheelleg_mujoco.observation import build_actor_observation
 from wheelleg_mujoco.runner import WheelLegMujocoRuntime
 
@@ -47,6 +48,35 @@ MODEL_MANIFEST = PROJECT_ROOT / "sim2sim/mujoco/model_manifest.json"
 COMMAND = np.asarray((0.0, 0.0, 0.20), dtype=np.float64)
 
 
+class NoActionClipProbeController:
+    """Debug-only controller: raw policy action drives targets; history stays clipped."""
+
+    def __init__(self, base_controller: object) -> None:
+        self._base = base_controller
+        self.contract = base_controller.contract
+        self.effort_limits = base_controller.effort_limits
+
+    def prepare(self, action: np.ndarray) -> ActionTargets:
+        raw = np.asarray(action, dtype=np.float64)
+        if raw.shape != (6,) or not np.isfinite(raw).all():
+            raise ValueError("Probe action must be finite with shape (6,)")
+        clipped = np.clip(raw, -self.contract.action_clip, self.contract.action_clip)
+        leg_target = np.clip(
+            self.contract.q_nominal + self.contract.leg_action_scale * raw[:4],
+            self.contract.leg_target_lower,
+            self.contract.leg_target_upper,
+        )
+        wheel_target_control = self.contract.wheel_action_scale * raw[4:6]
+        wheel_target_mujoco = wheel_target_control * self.contract.wheel_signs
+        return ActionTargets(clipped, leg_target, wheel_target_mujoco)
+
+    def compute_torque(self, data: object, targets: ActionTargets) -> np.ndarray:
+        return self._base.compute_torque(data, targets)
+
+    def apply_torque(self, data: object, torque: np.ndarray) -> None:
+        self._base.apply_torque(data, torque)
+
+
 def _select_action(
     mode: str,
     tick: int,
@@ -73,6 +103,9 @@ def collect_dreamwaq_mujoco_trace(
     action_sequence: np.ndarray | None = None,
     action_sequence_identity: dict[str, Any] | None = None,
     command: np.ndarray = COMMAND,
+    bypass_action_clip: bool = False,
+    leg_length_probe_min_m: float = 0.15,
+    leg_length_probe_max_m: float = 0.35,
 ) -> dict[str, Any]:
     if mode not in {"closed_loop", "zero_action", "action_replay"}:
         raise ValueError(f"Unsupported mode: {mode}")
@@ -105,6 +138,8 @@ def collect_dreamwaq_mujoco_trace(
         contract_for_timing(adapter.contract, timing),
         model_manifest=None,
     )
+    if bypass_action_clip:
+        runtime.controller = NoActionClipProbeController(runtime.controller)
     all_hinge_names = list(adapter.model_manifest["joint_order"])
     all_hinge_qpos, all_hinge_dof = _resolve_all_hinges(runtime.model, all_hinge_names)
     command_values = np.asarray(command, dtype=np.float64)
@@ -222,6 +257,16 @@ def collect_dreamwaq_mujoco_trace(
             next_current,
             done=reason_code != 0,
         )
+        leg_lengths = np.asarray(final_post["virtual_leg_length"], dtype=np.float64)
+        closure_errors = np.asarray(final_post["loop_closure_error"], dtype=np.float64)
+        leg_window_ok = bool(
+            np.isfinite(leg_lengths).all()
+            and np.all((leg_lengths >= leg_length_probe_min_m) & (leg_lengths <= leg_length_probe_max_m))
+        )
+        closure_ok = bool(
+            np.isfinite(closure_errors).all()
+            and np.all(closure_errors <= 5.0e-3)
+        )
         row: dict[str, Any] = {
             "control_tick": np.int64(tick),
             "control_time_s": np.float64(runtime.data.time),
@@ -234,6 +279,11 @@ def collect_dreamwaq_mujoco_trace(
             "cenet_context_logvar": inference.context_logvar,
             "actor_output_raw": inference.raw_action,
             "action_clipped": targets.clipped_action,
+            "action_clip_delta_raw_minus_clipped": np.asarray(selected_action, dtype=np.float64) - targets.clipped_action,
+            "probe_leg_length_window_ok_int8": np.int8(leg_window_ok),
+            "probe_closure_ok_int8": np.int8(closure_ok),
+            "probe_leg_length_window_min_m": np.float64(leg_length_probe_min_m),
+            "probe_leg_length_window_max_m": np.float64(leg_length_probe_max_m),
             "target_command_canonical": target_canonical,
             "target_command_engine_native": target_native,
             "active_joint_position_canonical_post_step_pre_reset": final_post[
@@ -327,6 +377,14 @@ def collect_dreamwaq_mujoco_trace(
             "control_dt_s": 0.020,
         },
         "mode": mode,
+        "action_transform": "raw_target_with_clipped_history" if bypass_action_clip else "formal_clipped_target",
+        "bypass_action_clip": bool(bypass_action_clip),
+        "leg_length_probe_window_m": [float(leg_length_probe_min_m), float(leg_length_probe_max_m)],
+        "probe_summary": {
+            "ticks_outside_leg_length_window": int(sum(int(row["probe_leg_length_window_ok_int8"]) == 0 for row in control_rows)),
+            "ticks_over_closure_limit": int(sum(int(row["probe_closure_ok_int8"]) == 0 for row in control_rows)),
+            "ticks_with_hidden_action_delta": int(sum(np.any(np.abs(np.asarray(row["action_clip_delta_raw_minus_clipped"])) > 0.0) for row in control_rows)),
+        },
         "command": command_values.tolist(),
         "requested_control_ticks": control_ticks,
         "completed_control_ticks": len(control_rows),
@@ -362,6 +420,9 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--timing-profile", choices=tuple(TIMING_PROFILES), default="formal_1ms")
     parser.add_argument("--control-ticks", type=int, default=20)
+    parser.add_argument("--bypass-action-clip", action="store_true")
+    parser.add_argument("--leg-length-probe-min-m", type=float, default=0.15)
+    parser.add_argument("--leg-length-probe-max-m", type=float, default=0.35)
     parser.add_argument(
         "--mode",
         choices=("closed_loop", "zero_action", "action_replay"),
@@ -387,6 +448,9 @@ def main() -> None:
         mode=args.mode,
         action_sequence=sequence,
         action_sequence_identity=identity,
+        bypass_action_clip=args.bypass_action_clip,
+        leg_length_probe_min_m=args.leg_length_probe_min_m,
+        leg_length_probe_max_m=args.leg_length_probe_max_m,
     )
     print(json.dumps(metadata, indent=2, sort_keys=True), flush=True)
 

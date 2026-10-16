@@ -47,15 +47,25 @@ def require_initialization_compatibility(source: dict, target: dict,
     if task_profile_from_contract(source) != "stop_reverse_v1":
         raise ContractMismatchError("weights initialization source must be current stop_reverse_v1")
     if task_profile_from_contract(target) not in (
-        "stop_reverse_v1", "stop_reverse_reversal12_v1", "stop_reverse_reversal8_v1"
+        "stop_reverse_v1",
+        "stop_reverse_reversal12_v1",
+        "stop_reverse_reversal8_v1",
+        "stop_reverse_accel80_v1",
+        "stop_reverse_accel75_v1",
+        "stop_reverse_accel70_v1",
+        "stop_reverse_accel85_v1",
+        "stop_reverse_accel90_v1",
     ):
         raise ContractMismatchError("weights initialization target profile is not an approved experiment")
     source_payload, target_payload = copy.deepcopy(source), copy.deepcopy(target)
     source_payload.pop("contract_hash")
     target_payload.pop("contract_hash")
     target_payload["task"].pop("leg_reversal", None)
+    target_payload["task"].pop("leg_acceleration", None)
     if source_payload != target_payload:
-        raise ContractMismatchError("weights initialization may only add leg_reversal; other task contracts differ")
+        raise ContractMismatchError(
+            "weights initialization may only add leg_reversal or leg_acceleration; other task contracts differ"
+        )
 
 
 def load_weights_initialization(checkpoint: Path, target_base: dict,

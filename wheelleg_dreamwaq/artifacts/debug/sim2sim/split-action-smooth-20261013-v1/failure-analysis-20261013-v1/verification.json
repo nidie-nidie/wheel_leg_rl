@@ -1,0 +1,25 @@
+{
+  "schema": "SplitSmoothFailureVerificationV1",
+  "passed": true,
+  "offline_trajectories_verified": [
+    "baseline:nominal_stand",
+    "baseline:forward",
+    "baseline:reverse",
+    "leg02:nominal_stand",
+    "leg02:forward",
+    "leg02:reverse"
+  ],
+  "snapshot_scenes_verified": 18,
+  "final_replay_comparison_coverage": [
+    "raw_action",
+    "time",
+    "four_controlled_joint_positions"
+  ],
+  "frozen_file_hashes_verified": 12,
+  "input_hashes_verified": 12,
+  "checkpoint_hashes_verified": 9,
+  "reset_caches_exact": true,
+  "non_reward_task_algorithm_export_contracts_equal": true,
+  "training_started": false,
+  "isaac_started": false
+}

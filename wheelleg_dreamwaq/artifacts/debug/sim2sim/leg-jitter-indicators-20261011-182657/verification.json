@@ -1,0 +1,54 @@
+{
+  "protected_file_count": 93,
+  "protected_file_hashes_unchanged": true,
+  "tracked_changed_file_list_unchanged": true,
+  "source_control_csv_hashes_verified": 7,
+  "source_physics_csv_hashes_verified": 6,
+  "independently_recomputed_aligned_frames": 4306,
+  "max_frame_arithmetic_error": 0.0,
+  "max_summary_rms_mean_error": 7.105427357601002e-15,
+  "left_joint_spectral_peaks_recomputed": true,
+  "replay_checks": [
+    {
+      "scenario": "forward",
+      "frames": 500,
+      "errors": {
+        "raw_action": 0.0,
+        "vx": 0.0,
+        "yaw_rate": 0.0,
+        "base_height": 0.0,
+        "command": 0.0,
+        "clipped_action": 0.0
+      },
+      "clipped_action_reference": "original logged clipped_action columns"
+    },
+    {
+      "scenario": "reverse",
+      "frames": 500,
+      "errors": {
+        "raw_action": 0.0,
+        "vx": 0.0,
+        "yaw_rate": 0.0,
+        "base_height": 0.0,
+        "command": 0.0,
+        "clipped_action": 0.0
+      },
+      "clipped_action_reference": "original logged clipped_action columns"
+    },
+    {
+      "scenario": "forward_stop_reverse",
+      "frames": 500,
+      "errors": {
+        "raw_action": 0.0,
+        "vx": 0.0,
+        "yaw_rate": 0.0,
+        "base_height": 0.0,
+        "command": 0.0,
+        "clipped_action": 0.0
+      },
+      "clipped_action_reference": "clip(original raw action, -1, +1)"
+    }
+  ],
+  "visual_qa": "Seven plots reviewed; four-joint trace plots use equal position spans, velocity scales and acceleration scales.",
+  "scope": "Diagnostic artifacts only; no reward, policy, runtime, model, architecture or training changes."
+}

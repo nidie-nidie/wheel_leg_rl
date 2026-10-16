@@ -1,0 +1,72 @@
+{
+  "source": "Recorded MuJoCo actions evaluated with actual checkpoint training reward weights; not per-leg training logging.",
+  "window_s": [
+    2,
+    10
+  ],
+  "frames": 400,
+  "per_group": {
+    "left_leg": {
+      "action_rate_per_step": -3.480212294145947e-06,
+      "action_smooth_per_step": -6.885465269697642e-06,
+      "combined_per_step": -1.0365677563843589e-05,
+      "combined_fraction_of_positive_vx_tracking": 0.000259893994013432,
+      "action_smooth_fraction_of_positive_vx_tracking": 0.00017263618886086116
+    },
+    "right_leg": {
+      "action_rate_per_step": 0.0,
+      "action_smooth_per_step": 0.0,
+      "combined_per_step": 0.0,
+      "combined_fraction_of_positive_vx_tracking": -0.0,
+      "action_smooth_fraction_of_positive_vx_tracking": -0.0
+    },
+    "wheels": {
+      "action_rate_per_step": -0.0005210346868301896,
+      "action_smooth_per_step": -0.0010684315478032324,
+      "combined_per_step": -0.001589466234633422,
+      "combined_fraction_of_positive_vx_tracking": 0.039851975476188385,
+      "action_smooth_fraction_of_positive_vx_tracking": 0.026788305981762753
+    },
+    "all_joints": {
+      "action_rate_per_step": -0.0005245148991243355,
+      "action_smooth_per_step": -0.00107531701307293,
+      "combined_per_step": -0.0015998319121972655,
+      "combined_fraction_of_positive_vx_tracking": 0.040111869470201816,
+      "action_smooth_fraction_of_positive_vx_tracking": 0.026960942170623614
+    }
+  },
+  "left_joints": [
+    {
+      "joint": "jIJ",
+      "target_p05_p95_deg": [
+        -16.399415850597595,
+        -10.557968856227696
+      ],
+      "target_step_rms_deg": 2.111470879432211,
+      "action_second_difference_rms": 0.15029743966430797,
+      "nonzero_second_difference_fraction": 1.0,
+      "action_smooth_penalty_per_step": -4.517864073929259e-06
+    },
+    {
+      "joint": "jIO",
+      "target_p05_p95_deg": [
+        19.091920859267695,
+        23.573042127115052
+      ],
+      "target_step_rms_deg": 1.5935555604399738,
+      "action_second_difference_rms": 0.10880260097461786,
+      "nonzero_second_difference_fraction": 1.0,
+      "action_smooth_penalty_per_step": -2.367601195768384e-06
+    }
+  ],
+  "positive_vx_tracking_per_step": 0.03988425205127235,
+  "left_leg_fraction_of_all_smoothness_penalty": 0.006479229152021978,
+  "right_leg_actions_clipped_to_minus_one_fraction": [
+    1.0,
+    1.0
+  ],
+  "right_leg_raw_action_std": [
+    0.1421397800979911,
+    0.4807419688039433
+  ]
+}

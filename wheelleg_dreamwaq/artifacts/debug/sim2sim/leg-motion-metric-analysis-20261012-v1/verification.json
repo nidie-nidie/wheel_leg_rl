@@ -1,0 +1,97 @@
+{
+  "actual_motion_with_constant_right_target_checks": true,
+  "agents_invoked": false,
+  "all_hashes_unchanged": true,
+  "analyzed_frames": 3600,
+  "file_hashes": {
+    "aligned-data.csv": "670893D8F0F2190F634710D427A4704535856D76E6C3705292892EBE29B15FCF",
+    "aligned-joints-forward.png": "DE9F01A9D1E623CACCB3072072C2C767ED2FB16C32778D93E480A09822863C10",
+    "aligned-joints-nominal_stand.png": "256CA9000834874D00F5233D07B850AA930A6D5D72576C6FCDBB6301C3CFE9D0",
+    "aligned-joints-reverse.png": "C03126B8D44D6E2E5605B706203AC4C53A923650A2D6E70D73F91E864CAC5C73",
+    "analyze.py": "3EF8DA8AFEDB4BA4A8839558384FB0824A5047C14523CFC6D9C334130860799C",
+    "input-identity.json": "F347989DAC761C65E4DE3C580DC6AB642AE78389C50D09E6A2A72267827F0EB5",
+    "joint-metrics.csv": "5DA6E64DE46BB2197265384991B0134B0EA2630CF582ED4E75F9EDEFE2B25C66",
+    "parking-metric-comparison.png": "B77CC5A8803ED45DD62555E438676A2CFFE6483DEC272B27A3527E02C92A4C23",
+    "report.md": "884D292FA97ACCF1DEC8C5F68924419CB4CA462922196966B99AB8B7CAADF926",
+    "report.py": "74D54FB2B1B420F443CD47ABEF68BCBAB198465D15EF70ACA1CCE8EDB8E55993",
+    "results.json": "E5A7017E069922441B673DD85CB6A00175C75566D9CBA752083B65D7F7372B13",
+    "vehicle-and-virtual-leg.png": "64EC6379835686608135285FCB7D2F83CBAC38D9BCE6536EFCCED6BCACF7F9CE",
+    "verify.py": "1EFDDEBBF20F25D21ACDDD031E733A9129FE1531DC98127B6EF211FA52628119"
+  },
+  "input_file_count": 26,
+  "joint_samples": 14400,
+  "maximum_errors": {
+    "acceleration_max": 0,
+    "acceleration_p95": 0,
+    "acceleration_rms": 7.105427357601002e-15,
+    "aligned_acceleration": 0,
+    "aligned_position": 0,
+    "aligned_target_increment": 0,
+    "aligned_target_second": 0,
+    "aligned_time": 0,
+    "aligned_tracking_error": 0,
+    "aligned_vehicle": 0,
+    "aligned_velocity": 0,
+    "existing_acceleration_mse": 2.546585164964199e-11,
+    "existing_action_second_mse": 5.773159728050814e-15,
+    "original_target_mapping": 0,
+    "previous_acceleration": 1.4210854715202004e-14,
+    "previous_velocity": 2.220446049250313e-16,
+    "synthetic_amplitude_ratio": 0,
+    "target_increment_max": 0,
+    "target_increment_p95": 0,
+    "target_increment_rms": 6.938893903907228e-18,
+    "target_second_max": 0,
+    "target_second_p95": 0,
+    "target_second_rms": 6.938893903907228e-18,
+    "tracking_error_max": 0,
+    "tracking_error_p95": 0,
+    "tracking_error_rms": 6.938893903907228e-18,
+    "vehicle_height_mae_m": 8.673617379884035e-19,
+    "vehicle_vx_mae_mps": 0,
+    "vehicle_yaw_rate_mae_rad_s": 1.3877787807814457e-17,
+    "velocity_max": 0,
+    "velocity_p95": 0,
+    "velocity_rms": 1.1102230246251565e-16,
+    "window_acceleration": 7.105427357601002e-15,
+    "window_target_increment": 6.938893903907228e-18,
+    "window_target_second": 6.938893903907228e-18,
+    "window_tracking_error": 6.938893903907228e-18,
+    "window_velocity": 2.220446049250313e-16
+  },
+  "plots": {
+    "aligned-joints-forward.png": [
+      2100,
+      1500
+    ],
+    "aligned-joints-nominal_stand.png": [
+      2100,
+      1500
+    ],
+    "aligned-joints-reverse.png": [
+      2100,
+      1500
+    ],
+    "parking-metric-comparison.png": [
+      1600,
+      1440
+    ],
+    "vehicle-and-virtual-leg.png": [
+      2250,
+      1800
+    ]
+  },
+  "preexisting_tracked_changes_preserved": true,
+  "production_files_modified": false,
+  "protected_file_count": 579,
+  "sampling_checks": "Fixed-history only; no sampled physical acceleration was synthesized",
+  "scalar_joint_statistics_checked": 1980,
+  "simulation_performed": false,
+  "source_fingerprint_unchanged": true,
+  "status": "passed",
+  "synthetic_amplitude_and_constant_speed_checks": true,
+  "target_metric_decreases_while_actual_acceleration_increases_checked": true,
+  "training_performed": false,
+  "trajectories": 9,
+  "verified_at": "2026-10-12T00:17:48.757492+08:00"
+}

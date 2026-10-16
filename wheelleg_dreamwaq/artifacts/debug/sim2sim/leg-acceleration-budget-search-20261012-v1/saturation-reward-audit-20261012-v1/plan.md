@@ -1,0 +1,5 @@
+# Saturation and reward audit
+
+Authorized scope: diagnose (1) action saturation versus left/right posture and (2) weighted reward contributions / adaptive gain. No training, production modifications, observation changes, masking, or controller changes. No subagents.
+
+Reuse and verify baseline/85 MuJoCo eight-scenario trajectories and the recorded 85 interactive session. Add diagnostic-only captures of full post-action state, raw/clipped actions, targets and last-substep contact forces, preserving original trajectories. Reconstruct reward terms with the saved weights and original production reward functions. MuJoCo reward reconstruction is a diagnostic comparison, not an Isaac reward log or PPO objective ablation. Read existing TensorBoard logs and checkpoints without running Isaac. Distinguish training stochastic actions from deterministic deployment actions, and distinguish action clipping from mechanical limits. Report all scenarios, steady windows, reward term/channel breakdowns, gain saturation and evidence limitations. Verify original-file hashes afterward.

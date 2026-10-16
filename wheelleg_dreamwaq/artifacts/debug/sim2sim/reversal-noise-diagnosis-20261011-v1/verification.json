@@ -1,0 +1,42 @@
+{
+  "agents_invoked": false,
+  "all_protected_hashes_unchanged": true,
+  "counter": {
+    "counter_joint_frames": 4264000,
+    "independent_counter_max_error": 0.0,
+    "native_export_mean_max_error": 0.0,
+    "target_mapping_max_error": 5.6278076199234306e-08
+  },
+  "cross_check_against_prior_results_max_error": {
+    "acceleration_rms": 0.0,
+    "mean_counter": 0.0,
+    "velocity_rms": 0.0
+  },
+  "diagnostic_snapshot_protected_files": 576,
+  "exact_replayed_frames": 4500,
+  "file_hashes": {
+    "analyze.py": "268FEB5122343161D641801F181B14C75F1CD2AE924B600CBA45E2B4AD183288",
+    "capture-verification.json": "A94E90887B7437A9EB13F79BADFB665DD9D60D208FC4550815F97FC0041BFF2E",
+    "capture.py": "A9EBFF9253D1EADA8017E1B44396268B9F948E458AFE655ED8B3E76B327670FF",
+    "diagnostic-summary.png": "7AE511A9A2FA4EF0623E89EEA98E357EDCE38FA4CE376374B7B98F24F1DBD76F",
+    "input-identity.json": "2BBA266B4CE663C273E074B1C714B02CA948EE192C580CFCBAE4693CE3CC8496",
+    "plan.md": "92C0A0F4D4375FE229FA47F902600AF0036AD82E88E38BF13768A99F60CBAFE4",
+    "report.md": "9F86CB04965E2AE61B21B57E5BCA62887DF7FA3D05AFCC67FE580763C767586D",
+    "report.py": "2C6E74B3A16A15EDB278E5490657F194F9E8AF78EE8931E0259B69E9C30B0368",
+    "results.json": "048954E8F6C004EA1216AA3E71397E9A7988739F2D4F94F6448DDBE622C64ECE",
+    "standardized-noise.npz": "A128EC56A88153771F0A66F437CAE9B638D02C78140EB254E85C5A143A245FB4",
+    "verify.py": "1B915C58A105CE7828746CB02EC5CE49D890DE5BC4A75B4463CB64BB93213454"
+  },
+  "held_input_mean_zero_events_and_noise_above_budget_verified": true,
+  "preexisting_tracked_changes_preserved": true,
+  "prior_trial_protected_files": 116,
+  "production_parameters_modified": false,
+  "replay_max_error": 0.0,
+  "result_scope": "conditional fixed-input action sampling; not full real-training causal attribution",
+  "source_fingerprint": "FA40027FA51DE3C185D1526F26D94C7A5D6EC6941C34CAF2117A355FF3906C16",
+  "source_fingerprint_unchanged": true,
+  "status": "passed",
+  "synthetic_equal_counts_and_equal_cost_different_amplitude_verified": true,
+  "training_performed": false,
+  "verified_at": "2026-10-11T23:10:38.773898+08:00"
+}

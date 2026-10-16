@@ -1,0 +1,283 @@
+{
+  "stationary_wheel_actions": {
+    "clipped_action_p05_p95": [
+      [
+        -1.0,
+        -1.0
+      ],
+      [
+        1.0,
+        1.0
+      ]
+    ],
+    "action_sign_change_fraction": [
+      0.3609022556390977,
+      0.556390977443609
+    ],
+    "mean_abs_target_step_change_rad_s": [
+      18.052465438842773,
+      26.27711296081543
+    ],
+    "maximum_abs_target_step_change_rad_s": [
+      50.0,
+      50.0
+    ],
+    "target_at_25rad_s_fraction": [
+      0.71,
+      0.545
+    ]
+  },
+  "stationary_combined_counterfactuals": {
+    "wheel_feedback_mean": {
+      "per_joint_output_step_rms_reduction": [
+        0.6374819278717041,
+        0.5610635280609131
+      ],
+      "mean_reduction": 0.5992727279663086
+    },
+    "wheel_feedback_and_angular_mean": {
+      "per_joint_output_step_rms_reduction": [
+        0.6554756164550781,
+        0.5346473455429077
+      ],
+      "mean_reduction": 0.5950614809989929
+    }
+  },
+  "constant_command_segments": {
+    "0.00-11.78s": {
+      "command": [
+        0.0,
+        0.0,
+        0.2
+      ],
+      "analysis_start_s": 0.5000000000000003,
+      "frames": 564,
+      "cases": {
+        "true_velocity": {
+          "per_joint_output_step_rms_reduction": [
+            -0.04898560047149658,
+            0.00953686237335205
+          ],
+          "mean_reduction": -0.019724369049072266
+        },
+        "wheel_velocity_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.40429532527923584,
+            0.10845720767974854
+          ],
+          "mean_reduction": 0.2563762664794922
+        },
+        "previous_wheel_action_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.2108769416809082,
+            0.4062219262123108
+          ],
+          "mean_reduction": 0.3085494339466095
+        },
+        "angular_velocity_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.10584145784378052,
+            0.27765321731567383
+          ],
+          "mean_reduction": 0.19174733757972717
+        },
+        "wheel_feedback_and_angular_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.6534960269927979,
+            0.5283003449440002
+          ],
+          "mean_reduction": 0.5908981561660767
+        }
+      },
+      "vx_mae_mps": 0.03163764088397048
+    },
+    "20.52-24.76s": {
+      "command": [
+        -1.0999999999999999,
+        0.0,
+        0.2
+      ],
+      "analysis_start_s": 21.020000000002707,
+      "frames": 187,
+      "cases": {
+        "true_velocity": {
+          "per_joint_output_step_rms_reduction": [
+            0.03764075040817261,
+            0.018330931663513184
+          ],
+          "mean_reduction": 0.027985841035842896
+        },
+        "wheel_velocity_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.3188573122024536,
+            0.2944296598434448
+          ],
+          "mean_reduction": 0.3066434860229492
+        },
+        "previous_wheel_action_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.28467828035354614,
+            0.12086361646652222
+          ],
+          "mean_reduction": 0.20277094841003418
+        },
+        "angular_velocity_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.1933760643005371,
+            0.17501771450042725
+          ],
+          "mean_reduction": 0.18419688940048218
+        },
+        "wheel_feedback_and_angular_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.6308711171150208,
+            0.4231112003326416
+          ],
+          "mean_reduction": 0.5269911289215088
+        }
+      },
+      "vx_mae_mps": 0.015778262842904074
+    },
+    "26.88-29.94s": {
+      "command": [
+        -0.30000000000000004,
+        0.0,
+        0.2
+      ],
+      "analysis_start_s": 27.38000000001048,
+      "frames": 128,
+      "cases": {
+        "true_velocity": {
+          "per_joint_output_step_rms_reduction": [
+            -0.02762126922607422,
+            0.01674067974090576
+          ],
+          "mean_reduction": -0.0054402947425842285
+        },
+        "wheel_velocity_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.3871768116950989,
+            0.19011980295181274
+          ],
+          "mean_reduction": 0.2886483073234558
+        },
+        "previous_wheel_action_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.16606777906417847,
+            0.3153129816055298
+          ],
+          "mean_reduction": 0.24069038033485413
+        },
+        "angular_velocity_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.10946422815322876,
+            0.24589627981185913
+          ],
+          "mean_reduction": 0.17768025398254395
+        },
+        "wheel_feedback_and_angular_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.5767959952354431,
+            0.5887479782104492
+          ],
+          "mean_reduction": 0.5827720165252686
+        }
+      },
+      "vx_mae_mps": 0.008855222421622486
+    },
+    "39.14-41.42s": {
+      "command": [
+        -0.4,
+        0.0,
+        0.2
+      ],
+      "analysis_start_s": 39.63999999999832,
+      "frames": 89,
+      "cases": {
+        "true_velocity": {
+          "per_joint_output_step_rms_reduction": [
+            -0.011206269264221191,
+            0.017333567142486572
+          ],
+          "mean_reduction": 0.0030636489391326904
+        },
+        "wheel_velocity_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.3765421509742737,
+            0.19537794589996338
+          ],
+          "mean_reduction": 0.28596004843711853
+        },
+        "previous_wheel_action_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.15351921319961548,
+            0.30402272939682007
+          ],
+          "mean_reduction": 0.22877097129821777
+        },
+        "angular_velocity_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.14400869607925415,
+            0.23688799142837524
+          ],
+          "mean_reduction": 0.1904483437538147
+        },
+        "wheel_feedback_and_angular_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.5919382572174072,
+            0.5374584794044495
+          ],
+          "mean_reduction": 0.564698338508606
+        }
+      },
+      "vx_mae_mps": 0.009311890067542114
+    },
+    "41.64-45.92s": {
+      "command": [
+        -0.6,
+        0.0,
+        0.2
+      ],
+      "analysis_start_s": 42.13999999999249,
+      "frames": 189,
+      "cases": {
+        "true_velocity": {
+          "per_joint_output_step_rms_reduction": [
+            -0.006164908409118652,
+            0.01978623867034912
+          ],
+          "mean_reduction": 0.006810665130615234
+        },
+        "wheel_velocity_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.39689046144485474,
+            0.23628848791122437
+          ],
+          "mean_reduction": 0.31658947467803955
+        },
+        "previous_wheel_action_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.15489709377288818,
+            0.24782794713974
+          ],
+          "mean_reduction": 0.2013625204563141
+        },
+        "angular_velocity_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.11919915676116943,
+            0.22141075134277344
+          ],
+          "mean_reduction": 0.17030495405197144
+        },
+        "wheel_feedback_and_angular_mean": {
+          "per_joint_output_step_rms_reduction": [
+            0.5863527059555054,
+            0.5628180503845215
+          ],
+          "mean_reduction": 0.5745853781700134
+        }
+      },
+      "vx_mae_mps": 0.011069360277627324
+    }
+  }
+}

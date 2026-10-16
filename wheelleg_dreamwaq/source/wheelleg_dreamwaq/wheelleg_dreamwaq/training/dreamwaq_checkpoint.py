@@ -25,6 +25,7 @@ from wheelleg_dreamwaq.schemas.dreamwaq_manifest import (
 )
 from wheelleg_dreamwaq.schemas.manifest import ContractMismatchError
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.leg_reversal import validate_gain_state
+from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.leg_acceleration import validate_acceleration_gain_state
 from wheelleg_dreamwaq.training.weights_initialization import validate_weights_initialization
 from wheelleg_dreamwaq.schemas.randomization import (
     PROCESS_START_RANDOMIZATION_STREAMS,
@@ -119,10 +120,11 @@ DREAMWAQ_DYNAMIC_METADATA_FIELDS = frozenset(
         "environment_rng_state",
         "estimator_monitor_state",
         "leg_reversal_gain_state",
+        "leg_acceleration_gain_state",
     }
 )
 
-DREAMWAQ_OPTIONAL_METADATA_FIELDS = frozenset({"leg_reversal_gain_state", "weights_initialization"})
+DREAMWAQ_OPTIONAL_METADATA_FIELDS = frozenset({"leg_reversal_gain_state", "leg_acceleration_gain_state", "weights_initialization"})
 
 HARDWARE_PROFILE_FIELDS = frozenset(
     {
@@ -315,6 +317,10 @@ class DreamWaQContractOnPolicyRunner(ContractOnPolicyRunner):
         if self._leg_reversal_reward is not None:
             if self._leg_reversal_reward.cfg.rollout_steps != self.num_steps_per_env:
                 raise ValueError("Reversal gain rollout length differs from runner")
+        self._leg_acceleration_reward = getattr(env.unwrapped, "_leg_acceleration_reward", None)
+        if self._leg_acceleration_reward is not None:
+            if self._leg_acceleration_reward.cfg.rollout_steps != self.num_steps_per_env:
+                raise ValueError("Acceleration gain rollout length differs from runner")
         if not isinstance(self.alg, DreamWaQPPO) or not isinstance(self.alg.policy, DreamWaQActorCritic):
             raise TypeError("DreamWaQContractOnPolicyRunner constructed an unexpected algorithm or policy")
 
@@ -355,6 +361,11 @@ class DreamWaQContractOnPolicyRunner(ContractOnPolicyRunner):
             state = controller.state_dict()
             validate_gain_state(state, state["contract"], completed_iterations)
             checkpoint_infos["leg_reversal_gain_state"] = state
+        acceleration_controller = getattr(self, "_leg_acceleration_reward", None)
+        if acceleration_controller is not None:
+            state = acceleration_controller.state_dict()
+            validate_acceleration_gain_state(state, state["contract"], completed_iterations)
+            checkpoint_infos["leg_acceleration_gain_state"] = state
         if "weights_initialization" in checkpoint_infos:
             validate_weights_initialization(checkpoint_infos["weights_initialization"])
         validate_resume_provenance(checkpoint_infos.get("resume_provenance"))
@@ -513,6 +524,16 @@ def validate_dreamwaq_checkpoint_metadata(
             raise ContractMismatchError(f"reversal gain state invalid: {error}") from error
     elif "leg_reversal_gain_state" in metadata:
         raise ContractMismatchError("Disabled reversal contract cannot contain gain state")
+    acceleration_contract = current_base_task_contract.get("task", {}).get("leg_acceleration")
+    if acceleration_contract is not None:
+        try:
+            validate_acceleration_gain_state(
+                metadata.get("leg_acceleration_gain_state"), acceleration_contract, completed_iterations
+            )
+        except (ValueError, TypeError) as error:
+            raise ContractMismatchError(f"acceleration gain state invalid: {error}") from error
+    elif "leg_acceleration_gain_state" in metadata:
+        raise ContractMismatchError("Disabled acceleration contract cannot contain gain state")
     return metadata
 
 
@@ -591,6 +612,11 @@ def resume_dreamwaq_runner_from_checkpoint(
         if controller is None:
             raise ContractMismatchError("Cannot restore reversal gain without an enabled environment")
         controller.load_state_dict(metadata["leg_reversal_gain_state"])
+    if "leg_acceleration_gain_state" in metadata:
+        controller = getattr(runner, "_leg_acceleration_reward", None)
+        if controller is None:
+            raise ContractMismatchError("Cannot restore acceleration gain without an enabled environment")
+        controller.load_state_dict(metadata["leg_acceleration_gain_state"])
     restore_rng_state(metadata["rng_state"])
     restore_environment_rng_state(metadata["environment_rng_state"])
     return completed_iterations

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript"
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+    <title>CAPS - Regularizing Action Policies for Smooth Control with Reinforcement Learning</title>
+
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/template.css" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background-color:#34a853;border-color:#34a853">    
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+            <li role="presentation"> <a href="#overview">Overview</a></li>
+            <li role="presentation"> <a href="#dataset">Code</a></li>
+          <!-- <li role="presentation"> <a href="#code">Code</li> -->
+          <li role="presentation"> <a href="#refs">Reference</a> </li>
+          <li role="presentation"> <a href="./index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="home-intro" style="padding: 5% 10%">
+        <div class="row">
+            <h1 align="center">Regularizing Action Policies for Smooth Control with Reinforcement Learning</h1>
+        </div>
+
+        <div class="project-page">
+          <a name="abstract"></a>
+          <center><h2>Abstract</h2></center>
+          <p class="text-justify">
+            A critical problem with the practical utility of controllers trained with deep Reinforcement Learning (RL) is the notable lack of smoothness in the actions learned by the RL policies. This trend often presents itself in the form of control signal oscillation and can result in poor control, high power consumption, and undue system wear. We introduce Conditioning for Action Policy Smoothness (CAPS), a simple but effective regularization on action policies, which offers consistent improvement in the smoothness of the learned state-to-action mappings of neural network controllers, reflected in the elimination of high-frequency components in the control signal. Tested on a real system, improvements in controller smoothness on a quadrotor drone resulted in an almost 80% reduction in power consumption while consistently training flight-worthy controllers.
+          </p>
+          <br>
+          <p>
+            This work has been accpeted for publication and is set to appear at the International Conference on Robotics and Automation (ICRA) 2021.
+          </p>
+          <br>
+          <center>
+          <a href="https://arxiv.org/abs/2012.06644" target="_blank" class="btn btn-danger" role="button">MAIN PAPER</a>
+          <a href="./CAPS_SmoothControl_Supplementary.pdf" target="_blank" class="btn btn-danger" role="button">SUPPLEMENTARY</a>
+          </center>
+        </div>
+          
+        <div class="project-page">
+          <a name="overview"></a>
+            <center><h2>Overview</h2>
+              <!-- <video width="100%" controls>
+                <source src="./CAPS_VideoPresentation_v3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video> -->
+              <iframe width="900" height="500" src="https://www.youtube.com/embed/yFjkiuXvNrU" title="CAPS - ICRA21 Presentation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </center>
+            <br>
+            <p>
+              One of the key issues with using RL for control is that RL can learn really noisy control.
+              This is because RL algorithms do not typically optimize policies for smoothness -- the Markov property in RL assumes complete independence of state-action pairs.
+              This assumption does not really hold in real applications however, as it is in fact beneficial to have some cohesion between how different states are mapped to actions.
+              We introduce CAPS as a tool for regularizing policy optimization to promote action smoothness.
+              CAPS can dramatically improve action policy smoothness, as shown in the figure below.
+            </p>
+            <br>
+            <center><img width="100%" alt="Smoothing out motor usage" src="Fig1_v3.png"></center>
+            <br><br>
+            
+            <h3>Method</h3>
+            <p>
+              To enable smoother control, we introduce 2 smoothness losses to the RL policy optimization criteria:
+              <ol>
+                <li>
+                  Temporal Smoothness, to ensure that subsequent actions are similar to current actions: $$L_T = D(\pi(s_t), \pi(s_{t+1}))$$
+                </li>
+                <li>
+                  Spatial Smoothness, which ensures that similar states map to similar actions: $$L_S = D(\pi(s), \pi(\bar{s}))$$ 
+                  where $\bar{s} \sim \phi(s)$is drawn from a distribution around $s$
+                </li>
+              </ol>
+              For a policy optimization criteria, $J_\pi$, on policy $\pi$, the CAPS regularization are introduced as weighted losses: $$J_\pi^{CAPS} = J_\pi - \lambda_T L_T - \lambda_S L_S$$
+              In practice, we use euclidean distance measures, i.e. $D(a_1,a_2) = ||a_1 - a_2||_2$ and a normal distributionn $\phi(s) = N(s,\sigma)$ where $\sigma$ is set based on expected measurement noise and/or tolerance.
+            </p>
+
+            <h3>Results</h3>
+            <p>
+              When tested on a simple toy problem (see Supplementary for details), where the ideal response (green) is known, but is approximately solvable, though less optimally, by a binary response (red), we show that a CAPS agent has behavior closer to the ideal response as opposed to vanilla policies which are closer to the binary response (which likely contributes to vanilla policies being noiser).
+              <br><br>
+              <center>
+                <img width="70%" alt="Testing on a toy problem" src="ToyFig_plusStateAction.png"></center>
+              </center>
+            </p>
+            <br><br>
+
+            <p>
+              We also test our method on OpenAI Gym benchmarks, where CAPS produced smoother responses on all tested environments.
+              The benefits of CAPS are also visually noticable in some tasks, as shown by the example of the pendulum task below.
+              Additional resutls are provided in our paper and in the supplementary material.
+            </p>
+            <p>
+              <center>
+                <table>
+                  <tr><td colspan="2"><center>Testing on a Simple Pendulum</center></td></tr>
+                  <tr>
+                    <td><center>Without CAPS</center></td>
+                    <td><center>With CAPS</center></td>
+                  </tr>
+                  <tr>
+                    <td><center><img width="90%" src="pendulum.gif"></center></td>
+                    <td><center><img width="90%" src="pendulum_with_CAPS.gif"></center></td>
+                  </tr>
+                </table>
+              </center>
+            </p>
+            <br><br>
+
+            <p>
+              To test real-world performance on hardware, we also tested CAPS on a high-performance quadrotor drone, the schematics and training for which were based on <a href="https://wfk.io/neuroflight/">Neuroflight</a>.
+              CAPS agents allowed for training with simpler rewards and still achieves comprable tracking performance while offering over 80% reduction in power consumption and over 90% improvement in smoothness (more details in our paper).
+            </p>
+            <br>
+            <p>
+              We compare the FFTs and motor usage for CAPS vs that of Neuroflight and a tuned PID controller. Observe the significant improvement in control smoothness -- which is also reflected by the FFT.
+              <center><img width="100%" src="fourier_vs_motors.png"></center>
+            </p>
+
+          </div>
+
+          <div class="project-page">
+            <a name="dataset"></a>
+            <h2>Code</h2>
+            <p>
+              For the time being, a zipped copy of the code as used for the benchmarks and toy problem is available via the source below.
+              We will make code available on github soon, which will also include code for the drone training.
+            </p>
+            <br>
+            <center>
+              <a href="./CAPS_code.zip" target="_blank" class="btn btn-danger" role="button">CAPS Code (toy & benchmarks)</a>
+            </center>
+          </div>
+
+          <div class="project-page">
+            <a name="refs"></a>
+            <h2>Reference</h2>
+            <p class="lead"> If you find this useful in your work please consider citing: </p>
+            <div class="highlight">
+            <pre> <code> 
+              @inproceedings{caps2021, 
+              title={Regularizing Action Policies for Smooth Control with Reinforcement Learning},
+              author={Siddharth Mysore and Bassel Mabsout and Renato Mancuso and Kate Saenko},
+              journal={IEEE International Confernece on Robotics and Automation}, 
+              year={2021},
+              }          
+            </code> </pre>
+            </div>
+          </div>
+
+          <div class="project-page">
+            <a name="contact"></a>
+            <h2>Contact</h2>
+            <p>sidmys [at] bu [dot] edu, bmabsout [at] bu [dot] edu</p>
+          </div>
+        </div>
+      </div>
+    </div> <!--container-->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!--<script src="js/bootstrap.min.js"></script>
+    <script src="js/toggle.js"></script> -->
+  </body> 
+</html>

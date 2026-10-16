@@ -1,0 +1,3 @@
+{"wall_time": 1791867848.637307, "sim_time_s": 5.240000000000085, "episode": 0, "kind": "key", "key": 342, "command_before": [0.0, 0.0, 0.2], "command": [0.0, 0.0, 0.2], "paused": false}
+{"wall_time": 1791867851.0069425, "sim_time_s": 7.380000000000799, "episode": 0, "kind": "key", "key": 342, "command_before": [0.0, 0.0, 0.2], "command": [0.0, 0.0, 0.2], "paused": false}
+{"wall_time": 1791867853.2344234, "sim_time_s": 9.540000000000152, "episode": 0, "kind": "key", "key": 342, "command_before": [0.0, 0.0, 0.2], "command": [0.0, 0.0, 0.2], "paused": false}

@@ -1,0 +1,20 @@
+{
+  "unit_passed": 186,
+  "real_isaac_profile_integration_passed": true,
+  "integration_evidence": {
+    "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_16-07-26_portable_fudan-v1_practice-source-027f459a",
+    "last_resume": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_16-07-48_portable_fudan-v1_practice-resume16-027f459a",
+    "export": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth-acceptance-20261011\\integration\\test_profile_fresh_resume_fixe0\\export",
+    "play": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth-acceptance-20261011\\integration\\test_profile_fresh_resume_fixe0\\play.json",
+    "isaac_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth-acceptance-20261011\\integration\\test_profile_fresh_resume_fixe0\\isaac\\summary.json",
+    "dynamic_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth-acceptance-20261011\\integration\\test_profile_fresh_resume_fixe0\\dynamic\\summary.json"
+  },
+  "protected_file_count": 110,
+  "protected_files_unchanged": true,
+  "source_profile": "stop_reverse_smooth_v1",
+  "fresh_smoke_completed_iterations": 2,
+  "old_reference_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_999.pt",
+  "old_reference_seed": 41882943,
+  "architecture_sha256": "EB46B120F667B331EB857240154942BE573E3C479FD96E96F78FA21A1F556114",
+  "review": "Self-reviewed scoped diff; old profiles preserved; no physics/model/history/algorithm changes; no unsolicited agents."
+}

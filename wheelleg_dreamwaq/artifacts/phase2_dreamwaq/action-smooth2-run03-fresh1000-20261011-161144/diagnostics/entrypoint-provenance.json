@@ -1,0 +1,26 @@
+{
+  "changes": [
+    {
+      "after": "PROJECT_ROOT = Path('E:\\\\wheel_leg_rl-main\\\\wheelleg_dreamwaq')",
+      "before": "PROJECT_ROOT = Path(__file__).resolve().parents[1]"
+    },
+    {
+      "after": "training_suite.get(\"suite_mode\") != \"single_seed_reward_diagnostic\"",
+      "before": "training_suite.get(\"suite_mode\") != \"formal\""
+    },
+    {
+      "after": "training_suite.get(\"run_count\") != 1",
+      "before": "training_suite.get(\"run_count\") != 4"
+    },
+    {
+      "after": "Single-seed reward diagnostic requires one run with exactly 1000 completed iterations",
+      "before": "Formal evaluation requires the frozen four-run 1000-iteration context"
+    }
+  ],
+  "diagnostic": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\diagnostics\\evaluate_single_seed_mujoco.py",
+  "diagnostic_sha256": "659738237B9A8B02D5A9748FE074EEC4FB226CDE54711442A9C479DB2AC3A4F7",
+  "model_validation_scenario_loop_metrics_report_unchanged": true,
+  "purpose": "One fresh 1000-iteration reward comparison, not formal four-run ranking.",
+  "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\evaluate_mujoco.py",
+  "source_sha256": "546A0E7B7A2948256C9A62C061B752455DAD340C3523F04E5B54D0746ACD517F"
+}

@@ -1,0 +1,110 @@
+{
+  "export": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\90\\export",
+  "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_02-16-45_rtx5070_fudan-v1_leg-accel-budget-search-20261012-budget90-200",
+  "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200\\model_199.pt",
+  "source_checkpoint_sha256": "BCDD726CE5D6F89600547F34CA285282053D4D07B07575604172E6A11A5912B7",
+  "training_summary": {
+    "base_task_contract_hash": "254973727194DC01D104E40DA4B64E04032989FE7BE833D963BD86118FB03307",
+    "closed_chain_reset_cache": {
+      "file_sha256": "FA5A60436F6159DC93B6537E2D729E2CA77DFF0A8DAB11CA62AAD8687B436B92",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_02-16-45_rtx5070_fudan-v1_leg-accel-budget-search-20261012-budget90-200\\closed_chain_reset_cache.pt",
+      "tensor_sha256": "221CDF4C68EE979D1462977FC5B9D40A87DF42829997DC0B83006A9E8155E62C"
+    },
+    "completed_iterations": 200,
+    "context_acceptance": true,
+    "context_acceptance_threshold": 0.005176066624403553,
+    "context_final_window_mean": 0.0391184307766628,
+    "dreamwaq_algorithm_contract_hash": "2924363841CF0104ED897ACD6AAA0AA03EF59B88B8DD198350D5451D815A2CED",
+    "dreamwaq_export_contract_hash": "3048CB2CEAC5DEE99E26F9B1D96DA04A5089122943169CAD542A8095B7682C19",
+    "duration_seconds": 833.5143651999533,
+    "estimator_monitor_state": {
+      "completed_rollouts": 200,
+      "context_mu_feature_std_mean_initial": 0.051760666244035525,
+      "recent_context_mu_feature_std_mean": [
+        0.03808883382291932,
+        0.03877802453303798,
+        0.039868139640370434,
+        0.03876817215828798,
+        0.038053548498626064,
+        0.03938179655742132,
+        0.03985049302992829,
+        0.039890559374175225,
+        0.039193867181495784,
+        0.03931087297036556
+      ],
+      "schema_version": "EstimatorMonitorStateV1"
+    },
+    "event_files": [
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_02-16-45_rtx5070_fudan-v1_leg-accel-budget-search-20261012-budget90-200\\events.out.tfevents.1791742607.DESKTOP-P89OA5C.53556.0"
+    ],
+    "final_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_02-16-45_rtx5070_fudan-v1_leg-accel-budget-search-20261012-budget90-200\\model_199.pt",
+    "initial_model_tensor_sha256": "97DBCD7E7114918077E47C2AD9884F69D4487E70421A38F5D130F6D9C4A59049",
+    "iterations_executed": 200,
+    "iterations_requested": 200,
+    "leg_acceleration_gain_state": {
+      "completed_rollouts": 200,
+      "contract": {
+        "acceptance_signal": "one_second_window_RMS_p90_in_MuJoCo",
+        "budget_fraction": 0.9,
+        "budget_rule": "budget_j=budget_fraction*reference_rms_j",
+        "budget_units": "rad/s^2 RMS reference scaled per joint",
+        "control_dt": 0.02,
+        "enabled": true,
+        "gain_update": "clip(max_j(mean_excess_j)^2,0,1) at rollout boundary",
+        "joint_names": [
+          "jIJ",
+          "jIO",
+          "jAB",
+          "jAG"
+        ],
+        "max_penalty_weight": 0.02,
+        "reference_rms_rad_s2": [
+          40.1703144886,
+          38.3671852533,
+          7.0362190023,
+          4.9735461617
+        ],
+        "reference_source": "MuJoCo leg-motion-metric-analysis-20261012-v1",
+        "reference_units": "rad/s^2 RMS p90",
+        "resume_local_state": "clear_on_environment_reset",
+        "reward": "-control_dt*max_penalty_weight*gain_used*sum(excess_j)",
+        "rollout_steps": 24,
+        "schema_version": "LegActualAccelerationBudgetV1",
+        "training_signal": "instantaneous max(a_j^2-budget_j^2,0)/budget_j^2",
+        "zero_excess_included": true
+      },
+      "gain": 1.0,
+      "latest": {
+        "gain_next": 1.0,
+        "gain_used": 1.0,
+        "mean_excess": [
+          1.12391827366082,
+          1.5942577008196772,
+          5.151803512882907,
+          11.248754629904093
+        ],
+        "valid_windows": 6144,
+        "weighted_reward_per_step_mean": -0.007647493445673448
+      },
+      "schema_version": "LegAccelerationGainStateV1"
+    },
+    "restored_learning_rate": null,
+    "resume_sequence_trace": null,
+    "resumed_from": null,
+    "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_02-16-45_rtx5070_fudan-v1_leg-accel-budget-search-20261012-budget90-200",
+    "run_manifest_sha256": "187F7D20BD497CC73D608613E70AC443DF042213693071504910ABD5701EC996",
+    "runner_final_iteration_index": 199,
+    "starting_completed_iterations": 0,
+    "weights_initialization": {
+      "mode": "weights_only_new_optimizer_rng_environment",
+      "schema_version": "WeightsOnlyInitializationV1",
+      "source_base_task_contract_hash": "EC40FC36DA937CC9A7994CA3B47D20D7AD1814C5B835F9962F056940E4F592E3",
+      "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200\\model_199.pt",
+      "source_checkpoint_sha256": "BCDD726CE5D6F89600547F34CA285282053D4D07B07575604172E6A11A5912B7",
+      "source_completed_iterations": 200,
+      "source_run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200\\run_manifest.json",
+      "source_run_manifest_sha256": "B9893DA2826258110CAEA57B8AAA4CA68683E8AAE2A3E3B8604C0C49C3EFB8BD",
+      "target_base_task_contract_hash": "254973727194DC01D104E40DA4B64E04032989FE7BE833D963BD86118FB03307"
+    }
+  }
+}

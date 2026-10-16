@@ -1,0 +1,272 @@
+{
+  "key": "leg1_wheel4_transition__forward_stop_reverse",
+  "variant": "leg1_wheel4_transition",
+  "scenario": "forward_stop_reverse",
+  "filter_hz_legs_wheels": [
+    1,
+    4
+  ],
+  "mirror": null,
+  "velocity_mode": null,
+  "ticks": 500,
+  "expected_ticks": 500,
+  "failure_reason": null,
+  "steady": {
+    "samples": 400,
+    "vx_mae_mps": 0.23153721728270593,
+    "yaw_mae_rad_s": 0.13036847859187997,
+    "height_mae_m": 0.013259897447703506,
+    "leg_accel_rms_rad_s2": [
+      2.1030556752929117,
+      2.7674066074235792,
+      4.514267058271438,
+      3.2283852283459495
+    ],
+    "leg_q_p95_p5_deg": [
+      20.751050080252732,
+      26.88404002912216,
+      0.5849752193774344,
+      0.2724546432313279
+    ],
+    "leg_target_p95_p5_deg": [
+      20.892801907849705,
+      26.998700613881677,
+      5.029294315108137e-06,
+      5.029294318089907e-06
+    ],
+    "negative_clip_fraction_raw": [
+      0.0,
+      0.0,
+      1.0,
+      1.0,
+      0.31,
+      0.24
+    ],
+    "raw_mean": [
+      0.45340099930763245,
+      -0.020038103684782982,
+      -4.549440383911133,
+      -4.908349514007568,
+      -0.042556341737508774,
+      0.03778716176748276
+    ],
+    "applied_step_rms": [
+      0.009932593130894566,
+      0.01430465917617022,
+      3.856892421185744e-08,
+      3.856892421185744e-08,
+      0.35500840830631814,
+      0.34930594518736685
+    ],
+    "wheel_switches_per_s": [
+      11.152882205513784,
+      12.656641604010025
+    ],
+    "phi_delta_mean_deg": 24.905026955617462,
+    "max_tilt_deg": 4.886944116644658,
+    "max_loop_error_m": 0.00011408508258169176,
+    "effort_saturation_fraction": 0.009500000000000001
+  },
+  "all": {
+    "samples": 500,
+    "vx_mae_mps": 0.22510430220338223,
+    "yaw_mae_rad_s": 0.11914756859662591,
+    "height_mae_m": 0.013302382785161425,
+    "leg_accel_rms_rad_s2": [
+      2.4541616267342037,
+      2.796612650419964,
+      4.813241876384203,
+      4.385039276468734
+    ],
+    "leg_q_p95_p5_deg": [
+      20.31483612072807,
+      26.678986209533853,
+      0.9468878946324493,
+      1.043314960807946
+    ],
+    "leg_target_p95_p5_deg": [
+      20.333090440711317,
+      26.71544869920367,
+      0.7693734532694398,
+      0.769373453269437
+    ],
+    "negative_clip_fraction_raw": [
+      0.0,
+      0.0,
+      1.0,
+      1.0,
+      0.262,
+      0.196
+    ],
+    "raw_mean": [
+      0.512795627117157,
+      0.025239739567041397,
+      -4.52860689163208,
+      -4.891240119934082,
+      0.11999949812889099,
+      0.15788523852825165
+    ],
+    "applied_step_rms": [
+      0.011257148218486378,
+      0.01390997988160772,
+      0.009889608871497596,
+      0.009889608871497596,
+      0.3474067025485035,
+      0.3403904195602422
+    ],
+    "wheel_switches_per_s": [
+      10.420841683366733,
+      11.523046092184368
+    ],
+    "phi_delta_mean_deg": 25.49037567689111,
+    "max_tilt_deg": 4.886944116644658,
+    "max_loop_error_m": 0.00011408508258169176,
+    "effort_saturation_fraction": 0.007666666666666667
+  },
+  "practice_summary": {
+    "name": "forward_stop_reverse",
+    "initial_command": [
+      0.5,
+      0.0,
+      0.2
+    ],
+    "valid_ticks": 500,
+    "completed": true,
+    "failure_reason": null,
+    "stages": [
+      {
+        "stage_index": 0,
+        "start_tick": 0,
+        "end_tick": 100,
+        "target": [
+          0.5,
+          0.0,
+          0.2
+        ],
+        "valid_ticks": 100,
+        "completed": true,
+        "steady_sample_ticks": 75,
+        "steady_vx_mae_mps": 0.1633862811096729,
+        "steady_yaw_mae_rad_s": 0.055937281090418844,
+        "stop_distance_m": null,
+        "stop_net_displacement_m": null,
+        "first_correct_sign_time_s": 0.02,
+        "held_error_band_confirmation_time_s": 0.66,
+        "performance_accepted": true,
+        "failures": []
+      },
+      {
+        "stage_index": 1,
+        "start_tick": 100,
+        "end_tick": 150,
+        "target": [
+          0.0,
+          0.0,
+          0.2
+        ],
+        "valid_ticks": 50,
+        "completed": true,
+        "steady_sample_ticks": 25,
+        "steady_vx_mae_mps": 0.15511387277726482,
+        "steady_yaw_mae_rad_s": 0.14624091153084437,
+        "stop_distance_m": 0.3535396224455908,
+        "stop_net_displacement_m": 0.35313350777783437,
+        "first_correct_sign_time_s": null,
+        "held_error_band_confirmation_time_s": null,
+        "performance_accepted": false,
+        "failures": [
+          "stop_vx_mae"
+        ]
+      },
+      {
+        "stage_index": 2,
+        "start_tick": 150,
+        "end_tick": 250,
+        "target": [
+          -0.5,
+          -0.0,
+          0.2
+        ],
+        "valid_ticks": 100,
+        "completed": true,
+        "steady_sample_ticks": 75,
+        "steady_vx_mae_mps": 0.14660535772642166,
+        "steady_yaw_mae_rad_s": 0.1708368884793705,
+        "stop_distance_m": null,
+        "stop_net_displacement_m": null,
+        "first_correct_sign_time_s": 0.06,
+        "held_error_band_confirmation_time_s": 0.6,
+        "performance_accepted": true,
+        "failures": []
+      },
+      {
+        "stage_index": 3,
+        "start_tick": 250,
+        "end_tick": 300,
+        "target": [
+          0.0,
+          0.0,
+          0.2
+        ],
+        "valid_ticks": 50,
+        "completed": true,
+        "steady_sample_ticks": 25,
+        "steady_vx_mae_mps": 0.11146456684680167,
+        "steady_yaw_mae_rad_s": 0.07257966130324954,
+        "stop_distance_m": 0.2984493908918051,
+        "stop_net_displacement_m": 0.286031467969659,
+        "first_correct_sign_time_s": null,
+        "held_error_band_confirmation_time_s": null,
+        "performance_accepted": false,
+        "failures": [
+          "stop_vx_mae"
+        ]
+      },
+      {
+        "stage_index": 4,
+        "start_tick": 300,
+        "end_tick": 400,
+        "target": [
+          0.5,
+          0.0,
+          0.2
+        ],
+        "valid_ticks": 100,
+        "completed": true,
+        "steady_sample_ticks": 75,
+        "steady_vx_mae_mps": 0.21666732463420316,
+        "steady_yaw_mae_rad_s": 0.11037765135001988,
+        "stop_distance_m": null,
+        "stop_net_displacement_m": null,
+        "first_correct_sign_time_s": 0.02,
+        "held_error_band_confirmation_time_s": 0.5,
+        "performance_accepted": true,
+        "failures": []
+      },
+      {
+        "stage_index": 5,
+        "start_tick": 400,
+        "end_tick": 500,
+        "target": [
+          0.0,
+          0.0,
+          0.2
+        ],
+        "valid_ticks": 100,
+        "completed": true,
+        "steady_sample_ticks": 75,
+        "steady_vx_mae_mps": 0.12532364497050327,
+        "steady_yaw_mae_rad_s": 0.14323055392122713,
+        "stop_distance_m": 0.43666059537499263,
+        "stop_net_displacement_m": 0.19232237414515677,
+        "first_correct_sign_time_s": null,
+        "held_error_band_confirmation_time_s": null,
+        "performance_accepted": false,
+        "failures": [
+          "stop_vx_mae"
+        ]
+      }
+    ],
+    "performance_accepted": false
+  }
+}

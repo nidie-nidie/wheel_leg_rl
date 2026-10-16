@@ -1,0 +1,262 @@
+{
+  "practice_margins": {
+    "leg5_wheel2": {
+      "practice_count": 4,
+      "practice_pass_count": 4,
+      "worst_stop_vx_mae_mps": 0.08461041490173438,
+      "worst_stop_yaw_mae_rad_s": 0.12865650450955105,
+      "worst_required_reversal_confirmation_s": 0.6,
+      "stage0_confirmation_s": [
+        0.58,
+        0.62,
+        0.3,
+        0.5
+      ]
+    },
+    "leg6_wheel2": {
+      "practice_count": 4,
+      "practice_pass_count": 4,
+      "worst_stop_vx_mae_mps": 0.08017534515806606,
+      "worst_stop_yaw_mae_rad_s": 0.10204715451696744,
+      "worst_required_reversal_confirmation_s": 0.8,
+      "stage0_confirmation_s": [
+        0.58,
+        0.64,
+        0.46,
+        0.5
+      ]
+    },
+    "leg8_wheel2": {
+      "practice_count": 4,
+      "practice_pass_count": 4,
+      "worst_stop_vx_mae_mps": 0.07489347086250328,
+      "worst_stop_yaw_mae_rad_s": 0.07999917822674858,
+      "worst_required_reversal_confirmation_s": 0.62,
+      "stage0_confirmation_s": [
+        0.58,
+        0.64,
+        0.9,
+        1.1
+      ]
+    },
+    "leg6_wheel1p5": {
+      "practice_count": 4,
+      "practice_pass_count": 4,
+      "worst_stop_vx_mae_mps": 0.07759577919963749,
+      "worst_stop_yaw_mae_rad_s": 0.12611409577330504,
+      "worst_required_reversal_confirmation_s": 0.62,
+      "stage0_confirmation_s": [
+        0.58,
+        0.62,
+        0.28,
+        0.56
+      ]
+    },
+    "leg6_wheel2p5": {
+      "practice_count": 4,
+      "practice_pass_count": 3,
+      "worst_stop_vx_mae_mps": 0.08686551300880421,
+      "worst_stop_yaw_mae_rad_s": 0.10991960163066664,
+      "worst_required_reversal_confirmation_s": null,
+      "stage0_confirmation_s": [
+        0.58,
+        0.62,
+        1.0,
+        1.18
+      ]
+    }
+  },
+  "holdout": {
+    "holdout_unmodified": {
+      "count": 12,
+      "failures": 0,
+      "vx_mae_mps": {
+        "mean": 0.0378275678286047,
+        "worst": 0.08426678463896853
+      },
+      "yaw_mae_rad_s": {
+        "mean": 0.14146836062251855,
+        "worst": 0.16179286345909036
+      },
+      "height_mae_m": {
+        "mean": 0.01102578887410189,
+        "worst": 0.025710220581966352
+      },
+      "leg_accel_rms_mean": [
+        20.343061922627445,
+        24.57431503235554,
+        5.502489551425043,
+        4.518822747629803
+      ]
+    },
+    "holdout_leg6_wheel2": {
+      "count": 12,
+      "failures": 0,
+      "vx_mae_mps": {
+        "mean": 0.043608659993219445,
+        "worst": 0.10476537575668259
+      },
+      "yaw_mae_rad_s": {
+        "mean": 0.04839801205405864,
+        "worst": 0.07397029696193598
+      },
+      "height_mae_m": {
+        "mean": 0.011087763517494196,
+        "worst": 0.025664913267016518
+      },
+      "leg_accel_rms_mean": [
+        1.704431695589544,
+        1.6620528967542036,
+        1.4741839569370585,
+        1.6079921998729896
+      ]
+    }
+  },
+  "long_parking_drift": {
+    "unmodified": {
+      "measured_time_s": 57.99999999995097,
+      "path_distance_m": 1.829487451340548,
+      "net_displacement_m": 1.3476501877627425,
+      "delta_world_xy_m": [
+        -1.2576648216074675,
+        -0.48419027775040235
+      ]
+    },
+    "leg6_wheel2": {
+      "measured_time_s": 57.99999999995097,
+      "path_distance_m": 2.28644068042623,
+      "net_displacement_m": 1.8104658649218774,
+      "delta_world_xy_m": [
+        -1.395423441560126,
+        -1.1535077229008113
+      ]
+    }
+  },
+  "filter_transfer": {
+    "1.5": {
+      "alpha": 0.17179581869313998,
+      "dc_delay_s": 0.09641726877953768,
+      "gain_at_9_10_11_hz": [
+        0.17348177172794732,
+        0.15855017825476042,
+        0.1464790895071549
+      ],
+      "label_meaning": "time constant 1/(2*pi*fc), not exact digital -3dB frequency"
+    },
+    "2": {
+      "alpha": 0.22223232082821098,
+      "dc_delay_s": 0.06999591025042802,
+      "gain_at_9_10_11_hz": [
+        0.22889784426785256,
+        0.20959385005010425,
+        0.19391052905513537
+      ],
+      "label_meaning": "time constant 1/(2*pi*fc), not exact digital -3dB frequency"
+    },
+    "2.5": {
+      "alpha": 0.26959730895135436,
+      "dc_delay_s": 0.054184716745851354,
+      "gain_at_9_10_11_hz": [
+        0.2823809864340842,
+        0.25917135010578507,
+        0.24019920554394442
+      ],
+      "label_meaning": "time constant 1/(2*pi*fc), not exact digital -3dB frequency"
+    },
+    "3": {
+      "alpha": 0.3140778340658338,
+      "dc_delay_s": 0.04367848294511546,
+      "gain_at_9_10_11_hz": [
+        0.33359978907201066,
+        0.3070110276407185,
+        0.2851213274990228
+      ],
+      "label_meaning": "time constant 1/(2*pi*fc), not exact digital -3dB frequency"
+    },
+    "5": {
+      "alpha": 0.4665119089088967,
+      "dc_delay_s": 0.022871360019033775,
+      "gain_at_9_10_11_hz": [
+        0.5119667645664618,
+        0.4774025669576956,
+        0.44793220711392595
+      ],
+      "label_meaning": "time constant 1/(2*pi*fc), not exact digital -3dB frequency"
+    },
+    "6": {
+      "alpha": 0.5295107822801821,
+      "dc_delay_s": 0.01777071340053907,
+      "gain_at_9_10_11_hz": [
+        0.5844935030331554,
+        0.5489054416976711,
+        0.5179748800417681
+      ],
+      "label_meaning": "time constant 1/(2*pi*fc), not exact digital -3dB frequency"
+    },
+    "8": {
+      "alpha": 0.6340686930587067,
+      "dc_delay_s": 0.011542323755997607,
+      "gain_at_9_10_11_hz": [
+        0.6992344370351017,
+        0.6655086786432041,
+        0.6350957293579483
+      ],
+      "label_meaning": "time constant 1/(2*pi*fc), not exact digital -3dB frequency"
+    }
+  },
+  "clipped_gaussian": {
+    "mean": [
+      0.5060573816299438,
+      0.00746108777821064,
+      -4.5607123374938965,
+      -4.902519702911377,
+      -0.010991062968969345,
+      0.04985262081027031
+    ],
+    "sigma_checkpoint_previous_audit": [
+      0.10345245,
+      0.10287046,
+      0.96740139,
+      1.01099932,
+      1.07976377,
+      0.96099889
+    ],
+    "conditional_inside_probability": [
+      0.9999990996133621,
+      1.0,
+      0.00011629367916810018,
+      5.66765742616715e-05,
+      0.6455958638836392,
+      0.7012814755538852
+    ],
+    "conditional_negative_atom_probability": [
+      0.0,
+      0.0,
+      0.9998837018080295,
+      0.9999433207889686,
+      0.17984672725864498,
+      0.13731553324219653
+    ],
+    "expected_clipped_action_sensitivity_to_mean": [
+      0.9999990996133621,
+      1.0,
+      0.00011629367916810018,
+      5.66765742616715e-05,
+      0.6455958638836392,
+      0.7012814755538852
+    ],
+    "entropy_mean_derivative": 0,
+    "limitations": "Probability at the recorded mean state only; not observed Isaac training action statistics. dE[clip(A)]/dmu=P(-1<A<1), for fixed sigma. This does NOT say PPO has zero gradient."
+  },
+  "input_sha256": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-deep-trace-20261013-v1\\candidate-validation-results.json": "3f7c4b44a7dc57bb4eb62a69cb084238c826d9e547083dcdfef2f4348f27787b",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-deep-trace-20261013-v1\\expanded-results.json": "c99df4088fd96470633d91761106b21ef701d83d3a448424ce07979bc2d99634",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-deep-trace-20261013-v1\\push-results.json": "cde93639e7dbb1054cb5e6ce210dbd540a1b31cf30fa3dc9c8c86ef70ce2561d",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-deep-trace-20261013-v1\\physics-bandwidth-results.json": "20461e061a967fd443d0e60fa0ac70f5a257094c3f94065e3d2b45d029429fb7",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-deep-trace-20261013-v1\\expanded-cases\\leg6_wheel2__long_stand.npz": "00c92d5ebc58ad43387909bb790f1eb08222c2e45958408f48e54fa2c7d1e6ac",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-deep-trace-20261013-v1\\expanded-cases\\unmodified__long_stand.npz": "5c114806d4c8845cddfc30bdf46622208bdc65bf3994e836254a24df932caae5"
+  },
+  "inputs_unchanged": true,
+  "training_started": false,
+  "production_modified": false
+}

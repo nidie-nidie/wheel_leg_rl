@@ -1,0 +1,30 @@
+{
+  "purpose": "Run the identical eight frozen MuJoCo scenarios for a single 1500-iteration continuation. Does not enter the four-run 1000-iteration ranking.",
+  "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\evaluate_mujoco.py",
+  "source_sha256": "546A0E7B7A2948256C9A62C061B752455DAD340C3523F04E5B54D0746ACD517F",
+  "diagnostic": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\resume-run03-1000-to-1500-20261011-133153\\diagnostics\\evaluate_continuation_mujoco.py",
+  "diagnostic_sha256": "933B2597750267D30D058B8295BD5DECBE77980393148F9ED236D2457091C795",
+  "modified_lines": [
+    {
+      "before": "PROJECT_ROOT = Path(__file__).resolve().parents[1]",
+      "after": "PROJECT_ROOT = Path('E:\\\\wheel_leg_rl-main\\\\wheelleg_dreamwaq')"
+    },
+    {
+      "before": "training_suite.get(\"suite_mode\") != \"formal\"",
+      "after": "training_suite.get(\"suite_mode\") != \"continuation_diagnostic\""
+    },
+    {
+      "before": "training_suite.get(\"run_count\") != 4",
+      "after": "training_suite.get(\"run_count\") != 1"
+    },
+    {
+      "before": "training_suite.get(\"iterations_per_run\") != 1000",
+      "after": "training_suite.get(\"iterations_per_run\") != 1500"
+    },
+    {
+      "before": "Formal evaluation requires the frozen four-run 1000-iteration context",
+      "after": "Continuation diagnostic requires one run with exactly 1500 completed iterations"
+    }
+  ],
+  "model_validation_scenario_loop_metrics_report_unchanged": true
+}

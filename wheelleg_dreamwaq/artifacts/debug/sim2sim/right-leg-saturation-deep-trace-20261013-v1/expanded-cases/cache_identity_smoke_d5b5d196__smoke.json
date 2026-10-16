@@ -1,0 +1,88 @@
+{
+  "input_identity": {
+    "schema": "ExpandedDiagnosticIdentityV2",
+    "policy_weights_sha256": "B964BE171BB9D893442A2A33A8D5FF971D3A1BEC4CC925DD88E283259A7502EC",
+    "commands_sha256": "6DD9B366AFEADB82400F8A1332F8EA3916738F69E759E3DF9A4E15131907D1A6",
+    "ticks": 3,
+    "filter_hz": [
+      6.0,
+      2.0
+    ],
+    "mirror": null,
+    "velocity_mode": null,
+    "push": null,
+    "source_sha256": "82A5803F8A536C58E9F08D73198BF8CD27FCC0A0673F79C4041AF89201138317",
+    "model_xml_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+    "actor_contract_hash": "3048CB2CEAC5DEE99E26F9B1D96DA04A5089122943169CAD542A8095B7682C19"
+  },
+  "key": "cache_identity_smoke_d5b5d196__smoke",
+  "variant": "cache_identity_smoke_d5b5d196",
+  "scenario": "smoke",
+  "filter_hz_legs_wheels": [
+    6.0,
+    2.0
+  ],
+  "mirror": null,
+  "velocity_mode": null,
+  "external_push": null,
+  "ticks": 3,
+  "expected_ticks": 3,
+  "failure_reason": null,
+  "steady": null,
+  "all": {
+    "samples": 3,
+    "vx_mae_mps": 0.023249924505227216,
+    "yaw_mae_rad_s": 1.619230395155963,
+    "height_mae_m": 0.005241431451193851,
+    "leg_accel_rms_rad_s2": [
+      5.812116955350796,
+      44.494117508611474,
+      105.1405551052569,
+      121.2823359252725
+    ],
+    "leg_q_p95_p5_deg": [
+      0.7049665175565778,
+      4.234084888788237,
+      8.803017879162228,
+      9.966800254373556
+    ],
+    "leg_target_p95_p5_deg": [
+      2.46824591736114,
+      3.358466622069243,
+      6.611797038821897,
+      6.611797038821899
+    ],
+    "negative_clip_fraction_raw": [
+      0.0,
+      0.0,
+      1.0,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "raw_mean": [
+      -0.11369642615318298,
+      -0.39248061180114746,
+      -1.9790948629379272,
+      -2.0920841693878174,
+      3.489485502243042,
+      4.347507953643799
+    ],
+    "applied_step_rms": [
+      0.0686337587440246,
+      0.09470243784747458,
+      0.19468448828576582,
+      0.19468448828576582,
+      0.15483500658082694,
+      0.15483500658082694
+    ],
+    "wheel_switches_per_s": [
+      0.0,
+      0.0
+    ],
+    "phi_delta_mean_deg": 5.96155447982877,
+    "max_tilt_deg": 7.762112170922025,
+    "max_loop_error_m": 0.00010812123803184898,
+    "effort_saturation_fraction": 0.019444444444444445
+  }
+}

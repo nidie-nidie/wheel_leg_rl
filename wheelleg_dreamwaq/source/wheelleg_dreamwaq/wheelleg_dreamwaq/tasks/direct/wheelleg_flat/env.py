@@ -67,8 +67,9 @@ from .control import compute_action_targets
 from .env_cfg import WheelLegFlatEnvCfg
 from .observations import build_observations
 from .randomization import WheelLegRandomizationRuntime
-from .rewards import compute_reward
+from .rewards import SplitSmoothRewardWeights, compute_reward
 from .leg_reversal import LegReversalReward
+from .leg_acceleration import LegAccelerationReward
 from .state import WheelLegState
 from .terminations import compute_dones
 
@@ -157,6 +158,7 @@ class WheelLegFlatEnv(DirectRLEnv):
             name: torch.zeros(self.num_envs, device=self.device)
             for name in vars(self.cfg.reward_weights)
             if name not in {"tracking_sigma", "height_sigma", "soft_leg_limit"}
+            and (name != "action_smooth" or not isinstance(self.cfg.reward_weights, SplitSmoothRewardWeights))
         }
         self._leg_reversal_reward = None
         if self.cfg.leg_reversal.enabled:
@@ -165,6 +167,14 @@ class WheelLegFlatEnv(DirectRLEnv):
             self._leg_reversal_reward.reset(
                 torch.arange(self.num_envs, device=self.device), self._leg_position_targets)
             self._reward_sums["leg_reversal"] = torch.zeros(self.num_envs, device=self.device)
+        self._leg_acceleration_reward = None
+        self._leg_acceleration_reward_state_id = None
+        if self.cfg.leg_acceleration.enabled:
+            self._leg_acceleration_reward = LegAccelerationReward(
+                self.num_envs, self.cfg.leg_acceleration, self.device, self.step_dt)
+            self._leg_acceleration_reward.reset(
+                torch.arange(self.num_envs, device=self.device))
+            self._reward_sums["leg_acceleration"] = torch.zeros(self.num_envs, device=self.device)
         self._termination_sums = {
             name: torch.zeros(self.num_envs, device=self.device)
             for name in (
@@ -800,6 +810,13 @@ class WheelLegFlatEnv(DirectRLEnv):
         if self._leg_reversal_reward is not None:
             weighted_terms["leg_reversal"] = self._leg_reversal_reward.cached_reward
             reward = reward + weighted_terms["leg_reversal"]
+        if self._leg_acceleration_reward is not None:
+            state_id = id(self._state)
+            if self._leg_acceleration_reward_state_id != state_id:
+                self._leg_acceleration_reward.step(self._state.joint_acceleration)
+                self._leg_acceleration_reward_state_id = state_id
+            weighted_terms["leg_acceleration"] = self._leg_acceleration_reward.cached_reward
+            reward = reward + weighted_terms["leg_acceleration"]
         for name, value in weighted_terms.items():
             self._reward_sums[name] += value
         log = {f"Reward/{name}": value.mean() for name, value in weighted_terms.items()}
@@ -858,6 +875,8 @@ class WheelLegFlatEnv(DirectRLEnv):
             log[f"Termination/{name}"] = self._termination_sums[name].mean()
         if self._leg_reversal_reward is not None:
             log.update(self._leg_reversal_reward.metrics())
+        if self._leg_acceleration_reward is not None:
+            log.update(self._leg_acceleration_reward.metrics())
         self.extras["log"] = log
         self._advance_command_practice()
         return reward
@@ -919,6 +938,9 @@ class WheelLegFlatEnv(DirectRLEnv):
             self._wheel_velocity_targets[env_ids] = 0.0
             if self._leg_reversal_reward is not None:
                 self._leg_reversal_reward.reset(env_ids, self._leg_position_targets[env_ids])
+            if self._leg_acceleration_reward is not None:
+                self._leg_acceleration_reward.reset(env_ids)
+                self._leg_acceleration_reward_state_id = None
             self._commands[env_ids] = self._randomization.sample_commands(len(env_ids), self.cfg.commands)
             if self._command_practice is not None:
                 self._command_practice.reset(env_ids, self._commands[env_ids])

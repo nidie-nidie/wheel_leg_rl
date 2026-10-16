@@ -1,0 +1,1980 @@
+{
+  "sha": "4545b86a131d05519050df11a424368ef9f06b4f",
+  "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/4545b86a131d05519050df11a424368ef9f06b4f",
+  "tree": [
+    {
+      "path": ".dockerignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0cd29e06bd51abd764ecbc96a52e492cb07b395",
+      "size": 144,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/f0cd29e06bd51abd764ecbc96a52e492cb07b395"
+    },
+    {
+      "path": ".gitattributes",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f6008e7ca961dfb8b3e3c6a897f183fc4e53c71f",
+      "size": 87,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/f6008e7ca961dfb8b3e3c6a897f183fc4e53c71f"
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1c985d8d28fb26a2e90be3d9d8656b6840902009",
+      "size": 292,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/1c985d8d28fb26a2e90be3d9d8656b6840902009"
+    },
+    {
+      "path": ".python-version",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4fba2183587225f216eeada4c78dfab6b2e65f5",
+      "size": 5,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/e4fba2183587225f216eeada4c78dfab6b2e65f5"
+    },
+    {
+      "path": "Dockerfile",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "07469ccd4af2477762415019a0f5eae91d44c9e0",
+      "size": 1005,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/07469ccd4af2477762415019a0f5eae91d44c9e0"
+    },
+    {
+      "path": "LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf24c61763b10dfd54352ecc26a140042745283a",
+      "size": 1066,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/cf24c61763b10dfd54352ecc26a140042745283a"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cc24dcb0b3f0ceb3181f17d210b97254c54792c8",
+      "size": 12899,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/cc24dcb0b3f0ceb3181f17d210b97254c54792c8"
+    },
+    {
+      "path": "assets",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5aa6d6c042209253136d91cb44a65cc5e78069c2",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/5aa6d6c042209253136d91cb44a65cc5e78069c2"
+    },
+    {
+      "path": "assets/beni_base",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "949630946e9fca905406499d7a178293ad4c1bbf",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/949630946e9fca905406499d7a178293ad4c1bbf"
+    },
+    {
+      "path": "assets/beni_base/meshes",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "17f9b3b54f89d5ce14b65c8467f996638f045c39",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/17f9b3b54f89d5ce14b65c8467f996638f045c39"
+    },
+    {
+      "path": "assets/beni_base/meshes/VIS_L1_Link_00_L1_VIS.obj",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "89e2eaabf6541895e63a819c75d0cc126a8a24b1",
+      "size": 26084,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/89e2eaabf6541895e63a819c75d0cc126a8a24b1"
+    },
+    {
+      "path": "assets/beni_base/meshes/VIS_L2_Link_00_L1_VIS.obj",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63580a2049c5c3740c14ea3287f0f3e96447e8cd",
+      "size": 13437,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/63580a2049c5c3740c14ea3287f0f3e96447e8cd"
+    },
+    {
+      "path": "assets/beni_base/meshes/VIS_LW_Link_00_LW_VIS.obj",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a3073688735deec2205d53a3d83c5eecd93b71d6",
+      "size": 8366922,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/a3073688735deec2205d53a3d83c5eecd93b71d6"
+    },
+    {
+      "path": "assets/beni_base/meshes/VIS_R1_Link_00_R1_VIS.obj",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5807dc7e5c1eace908e45245065108404a016472",
+      "size": 26098,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/5807dc7e5c1eace908e45245065108404a016472"
+    },
+    {
+      "path": "assets/beni_base/meshes/VIS_R2_Link_00_R2_VIS.obj",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae59063f5f40a831feec984915bb1fb07b46f713",
+      "size": 13478,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/ae59063f5f40a831feec984915bb1fb07b46f713"
+    },
+    {
+      "path": "assets/beni_base/meshes/VIS_RW_Link_00_RW_VIS.obj",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "40f5fe1192f907e97e3edf2fb268deb0bc1895be",
+      "size": 8399998,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/40f5fe1192f907e97e3edf2fb268deb0bc1895be"
+    },
+    {
+      "path": "assets/beni_base/meshes/VIS_base_link_00_BASE_VIS.obj",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d80b54a178d376913e3deaf19f5912e71f174ae8",
+      "size": 37176,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/d80b54a178d376913e3deaf19f5912e71f174ae8"
+    },
+    {
+      "path": "assets/beni_base/meshes/VIS_head_00_HEAD_VIS.obj",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b14af8e8512674b1627cc3b0f112deeae90e4afa",
+      "size": 54883,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/b14af8e8512674b1627cc3b0f112deeae90e4afa"
+    },
+    {
+      "path": "assets/beni_base/mjcf",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "bcfb869b6751569fd6d82ce93b118c60563cf576",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/bcfb869b6751569fd6d82ce93b118c60563cf576"
+    },
+    {
+      "path": "assets/beni_base/mjcf/beni.xml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aff603fd180ac4f1323aa69214a98b676c666304",
+      "size": 11530,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/aff603fd180ac4f1323aa69214a98b676c666304"
+    },
+    {
+      "path": "assets/beni_base/textures",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "01da073cef7ac5c84ddc5e621fb0f8506a063183",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/01da073cef7ac5c84ddc5e621fb0f8506a063183"
+    },
+    {
+      "path": "assets/beni_base/textures/beni_Black.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d4103de2370f73373b80217e46d58a42ab1ab65f",
+      "size": 326132,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/d4103de2370f73373b80217e46d58a42ab1ab65f"
+    },
+    {
+      "path": "assets/beni_base/textures/beni_Blue.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7f0844eb30b641e59d0d18d36217f684ecbe33f7",
+      "size": 421015,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/7f0844eb30b641e59d0d18d36217f684ecbe33f7"
+    },
+    {
+      "path": "assets/beni_base/textures/beni_Green.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ad0063611487e90188be65b1c6a296c1185c3cb3",
+      "size": 405454,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/ad0063611487e90188be65b1c6a296c1185c3cb3"
+    },
+    {
+      "path": "assets/beni_base/textures/beni_Purple.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "818fc484b2532c568d06575b620920a722bc97b2",
+      "size": 409309,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/818fc484b2532c568d06575b620920a722bc97b2"
+    },
+    {
+      "path": "assets/beni_base/textures/beni_micai.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d258d42336dbd39532d7febd4c0b1bdddbc5ff7e",
+      "size": 440331,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/d258d42336dbd39532d7febd4c0b1bdddbc5ff7e"
+    },
+    {
+      "path": "assets/beni_base/textures/beni_red.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "795c0dd4ea08429aa9ac0901f2fbfd5c164678ba",
+      "size": 377216,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/795c0dd4ea08429aa9ac0901f2fbfd5c164678ba"
+    },
+    {
+      "path": "assets/beni_base/textures/beni_white.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "31ca396fbae318e08468a36df4f908b2447442c7",
+      "size": 404517,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/31ca396fbae318e08468a36df4f908b2447442c7"
+    },
+    {
+      "path": "assets/beni_base/textures/beni_yellow.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c1b127b3730fd3bdd2d0451abadcd69099605297",
+      "size": 409936,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/c1b127b3730fd3bdd2d0451abadcd69099605297"
+    },
+    {
+      "path": "assets/beni_base/textures/tex_beni_emissive.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1d685b26c22a5bef37d7056b60af8aae817f040b",
+      "size": 20260,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/1d685b26c22a5bef37d7056b60af8aae817f040b"
+    },
+    {
+      "path": "assets/beni_base/textures/tex_beni_normal.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e850716a1a8e6af4e5ad3d3bccbcbdfec288be39",
+      "size": 1430508,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/e850716a1a8e6af4e5ad3d3bccbcbdfec288be39"
+    },
+    {
+      "path": "assets/beni_base/textures/tex_beni_orm.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3ff537faf4fbef42d69ed829a7317aed04af4862",
+      "size": 1160155,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/3ff537faf4fbef42d69ed829a7317aed04af4862"
+    },
+    {
+      "path": "assets/beni_base/urdf",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9cb3fcc2f0d3b26c4fd984049033acbd545b3a48",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/9cb3fcc2f0d3b26c4fd984049033acbd545b3a48"
+    },
+    {
+      "path": "assets/beni_base/urdf/beni.urdf",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "15db8647bb115ccafe31538c7d9969a03c441338",
+      "size": 9479,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/15db8647bb115ccafe31538c7d9969a03c441338"
+    },
+    {
+      "path": "assets/models",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "ca15f5a15ef3595e1b20afa456f065dda312db9e",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/ca15f5a15ef3595e1b20afa456f065dda312db9e"
+    },
+    {
+      "path": "assets/models/policy.mnn",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f9bdc6c9ef7262ae0b608d522dcf21f48646b82",
+      "size": 2577416,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/5f9bdc6c9ef7262ae0b608d522dcf21f48646b82"
+    },
+    {
+      "path": "assets/models/policy.onnx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df3dbcc78fcd17f0d2fd7ae12b9b5a4b68a83a02",
+      "size": 5117454,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/df3dbcc78fcd17f0d2fd7ae12b9b5a4b68a83a02"
+    },
+    {
+      "path": "assets/models/policy.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0bcc27213a04bf7c557b20e182933eb08dcf6874",
+      "size": 31450409,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/0bcc27213a04bf7c557b20e182933eb08dcf6874"
+    },
+    {
+      "path": "assets/models/policy_best.onnx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e25e5082ac53d52e0ce616f7612d917e55934e0a",
+      "size": 5117454,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/e25e5082ac53d52e0ce616f7612d917e55934e0a"
+    },
+    {
+      "path": "assets/models/policy_best.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a516d96def9bf944aeae0997d65b63e38d9f4862",
+      "size": 31450409,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/a516d96def9bf944aeae0997d65b63e38d9f4862"
+    },
+    {
+      "path": "assets/motions",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "868b11397de2d18b6e9f9df141f3b1fa7481b010",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/868b11397de2d18b6e9f9df141f3b1fa7481b010"
+    },
+    {
+      "path": "assets/motions/base_jump_h0.18.npz",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7afc45b5e03413448a7aef1ee71a0b3293baad71",
+      "size": 896,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/7afc45b5e03413448a7aef1ee71a0b3293baad71"
+    },
+    {
+      "path": "assets/motions/base_jump_h0.25.npz",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "79ea4d1ead29a9e2d05e2df1834257577b66257e",
+      "size": 958,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/79ea4d1ead29a9e2d05e2df1834257577b66257e"
+    },
+    {
+      "path": "assets/motions/recovery_contact_states_heldout.npz",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "73398c43e1d61c6a5aec669a473cef167e5f3396",
+      "size": 2700993,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/73398c43e1d61c6a5aec669a473cef167e5f3396"
+    },
+    {
+      "path": "assets/motions/recovery_contact_states_train.npz",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1177e901ad5cb8665ef4b62c09daeabb7674c5ba",
+      "size": 4007151,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/1177e901ad5cb8665ef4b62c09daeabb7674c5ba"
+    },
+    {
+      "path": "assets/motions/recovery_initial_states_train.npz",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "580f0d8e44cad9348caa0d05cb226b029e060c46",
+      "size": 602900,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/580f0d8e44cad9348caa0d05cb226b029e060c46"
+    },
+    {
+      "path": "pyproject.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "13919cdc3d130fa5f9463778e7effb3dd42ee88e",
+      "size": 1052,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/13919cdc3d130fa5f9463778e7effb3dd42ee88e"
+    },
+    {
+      "path": "python",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2190e299272499531732ad3a3985adca80b4f695",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/2190e299272499531732ad3a3985adca80b4f695"
+    },
+    {
+      "path": "python/beni_rl",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "812b960973d74c2f1d53ffa146188dbf65d1ab8b",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/812b960973d74c2f1d53ffa146188dbf65d1ab8b"
+    },
+    {
+      "path": "python/beni_rl/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d61978fccf62d2f9861cf7ebbcb252043dc8fbe",
+      "size": 1680,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/4d61978fccf62d2f9861cf7ebbcb252043dc8fbe"
+    },
+    {
+      "path": "python/beni_rl/_viser_logging.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b48c3bbe1aaa3f61df7ede2effa440dc5cdcd1cd",
+      "size": 896,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/b48c3bbe1aaa3f61df7ede2effa440dc5cdcd1cd"
+    },
+    {
+      "path": "python/beni_rl/actuator.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bbfab5a56653821312ca635f22ce9973e6355a96",
+      "size": 2846,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/bbfab5a56653821312ca635f22ce9973e6355a96"
+    },
+    {
+      "path": "python/beni_rl/beni_jump_env_cfg.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6273afc51e7f476c3d1e0f97897367898de67416",
+      "size": 3749,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/6273afc51e7f476c3d1e0f97897367898de67416"
+    },
+    {
+      "path": "python/beni_rl/beni_robot.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6aa11c1ca0effcd8af069f0c785516ec2fe35705",
+      "size": 3696,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/6aa11c1ca0effcd8af069f0c785516ec2fe35705"
+    },
+    {
+      "path": "python/beni_rl/beni_velocity_flat_env_cfg.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0fb0dbc4680535a24a859547323830a44b8ffdf2",
+      "size": 16766,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/0fb0dbc4680535a24a859547323830a44b8ffdf2"
+    },
+    {
+      "path": "python/beni_rl/distributed.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71ad3000d5bdf88ac3ed7421921a7f6a7c0e368c",
+      "size": 2832,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/71ad3000d5bdf88ac3ed7421921a7f6a7c0e368c"
+    },
+    {
+      "path": "python/beni_rl/headless_export.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b6875c9faacb2726ee8c248715975e77c189163",
+      "size": 7460,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/0b6875c9faacb2726ee8c248715975e77c189163"
+    },
+    {
+      "path": "python/beni_rl/jump.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c835d1981faea7f2489b6014703b65e828a980ed",
+      "size": 47452,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/c835d1981faea7f2489b6014703b65e828a980ed"
+    },
+    {
+      "path": "python/beni_rl/jump_evaluation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "30ed2e6e85d386a300e7ad6a3ce811b32e2fd967",
+      "size": 18679,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/30ed2e6e85d386a300e7ad6a3ce811b32e2fd967"
+    },
+    {
+      "path": "python/beni_rl/mdp.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d88f49aad63588841b7927f6e7376a2972e8aa99",
+      "size": 12446,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/d88f49aad63588841b7927f6e7376a2972e8aa99"
+    },
+    {
+      "path": "python/beni_rl/play.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b8d26dd62dbb75370cdaddc7d5ee759736854e51",
+      "size": 4078,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/b8d26dd62dbb75370cdaddc7d5ee759736854e51"
+    },
+    {
+      "path": "python/beni_rl/recovery.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0cd0fe12d112a2f0ca52c89ed912294e1aa3c418",
+      "size": 7483,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/0cd0fe12d112a2f0ca52c89ed912294e1aa3c418"
+    },
+    {
+      "path": "python/beni_rl/recovery_bank.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b91198e7d86e7a6031afdd39af3e59ca3a52117e",
+      "size": 4395,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/b91198e7d86e7a6031afdd39af3e59ca3a52117e"
+    },
+    {
+      "path": "python/beni_rl/recovery_curriculum.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f78249565ae0d286a9ac946762eeae2b4d94576c",
+      "size": 8283,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/f78249565ae0d286a9ac946762eeae2b4d94576c"
+    },
+    {
+      "path": "python/beni_rl/recovery_evaluation.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3eeeee4c1f26d6128c200c9b0f2450d4dcc7a327",
+      "size": 4437,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/3eeeee4c1f26d6128c200c9b0f2450d4dcc7a327"
+    },
+    {
+      "path": "python/beni_rl/recovery_gate.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e3bd7ae4553769ac5c72fefb446cdcebd461e7f7",
+      "size": 14459,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/e3bd7ae4553769ac5c72fefb446cdcebd461e7f7"
+    },
+    {
+      "path": "python/beni_rl/recovery_sampling.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "307158bd1109a2ce6992532b7149862af55c5c4a",
+      "size": 14739,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/307158bd1109a2ce6992532b7149862af55c5c4a"
+    },
+    {
+      "path": "python/beni_rl/rl_cfg.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eaa03559a30b2d39e426ec4a45f0afb5bc0b1591",
+      "size": 39848,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/eaa03559a30b2d39e426ec4a45f0afb5bc0b1591"
+    },
+    {
+      "path": "python/beni_rl/train.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f589eae73f8449184f86708bbc4ef80f8f245681",
+      "size": 4115,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/f589eae73f8449184f86708bbc4ef80f8f245681"
+    },
+    {
+      "path": "python/beni_rl/velocity_command.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b87e404d1bd18709bb46149c2fdf23fd48fec2e",
+      "size": 7278,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/0b87e404d1bd18709bb46149c2fdf23fd48fec2e"
+    },
+    {
+      "path": "python/beni_rl/wheel_safety.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b04bd4bb9701e9bf94d20fc4316020eac804766",
+      "size": 5253,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/1b04bd4bb9701e9bf94d20fc4316020eac804766"
+    },
+    {
+      "path": "uv.lock",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "61467e959c1d0d29eb5d61a2fb84c462382e3432",
+      "size": 215662,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/61467e959c1d0d29eb5d61a2fb84c462382e3432"
+    },
+    {
+      "path": "web",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f3e868ae51725e90473a823f239ed1e167db310c",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/f3e868ae51725e90473a823f239ed1e167db310c"
+    },
+    {
+      "path": "web/.gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f6bbddc45af5f0b91cc4b518caca723ebdae066",
+      "size": 664,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/6f6bbddc45af5f0b91cc4b518caca723ebdae066"
+    },
+    {
+      "path": "web/.oxfmtrc.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2acd2356e121d5e11c54de89d0aca9da5aa54089",
+      "size": 260,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/2acd2356e121d5e11c54de89d0aca9da5aa54089"
+    },
+    {
+      "path": "web/.oxlintrc.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b093f4e3bce2b2ab7ede4abaae764783d55e6e8f",
+      "size": 1515,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/b093f4e3bce2b2ab7ede4abaae764783d55e6e8f"
+    },
+    {
+      "path": "web/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5b2e80533ca9dd2fbd3a246b13a598f712c09c4b",
+      "size": 7375,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/5b2e80533ca9dd2fbd3a246b13a598f712c09c4b"
+    },
+    {
+      "path": "web/app",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1f28060b6c50cb6fe53f5a1b2f5f3c6ea0d21554",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/1f28060b6c50cb6fe53f5a1b2f5f3c6ea0d21554"
+    },
+    {
+      "path": "web/app/client.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "24b7de2efb3b6d97aa8c5622eea7c8faab58ffbd",
+      "size": 188,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/24b7de2efb3b6d97aa8c5622eea7c8faab58ffbd"
+    },
+    {
+      "path": "web/app/debug-panel.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a40d6141a7b10aff663a0b6c857fd1fb2fa03e30",
+      "size": 25205,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/a40d6141a7b10aff663a0b6c857fd1fb2fa03e30"
+    },
+    {
+      "path": "web/app/debug.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e357815a784d932a22942adc11ff19b8018429c1",
+      "size": 4393,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/e357815a784d932a22942adc11ff19b8018429c1"
+    },
+    {
+      "path": "web/app/game",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5046a336c35421295ef8fc92f06fc92a178d3338",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/5046a336c35421295ef8fc92f06fc92a178d3338"
+    },
+    {
+      "path": "web/app/game/DriveControls.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dffd6d976116243d512c37d962c42a785b8df401",
+      "size": 2528,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/dffd6d976116243d512c37d962c42a785b8df401"
+    },
+    {
+      "path": "web/app/game/GameFeedback.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5fdb4d20bd739a741f0785057b628dd774a346e5",
+      "size": 1948,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/5fdb4d20bd739a741f0785057b628dd774a346e5"
+    },
+    {
+      "path": "web/app/game/GameHeader.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4f8094c6ee2270977516321d295a981457ec2825",
+      "size": 3308,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/4f8094c6ee2270977516321d295a981457ec2825"
+    },
+    {
+      "path": "web/app/game/GaragePanel.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aace116a624de30043fb19e620659da0725ee4a5",
+      "size": 5597,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/aace116a624de30043fb19e620659da0725ee4a5"
+    },
+    {
+      "path": "web/app/game/Leaderboard.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3a88e8048640ae1489b72f029678398ca383b73b",
+      "size": 1150,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/3a88e8048640ae1489b72f029678398ca383b73b"
+    },
+    {
+      "path": "web/app/game/LoginPanel.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f38993813f6403de5ebd0e702e01c002b27f863",
+      "size": 832,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/5f38993813f6403de5ebd0e702e01c002b27f863"
+    },
+    {
+      "path": "web/app/game/Minimap.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a084faf01bef0c99fe2890ff684c619e4215adf8",
+      "size": 1601,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/a084faf01bef0c99fe2890ff684c619e4215adf8"
+    },
+    {
+      "path": "web/app/game/PolicyCard.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8468beed7bf21809fdb3f18d60bc119d0ff50a4",
+      "size": 2227,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/f8468beed7bf21809fdb3f18d60bc119d0ff50a4"
+    },
+    {
+      "path": "web/app/game/RaceOverlay.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5e6b2b828307377fb42a2923f99fc796c8035f24",
+      "size": 1907,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/5e6b2b828307377fb42a2923f99fc796c8035f24"
+    },
+    {
+      "path": "web/app/game/RoomPanel.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c7661fa4ee894ef15c79d8e85b8de2e09d0c983e",
+      "size": 4221,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/c7661fa4ee894ef15c79d8e85b8de2e09d0c983e"
+    },
+    {
+      "path": "web/app/game/SettingsMenu.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f72145d82b6e00f674c677b42ebe25eeb0cb28e5",
+      "size": 3036,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/f72145d82b6e00f674c677b42ebe25eeb0cb28e5"
+    },
+    {
+      "path": "web/app/game/SkinControl.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9328c7158ae0db5ca0a7e0e9e7ea9ab0f14b6b4e",
+      "size": 1905,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/9328c7158ae0db5ca0a7e0e9e7ea9ab0f14b6b4e"
+    },
+    {
+      "path": "web/app/game/VirtualJoystick.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4bf329c63133c17eece35cdae4108f79748d0dba",
+      "size": 3103,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/4bf329c63133c17eece35cdae4108f79748d0dba"
+    },
+    {
+      "path": "web/app/game/context.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ace7726259327c5bdd7afc7e3194add9256af116",
+      "size": 3857,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/ace7726259327c5bdd7afc7e3194add9256af116"
+    },
+    {
+      "path": "web/app/globals.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "79037bf6fe08720c0bb00835b1034f00355e877a",
+      "size": 32779,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/79037bf6fe08720c0bb00835b1034f00355e877a"
+    },
+    {
+      "path": "web/app/layout.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9ca3ed9b5ba714521e45b885699272b6ac34fa3d",
+      "size": 354,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/9ca3ed9b5ba714521e45b885699272b6ac34fa3d"
+    },
+    {
+      "path": "web/app/page.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d127e94f4236ae8e9ca89f02fbc92cfaf4917809",
+      "size": 1121,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/d127e94f4236ae8e9ca89f02fbc92cfaf4917809"
+    },
+    {
+      "path": "web/client",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9c9c9acbd057961ad5c6749e7065b22a0187017d",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/9c9c9acbd057961ad5c6749e7065b22a0187017d"
+    },
+    {
+      "path": "web/client/cdn-worker.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5bfcf3ea139b20da03ad0a721f6a1d4fa5c552dd",
+      "size": 870,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/5bfcf3ea139b20da03ad0a721f6a1d4fa5c552dd"
+    },
+    {
+      "path": "web/client/drive-input.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a1670bbc6e9fe01ad3da15cbff99352215e54d2b",
+      "size": 4121,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/a1670bbc6e9fe01ad3da15cbff99352215e54d2b"
+    },
+    {
+      "path": "web/client/game-session.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "77e0b71cc2a3666c4df0266072f678dd41c40c28",
+      "size": 20018,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/77e0b71cc2a3666c4df0266072f678dd41c40c28"
+    },
+    {
+      "path": "web/client/joystick.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87de595b5a3b971c54dc1b6eea25177414d4646b",
+      "size": 807,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/87de595b5a3b971c54dc1b6eea25177414d4646b"
+    },
+    {
+      "path": "web/client/local-race.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9045bbac04b32d0aa90310a332073e4bb4d04082",
+      "size": 1417,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/9045bbac04b32d0aa90310a332073e4bb4d04082"
+    },
+    {
+      "path": "web/client/preferences.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "14f07b96c367794a046c1d1b9411a81ee289bb31",
+      "size": 720,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/14f07b96c367794a046c1d1b9411a81ee289bb31"
+    },
+    {
+      "path": "web/client/room-connection.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fdb56228857198be31f11664167533eb00c1bd9b",
+      "size": 2870,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/fdb56228857198be31f11664167533eb00c1bd9b"
+    },
+    {
+      "path": "web/client/selectors.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f48046a00cdfb8446c6209e2cc12c6694cd9c98a",
+      "size": 1891,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/f48046a00cdfb8446c6209e2cc12c6694cd9c98a"
+    },
+    {
+      "path": "web/client/simulation-client.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "62f6d197f862758864bbf1b4821a6580014ecde0",
+      "size": 2439,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/62f6d197f862758864bbf1b4821a6580014ecde0"
+    },
+    {
+      "path": "web/components.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f382eb79e22a42ad32685df41f70ea739f73d65d",
+      "size": 516,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/f382eb79e22a42ad32685df41f70ea739f73d65d"
+    },
+    {
+      "path": "web/components",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5873cf75e0e3fff67514f69a8d3a836c7f978070",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/5873cf75e0e3fff67514f69a8d3a836c7f978070"
+    },
+    {
+      "path": "web/components/ui",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "dcb6b2f512a806683ec56104e4ca67cd49a09709",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/dcb6b2f512a806683ec56104e4ca67cd49a09709"
+    },
+    {
+      "path": "web/components/ui/accordion.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9daf7bf384eb45cd301aa7e763e58d1f5982f9eb",
+      "size": 2664,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/9daf7bf384eb45cd301aa7e763e58d1f5982f9eb"
+    },
+    {
+      "path": "web/components/ui/alert-dialog.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "46d9eb7fdc763bf18525e1ede3d1c432823c839a",
+      "size": 5301,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/46d9eb7fdc763bf18525e1ede3d1c432823c839a"
+    },
+    {
+      "path": "web/components/ui/alert.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "abe04d372d096421950d55c6ef433a57416d006f",
+      "size": 2060,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/abe04d372d096421950d55c6ef433a57416d006f"
+    },
+    {
+      "path": "web/components/ui/aspect-ratio.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "95d97f8e2aa1c888554dbe9cccc872889c459384",
+      "size": 406,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/95d97f8e2aa1c888554dbe9cccc872889c459384"
+    },
+    {
+      "path": "web/components/ui/attachment.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "108ab4da821dc9d71ddb31a1f8a7e36f64e6145a",
+      "size": 6132,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/108ab4da821dc9d71ddb31a1f8a7e36f64e6145a"
+    },
+    {
+      "path": "web/components/ui/avatar.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "789a0141c15b84ff42b38745d1398f25d9704ba0",
+      "size": 3056,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/789a0141c15b84ff42b38745d1398f25d9704ba0"
+    },
+    {
+      "path": "web/components/ui/badge.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e59eb1bea89889c94aa49f7e81a3666f26baed6",
+      "size": 1934,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/8e59eb1bea89889c94aa49f7e81a3666f26baed6"
+    },
+    {
+      "path": "web/components/ui/breadcrumb.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f51e3fa8f46e285f0fe628218aed9b3e74eaddf",
+      "size": 2602,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/6f51e3fa8f46e285f0fe628218aed9b3e74eaddf"
+    },
+    {
+      "path": "web/components/ui/bubble.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "61f20300a72af700cf633b934320ce7676d10c07",
+      "size": 4828,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/61f20300a72af700cf633b934320ce7676d10c07"
+    },
+    {
+      "path": "web/components/ui/button-group.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f8c2d29515c8972244dc11e83fb5bd34885a9f2",
+      "size": 2494,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/8f8c2d29515c8972244dc11e83fb5bd34885a9f2"
+    },
+    {
+      "path": "web/components/ui/button.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a8a32cec98c0bc1c0b1dfef22a58a35783faa73",
+      "size": 3247,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/7a8a32cec98c0bc1c0b1dfef22a58a35783faa73"
+    },
+    {
+      "path": "web/components/ui/calendar.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bdd08069d593a406ec17af0a9bb083d9a4e08d11",
+      "size": 8566,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/bdd08069d593a406ec17af0a9bb083d9a4e08d11"
+    },
+    {
+      "path": "web/components/ui/card.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae29aa249b47118ccc8cc3e8586491dd876e1af7",
+      "size": 2645,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/ae29aa249b47118ccc8cc3e8586491dd876e1af7"
+    },
+    {
+      "path": "web/components/ui/carousel.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f7e33307db5731a94324e497f79265c044e2a459",
+      "size": 5727,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/f7e33307db5731a94324e497f79265c044e2a459"
+    },
+    {
+      "path": "web/components/ui/chart.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0680cf0ec1564a4a007e409cc8a1beecf138e100",
+      "size": 10581,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/0680cf0ec1564a4a007e409cc8a1beecf138e100"
+    },
+    {
+      "path": "web/components/ui/checkbox.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "990dbaf0675457cde8da3ae05ba701caf5cb8184",
+      "size": 1538,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/990dbaf0675457cde8da3ae05ba701caf5cb8184"
+    },
+    {
+      "path": "web/components/ui/collapsible.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "93a385188279f8fef89b26171cd11575f5513fbc",
+      "size": 664,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/93a385188279f8fef89b26171cd11575f5513fbc"
+    },
+    {
+      "path": "web/components/ui/combobox.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "61db9411ba6f8cc9afcf4f5efdf85787ca984aac",
+      "size": 9135,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/61db9411ba6f8cc9afcf4f5efdf85787ca984aac"
+    },
+    {
+      "path": "web/components/ui/command.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af126f40ebefee93b580c9808786171656a0cd7f",
+      "size": 5029,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/af126f40ebefee93b580c9808786171656a0cd7f"
+    },
+    {
+      "path": "web/components/ui/context-menu.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "402a3a347803f3b2ed4adf37d3932bf2da9d6436",
+      "size": 8166,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/402a3a347803f3b2ed4adf37d3932bf2da9d6436"
+    },
+    {
+      "path": "web/components/ui/dialog.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "019e0eb85b7a311fb9d7fab8e616912823020245",
+      "size": 4087,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/019e0eb85b7a311fb9d7fab8e616912823020245"
+    },
+    {
+      "path": "web/components/ui/direction.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "78363f9698f16549b332c86adc0052f85afc37bb",
+      "size": 105,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/78363f9698f16549b332c86adc0052f85afc37bb"
+    },
+    {
+      "path": "web/components/ui/drawer.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d090d7d20a49fa1195322374c5d4d282834b3fb5",
+      "size": 11396,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/d090d7d20a49fa1195322374c5d4d282834b3fb5"
+    },
+    {
+      "path": "web/components/ui/dropdown-menu.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1cfacf7b982db6b7b54b1f230085780f1903884e",
+      "size": 8809,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/1cfacf7b982db6b7b54b1f230085780f1903884e"
+    },
+    {
+      "path": "web/components/ui/empty.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cb8afd221481cc656115f08c70dfb9d9682c5156",
+      "size": 2415,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/cb8afd221481cc656115f08c70dfb9d9682c5156"
+    },
+    {
+      "path": "web/components/ui/field.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "48f2ab807eb2c2c040f914a620306818e229eb6b",
+      "size": 6303,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/48f2ab807eb2c2c040f914a620306818e229eb6b"
+    },
+    {
+      "path": "web/components/ui/hover-card.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "460ac83f75fe261cd15da3ae75fe1406a0b78ae6",
+      "size": 1863,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/460ac83f75fe261cd15da3ae75fe1406a0b78ae6"
+    },
+    {
+      "path": "web/components/ui/input-group.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4157002dc6d7733e97585a33e914ef0cb3a59897",
+      "size": 5289,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/4157002dc6d7733e97585a33e914ef0cb3a59897"
+    },
+    {
+      "path": "web/components/ui/input-otp.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "95fa9ead83012e47ae3280ed7e0b58eaba7164f8",
+      "size": 2558,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/95fa9ead83012e47ae3280ed7e0b58eaba7164f8"
+    },
+    {
+      "path": "web/components/ui/input.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "70c195a90602ff71ea730884e96dae029b87fbd3",
+      "size": 1046,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/70c195a90602ff71ea730884e96dae029b87fbd3"
+    },
+    {
+      "path": "web/components/ui/item.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "525610d8f9c17d24263b4d1b09a3e6e835cfa177",
+      "size": 4888,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/525610d8f9c17d24263b4d1b09a3e6e835cfa177"
+    },
+    {
+      "path": "web/components/ui/kbd.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd4e9b15dd1fd780be83c723b05ff93eac44bb1c",
+      "size": 842,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/fd4e9b15dd1fd780be83c723b05ff93eac44bb1c"
+    },
+    {
+      "path": "web/components/ui/label.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6d13a34c4faa914cd82b61356a81381a125855b4",
+      "size": 524,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/6d13a34c4faa914cd82b61356a81381a125855b4"
+    },
+    {
+      "path": "web/components/ui/marker.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "031db961e8d6ad47a44e0e8cdbf32a8c9fc8b221",
+      "size": 1962,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/031db961e8d6ad47a44e0e8cdbf32a8c9fc8b221"
+    },
+    {
+      "path": "web/components/ui/menubar.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9ac00cab3d7812f4c154e185d0f1856db86ff40",
+      "size": 8315,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/e9ac00cab3d7812f4c154e185d0f1856db86ff40"
+    },
+    {
+      "path": "web/components/ui/message-scroller.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b9ea776c2171433c9b4c79b6aaa9526eb5cf1805",
+      "size": 4070,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/b9ea776c2171433c9b4c79b6aaa9526eb5cf1805"
+    },
+    {
+      "path": "web/components/ui/message.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "499a480ce23e3f80b7cfd40d0fe710b35e778cd4",
+      "size": 2246,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/499a480ce23e3f80b7cfd40d0fe710b35e778cd4"
+    },
+    {
+      "path": "web/components/ui/native-select.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa8bb13bbc6d6e5edbbb3df41abfdd84327819d9",
+      "size": 2133,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/aa8bb13bbc6d6e5edbbb3df41abfdd84327819d9"
+    },
+    {
+      "path": "web/components/ui/navigation-menu.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "17fe02df91e9c62731fec1bf116d47ac106e15c1",
+      "size": 7436,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/17fe02df91e9c62731fec1bf116d47ac106e15c1"
+    },
+    {
+      "path": "web/components/ui/pagination.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0fbfd17ed84cfb9e37d8bbeab0d5acc02e1fee86",
+      "size": 2928,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/0fbfd17ed84cfb9e37d8bbeab0d5acc02e1fee86"
+    },
+    {
+      "path": "web/components/ui/popover.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cfe07945daa473f5763d5e1c4805b2b75f3bd2ee",
+      "size": 2586,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/cfe07945daa473f5763d5e1c4805b2b75f3bd2ee"
+    },
+    {
+      "path": "web/components/ui/progress.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72c9482fa2af485839990f5052d1b542bbd36f04",
+      "size": 1751,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/72c9482fa2af485839990f5052d1b542bbd36f04"
+    },
+    {
+      "path": "web/components/ui/radio-group.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "37ee5cf4cc4896b259bd9ace9b511495e2875e2a",
+      "size": 1843,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/37ee5cf4cc4896b259bd9ace9b511495e2875e2a"
+    },
+    {
+      "path": "web/components/ui/resizable.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65aed498983cf0822309fc7c261a56b62844db84",
+      "size": 1681,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/65aed498983cf0822309fc7c261a56b62844db84"
+    },
+    {
+      "path": "web/components/ui/scroll-area.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1c904e17e080339bcfb6ae6799c514855c015971",
+      "size": 1632,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/1c904e17e080339bcfb6ae6799c514855c015971"
+    },
+    {
+      "path": "web/components/ui/select.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a2b051a2dc3aa7c63ed8e67a3bc27f182444cdd1",
+      "size": 6700,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/a2b051a2dc3aa7c63ed8e67a3bc27f182444cdd1"
+    },
+    {
+      "path": "web/components/ui/separator.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3a48aabdcfae61c4b8bddd9e38cf8a38c5b1c4fd",
+      "size": 551,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/3a48aabdcfae61c4b8bddd9e38cf8a38c5b1c4fd"
+    },
+    {
+      "path": "web/components/ui/sheet.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab7ca4710d48b14c8eefdffc49654048d10b58dd",
+      "size": 4446,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/ab7ca4710d48b14c8eefdffc49654048d10b58dd"
+    },
+    {
+      "path": "web/components/ui/sidebar.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "530b86ce9bac125704ea430b6b82a6afc80b8a7f",
+      "size": 21779,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/530b86ce9bac125704ea430b6b82a6afc80b8a7f"
+    },
+    {
+      "path": "web/components/ui/skeleton.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69c99b8d7804b5b0cd223487ee88ac4593323ed9",
+      "size": 278,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/69c99b8d7804b5b0cd223487ee88ac4593323ed9"
+    },
+    {
+      "path": "web/components/ui/slider.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c810a08fbfb07622c4fd229159872bf6adffb69b",
+      "size": 1879,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/c810a08fbfb07622c4fd229159872bf6adffb69b"
+    },
+    {
+      "path": "web/components/ui/spinner.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "77f8d64b541f9372ee89d26bd4a89f07f5859e3a",
+      "size": 360,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/77f8d64b541f9372ee89d26bd4a89f07f5859e3a"
+    },
+    {
+      "path": "web/components/ui/switch.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e07aee007daa9bf289ccc919ef83e1119d395d13",
+      "size": 1818,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/e07aee007daa9bf289ccc919ef83e1119d395d13"
+    },
+    {
+      "path": "web/components/ui/table.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7ca5b51da900c8bba9f95cd920a2624a1ef29e12",
+      "size": 2418,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/7ca5b51da900c8bba9f95cd920a2624a1ef29e12"
+    },
+    {
+      "path": "web/components/ui/tabs.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "636e66bb7521a2e421b45d93e4374e31f3653c68",
+      "size": 3510,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/636e66bb7521a2e421b45d93e4374e31f3653c68"
+    },
+    {
+      "path": "web/components/ui/textarea.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "46eab5e3f748303a5d007cea9f379098a2b61276",
+      "size": 847,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/46eab5e3f748303a5d007cea9f379098a2b61276"
+    },
+    {
+      "path": "web/components/ui/toast.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4a65d1b6f57f42d06b4fa28c43d022901c327a7e",
+      "size": 7353,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/4a65d1b6f57f42d06b4fa28c43d022901c327a7e"
+    },
+    {
+      "path": "web/components/ui/toggle-group.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a6894ff7e295b355c87097d7e99c5a34393f0993",
+      "size": 3201,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/a6894ff7e295b355c87097d7e99c5a34393f0993"
+    },
+    {
+      "path": "web/components/ui/toggle.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "60e82e4c004b56c31f2c56e7e4f43a600dead47d",
+      "size": 1770,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/60e82e4c004b56c31f2c56e7e4f43a600dead47d"
+    },
+    {
+      "path": "web/components/ui/tooltip.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a0a56847e2c260a837ff73d80e94c201f58bad5b",
+      "size": 2855,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/a0a56847e2c260a837ff73d80e94c201f58bad5b"
+    },
+    {
+      "path": "web/game",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e146449bfb819e0448f36933553271751ebf5f3f",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/e146449bfb819e0448f36933553271751ebf5f3f"
+    },
+    {
+      "path": "web/game/asset-download.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9b1c62aa455367405609b19296eeff46dd34dffd",
+      "size": 4335,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/9b1c62aa455367405609b19296eeff46dd34dffd"
+    },
+    {
+      "path": "web/game/avatar.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed4dd11cbe9110fa5da945fc1b4343334f63666f",
+      "size": 1126,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/ed4dd11cbe9110fa5da945fc1b4343334f63666f"
+    },
+    {
+      "path": "web/game/compiled-model.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "66d6138d256491d4fcec14b5188de70485670ec1",
+      "size": 1689,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/66d6138d256491d4fcec14b5188de70485670ec1"
+    },
+    {
+      "path": "web/game/course-driver.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "625b61d635891485c7deff2b1de1758dd7267e72",
+      "size": 670,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/625b61d635891485c7deff2b1de1758dd7267e72"
+    },
+    {
+      "path": "web/game/debug-camera.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7f79fa1edffbfd6af3c8b782a3fe2f3ffa903632",
+      "size": 5679,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/7f79fa1edffbfd6af3c8b782a3fe2f3ffa903632"
+    },
+    {
+      "path": "web/game/debug-tuning.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4416cc89ecf63ffaf7b5ee5a35b9fecff460fd72",
+      "size": 2495,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/4416cc89ecf63ffaf7b5ee5a35b9fecff460fd72"
+    },
+    {
+      "path": "web/game/drive-command.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b54b324b608cf7af805484c12470c11f2069075a",
+      "size": 1122,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/b54b324b608cf7af805484c12470c11f2069075a"
+    },
+    {
+      "path": "web/game/frame-buffer.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "149a7b172922098890c9b131fd339649e4930f98",
+      "size": 924,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/149a7b172922098890c9b131fd339649e4930f98"
+    },
+    {
+      "path": "web/game/jump-controller.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "baa0203d2a2aebe67f229304bab72b9095da24dd",
+      "size": 3573,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/baa0203d2a2aebe67f229304bab72b9095da24dd"
+    },
+    {
+      "path": "web/game/maps.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "52a85a75f2c6714f50c4d1f7ba519012ca109839",
+      "size": 28679,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/52a85a75f2c6714f50c4d1f7ba519012ca109839"
+    },
+    {
+      "path": "web/game/physics.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "daf11f56c7ec08700f72180a23aec1a314699e83",
+      "size": 17595,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/daf11f56c7ec08700f72180a23aec1a314699e83"
+    },
+    {
+      "path": "web/game/race-effects.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "875e9b8f1b2093ed37b7acaf4eae131e596f2017",
+      "size": 14243,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/875e9b8f1b2093ed37b7acaf4eae131e596f2017"
+    },
+    {
+      "path": "web/game/scenery.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fda8a6818550fe2dea28d63e3cb8d6fd503fef75",
+      "size": 7922,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/fda8a6818550fe2dea28d63e3cb8d6fd503fef75"
+    },
+    {
+      "path": "web/game/sim.worker.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7eab48bc62326fca723ff351ed2cb56125ba16b3",
+      "size": 12276,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/7eab48bc62326fca723ff351ed2cb56125ba16b3"
+    },
+    {
+      "path": "web/game/skins.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "063596cb4fac01c43bfcaa61b3f0e492230d75a9",
+      "size": 1532,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/063596cb4fac01c43bfcaa61b3f0e492230d75a9"
+    },
+    {
+      "path": "web/game/terrain-relief.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9c355e8aff979ab3beb943a008c2083edb0c9c19",
+      "size": 6170,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/9c355e8aff979ab3beb943a008c2083edb0c9c19"
+    },
+    {
+      "path": "web/game/viewer.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9877696ad272a5c85f8fdce47efddb8d7e3d014",
+      "size": 38347,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/a9877696ad272a5c85f8fdce47efddb8d7e3d014"
+    },
+    {
+      "path": "web/hooks",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2ba3b302fa17b283bc50cd405a30973da03c7b8f",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/2ba3b302fa17b283bc50cd405a30973da03c7b8f"
+    },
+    {
+      "path": "web/hooks/use-mobile.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "821f8ff4aa7d77756564f8aecda940d02f2a6c99",
+      "size": 585,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/821f8ff4aa7d77756564f8aecda940d02f2a6c99"
+    },
+    {
+      "path": "web/index.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72024ff3ec303a6c7040392a5280432583881d1f",
+      "size": 431,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/72024ff3ec303a6c7040392a5280432583881d1f"
+    },
+    {
+      "path": "web/lib",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "54faa530bc41cabc082e5330805ab3dd7cc5d325",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/54faa530bc41cabc082e5330805ab3dd7cc5d325"
+    },
+    {
+      "path": "web/lib/utils.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2819a830d242f11fda91c4e8951794ab815cec77",
+      "size": 169,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/2819a830d242f11fda91c4e8951794ab815cec77"
+    },
+    {
+      "path": "web/loading",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2d06fab7246ad6df8dc4b5cb41499286f626ddaa",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/2d06fab7246ad6df8dc4b5cb41499286f626ddaa"
+    },
+    {
+      "path": "web/loading/cache.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c388b206666e32416d7a93fb9352258b00d5428e",
+      "size": 2201,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/c388b206666e32416d7a93fb9352258b00d5428e"
+    },
+    {
+      "path": "web/loading/download.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "94a8dd4857ca8e16dcbce30257b0d496d10ebc3a",
+      "size": 3023,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/94a8dd4857ca8e16dcbce30257b0d496d10ebc3a"
+    },
+    {
+      "path": "web/loading/frontend.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c595f528c55935102431248a41205308a274d6ea",
+      "size": 1506,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/c595f528c55935102431248a41205308a274d6ea"
+    },
+    {
+      "path": "web/loading/worker.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a1db37aa42748221f5c81fd2c2ddbad2ead52fdb",
+      "size": 1052,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/a1db37aa42748221f5c81fd2c2ddbad2ead52fdb"
+    },
+    {
+      "path": "web/next.config.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b22af960af499f682e3f73236f8ae8a6bde38da1",
+      "size": 104,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/b22af960af499f682e3f73236f8ae8a6bde38da1"
+    },
+    {
+      "path": "web/package-lock.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cfcc443e00ab15106550cc95212994b90bdb16fb",
+      "size": 360715,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/cfcc443e00ab15106550cc95212994b90bdb16fb"
+    },
+    {
+      "path": "web/package.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1b293462ab05e819238123e134eb0321319a055",
+      "size": 2231,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/b1b293462ab05e819238123e134eb0321319a055"
+    },
+    {
+      "path": "web/public",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2a4c9dd838b0f12aebe3d049a941bd91ba79549d",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/2a4c9dd838b0f12aebe3d049a941bd91ba79549d"
+    },
+    {
+      "path": "web/public/game-config.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dcc073fe601e33138ce5fccb02e33436d467253b",
+      "size": 32,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/dcc073fe601e33138ce5fccb02e33436d467253b"
+    },
+    {
+      "path": "web/scripts",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "17027a543b4ec725855d196e22738c0034721111",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/17027a543b4ec725855d196e22738c0034721111"
+    },
+    {
+      "path": "web/scripts/asset-manifest.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de7162df30a45cfd29bda23616380bb7adefd795",
+      "size": 1398,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/de7162df30a45cfd29bda23616380bb7adefd795"
+    },
+    {
+      "path": "web/scripts/browser-assets.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f514a51c4a72afe47060ef4ed53e0b60e57ca9f",
+      "size": 2804,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/9f514a51c4a72afe47060ef4ed53e0b60e57ca9f"
+    },
+    {
+      "path": "web/scripts/build-loaders.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "044120ab3c0e8a5fcd4762c3899c108f6f3ddb81",
+      "size": 490,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/044120ab3c0e8a5fcd4762c3899c108f6f3ddb81"
+    },
+    {
+      "path": "web/scripts/check-space.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "06a843c00b5719142137feb98b6ac3113f27ce00",
+      "size": 1980,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/06a843c00b5719142137feb98b6ac3113f27ce00"
+    },
+    {
+      "path": "web/scripts/compile-tracks.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ea396a41d7c64946326a0fbedac79a98b7246bc",
+      "size": 2619,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/8ea396a41d7c64946326a0fbedac79a98b7246bc"
+    },
+    {
+      "path": "web/scripts/export-assets.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "997193a461f47ba6cef60a798b1fb5d6383e5e53",
+      "size": 4383,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/997193a461f47ba6cef60a798b1fb5d6383e5e53"
+    },
+    {
+      "path": "web/scripts/export-space.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58a50a168194cfba1d9eb08bf3132a298db9f676",
+      "size": 3739,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/58a50a168194cfba1d9eb08bf3132a298db9f676"
+    },
+    {
+      "path": "web/scripts/mujoco-reference.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "774c7722b1788fc6484746b9c864cebb3f24fc68",
+      "size": 3599,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/774c7722b1788fc6484746b9c864cebb3f24fc68"
+    },
+    {
+      "path": "web/scripts/record-demo.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4798435c0c1d1f6754d8306d59fec11f068e044",
+      "size": 41,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/e4798435c0c1d1f6754d8306d59fec11f068e044"
+    },
+    {
+      "path": "web/scripts/sync-runtime.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e77f481ee107d300573388a8d76085b3f189035a",
+      "size": 761,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/e77f481ee107d300573388a8d76085b3f189035a"
+    },
+    {
+      "path": "web/server",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8f970eba8bfadea1b47463085dd54fcd98321ecd",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/8f970eba8bfadea1b47463085dd54fcd98321ecd"
+    },
+    {
+      "path": "web/server/app.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "368a731f79d7bc4116f49ccd89b14de9f795bf93",
+      "size": 2042,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/368a731f79d7bc4116f49ccd89b14de9f795bf93"
+    },
+    {
+      "path": "web/server/config.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "005a7ccbf17a822f06468dda605a0390bbb327c1",
+      "size": 558,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/005a7ccbf17a822f06468dda605a0390bbb327c1"
+    },
+    {
+      "path": "web/server/frontend-page.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "85be75edaf70c9fa1fe833a4735e17f171a2c8e8",
+      "size": 1193,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/85be75edaf70c9fa1fe833a4735e17f171a2c8e8"
+    },
+    {
+      "path": "web/server/gems.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b0d2aac85f8d835b98341ab1f72949252cf8278",
+      "size": 59,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/0b0d2aac85f8d835b98341ab1f72949252cf8278"
+    },
+    {
+      "path": "web/server/http-handler.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3a979fefd0391125a4e1bdbd48dd2cce0419a406",
+      "size": 3552,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/3a979fefd0391125a4e1bdbd48dd2cce0419a406"
+    },
+    {
+      "path": "web/server/index.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b154d60d653cb7588a441e19b961098f9e50431b",
+      "size": 532,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/b154d60d653cb7588a441e19b961098f9e50431b"
+    },
+    {
+      "path": "web/server/race.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b934e1ba740e7f9271f3e54a849aa475bb2e50a5",
+      "size": 501,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/b934e1ba740e7f9271f3e54a849aa475bb2e50a5"
+    },
+    {
+      "path": "web/server/room-transport.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca640d014295f5ac340cfe159d6fd894dde73b76",
+      "size": 3504,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/ca640d014295f5ac340cfe159d6fd894dde73b76"
+    },
+    {
+      "path": "web/shared",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6d3a8806aab0f6fc2452da91dbf401477b9db994",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/6d3a8806aab0f6fc2452da91dbf401477b9db994"
+    },
+    {
+      "path": "web/shared/gems.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a2fb41c7eee50fa7813f45e28052470f9e1fe342",
+      "size": 2318,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/a2fb41c7eee50fa7813f45e28052470f9e1fe342"
+    },
+    {
+      "path": "web/shared/protocol.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca4fc0d3926405479b0af296665aff4b042bb3c8",
+      "size": 3978,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/ca4fc0d3926405479b0af296665aff4b042bb3c8"
+    },
+    {
+      "path": "web/shared/race-rules.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "da590e666762ea863ab8b580ee1378cd2f76cc04",
+      "size": 14814,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/da590e666762ea863ab8b580ee1378cd2f76cc04"
+    },
+    {
+      "path": "web/shared/validation.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ad648962dce750c0e5c6b9a75234ff3680ccf1ed",
+      "size": 1925,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/ad648962dce750c0e5c6b9a75234ff3680ccf1ed"
+    },
+    {
+      "path": "web/tools",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "69d67c4242c79ca04658c5405a3a3131ceae9137",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/69d67c4242c79ca04658c5405a3a3131ceae9137"
+    },
+    {
+      "path": "web/tools/demo-recorder",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e7175b0193201b2cbc747d625f0985bb2d9aec39",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/e7175b0193201b2cbc747d625f0985bb2d9aec39"
+    },
+    {
+      "path": "web/tools/demo-recorder/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "abfd6c11c28876c586ff89fcda86b98a84004483",
+      "size": 10246,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/abfd6c11c28876c586ff89fcda86b98a84004483"
+    },
+    {
+      "path": "web/tools/demo-recorder/capture.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "acf03b993468a7c63bd690b035c8be31acbaf7c1",
+      "size": 13007,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/acf03b993468a7c63bd690b035c8be31acbaf7c1"
+    },
+    {
+      "path": "web/tools/demo-recorder/cli.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2a705c39daf1aff8909f2e1100421e5f95c0e5d4",
+      "size": 5443,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/2a705c39daf1aff8909f2e1100421e5f95c0e5d4"
+    },
+    {
+      "path": "web/tools/demo-recorder/client.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af85e9ffaccdc871f87f485311ba90b161307cb7",
+      "size": 14041,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/af85e9ffaccdc871f87f485311ba90b161307cb7"
+    },
+    {
+      "path": "web/tools/demo-recorder/config.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02b8997b9d7038e2d68c3dd7c6e680d6500e4353",
+      "size": 2445,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/02b8997b9d7038e2d68c3dd7c6e680d6500e4353"
+    },
+    {
+      "path": "web/tools/demo-recorder/index.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b915269889c86badd2c4c8721597e622d22f017",
+      "size": 3650,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/0b915269889c86badd2c4c8721597e622d22f017"
+    },
+    {
+      "path": "web/tools/demo-recorder/legacy-kinematic.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec8ae86cd894c7b74b7559b2428ceadb0b35325c",
+      "size": 3476,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/ec8ae86cd894c7b74b7559b2428ceadb0b35325c"
+    },
+    {
+      "path": "web/tools/demo-recorder/render.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d41e8dfb8fea1ed1abdf7aa051deac720fbc1b8b",
+      "size": 4239,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/d41e8dfb8fea1ed1abdf7aa051deac720fbc1b8b"
+    },
+    {
+      "path": "web/tools/demo-recorder/replay.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1feb6265dca228597d76025de4c05ae553ef6d04",
+      "size": 1353,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/1feb6265dca228597d76025de4c05ae553ef6d04"
+    },
+    {
+      "path": "web/tools/demo-recorder/seed.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d0dc567b3646e29400464bc5d8ae6379b28cae5e",
+      "size": 406,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/d0dc567b3646e29400464bc5d8ae6379b28cae5e"
+    },
+    {
+      "path": "web/tools/demo-recorder/verify-laps.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7ddfd1491a3220a9ca20b53a9a80107611cb263e",
+      "size": 13881,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/7ddfd1491a3220a9ca20b53a9a80107611cb263e"
+    },
+    {
+      "path": "web/tools/loading-checks",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b41a78a3668ad7d181b883198048b9316bb53882",
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/trees/b41a78a3668ad7d181b883198048b9316bb53882"
+    },
+    {
+      "path": "web/tools/loading-checks/browser.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea36b727377c8ab9827e6d89108aaa414fffe02d",
+      "size": 4094,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/ea36b727377c8ab9827e6d89108aaa414fffe02d"
+    },
+    {
+      "path": "web/tools/loading-checks/download.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "991907cc2095bfb9cb4a173105637bd1bdd97440",
+      "size": 5288,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/991907cc2095bfb9cb4a173105637bd1bdd97440"
+    },
+    {
+      "path": "web/tools/loading-checks/worker-race.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "57e83646362e1e0242df8c3cdfce8c4bf2944a19",
+      "size": 3249,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/57e83646362e1e0242df8c3cdfce8c4bf2944a19"
+    },
+    {
+      "path": "web/tsconfig.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "30ee95a6f45e580d6dd425fd5095e064c57dfc48",
+      "size": 730,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/30ee95a6f45e580d6dd425fd5095e064c57dfc48"
+    },
+    {
+      "path": "web/vite.config.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "73b3036d44491dcab56dfb329564ec552e652675",
+      "size": 665,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/73b3036d44491dcab56dfb329564ec552e652675"
+    },
+    {
+      "path": "web/worker-url.d.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e53da3ff847dc88bd57a3efc2573bf4394b00861",
+      "size": 77,
+      "url": "https://api.github.com/repos/Mondo-Robotics/open-beni/git/blobs/e53da3ff847dc88bd57a3efc2573bf4394b00861"
+    }
+  ],
+  "truncated": false
+}

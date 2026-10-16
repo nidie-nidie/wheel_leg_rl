@@ -1,0 +1,137 @@
+{
+  "schema_version": "SplitSmoothPhysicsSamplerV1",
+  "dt_s": 0.001,
+  "warmup_control_ticks": 100,
+  "window_physics_samples": 1000,
+  "definition": "adjacent original mj_step actual qdot difference / .001",
+  "physics_columns": [
+    "control_tick",
+    "time",
+    "q0",
+    "q1",
+    "q2",
+    "q3",
+    "v0",
+    "v1",
+    "v2",
+    "v3",
+    "acc0",
+    "acc1",
+    "acc2",
+    "acc3"
+  ],
+  "control_columns": [
+    "time",
+    "q0",
+    "q1",
+    "q2",
+    "q3",
+    "v0",
+    "v1",
+    "v2",
+    "v3",
+    "target0",
+    "target1",
+    "target2",
+    "target3",
+    "vx",
+    "tilt",
+    "effort_sat"
+  ],
+  "policy_sha256": "91DCE1BADD9824E5465451A49FE467D3E2A47A9FE4258F693794339DE86A6DA1",
+  "manifest_sha256": "FDB0906EE4D0135B3BD0A44AE01B57756B33DDD5BE22B9D48D546D76E694681F",
+  "source_completed_iterations": 1000,
+  "sampler_sha256": "1792D2CD9DA7D6AF32124465830E77D448F627D6532932A56C327C74777D5C35",
+  "scenarios": [
+    {
+      "scenario": "nominal_stand",
+      "survived": true,
+      "failure_reason": null,
+      "valid_control_ticks": 500,
+      "physics_samples": 10000,
+      "original_step_calls": 10000,
+      "wrapped_vs_plain_exact": true,
+      "metric_valid": true,
+      "leg_action_saturation_fraction": [
+        1.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "npz_sha256": "E54F63C7B2CDEDACBB64679860715BB99CAC7A988FC6EAF1211D1BAF97F13CE8",
+      "window_count": 8,
+      "rms_mean": [
+        9.419842529182398,
+        8.893283119519959,
+        60.5864407018056,
+        22.455393373328977
+      ],
+      "rms_p90": [
+        9.724556727923678,
+        9.310355790561236,
+        61.630271457865916,
+        23.296301767929027
+      ]
+    },
+    {
+      "scenario": "forward",
+      "survived": true,
+      "failure_reason": null,
+      "valid_control_ticks": 500,
+      "physics_samples": 10000,
+      "original_step_calls": 10000,
+      "wrapped_vs_plain_exact": true,
+      "metric_valid": true,
+      "leg_action_saturation_fraction": [
+        1.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "npz_sha256": "21EA1EB796BA4A313CE01408A0BEDF1F9F2C8131B7293A5C83AB012108C39368",
+      "window_count": 8,
+      "rms_mean": [
+        7.504667952351086,
+        6.235965720904345,
+        45.86414282707692,
+        21.633921939181906
+      ],
+      "rms_p90": [
+        7.826878261879808,
+        6.692867933617394,
+        47.24496819651983,
+        22.33722086907352
+      ]
+    },
+    {
+      "scenario": "reverse",
+      "survived": true,
+      "failure_reason": null,
+      "valid_control_ticks": 500,
+      "physics_samples": 10000,
+      "original_step_calls": 10000,
+      "wrapped_vs_plain_exact": true,
+      "metric_valid": true,
+      "leg_action_saturation_fraction": [
+        1.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "npz_sha256": "338AC40DDF15BBBBDFB21D2B4D8873409FFF2A874387BC5B489F22CF4995B3E7",
+      "window_count": 8,
+      "rms_mean": [
+        7.0405843536973975,
+        7.805966413404142,
+        58.66528673620123,
+        22.894535028289823
+      ],
+      "rms_p90": [
+        7.517658421974376,
+        8.257524611466692,
+        63.51531181381291,
+        24.089790864386522
+      ]
+    }
+  ]
+}

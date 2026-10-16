@@ -1,0 +1,589 @@
+{
+  "schema_version": "SplitSmoothExperimentV1",
+  "pid": 37320,
+  "status": "completed",
+  "seed": 41882943,
+  "iterations_per_run": 1000,
+  "max_long_training_runs": 2,
+  "events": [
+    {
+      "stage": "baseline-motion20ms",
+      "argv": [
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\.venv\\Scripts\\python.exe",
+        "scripts/evaluate_leg_acceleration_mujoco.py",
+        "--policy",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\exports\\run-03\\actor.ts",
+        "--manifest",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\exports\\run-03\\policy_manifest.json",
+        "--output",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\baseline\\motion20ms"
+      ],
+      "start_unix": 1791889774.9929416,
+      "log": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\logs\\baseline-motion20ms.log",
+      "exit_code": 0,
+      "end_unix": 1791889784.9989781
+    },
+    {
+      "stage": "baseline-command-practice",
+      "argv": [
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\.venv\\Scripts\\python.exe",
+        "scripts/evaluate_command_practice_mujoco.py",
+        "--policy",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\exports\\run-03\\actor.ts",
+        "--manifest",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\exports\\run-03\\policy_manifest.json",
+        "--output",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\baseline\\command_practice"
+      ],
+      "start_unix": 1791889785.001968,
+      "log": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\logs\\baseline-command-practice.log",
+      "exit_code": 0,
+      "end_unix": 1791889795.0173776
+    },
+    {
+      "stage": "baseline-physics1ms",
+      "argv": [
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\.venv\\Scripts\\python.exe",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\sample_physics.py",
+        "--export",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\training-suite-20261011-stop-reverse-v1\\exports\\run-03",
+        "--output",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\baseline\\physics1ms"
+      ],
+      "start_unix": 1791889795.0203679,
+      "log": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\logs\\baseline-physics1ms.log",
+      "exit_code": 0,
+      "end_unix": 1791889805.0263603
+    },
+    {
+      "stage": "leg02-fresh1000",
+      "argv": [
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\.venv\\Scripts\\python.exe",
+        "scripts/train_dreamwaq.py",
+        "--headless",
+        "--profile",
+        "rtx5070",
+        "--task-profile",
+        "stop_reverse_split_smooth_v1",
+        "--max-iterations",
+        "1000",
+        "--seed",
+        "41882943",
+        "--run-name",
+        "split-smooth-leg02-fresh1000-20261013"
+      ],
+      "start_unix": 1791889805.0497863,
+      "log": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\logs\\leg02-fresh1000.log",
+      "exit_code": 0,
+      "end_unix": 1791893865.335401
+    },
+    {
+      "stage": "leg02-export",
+      "argv": [
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\.venv\\Scripts\\python.exe",
+        "scripts/export_dreamwaq_actor.py",
+        "--checkpoint",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_999.pt",
+        "--output",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\leg02\\export"
+      ],
+      "start_unix": 1791893865.3757808,
+      "log": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\logs\\leg02-export.log",
+      "exit_code": 0,
+      "end_unix": 1791893875.4022934
+    },
+    {
+      "stage": "leg02-motion20ms",
+      "argv": [
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\.venv\\Scripts\\python.exe",
+        "scripts/evaluate_leg_acceleration_mujoco.py",
+        "--policy",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\leg02\\export\\actor.ts",
+        "--manifest",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\leg02\\export\\policy_manifest.json",
+        "--output",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\leg02\\motion20ms"
+      ],
+      "start_unix": 1791893875.4289174,
+      "log": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\logs\\leg02-motion20ms.log",
+      "exit_code": 0,
+      "end_unix": 1791893885.4639108
+    },
+    {
+      "stage": "leg02-command-practice",
+      "argv": [
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\.venv\\Scripts\\python.exe",
+        "scripts/evaluate_command_practice_mujoco.py",
+        "--policy",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\leg02\\export\\actor.ts",
+        "--manifest",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\leg02\\export\\policy_manifest.json",
+        "--output",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\leg02\\command_practice"
+      ],
+      "start_unix": 1791893885.466901,
+      "log": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\logs\\leg02-command-practice.log",
+      "exit_code": 0,
+      "end_unix": 1791893895.4731529
+    },
+    {
+      "stage": "leg02-physics1ms",
+      "argv": [
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\.venv\\Scripts\\python.exe",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\sample_physics.py",
+        "--export",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\leg02\\export",
+        "--output",
+        "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\leg02\\physics1ms"
+      ],
+      "start_unix": 1791893895.4856153,
+      "log": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\split-action-smooth-20261013-v1\\logs\\leg02-physics1ms.log",
+      "exit_code": 0,
+      "end_unix": 1791893905.4908342
+    }
+  ],
+  "runs": [
+    {
+      "all_eight_survived": true,
+      "primary_control_pass": false,
+      "complete_control_pass": false,
+      "twitch_pass": false,
+      "numeric_acceptance": false,
+      "requires_visual_confirmation": true,
+      "speed_failures": [
+        "forward"
+      ],
+      "saturation_failures": [
+        "nominal_stand:action_saturation_fraction",
+        "nominal_stand:effort_saturation_fraction",
+        "low_stand:action_saturation_fraction",
+        "low_stand:effort_saturation_fraction",
+        "high_stand:action_saturation_fraction",
+        "high_stand:effort_saturation_fraction",
+        "forward:action_saturation_fraction",
+        "forward:effort_saturation_fraction",
+        "reverse:action_saturation_fraction",
+        "reverse:effort_saturation_fraction",
+        "left_turn:action_saturation_fraction",
+        "left_turn:effort_saturation_fraction",
+        "right_turn:action_saturation_fraction",
+        "right_turn:effort_saturation_fraction",
+        "combined:action_saturation_fraction",
+        "combined:effort_saturation_fraction"
+      ],
+      "prolonged_leg_saturation_scenarios": [
+        "nominal_stand",
+        "forward",
+        "reverse"
+      ],
+      "acceleration_comparison": {
+        "20ms": {
+          "baseline": 13.65403028281929,
+          "candidate": 19.33439854793423,
+          "reduction_fraction": -0.4160213612725383
+        },
+        "1ms": {
+          "baseline": 16.538445076388026,
+          "candidate": 23.250002557911984,
+          "reduction_fraction": -0.40581550747512907
+        }
+      },
+      "command_practice_pass_count": 0,
+      "candidate_motion": [
+        {
+          "action_saturation_fraction": 0.5596666666666666,
+          "actual_acceleration_rms_aggregate_mean_rad_s2": 20.971809927811968,
+          "actual_acceleration_rms_mean_rad_s2": [
+            8.321745824133336,
+            5.788908905586676,
+            48.85386887625506,
+            20.922716105272798
+          ],
+          "actual_acceleration_rms_p90_rad_s2": [
+            8.66810253439541,
+            6.127141531695715,
+            49.70765536367145,
+            21.79690774452088
+          ],
+          "command": [
+            0.0,
+            0.0,
+            0.2
+          ],
+          "effort_saturation_fraction": 0.3019166666666666,
+          "failure_reason": null,
+          "max_tilt_rad": 0.06737934343438631,
+          "metric_valid": true,
+          "scenario": "nominal_stand",
+          "steady_vx_mae_mps": 0.023098204787136315,
+          "survived": true,
+          "valid_ticks": 500,
+          "vx_mae_mps": 0.02392963306505022,
+          "window_count": 8,
+          "yaw_rate_mae_rad_s": 0.18282190937338558
+        },
+        {
+          "action_saturation_fraction": 0.6583333333333333,
+          "actual_acceleration_rms_aggregate_mean_rad_s2": 15.865044910873184,
+          "actual_acceleration_rms_mean_rad_s2": [
+            5.427498060428427,
+            5.6626810553443265,
+            30.316887384251693,
+            22.0531131434683
+          ],
+          "actual_acceleration_rms_p90_rad_s2": [
+            6.5159134288670115,
+            6.136091513455551,
+            45.613538352020115,
+            22.547520867995406
+          ],
+          "command": [
+            0.0,
+            0.0,
+            0.17
+          ],
+          "effort_saturation_fraction": 0.31416666666666665,
+          "failure_reason": null,
+          "max_tilt_rad": 0.07838694262946555,
+          "metric_valid": true,
+          "scenario": "low_stand",
+          "steady_vx_mae_mps": 0.08072603884912233,
+          "survived": true,
+          "valid_ticks": 500,
+          "vx_mae_mps": 0.0822562260078468,
+          "window_count": 8,
+          "yaw_rate_mae_rad_s": 0.09302701104039683
+        },
+        {
+          "action_saturation_fraction": 0.551,
+          "actual_acceleration_rms_aggregate_mean_rad_s2": 18.15852334282085,
+          "actual_acceleration_rms_mean_rad_s2": [
+            9.607896731002617,
+            4.9101014369669995,
+            41.155298566870385,
+            16.960796636443394
+          ],
+          "actual_acceleration_rms_p90_rad_s2": [
+            9.833676732940603,
+            5.207740160226618,
+            42.11167916997029,
+            17.32255991311637
+          ],
+          "command": [
+            0.0,
+            0.0,
+            0.23
+          ],
+          "effort_saturation_fraction": 0.30921666666666664,
+          "failure_reason": null,
+          "max_tilt_rad": 0.11462499136755595,
+          "metric_valid": true,
+          "scenario": "high_stand",
+          "steady_vx_mae_mps": 0.027202261736904557,
+          "survived": true,
+          "valid_ticks": 500,
+          "vx_mae_mps": 0.0303775671931961,
+          "window_count": 8,
+          "yaw_rate_mae_rad_s": 0.2004240126806635
+        },
+        {
+          "action_saturation_fraction": 0.487,
+          "actual_acceleration_rms_aggregate_mean_rad_s2": 16.98696843861699,
+          "actual_acceleration_rms_mean_rad_s2": [
+            6.337975873026717,
+            4.139776734051867,
+            39.251278495543765,
+            18.21884265184562
+          ],
+          "actual_acceleration_rms_p90_rad_s2": [
+            6.614763469297953,
+            4.738978161162384,
+            40.46189829342026,
+            18.794945707040114
+          ],
+          "command": [
+            1.0,
+            0.0,
+            0.2
+          ],
+          "effort_saturation_fraction": 0.07893333333333334,
+          "failure_reason": null,
+          "max_tilt_rad": 0.07631745271371893,
+          "metric_valid": true,
+          "scenario": "forward",
+          "steady_vx_mae_mps": 0.08598312042229794,
+          "survived": true,
+          "valid_ticks": 500,
+          "vx_mae_mps": 0.12011029903157919,
+          "window_count": 8,
+          "yaw_rate_mae_rad_s": 0.14543091221886095
+        },
+        {
+          "action_saturation_fraction": 0.507,
+          "actual_acceleration_rms_aggregate_mean_rad_s2": 20.044417277373743,
+          "actual_acceleration_rms_mean_rad_s2": [
+            5.876941538179211,
+            4.490119750365974,
+            50.80398664118233,
+            19.006621179767464
+          ],
+          "actual_acceleration_rms_p90_rad_s2": [
+            6.37648459908075,
+            4.942383984150659,
+            55.09424396827945,
+            20.33214875406222
+          ],
+          "command": [
+            -1.0,
+            0.0,
+            0.2
+          ],
+          "effort_saturation_fraction": 0.10295,
+          "failure_reason": null,
+          "max_tilt_rad": 0.11606229032648085,
+          "metric_valid": true,
+          "scenario": "reverse",
+          "steady_vx_mae_mps": 0.03222836382623411,
+          "survived": true,
+          "valid_ticks": 500,
+          "vx_mae_mps": 0.07672512633004577,
+          "window_count": 8,
+          "yaw_rate_mae_rad_s": 0.16585092220954517
+        },
+        {
+          "action_saturation_fraction": 0.558,
+          "actual_acceleration_rms_aggregate_mean_rad_s2": 20.04710506312684,
+          "actual_acceleration_rms_mean_rad_s2": [
+            7.023551410985465,
+            6.083190995223872,
+            47.504991486461975,
+            19.576686359836042
+          ],
+          "actual_acceleration_rms_p90_rad_s2": [
+            7.870002993357765,
+            6.460631731557466,
+            48.95493301938002,
+            21.406270063647053
+          ],
+          "command": [
+            0.0,
+            0.6,
+            0.2
+          ],
+          "effort_saturation_fraction": 0.2858833333333333,
+          "failure_reason": null,
+          "max_tilt_rad": 0.08192329475327707,
+          "metric_valid": true,
+          "scenario": "left_turn",
+          "steady_vx_mae_mps": 0.04041307690479229,
+          "survived": true,
+          "valid_ticks": 500,
+          "vx_mae_mps": 0.03965287580307958,
+          "window_count": 8,
+          "yaw_rate_mae_rad_s": 0.19722809802053506
+        },
+        {
+          "action_saturation_fraction": 0.5603333333333332,
+          "actual_acceleration_rms_aggregate_mean_rad_s2": 20.04447281039974,
+          "actual_acceleration_rms_mean_rad_s2": [
+            6.101415369553664,
+            3.8433361841510925,
+            49.15443513793221,
+            21.078704549961998
+          ],
+          "actual_acceleration_rms_p90_rad_s2": [
+            7.056668116143378,
+            4.995211212259923,
+            50.86490902435624,
+            22.50167677674212
+          ],
+          "command": [
+            0.0,
+            -0.6,
+            0.2
+          ],
+          "effort_saturation_fraction": 0.29546666666666666,
+          "failure_reason": null,
+          "max_tilt_rad": 0.08475120568373398,
+          "metric_valid": true,
+          "scenario": "right_turn",
+          "steady_vx_mae_mps": 0.028564886499835875,
+          "survived": true,
+          "valid_ticks": 500,
+          "vx_mae_mps": 0.02851308916560746,
+          "window_count": 8,
+          "yaw_rate_mae_rad_s": 0.21777183951403498
+        },
+        {
+          "action_saturation_fraction": 0.5053333333333334,
+          "actual_acceleration_rms_aggregate_mean_rad_s2": 19.799627546424425,
+          "actual_acceleration_rms_mean_rad_s2": [
+            6.58152618172487,
+            5.375963816343031,
+            45.10953343783967,
+            22.13148674979012
+          ],
+          "actual_acceleration_rms_p90_rad_s2": [
+            7.477870604430565,
+            6.167605252315138,
+            47.04593709936742,
+            23.817478338299146
+          ],
+          "command": [
+            0.8,
+            0.5,
+            0.2
+          ],
+          "effort_saturation_fraction": 0.12323333333333332,
+          "failure_reason": null,
+          "max_tilt_rad": 0.0786345991311415,
+          "metric_valid": true,
+          "scenario": "combined",
+          "steady_vx_mae_mps": 0.030138999102910687,
+          "survived": true,
+          "valid_ticks": 500,
+          "vx_mae_mps": 0.056215511491401186,
+          "window_count": 8,
+          "yaw_rate_mae_rad_s": 0.1937029346103495
+        }
+      ],
+      "candidate_physics": [
+        {
+          "scenario": "nominal_stand",
+          "survived": true,
+          "failure_reason": null,
+          "valid_control_ticks": 500,
+          "physics_samples": 10000,
+          "original_step_calls": 10000,
+          "wrapped_vs_plain_exact": true,
+          "metric_valid": true,
+          "leg_action_saturation_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "npz_sha256": "E54F63C7B2CDEDACBB64679860715BB99CAC7A988FC6EAF1211D1BAF97F13CE8",
+          "window_count": 8,
+          "rms_mean": [
+            9.419842529182398,
+            8.893283119519959,
+            60.5864407018056,
+            22.455393373328977
+          ],
+          "rms_p90": [
+            9.724556727923678,
+            9.310355790561236,
+            61.630271457865916,
+            23.296301767929027
+          ]
+        },
+        {
+          "scenario": "forward",
+          "survived": true,
+          "failure_reason": null,
+          "valid_control_ticks": 500,
+          "physics_samples": 10000,
+          "original_step_calls": 10000,
+          "wrapped_vs_plain_exact": true,
+          "metric_valid": true,
+          "leg_action_saturation_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "npz_sha256": "21EA1EB796BA4A313CE01408A0BEDF1F9F2C8131B7293A5C83AB012108C39368",
+          "window_count": 8,
+          "rms_mean": [
+            7.504667952351086,
+            6.235965720904345,
+            45.86414282707692,
+            21.633921939181906
+          ],
+          "rms_p90": [
+            7.826878261879808,
+            6.692867933617394,
+            47.24496819651983,
+            22.33722086907352
+          ]
+        },
+        {
+          "scenario": "reverse",
+          "survived": true,
+          "failure_reason": null,
+          "valid_control_ticks": 500,
+          "physics_samples": 10000,
+          "original_step_calls": 10000,
+          "wrapped_vs_plain_exact": true,
+          "metric_valid": true,
+          "leg_action_saturation_fraction": [
+            1.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          "npz_sha256": "338AC40DDF15BBBBDFB21D2B4D8873409FFF2A874387BC5B489F22CF4995B3E7",
+          "window_count": 8,
+          "rms_mean": [
+            7.0405843536973975,
+            7.805966413404142,
+            58.66528673620123,
+            22.894535028289823
+          ],
+          "rms_p90": [
+            7.517658421974376,
+            8.257524611466692,
+            63.51531181381291,
+            24.089790864386522
+          ]
+        }
+      ],
+      "label": "leg02",
+      "profile": "stop_reverse_split_smooth_v1",
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013",
+      "completed_iterations": 1000,
+      "final_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013\\model_999.pt",
+      "checkpoint_sha256": "DF301CBF3199ABA5016A2D7423E2EC29925A9F22EB8359D71B4EBFF40014CA4B",
+      "source_manifest_sha256": "25F44338BBE98D3EFD816A027D0CE3B76EA59D02687959C07B9DD14E1E36E0AE",
+      "golden_errors": {
+        "32": 0.0,
+        "1": 0.0,
+        "3": 0.0
+      },
+      "context_acceptance": true
+    }
+  ],
+  "baseline_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_999.pt",
+  "baseline_golden_errors": {
+    "32": 0.0,
+    "1": 0.0,
+    "3": 0.0
+  },
+  "stage": "finished",
+  "child_pid": null,
+  "monitor": [
+    {
+      "stage": "leg02-fresh1000",
+      "unix": 1791891605.1880367,
+      "pid": 7764,
+      "last_iteration": [
+        "437",
+        "1000"
+      ],
+      "fatal_marker": false
+    },
+    {
+      "stage": "leg02-fresh1000",
+      "unix": 1791893405.3087065,
+      "pid": 7764,
+      "last_iteration": [
+        "884",
+        "1000"
+      ],
+      "fatal_marker": false
+    }
+  ],
+  "tuning_reason": "No automatic increase: first twitch passed or primary control failed.",
+  "completed_unix": 1791893905.5087745
+}

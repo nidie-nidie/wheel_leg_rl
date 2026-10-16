@@ -12,7 +12,7 @@ class KeyboardViewer:
         del show_left_ui, show_right_ui
         if not glfw.init():
             raise RuntimeError("GLFW initialization failed")
-        self.window = glfw.create_window(1280, 800, "WheelLeg MuJoCo | Run-04 keyboard control", None, None)
+        self.window = glfw.create_window(1280, 800, "WheelLeg MuJoCo | keyboard control", None, None)
         if not self.window:
             glfw.terminate()
             raise RuntimeError("Unable to create MuJoCo keyboard window")

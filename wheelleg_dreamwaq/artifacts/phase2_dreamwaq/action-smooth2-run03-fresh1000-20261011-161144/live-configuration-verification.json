@@ -1,0 +1,22 @@
+{
+  "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_16-13-27_rtx5070_fudan-v1_dreamwaq-action-smooth2-run03-fresh1000-20261011-161144-seed41882943",
+  "contract_changes": [
+    {
+      "path": ".contract_hash",
+      "before": "EC40FC36DA937CC9A7994CA3B47D20D7AD1814C5B835F9962F056940E4F592E3",
+      "after": "8D2705CEC4F1851B4B61315A8BF6A00CA6BED227638CF5E9686249A57B6BFD91"
+    },
+    {
+      "path": ".task.reward_weights.action_smooth",
+      "before": -0.01,
+      "after": -0.02
+    }
+  ],
+  "fresh": true,
+  "seed": 41882943,
+  "iterations": 1000,
+  "hardware": [
+    256,
+    8
+  ]
+}

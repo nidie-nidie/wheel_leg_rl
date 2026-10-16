@@ -1,0 +1,248 @@
+{
+  "research_only": true,
+  "external_code_executed": false,
+  "training_started": false,
+  "reference_file_count": 40,
+  "reference_files": [
+    {
+      "file": "additional-download-manifest.json",
+      "bytes": 2389,
+      "sha256": "501B1282F3E234E3EA4988528B8950FFC9DA8F78721EEB7552DAD92D8C595FA1"
+    },
+    {
+      "file": "report.md",
+      "bytes": 10467,
+      "sha256": "1D7C2C438C7A96454BCA3F99912A0AE4C18F59FC58A1B2DDA472D5BFDFE5DB6E"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\download-manifest.json",
+      "bytes": 2501,
+      "sha256": "B1C1F8FF916435D28CA2A51EA3D57EF5B5A202E9C6CCB6CAE50B1EA379DA948F"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\metadata.json",
+      "bytes": 187,
+      "sha256": "00BA2BE4B5CC7E3B2C41C8818CE6B01C532F87E12B137B72DF7EA5B4A6F8A978"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\README.md",
+      "bytes": 6979,
+      "sha256": "B8E89B41DBB231545DA27C8F54D57CB7C5B9C348DEA66B380A14B9DC25326F77"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\tree.json",
+      "bytes": 26431,
+      "sha256": "ECFAD8C43F5F8D8942BC54925D2D17E39DCEDD64EB860B084ED5A8BF725593CA"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\envs\\__init__.py",
+      "bytes": 2581,
+      "sha256": "9DCAC7E350FC1EA0DFE2E3903E7F87D16CFACE0E39B1DFFBE66A4529EF9AF684"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\envs\\base\\legged_robot.py",
+      "bytes": 75126,
+      "sha256": "EA82A982A8D1152D804E8004D9D7C381DC3C65CA9859A43E487346F7160CD839"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\envs\\base\\legged_robot_config.py",
+      "bytes": 11655,
+      "sha256": "3570B9CB26E36CF933B9EA9C7B7B6ED1206DDF760365C010D88AE34D0FBD98A5"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\envs\\wheel_legged\\wheel_legged_config.py",
+      "bytes": 3018,
+      "sha256": "63BD12C1870BC65606F225439FA565373A8938F2C8497DD9079ED88A26E1295E"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\envs\\wheel_legged_vmc\\wheel_legged_vmc.py",
+      "bytes": 32418,
+      "sha256": "04AB973FA341298CC9442A15E0E00964264BA2CEFC63CCFD1CD7AE6BA0ECB257"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\envs\\wheel_legged_vmc\\wheel_legged_vmc_config.py",
+      "bytes": 3147,
+      "sha256": "326EC1494D7FC90B2980DEAD12FDE1A21AF5466EE67E57C56082107F02D17FBE"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\envs\\wheel_legged_vmc_flat\\wheel_legged_vmc_flat_config.py",
+      "bytes": 2116,
+      "sha256": "214A95F16697FE21BCCD9F49CCDCA65D6062D0CE51C03547719A95FB96222EF9"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\rsl_rl\\algorithms\\ppo.py",
+      "bytes": 11020,
+      "sha256": "981C042A9A1F86D8BCB58C596F509C89248BEF1978268C9B58146E848E464429"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\rsl_rl\\modules\\actor_critic.py",
+      "bytes": 6227,
+      "sha256": "92FE333BBD5CE0E74F5FB0569ADBCFAE13736585AC5BA07711DEE635874D18E2"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\rsl_rl\\modules\\actor_critic_sequence.py",
+      "bytes": 8965,
+      "sha256": "D79860525F7D356E621E0492BAD1EAD0C1D0E9EA7169EE08EAF4035230F75BFB"
+    },
+    {
+      "file": "clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\scripts\\play.py",
+      "bytes": 10302,
+      "sha256": "930AE6F4F42C432BE5A9C917FB6E25AFBEE27D4E392CD296459077DA261F98FC"
+    },
+    {
+      "file": "MarcDcls__mjlab_upkie\\metadata.json",
+      "bytes": 172,
+      "sha256": "2AA5E453ED53D579029098D227037F4A201C0F7B187E6D2D6C734A449D742E9B"
+    },
+    {
+      "file": "MarcDcls__mjlab_upkie\\README.md",
+      "bytes": 6338,
+      "sha256": "C8B275490AED31AF7AEA868818997D37B301971D4EA85E7E281DC8C94E5FD33D"
+    },
+    {
+      "file": "MarcDcls__mjlab_upkie\\tree.json",
+      "bytes": 28568,
+      "sha256": "5D686944882182A872314ECEF19CD070B146A285060EDBA1E5B66295326F8685"
+    },
+    {
+      "file": "MarcDcls__mjlab_upkie\\src\\mjlab_upkie\\tasks\\upkie_velocity_env_cfg.py",
+      "bytes": 14353,
+      "sha256": "18633737B0C068E2C295E931E760F03EC8DAE8138DAAB898CF70936E7D0A1720"
+    },
+    {
+      "file": "primary-pages\\caps-official.html",
+      "bytes": 10253,
+      "sha256": "205B102A3D63E9AB0B7E350197A933464A132E9AD59FDF89ED3EBA05299A0955"
+    },
+    {
+      "file": "primary-pages\\clearlab-official.html",
+      "bytes": 293214,
+      "sha256": "BE01D28FDF3D386F9FB1C11AA9365A4F895E2986BBD2753DE2D0366B68DC4087"
+    },
+    {
+      "file": "primary-pages\\eth-anymal-wheels-2405.01792v1.html",
+      "bytes": 337505,
+      "sha256": "D10D3A7FF9AFF5348E072957878E36CA4DBFA96A5F32C0A66487062B0FCEEC53"
+    },
+    {
+      "file": "primary-pages\\eth-ascento-2402.06143v1.html",
+      "bytes": 167210,
+      "sha256": "7E6F1FDB3E2F1AD17EBC5294D1356A2095CD15F8EFB40FEE0B685054BFD6C21B"
+    },
+    {
+      "file": "primary-pages\\hkust-flores-2507.22345v2.html",
+      "bytes": 167621,
+      "sha256": "E54AA13D8A73FD2F497A295ABDE9B732239276B7EF26D662391C60A9CB41EE5D"
+    },
+    {
+      "file": "upkie__upkie\\metadata.json",
+      "bytes": 163,
+      "sha256": "D2B9320773044A811A94DACECE67A7047CC39B89EBCA330B2CDF20E7EB322844"
+    },
+    {
+      "file": "upkie__upkie\\README.md",
+      "bytes": 6009,
+      "sha256": "A0370382400FD7065ED165A02C956EBE4B0353F662FD9A01A50DC554015F696C"
+    },
+    {
+      "file": "upkie__upkie\\tree.json",
+      "bytes": 121073,
+      "sha256": "4B1E88BBD681EEDD79A40B156070A8CCAB3083D59878E0AE90DAEB176D2D8A60"
+    },
+    {
+      "file": "XinLang2019__awesome-wheeled-legged\\metadata.json",
+      "bytes": 186,
+      "sha256": "CE6AB954B6DDE410A06A6E1683091DA13F6E38AC9674EEDB1FCEBC9395237CF0"
+    },
+    {
+      "file": "XinLang2019__awesome-wheeled-legged\\README.md",
+      "bytes": 4617,
+      "sha256": "5556B7EE29184E4E264BA35E56EF884542DF7641FD5169AB69CB20D948894756"
+    },
+    {
+      "file": "XinLang2019__awesome-wheeled-legged\\tree.json",
+      "bytes": 9977,
+      "sha256": "A372EA235F4E4C44D7834AF656CD0E2F3EFCD33A46A9FE5F16A15368AA03FAFF"
+    },
+    {
+      "file": "ZhichengSong6__FLORES\\metadata.json",
+      "bytes": 172,
+      "sha256": "445415F231B82143C989899C49F33B09CB29C240374601FA951E47DA1A5105BB"
+    },
+    {
+      "file": "ZhichengSong6__FLORES\\README.md",
+      "bytes": 4139,
+      "sha256": "51B3E9247E9B9C87725D4C45D55AD7A7787700479ECD318386120276AA9A51D5"
+    },
+    {
+      "file": "ZhichengSong6__FLORES\\tree.json",
+      "bytes": 304974,
+      "sha256": "EBCEA9D9C67EBFE668B9FBCB9D75ADED355A0065A1871A0E6D78182533301B8A"
+    },
+    {
+      "file": "ZhichengSong6__FLORES\\code\\HIM_FLORES\\mdog_config.py",
+      "bytes": 9022,
+      "sha256": "CC44546636E1B33B86D6068FE4DB9DBF31325CBB8D0E6C6C9CC47C6156A3ADFA"
+    },
+    {
+      "file": "ZhichengSong6__FLORES\\code\\Mdog\\controllers\\rl_quadruped_controller\\src\\RlQuadrupedController.cpp",
+      "bytes": 11161,
+      "sha256": "53BFAE46E3F467579769F525D9501FD4E0BDC2C6E980BB22361F417A8C5393C2"
+    },
+    {
+      "file": "ZhichengSong6__FLORES\\code\\Mdog\\controllers\\rl_quadruped_controller\\src\\control\\LowPassFilter.cpp",
+      "bytes": 759,
+      "sha256": "3CF90935851AB34C3BDF2BBCC3EF8CFF1691E98DE4B28783682BD6A44AB199BE"
+    },
+    {
+      "file": "ZhichengSong6__FLORES\\code\\Mdog\\controllers\\rl_quadruped_controller\\src\\FSM\\StateRL.cpp",
+      "bytes": 19819,
+      "sha256": "DC4DDC6015B4FD8CB3C7728076DE5E993FA4753034F9EEE3B281FE26254C76C1"
+    },
+    {
+      "file": "ZhichengSong6__FLORES\\code\\Mdog\\descriptions\\mdog\\mdog_description\\config\\legged_gym\\config.yaml",
+      "bytes": 1655,
+      "sha256": "65936D91F779F89B9FA61058B670DECC3D79A67B30EA857ADE0A34B13F8AC55C"
+    }
+  ],
+  "protected_file_count": 211,
+  "protected_files_unchanged": 211,
+  "protected_changes": [],
+  "source_evidence": [
+    {
+      "file": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\university-wheelleg-review-20261013-v1\\clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\envs\\base\\legged_robot.py",
+      "function": "_reward_dof_vel",
+      "start": 1663,
+      "end": 1667,
+      "source": "def _reward_dof_vel(self):\n        # Penalize dof velocities\n        return torch.sum(torch.square(self.dof_vel[:, :2]), dim=1) + torch.sum(\n            torch.square(self.dof_vel[:, 3:5]), dim=1\n        )"
+    },
+    {
+      "file": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\university-wheelleg-review-20261013-v1\\clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\envs\\base\\legged_robot.py",
+      "function": "_reward_dof_acc",
+      "start": 1669,
+      "end": 1671,
+      "source": "def _reward_dof_acc(self):\n        # Penalize dof accelerations\n        return torch.sum(torch.square(self.dof_acc), dim=1)"
+    },
+    {
+      "file": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\university-wheelleg-review-20261013-v1\\clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\envs\\base\\legged_robot.py",
+      "function": "_reward_action_rate",
+      "start": 1673,
+      "end": 1675,
+      "source": "def _reward_action_rate(self):\n        # Penalize changes in actions\n        return torch.sum(torch.square(self.last_actions[:, :, 0] - self.actions), dim=1)"
+    },
+    {
+      "file": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\university-wheelleg-review-20261013-v1\\clearlab-sustech__Wheel-Legged-Gym\\wheel_legged_gym\\envs\\base\\legged_robot.py",
+      "function": "_reward_action_smooth",
+      "start": 1677,
+      "end": 1693,
+      "source": "def _reward_action_smooth(self):\n        # Penalize changes in actions\n        return torch.sum(\n            torch.square(\n                self.actions[:, :2]\n                - 2 * self.last_actions[:, :2, 0]\n                + self.last_actions[:, :2, 1]\n            ),\n            dim=1,\n        ) + torch.sum(\n            torch.square(\n                self.actions[:, 3:5]\n                - 2 * self.last_actions[:, 3:5, 0]\n                + self.last_actions[:, 3:5, 1]\n            ),\n            dim=1,\n        )"
+    }
+  ],
+  "limitations": [
+    "SUSTech hardware full deployment not present in reviewed repository",
+    "FLORES full training environment and PPO code not present in reviewed repository",
+    "ETH claims based on original paper and supplementary materials; full training not reproduced",
+    "No policy-level zero-jitter or transfer guarantee inferred from public videos",
+    "Upkie external framework and deployment not fully audited"
+  ]
+}

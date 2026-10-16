@@ -1,0 +1,6 @@
+{
+  "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-48-19_portable_fudan-v1_reversal-source-60e7790b",
+  "initialized": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-48-31_portable_fudan-v1_reversal-init-60e7790b",
+  "resumed": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-48-46_portable_fudan-v1_reversal-resume-60e7790b",
+  "export": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\integration-final\\test_real_weights_initializati0\\export"
+}

@@ -1,0 +1,41 @@
+{
+  "physics_rows": 10000,
+  "physics_dt_s": 0.001,
+  "exact_original_runtime_control_trace": {
+    "history": true,
+    "raw": true,
+    "q": true,
+    "v": true,
+    "applied": true,
+    "user_command": true,
+    "policy_command": true,
+    "correction": true
+  },
+  "actual_accel_rms_rad_s2": [
+    1.9565845823195822,
+    5.0282585140350315,
+    3.9050164073469626,
+    2.4319723482726645,
+    73.41002828350145,
+    68.8061720943244
+  ],
+  "actual_accel_p99_rad_s2": [
+    5.493967833319382,
+    11.816550629617192,
+    6.419239092433495,
+    3.7164290089780683,
+    120.12798382324682,
+    109.53330857238788
+  ],
+  "torque_rms_nm": [
+    2.45552330809654,
+    1.7323911908836693,
+    1.6500077346457813,
+    2.4305452472480193,
+    3.8005623328377025,
+    3.627986494588986
+  ],
+  "wrapper_added_forward_or_integration_calls": false,
+  "training_started": false,
+  "production_modified": false
+}

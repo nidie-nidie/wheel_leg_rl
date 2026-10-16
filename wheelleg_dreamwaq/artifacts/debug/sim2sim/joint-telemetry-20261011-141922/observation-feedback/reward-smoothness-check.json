@@ -1,0 +1,20 @@
+{
+  "source": "MuJoCo recorded clipped actions evaluated using the frozen training reward formula; not an Isaac training reward measurement.",
+  "scope": "All 6 actions: 4 legs and 2 wheels, normalized action space.",
+  "weights": {
+    "action_rate": -0.01,
+    "action_smooth": -0.01
+  },
+  "control_dt_s": 0.02,
+  "stationary_window_s": [
+    2,
+    10
+  ],
+  "mean_action_rate_penalty_per_control_step": -0.0005245148786343634,
+  "mean_action_smooth_penalty_per_control_step": -0.0010753169190138578,
+  "mean_combined_penalty_per_control_step": -0.0015998318558558822,
+  "mean_positive_vx_tracking_reward_per_control_step": 0.03988425205127235,
+  "combined_penalty_vs_positive_vx_reward_fraction": 0.040111868057579526,
+  "wheel_fraction_of_rate_and_smooth_penalty": 0.9935207366943359,
+  "training_applies_no_runtime_smoothing_filter": true
+}

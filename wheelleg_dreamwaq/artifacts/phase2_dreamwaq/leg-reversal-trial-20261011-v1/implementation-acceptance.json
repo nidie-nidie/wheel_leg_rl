@@ -1,0 +1,34 @@
+{
+  "unit": {
+    "passed": 201,
+    "command": "python -m pytest tests/unit -q",
+    "artifact": "unit-final2"
+  },
+  "isaac_integration": {
+    "passed": 2,
+    "duration_seconds": 60.62,
+    "artifact": "integration-final",
+    "coverage": [
+      "control-step counting",
+      "unaltered targets",
+      "partial reset/no time advancement",
+      "weights-only initialization",
+      "resume",
+      "play",
+      "golden32 and same-batch1/3/32"
+    ]
+  },
+  "initial_test_failures_resolved": [
+    "JSON tuple/list fixture canonicalization",
+    "compare Python vs TorchScript at identical batch size; retain 1e-7 tolerance"
+  ],
+  "self_review": {
+    "ppo_network_storage_unchanged": true,
+    "no_physics_control_observation_changes": true,
+    "baseline_profile_and_hash_compatibility": true,
+    "ordinary_resume_stays_strict": true,
+    "gain_finite_bounded_rollout_boundary_state_validated": true
+  },
+  "git_diff_check_exit_code": 0,
+  "agents_invoked": false
+}

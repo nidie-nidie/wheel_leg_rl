@@ -1,0 +1,205 @@
+{
+  "schema_version": "MujocoStationaryJointComparisonV1",
+  "command": [
+    0,
+    0,
+    0.2
+  ],
+  "duration_s": 0.4,
+  "window": "simulated 2\u201310s; initial transient excluded",
+  "main_comparison": "old_1000 vs new_1000; old_1401 is supplementary",
+  "semantics": "Same frozen model, reset, command, runtime. Logging changes no control outputs or simulation steps.",
+  "model_xml_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "results": {
+    "old_1000": {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_999.pt",
+      "checkpoint_sha256": "3D621280CF7F11088C972B0DD84CF2E698C29A4C8CDA8BC370BB80A2669DF885",
+      "completed_iterations": 1000,
+      "source_seed": 41882943,
+      "action_smooth_weight": -0.01,
+      "control_frames": 20,
+      "completed": true,
+      "failure_reason": null,
+      "window_s": [
+        2,
+        10
+      ],
+      "window_frames": 0,
+      "joint_metrics": {
+        "jIJ": {
+          "target_step_rms_rad": null,
+          "actual_velocity_rms_rad_s": null,
+          "actual_target_error_rms_rad": null,
+          "action_second_difference_rms": null,
+          "target_std_rad": null,
+          "action_at_limit_fraction": null,
+          "actual_acceleration_rms_rad_s2": null
+        },
+        "jIO": {
+          "target_step_rms_rad": null,
+          "actual_velocity_rms_rad_s": null,
+          "actual_target_error_rms_rad": null,
+          "action_second_difference_rms": null,
+          "target_std_rad": null,
+          "action_at_limit_fraction": null,
+          "actual_acceleration_rms_rad_s2": null
+        },
+        "jAB": {
+          "target_step_rms_rad": null,
+          "actual_velocity_rms_rad_s": null,
+          "actual_target_error_rms_rad": null,
+          "action_second_difference_rms": null,
+          "target_std_rad": null,
+          "action_at_limit_fraction": null,
+          "actual_acceleration_rms_rad_s2": null
+        },
+        "jAG": {
+          "target_step_rms_rad": null,
+          "actual_velocity_rms_rad_s": null,
+          "actual_target_error_rms_rad": null,
+          "action_second_difference_rms": null,
+          "target_std_rad": null,
+          "action_at_limit_fraction": null,
+          "actual_acceleration_rms_rad_s2": null
+        }
+      },
+      "vx_mae_mps": null,
+      "wheel_target_step_rms_rad_s": [
+        null,
+        null
+      ],
+      "phi0_mean_deg": [
+        null,
+        null
+      ],
+      "pitch_rms_deg": null
+    },
+    "new_1000": {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_16-07-48_portable_fudan-v1_practice-resume16-027f459a\\model_2.pt",
+      "checkpoint_sha256": "4B66260FB972A2EBDE13151D90AB932E8C7B75474DBAFB329FA1214404B4BC42",
+      "completed_iterations": 3,
+      "source_seed": 20261011,
+      "action_smooth_weight": -0.02,
+      "control_frames": 20,
+      "completed": true,
+      "failure_reason": null,
+      "window_s": [
+        2,
+        10
+      ],
+      "window_frames": 0,
+      "joint_metrics": {
+        "jIJ": {
+          "target_step_rms_rad": null,
+          "actual_velocity_rms_rad_s": null,
+          "actual_target_error_rms_rad": null,
+          "action_second_difference_rms": null,
+          "target_std_rad": null,
+          "action_at_limit_fraction": null,
+          "actual_acceleration_rms_rad_s2": null
+        },
+        "jIO": {
+          "target_step_rms_rad": null,
+          "actual_velocity_rms_rad_s": null,
+          "actual_target_error_rms_rad": null,
+          "action_second_difference_rms": null,
+          "target_std_rad": null,
+          "action_at_limit_fraction": null,
+          "actual_acceleration_rms_rad_s2": null
+        },
+        "jAB": {
+          "target_step_rms_rad": null,
+          "actual_velocity_rms_rad_s": null,
+          "actual_target_error_rms_rad": null,
+          "action_second_difference_rms": null,
+          "target_std_rad": null,
+          "action_at_limit_fraction": null,
+          "actual_acceleration_rms_rad_s2": null
+        },
+        "jAG": {
+          "target_step_rms_rad": null,
+          "actual_velocity_rms_rad_s": null,
+          "actual_target_error_rms_rad": null,
+          "action_second_difference_rms": null,
+          "target_std_rad": null,
+          "action_at_limit_fraction": null,
+          "actual_acceleration_rms_rad_s2": null
+        }
+      },
+      "vx_mae_mps": null,
+      "wheel_target_step_rms_rad_s": [
+        null,
+        null
+      ],
+      "phi0_mean_deg": [
+        null,
+        null
+      ],
+      "pitch_rms_deg": null
+    },
+    "old_1401_reference": {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_13-32-11_rtx5070_fudan-v1_dreamwaq-stop-reverse-run03-resume1500-20261011-133153-seed41882943\\model_1400.pt",
+      "checkpoint_sha256": "75C08AB74F465EB57804267FF9915D0F4D1F55D01CD04FA181F906668351D681",
+      "completed_iterations": 1401,
+      "source_seed": 41882943,
+      "action_smooth_weight": -0.01,
+      "control_frames": 20,
+      "completed": true,
+      "failure_reason": null,
+      "window_s": [
+        2,
+        10
+      ],
+      "window_frames": 0,
+      "joint_metrics": {
+        "jIJ": {
+          "target_step_rms_rad": null,
+          "actual_velocity_rms_rad_s": null,
+          "actual_target_error_rms_rad": null,
+          "action_second_difference_rms": null,
+          "target_std_rad": null,
+          "action_at_limit_fraction": null,
+          "actual_acceleration_rms_rad_s2": null
+        },
+        "jIO": {
+          "target_step_rms_rad": null,
+          "actual_velocity_rms_rad_s": null,
+          "actual_target_error_rms_rad": null,
+          "action_second_difference_rms": null,
+          "target_std_rad": null,
+          "action_at_limit_fraction": null,
+          "actual_acceleration_rms_rad_s2": null
+        },
+        "jAB": {
+          "target_step_rms_rad": null,
+          "actual_velocity_rms_rad_s": null,
+          "actual_target_error_rms_rad": null,
+          "action_second_difference_rms": null,
+          "target_std_rad": null,
+          "action_at_limit_fraction": null,
+          "actual_acceleration_rms_rad_s2": null
+        },
+        "jAG": {
+          "target_step_rms_rad": null,
+          "actual_velocity_rms_rad_s": null,
+          "actual_target_error_rms_rad": null,
+          "action_second_difference_rms": null,
+          "target_std_rad": null,
+          "action_at_limit_fraction": null,
+          "actual_acceleration_rms_rad_s2": null
+        }
+      },
+      "vx_mae_mps": null,
+      "wheel_target_step_rms_rad_s": [
+        null,
+        null
+      ],
+      "phi0_mean_deg": [
+        null,
+        null
+      ],
+      "pitch_rms_deg": null
+    }
+  },
+  "report_hash": "8764365A565204A2215F8141CB7198FEC06B07F36A894A28BE1649915BB0E01F"
+}

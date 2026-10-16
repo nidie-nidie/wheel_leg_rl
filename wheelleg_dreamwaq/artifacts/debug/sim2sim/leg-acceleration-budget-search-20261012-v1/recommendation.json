@@ -1,0 +1,26 @@
+{
+  "accepted_budget": null,
+  "activate_for_deployment": false,
+  "actor": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\85\\export\\actor.ts",
+  "actor_sha256": "0314C48A295EAA6E99709FE600FA717B264814BAFF02444AF8D62C1C699896F2",
+  "automatic_large_training": false,
+  "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_02-02-02_rtx5070_fudan-v1_leg-accel-budget-search-20261012-budget85-200\\model_199.pt",
+  "comparison_sha256": "6A7A2C9E67B26E9EE790D2F071FFF05665B97B139EE81FA0DFFA3D3DA21C4E97",
+  "diagnostic_candidate_budget": 0.85,
+  "diagnostic_only": true,
+  "latest_run_is_last_training_not_acceptance": true,
+  "not_tested": [
+    0.75,
+    0.7
+  ],
+  "policy_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\85\\export\\policy_manifest.json",
+  "policy_manifest_sha256": "8EA6E172DF3ADE236EE6FB407BF803CF40565EC57E801EF9294E9665F9C7D8B8",
+  "reason": "35% lower aggregate acceleration and all three primary steady speed errors improved; still fails yaw-reversal and action-saturation gates.",
+  "schema_version": "LegAccelerationExploratoryRecommendationV1",
+  "search_branch": "predefined loosen branch after 80% improves acceleration but harms control",
+  "tested_budgets": [
+    0.8,
+    0.85,
+    0.9
+  ]
+}

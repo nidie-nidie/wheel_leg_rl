@@ -1,0 +1,126 @@
+{
+  "actuator_audit": {
+    "physics_steps": 42400,
+    "command_vs_frozen_pd_law_max_abs_error_nm": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "actuator_vs_command_max_abs_error_nm": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "selected_joint_qfrc_applied_max_abs_nm": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "passed": true
+  },
+  "network_temporal_attribution": {
+    "left_wheel": {
+      "integration_subdivisions": 32,
+      "max_change_reconstruction_error": 0.00025391578674316406,
+      "raw_action_change_rms": 1.7203365564346313,
+      "group_contributions": {
+        "gyro": {
+          "rms": 0.7692199945449829,
+          "signed_projection": 0.18216955661773682
+        },
+        "gravity": {
+          "rms": 0.05233131721615791,
+          "signed_projection": 0.02095239982008934
+        },
+        "command": {
+          "rms": 0.0,
+          "signed_projection": 0.0
+        },
+        "leg_position": {
+          "rms": 0.08225391805171967,
+          "signed_projection": -0.0035290822852402925
+        },
+        "leg_velocity": {
+          "rms": 0.09076780825853348,
+          "signed_projection": 0.04385888949036598
+        },
+        "wheel_velocity": {
+          "rms": 0.6619324088096619,
+          "signed_projection": 0.3208245635032654
+        },
+        "previous_leg_action": {
+          "rms": 0.07739998400211334,
+          "signed_projection": 0.0153922438621521
+        },
+        "previous_wheel_action": {
+          "rms": 0.8376367092132568,
+          "signed_projection": 0.42034676671028137
+        }
+      },
+      "history_frame_signed_projection": [
+        0.026329414919018745,
+        0.1282314956188202,
+        0.13883399963378906,
+        0.5035901665687561,
+        0.2030303180217743
+      ]
+    },
+    "right_wheel": {
+      "integration_subdivisions": 32,
+      "max_change_reconstruction_error": 0.00014472007751464844,
+      "raw_action_change_rms": 1.2412340641021729,
+      "group_contributions": {
+        "gyro": {
+          "rms": 0.6175875067710876,
+          "signed_projection": 0.4493303894996643
+        },
+        "gravity": {
+          "rms": 0.04697393998503685,
+          "signed_projection": 0.0011834631441161036
+        },
+        "command": {
+          "rms": 0.0,
+          "signed_projection": 0.0
+        },
+        "leg_position": {
+          "rms": 0.02905195951461792,
+          "signed_projection": -0.0062875086441636086
+        },
+        "leg_velocity": {
+          "rms": 0.05633027106523514,
+          "signed_projection": 0.01853228732943535
+        },
+        "wheel_velocity": {
+          "rms": 0.5760065913200378,
+          "signed_projection": 0.29867351055145264
+        },
+        "previous_leg_action": {
+          "rms": 0.04897492751479149,
+          "signed_projection": 0.0029512979090213776
+        },
+        "previous_wheel_action": {
+          "rms": 0.4445633888244629,
+          "signed_projection": 0.2356301099061966
+        }
+      },
+      "history_frame_signed_projection": [
+        -0.08776884526014328,
+        0.09007168561220169,
+        -0.00013917082105763257,
+        0.2581118047237396,
+        0.7397380471229553
+      ]
+    }
+  },
+  "attribution_limit": "A computation decomposition on recorded states, not physical causal percentages. Negative and over-one projections can occur through cancellation.",
+  "protected_files_unchanged": true
+}

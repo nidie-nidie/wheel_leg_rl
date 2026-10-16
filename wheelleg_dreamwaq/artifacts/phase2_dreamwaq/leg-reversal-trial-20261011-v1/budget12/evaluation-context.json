@@ -1,0 +1,10 @@
+{
+  "context_hash": "E49C42572ED831312310F6B249A96F2318936E68A3D9BA7BB68C9198EEB67562",
+  "iterations_per_run": 200,
+  "run_count": 3,
+  "schema_version": "LegReversalTrialEvaluationContextV1",
+  "suite_id": "leg-reversal-trial-20261011-v1",
+  "suite_mode": "single_seed_leg_reversal_trial",
+  "suite_source_fingerprint_hash": "FA40027FA51DE3C185D1526F26D94C7A5D6EC6941C34CAF2117A355FF3906C16",
+  "training_fingerprint_hash": "A1C5E6F31B307FB5955F15F93DF85A8AC216A345BA0055B900DB827D5311A318"
+}

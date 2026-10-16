@@ -1,0 +1,155 @@
+{
+  "causal_root_cause_established": false,
+  "control_dt_s": 0.02,
+  "control_rows": 2120,
+  "input_hashes": {
+    "control.csv": "81E732B8B0BCC0AF316DF859BB5AFAB45F89B8783EDBF47578F873E43DF15888",
+    "events.jsonl": "4F45AB577AA79300163FAFFBBA56A8B4E226234E58A47C6A87849028CE080FB3",
+    "physics.csv": "ECCD575FEA7FC3077498D633DED5157059F4CEDD8990E1A41D9CBCB392AFCF66",
+    "telemetry_manifest.json": "D6DC216CF58C21D8BDFA2E4E224F3706BAC7D6854DC8339F11CAEEAF036D1CC8"
+  },
+  "joints": {
+    "jAB": {
+      "actual_q_p5_p95_deg": [
+        -38.595031605486284,
+        -38.24486492745351
+      ],
+      "actual_qdot_peak_spectral_frequency_hz": 16.963292547274747,
+      "actual_qdot_rms_rad_s": 0.11149618968320311,
+      "clipped_action_sign_changes_per_s": 0.0,
+      "control_endpoint_accel_rms_rad_s2": 8.359526442273141,
+      "effort_saturation_fraction_all_substeps": 0.0,
+      "physics_endpoint_accel_rms_rad_s2": 9.649275707352201,
+      "raw_action_saturation_fraction": 1.0,
+      "target_p5_p95_deg": [
+        -39.17148235605354,
+        -39.17148235605354
+      ],
+      "target_peak_spectral_frequency_hz": null,
+      "torque_sign_changes_per_s": 0.0
+    },
+    "jAG": {
+      "actual_q_p5_p95_deg": [
+        -2.1654475644435913,
+        -2.0147231986668874
+      ],
+      "actual_qdot_peak_spectral_frequency_hz": 10.956618464961068,
+      "actual_qdot_rms_rad_s": 0.07247276775913646,
+      "clipped_action_sign_changes_per_s": 0.0,
+      "control_endpoint_accel_rms_rad_s2": 5.301366750907115,
+      "effort_saturation_fraction_all_substeps": 0.0,
+      "physics_endpoint_accel_rms_rad_s2": 7.013032180071878,
+      "raw_action_saturation_fraction": 1.0,
+      "target_p5_p95_deg": [
+        -0.9355633031040865,
+        -0.9355633031040865
+      ],
+      "target_peak_spectral_frequency_hz": null,
+      "torque_sign_changes_per_s": 0.0
+    },
+    "jIJ": {
+      "actual_q_p5_p95_deg": [
+        -8.822421782777868,
+        -6.848565429769723
+      ],
+      "actual_qdot_peak_spectral_frequency_hz": 10.956618464961068,
+      "actual_qdot_rms_rad_s": 0.39060100511077683,
+      "clipped_action_sign_changes_per_s": 0.0,
+      "control_endpoint_accel_rms_rad_s2": 25.77425203535205,
+      "effort_saturation_fraction_all_substeps": 0.0,
+      "physics_endpoint_accel_rms_rad_s2": 31.448527712206804,
+      "raw_action_saturation_fraction": 0.0,
+      "target_p5_p95_deg": [
+        -10.744228149044881,
+        -7.1179908163201615
+      ],
+      "target_peak_spectral_frequency_hz": 10.956618464961068,
+      "torque_sign_changes_per_s": 23.555555555555557
+    },
+    "jIO": {
+      "actual_q_p5_p95_deg": [
+        17.36357758163962,
+        19.618227670380488
+      ],
+      "actual_qdot_peak_spectral_frequency_hz": 11.123470522803114,
+      "actual_qdot_rms_rad_s": 0.4301256704897723,
+      "clipped_action_sign_changes_per_s": 19.22222222222222,
+      "control_endpoint_accel_rms_rad_s2": 28.15623116441379,
+      "effort_saturation_fraction_all_substeps": 0.0,
+      "physics_endpoint_accel_rms_rad_s2": 30.50017391419344,
+      "raw_action_saturation_fraction": 0.0,
+      "target_p5_p95_deg": [
+        17.641822125174436,
+        21.07105122317754
+      ],
+      "target_peak_spectral_frequency_hz": 11.123470522803114,
+      "torque_sign_changes_per_s": 28.333333333333332
+    },
+    "jwheel_left": {
+      "actual_q_p5_p95_deg": null,
+      "actual_qdot_peak_spectral_frequency_hz": 11.123470522803114,
+      "actual_qdot_rms_rad_s": 2.4863822893646335,
+      "clipped_action_sign_changes_per_s": 22.333333333333332,
+      "control_endpoint_accel_rms_rad_s2": 156.02663375646435,
+      "effort_saturation_fraction_all_substeps": 0.7268181565642535,
+      "physics_endpoint_accel_rms_rad_s2": 156.10065097804068,
+      "raw_action_saturation_fraction": 0.5628476084538376,
+      "target_p5_p95_rad_s": [
+        -25.0,
+        25.0
+      ],
+      "torque_sign_changes_per_s": 22.38888888888889
+    },
+    "jwheel_right": {
+      "actual_q_p5_p95_deg": null,
+      "actual_qdot_peak_spectral_frequency_hz": 11.345939933259176,
+      "actual_qdot_rms_rad_s": 2.086913962631527,
+      "clipped_action_sign_changes_per_s": 30.555555555555557,
+      "control_endpoint_accel_rms_rad_s2": 144.42423123967433,
+      "effort_saturation_fraction_all_substeps": 0.5495860881160064,
+      "physics_endpoint_accel_rms_rad_s2": 144.55895768996325,
+      "raw_action_saturation_fraction": 0.271412680756396,
+      "target_p5_p95_rad_s": [
+        -25.0,
+        25.0
+      ],
+      "torque_sign_changes_per_s": 30.61111111111111
+    }
+  },
+  "physics_dt_s": 0.001,
+  "physics_rows": 42400,
+  "schema": "Interactive85JitterFollowupV1",
+  "visible_jitter_resolved": false,
+  "zero_command_after_reversal_26_to_42s": {
+    "cenet_vx_error_mae_mps": 0.027074389621011875,
+    "max_tilt_deg": 2.8277278081888544,
+    "pitch_p5_p95_deg": [
+      0.5087821253555347,
+      1.7346950396153469
+    ],
+    "roll_p5_p95_deg": [
+      1.5447046290652033,
+      1.7781356025230624
+    ],
+    "ticks": 801,
+    "vx_mae_mps": 0.02602216125300314,
+    "yaw_change_deg": -30.624906828381956,
+    "yaw_rate_mae_rad_s": 0.12390209622976082
+  },
+  "zero_command_initial_2_to_20s": {
+    "cenet_vx_error_mae_mps": 0.026946048007512338,
+    "max_tilt_deg": 2.816273197916115,
+    "pitch_p5_p95_deg": [
+      0.5543593747847874,
+      1.8185779076690558
+    ],
+    "roll_p5_p95_deg": [
+      1.564095354719089,
+      1.7971169781037486
+    ],
+    "ticks": 899,
+    "vx_mae_mps": 0.030773484934726276,
+    "yaw_change_deg": -43.70305649361826,
+    "yaw_rate_mae_rad_s": 0.12658151548875451
+  }
+}

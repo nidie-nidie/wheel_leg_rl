@@ -1,0 +1,143 @@
+{
+  "passed": true,
+  "checkpoint_count": 18,
+  "control_frames": 8078,
+  "physics_steps": 161560,
+  "original_export_checks": 4,
+  "prior_report_count": 9,
+  "protected_file_count": 193,
+  "protected_files_unchanged": true,
+  "production_code_or_parameters_changed": false,
+  "training_started": false,
+  "isaac_started": false,
+  "subagents_called": false,
+  "first_persistently_saturated_saved_original_model_completed_iterations": 201,
+  "previous_saved_model_completed_iterations": 101,
+  "onset_is_exact_training_iteration": false,
+  "checks": [
+    {
+      "checkpoint": "fresh1000_1",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "fresh1000_101",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "fresh1000_201",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "fresh1000_301",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "fresh1000_401",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "fresh1000_501",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "fresh1000_601",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "fresh1000_701",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "fresh1000_801",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "fresh1000_901",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "fresh1000_1000",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "baseline200_1",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "baseline200_101",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "baseline200_200",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "budget85_200_1",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "budget85_200_101",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "budget85_200_200",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    },
+    {
+      "checkpoint": "budget_search_baseline200_200",
+      "source_bound": true,
+      "summary_recomputed": true,
+      "target_mapping_recomputed": true
+    }
+  ],
+  "artifact_sha256": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\docs\\2026-10-13-dreamwaq-jitter-debug-index.md": "4625F56AE31EF0719FEEF4A2D33E72284002E715302796258C6CD4EFFB02646D",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-lineage-20261013-v1\\analyze.py": "F874BEB416007120E77C1C79DBD7561286FBBB28F6E63C04104FB347BCF1E567",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-lineage-20261013-v1\\checkpoint-inputs.json": "5FD5EC1ED3C797F17EA53854467D8255B2D90FE7EBEF486A86E8355E2BA98192",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-lineage-20261013-v1\\checkpoint-lineage.png": "4C3A499EF17642CF96472BE1E1AB8D470FF9308795B757949FB60D2C08F9B717",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-lineage-20261013-v1\\checkpoint-trajectories.npz": "BBBE1E65E5EBEEFBFAE672479ADC306D677E135B817E5E2CDE351FD76CE2CA2E",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-lineage-20261013-v1\\common-inputs.npz": "52A90FCC8934CEFF805E7676F94DDE4C328B184601F2BF9FE9F8978368200AFC",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-lineage-20261013-v1\\plan.md": "F1BEC1A384D161864C24D822672A1177B1D3FCFC2F86FDD006FFFDCF93319D76",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-lineage-20261013-v1\\prior-reports.json": "38BE40D73BBC636D3DA309D000B2EF337C0BAE9E6E7AA362CA3DF296DC78FBEF",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-lineage-20261013-v1\\protected-before.json": "0B5E5A1B296FE495C9695DFE0D9FECC746D87B94A1AC31C5C576D665E6513285",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-lineage-20261013-v1\\report.md": "03BF55D03459F96653DEFD10261BCC9E5E80E8BA00378D6C1C69A0F36F28F1F2",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-lineage-20261013-v1\\results.json": "46CEE7F736EEF8728186B25C825ABA6D05CCA89AB82FC196F3AF228A3480C1F1",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-lineage-20261013-v1\\trace.py": "868F9E3230EB2BC8BC6E5DB5983EE45BFAAC60C8C3F5FAEBF9B52A6B0F6CD5EE",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-lineage-20261013-v1\\training-and-budget-provenance.json": "E25779F0B59FB3A0C5B8660BACBF96C8BDDC66B521EDBB7D6D7751F2B2B772A5",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\right-leg-saturation-lineage-20261013-v1\\verify.py": "C3A3EA3B6390B5E5B994E571AE69A06C552185FE3B09772398BFE4B670A3DD4E"
+  }
+}

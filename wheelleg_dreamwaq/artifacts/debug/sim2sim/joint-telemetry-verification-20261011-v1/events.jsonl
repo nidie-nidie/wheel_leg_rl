@@ -1,0 +1,8 @@
+{"episode_id": 0, "control_id": -1, "episode_step": 0, "wall_elapsed_s": 0.0, "wall_utc": "2026-10-11T06:18:44.011074+00:00", "time_s": 0.0, "event": "reset", "command": [0.0, 0.0, 0.2]}
+{"episode_id": 0, "control_id": -1, "episode_step": 0, "wall_elapsed_s": 0.0, "wall_utc": "2026-10-11T06:18:44.011074+00:00", "time_s": 0.0, "event": "key", "key": "R", "command": [0.0, 0.0, 0.2], "paused": false}
+{"episode_id": 1, "control_id": 79, "episode_step": 0, "wall_elapsed_s": 0.4220000000204891, "wall_utc": "2026-10-11T06:18:44.422483+00:00", "time_s": 0.0, "event": "reset", "command": [0.0, 0.0, 0.2]}
+{"episode_id": 1, "control_id": 79, "episode_step": 0, "wall_elapsed_s": 0.4220000000204891, "wall_utc": "2026-10-11T06:18:44.422483+00:00", "time_s": 0.0, "event": "key", "key": "R", "command": [0.0, 0.0, 0.2], "paused": false}
+{"episode_id": 2, "control_id": 159, "episode_step": 0, "wall_elapsed_s": 0.7810000001918525, "wall_utc": "2026-10-11T06:18:44.785226+00:00", "time_s": 0.0, "event": "reset", "command": [0.0, 0.0, 0.2]}
+{"episode_id": 2, "control_id": 159, "episode_step": 0, "wall_elapsed_s": 0.7810000001918525, "wall_utc": "2026-10-11T06:18:44.785226+00:00", "time_s": 0.0, "event": "key", "key": "R", "command": [0.0, 0.0, 0.2], "paused": false}
+{"episode_id": 2, "control_id": 239, "episode_step": 80, "wall_elapsed_s": 1.1560000001918525, "wall_utc": "2026-10-11T06:18:45.165330+00:00", "time_s": 1.5999999999999346, "event": "jitter_mark", "key": "M", "command": [0.0, 0.2, 0.2]}
+{"episode_id": 2, "control_id": 239, "episode_step": 80, "wall_elapsed_s": 1.1560000001918525, "wall_utc": "2026-10-11T06:18:45.165330+00:00", "time_s": 1.5999999999999346, "event": "closed"}

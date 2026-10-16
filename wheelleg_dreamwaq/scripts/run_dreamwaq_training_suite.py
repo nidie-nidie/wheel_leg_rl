@@ -105,7 +105,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run the WheelLeg DreamWaQ training/evaluation suite.")
     parser.add_argument("--mode", choices=("formal", "smoke"), default="formal")
     parser.add_argument("--profile", choices=("portable", "rtx4060", "rtx5070"), default="rtx5070")
-    parser.add_argument("--task-profile", choices=("legacy_v1", "stop_reverse_v1", "stop_reverse_smooth_v1"), default="legacy_v1")
+    parser.add_argument("--task-profile", choices=("legacy_v1", "stop_reverse_v1", "stop_reverse_smooth_v1", "stop_reverse_accel80_v1", "stop_reverse_accel75_v1", "stop_reverse_accel70_v1", "stop_reverse_accel85_v1", "stop_reverse_accel90_v1"), default="legacy_v1")
     parser.add_argument("--candidate-only", action="store_true")
     parser.add_argument("--iterations", type=int, default=FORMAL_ITERATIONS)
     parser.add_argument("--runs", type=int, default=FORMAL_RUN_COUNT)

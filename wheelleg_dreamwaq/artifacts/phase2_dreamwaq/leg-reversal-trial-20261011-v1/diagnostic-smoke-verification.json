@@ -1,0 +1,5 @@
+{
+  "source_policy_smoke_common_columns_max_error": 0.0,
+  "frames": 20,
+  "diagnostic_reads_do_not_change_control_or_physics": true
+}

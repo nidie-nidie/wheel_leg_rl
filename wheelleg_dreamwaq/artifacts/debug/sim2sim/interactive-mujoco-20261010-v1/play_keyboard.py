@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import nullcontext
 import csv
 import json
 from pathlib import Path
@@ -16,8 +17,10 @@ import torch
 from wheelleg_mujoco.contract import load_policy_contract, sha256_file
 from wheelleg_mujoco.observation import build_actor_observation, collect_kinematic_state
 from wheelleg_mujoco.runner import WheelLegMujocoRuntime
+from debug.sim2sim.collect_dreamwaq_mujoco_trace import NoActionClipProbeController
 from base_contact import base_contact_state, create_model
 from keyboard_viewer import KeyboardViewer
+from joint_telemetry import JointTelemetry
 
 PROJECT = Path(__file__).resolve().parents[4]
 DEFAULT_EXPORT = PROJECT / "artifacts/phase2_dreamwaq/training-suite-20261010-001203-reset-v2/exports/run-04"
@@ -30,10 +33,14 @@ def main():
     parser.add_argument("--smoke", action="store_true", help="Check keyboard commands and run 20 ticks without opening a window.")
     parser.add_argument("--base-contact", action="store_true", help="Viewer experiment: enable the existing base box against the floor.")
     parser.add_argument("--max-speed", type=float, default=10.0, help="Keyboard speed target limit in m/s; default 10.0 (training limit is 1.5).")
+    parser.add_argument("--joint-telemetry", action="store_true", help="Record all six joints at every physics step; M marks visible jitter.")
+    parser.add_argument("--bypass-action-clip", action="store_true", help="Debug: use raw leg and wheel actions for targets; keep leg target limits, torque limits and clipped action history.")
     parser.add_argument("--session", type=Path, default=None, help="Directory for live status and keyboard trajectory.")
     args = parser.parse_args()
     if not np.isfinite(args.max_speed) or args.max_speed <= 0:
         parser.error("--max-speed must be finite and positive")
+    if args.bypass_action_clip and args.joint_telemetry:
+        parser.error("--bypass-action-clip uses trajectory.csv; joint telemetry requires the formal controller")
     model_path = PROJECT / "sim2sim/mujoco/models/wheel_leg_urdf4_v1.xml"
     contract, manifest, model_manifest = load_policy_contract(
         args.export / "policy_manifest.json", args.export / "actor.ts", PROJECT / "sim2sim/mujoco/model_manifest.json")
@@ -43,17 +50,23 @@ def main():
     if args.base_contact:
         model_path = create_model(model_path, Path(__file__).resolve().parent / "models/base_contact_debug.xml")
     runtime = WheelLegMujocoRuntime(model_path, contract, None if args.base_contact else model_manifest)
+    if args.bypass_action_clip:
+        runtime.controller = NoActionClipProbeController(runtime.controller)
     command = np.asarray((0, 0, .20), dtype=np.float64)
     ranges = manifest["command_sampling"]
     lower = np.asarray([ranges[key][0] for key in ("vx", "yaw_rate", "base_height")])
     upper = np.asarray([ranges[key][1] for key in ("vx", "yaw_rate", "base_height")])
     lower[0], upper[0] = -args.max_speed, args.max_speed
     vx_scale = contract.normalization["vx_max_abs"]
+    session = args.session or Path(__file__).resolve().parent / ("session-" + time.strftime("%Y%m%d-%H%M%S"))
+    telemetry = JointTelemetry(runtime, session, manifest) if args.joint_telemetry else None
 
     def reset_pose():
         runtime.reset(command)
         if runtime._history is not None:
             runtime._history[:, 6] = command[0] / vx_scale
+        if telemetry is not None:
+            telemetry.reset(command)
 
     reset_pose()
     pending = queue.SimpleQueue()
@@ -65,6 +78,8 @@ def main():
         nonlocal paused, quit_requested, fall_reason
         while not pending.empty():
             key = pending.get()
+            command_before = command.copy()
+            paused_before = paused
             if key == KEY_ESCAPE:
                 quit_requested = True
             elif key == ord("P"):
@@ -82,6 +97,11 @@ def main():
             elif key in (ord("Q"), ord("E")):
                 command[2] += .01 if key == ord("Q") else -.01
             command[:] = np.clip(command, lower, upper)
+            if telemetry is not None:
+                telemetry.event("jitter_mark" if key == ord("M") else "key",
+                                key="ESC" if key == KEY_ESCAPE else (chr(key) if 32 <= key <= 126 else f"KEY_{key}"),
+                                command_before=command_before.tolist(), command=command.tolist(),
+                                paused_before=paused_before, paused=paused)
 
     def tick():
         state = collect_kinematic_state(runtime.model, runtime.data, runtime.model_map, contract)
@@ -101,7 +121,11 @@ def main():
             action = policy(tensor).numpy()[0]
             estimated_vx = (float(policy.encoder(tensor)[0, 0]) / contract.normalization["root_linear_velocity_scale"]
                             if contract.policy_input_dimension == 125 else float("nan"))
+        if telemetry is not None:
+            telemetry.begin_control(action, command, observation, estimated_vx)
         result = runtime.step(action, command)
+        if telemetry is not None:
+            telemetry.end_control(result)
         if runtime._history is not None:
             runtime._history[-1, 6] = command[0] / vx_scale
         return result.metrics, estimated_vx
@@ -156,12 +180,16 @@ def main():
             "positive_and_negative_reset_history_and_policy_tick": "passed",
         }), flush=True)
         print("KEYBOARD_SMOKE_OK", json.dumps(metrics), flush=True)
+        if telemetry is not None:
+            telemetry.close()
         return
 
     help_text = (f"Speed target range: {-args.max_speed:+.1f} to {args.max_speed:+.1f} m/s (trained: {ranges['vx'][0]:+.1f} to {ranges['vx'][1]:+.1f})\n"
                  "W/S: speed +/- 0.1 | A/D: yaw +/- 0.1 | Q/E: height +/- 0.01\nX: zero speed/yaw | R: reset pose | P: pause/resume | Esc: close")
     mode = "BASE CONTACT DEBUG" if args.base_contact else "FORMAL WHEEL CONTACT"
-    print("RUN04_MUJOCO_KEYBOARD", mode, help_text, flush=True)
+    action_mode = "RAW LEG + WHEEL ACTIONS | target angle / torque limits ON" if args.bypass_action_clip else "FORMAL ACTION CLIP"
+    print("MUJOCO_KEYBOARD", mode, help_text, flush=True)
+    print("MUJOCO_ACTION_MODE", action_mode, flush=True)
     started = time.monotonic()
     # Passive viewer sync rewrites xfrc_applied. Render a separate model/data pair so
     # graphics and mouse interaction cannot clear runtime angular-limit torques.
@@ -170,11 +198,10 @@ def main():
     base_id = mujoco.mj_name2id(display_model, mujoco.mjtObj.mjOBJ_GEOM, "base_proxy")
     display_model.geom_group[base_id] = 2
     mujoco.mj_copyData(display_data, display_model, runtime.data)
-    session = args.session or Path(__file__).resolve().parent / ("session-" + time.strftime("%Y%m%d-%H%M%S"))
     session.mkdir(parents=True, exist_ok=True)
     log_stream = (session / "trajectory.csv").open("w", encoding="utf-8", newline="")
     csv_writer = None
-    with log_stream, KeyboardViewer(display_model, display_data, key_callback=pending.put,
+    with log_stream, (telemetry if telemetry is not None else nullcontext()), KeyboardViewer(display_model, display_data, key_callback=pending.put,
                                      show_left_ui=False, show_right_ui=False) as viewer:
         with viewer.lock():
             viewer.cam.distance = 1.1
@@ -205,6 +232,8 @@ def main():
                 if fall_reason:
                     paused = True
                     print("VIEWER_FALL_PAUSED", runtime.data.time, fall_reason, json.dumps(metrics), flush=True)
+                    if telemetry is not None:
+                        telemetry.event("fall_paused", reason=fall_reason, command=command.tolist())
                 row = {"time_s": runtime.data.time, "command_vx_mps": float(command[0]),
                        "command_yaw_rad_s": float(command[1]), "command_height_m": float(command[2]),
                        "estimated_vx_before_action_mps": estimated_vx, **metrics, **collision,
@@ -219,14 +248,18 @@ def main():
             with viewer.lock():
                 mujoco.mj_copyData(display_data, display_model, runtime.data)
                 viewer.cam.lookat[:] = display_data.xipos[runtime.model_map.base_body_id]
-            info = ("Run-04 | " + mode + " | " + ("PAUSED" if paused else "RUNNING") +
+            info = (f"DreamWaQ seed={manifest['source_seed']} | {manifest['source_completed_iterations']} iterations | " + mode + " | " + ("PAUSED" if paused else "RUNNING") +
                     f" | sim t={runtime.data.time:.1f}s\n"
+                    f"{action_mode}\n"
                     f"Command: vx={command[0]:+.2f} m/s  yaw={command[1]:+.2f} rad/s  height={command[2]:.2f} m\n"
                     f"Actual vx={metrics['vx_mps']:+.3f} m/s  CENet vx (before action)={estimated_vx:+.3f} m/s\n"
                     f"COM height={metrics['base_height_m']:.3f} m  tilt={np.rad2deg(metrics['tilt_rad']):.1f} deg\n"
                     f"Base box bottom={collision['base_proxy_min_z_m']:.3f} m  contacts={collision['base_floor_contact_count']}\n"
                     + (f"FALL: {fall_reason}. Press R to reset.\n" if fall_reason else "") + "\n" + help_text)
-            viewer.set_texts((mujoco.mjtFontScale.mjFONTSCALE_100, mujoco.mjtGridPos.mjGRID_TOPLEFT, info, ""))
+            overlays = [(mujoco.mjtFontScale.mjFONTSCALE_100, mujoco.mjtGridPos.mjGRID_TOPLEFT, info, "")]
+            if telemetry is not None:
+                overlays.append((mujoco.mjtFontScale.mjFONTSCALE_100, mujoco.mjtGridPos.mjGRID_TOPRIGHT, telemetry.overlay(), ""))
+            viewer.set_texts(overlays)
             viewer.sync(state_only=True)
             (session / "status.json").write_text(json.dumps({
                 "mode": mode, "paused": paused, "time_s": runtime.data.time, "command": command.tolist(),
@@ -235,6 +268,13 @@ def main():
                 "keyboard_renderer": "custom_glfw_no_native_shortcuts",
                 "command_limits": {"lower": lower.tolist(), "upper": upper.tolist()},
                 "trained_vx_normalization_scale": vx_scale,
+                "joint_telemetry_enabled": telemetry is not None,
+                "bypass_action_clip": args.bypass_action_clip,
+                "action_transform": "raw_target_with_clipped_history" if args.bypass_action_clip else "formal_clipped_target",
+                "actor_sha256": manifest["actor_sha256"],
+                "export": str(args.export.resolve()),
+                "episode_id": telemetry.episode_id if telemetry is not None else None,
+                "control_id": telemetry.control_id if telemetry is not None else None,
             }, indent=2), encoding="utf-8")
             time.sleep(max(0, contract.control_dt_s - (time.monotonic() - tick_start)))
     print("MUJOCO_VIEWER_CLOSED", flush=True)

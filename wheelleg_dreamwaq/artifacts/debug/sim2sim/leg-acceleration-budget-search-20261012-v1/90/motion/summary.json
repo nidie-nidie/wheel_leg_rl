@@ -1,0 +1,352 @@
+{
+  "base_task_hash": "254973727194DC01D104E40DA4B64E04032989FE7BE833D963BD86118FB03307",
+  "budget_fraction": 0.9,
+  "control_dt_s": 0.02,
+  "diagnostic_only": true,
+  "evaluator_sha256": "1F9B16731FB14EA6914FF29DA2D48A7673E151BF01D7FCD10C6E1C1DC4E83DC0",
+  "failure_rules_sha256": "546A0E7B7A2948256C9A62C061B752455DAD340C3523F04E5B54D0746ACD517F",
+  "isaac_used_for_data_collection": false,
+  "model_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "muJoCo_scenarios": [
+    "nominal_stand",
+    "low_stand",
+    "high_stand",
+    "forward",
+    "reverse",
+    "left_turn",
+    "right_turn",
+    "combined"
+  ],
+  "policy": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\90\\export\\actor.ts",
+  "policy_manifest_sha256": "C9283F5859F17EBD8E900744BE98566D8C03E4228A29A3689F2C1E0508E4C74F",
+  "policy_sha256": "EF06F53E81F766429C2D2E90D8DE64D0BEF227A2717D18AFD930C739EE547C36",
+  "report_hash": "65C7E76CA7D4F19497642BB863C9654DC98A3EC623B0985946F61E4918382941",
+  "scenario_files": {
+    "combined": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\90\\motion\\combined.csv",
+      "sha256": "E5C141C4A933288FFA92580AAFCC97998B2698C529ED5510DAAD849D327E40C7"
+    },
+    "forward": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\90\\motion\\forward.csv",
+      "sha256": "BBB6DCA605DC0409839C2E6508899704EA65DE7BE6128507A6A7E9D5F0FC4F60"
+    },
+    "high_stand": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\90\\motion\\high_stand.csv",
+      "sha256": "638FFB925CBB9693222A79A6CC4C2C7ABDC4796E4574D76BCBEE5CECF6A03731"
+    },
+    "left_turn": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\90\\motion\\left_turn.csv",
+      "sha256": "E33EB1C44FEB49E029ACC37AC460DFF43E3B89319B1612E53B319A6A8E49421D"
+    },
+    "low_stand": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\90\\motion\\low_stand.csv",
+      "sha256": "4B086A0B67E5BC695201B1242061F88E6D4D65F833E4267628667CDC9DE74D5E"
+    },
+    "nominal_stand": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\90\\motion\\nominal_stand.csv",
+      "sha256": "E7DC03B727DDA2660F954F4996B835A8F5CC46FAE052ACA966DE87E7C878EB44"
+    },
+    "reverse": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\90\\motion\\reverse.csv",
+      "sha256": "21CFEF72E4DC1FB7F7D5B2099EACBA4137B234AA072605D18EB0E149D21B2BAF"
+    },
+    "right_turn": {
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\90\\motion\\right_turn.csv",
+      "sha256": "42DADAE98EB24977588839D50035D43CC505F984116DFCC894AFE4CA66174937"
+    }
+  },
+  "scenarios": [
+    {
+      "action_saturation_fraction": 0.48233333333333334,
+      "actual_acceleration_rms_aggregate_mean_rad_s2": 12.853133601824979,
+      "actual_acceleration_rms_mean_rad_s2": [
+        16.552942651387657,
+        23.828913786176464,
+        6.487689456569465,
+        4.542988513166326
+      ],
+      "actual_acceleration_rms_p90_rad_s2": [
+        29.602443383416535,
+        25.107505852301454,
+        6.998661822128528,
+        4.720563590957749
+      ],
+      "command": [
+        0.0,
+        0.0,
+        0.2
+      ],
+      "effort_saturation_fraction": 0.25225,
+      "failure_reason": null,
+      "max_tilt_rad": 0.14109529978316512,
+      "metric_valid": true,
+      "scenario": "nominal_stand",
+      "steady_vx_mae_mps": 0.08442041053320687,
+      "survived": true,
+      "valid_ticks": 500,
+      "vx_mae_mps": 0.08013970187047174,
+      "window_count": 8,
+      "yaw_rate_mae_rad_s": 0.09189734619965796
+    },
+    {
+      "action_saturation_fraction": 0.5583333333333333,
+      "actual_acceleration_rms_aggregate_mean_rad_s2": 13.938009773983577,
+      "actual_acceleration_rms_mean_rad_s2": [
+        17.393928437835616,
+        24.104284581245782,
+        9.450764570523598,
+        4.803061506329311
+      ],
+      "actual_acceleration_rms_p90_rad_s2": [
+        19.23383633662812,
+        24.644697083924434,
+        9.943850495495338,
+        4.91300789516326
+      ],
+      "command": [
+        0.0,
+        0.0,
+        0.17
+      ],
+      "effort_saturation_fraction": 0.1979,
+      "failure_reason": null,
+      "max_tilt_rad": 0.15248241628457554,
+      "metric_valid": true,
+      "scenario": "low_stand",
+      "steady_vx_mae_mps": 0.11458731905649433,
+      "survived": true,
+      "valid_ticks": 500,
+      "vx_mae_mps": 0.10915251997986782,
+      "window_count": 8,
+      "yaw_rate_mae_rad_s": 0.1098615425296924
+    },
+    {
+      "action_saturation_fraction": 0.44799999999999995,
+      "actual_acceleration_rms_aggregate_mean_rad_s2": 12.698993036099514,
+      "actual_acceleration_rms_mean_rad_s2": [
+        19.44895735736406,
+        20.29492222287021,
+        6.7661732154831835,
+        4.2859193486806095
+      ],
+      "actual_acceleration_rms_p90_rad_s2": [
+        25.028888930140486,
+        24.668856472969097,
+        7.177774972899611,
+        5.337215487287526
+      ],
+      "command": [
+        0.0,
+        0.0,
+        0.23
+      ],
+      "effort_saturation_fraction": 0.2,
+      "failure_reason": null,
+      "max_tilt_rad": 0.13979005306653325,
+      "metric_valid": true,
+      "scenario": "high_stand",
+      "steady_vx_mae_mps": 0.07225040322586374,
+      "survived": true,
+      "valid_ticks": 500,
+      "vx_mae_mps": 0.06964301950221201,
+      "window_count": 8,
+      "yaw_rate_mae_rad_s": 0.11000351763113728
+    },
+    {
+      "action_saturation_fraction": 0.38499999999999995,
+      "actual_acceleration_rms_aggregate_mean_rad_s2": 4.397036425734621,
+      "actual_acceleration_rms_mean_rad_s2": [
+        4.66828652849003,
+        6.802260356427243,
+        4.581781640541747,
+        1.5358171774794664
+      ],
+      "actual_acceleration_rms_p90_rad_s2": [
+        5.956976313500387,
+        7.894976659440952,
+        5.491788921099466,
+        1.8502072830798448
+      ],
+      "command": [
+        1.0,
+        0.0,
+        0.2
+      ],
+      "effort_saturation_fraction": 0.011749999999999998,
+      "failure_reason": null,
+      "max_tilt_rad": 0.09196600705976668,
+      "metric_valid": true,
+      "scenario": "forward",
+      "steady_vx_mae_mps": 0.04794337847770402,
+      "survived": true,
+      "valid_ticks": 500,
+      "vx_mae_mps": 0.08215548272650994,
+      "window_count": 8,
+      "yaw_rate_mae_rad_s": 0.1923514751256884
+    },
+    {
+      "action_saturation_fraction": 0.39899999999999997,
+      "actual_acceleration_rms_aggregate_mean_rad_s2": 9.517092003203688,
+      "actual_acceleration_rms_mean_rad_s2": [
+        15.177633716490465,
+        14.149816954100942,
+        4.7067911371577145,
+        4.034126205065632
+      ],
+      "actual_acceleration_rms_p90_rad_s2": [
+        15.502649683638705,
+        14.364772958696228,
+        4.766290848664042,
+        4.070900192856873
+      ],
+      "command": [
+        -1.0,
+        0.0,
+        0.2
+      ],
+      "effort_saturation_fraction": 0.008316666666666668,
+      "failure_reason": null,
+      "max_tilt_rad": 0.18400181391168172,
+      "metric_valid": true,
+      "scenario": "reverse",
+      "steady_vx_mae_mps": 0.05750574992263388,
+      "survived": true,
+      "valid_ticks": 500,
+      "vx_mae_mps": 0.09812837821117702,
+      "window_count": 8,
+      "yaw_rate_mae_rad_s": 0.09246045173193636
+    },
+    {
+      "action_saturation_fraction": 0.43566666666666665,
+      "actual_acceleration_rms_aggregate_mean_rad_s2": 15.58733680177574,
+      "actual_acceleration_rms_mean_rad_s2": [
+        27.162515769480077,
+        26.222587579285094,
+        5.327085833671282,
+        3.6371580246665056
+      ],
+      "actual_acceleration_rms_p90_rad_s2": [
+        29.935322262765027,
+        27.912974647093783,
+        6.610672901780161,
+        4.4357036502426155
+      ],
+      "command": [
+        0.0,
+        0.6,
+        0.2
+      ],
+      "effort_saturation_fraction": 0.18309999999999998,
+      "failure_reason": null,
+      "max_tilt_rad": 0.11309882841594611,
+      "metric_valid": true,
+      "scenario": "left_turn",
+      "steady_vx_mae_mps": 0.0714604668310132,
+      "survived": true,
+      "valid_ticks": 500,
+      "vx_mae_mps": 0.0688990489278172,
+      "window_count": 8,
+      "yaw_rate_mae_rad_s": 0.1402359151390632
+    },
+    {
+      "action_saturation_fraction": 0.434,
+      "actual_acceleration_rms_aggregate_mean_rad_s2": 14.965794298510705,
+      "actual_acceleration_rms_mean_rad_s2": [
+        26.967517783965178,
+        24.853015456995536,
+        5.088532136321638,
+        2.9541118167604665
+      ],
+      "actual_acceleration_rms_p90_rad_s2": [
+        28.052009418155702,
+        26.34614525915412,
+        5.622257041277058,
+        3.296313673150368
+      ],
+      "command": [
+        0.0,
+        -0.6,
+        0.2
+      ],
+      "effort_saturation_fraction": 0.16746666666666665,
+      "failure_reason": null,
+      "max_tilt_rad": 0.16565237153694942,
+      "metric_valid": true,
+      "scenario": "right_turn",
+      "steady_vx_mae_mps": 0.10351959363932116,
+      "survived": true,
+      "valid_ticks": 500,
+      "vx_mae_mps": 0.09925455270758514,
+      "window_count": 8,
+      "yaw_rate_mae_rad_s": 0.1458756973162704
+    },
+    {
+      "action_saturation_fraction": 0.36366666666666664,
+      "actual_acceleration_rms_aggregate_mean_rad_s2": 4.707042519851086,
+      "actual_acceleration_rms_mean_rad_s2": [
+        5.526885377381738,
+        7.345814143377058,
+        4.203032165101668,
+        1.75243839354388
+      ],
+      "actual_acceleration_rms_p90_rad_s2": [
+        8.61270479005239,
+        9.485637174872641,
+        5.238681634945817,
+        2.5690457553357864
+      ],
+      "command": [
+        0.8,
+        0.5,
+        0.2
+      ],
+      "effort_saturation_fraction": 0.017833333333333336,
+      "failure_reason": null,
+      "max_tilt_rad": 0.0627654733834254,
+      "metric_valid": true,
+      "scenario": "combined",
+      "steady_vx_mae_mps": 0.012569567797100847,
+      "survived": true,
+      "valid_ticks": 500,
+      "vx_mae_mps": 0.04124341371537584,
+      "window_count": 8,
+      "yaw_rate_mae_rad_s": 0.17921565137908688
+    }
+  ],
+  "schema_version": "MujocoLegAccelerationBudgetEvaluationV1",
+  "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_02-16-45_rtx5070_fudan-v1_leg-accel-budget-search-20261012-budget90-200\\model_199.pt",
+  "source_checkpoint_sha256": "28179D5ED00E9571D82C9B96D5CA498C55078C026B7347CC3262918740DDFD9A",
+  "ticks": 500,
+  "training_acceleration_contract": {
+    "acceptance_signal": "one_second_window_RMS_p90_in_MuJoCo",
+    "budget_fraction": 0.9,
+    "budget_rule": "budget_j=budget_fraction*reference_rms_j",
+    "budget_units": "rad/s^2 RMS reference scaled per joint",
+    "control_dt": 0.02,
+    "enabled": true,
+    "gain_update": "clip(max_j(mean_excess_j)^2,0,1) at rollout boundary",
+    "joint_names": [
+      "jIJ",
+      "jIO",
+      "jAB",
+      "jAG"
+    ],
+    "max_penalty_weight": 0.02,
+    "reference_rms_rad_s2": [
+      40.1703144886,
+      38.3671852533,
+      7.0362190023,
+      4.9735461617
+    ],
+    "reference_source": "MuJoCo leg-motion-metric-analysis-20261012-v1",
+    "reference_units": "rad/s^2 RMS p90",
+    "resume_local_state": "clear_on_environment_reset",
+    "reward": "-control_dt*max_penalty_weight*gain_used*sum(excess_j)",
+    "rollout_steps": 24,
+    "schema_version": "LegActualAccelerationBudgetV1",
+    "training_signal": "instantaneous max(a_j^2-budget_j^2,0)/budget_j^2",
+    "zero_excess_included": true
+  },
+  "warmup_ticks": 100,
+  "window_ticks": 50
+}

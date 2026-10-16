@@ -1,0 +1,222 @@
+{
+  "commit": "4545b86a131d05519050df11a424368ef9f06b4f",
+  "flat": [
+    {
+      "name": "termination_penalty",
+      "weight": -200.0,
+      "function": "envs_mdp.is_terminated",
+      "line": 309
+    },
+    {
+      "name": "track_linear_velocity",
+      "weight": 2.0,
+      "function": "beni_mdp.track_linear_velocity_exp",
+      "line": 310
+    },
+    {
+      "name": "track_linear_velocity_sharp",
+      "weight": 1.0,
+      "function": "beni_mdp.track_linear_velocity_exp",
+      "line": 315
+    },
+    {
+      "name": "track_linear_velocity_l1",
+      "weight": -2.0,
+      "function": "beni_mdp.track_linear_velocity_l1",
+      "line": 320
+    },
+    {
+      "name": "track_yaw_velocity",
+      "weight": 2.5,
+      "function": "beni_mdp.track_yaw_velocity_exp",
+      "line": 325
+    },
+    {
+      "name": "base_height",
+      "weight": -100.0,
+      "function": "beni_mdp.base_height_below_minimum",
+      "line": 330
+    },
+    {
+      "name": "pose",
+      "weight": 1.0,
+      "function": "beni_mdp.supported_posture",
+      "line": 336
+    },
+    {
+      "name": "leg_symmetry",
+      "weight": -2.0,
+      "function": "beni_mdp.leg_symmetry_l2",
+      "line": 349
+    },
+    {
+      "name": "joint_pos_limits",
+      "weight": -1.0,
+      "function": "envs_mdp.joint_pos_limits",
+      "line": 356
+    },
+    {
+      "name": "joint_torques",
+      "weight": -2e-05,
+      "function": "envs_mdp.joint_torques_l2",
+      "line": 363
+    },
+    {
+      "name": "joint_acc",
+      "weight": -2.5e-07,
+      "function": "envs_mdp.joint_acc_l2",
+      "line": 368
+    },
+    {
+      "name": "leg_joint_vel",
+      "weight": -0.0002,
+      "function": "envs_mdp.joint_vel_l2",
+      "line": 373
+    },
+    {
+      "name": "base_tilt",
+      "weight": -4.0,
+      "function": "beni_mdp.base_tilt",
+      "line": 379
+    },
+    {
+      "name": "vertical_velocity",
+      "weight": -5.0,
+      "function": "beni_mdp.vertical_velocity_l2",
+      "line": 380
+    },
+    {
+      "name": "roll_pitch_velocity",
+      "weight": -0.1,
+      "function": "beni_mdp.roll_pitch_velocity_l2",
+      "line": 385
+    },
+    {
+      "name": "leg_action_rate",
+      "weight": -0.05,
+      "function": "beni_mdp.masked_action_rate_l2",
+      "line": 390
+    },
+    {
+      "name": "leg_action_acc",
+      "weight": -0.05,
+      "function": "beni_mdp.masked_action_acc_l2",
+      "line": 395
+    },
+    {
+      "name": "wheel_action_rate",
+      "weight": -0.5,
+      "function": "beni_mdp.masked_action_rate_l2",
+      "line": 400
+    },
+    {
+      "name": "wheel_action_acc",
+      "weight": -0.5,
+      "function": "beni_mdp.masked_action_acc_l2",
+      "line": 405
+    },
+    {
+      "name": "undesired_contacts",
+      "weight": -0.5,
+      "function": "beni_mdp.contact_count",
+      "line": 410
+    },
+    {
+      "name": "body_contact",
+      "weight": -3.0,
+      "function": "beni_mdp.any_contact",
+      "line": 415
+    }
+  ],
+  "jump_added": [
+    {
+      "name": "jump_heading",
+      "weight": -2.5,
+      "function": "jump.heading_error_huber",
+      "line": 35
+    },
+    {
+      "name": "large_tilt",
+      "weight": -20.0,
+      "function": "jump.large_tilt_l2",
+      "line": 37
+    },
+    {
+      "name": "jump_roll_angle",
+      "weight": -80.0,
+      "function": "jump.attitude_angle_huber",
+      "line": 39
+    },
+    {
+      "name": "jump_pitch_angle",
+      "weight": -30.0,
+      "function": "jump.attitude_angle_huber",
+      "line": 41
+    },
+    {
+      "name": "jump_roll_rate",
+      "weight": -4.0,
+      "function": "jump.attitude_rate_huber",
+      "line": 43
+    },
+    {
+      "name": "jump_pitch_rate",
+      "weight": -2.0,
+      "function": "jump.attitude_rate_huber",
+      "line": 45
+    },
+    {
+      "name": "jump_height_tracking_l1",
+      "weight": -1000.0,
+      "function": "jump.jump_height_tracking_l1",
+      "line": 47
+    },
+    {
+      "name": "jump_vel_tracking_l2",
+      "weight": -132.5826935437,
+      "function": "jump.jump_vel_tracking_l2",
+      "line": 49
+    },
+    {
+      "name": "jump_knee_regulation",
+      "weight": 200.0,
+      "function": "jump.jump_knee_regulation",
+      "line": 50
+    },
+    {
+      "name": "jump_direction_progress",
+      "weight": 20.0,
+      "function": "jump.jump_direction_progress",
+      "line": 51
+    },
+    {
+      "name": "jump_reverse_velocity_l1",
+      "weight": -20.0,
+      "function": "jump.jump_reverse_velocity_l1",
+      "line": 53
+    },
+    {
+      "name": "single_foot_penalty",
+      "weight": 5.0,
+      "function": "jump.single_foot_contact_penalty",
+      "line": 54
+    },
+    {
+      "name": "jump_takeoff_progress",
+      "weight": 200.0,
+      "function": "jump.jump_takeoff_progress",
+      "line": 55
+    },
+    {
+      "name": "jump_body_failure",
+      "weight": -5000.0,
+      "function": "jump.jump_body_failure",
+      "line": 57
+    }
+  ],
+  "recovery_overrides": {
+    "termination_penalty": -2500.0,
+    "base_height": -1500.0,
+    "pose": -1.5
+  }
+}

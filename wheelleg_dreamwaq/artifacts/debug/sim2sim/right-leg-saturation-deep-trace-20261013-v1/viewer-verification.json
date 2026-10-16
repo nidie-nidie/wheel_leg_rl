@@ -1,0 +1,35 @@
+{
+  "saved_frozen_trace_exact_cases": [
+    {
+      "scenario": "nominal_stand",
+      "frames": 500,
+      "exact_saved_trace": true
+    },
+    {
+      "scenario": "forward_stop_reverse",
+      "frames": 500,
+      "exact_saved_trace": true
+    },
+    {
+      "scenario": "reverse_stop_forward",
+      "frames": 500,
+      "exact_saved_trace": true
+    },
+    {
+      "scenario": "left_stop_right",
+      "frames": 500,
+      "exact_saved_trace": true
+    },
+    {
+      "scenario": "right_stop_left",
+      "frames": 500,
+      "exact_saved_trace": true
+    }
+  ],
+  "reset_and_keyboard_passed": true,
+  "protected_files_unchanged": 211,
+  "production_modified": false,
+  "training_started": false,
+  "viewer_source_sha256": "121F15543CD20503329D246544BCA6B3D44F2637CE051DBD14ABE6E624DE27EF",
+  "candidate_spec_sha256": "B6FE0396E870FCE32647554C78F6446C968061EAB381AB8702B9279BA06F572E"
+}

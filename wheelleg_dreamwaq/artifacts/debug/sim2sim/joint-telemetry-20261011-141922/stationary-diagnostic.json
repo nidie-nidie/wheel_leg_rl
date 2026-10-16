@@ -1,0 +1,115 @@
+{
+  "recorded_control_frames": 2296,
+  "recorded_simulated_s": 45.91999999998368,
+  "commands_vx_min_max": [
+    -1.0999999999999999,
+    1.3
+  ],
+  "stationary_window_simulated_s": [
+    2,
+    10
+  ],
+  "stationary_command": [
+    0,
+    0,
+    0.2
+  ],
+  "stationary_joint_statistics": {
+    "jIJ": {
+      "target_p05_p95_rad": [
+        -0.2863089356833362,
+        -0.18461587573226929
+      ],
+      "target_step_change_mae_rad": 0.030194361247683883,
+      "target_dominant_frequency_above_1hz": 9.022556390977442,
+      "actual_position_p05_p95_rad": [
+        -0.2393753184971814,
+        -0.18968832049911838
+      ],
+      "actual_velocity_rms_rad_s": 0.7215014100498007,
+      "clipped_action_fraction": 0.0,
+      "physics_torque_p05_p95_nm": [
+        -6.940712073920455,
+        1.9806369399117065
+      ],
+      "physics_torque_limit_fraction": 0.0,
+      "total_constraint_torque_p05_p95_nm": [
+        0.8629994496547464,
+        3.7474012463013544
+      ]
+    },
+    "jIO": {
+      "target_p05_p95_rad": [
+        0.33318570273753645,
+        0.4107473974191808
+      ],
+      "target_step_change_mae_rad": 0.022741273561277284,
+      "target_dominant_frequency_above_1hz": 9.022556390977442,
+      "actual_position_p05_p95_rad": [
+        0.3338242069095745,
+        0.3771293174116941
+      ],
+      "actual_velocity_rms_rad_s": 0.666742191500953,
+      "clipped_action_fraction": 0.0,
+      "physics_torque_p05_p95_nm": [
+        -2.2052913835343912,
+        5.3484397779668695
+      ],
+      "physics_torque_limit_fraction": 0.0,
+      "total_constraint_torque_p05_p95_nm": [
+        -4.024954054463102,
+        -0.11350935017329859
+      ]
+    },
+    "jAB": {
+      "target_p05_p95_rad": [
+        -0.68367134,
+        -0.68367134
+      ],
+      "target_step_change_mae_rad": 0.0,
+      "target_dominant_frequency_above_1hz": null,
+      "actual_position_p05_p95_rad": [
+        -0.671884116173358,
+        -0.6661717721306706
+      ],
+      "actual_velocity_rms_rad_s": 0.12543367017261153,
+      "clipped_action_fraction": 1.0,
+      "physics_torque_p05_p95_nm": [
+        -2.5669300540899664,
+        -0.9013971979781839
+      ],
+      "physics_torque_limit_fraction": 0.0,
+      "total_constraint_torque_p05_p95_nm": [
+        0.7106791341040959,
+        2.618914920179683
+      ]
+    },
+    "jAG": {
+      "target_p05_p95_rad": [
+        -0.016328659999999995,
+        -0.016328659999999995
+      ],
+      "target_step_change_mae_rad": 0.0,
+      "target_dominant_frequency_above_1hz": null,
+      "actual_position_p05_p95_rad": [
+        -0.0377480898672007,
+        -0.0353149488856509
+      ],
+      "actual_velocity_rms_rad_s": 0.06727654762598496,
+      "clipped_action_fraction": 1.0,
+      "physics_torque_p05_p95_nm": [
+        2.0094650580332867,
+        2.793617499296713
+      ],
+      "physics_torque_limit_fraction": 0.0,
+      "total_constraint_torque_p05_p95_nm": [
+        -4.136696489253521,
+        -1.6970587432748958
+      ]
+    }
+  },
+  "recorded_physics_steps": 45920,
+  "actual_actuator_vs_command_max_abs_error_nm": 0.0,
+  "jitter_mark_required_for_recording": false,
+  "interpretation": "At constant zero command, left-leg policy targets already vary while right-leg actions remain clipped at -1. This establishes an oscillating command boundary, not the ultimate origin of closed-loop oscillation."
+}

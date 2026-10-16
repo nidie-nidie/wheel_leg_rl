@@ -1,0 +1,72 @@
+{
+  "source_snapshots_unchanged": true,
+  "independent_scalar_loop_checks": true,
+  "all_reported_groups_recomputed_from_output_csv": true,
+  "finite_nonnegative_six_action_bound_and_sum_checks": true,
+  "groups": 13,
+  "checks": [
+    {
+      "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\stationary-traces\\old_1000\\control.csv",
+      "snapshot_sha256_matches": true
+    },
+    {
+      "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\stationary-traces\\new_1000\\control.csv",
+      "snapshot_sha256_matches": true
+    },
+    {
+      "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\stationary-traces\\old_1401_reference\\control.csv",
+      "snapshot_sha256_matches": true
+    },
+    {
+      "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\joint-telemetry-smooth002-20261011-171956\\control.csv",
+      "snapshot_sha256_matches": true
+    },
+    {
+      "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\mujoco_evaluation\\combined.csv",
+      "snapshot_sha256_matches": true
+    },
+    {
+      "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\mujoco_evaluation\\forward.csv",
+      "snapshot_sha256_matches": true
+    },
+    {
+      "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\mujoco_evaluation\\high_stand.csv",
+      "snapshot_sha256_matches": true
+    },
+    {
+      "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\mujoco_evaluation\\left_turn.csv",
+      "snapshot_sha256_matches": true
+    },
+    {
+      "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\mujoco_evaluation\\low_stand.csv",
+      "snapshot_sha256_matches": true
+    },
+    {
+      "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\mujoco_evaluation\\nominal_stand.csv",
+      "snapshot_sha256_matches": true
+    },
+    {
+      "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\mujoco_evaluation\\reverse.csv",
+      "snapshot_sha256_matches": true
+    },
+    {
+      "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\mujoco_evaluation\\right_turn.csv",
+      "snapshot_sha256_matches": true
+    },
+    {
+      "dataset": "old_1000",
+      "independent_scalar_loop_mean_matches": true,
+      "samples": 398
+    },
+    {
+      "dataset": "new_1000",
+      "independent_scalar_loop_mean_matches": true,
+      "samples": 398
+    },
+    {
+      "dataset": "old_1401_reference",
+      "independent_scalar_loop_mean_matches": true,
+      "samples": 398
+    }
+  ]
+}

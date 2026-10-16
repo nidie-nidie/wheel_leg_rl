@@ -1,0 +1,2 @@
+{"episode_id": 0, "control_id": -1, "episode_step": 0, "wall_elapsed_s": 0.0, "wall_utc": "2026-10-11T10:27:02.037610+00:00", "time_s": 0.0, "event": "reset", "command": [0.5, 0.0, 0.2]}
+{"episode_id": 0, "control_id": 499, "episode_step": 500, "wall_elapsed_s": 1.5939999998081475, "wall_utc": "2026-10-11T10:27:03.635685+00:00", "time_s": 9.999999999999897, "event": "closed"}

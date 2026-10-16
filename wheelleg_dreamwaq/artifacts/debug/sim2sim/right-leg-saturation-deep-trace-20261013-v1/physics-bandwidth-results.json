@@ -1,0 +1,70 @@
+{
+  "checks": [
+    {
+      "variant": "unmodified",
+      "physics_rows": 10000,
+      "control_actions_and_history_exact": true,
+      "control_sample_q_and_velocity_exact": true,
+      "actual_1ms_accel_rms_rad_s2": [
+        32.110514106980986,
+        30.528178753451737,
+        9.660928804521738,
+        7.041200857906792,
+        155.49794946746385,
+        142.45985525317877
+      ],
+      "actual_1ms_accel_p99_rad_s2": [
+        94.79354815585978,
+        78.13389269192041,
+        21.044858737659847,
+        27.048384688514997,
+        177.50574465294514,
+        178.60058136990367
+      ],
+      "commanded_torque_rms_nm": [
+        2.896453037744561,
+        2.350192519968437,
+        1.6555860894098404,
+        2.4318236365698427,
+        8.120945913995573,
+        7.436300288802133
+      ]
+    },
+    {
+      "variant": "leg6_wheel2",
+      "physics_rows": 10000,
+      "control_actions_and_history_exact": true,
+      "control_sample_q_and_velocity_exact": true,
+      "actual_1ms_accel_rms_rad_s2": [
+        1.8264222342784926,
+        5.111816097389445,
+        3.859796018240683,
+        2.4426557539121534,
+        72.78397218722428,
+        68.04817730583237
+      ],
+      "actual_1ms_accel_p99_rad_s2": [
+        5.3589614679773705,
+        12.068780174227147,
+        6.220873796497819,
+        3.667881690614604,
+        117.89138408708217,
+        106.60806149306835
+      ],
+      "commanded_torque_rms_nm": [
+        2.5453122024842756,
+        1.6620604797742318,
+        1.5172884862741838,
+        2.457005557145342,
+        3.769270557330008,
+        3.5876883360593355
+      ]
+    }
+  ],
+  "physics_dt_s": 0.001,
+  "acceleration_definition": "finite difference of actual controlled qvel across each original mj_step; no new forward calls or dynamics changes",
+  "torque_timestamp": "actuator torque during last solved step, q/v sampled after integration",
+  "training_started": false,
+  "production_modified": false,
+  "protected_files_unchanged": true
+}

@@ -1,0 +1,460 @@
+{
+  "aggregate": {
+    "completed_scenarios": 0,
+    "full_survival": false,
+    "mean_scenario_return": -3.0907413612912933,
+    "mean_survival_fraction": 0.07289579158316632,
+    "performance_key": [
+      1,
+      0,
+      -0.072896,
+      3.090741
+    ],
+    "scenario_count": 8,
+    "scenarios": [
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.2
+        ],
+        "completed": false,
+        "failure_reason": "tilt_terminated",
+        "name": "nominal_stand",
+        "reward_sum": -2.633208455517888,
+        "survival_fraction": 0.08216432865731463,
+        "survival_steps": 41,
+        "tracking_sample_frames": 41,
+        "vx_mae": 0.12271268892942405,
+        "yaw_rate_mae": 0.15948938950896263
+      },
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.17
+        ],
+        "completed": false,
+        "failure_reason": "tilt_terminated",
+        "name": "low_stand",
+        "reward_sum": -1.8703845544951037,
+        "survival_fraction": 0.07014028056112225,
+        "survival_steps": 35,
+        "tracking_sample_frames": 35,
+        "vx_mae": 0.336645980817931,
+        "yaw_rate_mae": 0.07552030126431158
+      },
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.23
+        ],
+        "completed": false,
+        "failure_reason": "tilt_terminated",
+        "name": "high_stand",
+        "reward_sum": -3.2834478376898915,
+        "survival_fraction": 0.05811623246492986,
+        "survival_steps": 29,
+        "tracking_sample_frames": 29,
+        "vx_mae": 0.11155294347554445,
+        "yaw_rate_mae": 0.2844852949010915
+      },
+      {
+        "command": [
+          1.0,
+          0.0,
+          0.2
+        ],
+        "completed": false,
+        "failure_reason": "tilt_terminated",
+        "name": "forward",
+        "reward_sum": -3.8201902371365577,
+        "survival_fraction": 0.06813627254509018,
+        "survival_steps": 34,
+        "tracking_sample_frames": 34,
+        "vx_mae": 0.9828631264321944,
+        "yaw_rate_mae": 0.23327733932391687
+      },
+      {
+        "command": [
+          -1.0,
+          0.0,
+          0.2
+        ],
+        "completed": false,
+        "failure_reason": "tilt_terminated",
+        "name": "reverse",
+        "reward_sum": -2.958982080454007,
+        "survival_fraction": 0.09218436873747494,
+        "survival_steps": 46,
+        "tracking_sample_frames": 46,
+        "vx_mae": 1.3535458238228508,
+        "yaw_rate_mae": 0.14204385447437348
+      },
+      {
+        "command": [
+          0.0,
+          0.6,
+          0.2
+        ],
+        "completed": false,
+        "failure_reason": "tilt_terminated",
+        "name": "left_turn",
+        "reward_sum": -3.5594853170623537,
+        "survival_fraction": 0.06412825651302605,
+        "survival_steps": 32,
+        "tracking_sample_frames": 32,
+        "vx_mae": 0.11276702115719672,
+        "yaw_rate_mae": 0.5717728827148676
+      },
+      {
+        "command": [
+          0.0,
+          -0.6,
+          0.2
+        ],
+        "completed": false,
+        "failure_reason": "tilt_terminated",
+        "name": "right_turn",
+        "reward_sum": -2.9796559936366975,
+        "survival_fraction": 0.08817635270541083,
+        "survival_steps": 44,
+        "tracking_sample_frames": 44,
+        "vx_mae": 0.3381219924935563,
+        "yaw_rate_mae": 0.9271032132885673
+      },
+      {
+        "command": [
+          0.8,
+          0.5,
+          0.2
+        ],
+        "completed": false,
+        "failure_reason": "tilt_terminated",
+        "name": "combined",
+        "reward_sum": -3.6205764143378474,
+        "survival_fraction": 0.06012024048096192,
+        "survival_steps": 30,
+        "tracking_sample_frames": 30,
+        "vx_mae": 0.7850294709205627,
+        "yaw_rate_mae": 0.389542884627978
+      }
+    ]
+  },
+  "base_task_contract_hash": "8D2705CEC4F1851B4B61315A8BF6A00CA6BED227638CF5E9686249A57B6BFD91",
+  "base_task_contract_version": "WheelLegBaseTaskContractV1",
+  "baseline_comparison": null,
+  "baseline_status": "not_comparable",
+  "estimator": {
+    "velocity_acceptance": true,
+    "velocity_eval_mse": 0.02681800164922406,
+    "velocity_eval_mse_ratio": 0.20901524387096834,
+    "velocity_sample_frames": 291,
+    "velocity_scalar_samples": 873,
+    "velocity_zero_baseline_mse": 0.12830643905465408
+  },
+  "evaluation_contract": {
+    "base_task_contract_hash": "8D2705CEC4F1851B4B61315A8BF6A00CA6BED227638CF5E9686249A57B6BFD91",
+    "baseline": null,
+    "baseline_status": "not_comparable",
+    "contract_hash": "55BF7D77092EE225C95D54E5AE1899A980C3806FFBB5E58E273F528C65FAC053",
+    "control": {
+      "action_steps": 499,
+      "control_dt_s": 0.02,
+      "duration_s": 9.98,
+      "expected_done": "truncated_on_action_step_499",
+      "policy_action": "deterministic_effective_mean",
+      "runtime_action_clip": [
+        -1.0,
+        1.0
+      ]
+    },
+    "done_semantics": {
+      "post_reset_observation_counted": false,
+      "terminated": "failure",
+      "truncated_before_step_499": "protocol_failure",
+      "truncated_on_step_499": "completed"
+    },
+    "environment_count": 8,
+    "estimator": {
+      "aggregation": "sample_weighted_over_frames_and_three_features",
+      "denominator_floor": 1e-08,
+      "maximum_zero_baseline_ratio": 0.8,
+      "sample_timing": "active_pre_action_frame",
+      "target": "critic[:,25:28]"
+    },
+    "evaluation_commands": {
+      "base_height": [
+        0.16,
+        0.24
+      ],
+      "hold_for_episode": true,
+      "mode_probabilities": [
+        0.2,
+        0.3,
+        0.2,
+        0.3
+      ],
+      "practice_contract": null,
+      "practice_schedule": "disabled",
+      "vx": [
+        -1.5,
+        1.5
+      ],
+      "yaw_rate": [
+        -1.0,
+        1.0
+      ]
+    },
+    "evaluation_reward_weights": {
+      "action_rate": -0.01,
+      "action_smooth": -0.01,
+      "ang_vel_xy": -0.2,
+      "dof_acc": -2.5e-07,
+      "dof_pos_limits": -1.0,
+      "dof_vel": -5e-05,
+      "height_sigma": 0.001,
+      "lin_vel_z": -1.0,
+      "orientation": -100.0,
+      "phi0_symmetry": -1.0,
+      "soft_leg_limit": 0.95,
+      "termination": -5.0,
+      "torques": -0.0001,
+      "tracking_base_height": 1.0,
+      "tracking_sigma": 0.25,
+      "tracking_vx": 1.0,
+      "tracking_vx_enhance": 1.0,
+      "tracking_yaw_rate": 1.0,
+      "tracking_yaw_rate_enhance": 1.0
+    },
+    "evaluation_schema_version": "IsaacEvaluationV2",
+    "evaluation_source": {
+      "files": {
+        "scripts/evaluate_isaac.py": "1126E31928C98D73689412299700EF31F592169821809B1B41A3101C155A3025",
+        "source/wheelleg_dreamwaq/wheelleg_dreamwaq/deployment/observation_adapter.py": "2DFC47BC34220781145EBB7768A9A1A712F80D774AC9684B0AAA42663F62FB5E",
+        "source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/isaac_evaluation.py": "03543AD71C9A2EC3E00BC16F8B7AC7DB98D8944259F648EA9B6E3EC659A38D84",
+        "source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/observation.py": "E9053E20C4E736137632DD7A52E4AE9655D8DC31ED6E9A2F5EF84B74A9131F67"
+      },
+      "hash": "E3AAE45533688186C3220E21C549553CCBBC846185A941172316F6D553377EFC",
+      "schema_version": "IsaacEvaluationSourceV1"
+    },
+    "first_observation_sequence": [
+      "discard_upstream_wrapper_reset_observation",
+      "write_eight_fixed_commands",
+      "call_get_observations_once",
+      "fill_five_history_frames_from_first_policy_observation"
+    ],
+    "manifest_version": "IsaacEvaluationContractV2",
+    "performance_key": {
+      "comparison": "candidate_key <= baseline_key",
+      "full_survival": [
+        0,
+        "-round(mean_scenario_return,6)"
+      ],
+      "partial_survival": [
+        1,
+        "-completed_scenarios",
+        "-round(mean_survival_fraction,6)",
+        "-round(mean_scenario_return,6)"
+      ]
+    },
+    "physical_tracking": {
+      "aggregation": "per_scenario_mean_over_active_pre_action_frames",
+      "post_reset_observation_counted": false,
+      "sample_timing": "active_pre_action_frame",
+      "source": "cached_WheelLegState",
+      "units": [
+        "m/s",
+        "rad/s"
+      ]
+    },
+    "randomization_profile": {
+      "actor_observation": "physical_noise_then_normalize",
+      "critic_actor_features": "clean_then_normalize",
+      "generator_device_rules": {
+        "cpu_streams": [
+          "actuator_gain_rng",
+          "command_rng",
+          "effort_limit_rng",
+          "joint_reference_rng",
+          "material_rng",
+          "reset_velocity_rng"
+        ],
+        "environment_device_streams": [
+          "observation_noise_rng"
+        ]
+      },
+      "implicit_torque_semantics": "implicit_pd_estimate",
+      "profile": {
+        "angular_velocity_noise_rad_s": 0.2,
+        "effort_limit_scale_range": [
+          0.95,
+          1.05
+        ],
+        "enabled": false,
+        "friction_bucket_count": 64,
+        "friction_range": [
+          0.6,
+          1.4
+        ],
+        "joint_reference_resample_limit": 32,
+        "joint_velocity_noise_rad_s": 1.5,
+        "kd_scale_range": [
+          0.95,
+          1.05
+        ],
+        "kp_scale_range": [
+          0.95,
+          1.05
+        ],
+        "leg_position_noise_rad": 0.02,
+        "leg_reference_offset_range_rad": [
+          -0.03,
+          0.03
+        ],
+        "max_leg_length_delta_m": 0.01,
+        "max_leg_phi0_delta_rad": 0.08726646259971647,
+        "max_lr_phi0_delta_rad": 0.08726646259971647,
+        "name": "NominalEvaluationProfileV1",
+        "projected_gravity_noise": 0.05,
+        "root_angular_range_rad_s": [
+          -0.1,
+          0.1
+        ],
+        "root_linear_xy_range_mps": [
+          -0.1,
+          0.1
+        ],
+        "root_linear_z_range_mps": [
+          -0.05,
+          0.05
+        ]
+      },
+      "schema_version": "RandomizationSchemaV1",
+      "seed_derivation_version": "RandomizationSeedDerivationV1",
+      "stream_lifecycle": {
+        "process_start": [
+          "material_rng",
+          "joint_reference_rng",
+          "actuator_gain_rng",
+          "effort_limit_rng"
+        ],
+        "runtime": [
+          "reset_velocity_rng",
+          "observation_noise_rng",
+          "command_rng"
+        ]
+      },
+      "streams": [
+        "material_rng",
+        "joint_reference_rng",
+        "actuator_gain_rng",
+        "effort_limit_rng",
+        "reset_velocity_rng",
+        "observation_noise_rng",
+        "command_rng"
+      ]
+    },
+    "randomization_profile_hash": "9BB183751C81D352469FB546B4EFF6C1CEE72AF19D76E2E026F87BFA680A809F",
+    "reset_cache": {
+      "cache_schema_version": "ClosedChainResetCacheSchemaV2",
+      "file_sha256": "A58A9A3BCB79E52B01A04FB276F89BAD0D84504C413A21A890D7AD837238E4FF",
+      "identity_hash": "AD421C5235692DAD17A221D345C6BED0DFD9E911D35C04C8B3F0E14622E311AB",
+      "num_envs": 8,
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth-acceptance-20261011\\integration\\test_profile_fresh_resume_fixe0\\eval-cache.pt",
+      "relaxation_algorithm_version": "BoundaryClampedPhysXRelaxationV1",
+      "root_height_algorithm_version": "ClosedChainRootHeightAlignmentV1",
+      "schema_version": "IsaacEvaluationResetCacheIdentityV1",
+      "tensor_sha256": "446817DB7509AAC24F66D7111391FF9223D50FA8B33469C31CFF9B79CE3DF21D"
+    },
+    "scenarios": [
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.2
+        ],
+        "name": "nominal_stand"
+      },
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.17
+        ],
+        "name": "low_stand"
+      },
+      {
+        "command": [
+          0.0,
+          0.0,
+          0.23
+        ],
+        "name": "high_stand"
+      },
+      {
+        "command": [
+          1.0,
+          0.0,
+          0.2
+        ],
+        "name": "forward"
+      },
+      {
+        "command": [
+          -1.0,
+          0.0,
+          0.2
+        ],
+        "name": "reverse"
+      },
+      {
+        "command": [
+          0.0,
+          0.6,
+          0.2
+        ],
+        "name": "left_turn"
+      },
+      {
+        "command": [
+          0.0,
+          -0.6,
+          0.2
+        ],
+        "name": "right_turn"
+      },
+      {
+        "command": [
+          0.8,
+          0.5,
+          0.2
+        ],
+        "name": "combined"
+      }
+    ],
+    "seed": 20261007
+  },
+  "evaluation_contract_hash": "55BF7D77092EE225C95D54E5AE1899A980C3806FFBB5E58E273F528C65FAC053",
+  "evaluation_schema_version": "IsaacEvaluationV2",
+  "policy_kind": "dreamwaq",
+  "report_hash": "E1A2EB3E58DC3BAD277F37FEF66740BBE8A687526940EFBD20E3D95FC78EF91C",
+  "reset_cache": {
+    "cache_schema_version": "ClosedChainResetCacheSchemaV2",
+    "file_sha256": "A58A9A3BCB79E52B01A04FB276F89BAD0D84504C413A21A890D7AD837238E4FF",
+    "identity_hash": "AD421C5235692DAD17A221D345C6BED0DFD9E911D35C04C8B3F0E14622E311AB",
+    "num_envs": 8,
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth-acceptance-20261011\\integration\\test_profile_fresh_resume_fixe0\\eval-cache.pt",
+    "relaxation_algorithm_version": "BoundaryClampedPhysXRelaxationV1",
+    "root_height_algorithm_version": "ClosedChainRootHeightAlignmentV1",
+    "schema_version": "IsaacEvaluationResetCacheIdentityV1",
+    "tensor_sha256": "446817DB7509AAC24F66D7111391FF9223D50FA8B33469C31CFF9B79CE3DF21D"
+  },
+  "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_16-07-48_portable_fudan-v1_practice-resume16-027f459a\\model_2.pt",
+  "source_checkpoint_sha256": "4B66260FB972A2EBDE13151D90AB932E8C7B75474DBAFB329FA1214404B4BC42",
+  "source_completed_iterations": 3,
+  "source_run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_16-07-48_portable_fudan-v1_practice-resume16-027f459a\\run_manifest.json",
+  "source_run_manifest_sha256": "8F85C8482AB464DAE6E1FA9E964AA7C3C1AF656671E192DCA582E994B7EC3801",
+  "source_seed": 20261011
+}

@@ -1,0 +1,30 @@
+{
+  "pid": 30228,
+  "command": [
+    "C:\\Users\\changba01\\.local\\bin\\uv.exe",
+    "run",
+    "--offline",
+    "--frozen",
+    "--project",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco",
+    "python",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\interactive-mujoco-20261010-v1\\play_keyboard.py",
+    "--export",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\export",
+    "--max-speed",
+    "10",
+    "--joint-telemetry",
+    "--session",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\joint-telemetry-smooth002-20261011-171956"
+  ],
+  "session": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\joint-telemetry-smooth002-20261011-171956",
+  "export": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\export",
+  "source_completed_iterations": 1000,
+  "source_seed": 41882943,
+  "action_smooth_weight": -0.02,
+  "checkpoint_sha256": "8BC8B90DDEAAA3DA4B0A7CCCB434C73C6FBA4DE9A2043B131F385876060B975F",
+  "actor_sha256": "241F22CC746214A9CF33348176CFEBEDBEEDB617713A81AC0FFD4C8EA4972841",
+  "base_contact_debug": false,
+  "joint_telemetry_enabled": true,
+  "launched_at": "2026-10-11T17:19:56.633468+08:00"
+}

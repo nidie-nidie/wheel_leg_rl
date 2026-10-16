@@ -1,0 +1,134 @@
+{
+  "schema": "SaturationLineageProvenanceV1",
+  "fresh_training_no_adaptive_acceleration_or_reversal_tags": true,
+  "fresh_training_windows": {
+    "101": {
+      "iterations_inclusive": [
+        52,
+        101
+      ],
+      "means": {
+        "Reward/tracking_vx": 0.023195687904953955,
+        "Reward/tracking_vx_enhance": -0.0042377248359844084,
+        "Reward/tracking_yaw_rate": 0.006489564878866077,
+        "Reward/tracking_yaw_rate_enhance": -0.0054928895458579065,
+        "Reward/tracking_base_height": 0.015182041861116886,
+        "Reward/lin_vel_z": -0.0017788715194910765,
+        "Reward/ang_vel_xy": -0.04608091548085213,
+        "Reward/orientation": -0.06982705801725388,
+        "Reward/dof_vel": -3.153811492666136e-05,
+        "Reward/dof_acc": -0.0008594398747663944,
+        "Reward/torques": -0.0012227133149281145,
+        "Reward/action_rate": -0.0010161459667142481,
+        "Reward/action_smooth": -0.003122547073289752,
+        "Reward/dof_pos_limits": 0.0,
+        "Reward/phi0_symmetry": -0.0002606969024054706,
+        "Reward/termination": -0.0030963542987592517,
+        "Action/saturation_fraction": 0.49050133347511293,
+        "Metric/phi0_delta_abs_rad": 0.08600121289491654,
+        "Tracking/vx_abs_error": 0.4240976136922836,
+        "Tracking/yaw_rate_abs_error": 0.8543206775188446,
+        "Loss/entropy": 7.26640326499939
+      },
+      "reward_total_mean": -0.09215960030029235
+    },
+    "201": {
+      "iterations_inclusive": [
+        152,
+        201
+      ],
+      "means": {
+        "Reward/tracking_vx": 0.032107305973768235,
+        "Reward/tracking_vx_enhance": -0.0014020332810468971,
+        "Reward/tracking_yaw_rate": 0.007301198774948716,
+        "Reward/tracking_yaw_rate_enhance": -0.004571560900658369,
+        "Reward/tracking_base_height": 0.017882427349686623,
+        "Reward/lin_vel_z": -0.00080070287338458,
+        "Reward/ang_vel_xy": -0.013157486841082573,
+        "Reward/orientation": -0.0066102029290050265,
+        "Reward/dof_vel": -2.5859430861601142e-05,
+        "Reward/dof_acc": -0.0008095999760553241,
+        "Reward/torques": -0.001143096040468663,
+        "Reward/action_rate": -0.0010017065319698304,
+        "Reward/action_smooth": -0.003017508676275611,
+        "Reward/dof_pos_limits": 0.0,
+        "Reward/phi0_symmetry": -0.002102263738634065,
+        "Reward/termination": -5.110677386255702e-05,
+        "Action/saturation_fraction": 0.5340104609727859,
+        "Metric/phi0_delta_abs_rad": 0.28308196902275085,
+        "Tracking/vx_abs_error": 0.21465854734182357,
+        "Tracking/yaw_rate_abs_error": 0.7382199931144714,
+        "Loss/entropy": 6.6703582191467286
+      },
+      "reward_total_mean": 0.022597804105098474
+    },
+    "1000": {
+      "iterations_inclusive": [
+        951,
+        1000
+      ],
+      "means": {
+        "Reward/tracking_vx": 0.034689489528536795,
+        "Reward/tracking_vx_enhance": -0.001064314761897549,
+        "Reward/tracking_yaw_rate": 0.011605261191725731,
+        "Reward/tracking_yaw_rate_enhance": -0.0018709090864285826,
+        "Reward/tracking_base_height": 0.018297061063349246,
+        "Reward/lin_vel_z": -0.0003369840810773894,
+        "Reward/ang_vel_xy": -0.004326731972396374,
+        "Reward/orientation": -0.0032325904443860055,
+        "Reward/dof_vel": -6.534921403726912e-06,
+        "Reward/dof_acc": -0.0003669616376282647,
+        "Reward/torques": -0.0005029689666116611,
+        "Reward/action_rate": -0.0005948076269123704,
+        "Reward/action_smooth": -0.001654356603976339,
+        "Reward/dof_pos_limits": 0.0,
+        "Reward/phi0_symmetry": -0.004138998668640852,
+        "Reward/termination": -6.184896155900788e-06,
+        "Action/saturation_fraction": 0.5464572918415069,
+        "Metric/phi0_delta_abs_rad": 0.42851629614830017,
+        "Tracking/vx_abs_error": 0.1579187023639679,
+        "Tracking/yaw_rate_abs_error": 0.4092351794242859,
+        "Loss/entropy": 4.978777751922608
+      },
+      "reward_total_mean": 0.04648946811609677
+    }
+  },
+  "reference_budget": {
+    "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-motion-metric-analysis-20261012-v1\\results.json",
+    "source_sha256": "E5A7017E069922441B673DD85CB6A00175C75566D9CBA752083B65D7F7372B13",
+    "source_trajectory_files": [
+      {
+        "capture": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\reversal-noise-diagnosis-20261011-v1\\captures\\baseline-nominal_stand.npz",
+        "capture_sha256": "B220A17E9AB7DB38A57E6B664AB5B1F6BDAE3E6CDFA22347708E067E0D9DB6E2",
+        "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\baseline\\mujoco\\nominal_stand.csv",
+        "reference_sha256": "975E731DD75BD83745B9FEE33C5C22A3FB4D4E5641E9A2BCBABFB69C94A6124C"
+      },
+      {
+        "capture": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\reversal-noise-diagnosis-20261011-v1\\captures\\baseline-forward.npz",
+        "capture_sha256": "A3A90CB68D2AEC556D2601F64EF5B435182A6FD8F389952ACE1B0EEB50C3D237",
+        "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\baseline\\mujoco\\forward.csv",
+        "reference_sha256": "E89DED895532EC5D0A2FFD4BF018BD02E97FAFEA5A3B76FEE51A2FE764B476B8"
+      },
+      {
+        "capture": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\reversal-noise-diagnosis-20261011-v1\\captures\\baseline-reverse.npz",
+        "capture_sha256": "1BAC790CC3CBD3BEC62BD9AC22F644AC7912A3936AD385E6B67B11D99BB5F367",
+        "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\baseline\\mujoco\\reverse.csv",
+        "reference_sha256": "6F12EAAB5B9511BABFC3803667E1F345645B372F63CF05C30C52B9595F1A1A03"
+      }
+    ],
+    "window_count": 24,
+    "pooled_p90_rad_s2": [
+      40.1703144886371,
+      38.36718525327239,
+      7.036219002293553,
+      4.973546161740354
+    ],
+    "budget85_rad_s2": [
+      34.14476731534154,
+      32.61210746528153,
+      5.98078615194952,
+      4.227514237479301
+    ],
+    "previous_reference_right_leg_targets_saturated": true
+  }
+}

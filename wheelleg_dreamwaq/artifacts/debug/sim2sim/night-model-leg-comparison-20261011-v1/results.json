@@ -1,0 +1,522 @@
+{
+  "diagnostic_only": true,
+  "current_physics_schema": "PhysicsV5",
+  "current_model_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "interface_checks": {
+    "night": {
+      "matched_interface_fields": [
+        "network",
+        "observation",
+        "normalization",
+        "q_nominal",
+        "action",
+        "control",
+        "frames",
+        "timing",
+        "initial_state",
+        "history_adapter_version",
+        "asset_bundle_hash"
+      ],
+      "source_physics_schema": "PhysicsV4",
+      "source_actuator_differences": [
+        {
+          "group": "legs",
+          "field": "velocity_limit_sim",
+          "source": 45.0,
+          "current": 3.4028234663852886e+38
+        },
+        {
+          "group": "passive",
+          "field": "velocity_limit_sim",
+          "source": 80.0,
+          "current": 3.4028234663852886e+38
+        },
+        {
+          "group": "wheels",
+          "field": "velocity_limit_sim",
+          "source": 45.0,
+          "current": 3.4028234663852886e+38
+        }
+      ],
+      "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-10_02-30-21_rtx5070_fudan-v1_dreamwaq-v1-suite-20261010-001232-run04-seed342388981\\model_999.pt",
+      "source_checkpoint_sha256": "89926828678CC28E0B0BA5A8463181395E0BE95E5961F7C7A65640243D5DC5FD",
+      "actor_sha256": "EDC3AC9F5DDB7646B8E9043F81AEC0C2A66C9456E95155DADCE9603984D07050"
+    },
+    "tracking": {
+      "matched_interface_fields": [
+        "network",
+        "observation",
+        "normalization",
+        "q_nominal",
+        "action",
+        "control",
+        "frames",
+        "timing",
+        "initial_state",
+        "history_adapter_version",
+        "asset_bundle_hash"
+      ],
+      "source_physics_schema": "PhysicsV5",
+      "source_actuator_differences": [],
+      "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_999.pt",
+      "source_checkpoint_sha256": "3D621280CF7F11088C972B0DD84CF2E698C29A4C8CDA8BC370BB80A2669DF885",
+      "actor_sha256": "8A488B166BB8FDF417882B5C16A43CBCC04B8BBA2300C4D5F5A7EC0FDAD8B871"
+    },
+    "smooth002": {
+      "matched_interface_fields": [
+        "network",
+        "observation",
+        "normalization",
+        "q_nominal",
+        "action",
+        "control",
+        "frames",
+        "timing",
+        "initial_state",
+        "history_adapter_version",
+        "asset_bundle_hash"
+      ],
+      "source_physics_schema": "PhysicsV5",
+      "source_actuator_differences": [],
+      "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_16-13-27_rtx5070_fudan-v1_dreamwaq-action-smooth2-run03-fresh1000-20261011-161144-seed41882943\\model_999.pt",
+      "source_checkpoint_sha256": "8BC8B90DDEAAA3DA4B0A7CCCB434C73C6FBA4DE9A2043B131F385876060B975F",
+      "actor_sha256": "241F22CC746214A9CF33348176CFEBEDBEEDB617713A81AC0FFD4C8EA4972841"
+    }
+  },
+  "historical_actor_replay_max_error": 1.9073486328125e-06,
+  "cases": [
+    {
+      "label": "night_original_PhysicsV4",
+      "scenario": "parking",
+      "samples": 397,
+      "time_start_s": 2.0399999999998863,
+      "time_end_s": 9.95999999999992,
+      "vx_mean_mps": -0.4981057463613059,
+      "vx_mae_mps": 0.4981057463613059,
+      "leg_velocity_rms_rad_s": [
+        1.5438310435611072e-05,
+        7.013976703634403e-06,
+        1.9492338285039618e-05,
+        2.409568596882247e-06
+      ],
+      "leg_acceleration_rms_rad_s2": [
+        0.00012209447842140492,
+        5.6265037127755674e-05,
+        0.0001538404254144964,
+        1.9082368491652056e-05
+      ],
+      "leg_position_span_rad": [
+        5.772460530906187e-06,
+        2.663692197160672e-06,
+        7.123248496609946e-06,
+        1.169583761125026e-06
+      ],
+      "leg_clipped_action_span": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "leg_raw_action_span": [
+        0.0007863044738769531,
+        0.0008149147033691406,
+        0.0006437301635742188,
+        0.0008873939514160156
+      ],
+      "leg_at_minus_one_fraction": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "leg_action_smooth_mean": 0.0,
+      "six_action_smooth_mean": 1.1856278287722826e-10,
+      "leg_velocity_peak_hz": [
+        1.2594458438287153,
+        1.2594458438287153,
+        1.2594458438287153,
+        1.2594458438287153
+      ]
+    },
+    {
+      "label": "night_current_PhysicsV5",
+      "scenario": "parking",
+      "samples": 0,
+      "completed_frames": 57,
+      "failure_reason": "base_height",
+      "trace": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\night-model-leg-comparison-20261011-v1\\night_parking.csv",
+      "trace_sha256": "13949077D139E99CFA1D3F037C9EC0C30FFAFBF00C2861A29987A0AF4DB72BCD"
+    },
+    {
+      "label": "night_current_PhysicsV5",
+      "scenario": "forward",
+      "samples": 0,
+      "completed_frames": 35,
+      "failure_reason": "tilt",
+      "trace": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\night-model-leg-comparison-20261011-v1\\night_forward.csv",
+      "trace_sha256": "F1CFBDC4FA38A8074E4E5CF63E75246D91C474BEC052EBC62685AF60C672AA50"
+    },
+    {
+      "label": "night_current_PhysicsV5",
+      "scenario": "reverse",
+      "samples": 0,
+      "completed_frames": 56,
+      "failure_reason": "base_height",
+      "trace": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\night-model-leg-comparison-20261011-v1\\night_reverse.csv",
+      "trace_sha256": "584CB46806E91C2F0B627421E7DD18F4479D22566DB8D3126C580BF067B3E0F4"
+    },
+    {
+      "label": "tracking_current_PhysicsV5",
+      "scenario": "parking",
+      "samples": 397,
+      "time_start_s": 2.0399999999998863,
+      "time_end_s": 9.95999999999992,
+      "vx_mean_mps": 0.024959127534042544,
+      "vx_mae_mps": 0.024959127534042544,
+      "leg_velocity_rms_rad_s": [
+        0.9139881820440808,
+        0.5830844328799529,
+        0.09316944674241064,
+        0.06906330415367984
+      ],
+      "leg_acceleration_rms_rad_s2": [
+        52.48818819818192,
+        33.66383066742984,
+        6.882720519463869,
+        4.976663085055045
+      ],
+      "leg_position_span_rad": [
+        0.049944152309055606,
+        0.038972555906710726,
+        0.005132575090751379,
+        0.0033208069605544233
+      ],
+      "leg_clipped_action_span": [
+        0.38643674552440643,
+        0.20382344722747803,
+        0.0,
+        0.0
+      ],
+      "leg_raw_action_span": [
+        0.38643674552440643,
+        0.20382344722747803,
+        0.2817366123199463,
+        0.9751479625701904
+      ],
+      "leg_at_minus_one_fraction": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "leg_action_smooth_mean": 0.04002291505984904,
+      "six_action_smooth_mean": 3.2199542240713845,
+      "leg_velocity_peak_hz": [
+        9.319899244332493,
+        9.319899244332493,
+        9.319899244332493,
+        9.319899244332493
+      ],
+      "completed_frames": 500,
+      "failure_reason": null,
+      "trace": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\night-model-leg-comparison-20261011-v1\\tracking_parking.csv",
+      "trace_sha256": "E2310E246156405BC82F1394E734C9EEED56EF342AA43987FAD2BA76E530696F",
+      "action_replay_error_vs_original_evaluation": 0.0
+    },
+    {
+      "label": "tracking_current_PhysicsV5",
+      "scenario": "forward",
+      "samples": 397,
+      "time_start_s": 2.0399999999998863,
+      "time_end_s": 9.95999999999992,
+      "vx_mean_mps": 1.0076788125064358,
+      "vx_mae_mps": 0.007678812506435633,
+      "leg_velocity_rms_rad_s": [
+        0.06497240277337532,
+        0.06230389390731032,
+        0.009870919389042398,
+        0.010992642813255273
+      ],
+      "leg_acceleration_rms_rad_s2": [
+        4.791374603521054,
+        4.255920958172239,
+        0.8486037851458704,
+        0.9298064464187389
+      ],
+      "leg_position_span_rad": [
+        0.018215051849950106,
+        0.025523148721086075,
+        0.001935101011180107,
+        0.0008996419649378445
+      ],
+      "leg_clipped_action_span": [
+        0.06542277336120605,
+        0.0823553204536438,
+        0.0,
+        0.0
+      ],
+      "leg_raw_action_span": [
+        0.06542277336120605,
+        0.0823553204536438,
+        0.06632757186889648,
+        0.15973210334777832
+      ],
+      "leg_at_minus_one_fraction": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "leg_action_smooth_mean": 0.0010185580675473372,
+      "six_action_smooth_mean": 0.05667239062426062,
+      "leg_velocity_peak_hz": [
+        9.94962216624685,
+        9.94962216624685,
+        19.395465994962215,
+        18.639798488664987
+      ],
+      "completed_frames": 500,
+      "failure_reason": null,
+      "trace": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\night-model-leg-comparison-20261011-v1\\tracking_forward.csv",
+      "trace_sha256": "90FA322DBF2F3A954CBD1BCDA0695311CB595D2B711EFB6F1A32BBB49018DB50",
+      "action_replay_error_vs_original_evaluation": 0.0
+    },
+    {
+      "label": "tracking_current_PhysicsV5",
+      "scenario": "reverse",
+      "samples": 397,
+      "time_start_s": 2.0399999999998863,
+      "time_end_s": 9.95999999999992,
+      "vx_mean_mps": -0.9408649588503036,
+      "vx_mae_mps": 0.05913504114969632,
+      "leg_velocity_rms_rad_s": [
+        0.4357948977002231,
+        0.3952783089561436,
+        0.04722688939105343,
+        0.052335046991514256
+      ],
+      "leg_acceleration_rms_rad_s2": [
+        25.663831524484362,
+        23.38850115094158,
+        3.236787861745863,
+        3.195720323850875
+      ],
+      "leg_position_span_rad": [
+        0.027766957934476755,
+        0.027610067215201484,
+        0.0027408678357779825,
+        0.002870549510706817
+      ],
+      "leg_clipped_action_span": [
+        0.20123912394046783,
+        0.15833479166030884,
+        0.0,
+        0.0
+      ],
+      "leg_raw_action_span": [
+        0.20123912394046783,
+        0.15833479166030884,
+        0.18769240379333496,
+        0.4613494873046875
+      ],
+      "leg_at_minus_one_fraction": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "leg_action_smooth_mean": 0.008937376004292423,
+      "six_action_smooth_mean": 0.6567585765645484,
+      "leg_velocity_peak_hz": [
+        9.82367758186398,
+        9.82367758186398,
+        9.82367758186398,
+        9.82367758186398
+      ],
+      "completed_frames": 500,
+      "failure_reason": null,
+      "trace": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\night-model-leg-comparison-20261011-v1\\tracking_reverse.csv",
+      "trace_sha256": "376CB0CC8525B54CBF1798C494220381465E23B768B0D5264EC142EBF7780891",
+      "action_replay_error_vs_original_evaluation": 0.0
+    },
+    {
+      "label": "smooth002_current_PhysicsV5",
+      "scenario": "parking",
+      "samples": 397,
+      "time_start_s": 2.0399999999998863,
+      "time_end_s": 9.95999999999992,
+      "vx_mean_mps": -0.014721629366181448,
+      "vx_mae_mps": 0.01624905646456885,
+      "leg_velocity_rms_rad_s": [
+        0.71706937252773,
+        0.5187105835609237,
+        0.09217592345955176,
+        0.05733525792101045
+      ],
+      "leg_acceleration_rms_rad_s2": [
+        40.68086358699858,
+        30.121908461724388,
+        6.537063849665582,
+        4.801592214210597
+      ],
+      "leg_position_span_rad": [
+        0.06239126150210944,
+        0.046676146005681374,
+        0.0070303072426119995,
+        0.003042040516433288
+      ],
+      "leg_clipped_action_span": [
+        0.40715262293815613,
+        0.26059581339359283,
+        0.0,
+        0.0
+      ],
+      "leg_raw_action_span": [
+        0.40715262293815613,
+        0.26059581339359283,
+        1.220357894897461,
+        0.8333559036254883
+      ],
+      "leg_at_minus_one_fraction": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "leg_action_smooth_mean": 0.03248185013646451,
+      "six_action_smooth_mean": 2.720544585446459,
+      "leg_velocity_peak_hz": [
+        8.690176322418136,
+        8.690176322418136,
+        8.690176322418136,
+        23.80352644836272
+      ],
+      "completed_frames": 500,
+      "failure_reason": null,
+      "trace": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\night-model-leg-comparison-20261011-v1\\smooth002_parking.csv",
+      "trace_sha256": "11E82DEF48214F1B601CEA69F78382C191EEFE3D659ACE3EEB525EB2067CCEC8",
+      "action_replay_error_vs_original_evaluation": 0.0
+    },
+    {
+      "label": "smooth002_current_PhysicsV5",
+      "scenario": "forward",
+      "samples": 397,
+      "time_start_s": 2.0399999999998863,
+      "time_end_s": 9.95999999999992,
+      "vx_mean_mps": 0.9066332588016472,
+      "vx_mae_mps": 0.09336674119835284,
+      "leg_velocity_rms_rad_s": [
+        0.45595168261117364,
+        0.30842646029423126,
+        0.05416914178920893,
+        0.032667217939896666
+      ],
+      "leg_acceleration_rms_rad_s2": [
+        27.9502991529686,
+        19.66380085129447,
+        4.559860505118395,
+        2.6064137429697665
+      ],
+      "leg_position_span_rad": [
+        0.031863925848158434,
+        0.02751429693015761,
+        0.0034311380321828677,
+        0.0023098506731491775
+      ],
+      "leg_clipped_action_span": [
+        0.2241891622543335,
+        0.15510329604148865,
+        0.0,
+        0.0
+      ],
+      "leg_raw_action_span": [
+        0.2241891622543335,
+        0.15510329604148865,
+        0.3412902355194092,
+        0.29665184020996094
+      ],
+      "leg_at_minus_one_fraction": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "leg_action_smooth_mean": 0.014816695322493932,
+      "six_action_smooth_mean": 1.3023635648618894,
+      "leg_velocity_peak_hz": [
+        10.075566750629722,
+        10.075566750629722,
+        16.750629722921914,
+        10.075566750629722
+      ],
+      "completed_frames": 500,
+      "failure_reason": null,
+      "trace": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\night-model-leg-comparison-20261011-v1\\smooth002_forward.csv",
+      "trace_sha256": "7A0C131273A6D947B381C83750F131D79CFB68EDEDAF9B98F3A2B345B5FBA1E8",
+      "action_replay_error_vs_original_evaluation": 0.0
+    },
+    {
+      "label": "smooth002_current_PhysicsV5",
+      "scenario": "reverse",
+      "samples": 397,
+      "time_start_s": 2.0399999999998863,
+      "time_end_s": 9.95999999999992,
+      "vx_mean_mps": -0.968948172648188,
+      "vx_mae_mps": 0.03283533402938097,
+      "leg_velocity_rms_rad_s": [
+        0.4134735732693184,
+        0.32587225004252485,
+        0.09633844966724157,
+        0.04982589427947745
+      ],
+      "leg_acceleration_rms_rad_s2": [
+        27.050760790777684,
+        22.40092394954052,
+        6.2024503447153005,
+        4.121102525713349
+      ],
+      "leg_position_span_rad": [
+        0.06759829169318558,
+        0.060578977016517765,
+        0.006172945690033127,
+        0.0028357897153399175
+      ],
+      "leg_clipped_action_span": [
+        0.28887537121772766,
+        0.28218502551317215,
+        0.0,
+        0.0
+      ],
+      "leg_raw_action_span": [
+        0.28887537121772766,
+        0.28218502551317215,
+        0.7871959209442139,
+        0.5148894786834717
+      ],
+      "leg_at_minus_one_fraction": [
+        0.0,
+        0.0,
+        1.0,
+        1.0
+      ],
+      "leg_action_smooth_mean": 0.022421540784954362,
+      "six_action_smooth_mean": 1.7598863892950938,
+      "leg_velocity_peak_hz": [
+        10.075566750629722,
+        10.201511335012595,
+        10.201511335012595,
+        20.025188916876573
+      ],
+      "completed_frames": 500,
+      "failure_reason": null,
+      "trace": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\night-model-leg-comparison-20261011-v1\\smooth002_reverse.csv",
+      "trace_sha256": "078B825E7301EDC0F4FDD7ACA21C05209D21F4CC52CE715EAD644FC8303CC463",
+      "action_replay_error_vs_original_evaluation": 0.0
+    }
+  ],
+  "limits": [
+    "Old policy/current physics is an explicit diagnostic; original policy metadata is retained.",
+    "No additional torque, collision, reward, filter, or training was introduced.",
+    "Quiet legs do not establish healthy control or a ROGER threshold. This is not a causal intervention on leg jitter."
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "record_count": 527,
+  "end_sim_s": 10.539999999999598,
+  "only_zero_user_command": true,
+  "same_first500_candidate_record": {
+    "history": true,
+    "raw": true,
+    "applied": true,
+    "q": true,
+    "v": true,
+    "user_command": true,
+    "policy_command": true,
+    "correction": true
+  },
+  "user_visual_acceptance": false,
+  "user_report": "Both legs still visibly oscillate",
+  "metrics": {
+    "startup_0_to_2s": {
+      "frames": 100,
+      "q_p5_p95_range_deg": [
+        14.80102268125761,
+        12.251209942959326,
+        1.008551522353948,
+        0.6385681121329898
+      ],
+      "q_min_max_range_deg": [
+        15.487774263057027,
+        13.536833883295797,
+        16.74981326590898,
+        18.354724318983166
+      ],
+      "leg_accel_rms_20ms_rad_s2": [
+        2.6948974378888906,
+        10.252032220287516,
+        20.82777235202421,
+        23.65799184107932
+      ],
+      "leg_qdot_rms_rad_s": [
+        0.24528478802265846,
+        0.4369062152131887,
+        0.7100651588078717,
+        0.8043355912211977
+      ],
+      "body_pitch_range_deg": 8.40259174106533,
+      "phi0_range_deg": [
+        14.41988960448668,
+        17.73434483463264
+      ],
+      "processed_right_target_range": [
+        0.4704892177198179,
+        0.4704892177198179
+      ],
+      "phi0_delta_rms_deg": 25.0604464823537,
+      "tilt_max_deg": 8.80604978849192
+    },
+    "steady_2s_onward": {
+      "frames": 427,
+      "q_p5_p95_range_deg": [
+        0.6641639283108182,
+        0.9441592253472195,
+        0.37979889807111245,
+        0.21879381269309725
+      ],
+      "q_min_max_range_deg": [
+        1.0939466008255423,
+        1.7690298279019276,
+        0.456620633461334,
+        0.2408153831624498
+      ],
+      "leg_accel_rms_20ms_rad_s2": [
+        1.4388913526790095,
+        4.4114580854015015,
+        3.8041088033008554,
+        2.327610041018089
+      ],
+      "leg_qdot_rms_rad_s": [
+        0.03810319307137554,
+        0.10984272163679935,
+        0.09414695298606902,
+        0.05705613160417054
+      ],
+      "body_pitch_range_deg": 1.931511033724179,
+      "phi0_range_deg": [
+        1.411963751795295,
+        0.24330166176127982
+      ],
+      "processed_right_target_range": [
+        0.0,
+        0.0
+      ],
+      "phi0_delta_rms_deg": 25.661891236639494,
+      "tilt_max_deg": 2.872671630571606
+    },
+    "original_steady_reference": {
+      "q_p5_p95_range_deg": [
+        1.912665369132332,
+        2.1848621028618185,
+        0.34836594982627855,
+        0.1531255074568995
+      ]
+    }
+  },
+  "viewer_closed_due_to": "Windows live-status rename encountered WinError5; not physical instability",
+  "training_started": false,
+  "production_modified": false
+}

@@ -1,0 +1,402 @@
+[
+  {
+    "path": "E:\\wheel_leg_rl-main\\docs\\2026-10-03-wheelleg-dreamwaq-architecture.md",
+    "sha256": "EAC93CCEA82C3B9429FCBD4327BABC5DEB8F9D180557AB965CC12F5C9334D0A7"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheel_leg_urdf4_usd (1)\\wheel_leg_urdf4\\configuration\\wheel_leg_urdf4_base.usd",
+    "sha256": "D980BE2205D0078AA7845AEE7C22B5C7F04FD5A05E79D327FC7E3ED28066C28E"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheel_leg_urdf4_usd (1)\\wheel_leg_urdf4\\configuration\\wheel_leg_urdf4_physics.usd",
+    "sha256": "A8F67B6BDD1210D13AE4BD1254BE8BB87662312BC713046E5CB9478A8C0A2CE5"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheel_leg_urdf4_usd (1)\\wheel_leg_urdf4\\configuration\\wheel_leg_urdf4_robot.usd",
+    "sha256": "81415C4FB375DAEC1A8DDFD0FE5CEAB6A1904FB77F29050149DED24C1F3436A1"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheel_leg_urdf4_usd (1)\\wheel_leg_urdf4\\configuration\\wheel_leg_urdf4_sensor.usd",
+    "sha256": "D31E77E5C105470304DE4F5D8CAA9B3DB2A4D70ECC245510AD96C53F185A8314"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheel_leg_urdf4_usd (1)\\wheel_leg_urdf4\\wheel_leg_urdf4.usd",
+    "sha256": "F371163FF638D3A151B303A202CE9EACD208E04751538FA1BCCBE4F9E5AA7F44"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\configs\\hardware\\portable.yaml",
+    "sha256": "76C4E67D298D8938EB27F047205D715684D08AE0F5A541264755B36EA5C5C7C8"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\configs\\hardware\\rtx4060.yaml",
+    "sha256": "10E73F147604B7C2F55554A3CE4456A9339352690A61E59D121971BD8AE7F034"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\configs\\hardware\\rtx5070.yaml",
+    "sha256": "28CD328E7F6A80BBB18048B550AA065A90156E17A1ABFD2C38BBE22C2FA0C54B"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\audit_asset.py",
+    "sha256": "BD5B9AB3CACC8C16CAEB634FF937894D949D26FDF08CC7D5EC4C909D403BD8F6"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\audit_virtual_leg_geometry.py",
+    "sha256": "C382BC655B0AD40DAFB396AD2885271326E4F7BED0A4AFD07300BBE9AAAA4B94"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\build_mujoco_model.py",
+    "sha256": "3DC5B06008EE365052195C13C1774E2B17326E81625AC8CC674F91FF1957F5EB"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\check_runtime.py",
+    "sha256": "9A808319177E4F7B89A6D311E58A3F2BA0F1EF9AB7B0527DAACE4DEF2981334A"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\check_unrestricted_dynamics.py",
+    "sha256": "6D3EA9257B8CC1C15795E4B5D46AAB4A56A165C3A7840F90B7118CA678447E74"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\create_asset_bundle_v2.py",
+    "sha256": "B086E91ACEC6538060B8108F13060B4A94C4638380C33B5BF955DB3AF7900065"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\evaluate_command_practice_mujoco.py",
+    "sha256": "2392AF3B384C0ADC52153319F791F96EC954E08FC24F8E71657971C5C549CA97"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\evaluate_isaac.py",
+    "sha256": "1126E31928C98D73689412299700EF31F592169821809B1B41A3101C155A3025"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\evaluate_leg_acceleration_mujoco.py",
+    "sha256": "1F9B16731FB14EA6914FF29DA2D48A7673E151BF01D7FCD10C6E1C1DC4E83DC0"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\evaluate_mujoco.py",
+    "sha256": "546A0E7B7A2948256C9A62C061B752455DAD340C3523F04E5B54D0746ACD517F"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\export_dreamwaq_actor.py",
+    "sha256": "09F40F3000FAB7224BE16F5470495C4443429AC66D4DD6F21FE2996EAD20B39E"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\export_mujoco_usd_data.py",
+    "sha256": "13D251CAD68EE9A81E298918AA71A416B74E47772D725003DDEEF57E71E07402"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\export_ppo_actor.py",
+    "sha256": "C9825CE40D513F98296041C1F23C57DAC6C82D0FBC387C4DEA0EF9F75E863913"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\play_dreamwaq.py",
+    "sha256": "4EFD9F0766AD2BD8F264B761DB3344753716FAEFDC04060FF0358A6FA806992C"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\play.py",
+    "sha256": "9845BC8A360FB9FEDB97E7DF097B27D201A9324589BBE709107FA4FB22CBCB00"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\rank_mujoco_runs.py",
+    "sha256": "8B66C84A3FEC1D6CCF4E7B6E6088AB114CAD91E8409F07E8A0D6A22F213B7BA2"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\run_dreamwaq_training_suite.py",
+    "sha256": "E5876E66842C9A4A4F0C1BB66A38634896DD1E0EA4A3E8A60DEA8FCE0718D99F"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\run_training_suite.py",
+    "sha256": "F3EA1D49B2B5D848355DCE112B1BC3CC6158D03464BA3812490F092CB11FCCF1"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\smoke_random_actions.py",
+    "sha256": "B3275AFA1F9DD95305ECBB54BDBF5654F33E3C8E4215DA4129FB31C10073EE9A"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\smoke_zero_actions.py",
+    "sha256": "11E1A99F73B0E716D6701B47576AA4B9FBD3359100B3B4EC4E0A3E76CA8A6470"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\train_dreamwaq.py",
+    "sha256": "44AD504C147B588A0CF02965C6384548330DBC44E4B7F400361555DA3178BB3A"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\scripts\\train_ppo.py",
+    "sha256": "F741A873D2C7C887CD9D5AD84CA068D3161A33A726A56086EBC592F5DE3C1548"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\model_manifest.json",
+    "sha256": "E83642558F85AE261F60FBC90A38BE830B61A9F438F43A33E34C7726512C6811"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\models\\wheel_leg_urdf4_contact_test_wheel_mesh_vs_sphere.xml",
+    "sha256": "DC2C75931A1450CFED90EC5C3FC5A5604E19E4CDEB880C1FD601FF0312F218A8"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\models\\wheel_leg_urdf4_v1.xml",
+    "sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\__init__.py",
+    "sha256": "EB75ADC6A71A11DFD627C693771362E5520058A60C2FADCF8814FA9E1FFECCD6"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\command_practice.py",
+    "sha256": "46852D11229478345EC503DAD9697A95ED331F1744E1FDB3F1EAE53453B8BF32"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\contract.py",
+    "sha256": "C8E174FE748E481B358524C85F8669E014AB6ABA2B7B7F6BFB4A342B16EF2CB9"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\control.py",
+    "sha256": "F5A79CE5210BC887F6E3BCA21B58865D0C951B163CE555CC1A1D66D63E5926D1"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\evaluation.py",
+    "sha256": "A1E76DCCBEFE5986F9A578E0B7387A487EF0810B87AD09A3FC1C640228A51B15"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\metrics.py",
+    "sha256": "DB6B1A1CDB468701E0312D894F8FF1856651FF821A0FADEE1A9F400F04B5E7B3"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\model_map.py",
+    "sha256": "B08A421723D0DAA814316796C7B8C99D58D033B4D74ECC824BB69047C91E3EDC"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\model_semantics.py",
+    "sha256": "672049E647FB1DE89EF0289D15AB2EF611DB38B7FACB5669F82DBF7FFAD23D01"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\observation.py",
+    "sha256": "DD7F972D77FCCA25378BF403F61A67755C8AB4BA28738C97ABF2BBDD733970BD"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\physics.py",
+    "sha256": "40137DDE8BAC7F5B82D799A1FE5E76DE60F0B0E36D62FFF0E44E673D23196235"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\runner.py",
+    "sha256": "728A5A2681C05A33C033A538B823205FF47474868FCBCA5D25F3A3F15EF67EAB"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\wheelleg_mujoco\\versions.py",
+    "sha256": "23E1E6BAAB3EAA56D49AA834EA37E6C585C2FE88B69340ABF9E58575F40547E3"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\__init__.py",
+    "sha256": "8EEDAB5F4183265730266059483F6945DA14992912AC60FD2D4671771634E731"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\algorithms\\__init__.py",
+    "sha256": "5694BF3FCCD72C1200E7E28D5B01737481881C30E3D2A2BB70232C6269A41A70"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\algorithms\\dreamwaq\\__init__.py",
+    "sha256": "03376E5902EA80F26A397F645BA2CB50BCA437D979C3CDBB9DE47475245C2FA5"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\algorithms\\dreamwaq\\actor_critic.py",
+    "sha256": "4F56B595670C4E3D45BE55DEF27D812E5EE6E2140D27AC5E3443971712016F61"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\algorithms\\dreamwaq\\cenet.py",
+    "sha256": "BEAD25CB6DBAA29079A062538E7167C7A4B1461D16D8E63520B66EEA278B7A17"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\algorithms\\dreamwaq\\history_wrapper.py",
+    "sha256": "605C727614E1C4FEF3B5F7A1BAB0492F9011B757F99FE6340B57D0BFE7008062"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\algorithms\\dreamwaq\\ppo.py",
+    "sha256": "564F19F606687FF519D2627CFDE83C0787151BA8857E3D33B11B63E1405ED2FC"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\algorithms\\dreamwaq\\registration.py",
+    "sha256": "4AE22F53AB482B8D0B976AFAC0FA3A5330429408B6C0EDF61AC1E7A72A722832"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\algorithms\\dreamwaq\\storage.py",
+    "sha256": "513B338FA0EA3408BE09A3C137269035700E3A2DEDB1751ACA8D72E4D7881B91"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\assets\\__init__.py",
+    "sha256": "A0AB008F22631116C785B22C0F19AAB018712E165A8F3818E5A2EB6FF6E478B7"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\assets\\asset_contract.py",
+    "sha256": "0919582A7C61F214F01A697407FA99DDA857EFA378B5CD2FDB13855BE78A1D9A"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\assets\\asset_overrides.py",
+    "sha256": "627B840F78D9DF8E36E53F76206AAF269CD11A277A5950AC651D13F04542686F"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\assets\\paths.py",
+    "sha256": "9310E6B37549F0E5C36805D0BB71EC829497D399642DE82E4389D3022E4C98A3"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\assets\\wheelleg.py",
+    "sha256": "E2AB44229CA8CE6D7CA62A7F84DF82CCC3F9FCDEAAC4051286C610FD18F82A9C"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\deployment\\__init__.py",
+    "sha256": "98DFB5F7020C6EFB23D8401FEE9CE2AF57A4B537B44CA62ED560DC1F8F05DC2F"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\deployment\\dreamwaq_inference.py",
+    "sha256": "8BFE188DDFAC49CED58BB4EE84C7E277D2BD773480D3D73266A6F41B425E09A8"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\deployment\\manifest.py",
+    "sha256": "02E79B91784D1D89CFE2A02D1B5E4058740BCC21BC55C9847552C0D6C5F3E870"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\deployment\\observation_adapter.py",
+    "sha256": "2DFC47BC34220781145EBB7768A9A1A712F80D774AC9684B0AAA42663F62FB5E"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\kinematics\\__init__.py",
+    "sha256": "9DF0F335D130D5DDCF232605C8B6F0F353D98F024EEA79DCB6C9916245C712FB"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\kinematics\\virtual_leg.py",
+    "sha256": "65C27BBB5514C5D4E7969B6817B011F19D2A3C3690967EBA3B53368B35212FDF"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\schemas\\__init__.py",
+    "sha256": "9BBDF795BE0D613F12471895283DF387A3A3991BF07EDC0F07D9E43B4A12E071"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\schemas\\action.py",
+    "sha256": "EDF75616BDEEB78024AD6A971599DBC5B46C73E0C59E0DE47AF8075EDA6B404E"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\schemas\\command.py",
+    "sha256": "BBD8B4294779E610F7B1184456BEBB8ACECD7028C64D9CB2D285D4F1B8142FF3"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\schemas\\dreamwaq_manifest.py",
+    "sha256": "CA2731C7960F50DA69A42361D3584F46621377C0A43AC186A28276AFAD528F43"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\schemas\\frames.py",
+    "sha256": "3EEAA49092C766A26D8D54B1CD5DF40C737E2A661EB405109269F349B7BF1D63"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\schemas\\isaac_evaluation.py",
+    "sha256": "03543AD71C9A2EC3E00BC16F8B7AC7DB98D8944259F648EA9B6E3EC659A38D84"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\schemas\\manifest.py",
+    "sha256": "A73BA319E7EE3E62B54FD980AB8AD896B3EC3F9500F846EABDE285FFA01B6AF6"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\schemas\\normalization.py",
+    "sha256": "2321989228EA2B0F27922DAB6894B391E233BD6965F626D88B9A67932562D021"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\schemas\\observation.py",
+    "sha256": "E9053E20C4E736137632DD7A52E4AE9655D8DC31ED6E9A2F5EF84B74A9131F67"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\schemas\\physics.py",
+    "sha256": "5A8D49A9ADDDEB9239C15F4AEC5D60123F1E44E992C15D50D1D4C1F9B3424DAD"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\schemas\\randomization.py",
+    "sha256": "B5C30F9D02D301131FD38F5A0DAEB6CFC44A1D7BDF79CD0FFDCF1E2F912E469F"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\__init__.py",
+    "sha256": "F1AD7FD2B01E375671768AFD038D3BDA3D2E9292D13428490F7FD24D5EFFAB91"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\__init__.py",
+    "sha256": "D196AC27EABFC6A0937F71B02F1592AD1D9FCF7B775A5288A24CF2C10C559399"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\__init__.py",
+    "sha256": "A93C8E1EF5148AB2A9051111873B0F16D6F6384F0DF86FA3FDFDE654CE40E2F2"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\agents\\__init__.py",
+    "sha256": "31588361D24630AFB960BCB40E69C9CEAA269A2A22CC48F79146AA25E54E9B40"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\agents\\dreamwaq_cfg.py",
+    "sha256": "47E68C6E5F2D44EC504A773AB640B0EF9D5E84985DAAA786F34B63BB964FF22B"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\agents\\ppo_cfg.py",
+    "sha256": "EF53CD1960FE05C2197546731AC4032D037E290164C7F7A6AE70696790486BE0"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\commands.py",
+    "sha256": "1E9CC9909FBD2F7D262E4DB79221342CCA092E523F140C30DE56CF2A60BE32A8"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\control.py",
+    "sha256": "D00C01AEF017DAAC90F9B8FE857EDBF9779A56F7C226AC27E8895B6095DC20A6"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\env_cfg.py",
+    "sha256": "11CD06E430D5040F122F97795516C535784944E30B3DF406359F8E29CB3F9E70"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\env.py",
+    "sha256": "A29AA76EFD5C2E62EE1A7E625AEBFE18A3C46E697B330A7DC1A6406AE7E5D29B"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\leg_acceleration.py",
+    "sha256": "760B271A9E46C2FA7C684D36DB1F77E8B4D42CC1568901594B882FCE70AB4205"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\leg_reversal.py",
+    "sha256": "3F1B85B1E8E59E09D7306FB4EA8DB4BFA7B708E78B5BAFFA99BBAD659D69F84A"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\observations.py",
+    "sha256": "D5BE6AB9AD02EDFCF3787F8ADC8715FD58A009C19792969443F9B376745DE22D"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\randomization.py",
+    "sha256": "92A1A41A0E225856EBFCD2998287D781AEB65685558873D42969FBB2E2FF1CE6"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\rewards.py",
+    "sha256": "BE6EFC7E5C39B3CB6FDE71805A84703F78FDDBC11A34CFC0C2F8A94D4B44AFE8"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\state.py",
+    "sha256": "092ED41BCF1489292AAA6D33709BCE2FF30B5013079D94A9D7895043F60E439E"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\terminations.py",
+    "sha256": "A490D26293EA3D56F41A0742E122ECB4B281DAA7BEC1E993E5EB58B637490C84"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\training_profiles.py",
+    "sha256": "1E70D21A64EC803979254C1C032F5836174D23D344E45FC5254A927DA4199632"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\training\\__init__.py",
+    "sha256": "83C4F7E5932D4B2D2F1F731F7324C6C72DAEB1B2D46D646ED2A2AB803E61CC9C"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\training\\checkpoint.py",
+    "sha256": "F36C061D3C0845EC8CCB349093FD70CDFD0951476A36AD9D24CA61F33111A218"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\training\\dreamwaq_checkpoint.py",
+    "sha256": "ACAF894670B38ED1316AA588B89E168686E724F6DB8A0D3AC33128CE2CF1818C"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\training\\runtime.py",
+    "sha256": "D6F8392D5B2244903326A735298DB76ACA8A050D59A38C2D776ABE0F13190392"
+  },
+  {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\training\\weights_initialization.py",
+    "sha256": "49A5C8F55F1AE7D40A9F89C5FCA43CB410E2F029F0ACCD02A67436D8DB44F1BB"
+  }
+]

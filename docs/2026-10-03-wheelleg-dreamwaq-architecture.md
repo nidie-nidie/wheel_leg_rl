@@ -1,7 +1,7 @@
 # WheelLeg DreamWaQ Isaac Lab Architecture
 
-日期：2026-10-10  
-状态：Architecture v0.28；v0.28 按用户授权增加四腿目标换向软约束、ROGER-style有界单项调权与一种子三组200轮探索，见 §33；v0.27 按用户授权新增 action_smooth 加倍的独立配置与一种子从零对照，见 §32；v0.26 按用户授权加入具名停车/换向训练配置与 vx 两项奖励翻倍，默认 PPO 保持原行为，详见 §31；Phase 2 DreamWaQ/CENet 实现契约已冻结；v0.25 按用户授权删除三类人工限速作用，当前动力学为 PhysicsV5 / UnrestrictedVelocityPolicyV1 / MujocoEvaluationContractV3，见 §30；§29 的 PhysxRigidAngularBiasV1 仅作为历史记录；v0.23 的两个 reset 派生缓存失效修复继续有效；保留 deterministic Isaac evaluation 499-step timeout、网络维度、数学契约、termination 与 MuJoCo 500-tick 语义；旧 PhysicsV4 训练工件继续作为历史对照，不可当作 PhysicsV5 续训来源
+日期：2026-10-13
+状态：Architecture v0.29；v0.29 按用户授权新增腿轮 action_smooth 分项和一种子 fresh1000 对照，见 §34；v0.28 按用户授权增加四腿目标换向软约束、ROGER-style有界单项调权与一种子三组200轮探索，见 §33；v0.27 按用户授权新增 action_smooth 加倍的独立配置与一种子从零对照，见 §32；v0.26 按用户授权加入具名停车/换向训练配置与 vx 两项奖励翻倍，默认 PPO 保持原行为，详见 §31；Phase 2 DreamWaQ/CENet 实现契约已冻结；v0.25 按用户授权删除三类人工限速作用，当前动力学为 PhysicsV5 / UnrestrictedVelocityPolicyV1 / MujocoEvaluationContractV3，见 §30；§29 的 PhysxRigidAngularBiasV1 仅作为历史记录；v0.23 的两个 reset 派生缓存失效修复继续有效；保留 deterministic Isaac evaluation 499-step timeout、网络维度、数学契约、termination 与 MuJoCo 500-tick 语义；旧 PhysicsV4 训练工件继续作为历史对照，不可当作 PhysicsV5 续训来源
 适用范围：新建轮腿机器人平地强化学习工程，不修改或继承旧 WheelLeg 任务实现
 
 ## 1. 文档目的
@@ -1908,3 +1908,46 @@ enabled合同显式保存LegTargetReversalV1参数/算法，disabled不增键，
 | ADR | 决策 |
 | --- | --- |
 | ADR-072 | 保留六维action_smooth，以四腿目标0.01rad迟滞/1s換向次数新增软成本，12/8预算、0.02成本上限、24步有界调权；严格身份/resume、独立weights-only初始化，先一种子三组200轮。 |
+
+## 34. 腿、轮二阶动作平滑分项及从零训练（v0.29，2026-10-13）
+
+### 34.1 范围和数学定义
+
+用户批准把六维 action_smooth 拆开，单独提高腿的权重；先文档复核，再实现和代码复核、运行验证，随后训练一种子 1000 iteration。目标是改善实际腿运动，同时保留速度跟踪、停车、换向和平衡。此项是固定权重的软奖励，不是 ROGER，不增加目标滤波、速度硬限制或额外力矩。
+
+a_t 是现有控制步实际执行的 clipped/processed 六维策略动作，沿用现有三帧缓存和 reset 清零语义。d_t = a_t - 2*a_(t-1) + a_(t-2)。
+- action_smooth_leg = sum(d_t[:4]^2)，canonical 顺序 jIJ、jIO、jAB、jAG。
+- action_smooth_wheel = sum(d_t[4:6]^2)，左右轮。
+- 每控制步的分项奖励为 dt * (w_leg * action_smooth_leg + w_wheel * action_smooth_wheel)。dt=0.02 s；只求和，不除以维数，不加入新的动作尺度。
+- 首次配置 stop_reverse_split_smooth_v1：w_leg=-0.02，w_wheel=-0.01。等权 -0.01/-0.01 必须在浮点容差内恢复原六维奖励。
+- 新配置替换原 action_smooth 计罚，不得同时收取旧总项和两个分项。action_rate 的六维一阶差分、其他全部奖励公式/权重与 sigma 保持 stop_reverse_v1；vx 两项仍为 2.0。
+- 新配置关闭旧目标换向与实际加速度 ROGER-style 试验项。所有旧具名 profile 保留各自原行为。
+
+### 34.2 配置、身份和兼容
+
+原 RewardWeights 字段/默认值及 RewardSchemaV2 payload 保留。新增 SplitSmoothRewardWeights 子类，action_smooth=0（禁用旧总项），action_smooth_leg/wheel 分别保存新权重；只在分项配置使用 RewardSchemaV3SplitSmooth。奖励计算返回两个真实分项，不返回已禁用的总项；日志仅累计实际启用项。profile 切回旧配置必须恢复原 RewardWeights 类型，不能遗留分项字段。
+
+base task contract 的 reward schema 和全部权重进入 hash。保存的分项配置必须完整验证权重、schema、停车/换向 schedule 和与其他试验项互斥条件，才能识别 profile；缺失/矛盾值拒绝。普通 resume 仍只允许完全一致的合同；play 和 export 从保存的合同恢复 profile，导出保留真实训练权重和 hash。无需修改网络 checkpoint 张量布局、learner 或 MuJoCo 电机控制。此次从零训练，不新增跨奖励 weights-only 初始化通道。
+
+### 34.3 验证和实验
+
+文档计划：wheelleg_dreamwaq/docs/superpowers/plans/2026-10-13-split-action-smooth.md；debug 入口：wheelleg_dreamwaq/artifacts/debug/sim2sim/split-action-smooth-20261013-v1/plan.md。
+
+训练前：单元测试检查腿轮隔离、等权等价、仅腿加倍、没有重复扣分、profile 往返/切回、未知合同拒绝、旧合同保持及 resume 拒绝跨配置。真实 Isaac 仅用于两轮训练/保存、恢复到第三轮的流程验证；不在 Isaac 收集运动诊断。TorchScript golden 用 batch 1/3/32，误差 <=1e-7。
+
+正式首轮从零训练 1000 iteration，seed41882943，rtx5070/256环境/8 mini-batches，独立 run 目录，不使用 --resume 或 --initialize-from。网络、CENet、storage、五帧 t-4..t history、AdaBoot、PhysicsV5、PD/effort、动作/命令、reset、随机化、USD/XML/碰撞、地形和 termination 不变。训练运行中代码冻结，每30分钟记录进度和有限值/异常。
+
+主对照为 stop_reverse_v1 同种子原始1000轮 model_999.pt，SHA256=3D621280CF7F11088C972B0DD84CF2E698C29A4C8CDA8BC370BB80A2669DF885；不是1401轮、85%加速度模型或debug滤波候选。对照和新模型均使用当前未包装控制器完成MuJoCo八场景500tick及四组停车/换向序列；额外记录停车/前进/后退的1ms实际关节运动，采样只读取已有物理步，不插入积分/滤波。
+
+验收按实验计划同时报告实际 q/qdot/qddot、目标角、速度误差、倾角、饱和、存活和换向时间；不能用训练 reward、目标不变或裁剪饱和代替实际减抖。数值减抖门槛属于本实验，不能称为硬件安全阈值，也不能单凭通过宣称肉眼已无抖动。
+
+### 34.4 有限调参授权
+
+首轮 MuJoCo 若八场景存活、停车/直行稳态速度合格但减抖不足，可只将腿权重改为 -0.04（stop_reverse_split_smooth04_v1），轮保持 -0.01，以同种子从零另训1000轮；最多追加这一档，不无限搜索。若增大腿惩罚伴随存活或主要速度恶化，不继续盲目加罚。训练中途不得改权重；每档保存独立合同/工件、结果和失败原因。四种子扩训、其他奖励、网络或动力学修改不在本次范围。
+
+| ADR | 决策 |
+| --- | --- |
+| ADR-073 | 独立 RewardSchemaV3SplitSmooth 配置：四腿/两轮二阶动作变化分别求和，首轮 -0.02/-0.01；保持旧奖励/hash和严格resume；文档、代码各串行单agent复核后验证、fresh1000，再MuJoCo验收；必要时最多追加腿-0.04单变量对照。 |
+
+
+文档复核修订：MuJoCo contract.py 仅增加 DreamWaQ 新训练奖励元数据识别；PPO 仍限 V2，必须验证完整权重和停车/换向 schedule，再执行原有动作/模型/物理检查。真实 loader smoke 纳入训练前验证。1ms qddot 固定为相邻原物理步 qdot 差/0.001s，从原 reset 后 qdot 起算；舍弃前2秒，再按1000样本/1秒的8个窗口逐关节RMS，依次等权平均窗口、四关节、三个主场景，另报逐关节p90。时间区间与20ms指标一致，不能替换为 data.qacc。

@@ -1,0 +1,16 @@
+{
+  "production_sha256": "546A0E7B7A2948256C9A62C061B752455DAD340C3523F04E5B54D0746ACD517F",
+  "diagnostic_sha256": "B03FC1A5645AF7B761EFD2AAA5333639C07D872D8447E0E49BBF8EBD94FD23BC",
+  "changes": {
+    "PROJECT_ROOT = Path(__file__).resolve().parents[1]": "PROJECT_ROOT = Path(r\"E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\")",
+    "\"TrainingEvaluationContextV1\": \"TrainingEvaluationRunV1\",\n            \"DreamWaQTrainingEvaluationContextV1\": \"DreamWaQTrainingEvaluationRunV1\",": "\"LegReversalTrialEvaluationContextV1\": \"LegReversalTrialEvaluationRunV1\",",
+    "training_suite.get(\"suite_mode\") != \"formal\"": "training_suite.get(\"suite_mode\") != \"single_seed_leg_reversal_trial\"",
+    "training_suite.get(\"run_count\") != 4": "training_suite.get(\"run_count\") != 3",
+    "training_suite.get(\"iterations_per_run\") != 1000": "training_suite.get(\"iterations_per_run\") != 200"
+  },
+  "additional_changes": [
+    "import CPU counter and select one CPU torch thread",
+    "read unchanged targets and joint velocities before/after existing runtime.step",
+    "add diagnostic CSV columns and mark report diagnostic_only"
+  ]
+}

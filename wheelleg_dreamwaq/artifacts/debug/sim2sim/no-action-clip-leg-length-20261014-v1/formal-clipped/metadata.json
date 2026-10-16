@@ -1,0 +1,73 @@
+{
+  "action_sequence_identity": null,
+  "action_transform": "formal_clipped_target",
+  "actor_sha256": "8A488B166BB8FDF417882B5C16A43CBCC04B8BBA2300C4D5F5A7EC0FDAD8B871",
+  "all_hinge_order": [
+    "jIO",
+    "jOP",
+    "jwheel_left",
+    "jIO_dummy_child_link1",
+    "jIO_dummy_child_link2",
+    "jAG",
+    "jGH",
+    "jwheel_right",
+    "jAG_dummy_child_link1",
+    "jAG_dummy_child_link2",
+    "jIJ",
+    "jJM",
+    "jMK",
+    "jKN",
+    "jKN_dummy_child_link1",
+    "jKN_dummy_child_link2",
+    "jMK_dummy_child1",
+    "jMK_dummy_child2",
+    "jAB",
+    "jBE",
+    "jEC",
+    "jCF",
+    "jCF_dummy_child_link1",
+    "jCF_dummy_child_link2",
+    "jEC_dummy_child_link1",
+    "jEC_dummy_child_link2"
+  ],
+  "bypass_action_clip": false,
+  "command": [
+    0.0,
+    0.0,
+    0.2
+  ],
+  "completed_control_ticks": 100,
+  "debug_model": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\no-action-clip-leg-length-20261014-v1\\formal-clipped\\models\\wheel_leg_formal_1ms_debug.xml",
+  "debug_model_sha256": "A96E4DCB49BF0CC54A1B0763211ACC1FEBF4C0B028E543C9C50405482AA65889",
+  "debug_only": true,
+  "engine": "mujoco",
+  "engine_version": "3.14.0",
+  "formal_model_sha256_after": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "formal_model_sha256_before": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "formal_ranking_eligible": false,
+  "leg_length_probe_window_m": [
+    0.15,
+    0.35
+  ],
+  "mode": "closed_loop",
+  "policy_input_dimension": 125,
+  "policy_kind": "dreamwaq",
+  "policy_manifest_sha256": "6A133AE3A152BB4CB768FAE33BDC0270A7AB7ED3E318BDA2BE5F13E48E1DB94C",
+  "probe_summary": {
+    "ticks_outside_leg_length_window": 0,
+    "ticks_over_closure_limit": 0,
+    "ticks_with_hidden_action_delta": 100
+  },
+  "python_version": "3.11.16",
+  "requested_control_ticks": 100,
+  "schema_version": "DreamWaQSim2SimTraceV1",
+  "stopped_reason": "none",
+  "stopped_reason_code": 0,
+  "timing_profile": {
+    "control_dt_s": 0.02,
+    "name": "formal_1ms",
+    "physics_dt_s": 0.001,
+    "physics_steps_per_action": 20,
+    "torque_refresh_substeps": 1
+  }
+}

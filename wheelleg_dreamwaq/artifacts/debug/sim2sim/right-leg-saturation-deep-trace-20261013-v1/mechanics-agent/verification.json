@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "checks": {
+    "input_hashes_unchanged": true,
+    "actuator_joint_mapping": true,
+    "fk_all_grid_points_valid": true,
+    "jacobian_finite_difference": true,
+    "mode_energy_and_fraction": true,
+    "no_training_or_isaac": true
+  },
+  "jacobian_finite_difference_max_error": 3.651875468690946e-10,
+  "mode_fraction_max_error": 2.220446049250313e-16,
+  "protected_inputs": 5,
+  "verification_scope": "Mechanical audit and decomposition only; no claim of deployment performance",
+  "writes_only_this_directory": true
+}

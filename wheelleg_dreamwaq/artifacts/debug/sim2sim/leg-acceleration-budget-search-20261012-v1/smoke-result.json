@@ -1,0 +1,14 @@
+{
+  "completed_rollouts": [
+    2,
+    3
+  ],
+  "export": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\smoke\\export",
+  "fresh_run": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_01-46-37_rtx5070_fudan-v1_leg-accel-budget-search-20261012-smoke-fresh2",
+  "golden": {
+    "1": 7.152557373046875e-07,
+    "3": 6.705522537231445e-07,
+    "32": 0.0
+  },
+  "resume_run": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_01-46-52_rtx5070_fudan-v1_leg-accel-budget-search-20261012-smoke-resume3"
+}

@@ -1,0 +1,26 @@
+{
+  "80": {
+    "iterations_with_gain_logged": 200,
+    "gain_next_min": 0.0417,
+    "gain_next_max": 1.0,
+    "gain_next_at_1_fraction": 0.995,
+    "gain_used_first": 0.0,
+    "gain_used_after_first_at_1_fraction": 1.0
+  },
+  "85": {
+    "iterations_with_gain_logged": 200,
+    "gain_next_min": 0.0417,
+    "gain_next_max": 1.0,
+    "gain_next_at_1_fraction": 0.995,
+    "gain_used_first": 0.0,
+    "gain_used_after_first_at_1_fraction": 1.0
+  },
+  "90": {
+    "iterations_with_gain_logged": 200,
+    "gain_next_min": 0.0417,
+    "gain_next_max": 1.0,
+    "gain_next_at_1_fraction": 0.995,
+    "gain_used_first": 0.0,
+    "gain_used_after_first_at_1_fraction": 1.0
+  }
+}

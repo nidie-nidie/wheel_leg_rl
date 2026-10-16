@@ -1,0 +1,129 @@
+{
+  "schema": "SaturationRewardCaptureV1",
+  "checks": [
+    {
+      "trace": "baseline_nominal_stand",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "baseline_low_stand",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "baseline_high_stand",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "baseline_forward",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "baseline_reverse",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "baseline_left_turn",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "baseline_right_turn",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "baseline_combined",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "85_nominal_stand",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "85_low_stand",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "85_high_stand",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "85_forward",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "85_reverse",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "85_left_turn",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "85_right_turn",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "85_combined",
+      "ticks": 500,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    },
+    {
+      "trace": "85_interactive",
+      "ticks": 2120,
+      "replay_max_abs_error": 0.0,
+      "interactive_inference_max_abs_error": 0.0,
+      "interactive_history_max_abs_error": 0.0
+    }
+  ],
+  "control_dt_s": 0.02,
+  "physics_dt_s": 0.001,
+  "contact_force_timestamp": "last_substep_before_integration",
+  "protected_files_unchanged": true,
+  "elapsed_wall_s": 12.595963699975982
+}

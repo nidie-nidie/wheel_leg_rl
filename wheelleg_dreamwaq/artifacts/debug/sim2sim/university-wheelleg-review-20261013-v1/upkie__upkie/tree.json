@@ -1,0 +1,3221 @@
+{
+  "sha": "ffa9e4dd718a2f7aba1013ac503526f89b8c8b4f",
+  "url": "https://api.github.com/repos/upkie/upkie/git/trees/ffa9e4dd718a2f7aba1013ac503526f89b8c8b4f",
+  "tree": [
+    {
+      "path": ".bazelignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cdf4d5df6ac7e767281c5759651d3216872fead4",
+      "size": 6,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/cdf4d5df6ac7e767281c5759651d3216872fead4"
+    },
+    {
+      "path": ".bazelrc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ea46601aabe345ede03119c0d8cda959abbce89",
+      "size": 1796,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/8ea46601aabe345ede03119c0d8cda959abbce89"
+    },
+    {
+      "path": ".bazelversion",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6abaeb2f90723ba328101fc117a1f19e93407e47",
+      "size": 6,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6abaeb2f90723ba328101fc117a1f19e93407e47"
+    },
+    {
+      "path": ".clang-format",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "952bdd2f889a16af3d3a78cbfbefd7f51b2d5ac2",
+      "size": 4522,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/952bdd2f889a16af3d3a78cbfbefd7f51b2d5ac2"
+    },
+    {
+      "path": ".gitattributes",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b501fd52c24f02c35297eadd035a5c1bf5e8929e",
+      "size": 76,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/b501fd52c24f02c35297eadd035a5c1bf5e8929e"
+    },
+    {
+      "path": ".github",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d1c1c422936307880c998912635534982d640c0c",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/d1c1c422936307880c998912635534982d640c0c"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "74e3e4a231d25d978580a897701883e68267f34a",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/74e3e4a231d25d978580a897701883e68267f34a"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/bug_report.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a81c6a1a5319580027121f6dfc9d24afed286625",
+      "size": 630,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a81c6a1a5319580027121f6dfc9d24afed286625"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/config.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c3255fd59c430ec0de1c4f6e2732cfd681c14663",
+      "size": 194,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c3255fd59c430ec0de1c4f6e2732cfd681c14663"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/feature_request.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1460d18b556efe27f133af4ddd2ff6c143749da2",
+      "size": 566,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/1460d18b556efe27f133af4ddd2ff6c143749da2"
+    },
+    {
+      "path": ".github/workflows",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "6e69b0f248589d0d259db4da511c822b721e745d",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/6e69b0f248589d0d259db4da511c822b721e745d"
+    },
+    {
+      "path": ".github/workflows/changelog.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7b31b574ff233040d9a88eeb47250d735afdda2b",
+      "size": 488,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/7b31b574ff233040d9a88eeb47250d735afdda2b"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ad4005b39326495154d837bc4d867877e89e73f1",
+      "size": 5445,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ad4005b39326495154d837bc4d867877e89e73f1"
+    },
+    {
+      "path": ".github/workflows/docs.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a60fa93ed7a4bd08bd8b7b60f16e96f6928b02b",
+      "size": 1404,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/1a60fa93ed7a4bd08bd8b7b60f16e96f6928b02b"
+    },
+    {
+      "path": ".github/workflows/packaging.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7b83e8d28e458dde023f3ae034fc2f3970aab5ff",
+      "size": 2843,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/7b83e8d28e458dde023f3ae034fc2f3970aab5ff"
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab8855855dbdde24729d02acb37619ecc46baeeb",
+      "size": 2795,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ab8855855dbdde24729d02acb37619ecc46baeeb"
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99c4e41d255a5df58451fb1c7c7d61b784078139",
+      "size": 94,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/99c4e41d255a5df58451fb1c7c7d61b784078139"
+    },
+    {
+      "path": ".pre-commit-config.yaml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72a290e04c2168e938bae77ce783be99b01e30b2",
+      "size": 1928,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/72a290e04c2168e938bae77ce783be99b01e30b2"
+    },
+    {
+      "path": "BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d0bde127327aac099c78097b05ada8acbf4b1bb8",
+      "size": 438,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/d0bde127327aac099c78097b05ada8acbf4b1bb8"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "057fdcbf7215e31975a2676a7fa1bbdc83419217",
+      "size": 44936,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/057fdcbf7215e31975a2676a7fa1bbdc83419217"
+    },
+    {
+      "path": "CITATION.cff",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d51b895487f4a9c99ae0e5487c464de33538b76",
+      "size": 979,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/2d51b895487f4a9c99ae0e5487c464de33538b76"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f237d34c508d691eef4421e1d1d84d4bed41f8de",
+      "size": 502,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/f237d34c508d691eef4421e1d1d84d4bed41f8de"
+    },
+    {
+      "path": "CPPLINT.cfg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6aa02420247f16c8782b814dd0382920b3e2a23a",
+      "size": 863,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6aa02420247f16c8782b814dd0382920b3e2a23a"
+    },
+    {
+      "path": "LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4726d5d7a8232debd28350cf5cb1dee3ec5c7d7c",
+      "size": 11990,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/4726d5d7a8232debd28350cf5cb1dee3ec5c7d7c"
+    },
+    {
+      "path": "Makefile",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a8f91b9bbfbb2b368fcf4205eaab9c1445573108",
+      "size": 3247,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a8f91b9bbfbb2b368fcf4205eaab9c1445573108"
+    },
+    {
+      "path": "NOTICE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e48090d668ed20a3f5105f805ad4ba9bcedfdc15",
+      "size": 339,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e48090d668ed20a3f5105f805ad4ba9bcedfdc15"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bd7df1c57daada69743f63d7fb9522bbbabc89a6",
+      "size": 5894,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/bd7df1c57daada69743f63d7fb9522bbbabc89a6"
+    },
+    {
+      "path": "WORKSPACE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e590c744b3497a5d6e5bd10e9337407e1ebacb52",
+      "size": 932,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e590c744b3497a5d6e5bd10e9337407e1ebacb52"
+    },
+    {
+      "path": "docs",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9320d858011e87ec4196de882fc2b4bea7f165fc",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/9320d858011e87ec4196de882fc2b4bea7f165fc"
+    },
+    {
+      "path": "docs/Doxyfile",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e3ac95cac159ae2df463397c7666722e2adff13f",
+      "size": 110374,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e3ac95cac159ae2df463397c7666722e2adff13f"
+    },
+    {
+      "path": "docs/Makefile",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc14200a6c81ef993d45653ccc56fc1979a4d134",
+      "size": 1516,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/bc14200a6c81ef993d45653ccc56fc1979a4d134"
+    },
+    {
+      "path": "docs/assembly",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "dbae0f86bc421e8d4accad40b488ec8f955a4e32",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/dbae0f86bc421e8d4accad40b488ec8f955a4e32"
+    },
+    {
+      "path": "docs/assembly/3d-printing.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2fed7217ab6a87a05ed5108bf1b21a2b28592459",
+      "size": 4931,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/2fed7217ab6a87a05ed5108bf1b21a2b28592459"
+    },
+    {
+      "path": "docs/assembly/assembly.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "331d144c3218b6e468acd52c271ed5b050be961a",
+      "size": 9810,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/331d144c3218b6e468acd52c271ed5b050be961a"
+    },
+    {
+      "path": "docs/assembly/bill-of-materials.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6c81c28d354043f3279a14f9ad1a56cfe60fd935",
+      "size": 6667,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6c81c28d354043f3279a14f9ad1a56cfe60fd935"
+    },
+    {
+      "path": "docs/assembly/build-your-own.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5b81d5d09a95d8f1a73e5905a7a6bafa907eba26",
+      "size": 766,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/5b81d5d09a95d8f1a73e5905a7a6bafa907eba26"
+    },
+    {
+      "path": "docs/assembly/cables.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f168d7ef7e616a5adbdc18ce85ffff4f4b689c4",
+      "size": 1728,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/8f168d7ef7e616a5adbdc18ce85ffff4f4b689c4"
+    },
+    {
+      "path": "docs/assembly/electronics-testing.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f256b96fcaa16811b9d252c67bc6c79284e90e79",
+      "size": 6744,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/f256b96fcaa16811b9d252c67bc6c79284e90e79"
+    },
+    {
+      "path": "docs/assembly/getting-started.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e183ec95caa15d9c6c63f296dbc0843d0a315878",
+      "size": 1456,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e183ec95caa15d9c6c63f296dbc0843d0a315878"
+    },
+    {
+      "path": "docs/assembly/motion-control-software.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a4c59fa54f20467354670671d91303cdb290e818",
+      "size": 2916,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a4c59fa54f20467354670671d91303cdb290e818"
+    },
+    {
+      "path": "docs/assembly/raspberry-pi-setup.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e24bf82dd80b73241151512e7af296a8f30b2c7f",
+      "size": 1531,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e24bf82dd80b73241151512e7af296a8f30b2c7f"
+    },
+    {
+      "path": "docs/css",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "623945180be0994c8459f4d56d67711f14d65170",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/623945180be0994c8459f4d56d67711f14d65170"
+    },
+    {
+      "path": "docs/css/doxygen-awesome-sidebar-only-darkmode-toggle.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d207446e0be8ca2f2129dc03e556f2678bf0abc8",
+      "size": 1474,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/d207446e0be8ca2f2129dc03e556f2678bf0abc8"
+    },
+    {
+      "path": "docs/css/doxygen-awesome-sidebar-only.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "853f6d6926e258aca286b70bbc5d8661c5efd0b1",
+      "size": 3287,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/853f6d6926e258aca286b70bbc5d8661c5efd0b1"
+    },
+    {
+      "path": "docs/css/doxygen-awesome.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e51bb4ffaf5414cfc8f77aef10ec9ae85ee18bb4",
+      "size": 67512,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e51bb4ffaf5414cfc8f77aef10ec9ae85ee18bb4"
+    },
+    {
+      "path": "docs/dev-notes.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3fedbc95d2c7145860870360c2c901f88ff30c10",
+      "size": 8690,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/3fedbc95d2c7145860870360c2c901f88ff30c10"
+    },
+    {
+      "path": "docs/figures",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "73de85b78df7883de4c1315f91c102d47b04d5b7",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/73de85b78df7883de4c1315f91c102d47b04d5b7"
+    },
+    {
+      "path": "docs/figures/action-observation-loop.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2081c3b0baa99f9b15a59bb530247802489466cc",
+      "size": 512883,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/2081c3b0baa99f9b15a59bb530247802489466cc"
+    },
+    {
+      "path": "docs/figures/build-workflow.drawio",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "34bc90465b9494e147ba310391bca08e6a7ad0fe",
+      "size": 17670,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/34bc90465b9494e147ba310391bca08e6a7ad0fe"
+    },
+    {
+      "path": "docs/figures/floor-contact.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b66d5c7884e8c316c621406719ee31ced060ca0",
+      "size": 38841,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/4b66d5c7884e8c316c621406719ee31ced060ca0"
+    },
+    {
+      "path": "docs/figures/observers.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f605ce0144ac249028e6c1b653137c2134e9208e",
+      "size": 43825,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/f605ce0144ac249028e6c1b653137c2134e9208e"
+    },
+    {
+      "path": "docs/figures/state-machine.dot",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b22a3232d48ba73378fe238b92d3a1fca18650ad",
+      "size": 1183,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/b22a3232d48ba73378fe238b92d3a1fca18650ad"
+    },
+    {
+      "path": "docs/figures/wheel-odometry.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af66907c6b8187aee95c6922c25e68dec9a32083",
+      "size": 62820,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/af66907c6b8187aee95c6922c25e68dec9a32083"
+    },
+    {
+      "path": "docs/gym-environments.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c1d9ad1a4bf1fbdca88959901e28ebeaec53ef77",
+      "size": 1497,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c1d9ad1a4bf1fbdca88959901e28ebeaec53ef77"
+    },
+    {
+      "path": "docs/images",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5191714e9dfa7b96cbea0897cd2900edc5f44e85",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/5191714e9dfa7b96cbea0897cd2900edc5f44e85"
+    },
+    {
+      "path": "docs/images/.gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9e5aa965bfbc837d576e9d8d4b660c2507d82f3d",
+      "size": 103,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/9e5aa965bfbc837d576e9d8d4b660c2507d82f3d"
+    },
+    {
+      "path": "docs/images/anchor-frames.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "58ee25614b8a9cf27311faa78d8f323cb2f16169",
+      "size": 72641,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/58ee25614b8a9cf27311faa78d8f323cb2f16169"
+    },
+    {
+      "path": "docs/images/battery-stud.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "24d8f081ae1d3a4ac3362ee854cc40dae1cf2473",
+      "size": 172509,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/24d8f081ae1d3a4ac3362ee854cc40dae1cf2473"
+    },
+    {
+      "path": "docs/images/build-workflow.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a49f1da0da4a2f5714aee57dc9aa741910e2a3e9",
+      "size": 100339,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a49f1da0da4a2f5714aee57dc9aa741910e2a3e9"
+    },
+    {
+      "path": "docs/images/bullet-spine.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "959cafa877474b5c8d6a9086133ae71416d3b953",
+      "size": 23871,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/959cafa877474b5c8d6a9086133ae71416d3b953"
+    },
+    {
+      "path": "docs/images/comms-cables.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ef45cf784e338942fbbc476bba238000c8ef8f9",
+      "size": 164112,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6ef45cf784e338942fbbc476bba238000c8ef8f9"
+    },
+    {
+      "path": "docs/images/daisy-chain.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea57743f38b8e5ef13f76daec3d3335060032772",
+      "size": 169622,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ea57743f38b8e5ef13f76daec3d3335060032772"
+    },
+    {
+      "path": "docs/images/face-plate-1.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "080c7712d643c728a7bbdab1ef48ea40fecd0018",
+      "size": 157691,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/080c7712d643c728a7bbdab1ef48ea40fecd0018"
+    },
+    {
+      "path": "docs/images/face-plate-2.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d02e0a6c8dcd9848f0d94725f947fb49f435b305",
+      "size": 111214,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/d02e0a6c8dcd9848f0d94725f947fb49f435b305"
+    },
+    {
+      "path": "docs/images/head-plate-assembly.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "785d34b2e741256c405b7198e8c7a09edf213134",
+      "size": 116591,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/785d34b2e741256c405b7198e8c7a09edf213134"
+    },
+    {
+      "path": "docs/images/head-plate.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0eb1795cfda0a3504202678714eb2c1cd16748bc",
+      "size": 244258,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0eb1795cfda0a3504202678714eb2c1cd16748bc"
+    },
+    {
+      "path": "docs/images/imu-frame.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d5575597bc593ac84e73c67740c4046bb38506fa",
+      "size": 66284,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/d5575597bc593ac84e73c67740c4046bb38506fa"
+    },
+    {
+      "path": "docs/images/power-cables.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "23c35c7f72b119ec2186deed00a314e423caad79",
+      "size": 109739,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/23c35c7f72b119ec2186deed00a314e423caad79"
+    },
+    {
+      "path": "docs/images/terminator.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63a4941e0cb79c2888ae9d334cbed4d96be1943d",
+      "size": 35090,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/63a4941e0cb79c2888ae9d334cbed4d96be1943d"
+    },
+    {
+      "path": "docs/images/testing-table.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d67929b5758e4245197aab375574617da12a2ef",
+      "size": 419813,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/4d67929b5758e4245197aab375574617da12a2ef"
+    },
+    {
+      "path": "docs/images/torso-assembly.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2161656fafd15bb7b8cab831d24ad3bbaf2d728f",
+      "size": 138507,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/2161656fafd15bb7b8cab831d24ad3bbaf2d728f"
+    },
+    {
+      "path": "docs/kinematics.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6eada6cf83c2be6b222d37843418534bcc35e240",
+      "size": 5910,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6eada6cf83c2be6b222d37843418534bcc35e240"
+    },
+    {
+      "path": "docs/observations.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af72b7b2a017d1917e56ed1dac096c69e3924d13",
+      "size": 8648,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/af72b7b2a017d1917e56ed1dac096c69e3924d13"
+    },
+    {
+      "path": "docs/sensors.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec7a242f1e91c49863d6a259f79d9590368fc7e9",
+      "size": 2067,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ec7a242f1e91c49863d6a259f79d9590368fc7e9"
+    },
+    {
+      "path": "docs/spines.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "04d69a5a9985e88206430af18571a5851840e76e",
+      "size": 2325,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/04d69a5a9985e88206430af18571a5851840e76e"
+    },
+    {
+      "path": "examples",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b74787ffaf33a8ad8c6d2d9e52055dd13428b300",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/b74787ffaf33a8ad8c6d2d9e52055dd13428b300"
+    },
+    {
+      "path": "examples/follow_joystick.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "89c58d7676b79925ebe59fe2f8d8ea2eca29e3bb",
+      "size": 2218,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/89c58d7676b79925ebe59fe2f8d8ea2eca29e3bb"
+    },
+    {
+      "path": "examples/follow_square.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c600cf3e932184bd767c66cfb3ee6704f889bb83",
+      "size": 3835,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c600cf3e932184bd767c66cfb3ee6704f889bb83"
+    },
+    {
+      "path": "examples/go_forward.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "693ab008feec023b0b3eb4b080497621ef654efa",
+      "size": 2804,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/693ab008feec023b0b3eb4b080497621ef654efa"
+    },
+    {
+      "path": "examples/pybullet",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "28352218465b88fc56a5f7740b8101cdbb444182",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/28352218465b88fc56a5f7740b8101cdbb444182"
+    },
+    {
+      "path": "examples/pybullet/apply_external_forces.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a13fe0facf3c278e19d1cc60143a9bd3c803f318",
+      "size": 3111,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a13fe0facf3c278e19d1cc60143a9bd3c803f318"
+    },
+    {
+      "path": "examples/pybullet/count_wheel_contacts.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cd40f3894358e8e50a91793058e8dc1b0a5ba9dd",
+      "size": 2407,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/cd40f3894358e8e50a91793058e8dc1b0a5ba9dd"
+    },
+    {
+      "path": "examples/pybullet/joint_friction.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9aed3b4a462d1c672c7836a0084581f2a879c102",
+      "size": 1834,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/9aed3b4a462d1c672c7836a0084581f2a879c102"
+    },
+    {
+      "path": "examples/pybullet/lying_genuflection.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e69091c4bc05d007c736dee33236535379c4c12",
+      "size": 1433,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0e69091c4bc05d007c736dee33236535379c4c12"
+    },
+    {
+      "path": "examples/pybullet/mpc_balancing.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eff2bdfa7dd2f90b4ebde56e19c4784d4fdde690",
+      "size": 2636,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/eff2bdfa7dd2f90b4ebde56e19c4784d4fdde690"
+    },
+    {
+      "path": "examples/pybullet/pd_balancing.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65d8b916b54cd0fa7145b72b572cc5de48a0d5dc",
+      "size": 958,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/65d8b916b54cd0fa7145b72b572cc5de48a0d5dc"
+    },
+    {
+      "path": "examples/pybullet/randomize_inertias.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65a2fdb37c792c0fe8280a69d94fed0e35cb362f",
+      "size": 3586,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/65a2fdb37c792c0fe8280a69d94fed0e35cb362f"
+    },
+    {
+      "path": "examples/pybullet/sensor_noise.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1e4f0bfb5cbdd4a8f76c248f017c6cc851a4f527",
+      "size": 1663,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/1e4f0bfb5cbdd4a8f76c248f017c6cc851a4f527"
+    },
+    {
+      "path": "examples/pybullet/set_initial_state.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "47bbc8dc396392be4f51cd8c0a3493f7a3696e68",
+      "size": 917,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/47bbc8dc396392be4f51cd8c0a3493f7a3696e68"
+    },
+    {
+      "path": "examples/pybullet/torque_balancing.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6483344d681e4bb0fbcf45ffda24ab2530595a15",
+      "size": 1336,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6483344d681e4bb0fbcf45ffda24ab2530595a15"
+    },
+    {
+      "path": "examples/real_robot",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "aa0b89f2e07929ed5b21f9995b927f0af75e41cf",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/aa0b89f2e07929ed5b21f9995b927f0af75e41cf"
+    },
+    {
+      "path": "examples/real_robot/follow_joystick.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82cc291d13dc558891f15afa6fad67535b2dc123",
+      "size": 3610,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/82cc291d13dc558891f15afa6fad67535b2dc123"
+    },
+    {
+      "path": "examples/real_robot/lying_genuflection.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3899405de0da4b41c499f3ebcb01635abb48324f",
+      "size": 1430,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/3899405de0da4b41c499f3ebcb01635abb48324f"
+    },
+    {
+      "path": "examples/real_robot/mpc_balancing.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b7d130c413c7cab0b985e7c26f581396e01e0c0",
+      "size": 2897,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/4b7d130c413c7cab0b985e7c26f581396e01e0c0"
+    },
+    {
+      "path": "examples/real_robot/neutral_configuration.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f5afb1217c38e769c96b1eaf4f54db9c9743f7e0",
+      "size": 1302,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/f5afb1217c38e769c96b1eaf4f54db9c9743f7e0"
+    },
+    {
+      "path": "examples/real_robot/pd_balancing.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "614a10769323ca79abd91c8b145c6da80013f058",
+      "size": 1014,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/614a10769323ca79abd91c8b145c6da80013f058"
+    },
+    {
+      "path": "pixi.lock",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fc0ee08c4ef684e0a1a1ecd95cda48f24d3789b1",
+      "size": 441655,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/fc0ee08c4ef684e0a1a1ecd95cda48f24d3789b1"
+    },
+    {
+      "path": "pyproject.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e0c009c76cae3a93bc3a6e4f3d65bb5ce3965e61",
+      "size": 8918,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e0c009c76cae3a93bc3a6e4f3d65bb5ce3965e61"
+    },
+    {
+      "path": "spines",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1ca6ce83ade11d6a53c4b75ff38cbf2c7aaca852",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/1ca6ce83ade11d6a53c4b75ff38cbf2c7aaca852"
+    },
+    {
+      "path": "spines/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6271d4d5e83f3b4c057699f6961a228e1f689beb",
+      "size": 1509,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6271d4d5e83f3b4c057699f6961a228e1f689beb"
+    },
+    {
+      "path": "spines/bullet_spine.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2252cbaaffedde15044a17daf0c584db74b2e75e",
+      "size": 13750,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/2252cbaaffedde15044a17daf0c584db74b2e75e"
+    },
+    {
+      "path": "spines/common",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f297c42ece892160c3869bd1e51f9433ae9c7962",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/f297c42ece892160c3869bd1e51f9433ae9c7962"
+    },
+    {
+      "path": "spines/common/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f463aa0816ca66011a613b27012195d2b83ee6e",
+      "size": 456,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/5f463aa0816ca66011a613b27012195d2b83ee6e"
+    },
+    {
+      "path": "spines/common/controllers.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "433e86f839bf3129580da7d8070c3ac1234bf24a",
+      "size": 1491,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/433e86f839bf3129580da7d8070c3ac1234bf24a"
+    },
+    {
+      "path": "spines/common/observers.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d8fa52951fef3fccb250392ff7222658b6cf0b50",
+      "size": 1350,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/d8fa52951fef3fccb250392ff7222658b6cf0b50"
+    },
+    {
+      "path": "spines/common/sensors.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "343cba8502e51ae9c0fec42cfe94bb9bdcc84be5",
+      "size": 1506,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/343cba8502e51ae9c0fec42cfe94bb9bdcc84be5"
+    },
+    {
+      "path": "spines/pi3hat_spine.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "03b7a1eeccdb98a536dfb6f609b1f38ed19469aa",
+      "size": 9316,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/03b7a1eeccdb98a536dfb6f609b1f38ed19469aa"
+    },
+    {
+      "path": "tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0511575d3d247fd5de1fe792b3272d8b594adf81",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/0511575d3d247fd5de1fe792b3272d8b594adf81"
+    },
+    {
+      "path": "tests/conftest.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "218d38ffce4c10adcab0d0d262cb6085c82d94f9",
+      "size": 284,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/218d38ffce4c10adcab0d0d262cb6085c82d94f9"
+    },
+    {
+      "path": "tests/controllers",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "24b2ca26d269561f062b6c6a3502e2c3f664904b",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/24b2ca26d269561f062b6c6a3502e2c3f664904b"
+    },
+    {
+      "path": "tests/controllers/test_mpc_balancer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "15913e2b19fafeae6ecc2f0a937ef91ae4fd3e03",
+      "size": 1701,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/15913e2b19fafeae6ecc2f0a937ef91ae4fd3e03"
+    },
+    {
+      "path": "tests/envs",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "013a93557f9eae917acaa85ebe4219f199d416be",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/013a93557f9eae917acaa85ebe4219f199d416be"
+    },
+    {
+      "path": "tests/envs/backends",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7547875f3cb57f9cde27725a5f621ec40c0fe294",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/7547875f3cb57f9cde27725a5f621ec40c0fe294"
+    },
+    {
+      "path": "tests/envs/backends/spine",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "1d947360f6a0456787292b1ec4ef30062930e44b",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/1d947360f6a0456787292b1ec4ef30062930e44b"
+    },
+    {
+      "path": "tests/envs/backends/spine/test_spine_interface.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bd7b455e267758b9163a9bca1e72fdeb3dd0232a",
+      "size": 5528,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/bd7b455e267758b9163a9bca1e72fdeb3dd0232a"
+    },
+    {
+      "path": "tests/envs/backends/test_pybullet_backend.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9e1db87a8236cbf914454f228710153bb54e8789",
+      "size": 2162,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/9e1db87a8236cbf914454f228710153bb54e8789"
+    },
+    {
+      "path": "tests/envs/backends/test_pybullet_backend_joystick.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4aaa74b5a6484762c114927cc4dc4709ea3bf0d0",
+      "size": 5759,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/4aaa74b5a6484762c114927cc4dc4709ea3bf0d0"
+    },
+    {
+      "path": "tests/envs/backends/test_pybullet_backend_mock.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "733869e6b25d62c626013aba9107d1576f1be955",
+      "size": 73879,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/733869e6b25d62c626013aba9107d1576f1be955"
+    },
+    {
+      "path": "tests/envs/backends/test_spine_backend.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5246c2270b42ac04716dc253ab4b379b199ef81c",
+      "size": 13349,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/5246c2270b42ac04716dc253ab4b379b199ef81c"
+    },
+    {
+      "path": "tests/envs/test_entry_points.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2fb5e91837b6c34f64e8d7e03c8d1069a330303c",
+      "size": 3779,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/2fb5e91837b6c34f64e8d7e03c8d1069a330303c"
+    },
+    {
+      "path": "tests/envs/test_upkie_base_velocity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7496bb10464dfb13a0eb2c70bdd821a0f3418b61",
+      "size": 4192,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/7496bb10464dfb13a0eb2c70bdd821a0f3418b61"
+    },
+    {
+      "path": "tests/envs/test_upkie_envs.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a3e3f4e01aa82866c766bbc4c543ba3b1a733b3a",
+      "size": 2440,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a3e3f4e01aa82866c766bbc4c543ba3b1a733b3a"
+    },
+    {
+      "path": "tests/envs/test_upkie_gyropod.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "167d005633a9b9777584b8bc50798d78925dc2c5",
+      "size": 4857,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/167d005633a9b9777584b8bc50798d78925dc2c5"
+    },
+    {
+      "path": "tests/envs/test_upkie_pendulum.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7f8ec1c1a8a6c3d6d3daad9617da2aced49bdfa1",
+      "size": 3477,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/7f8ec1c1a8a6c3d6d3daad9617da2aced49bdfa1"
+    },
+    {
+      "path": "tests/envs/test_upkie_servos.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c7f3a06430af5b9139252887de408e3da718443a",
+      "size": 11951,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c7f3a06430af5b9139252887de408e3da718443a"
+    },
+    {
+      "path": "tests/model",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "354a990a17b5c4995a339365b786c6dd4ed760da",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/354a990a17b5c4995a339365b786c6dd4ed760da"
+    },
+    {
+      "path": "tests/model/test_kinematic_tree.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4447eebed9835cd5c40de85e12ec754558ce04dc",
+      "size": 2186,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/4447eebed9835cd5c40de85e12ec754558ce04dc"
+    },
+    {
+      "path": "tests/model/test_model.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "48199d502da7689ff6d43935fd7908a35954df43",
+      "size": 3772,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/48199d502da7689ff6d43935fd7908a35954df43"
+    },
+    {
+      "path": "tests/model/test_se3.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4650ca7887aa85f8baa288728819c6b45ffa60cf",
+      "size": 5834,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/4650ca7887aa85f8baa288728819c6b45ffa60cf"
+    },
+    {
+      "path": "tests/utils",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3e64dd268d05eba504edab281fa8f0c59fb88553",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/3e64dd268d05eba504edab281fa8f0c59fb88553"
+    },
+    {
+      "path": "tests/utils/test_clamp.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9b7ec6b6713d27190c6351e17997c0c8a10a3838",
+      "size": 1128,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/9b7ec6b6713d27190c6351e17997c0c8a10a3838"
+    },
+    {
+      "path": "tests/utils/test_external_force.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "06f557e675b10ce80a1294598ca65c6787fb71fb",
+      "size": 7457,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/06f557e675b10ce80a1294598ca65c6787fb71fb"
+    },
+    {
+      "path": "tests/utils/test_joystick.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9838a8c01d0d54fa607f1ebba503e3ec36f2489a",
+      "size": 5014,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/9838a8c01d0d54fa607f1ebba503e3ec36f2489a"
+    },
+    {
+      "path": "tests/utils/test_point_contact.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b34a6078d8d4eb9ffca1a592a9006b20bf039bf",
+      "size": 1517,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6b34a6078d8d4eb9ffca1a592a9006b20bf039bf"
+    },
+    {
+      "path": "tests/utils/test_raspi.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0ee8af649124824a77221c242819111418869de9",
+      "size": 296,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0ee8af649124824a77221c242819111418869de9"
+    },
+    {
+      "path": "tests/utils/test_robot_state.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f854f7469c9397c08cd8fc58aacacd2cbc6f3e3a",
+      "size": 626,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/f854f7469c9397c08cd8fc58aacacd2cbc6f3e3a"
+    },
+    {
+      "path": "tests/utils/test_rotations.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5418eddac6c0f5ac01213eca08458f237dd3e658",
+      "size": 2330,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/5418eddac6c0f5ac01213eca08458f237dd3e658"
+    },
+    {
+      "path": "tools",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "961fd4a61e0e4149fa61438f3b7a111272d67f5e",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/961fd4a61e0e4149fa61438f3b7a111272d67f5e"
+    },
+    {
+      "path": "tools/bazelisk",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "982f6757244a06dcde817ffcc014a998480e01de",
+      "size": 973,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/982f6757244a06dcde817ffcc014a998480e01de"
+    },
+    {
+      "path": "tools/bullet_spine",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "6f10c6d448f18dd8dc70a2657c30f8924969a160",
+      "size": 3973,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6f10c6d448f18dd8dc70a2657c30f8924969a160"
+    },
+    {
+      "path": "tools/configure_cpu_isolation",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "6141c3afaad41f5f5a96543bdadcef6c956c4dbe",
+      "size": 1806,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6141c3afaad41f5f5a96543bdadcef6c956c4dbe"
+    },
+    {
+      "path": "tools/configure_servos",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "9e1f86d6e021db962f9d480ecc9165f802635c26",
+      "size": 4381,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/9e1f86d6e021db962f9d480ecc9165f802635c26"
+    },
+    {
+      "path": "tools/configure_wlan1",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "be9bedb5f635c300910dc2734f3e63488c2ed251",
+      "size": 442,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/be9bedb5f635c300910dc2734f3e63488c2ed251"
+    },
+    {
+      "path": "tools/dump_servo_configs",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "040b14bfb1c623859721919a346a7150ea409f19",
+      "size": 2171,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/040b14bfb1c623859721919a346a7150ea409f19"
+    },
+    {
+      "path": "tools/hard_rezero",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "011b2767a1bb61fe796545fa599d741123d1b941",
+      "size": 421,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/011b2767a1bb61fe796545fa599d741123d1b941"
+    },
+    {
+      "path": "tools/lint",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b6f26b8fab45c76a7154f915b6d540c8a83d957d",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/b6f26b8fab45c76a7154f915b6d540c8a83d957d"
+    },
+    {
+      "path": "tools/lint/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7b10fe32dd80b23773e376a09c04c38109dfb4f",
+      "size": 361,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a7b10fe32dd80b23773e376a09c04c38109dfb4f"
+    },
+    {
+      "path": "tools/lint/clang_format_lint.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9dc89dcc98a8f8b027c6dc8727d95654bd503d22",
+      "size": 2192,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/9dc89dcc98a8f8b027c6dc8727d95654bd503d22"
+    },
+    {
+      "path": "tools/lint/cpplint.bzl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf85217b3700e4f9d31c48dd2d127952b9472ffa",
+      "size": 5320,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/cf85217b3700e4f9d31c48dd2d127952b9472ffa"
+    },
+    {
+      "path": "tools/lint/lint.bzl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "680f319d7efcec6b3ef66fc6359f8eaf2595b4b8",
+      "size": 917,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/680f319d7efcec6b3ef66fc6359f8eaf2595b4b8"
+    },
+    {
+      "path": "tools/package_bullet_spine",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "71559957c64d76bf79031d1e2c56e173c9123cce",
+      "size": 1074,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/71559957c64d76bf79031d1e2c56e173c9123cce"
+    },
+    {
+      "path": "tools/power_dist_check",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "f40d350d1ebc17d1f0250bcd9c429659be5d8fc3",
+      "size": 4945,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/f40d350d1ebc17d1f0250bcd9c429659be5d8fc3"
+    },
+    {
+      "path": "tools/ps_threads",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "743120e4c61e6d2cc0d09c42eb4ed05704d74605",
+      "size": 259,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/743120e4c61e6d2cc0d09c42eb4ed05704d74605"
+    },
+    {
+      "path": "tools/raspios",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "5dc20a255fcbe67dcfa59ccdabebb00bb77f1a04",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/5dc20a255fcbe67dcfa59ccdabebb00bb77f1a04"
+    },
+    {
+      "path": "tools/raspios/.gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b7e1a0ebe8b571629c485666df5aa29ae68c269b",
+      "size": 265,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/b7e1a0ebe8b571629c485666df5aa29ae68c269b"
+    },
+    {
+      "path": "tools/raspios/Makefile",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f6ef93a2d659ad77a5371d751c6865af5930538",
+      "size": 1178,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0f6ef93a2d659ad77a5371d751c6865af5930538"
+    },
+    {
+      "path": "tools/raspios/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "392e1a55e039249d1e6312e1dd950834969943d2",
+      "size": 300,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/392e1a55e039249d1e6312e1dd950834969943d2"
+    },
+    {
+      "path": "tools/raspios/local",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f67ad94d2483a1e4eb2c304ecffd0cf147c55c85",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/f67ad94d2483a1e4eb2c304ecffd0cf147c55c85"
+    },
+    {
+      "path": "tools/raspios/local/WELCOME",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26cbf7f2e0b84dd62809718d03d7d02ca9f19eed",
+      "size": 137,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/26cbf7f2e0b84dd62809718d03d7d02ca9f19eed"
+    },
+    {
+      "path": "tools/raspios/provision.sh",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c48dadbdf144e80bf4989082f435e59cbaeb8d02",
+      "size": 939,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c48dadbdf144e80bf4989082f435e59cbaeb8d02"
+    },
+    {
+      "path": "tools/raspios/raspios_upkie.pkr.hcl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c3f838aa723ac4403b68b5a8683cd287a5de9a96",
+      "size": 2498,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c3f838aa723ac4403b68b5a8683cd287a5de9a96"
+    },
+    {
+      "path": "tools/raspunzel",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "63bf5d5173dc9d4133d8d1ec223ce5a3b512c6dd",
+      "size": 6664,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/63bf5d5173dc9d4133d8d1ec223ce5a3b512c6dd"
+    },
+    {
+      "path": "tools/stop_servos",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "394687437105cab8e515f20fd7abf89462337882",
+      "size": 259,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/394687437105cab8e515f20fd7abf89462337882"
+    },
+    {
+      "path": "tools/upkie_tool",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "ef7e70caaeaaff15d2b8ccc9d6cea45761f6fb72",
+      "size": 7524,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ef7e70caaeaaff15d2b8ccc9d6cea45761f6fb72"
+    },
+    {
+      "path": "tools/vcgenall",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "ad6e3065642f467108678008f5c92003e0ba48a5",
+      "size": 795,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ad6e3065642f467108678008f5c92003e0ba48a5"
+    },
+    {
+      "path": "tools/workspace",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "688aa36a4e6bb3229509c2a98cd5b7a1f4afa21d",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/688aa36a4e6bb3229509c2a98cd5b7a1f4afa21d"
+    },
+    {
+      "path": "tools/workspace/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20fed6bc5ed15d57888acea9808a84edd669f739",
+      "size": 121,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/20fed6bc5ed15d57888acea9808a84edd669f739"
+    },
+    {
+      "path": "tools/workspace/bullet",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "cd80f832cc5b49177913168c1582f4bd94ca4300",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/cd80f832cc5b49177913168c1582f4bd94ca4300"
+    },
+    {
+      "path": "tools/workspace/bullet/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20fed6bc5ed15d57888acea9808a84edd669f739",
+      "size": 121,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/20fed6bc5ed15d57888acea9808a84edd669f739"
+    },
+    {
+      "path": "tools/workspace/bullet/package.BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b900aeb410ff8e97000c5a3ae595cb664fd1b62a",
+      "size": 36713,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/b900aeb410ff8e97000c5a3ae595cb664fd1b62a"
+    },
+    {
+      "path": "tools/workspace/bullet/repository.bzl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "86b4b501d561d9714fce72c6094f02b099a3fb62",
+      "size": 498,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/86b4b501d561d9714fce72c6094f02b099a3fb62"
+    },
+    {
+      "path": "tools/workspace/cookie_description",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "93a051da3bb108d434f234d51cea7b77430831cd",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/93a051da3bb108d434f234d51cea7b77430831cd"
+    },
+    {
+      "path": "tools/workspace/cookie_description/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20fed6bc5ed15d57888acea9808a84edd669f739",
+      "size": 121,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/20fed6bc5ed15d57888acea9808a84edd669f739"
+    },
+    {
+      "path": "tools/workspace/cookie_description/repository.bzl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "48622964e18ce10b0274d6d26f56204751bbd13b",
+      "size": 450,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/48622964e18ce10b0274d6d26f56204751bbd13b"
+    },
+    {
+      "path": "tools/workspace/default.bzl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a844d39579e93b5acd8a253ca75d94769bdccbc",
+      "size": 930,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6a844d39579e93b5acd8a253ca75d94769bdccbc"
+    },
+    {
+      "path": "tools/workspace/generate_file.bzl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f7e573e4a7bad31504fbb92aa5c35a2ad549f28",
+      "size": 784,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/9f7e573e4a7bad31504fbb92aa5c35a2ad549f28"
+    },
+    {
+      "path": "tools/workspace/github_archive.bzl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a02fd64339ff47c8216b796a1d95d7d4293b32f7",
+      "size": 1693,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a02fd64339ff47c8216b796a1d95d7d4293b32f7"
+    },
+    {
+      "path": "tools/workspace/mpacklog",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "68e764a1bc490859dbc0090b11e1202a484f1605",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/68e764a1bc490859dbc0090b11e1202a484f1605"
+    },
+    {
+      "path": "tools/workspace/mpacklog/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20fed6bc5ed15d57888acea9808a84edd669f739",
+      "size": 121,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/20fed6bc5ed15d57888acea9808a84edd669f739"
+    },
+    {
+      "path": "tools/workspace/mpacklog/repository.bzl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e8284ec9a02702dbf15802f36ab535ef6086a42",
+      "size": 686,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/7e8284ec9a02702dbf15802f36ab535ef6086a42"
+    },
+    {
+      "path": "tools/workspace/pi3hat",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f3ab30f91cde8e565cdb3f17647a617060678454",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/f3ab30f91cde8e565cdb3f17647a617060678454"
+    },
+    {
+      "path": "tools/workspace/pi3hat/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20fed6bc5ed15d57888acea9808a84edd669f739",
+      "size": 121,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/20fed6bc5ed15d57888acea9808a84edd669f739"
+    },
+    {
+      "path": "tools/workspace/pi3hat/repository.bzl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6dbe008e928b2fa1cca827bc792aaf0187c00be9",
+      "size": 415,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6dbe008e928b2fa1cca827bc792aaf0187c00be9"
+    },
+    {
+      "path": "tools/workspace/upkie_description",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "46cf4e356671a57a7952561fb7cafa034b7ca7c0",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/46cf4e356671a57a7952561fb7cafa034b7ca7c0"
+    },
+    {
+      "path": "tools/workspace/upkie_description/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "20fed6bc5ed15d57888acea9808a84edd669f739",
+      "size": 121,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/20fed6bc5ed15d57888acea9808a84edd669f739"
+    },
+    {
+      "path": "tools/workspace/upkie_description/repository.bzl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "74af86a9b651d79d6041dd8feedd8a93c8e5882f",
+      "size": 443,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/74af86a9b651d79d6041dd8feedd8a93c8e5882f"
+    },
+    {
+      "path": "upkie",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f180c971ee52f79b9abc7f70e8fae85714174639",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/f180c971ee52f79b9abc7f70e8fae85714174639"
+    },
+    {
+      "path": "upkie/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "186f969f0359c16a97c3a651adcb5edff38a7b9e",
+      "size": 247,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/186f969f0359c16a97c3a651adcb5edff38a7b9e"
+    },
+    {
+      "path": "upkie/controllers",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "665b756ce7c32063965b064f805c9d408af158d5",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/665b756ce7c32063965b064f805c9d408af158d5"
+    },
+    {
+      "path": "upkie/controllers/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16db92cdf1abe4b607f966f710afd773c5d0a587",
+      "size": 282,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/16db92cdf1abe4b607f966f710afd773c5d0a587"
+    },
+    {
+      "path": "upkie/controllers/joystick_controller.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf1927043dd3976453ad62fb9660f01b000dc789",
+      "size": 6680,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/cf1927043dd3976453ad62fb9660f01b000dc789"
+    },
+    {
+      "path": "upkie/controllers/mpc_balancer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4c4701e04007f4ccba3f7002f66f66d9798aca3",
+      "size": 10753,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e4c4701e04007f4ccba3f7002f66f66d9798aca3"
+    },
+    {
+      "path": "upkie/cpp",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "859994c69e9181d42749819931bff94466c9f211",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/859994c69e9181d42749819931bff94466c9f211"
+    },
+    {
+      "path": "upkie/cpp/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e74b4fbd0b14392e5b56fd77aba9d2a210c34c4",
+      "size": 236,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6e74b4fbd0b14392e5b56fd77aba9d2a210c34c4"
+    },
+    {
+      "path": "upkie/cpp/controllers",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "81dab2e63b96412e85a9401eea9e3c6eea5034c7",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/81dab2e63b96412e85a9401eea9e3c6eea5034c7"
+    },
+    {
+      "path": "upkie/cpp/controllers/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e30e74e6fdc5c8ee776bce801b2a4a54e6cc20fe",
+      "size": 1040,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e30e74e6fdc5c8ee776bce801b2a4a54e6cc20fe"
+    },
+    {
+      "path": "upkie/cpp/controllers/Controller.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "85f8802c7a21fcf890620930e6e08e036a6034ba",
+      "size": 1468,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/85f8802c7a21fcf890620930e6e08e036a6034ba"
+    },
+    {
+      "path": "upkie/cpp/controllers/ControllerPipeline.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a15fc8e2fd35655e9f3f143ca9964a8821f96214",
+      "size": 957,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a15fc8e2fd35655e9f3f143ca9964a8821f96214"
+    },
+    {
+      "path": "upkie/cpp/controllers/ControllerPipeline.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "50cfb0d380d642715d64bd47f004f4eb7503655d",
+      "size": 1437,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/50cfb0d380d642715d64bd47f004f4eb7503655d"
+    },
+    {
+      "path": "upkie/cpp/controllers/WheelBalancer.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed5b2af5254176f567ba91f9644da5cab9da9a94",
+      "size": 4351,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ed5b2af5254176f567ba91f9644da5cab9da9a94"
+    },
+    {
+      "path": "upkie/cpp/controllers/WheelBalancer.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ad61e040febc9265b3356369156f8fa9d313eb7c",
+      "size": 4340,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ad61e040febc9265b3356369156f8fa9d313eb7c"
+    },
+    {
+      "path": "upkie/cpp/controllers/WheelStopper.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e9b33b97c161b4d57bb5bc4da075541fba51f6a",
+      "size": 699,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0e9b33b97c161b4d57bb5bc4da075541fba51f6a"
+    },
+    {
+      "path": "upkie/cpp/controllers/WheelStopper.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b3491d4f0857c63140a47ca3c7a486766ec14eb5",
+      "size": 1279,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/b3491d4f0857c63140a47ca3c7a486766ec14eb5"
+    },
+    {
+      "path": "upkie/cpp/controllers/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d36fbf45fcb9280e45ebaf06119c6e88e8dae05b",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/d36fbf45fcb9280e45ebaf06119c6e88e8dae05b"
+    },
+    {
+      "path": "upkie/cpp/controllers/tests/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b7880eccf3281276429db9360785b283b7c16c6c",
+      "size": 406,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/b7880eccf3281276429db9360785b283b7c16c6c"
+    },
+    {
+      "path": "upkie/cpp/controllers/tests/ControllerTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "30a5ebe353c8ef1b094d3abebc9e4209e4eebc5b",
+      "size": 508,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/30a5ebe353c8ef1b094d3abebc9e4209e4eebc5b"
+    },
+    {
+      "path": "upkie/cpp/exceptions",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e28c55ab7bde2de85922fa85e1d2c0bee69dd9d2",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/e28c55ab7bde2de85922fa85e1d2c0bee69dd9d2"
+    },
+    {
+      "path": "upkie/cpp/exceptions/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e781545a180dcb609ddabb0f31afae18628a02f5",
+      "size": 425,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e781545a180dcb609ddabb0f31afae18628a02f5"
+    },
+    {
+      "path": "upkie/cpp/exceptions/ControllerError.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae352a2f14cbd4ffeb3574aef10ccd392579a9bb",
+      "size": 814,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ae352a2f14cbd4ffeb3574aef10ccd392579a9bb"
+    },
+    {
+      "path": "upkie/cpp/exceptions/FilterError.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cc6b6bf33ad9d852b1c04b6eab476392e187211d",
+      "size": 424,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/cc6b6bf33ad9d852b1c04b6eab476392e187211d"
+    },
+    {
+      "path": "upkie/cpp/exceptions/ObserverError.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ba05122744944764fcd38bf4399133c2ff936ab9",
+      "size": 1017,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ba05122744944764fcd38bf4399133c2ff936ab9"
+    },
+    {
+      "path": "upkie/cpp/exceptions/PositionCommandError.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f1f340ae93e2ae6e0fff8105d4facb06243c179",
+      "size": 517,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6f1f340ae93e2ae6e0fff8105d4facb06243c179"
+    },
+    {
+      "path": "upkie/cpp/exceptions/ServoError.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ef23ddb8e908e0830e6f65c1562b310941765cef",
+      "size": 749,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ef23ddb8e908e0830e6f65c1562b310941765cef"
+    },
+    {
+      "path": "upkie/cpp/exceptions/TypeError.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c60a5a7f736f6d5471bc1b1332f489296a528a62",
+      "size": 1059,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c60a5a7f736f6d5471bc1b1332f489296a528a62"
+    },
+    {
+      "path": "upkie/cpp/exceptions/UpkieError.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd21c581933c61dd6c4f392b2e03739771d221df",
+      "size": 986,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/fd21c581933c61dd6c4f392b2e03739771d221df"
+    },
+    {
+      "path": "upkie/cpp/exceptions/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4973b6a41b129d8060e4ca97c3c5c1e9b2b0c3fa",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/4973b6a41b129d8060e4ca97c3c5c1e9b2b0c3fa"
+    },
+    {
+      "path": "upkie/cpp/exceptions/tests/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "db2987b6639c70298e05ba6e1134aae1717676d5",
+      "size": 371,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/db2987b6639c70298e05ba6e1134aae1717676d5"
+    },
+    {
+      "path": "upkie/cpp/exceptions/tests/observer_error_test.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "61d80d86fc83b0f5a7a965946f0f5f13b96e3d8e",
+      "size": 564,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/61d80d86fc83b0f5a7a965946f0f5f13b96e3d8e"
+    },
+    {
+      "path": "upkie/cpp/interfaces",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c89d6259766bd9cbff9e87072b95641b4adc9712",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/c89d6259766bd9cbff9e87072b95641b4adc9712"
+    },
+    {
+      "path": "upkie/cpp/interfaces/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "364c2ba3a5d03449aa1a3c6331447db53373c457",
+      "size": 2578,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/364c2ba3a5d03449aa1a3c6331447db53373c457"
+    },
+    {
+      "path": "upkie/cpp/interfaces/BulletInterface.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c82bb4d613c1835bcd35b269117184d29a4b727f",
+      "size": 17368,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c82bb4d613c1835bcd35b269117184d29a4b727f"
+    },
+    {
+      "path": "upkie/cpp/interfaces/BulletInterface.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "470f65d6bc570c8c484d8f6bb3e233ab9ecb756a",
+      "size": 11464,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/470f65d6bc570c8c484d8f6bb3e233ab9ecb756a"
+    },
+    {
+      "path": "upkie/cpp/interfaces/ImuData.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "daf4a9116ae7bbc75a6bcf976fe2a39cd66322c4",
+      "size": 3004,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/daf4a9116ae7bbc75a6bcf976fe2a39cd66322c4"
+    },
+    {
+      "path": "upkie/cpp/interfaces/ImuUncertainty.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d124e76a9e4942485303a03deaa115afd709064",
+      "size": 2455,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/4d124e76a9e4942485303a03deaa115afd709064"
+    },
+    {
+      "path": "upkie/cpp/interfaces/Interface.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b37e7229c71179ee1a8c1edecec6118ca676310",
+      "size": 4768,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6b37e7229c71179ee1a8c1edecec6118ca676310"
+    },
+    {
+      "path": "upkie/cpp/interfaces/Interface.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b90db011cf4e2cc4538b31756bac2a4fcfaf8071",
+      "size": 4647,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/b90db011cf4e2cc4538b31756bac2a4fcfaf8071"
+    },
+    {
+      "path": "upkie/cpp/interfaces/MockInterface.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f97bcefcb52c9c42e72b6e506a23a0d7df3c1700",
+      "size": 2134,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/f97bcefcb52c9c42e72b6e506a23a0d7df3c1700"
+    },
+    {
+      "path": "upkie/cpp/interfaces/MockInterface.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6213b9f57da5b7d778323d8375ff502624e1d3aa",
+      "size": 1574,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6213b9f57da5b7d778323d8375ff502624e1d3aa"
+    },
+    {
+      "path": "upkie/cpp/interfaces/Pi3HatInterface.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cb91579601075002326777933505e4dcd49639e4",
+      "size": 5178,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/cb91579601075002326777933505e4dcd49639e4"
+    },
+    {
+      "path": "upkie/cpp/interfaces/Pi3HatInterface.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "352099dc65a7e55f2565994a15b9c733266f0abb",
+      "size": 3589,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/352099dc65a7e55f2565994a15b9c733266f0abb"
+    },
+    {
+      "path": "upkie/cpp/interfaces/ServoLayout.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "433271b35c68a10e9c41d44121e50e009e2624ac",
+      "size": 1572,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/433271b35c68a10e9c41d44121e50e009e2624ac"
+    },
+    {
+      "path": "upkie/cpp/interfaces/ServoProperties.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0cf96f5ee3efae07f1d1a94eed6e94ea3c93af65",
+      "size": 418,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0cf96f5ee3efae07f1d1a94eed6e94ea3c93af65"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "da20b0e70e5e33a8f0993fe855cf802dfe513c9b",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/da20b0e70e5e33a8f0993fe855cf802dfe513c9b"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b5b9aae3a91e07b043a7823fe0f5136fab11dc92",
+      "size": 422,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/b5b9aae3a91e07b043a7823fe0f5136fab11dc92"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/constants.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e21d2bd915992b3c3442e884a9d1e84f5f24d524",
+      "size": 260,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e21d2bd915992b3c3442e884a9d1e84f5f24d524"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/plane",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "59cc38e75aff099e88dc62a2fed78100764141d4",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/59cc38e75aff099e88dc62a2fed78100764141d4"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/plane/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de06a0891338accebcd19766ddac1c6f749b2627",
+      "size": 286,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/de06a0891338accebcd19766ddac1c6f749b2627"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/plane/LICENSE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c6118c4a1278fbdfa5d74aa8644aaf6e3ef7290f",
+      "size": 169,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c6118c4a1278fbdfa5d74aa8644aaf6e3ef7290f"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/plane/checker_blue.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0894b91f1df3b097b25faf202db2da6984716d35",
+      "size": 6379,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0894b91f1df3b097b25faf202db2da6984716d35"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/plane/plane.mtl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6d256d897ba0fc354f1a4115d987327179e4f9e6",
+      "size": 248,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6d256d897ba0fc354f1a4115d987327179e4f9e6"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/plane/plane.obj",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "08b7d8784699e2dae5956001daad07a3a33087dd",
+      "size": 361,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/08b7d8784699e2dae5956001daad07a3a33087dd"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/plane/plane.urdf",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cdf807795a13956d3283be98e0eb2bced3c63b15",
+      "size": 825,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/cdf807795a13956d3283be98e0eb2bced3c63b15"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/read_imu_data.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d0bed61f2fa9ed212461445ea93e71e43829ccb4",
+      "size": 3719,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/d0bed61f2fa9ed212461445ea93e71e43829ccb4"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "4d3ced5cc0f647ebfdcfbf5f0a91ecf6db987c89",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/4d3ced5cc0f647ebfdcfbf5f0a91ecf6db987c89"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/tests/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a865b5acaeb9f384a8841d82a75b4192b2d87ddb",
+      "size": 454,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a865b5acaeb9f384a8841d82a75b4192b2d87ddb"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/tests/read_imu_data_test.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2295a685cb888698001a660bc529c03354e720d1",
+      "size": 4092,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/2295a685cb888698001a660bc529c03354e720d1"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/tests/utils_test.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "daa1d3e1e066b10a3c3aaf954111b8689d81d233",
+      "size": 3236,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/daa1d3e1e066b10a3c3aaf954111b8689d81d233"
+    },
+    {
+      "path": "upkie/cpp/interfaces/bullet/utils.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "70209ae55b41f7cd609837c59a131452be86ed7b",
+      "size": 5600,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/70209ae55b41f7cd609837c59a131452be86ed7b"
+    },
+    {
+      "path": "upkie/cpp/interfaces/default_action.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49b5bac0e7cb9c1189e72234f26f5960cd9698ff",
+      "size": 868,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/49b5bac0e7cb9c1189e72234f26f5960cd9698ff"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d7186fe1b70cff2203b7bb74b2ab3640dd235d0a",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/d7186fe1b70cff2203b7bb74b2ab3640dd235d0a"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9b04da7d042960cfe5297ac7ac823ce4e108b7f",
+      "size": 256,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e9b04da7d042960cfe5297ac7ac823ce4e108b7f"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus/Data.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d78bcf3df55ccc549ffbdd4b1f280f1daf52b561",
+      "size": 642,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/d78bcf3df55ccc549ffbdd4b1f280f1daf52b561"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus/Mode.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1f823f43517aee75ea981b3d717c1f1082425a20",
+      "size": 466,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/1f823f43517aee75ea981b3d717c1f1082425a20"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus/Output.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bdb3316b8d094af1fb71d5de094053d9515c40c3",
+      "size": 328,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/bdb3316b8d094af1fb71d5de094053d9515c40c3"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus/PositionCommand.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "14c31f34773bee9e38c479359623bf4381f9bd83",
+      "size": 904,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/14c31f34773bee9e38c479359623bf4381f9bd83"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus/PositionResolution.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "47446f76ba79a94596536ec5a8637af5ddacb4bd",
+      "size": 1067,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/47446f76ba79a94596536ec5a8637af5ddacb4bd"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus/QueryCommand.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e03027e42a8202159910048d7d178df5850ac0ed",
+      "size": 1655,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e03027e42a8202159910048d7d178df5850ac0ed"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus/QueryResult.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f3eee52032ea1175b7cb396bdbd5a2706196820c",
+      "size": 1379,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/f3eee52032ea1175b7cb396bdbd5a2706196820c"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus/Resolution.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "267701b47ad2f73d156a4fc06751c60067a0b20e",
+      "size": 301,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/267701b47ad2f73d156a4fc06751c60067a0b20e"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus/ServoCommand.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "da147e67eb47d524e555ef3c148ce5eb6b68dddf",
+      "size": 848,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/da147e67eb47d524e555ef3c148ce5eb6b68dddf"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus/ServoReply.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "60fda5db12583f0e8e38dd80d07e28ff27fb789b",
+      "size": 408,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/60fda5db12583f0e8e38dd80d07e28ff27fb789b"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus/Span.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e32384e77ffa7ddf3ab119411bf9c37a36f49b6c",
+      "size": 1492,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e32384e77ffa7ddf3ab119411bf9c37a36f49b6c"
+    },
+    {
+      "path": "upkie/cpp/interfaces/moteus/protocol.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b81093155d7bbd3303da8ad30d5d1f3280207607",
+      "size": 22264,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/b81093155d7bbd3303da8ad30d5d1f3280207607"
+    },
+    {
+      "path": "upkie/cpp/interfaces/pi3hat",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "888be387fba4e59546111b4aa875ba337c653171",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/888be387fba4e59546111b4aa875ba337c653171"
+    },
+    {
+      "path": "upkie/cpp/interfaces/pi3hat/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "324306d8f6e56f7ef8b5a49ba76e024cffe938f8",
+      "size": 502,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/324306d8f6e56f7ef8b5a49ba76e024cffe938f8"
+    },
+    {
+      "path": "upkie/cpp/interfaces/pi3hat/imu.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "228644b33b15d9ff7e2e5c0fd41ee968d1c86bd6",
+      "size": 3335,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/228644b33b15d9ff7e2e5c0fd41ee968d1c86bd6"
+    },
+    {
+      "path": "upkie/cpp/interfaces/pi3hat/imu_eigen.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "68fd5b0557283f0a5c1d55b678cbd0cb4a1ef669",
+      "size": 2416,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/68fd5b0557283f0a5c1d55b678cbd0cb4a1ef669"
+    },
+    {
+      "path": "upkie/cpp/interfaces/pi3hat/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2522024647146b07b9d8388533372bac049613a4",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/2522024647146b07b9d8388533372bac049613a4"
+    },
+    {
+      "path": "upkie/cpp/interfaces/pi3hat/tests/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1aeb51faaac7b4d75d347b6c1fc5bd3a9ce1b022",
+      "size": 394,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/1aeb51faaac7b4d75d347b6c1fc5bd3a9ce1b022"
+    },
+    {
+      "path": "upkie/cpp/interfaces/pi3hat/tests/imu_test.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa7b46d32cd9c464374cad8f35b3288c4466b8c5",
+      "size": 4894,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/aa7b46d32cd9c464374cad8f35b3288c4466b8c5"
+    },
+    {
+      "path": "upkie/cpp/interfaces/static_config.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "349059b2391c4e8dbbff51815559c801e7cf3710",
+      "size": 2545,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/349059b2391c4e8dbbff51815559c801e7cf3710"
+    },
+    {
+      "path": "upkie/cpp/interfaces/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7f3ddbe9e26ae199974f1e9130f0dfe4fc007a8f",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/7f3ddbe9e26ae199974f1e9130f0dfe4fc007a8f"
+    },
+    {
+      "path": "upkie/cpp/interfaces/tests/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3974dfa0daa61fb9812ffd387be8be82ff14267f",
+      "size": 1669,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/3974dfa0daa61fb9812ffd387be8be82ff14267f"
+    },
+    {
+      "path": "upkie/cpp/interfaces/tests/BulletInterfaceEnvBodies.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a03f3716979297f833c2997171c85094e7cbfb9d",
+      "size": 2671,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a03f3716979297f833c2997171c85094e7cbfb9d"
+    },
+    {
+      "path": "upkie/cpp/interfaces/tests/BulletInterfaceTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9d73635e0fed68a67024e02310fd0703e1dfbf6f",
+      "size": 13017,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/9d73635e0fed68a67024e02310fd0703e1dfbf6f"
+    },
+    {
+      "path": "upkie/cpp/interfaces/tests/ImuUncertaintyTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f5b7cba3dd6702a12996a62239623162c73c30b3",
+      "size": 1514,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/f5b7cba3dd6702a12996a62239623162c73c30b3"
+    },
+    {
+      "path": "upkie/cpp/interfaces/tests/InterfaceTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e2e77c148c141b95304425ca8ad1b269987797cf",
+      "size": 6395,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e2e77c148c141b95304425ca8ad1b269987797cf"
+    },
+    {
+      "path": "upkie/cpp/interfaces/tests/MockInterfaceTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "93575a13e81c19907998eefac17c908175541481",
+      "size": 529,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/93575a13e81c19907998eefac17c908175541481"
+    },
+    {
+      "path": "upkie/cpp/interfaces/tests/Pi3HatInterfaceTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "96a12e230909e321fd41aac7581253a01e57d248",
+      "size": 866,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/96a12e230909e321fd41aac7581253a01e57d248"
+    },
+    {
+      "path": "upkie/cpp/observers",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8b150c0bfe59bd3e28e35e16616da07a90fc8a95",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/8b150c0bfe59bd3e28e35e16616da07a90fc8a95"
+    },
+    {
+      "path": "upkie/cpp/observers/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f880097503a7cd34d943348578b7efe3d9370913",
+      "size": 2009,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/f880097503a7cd34d943348578b7efe3d9370913"
+    },
+    {
+      "path": "upkie/cpp/observers/BaseOrientation.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7fcdca5f4d207cb20f2e6a474b0f187d133ad57",
+      "size": 1314,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e7fcdca5f4d207cb20f2e6a474b0f187d133ad57"
+    },
+    {
+      "path": "upkie/cpp/observers/BaseOrientation.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9d9123c2ccab8b53061f8f746092dc608fe1281c",
+      "size": 8193,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/9d9123c2ccab8b53061f8f746092dc608fe1281c"
+    },
+    {
+      "path": "upkie/cpp/observers/FloorContact.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b6d37fd16978dc4b9ef4e9fa35bb7804550605bf",
+      "size": 3640,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/b6d37fd16978dc4b9ef4e9fa35bb7804550605bf"
+    },
+    {
+      "path": "upkie/cpp/observers/FloorContact.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0bd9a32841d299c33bec7843d8b7897fbf74a182",
+      "size": 3950,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0bd9a32841d299c33bec7843d8b7897fbf74a182"
+    },
+    {
+      "path": "upkie/cpp/observers/HistoryObserver.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a5fd8e3a17ed53494faeba8889414df493adea0d",
+      "size": 3354,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a5fd8e3a17ed53494faeba8889414df493adea0d"
+    },
+    {
+      "path": "upkie/cpp/observers/Observer.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bbdbbdce9d91e6c7d19b511c85be54c810cb0e9c",
+      "size": 1401,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/bbdbbdce9d91e6c7d19b511c85be54c810cb0e9c"
+    },
+    {
+      "path": "upkie/cpp/observers/ObserverPipeline.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d138a0f94707cd177416200847bc5cfb8a0ee4ce",
+      "size": 930,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/d138a0f94707cd177416200847bc5cfb8a0ee4ce"
+    },
+    {
+      "path": "upkie/cpp/observers/ObserverPipeline.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fdf389ce470695b03108ce57208b0eae01e94e8c",
+      "size": 1394,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/fdf389ce470695b03108ce57208b0eae01e94e8c"
+    },
+    {
+      "path": "upkie/cpp/observers/WheelContact.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "583b0856ca9f3d21a180deab9bb3d94fc9ec8b06",
+      "size": 1726,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/583b0856ca9f3d21a180deab9bb3d94fc9ec8b06"
+    },
+    {
+      "path": "upkie/cpp/observers/WheelContact.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "93ee32d7d6f314cdae1aa911c1f8908ea1867c67",
+      "size": 5052,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/93ee32d7d6f314cdae1aa911c1f8908ea1867c67"
+    },
+    {
+      "path": "upkie/cpp/observers/WheelOdometry.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "96834502ba6e0318c61fbd6800591a186cf809f1",
+      "size": 1949,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/96834502ba6e0318c61fbd6800591a186cf809f1"
+    },
+    {
+      "path": "upkie/cpp/observers/WheelOdometry.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7bcb624514681c7280e315ecf40b5629fc1b06b5",
+      "size": 4824,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/7bcb624514681c7280e315ecf40b5629fc1b06b5"
+    },
+    {
+      "path": "upkie/cpp/observers/observe_servos.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99c37a37e180e9717b120e9b5845af6732c9419d",
+      "size": 2926,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/99c37a37e180e9717b120e9b5845af6732c9419d"
+    },
+    {
+      "path": "upkie/cpp/observers/observe_servos.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "199c1d82ef2b66311a4ecd391691b18a51f88732",
+      "size": 795,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/199c1d82ef2b66311a4ecd391691b18a51f88732"
+    },
+    {
+      "path": "upkie/cpp/observers/observe_time.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6572ac29ab975208028ef82227e81727d3ae83d2",
+      "size": 668,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6572ac29ab975208028ef82227e81727d3ae83d2"
+    },
+    {
+      "path": "upkie/cpp/observers/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2ff3645ba88a042d60a42ad6bf55a2270dad3fde",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/2ff3645ba88a042d60a42ad6bf55a2270dad3fde"
+    },
+    {
+      "path": "upkie/cpp/observers/tests/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "30826b4a375ff7981586fcc562f2ad1309434fcb",
+      "size": 564,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/30826b4a375ff7981586fcc562f2ad1309434fcb"
+    },
+    {
+      "path": "upkie/cpp/observers/tests/BaseOrientationTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "456dc8c005ffb6508f8bea9cee9cd2bb351497b9",
+      "size": 4628,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/456dc8c005ffb6508f8bea9cee9cd2bb351497b9"
+    },
+    {
+      "path": "upkie/cpp/observers/tests/FloorContactTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "829365d2d2108c2aaac60244e3d94b25e22808ba",
+      "size": 5383,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/829365d2d2108c2aaac60244e3d94b25e22808ba"
+    },
+    {
+      "path": "upkie/cpp/observers/tests/HistoryObserverTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4df3e5ddd8bb29ed519aae467990c02a1789f308",
+      "size": 3541,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/4df3e5ddd8bb29ed519aae467990c02a1789f308"
+    },
+    {
+      "path": "upkie/cpp/observers/tests/ObserverTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec639317d5afdb104966d8d20cc83a85ca0e7f79",
+      "size": 450,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ec639317d5afdb104966d8d20cc83a85ca0e7f79"
+    },
+    {
+      "path": "upkie/cpp/observers/tests/SchwiftyObserver.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b3d9cfcedda60d2235fc453ae0dc98e3341b4fbe",
+      "size": 782,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/b3d9cfcedda60d2235fc453ae0dc98e3341b4fbe"
+    },
+    {
+      "path": "upkie/cpp/observers/tests/ThrowingObserver.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c699d39a90e31c6ce59132a87c12b78676795244",
+      "size": 420,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c699d39a90e31c6ce59132a87c12b78676795244"
+    },
+    {
+      "path": "upkie/cpp/observers/tests/WheelOdometryObserverTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5a864acdca37e7567312596e3e440cce2962151b",
+      "size": 2766,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/5a864acdca37e7567312596e3e440cce2962151b"
+    },
+    {
+      "path": "upkie/cpp/observers/tests/observe_servos_test.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6910c110aca117a598b2e6029953f6b08f8e37a2",
+      "size": 2113,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6910c110aca117a598b2e6029953f6b08f8e37a2"
+    },
+    {
+      "path": "upkie/cpp/observers/tests/observe_time_test.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aa417dbf2cb10af6f7135ebdedeaa9b95d9a4367",
+      "size": 331,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/aa417dbf2cb10af6f7135ebdedeaa9b95d9a4367"
+    },
+    {
+      "path": "upkie/cpp/sensors",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "72bc4f834d7a7d6c03b64e68e1c140db77865dbd",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/72bc4f834d7a7d6c03b64e68e1c140db77865dbd"
+    },
+    {
+      "path": "upkie/cpp/sensors/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "03a48b7a814555e4bd55338ab40c70d6114df15c",
+      "size": 1259,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/03a48b7a814555e4bd55338ab40c70d6114df15c"
+    },
+    {
+      "path": "upkie/cpp/sensors/CpuTemperature.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "70931f614dc294910824d6e4fe6a3f521204a8b2",
+      "size": 2064,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/70931f614dc294910824d6e4fe6a3f521204a8b2"
+    },
+    {
+      "path": "upkie/cpp/sensors/CpuTemperature.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e7fc0920c44932b48095b0a5ae5d29e5eb08d732",
+      "size": 1879,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e7fc0920c44932b48095b0a5ae5d29e5eb08d732"
+    },
+    {
+      "path": "upkie/cpp/sensors/Joystick.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df38372c06719fbdd43ca24c0f009292242e21eb",
+      "size": 3535,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/df38372c06719fbdd43ca24c0f009292242e21eb"
+    },
+    {
+      "path": "upkie/cpp/sensors/Joystick.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec69674726aed6367c39057e48f14931e3c92d33",
+      "size": 3236,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ec69674726aed6367c39057e48f14931e3c92d33"
+    },
+    {
+      "path": "upkie/cpp/sensors/Keyboard.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "66588b94f9741deeb49c8f6c29faa518e6042670",
+      "size": 3197,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/66588b94f9741deeb49c8f6c29faa518e6042670"
+    },
+    {
+      "path": "upkie/cpp/sensors/Keyboard.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c194fdffd3f204b6abb65f76c1657fb162a590fe",
+      "size": 2878,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c194fdffd3f204b6abb65f76c1657fb162a590fe"
+    },
+    {
+      "path": "upkie/cpp/sensors/Sensor.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b5b03a2d1c78123cad9d7552c685f4ae72c8119",
+      "size": 1194,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0b5b03a2d1c78123cad9d7552c685f4ae72c8119"
+    },
+    {
+      "path": "upkie/cpp/sensors/SensorPipeline.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ede5034fde7629b68a33202afd415cd4afecbfb2",
+      "size": 366,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ede5034fde7629b68a33202afd415cd4afecbfb2"
+    },
+    {
+      "path": "upkie/cpp/sensors/SensorPipeline.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "39202f0b5e9a4d796cfb96b087d41da1da722b7b",
+      "size": 1109,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/39202f0b5e9a4d796cfb96b087d41da1da722b7b"
+    },
+    {
+      "path": "upkie/cpp/sensors/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "14200afc50a69d4f1fd1d414638b4c869489e473",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/14200afc50a69d4f1fd1d414638b4c869489e473"
+    },
+    {
+      "path": "upkie/cpp/sensors/tests/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "546d86a6c363a6f6275d1988e3e35ba1f30ff415",
+      "size": 522,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/546d86a6c363a6f6275d1988e3e35ba1f30ff415"
+    },
+    {
+      "path": "upkie/cpp/sensors/tests/CpuTemperatureTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e08015e5e2aa691fd62b84110906ea581c77cdb3",
+      "size": 840,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e08015e5e2aa691fd62b84110906ea581c77cdb3"
+    },
+    {
+      "path": "upkie/cpp/sensors/tests/JoystickTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a98d9bd0a17a34c9e88c088e38dd5307d5e6e6e",
+      "size": 4432,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6a98d9bd0a17a34c9e88c088e38dd5307d5e6e6e"
+    },
+    {
+      "path": "upkie/cpp/sensors/tests/KeyboardTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2b6c8f72a578e0325c01126954c4a010a6e25c92",
+      "size": 2812,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/2b6c8f72a578e0325c01126954c4a010a6e25c92"
+    },
+    {
+      "path": "upkie/cpp/sensors/tests/sensor_test.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf8d1ec51c6e1a1c9095c02de7e033481b2742cd",
+      "size": 566,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/bf8d1ec51c6e1a1c9095c02de7e033481b2742cd"
+    },
+    {
+      "path": "upkie/cpp/spine",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "44ce9f1b7846255e3fec792ed152a969e40e97c3",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/44ce9f1b7846255e3fec792ed152a969e40e97c3"
+    },
+    {
+      "path": "upkie/cpp/spine/AgentInterface.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69741217878a9d83bd047755570eb40228c7c795",
+      "size": 3150,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/69741217878a9d83bd047755570eb40228c7c795"
+    },
+    {
+      "path": "upkie/cpp/spine/AgentInterface.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f70e458adb1bf14680bc598d98e5580915565933",
+      "size": 2413,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/f70e458adb1bf14680bc598d98e5580915565933"
+    },
+    {
+      "path": "upkie/cpp/spine/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea5961d52d1cfba7075e3a5ac36b0af39462a9e4",
+      "size": 1306,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/ea5961d52d1cfba7075e3a5ac36b0af39462a9e4"
+    },
+    {
+      "path": "upkie/cpp/spine/Request.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2ce045b45b39e2cf6fceda2528dd3f64f5b5e4ba",
+      "size": 591,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/2ce045b45b39e2cf6fceda2528dd3f64f5b5e4ba"
+    },
+    {
+      "path": "upkie/cpp/spine/Spine.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cddf217507ef8150c2fa8a47bc48888eb9763ab0",
+      "size": 9502,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/cddf217507ef8150c2fa8a47bc48888eb9763ab0"
+    },
+    {
+      "path": "upkie/cpp/spine/Spine.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1fec267b00651a1cce2c99b64c01733c5770b7a9",
+      "size": 7152,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/1fec267b00651a1cce2c99b64c01733c5770b7a9"
+    },
+    {
+      "path": "upkie/cpp/spine/StateMachine.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99b8963a004698d1d71126f4238516e5886f1ce6",
+      "size": 4199,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/99b8963a004698d1d71126f4238516e5886f1ce6"
+    },
+    {
+      "path": "upkie/cpp/spine/StateMachine.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f96034b8fb9f6d5a5f3a030c1bdca1db5578c91",
+      "size": 2808,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/8f96034b8fb9f6d5a5f3a030c1bdca1db5578c91"
+    },
+    {
+      "path": "upkie/cpp/spine/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "01f4934bdaa6b0e465abaaff31f7a7c4925dd252",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/01f4934bdaa6b0e465abaaff31f7a7c4925dd252"
+    },
+    {
+      "path": "upkie/cpp/spine/tests/AgentInterfaceTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fc9f6e8f79951bd92a136faba0d0bb43c9ad0ca3",
+      "size": 1163,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/fc9f6e8f79951bd92a136faba0d0bb43c9ad0ca3"
+    },
+    {
+      "path": "upkie/cpp/spine/tests/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a4cc1bb0599920ddd6a9608eeffd4de00df699fe",
+      "size": 657,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a4cc1bb0599920ddd6a9608eeffd4de00df699fe"
+    },
+    {
+      "path": "upkie/cpp/spine/tests/SpineTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0a8521beccd29b6a8103bfa93dbae29815013aaf",
+      "size": 9472,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0a8521beccd29b6a8103bfa93dbae29815013aaf"
+    },
+    {
+      "path": "upkie/cpp/spine/tests/StateMachineTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "35091825d2271ba2617ec53460ff30747d6c450f",
+      "size": 3032,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/35091825d2271ba2617ec53460ff30747d6c450f"
+    },
+    {
+      "path": "upkie/cpp/utils",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2d066ca3265bfc1962cbbeac1efa2e35707de343",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/2d066ca3265bfc1962cbbeac1efa2e35707de343"
+    },
+    {
+      "path": "upkie/cpp/utils/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "77e94644f7fbbddd827e0ab47bbf7fd87601c2e2",
+      "size": 1651,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/77e94644f7fbbddd827e0ab47bbf7fd87601c2e2"
+    },
+    {
+      "path": "upkie/cpp/utils/PerformanceCpuGovernor.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6926886830369a2317bbb5b9ec93cafaa68f8c91",
+      "size": 2232,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/6926886830369a2317bbb5b9ec93cafaa68f8c91"
+    },
+    {
+      "path": "upkie/cpp/utils/PerformanceCpuGovernor.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bfbbfbe7b27d3eb66dad274e567e0d32af4de22e",
+      "size": 2441,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/bfbbfbe7b27d3eb66dad274e567e0d32af4de22e"
+    },
+    {
+      "path": "upkie/cpp/utils/SynchronousClock.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "13ad289d037dad46f5c4b7e4a5b6490054ca35a3",
+      "size": 3072,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/13ad289d037dad46f5c4b7e4a5b6490054ca35a3"
+    },
+    {
+      "path": "upkie/cpp/utils/SynchronousClock.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "572a326c95a70f84b1ba145a9227924b167b4eb9",
+      "size": 2982,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/572a326c95a70f84b1ba145a9227924b167b4eb9"
+    },
+    {
+      "path": "upkie/cpp/utils/clear_shared_memory.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "97b33651cbde0ee1d82941e279f4f29350a6b8f9",
+      "size": 1123,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/97b33651cbde0ee1d82941e279f4f29350a6b8f9"
+    },
+    {
+      "path": "upkie/cpp/utils/datetime_now_string.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0fc3ee6e20a6b9fbe73bc9f8cc311c98cbe4ee41",
+      "size": 587,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0fc3ee6e20a6b9fbe73bc9f8cc311c98cbe4ee41"
+    },
+    {
+      "path": "upkie/cpp/utils/get_log_path.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "742b0bf25a97881dfda6124727d4a2aa781c2924",
+      "size": 1015,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/742b0bf25a97881dfda6124727d4a2aa781c2924"
+    },
+    {
+      "path": "upkie/cpp/utils/handle_interrupts.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c606d9489c27ff283c578d83b1e4dfa3fbdee1fe",
+      "size": 650,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c606d9489c27ff283c578d83b1e4dfa3fbdee1fe"
+    },
+    {
+      "path": "upkie/cpp/utils/handle_interrupts.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c57ea31f2b10af41771ff8abb14ce8522ed47916",
+      "size": 573,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c57ea31f2b10af41771ff8abb14ce8522ed47916"
+    },
+    {
+      "path": "upkie/cpp/utils/low_pass_filter.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "44801e9f69284735a36088dcf0ff8b48bd18d38f",
+      "size": 1151,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/44801e9f69284735a36088dcf0ff8b48bd18d38f"
+    },
+    {
+      "path": "upkie/cpp/utils/math.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "35064595b30a4e37b22121b11866f0da494586f5",
+      "size": 387,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/35064595b30a4e37b22121b11866f0da494586f5"
+    },
+    {
+      "path": "upkie/cpp/utils/random_string.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5198effb61598a92b47d453aedcc8300d1b1f7c3",
+      "size": 754,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/5198effb61598a92b47d453aedcc8300d1b1f7c3"
+    },
+    {
+      "path": "upkie/cpp/utils/realtime.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf7cd59dfb2dd11e4be7582cf264b4be3f4ad7bf",
+      "size": 1555,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/cf7cd59dfb2dd11e4be7582cf264b4be3f4ad7bf"
+    },
+    {
+      "path": "upkie/cpp/utils/tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c519344627edb2f1b3123dc3c8906ddb4234e7b5",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/c519344627edb2f1b3123dc3c8906ddb4234e7b5"
+    },
+    {
+      "path": "upkie/cpp/utils/tests/BUILD",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a0a335c03d05aa07cb06f4f4a76761e4fe74f13b",
+      "size": 539,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/a0a335c03d05aa07cb06f4f4a76761e4fe74f13b"
+    },
+    {
+      "path": "upkie/cpp/utils/tests/PerformanceCpuGovernorTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "88f89ce60d9c00284ec730f5f4b3b7bc987b1bbf",
+      "size": 2640,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/88f89ce60d9c00284ec730f5f4b3b7bc987b1bbf"
+    },
+    {
+      "path": "upkie/cpp/utils/tests/SynchronousClockTest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "999257fd73be154e89654b01cbdf1ede0287bbe5",
+      "size": 2474,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/999257fd73be154e89654b01cbdf1ede0287bbe5"
+    },
+    {
+      "path": "upkie/cpp/utils/tests/datetime_now_string_test.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2927401cfb51c150561bcf048a170fe6c34bea2f",
+      "size": 440,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/2927401cfb51c150561bcf048a170fe6c34bea2f"
+    },
+    {
+      "path": "upkie/cpp/utils/tests/get_log_path_test.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "abc69ebbc009479fc0f044ff51d5e363170b5991",
+      "size": 545,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/abc69ebbc009479fc0f044ff51d5e363170b5991"
+    },
+    {
+      "path": "upkie/cpp/utils/tests/low_pass_filter_test.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "91497c26ce5fed6dcf8df10f3cffe6bbce8d6744",
+      "size": 764,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/91497c26ce5fed6dcf8df10f3cffe6bbce8d6744"
+    },
+    {
+      "path": "upkie/cpp/utils/tests/math_test.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9632a93fed4f75582c433a5336422b4eba2da6ea",
+      "size": 304,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/9632a93fed4f75582c433a5336422b4eba2da6ea"
+    },
+    {
+      "path": "upkie/cpp/utils/tests/random_string_test.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f1ddd4ad18a482c6afbfc660504d12f7bdf1a05",
+      "size": 672,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/9f1ddd4ad18a482c6afbfc660504d12f7bdf1a05"
+    },
+    {
+      "path": "upkie/cpp/utils/tests/realtime_test.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "668ff50de525b3f027e9f2f72f7b255df9e2ec94",
+      "size": 377,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/668ff50de525b3f027e9f2f72f7b255df9e2ec94"
+    },
+    {
+      "path": "upkie/cpp/version.h",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d9f9c83ce8ae19dc2f0653bafc1b8f8dcfa699bf",
+      "size": 314,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/d9f9c83ce8ae19dc2f0653bafc1b8f8dcfa699bf"
+    },
+    {
+      "path": "upkie/envs",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "e3f2d081b966ce1be9310d2eece275ed0c235bcb",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/e3f2d081b966ce1be9310d2eece275ed0c235bcb"
+    },
+    {
+      "path": "upkie/envs/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f645e2faf8c08e4b6b7c0f6758a3fbba1bb18b3",
+      "size": 1492,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0f645e2faf8c08e4b6b7c0f6758a3fbba1bb18b3"
+    },
+    {
+      "path": "upkie/envs/backends",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a14c562d17efcf58d4943da0c418ec2920779d02",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/a14c562d17efcf58d4943da0c418ec2920779d02"
+    },
+    {
+      "path": "upkie/envs/backends/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "078a43b687e786221d16657904bc0d78cfb423e6",
+      "size": 432,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/078a43b687e786221d16657904bc0d78cfb423e6"
+    },
+    {
+      "path": "upkie/envs/backends/backend.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "704786d146627fc3145873fc9a04e5361b9445d8",
+      "size": 1294,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/704786d146627fc3145873fc9a04e5361b9445d8"
+    },
+    {
+      "path": "upkie/envs/backends/mock_backend.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8538b911e9111e4737ede3c18b41806187053d2d",
+      "size": 3511,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/8538b911e9111e4737ede3c18b41806187053d2d"
+    },
+    {
+      "path": "upkie/envs/backends/pybullet_backend.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "55e6a78ff751a9d358fda256d09acf86e3bce218",
+      "size": 27852,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/55e6a78ff751a9d358fda256d09acf86e3bce218"
+    },
+    {
+      "path": "upkie/envs/backends/spine",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "231d5af2e342e7343c9872f9482b147a21ff73e7",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/231d5af2e342e7343c9872f9482b147a21ff73e7"
+    },
+    {
+      "path": "upkie/envs/backends/spine/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1fdaab9d24b1ec9ddf8aed34ca70d3e1b59136b0",
+      "size": 308,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/1fdaab9d24b1ec9ddf8aed34ca70d3e1b59136b0"
+    },
+    {
+      "path": "upkie/envs/backends/spine/request.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "109cd80f3ed2cc2348d422e87eb62fac3730dc1d",
+      "size": 693,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/109cd80f3ed2cc2348d422e87eb62fac3730dc1d"
+    },
+    {
+      "path": "upkie/envs/backends/spine/serialize.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0d3e67cff93716328c73acf6d842e58610aaab2a",
+      "size": 860,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0d3e67cff93716328c73acf6d842e58610aaab2a"
+    },
+    {
+      "path": "upkie/envs/backends/spine/spine_interface.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0b7e151e9c76de872cd9b44288caa51910c90967",
+      "size": 5533,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0b7e151e9c76de872cd9b44288caa51910c90967"
+    },
+    {
+      "path": "upkie/envs/backends/spine/wait_for_shared_memory.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be3b48fd33e3c6066417c9562e63ccbfca79e835",
+      "size": 1485,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/be3b48fd33e3c6066417c9562e63ccbfca79e835"
+    },
+    {
+      "path": "upkie/envs/backends/spine_backend.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71720d87835e54e6a65cf595a937956db515ed63",
+      "size": 8356,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/71720d87835e54e6a65cf595a937956db515ed63"
+    },
+    {
+      "path": "upkie/envs/entry_points.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c5001b7dec037f37ea6a24fa06c47de4f2dd4679",
+      "size": 11867,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c5001b7dec037f37ea6a24fa06c47de4f2dd4679"
+    },
+    {
+      "path": "upkie/envs/testing.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0d0a53816b54f543a57a079376583b8f062525a1",
+      "size": 4976,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0d0a53816b54f543a57a079376583b8f062525a1"
+    },
+    {
+      "path": "upkie/envs/upkie_base_velocity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "648bbe5d946c0da1bce350bfd4463e60e1152c94",
+      "size": 6872,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/648bbe5d946c0da1bce350bfd4463e60e1152c94"
+    },
+    {
+      "path": "upkie/envs/upkie_env.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "95d28a6455a46b93c76d56a8d3138e7fd36d2b73",
+      "size": 9086,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/95d28a6455a46b93c76d56a8d3138e7fd36d2b73"
+    },
+    {
+      "path": "upkie/envs/upkie_gyropod.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dbea5b94e2bb934d4c07930936d072f263f45369",
+      "size": 14765,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/dbea5b94e2bb934d4c07930936d072f263f45369"
+    },
+    {
+      "path": "upkie/envs/upkie_pendulum.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf3b4fd9be81ddd0967e58accb62b41631365f91",
+      "size": 4711,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/cf3b4fd9be81ddd0967e58accb62b41631365f91"
+    },
+    {
+      "path": "upkie/envs/upkie_servos.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "da47fec8b4e2af4cb55a09d821f86dcbe567bb3a",
+      "size": 12539,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/da47fec8b4e2af4cb55a09d821f86dcbe567bb3a"
+    },
+    {
+      "path": "upkie/exceptions.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "585d2c1512dc8768f7365cdf059e1ce6cd0f7bfe",
+      "size": 1149,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/585d2c1512dc8768f7365cdf059e1ce6cd0f7bfe"
+    },
+    {
+      "path": "upkie/logging.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b51e46ee01ffd4ea57e82eb59ae9ce363eae4d54",
+      "size": 3648,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/b51e46ee01ffd4ea57e82eb59ae9ce363eae4d54"
+    },
+    {
+      "path": "upkie/model",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "b95cf5d79c8ed47c2ee4731ed84d29b49ea01081",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/b95cf5d79c8ed47c2ee4731ed84d29b49ea01081"
+    },
+    {
+      "path": "upkie/model/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5ad22ffc9968f5f45ead28314abf27a4d9220a2d",
+      "size": 510,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/5ad22ffc9968f5f45ead28314abf27a4d9220a2d"
+    },
+    {
+      "path": "upkie/model/collision_geometry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "186376994caf451312fba95464109d669078008a",
+      "size": 1002,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/186376994caf451312fba95464109d669078008a"
+    },
+    {
+      "path": "upkie/model/joint.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99b4df7d50e840ca28f791e48f8b85100da9e97d",
+      "size": 2125,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/99b4df7d50e840ca28f791e48f8b85100da9e97d"
+    },
+    {
+      "path": "upkie/model/joint_limit.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99c8923af710bb3e216fdff6c4d3ce5b1ba95798",
+      "size": 1003,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/99c8923af710bb3e216fdff6c4d3ce5b1ba95798"
+    },
+    {
+      "path": "upkie/model/joint_properties.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e434de1fda7c8964da4fe6b70e9d8d11d5c93a7a",
+      "size": 1329,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/e434de1fda7c8964da4fe6b70e9d8d11d5c93a7a"
+    },
+    {
+      "path": "upkie/model/kinematic_tree.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0e3f34c141603e878e0af8b658ad3fe70de4a351",
+      "size": 6006,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/0e3f34c141603e878e0af8b658ad3fe70de4a351"
+    },
+    {
+      "path": "upkie/model/link.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "abdddbe4c6d411216f5da46d420ed07822547e7f",
+      "size": 2973,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/abdddbe4c6d411216f5da46d420ed07822547e7f"
+    },
+    {
+      "path": "upkie/model/model.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3400d47dd25e425ca2a75aec7535d22601556077",
+      "size": 4954,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/3400d47dd25e425ca2a75aec7535d22601556077"
+    },
+    {
+      "path": "upkie/model/se3.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1608217321da8ef411111a4347d70020809893de",
+      "size": 4558,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/1608217321da8ef411111a4347d70020809893de"
+    },
+    {
+      "path": "upkie/utils",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "03058a85d1d4f463fa4b7dc7f747556356964509",
+      "url": "https://api.github.com/repos/upkie/upkie/git/trees/03058a85d1d4f463fa4b7dc7f747556356964509"
+    },
+    {
+      "path": "upkie/utils/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c2dd8edba30a9765dcb488b47a8e55a1fe2bac93",
+      "size": 94,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c2dd8edba30a9765dcb488b47a8e55a1fe2bac93"
+    },
+    {
+      "path": "upkie/utils/clamp.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1f83d448be97fa102d235e5dc1a204d3af111d0",
+      "size": 1742,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/b1f83d448be97fa102d235e5dc1a204d3af111d0"
+    },
+    {
+      "path": "upkie/utils/external_force.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d626882cd5ac95e11ebacc29d06bf04c260f309",
+      "size": 1394,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/2d626882cd5ac95e11ebacc29d06bf04c260f309"
+    },
+    {
+      "path": "upkie/utils/filters.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f4a6b70ae655cd6b70b0896236445c593f54b0d6",
+      "size": 2132,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/f4a6b70ae655cd6b70b0896236445c593f54b0d6"
+    },
+    {
+      "path": "upkie/utils/joystick.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd3516b9c4850bcd4a89fe46327f75610e2de303",
+      "size": 6557,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/fd3516b9c4850bcd4a89fe46327f75610e2de303"
+    },
+    {
+      "path": "upkie/utils/nested_update.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "19eb67b2236c9a9c6a439411aa6c1d836c807a1e",
+      "size": 1761,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/19eb67b2236c9a9c6a439411aa6c1d836c807a1e"
+    },
+    {
+      "path": "upkie/utils/point_contact.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d302851e7556092162c073f5be9e03a174fcad11",
+      "size": 1610,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/d302851e7556092162c073f5be9e03a174fcad11"
+    },
+    {
+      "path": "upkie/utils/raspi.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fadab8cd4db23810f5e8420e74ac2fc32bcdc119",
+      "size": 2358,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/fadab8cd4db23810f5e8420e74ac2fc32bcdc119"
+    },
+    {
+      "path": "upkie/utils/robot_state.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eff5769bf6bf31946e97f5845fbcbb4b673e58b8",
+      "size": 7264,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/eff5769bf6bf31946e97f5845fbcbb4b673e58b8"
+    },
+    {
+      "path": "upkie/utils/robot_state_randomization.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5cc170e552aea9d9841c15583ba278d140d1f7fc",
+      "size": 6355,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/5cc170e552aea9d9841c15583ba278d140d1f7fc"
+    },
+    {
+      "path": "upkie/utils/rotations.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c56fb905d50f2fd3a6b69dff164b0e9b130cd6c4",
+      "size": 3426,
+      "url": "https://api.github.com/repos/upkie/upkie/git/blobs/c56fb905d50f2fd3a6b69dff164b0e9b130cd6c4"
+    }
+  ],
+  "truncated": false
+}

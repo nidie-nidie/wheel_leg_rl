@@ -1,0 +1,1028 @@
+{
+  "schema": "CommonDifferentialJitterModeV1",
+  "source": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\saturation-reward-audit-20261012-v1\\trajectories.npz",
+  "mode_definition": "q_common=(q_front+q_rear)/2; q_differential=(q_front-q_rear)/2; total pair acceleration energy=2*(common energy+differential energy); existing actual control-tick accelerations unchanged",
+  "note": "Pure decomposition of existing MuJoCo trajectories; not proof one mode unnecessary; spectra remove linear trend; fixed-target amplitudes may approach roundoff; not a safe threshold",
+  "trajectories": [
+    {
+      "key": "85_combined",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9433720715126851,
+          "actual_accel_energy_fraction_differential": 0.07446560964488602,
+          "actual_common_accel_rms_rad_s2": 16.56526932424568,
+          "actual_differential_accel_rms_rad_s2": 4.698725731055022,
+          "actual_phi0_p5p95_width_deg": 1.4065996365728353,
+          "actual_length_p5p95_width_mm": 1.6674295556708407,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.875,
+            "power_fraction_ge5hz": 0.13798790493291258
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 1.5,
+            "power_fraction_ge5hz": 0.09513739631508396
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.875,
+            "power_fraction_ge5hz": 0.12660124268546072
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 1.5,
+            "power_fraction_ge5hz": 0.14106029554508884
+          },
+          "target_phi_p5p95_width_deg": 2.324219998395847,
+          "target_length_p5p95_width_mm": 2.9714458693683166
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": -0.6057544032202763,
+          "actual_accel_energy_fraction_differential": 0.6696028538345519,
+          "actual_common_accel_rms_rad_s2": 2.681145662746618,
+          "actual_differential_accel_rms_rad_s2": 3.816901156430062,
+          "actual_phi0_p5p95_width_deg": 0.10079234938558557,
+          "actual_length_p5p95_width_mm": 0.5901373669095766,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.5235417918207963
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 12.125,
+            "power_fraction_ge5hz": 0.8776616856278309
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.7075215366064563
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 12.125,
+            "power_fraction_ge5hz": 0.8165049812360815
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "85_forward",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.7883909429097643,
+          "actual_accel_energy_fraction_differential": 0.17147027574107615,
+          "actual_common_accel_rms_rad_s2": 10.337968812737179,
+          "actual_differential_accel_rms_rad_s2": 4.70300666171514,
+          "actual_phi0_p5p95_width_deg": 0.29539605510862543,
+          "actual_length_p5p95_width_mm": 0.9800925633703106,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 12.625,
+            "power_fraction_ge5hz": 0.8591799595503339
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 12.625,
+            "power_fraction_ge5hz": 0.538662302055158
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 12.625,
+            "power_fraction_ge5hz": 0.8314323098068612
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 12.625,
+            "power_fraction_ge5hz": 0.7557970920661103
+          },
+          "target_phi_p5p95_width_deg": 0.979924207715726,
+          "target_length_p5p95_width_mm": 4.157990148385082
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": -0.04131327871190996,
+          "actual_accel_energy_fraction_differential": 0.5058068497021075,
+          "actual_common_accel_rms_rad_s2": 3.004413940737805,
+          "actual_differential_accel_rms_rad_s2": 3.039511289666627,
+          "actual_phi0_p5p95_width_deg": 0.09204529890511992,
+          "actual_length_p5p95_width_mm": 0.37747927715214846,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 12.625,
+            "power_fraction_ge5hz": 0.8451528283841702
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 12.625,
+            "power_fraction_ge5hz": 0.8884034980178341
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 12.625,
+            "power_fraction_ge5hz": 0.8678149542923007
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 12.625,
+            "power_fraction_ge5hz": 0.7989545294538074
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "85_high_stand",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9600628349286908,
+          "actual_accel_energy_fraction_differential": 0.1204882155574814,
+          "actual_common_accel_rms_rad_s2": 21.14051063266155,
+          "actual_differential_accel_rms_rad_s2": 7.824686168620292,
+          "actual_phi0_p5p95_width_deg": 1.9597627839530531,
+          "actual_length_p5p95_width_mm": 1.81090140638282,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.875,
+            "power_fraction_ge5hz": 0.16849865446255125
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 0.875,
+            "power_fraction_ge5hz": 0.38093195443581707
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.875,
+            "power_fraction_ge5hz": 0.14899153022100242
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 0.875,
+            "power_fraction_ge5hz": 0.4513405600917765
+          },
+          "target_phi_p5p95_width_deg": 3.011405356300017,
+          "target_length_p5p95_width_mm": 7.518896547717091
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": 0.12986842616743377,
+          "actual_accel_energy_fraction_differential": 0.4700677299947833,
+          "actual_common_accel_rms_rad_s2": 4.927364350967213,
+          "actual_differential_accel_rms_rad_s2": 4.640713022466653,
+          "actual_phi0_p5p95_width_deg": 0.20774431055779985,
+          "actual_length_p5p95_width_mm": 0.6644006529754887,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 12.875,
+            "power_fraction_ge5hz": 0.5465242861092431
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 11.5,
+            "power_fraction_ge5hz": 0.9219380628099547
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 12.875,
+            "power_fraction_ge5hz": 0.5933077426910772
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 11.5,
+            "power_fraction_ge5hz": 0.8493903156823697
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "85_interactive",
+      "n": 900,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9570427144466728,
+          "actual_accel_energy_fraction_differential": 0.05306290386791692,
+          "actual_common_accel_rms_rad_s2": 26.251547422766787,
+          "actual_differential_accel_rms_rad_s2": 6.214266151728855,
+          "actual_phi0_p5p95_width_deg": 2.077629663020616,
+          "actual_length_p5p95_width_mm": 1.6131634700855824,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.8333333333333333,
+            "power_fraction_ge5hz": 0.23836969680268402
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 0.8333333333333333,
+            "power_fraction_ge5hz": 0.3068010286717457
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.8333333333333333,
+            "power_fraction_ge5hz": 0.2132148922424409
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 11.166666666666666,
+            "power_fraction_ge5hz": 0.39326585686712584
+          },
+          "target_phi_p5p95_width_deg": 3.3830280523077363,
+          "target_length_p5p95_width_mm": 4.093443696218058
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": -0.1787077636060902,
+          "actual_accel_energy_fraction_differential": 0.4855877113584669,
+          "actual_common_accel_rms_rad_s2": 5.020293569876645,
+          "actual_differential_accel_rms_rad_s2": 4.877612448360893,
+          "actual_phi0_p5p95_width_deg": 0.22276366908356238,
+          "actual_length_p5p95_width_mm": 0.9266207583967512,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 1.0,
+            "power_fraction_ge5hz": 0.5060719039569379
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 11.166666666666666,
+            "power_fraction_ge5hz": 0.7626983112299577
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 1.0,
+            "power_fraction_ge5hz": 0.5707280214680094
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 11.166666666666666,
+            "power_fraction_ge5hz": 0.636499129612468
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "85_left_turn",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9705628496009376,
+          "actual_accel_energy_fraction_differential": 0.05615575268973142,
+          "actual_common_accel_rms_rad_s2": 25.440109506111185,
+          "actual_differential_accel_rms_rad_s2": 6.205345058536782,
+          "actual_phi0_p5p95_width_deg": 2.4682127167138788,
+          "actual_length_p5p95_width_mm": 2.142194184200946,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.875,
+            "power_fraction_ge5hz": 0.1516359875727728
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 0.625,
+            "power_fraction_ge5hz": 0.19074598244793475
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.875,
+            "power_fraction_ge5hz": 0.13700631271879157
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 0.625,
+            "power_fraction_ge5hz": 0.2916064238137682
+          },
+          "target_phi_p5p95_width_deg": 3.8350877886456516,
+          "target_length_p5p95_width_mm": 4.211761840993256
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": -0.5396626163753478,
+          "actual_accel_energy_fraction_differential": 0.5101094556901088,
+          "actual_common_accel_rms_rad_s2": 3.6248208055810736,
+          "actual_differential_accel_rms_rad_s2": 3.698866869987823,
+          "actual_phi0_p5p95_width_deg": 0.11819443339831537,
+          "actual_length_p5p95_width_mm": 0.638876562641777,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.7913705768294147
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 11.0,
+            "power_fraction_ge5hz": 0.9348711669507355
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 11.0,
+            "power_fraction_ge5hz": 0.8636106750273101
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 11.0,
+            "power_fraction_ge5hz": 0.8958342329023793
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "85_low_stand",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9006121296196921,
+          "actual_accel_energy_fraction_differential": 0.06270819692515689,
+          "actual_common_accel_rms_rad_s2": 22.68926762077684,
+          "actual_differential_accel_rms_rad_s2": 5.868744801585587,
+          "actual_phi0_p5p95_width_deg": 1.4624172840685787,
+          "actual_length_p5p95_width_mm": 1.8612058135245857,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 11.5,
+            "power_fraction_ge5hz": 0.29602821368215526
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 0.5,
+            "power_fraction_ge5hz": 0.09035385468317551
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.5,
+            "power_fraction_ge5hz": 0.2737464827707831
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 0.5,
+            "power_fraction_ge5hz": 0.14442025545043596
+          },
+          "target_phi_p5p95_width_deg": 2.4727653405305148,
+          "target_length_p5p95_width_mm": 4.13240110873922
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": -0.509720811259513,
+          "actual_accel_energy_fraction_differential": 0.6222748443143264,
+          "actual_common_accel_rms_rad_s2": 4.055102316785858,
+          "actual_differential_accel_rms_rad_s2": 5.20481124958402,
+          "actual_phi0_p5p95_width_deg": 0.2513305539825552,
+          "actual_length_p5p95_width_mm": 1.4483745426784322,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 11.5,
+            "power_fraction_ge5hz": 0.3667482076280992
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 11.5,
+            "power_fraction_ge5hz": 0.511015467538917
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 11.5,
+            "power_fraction_ge5hz": 0.40415932635640167
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 11.5,
+            "power_fraction_ge5hz": 0.3801851262529446
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "85_nominal_stand",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9482186493613416,
+          "actual_accel_energy_fraction_differential": 0.05123479182513331,
+          "actual_common_accel_rms_rad_s2": 26.554098118706584,
+          "actual_differential_accel_rms_rad_s2": 6.170703346208817,
+          "actual_phi0_p5p95_width_deg": 2.021027929755789,
+          "actual_length_p5p95_width_mm": 1.6409672456770552,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.26162053590237416
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.28826919550365104
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.23522373039297148
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.37001461552187154
+          },
+          "target_phi_p5p95_width_deg": 3.4695142395886904,
+          "target_length_p5p95_width_mm": 4.1736516726760815
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": -0.16427072558917358,
+          "actual_accel_energy_fraction_differential": 0.48184230934664446,
+          "actual_common_accel_rms_rad_s2": 5.043035085254064,
+          "actual_differential_accel_rms_rad_s2": 4.863103148198656,
+          "actual_phi0_p5p95_width_deg": 0.23069509907996633,
+          "actual_length_p5p95_width_mm": 0.8995334835067981,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.5386275013020719
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 11.125,
+            "power_fraction_ge5hz": 0.7803978581066056
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.6012651703887908
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 11.125,
+            "power_fraction_ge5hz": 0.6598408958396459
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "85_reverse",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9554819775982789,
+          "actual_accel_energy_fraction_differential": 0.025583625698056344,
+          "actual_common_accel_rms_rad_s2": 16.841499221260825,
+          "actual_differential_accel_rms_rad_s2": 2.728911862080114,
+          "actual_phi0_p5p95_width_deg": 1.0327562016253609,
+          "actual_length_p5p95_width_mm": 1.212533154204526,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 11.25,
+            "power_fraction_ge5hz": 0.3825361812249927
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 1.25,
+            "power_fraction_ge5hz": 0.10405816207754995
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 11.25,
+            "power_fraction_ge5hz": 0.34639820959181966
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 1.25,
+            "power_fraction_ge5hz": 0.15407326742195954
+          },
+          "target_phi_p5p95_width_deg": 1.8783535384482661,
+          "target_length_p5p95_width_mm": 2.7459294540882473
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": 0.07699257756928757,
+          "actual_accel_energy_fraction_differential": 0.3645049777154191,
+          "actual_common_accel_rms_rad_s2": 4.3897689249229455,
+          "actual_differential_accel_rms_rad_s2": 3.3245840346045408,
+          "actual_phi0_p5p95_width_deg": 0.18355162231063105,
+          "actual_length_p5p95_width_mm": 0.556505344324193,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 11.25,
+            "power_fraction_ge5hz": 0.7872971760287015
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 11.25,
+            "power_fraction_ge5hz": 0.8629059253177567
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 11.25,
+            "power_fraction_ge5hz": 0.8125991136575602
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 11.25,
+            "power_fraction_ge5hz": 0.7394060891555422
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "85_right_turn",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9556610008900266,
+          "actual_accel_energy_fraction_differential": 0.03668557833690374,
+          "actual_common_accel_rms_rad_s2": 24.164433592641867,
+          "actual_differential_accel_rms_rad_s2": 4.715635992138552,
+          "actual_phi0_p5p95_width_deg": 1.809374826695631,
+          "actual_length_p5p95_width_mm": 1.6388831592383801,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.26829942154119635
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.1279145928490088
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.247650669841595
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.2440969194375876
+          },
+          "target_phi_p5p95_width_deg": 3.2129672510089193,
+          "target_length_p5p95_width_mm": 3.608448955383592
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": -0.19940461554502018,
+          "actual_accel_energy_fraction_differential": 0.3380026071449039,
+          "actual_common_accel_rms_rad_s2": 4.194425560938142,
+          "actual_differential_accel_rms_rad_s2": 2.9971216915019303,
+          "actual_phi0_p5p95_width_deg": 0.12659771737163794,
+          "actual_length_p5p95_width_mm": 0.4807469366807371,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 16.5,
+            "power_fraction_ge5hz": 0.7805757159025126
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 11.375,
+            "power_fraction_ge5hz": 0.8300042610118973
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 16.5,
+            "power_fraction_ge5hz": 0.8492031261590574
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 11.375,
+            "power_fraction_ge5hz": 0.7303591869695576
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "baseline_combined",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9747538896452057,
+          "actual_accel_energy_fraction_differential": 0.022801099057538025,
+          "actual_common_accel_rms_rad_s2": 33.14688549251292,
+          "actual_differential_accel_rms_rad_s2": 5.0632472296280175,
+          "actual_phi0_p5p95_width_deg": 1.620833326368043,
+          "actual_length_p5p95_width_mm": 1.184138469770779,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 9.75,
+            "power_fraction_ge5hz": 0.8606450290340812
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.42576313825033063
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 9.75,
+            "power_fraction_ge5hz": 0.8654510710292332
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 9.75,
+            "power_fraction_ge5hz": 0.6380977881495953
+          },
+          "target_phi_p5p95_width_deg": 3.8418781266586848,
+          "target_length_p5p95_width_mm": 4.660763146747099
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": -0.5130675798200593,
+          "actual_accel_energy_fraction_differential": 0.5121205481295368,
+          "actual_common_accel_rms_rad_s2": 3.280066671353015,
+          "actual_differential_accel_rms_rad_s2": 3.3605666145031368,
+          "actual_phi0_p5p95_width_deg": 0.09343457245952891,
+          "actual_length_p5p95_width_mm": 0.6401919887235041,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.4679757650765894
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 9.75,
+            "power_fraction_ge5hz": 0.9203522536050184
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.5912877295715129
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 9.75,
+            "power_fraction_ge5hz": 0.8942078748129798
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "baseline_forward",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9954209744998557,
+          "actual_accel_energy_fraction_differential": 0.012259970883184309,
+          "actual_common_accel_rms_rad_s2": 33.80842603262932,
+          "actual_differential_accel_rms_rad_s2": 3.7665899619481213,
+          "actual_phi0_p5p95_width_deg": 1.3679960351363007,
+          "actual_length_p5p95_width_mm": 0.6678557495573001,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 10.0,
+            "power_fraction_ge5hz": 0.9804363557370898
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 10.0,
+            "power_fraction_ge5hz": 0.9013151202239302
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 10.0,
+            "power_fraction_ge5hz": 0.9800610668846839
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 10.0,
+            "power_fraction_ge5hz": 0.9420086786456094
+          },
+          "target_phi_p5p95_width_deg": 3.8272598169094323,
+          "target_length_p5p95_width_mm": 3.423439511032078
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": -0.18545148143804935,
+          "actual_accel_energy_fraction_differential": 0.22373389523512827,
+          "actual_common_accel_rms_rad_s2": 4.948117543866817,
+          "actual_differential_accel_rms_rad_s2": 2.65644352925016,
+          "actual_phi0_p5p95_width_deg": 0.13906054629038067,
+          "actual_length_p5p95_width_mm": 0.5566795715178374,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 10.0,
+            "power_fraction_ge5hz": 0.9241296228537764
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 10.0,
+            "power_fraction_ge5hz": 0.9796125527130843
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 10.0,
+            "power_fraction_ge5hz": 0.9382289674434622
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 10.0,
+            "power_fraction_ge5hz": 0.9578741334621267
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "baseline_high_stand",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9867050135405324,
+          "actual_accel_energy_fraction_differential": 0.017911588671702307,
+          "actual_common_accel_rms_rad_s2": 30.89559706670456,
+          "actual_differential_accel_rms_rad_s2": 4.172423213942367,
+          "actual_phi0_p5p95_width_deg": 5.707430861892092,
+          "actual_length_p5p95_width_mm": 3.2623338987163297,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.14664967836776333
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.07815919723563962
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.14710169987993238
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.09744156974538473
+          },
+          "target_phi_p5p95_width_deg": 6.460989705009851,
+          "target_length_p5p95_width_mm": 5.616668451215001
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": 0.1627396335051312,
+          "actual_accel_energy_fraction_differential": 0.321706402018766,
+          "actual_common_accel_rms_rad_s2": 9.790053378716385,
+          "actual_differential_accel_rms_rad_s2": 6.742268637745512,
+          "actual_phi0_p5p95_width_deg": 0.47902979635280474,
+          "actual_length_p5p95_width_mm": 2.3788651810163763,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.4924958833336431
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.29133529359878385
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.48296974613952814
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.3273394994579399
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "baseline_left_turn",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9669545220620499,
+          "actual_accel_energy_fraction_differential": 0.037027490379087334,
+          "actual_common_accel_rms_rad_s2": 36.162299635542404,
+          "actual_differential_accel_rms_rad_s2": 7.091061216127729,
+          "actual_phi0_p5p95_width_deg": 3.485181567001547,
+          "actual_length_p5p95_width_mm": 2.535439615245494,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.43584574684411653
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.3949514265761662
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.44358657675433094
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.475798818023034
+          },
+          "target_phi_p5p95_width_deg": 5.357198298181885,
+          "target_length_p5p95_width_mm": 6.619605638209541
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": -0.6266689913215496,
+          "actual_accel_energy_fraction_differential": 0.4255398468127994,
+          "actual_common_accel_rms_rad_s2": 3.7604551418684578,
+          "actual_differential_accel_rms_rad_s2": 3.236536983340755,
+          "actual_phi0_p5p95_width_deg": 0.11126630472931254,
+          "actual_length_p5p95_width_mm": 0.7273896207239949,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.8161325864443616
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.9673610706220648
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.8928458429626616
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.9558245630717765
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "baseline_low_stand",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9549970337055643,
+          "actual_accel_energy_fraction_differential": 0.07258135592402945,
+          "actual_common_accel_rms_rad_s2": 41.527308144608035,
+          "actual_differential_accel_rms_rad_s2": 11.617385689675887,
+          "actual_phi0_p5p95_width_deg": 5.880002615446855,
+          "actual_length_p5p95_width_mm": 5.030088040350156,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.24621574852897177
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.45511057694282864
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.2690991228336867
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.5544571813423554
+          },
+          "target_phi_p5p95_width_deg": 7.489411393229432,
+          "target_length_p5p95_width_mm": 9.328649795858485
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": 0.48996992991910043,
+          "actual_accel_energy_fraction_differential": 0.3520301342110352,
+          "actual_common_accel_rms_rad_s2": 4.717532807460084,
+          "actual_differential_accel_rms_rad_s2": 3.4771821785080057,
+          "actual_phi0_p5p95_width_deg": 0.283571525448977,
+          "actual_length_p5p95_width_mm": 1.1460197078585477,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.4965667027858204
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.3052782659052657
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.44342430896847296
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 0.375,
+            "power_fraction_ge5hz": 0.28569664825782565
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "baseline_nominal_stand",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9782015969002018,
+          "actual_accel_energy_fraction_differential": 0.04419708738186843,
+          "actual_common_accel_rms_rad_s2": 34.82438729738815,
+          "actual_differential_accel_rms_rad_s2": 7.488522419599602,
+          "actual_phi0_p5p95_width_deg": 6.035607690707309,
+          "actual_length_p5p95_width_mm": 3.374579423714441,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.1508288179352796
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.33647994217843563
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.15872361632732884
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.43541082353097166
+          },
+          "target_phi_p5p95_width_deg": 7.04782826324336,
+          "target_length_p5p95_width_mm": 8.127771145497453
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": 0.7066636576417802,
+          "actual_accel_energy_fraction_differential": 0.41228145607096084,
+          "actual_common_accel_rms_rad_s2": 4.286678734611826,
+          "actual_differential_accel_rms_rad_s2": 3.590319849379773,
+          "actual_phi0_p5p95_width_deg": 0.3161311932605173,
+          "actual_length_p5p95_width_mm": 0.9999813580481298,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.24218051963295947
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.6152198727322983
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.24823026722443742
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 0.75,
+            "power_fraction_ge5hz": 0.4992279350223356
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "baseline_reverse",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.973193925147812,
+          "actual_accel_energy_fraction_differential": 0.035452937403627136,
+          "actual_common_accel_rms_rad_s2": 24.940771979449092,
+          "actual_differential_accel_rms_rad_s2": 4.7816115558723675,
+          "actual_phi0_p5p95_width_deg": 2.1367238040914884,
+          "actual_length_p5p95_width_mm": 1.5365442997849477,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 9.0,
+            "power_fraction_ge5hz": 0.5165597340870438
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 9.0,
+            "power_fraction_ge5hz": 0.7384515276682666
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 9.0,
+            "power_fraction_ge5hz": 0.5276649012258638
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 9.0,
+            "power_fraction_ge5hz": 0.7844414431803699
+          },
+          "target_phi_p5p95_width_deg": 3.3144707146023507,
+          "target_length_p5p95_width_mm": 5.5906935475910355
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": -0.1111121859077065,
+          "actual_accel_energy_fraction_differential": 0.23283344651301743,
+          "actual_common_accel_rms_rad_s2": 3.5872019633587713,
+          "actual_differential_accel_rms_rad_s2": 1.9762126812638248,
+          "actual_phi0_p5p95_width_deg": 0.11556778889813302,
+          "actual_length_p5p95_width_mm": 0.42419735008097925,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 9.0,
+            "power_fraction_ge5hz": 0.6577044829484611
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 9.0,
+            "power_fraction_ge5hz": 0.947623631653264
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 9.0,
+            "power_fraction_ge5hz": 0.7322572796669452
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 9.0,
+            "power_fraction_ge5hz": 0.9040060585845773
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    },
+    {
+      "key": "baseline_right_turn",
+      "n": 400,
+      "sides": [
+        {
+          "side": "left",
+          "actual_qfront_qrear_correlation": 0.9506235764927414,
+          "actual_accel_energy_fraction_differential": 0.05848980790655059,
+          "actual_common_accel_rms_rad_s2": 33.20665583824495,
+          "actual_differential_accel_rms_rad_s2": 8.276614465435957,
+          "actual_phi0_p5p95_width_deg": 3.79580563900619,
+          "actual_length_p5p95_width_mm": 3.11522687735466,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.35962893275181607
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.4614649442352518
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.37610036585983114
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.5457457030178163
+          },
+          "target_phi_p5p95_width_deg": 5.110292104222054,
+          "target_length_p5p95_width_mm": 8.835668701517003
+        },
+        {
+          "side": "right",
+          "actual_qfront_qrear_correlation": 0.6480264952942679,
+          "actual_accel_energy_fraction_differential": 0.2578270168974404,
+          "actual_common_accel_rms_rad_s2": 4.275665232612879,
+          "actual_differential_accel_rms_rad_s2": 2.520085849674434,
+          "actual_phi0_p5p95_width_deg": 0.1371097524294953,
+          "actual_length_p5p95_width_mm": 0.3413221339572392,
+          "actual_common_angle_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.8402602398183568
+          },
+          "actual_differential_angle_spectrum": {
+            "peak_hz": 8.0,
+            "power_fraction_ge5hz": 0.7902061180995615
+          },
+          "actual_phi_spectrum": {
+            "peak_hz": 8.375,
+            "power_fraction_ge5hz": 0.8361048662021302
+          },
+          "actual_length_spectrum": {
+            "peak_hz": 8.0,
+            "power_fraction_ge5hz": 0.7763411477493695
+          },
+          "target_phi_p5p95_width_deg": 0.0,
+          "target_length_p5p95_width_mm": 0.0
+        }
+      ]
+    }
+  ]
+}

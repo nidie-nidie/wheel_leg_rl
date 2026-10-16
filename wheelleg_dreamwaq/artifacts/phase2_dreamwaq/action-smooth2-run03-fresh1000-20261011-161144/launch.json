@@ -1,0 +1,20 @@
+{
+  "pid": 37580,
+  "wrapper": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\run_experiment.py",
+  "output": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144",
+  "training_command": [
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\.venv\\Scripts\\python.exe",
+    "scripts/train_dreamwaq.py",
+    "--profile",
+    "rtx5070",
+    "--task-profile",
+    "stop_reverse_smooth_v1",
+    "--seed",
+    "41882943",
+    "--max-iterations",
+    "1000",
+    "--run-name",
+    "dreamwaq-action-smooth2-run03-fresh1000-20261011-161144-seed41882943",
+    "--headless"
+  ]
+}

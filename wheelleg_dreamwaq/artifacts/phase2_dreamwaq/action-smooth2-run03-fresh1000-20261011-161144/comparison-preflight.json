@@ -1,0 +1,19 @@
+{
+  "final_comparison_requires_identical_cache_file": true,
+  "initial_cache_tensor_sha256": "446817DB7509AAC24F66D7111391FF9223D50FA8B33469C31CFF9B79CE3DF21D",
+  "isaac_evaluation_conditions_same": true,
+  "only_training_configuration_change": [
+    {
+      "after": "8D2705CEC4F1851B4B61315A8BF6A00CA6BED227638CF5E9686249A57B6BFD91",
+      "before": "EC40FC36DA937CC9A7994CA3B47D20D7AD1814C5B835F9962F056940E4F592E3",
+      "path": ".contract_hash"
+    },
+    {
+      "after": -0.02,
+      "before": -0.01,
+      "path": ".task.reward_weights.action_smooth"
+    }
+  ],
+  "passed": true,
+  "reason_for_distinct_full_contract_hash": "Training base-task identity includes the intentionally changed reward."
+}

@@ -1,0 +1,8 @@
+{
+  "same_batch_python_vs_torchscript": {
+    "1": 0.0,
+    "3": 0.0,
+    "32": 0.0
+  },
+  "standard_golden_max_error": 0.0
+}

@@ -1,0 +1,103 @@
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Board/Inc/pace_can_port.h
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Board/Inc/pace_time.h
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Board/Inc/pace_uart_port.h
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Board/Src/pace_can_port.c
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Board/Src/pace_time.c
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Board/Src/pace_uart_port.c
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Config/pace_experiment_config.h
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Config/pace_motor_manifest.h
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Core/Src/freertos.c
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/MDK-ARM/wheel_leg_motor_PACE.uvprojx
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Motor/Src/pace_motor_registry.c
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/PACE/Inc/pace_app.h
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/PACE/Inc/pace_experiment.h
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/PACE/Src/pace_app.c
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/PACE/Src/pace_excitation.c
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/PACE/Src/pace_experiment.c
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/PACE/Src/pace_safety.c
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/PACE/tests/test_can_schedule.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Protocol/Inc/pace_frame.h
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Protocol/Src/pace_frame.c
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Protocol/tests/test_pace_frame.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/README.md
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/docs/commissioning_checklist.md
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/tools/generate_keil_project.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/tools/test_keil_project.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/README.md
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/fit/common.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/fit/fit_leg_dm.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/fit/fit_wheel_lk.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/fit/model_manifest.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/fit/pace_optimizer_bridge.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/isaac/leg_dm_adapter.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/models/motor_model_schema.json
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/mujoco/actuator_replay.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/pace_raw/decoder.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/pace_raw/normalize.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/pace_raw/schema.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/tests/test_decoder.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/tests/test_fitting.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/tools/capture_session.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/tools/decode_session.py
+ M wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/tools/fit_session.py
+ M wheelleg_dreamwaq/artifacts/debug/sim2sim/interactive-mujoco-20261010-v1/keyboard_viewer.py
+ M wheelleg_dreamwaq/artifacts/debug/sim2sim/interactive-mujoco-20261010-v1/play_keyboard.py
+ M wheelleg_dreamwaq/artifacts/phase2_dreamwaq/latest_run.txt
+ M wheelleg_dreamwaq/docs/superpowers/plans/2026-10-11-action-smooth-v1.md
+ M wheelleg_dreamwaq/scripts/export_dreamwaq_actor.py
+ M wheelleg_dreamwaq/scripts/run_dreamwaq_training_suite.py
+ M wheelleg_dreamwaq/scripts/train_dreamwaq.py
+ M wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/dreamwaq_manifest.py
+ M wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py
+ M wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env_cfg.py
+ M wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/training_profiles.py
+ M wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/training/dreamwaq_checkpoint.py
+ M wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/training/weights_initialization.py
+?? docs/Reward_Gain_Adaptation_for_constrained_locomotion_learning.pdf
+?? wheelleg_dreamwaq/PACE/README.md
+?? wheelleg_dreamwaq/PACE/docs/
+?? wheelleg_dreamwaq/PACE/firmware_gcc/
+?? wheelleg_dreamwaq/PACE/host_debug/
+?? wheelleg_dreamwaq/PACE/requirements.lock.txt
+?? wheelleg_dreamwaq/PACE/tools/
+?? wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/Config/pace_memory.sct
+?? wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/PACE/tests/test_experiment_contract.c
+?? wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/docs/2026-10-12-pace-code-review.md
+?? wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE/docs/v2-experiment-contract.md
+?? wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/pace_raw/quality.py
+?? wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/pace_raw/scanner.py
+?? wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/pace_raw/session_metadata.py
+?? wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/tests/helpers_v2.py
+?? wheelleg_dreamwaq/PACE/wheel_leg_motor_PACE_PC/tests/test_protocol_v2.py
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/action-smooth-metric-20261011-180240/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/interactive-mujoco-20261010-v1/analyze_joint_telemetry.py
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/interactive-mujoco-20261010-v1/joint-telemetry-plan.md
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/interactive-mujoco-20261010-v1/joint_telemetry.py
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/interactive-mujoco-20261010-v1/verify_joint_telemetry.py
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/joint-telemetry-20261011-141922/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/joint-telemetry-keyboard-smoke-20261011-v1/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/joint-telemetry-smooth002-20261011-171956/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/joint-telemetry-verification-20261011-v1/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/leg-acceleration-budget-search-20261012-v1/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/leg-acceleration-evaluator-smoke-20261012-v1/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/leg-jitter-indicators-20261011-182657/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/leg-motion-metric-analysis-20261012-v1/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/night-model-leg-comparison-20261011-v1/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/open-beni-reward-review-20261011/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/reversal-noise-diagnosis-20261011-v1/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/right-leg-saturation-deep-trace-20261013-v1/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/right-leg-saturation-lineage-20261013-v1/
+?? wheelleg_dreamwaq/artifacts/debug/sim2sim/university-wheelleg-review-20261013-v1/
+?? wheelleg_dreamwaq/artifacts/phase2_dreamwaq/action-smooth-acceptance-20261011/
+?? wheelleg_dreamwaq/artifacts/phase2_dreamwaq/action-smooth2-run03-fresh1000-20261011-161144/
+?? wheelleg_dreamwaq/artifacts/phase2_dreamwaq/leg-reversal-trial-20261011-v1/
+?? wheelleg_dreamwaq/artifacts/phase2_dreamwaq/resume-run03-1000-to-1500-20261011-133153/
+?? wheelleg_dreamwaq/artifacts/phase2_dreamwaq/split-action-smooth-20261013-v1/
+?? wheelleg_dreamwaq/artifacts/phase2_dreamwaq/stop-reverse-curve-analysis-20261011/
+?? wheelleg_dreamwaq/docs/2026-10-11-action-smooth-training-results.md
+?? wheelleg_dreamwaq/docs/2026-10-13-dreamwaq-jitter-debug-index.md
+?? wheelleg_dreamwaq/docs/superpowers/plans/2026-10-12-leg-acceleration-budget-search.md
+?? wheelleg_dreamwaq/scripts/evaluate_leg_acceleration_mujoco.py
+?? wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/leg_acceleration.py
+?? wheelleg_dreamwaq/tests/unit/test_leg_acceleration.py
+?? wheelleg_dreamwaq/tests/unit/test_leg_acceleration_checkpoint.py

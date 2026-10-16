@@ -1,0 +1,10 @@
+﻿{
+    "process_id":  15896,
+    "budget_fraction":  0.85,
+    "export":  "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\85\\export",
+    "session":  "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\85\\interactive-20261012-100842",
+    "actor_sha256":  "0314C48A295EAA6E99709FE600FA717B264814BAFF02444AF8D62C1C699896F2",
+    "joint_telemetry":  true,
+    "physics_mode":  "FORMAL WHEEL CONTACT",
+    "keyboard_max_speed_mps":  10
+}

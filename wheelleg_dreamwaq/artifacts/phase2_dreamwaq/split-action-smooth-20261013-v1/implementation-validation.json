@@ -1,0 +1,22 @@
+{
+  "changed_existing_files": [
+    "wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/dreamwaq_manifest.py",
+    "wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py",
+    "wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/rewards.py",
+    "wheelleg_dreamwaq/source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/training_profiles.py",
+    "wheelleg_dreamwaq/scripts/train_dreamwaq.py",
+    "wheelleg_dreamwaq/sim2sim/mujoco/wheelleg_mujoco/contract.py",
+    "docs/2026-10-03-wheelleg-dreamwaq-architecture.md",
+    "wheelleg_dreamwaq/docs/2026-10-13-dreamwaq-jitter-debug-index.md"
+  ],
+  "unexpected_protected_changes_excluding_independent_PACE": [],
+  "unit_tests_passed": 238,
+  "mujoco_tests_passed": 68,
+  "real_fresh2_resume3_export_loader_passed": true,
+  "code_review": "final-code-review.md",
+  "code_review_P0": 0,
+  "code_review_P1": 0,
+  "code_review_P2": 1,
+  "P2_resolution": "sampler records and asserts original step count; successful preflight already exact",
+  "golden_correction": "32x125 fixed golden <=1e-7, dynamic batch1/3 shape; remove worker single-thread override, export math unchanged"
+}

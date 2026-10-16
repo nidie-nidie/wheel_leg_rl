@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "control_frames": 240,
+  "physics_rows": 4800,
+  "episodes": 3,
+  "state_fields_compared": [
+    "qpos",
+    "qvel",
+    "qacc",
+    "ctrl",
+    "qfrc_actuator",
+    "qfrc_passive",
+    "qfrc_constraint",
+    "qfrc_bias",
+    "qfrc_applied",
+    "xfrc_applied",
+    "actuator_force"
+  ],
+  "state_and_action_max_abs_error": 0.0,
+  "history_max_abs_error": 0.0,
+  "actual_actuator_vs_command_max_abs_error_nm": 0.0,
+  "conditions": [
+    "stop",
+    "forward",
+    "stop",
+    "reverse",
+    "turn",
+    "reset"
+  ],
+  "elapsed_wall_s": 1.5591006998438388,
+  "source_completed_iterations": 1401
+}

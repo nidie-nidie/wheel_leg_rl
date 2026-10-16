@@ -1,0 +1,50 @@
+{
+  "arms": {
+    "80": {
+      "actual_acceleration_csv_difference_max": 0.0,
+      "gain": 1.0,
+      "golden_max_errors_1_3_32": [
+        3.5762786865234375e-07,
+        1.430511474609375e-06,
+        0.0
+      ],
+      "motion_report_sha256": "872C6FE1BA5621A00B2225FA551B24F0E45B8ACE9BEC5487B896E98E425B7EEC",
+      "training200": true
+    },
+    "85": {
+      "actual_acceleration_csv_difference_max": 0.0,
+      "gain": 1.0,
+      "golden_max_errors_1_3_32": [
+        9.5367431640625e-07,
+        1.0728836059570312e-06,
+        0.0
+      ],
+      "motion_report_sha256": "48C90E157A2A6A1FC2F311C1959FC3FA2B15AF475E6DA279E6B78A394DFE07B9",
+      "training200": true
+    },
+    "90": {
+      "actual_acceleration_csv_difference_max": 0.0,
+      "gain": 1.0,
+      "golden_max_errors_1_3_32": [
+        9.5367431640625e-07,
+        1.6689300537109375e-06,
+        0.0
+      ],
+      "motion_report_sha256": "819F6F97E28E8467ECBD69989CC5997C1C9AA0D24913896F3BB95206A79D5349",
+      "training200": true
+    },
+    "baseline": {
+      "actual_acceleration_csv_difference_max": 0.0,
+      "gain": null,
+      "golden_max_errors_1_3_32": [
+        9.5367431640625e-07,
+        1.9073486328125e-06,
+        0.0
+      ],
+      "motion_report_sha256": "DEAE7497016E1CB89682C97E874134E6476C93FA0DD573B207EB756B506960F8",
+      "training200": true
+    }
+  },
+  "same_initial_network_all_arms": true,
+  "source_files_unchanged": true
+}

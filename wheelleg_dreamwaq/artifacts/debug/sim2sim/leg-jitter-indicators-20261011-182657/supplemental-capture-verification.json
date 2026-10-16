@@ -1,0 +1,65 @@
+[
+  {
+    "scenario": "forward",
+    "completed_frames": 500,
+    "failure_reason": null,
+    "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\mujoco_evaluation\\forward.csv",
+    "reference_sha256": "1722F191A5560D590724A22DF8E3F6DEFA81875219689150443F4D00089A2530",
+    "max_abs_difference_vs_existing_evaluation": {
+      "raw_action": 0.0,
+      "vx": 0.0,
+      "yaw_rate": 0.0,
+      "base_height": 0.0,
+      "command": 0.0,
+      "clipped_action": 0.0
+    },
+    "source_checkpoint_sha256": "8BC8B90DDEAAA3DA4B0A7CCCB434C73C6FBA4DE9A2043B131F385876060B975F",
+    "policy_sha256": "241F22CC746214A9CF33348176CFEBEDBEEDB617713A81AC0FFD4C8EA4972841",
+    "model_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+    "new_telemetry": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-jitter-indicators-20261011-182657\\supplemental-traces\\forward\\control.csv",
+    "purpose": "diagnostic joint telemetry only, not an additional training run or formal suite",
+    "clipped_action_reference": "original logged clipped_action columns"
+  },
+  {
+    "scenario": "reverse",
+    "completed_frames": 500,
+    "failure_reason": null,
+    "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\mujoco_evaluation\\reverse.csv",
+    "reference_sha256": "5C69AD801C62229F5F8139324C89B0B1C9B85F97E06968B73FD2C2A66C0C7ACA",
+    "max_abs_difference_vs_existing_evaluation": {
+      "raw_action": 0.0,
+      "vx": 0.0,
+      "yaw_rate": 0.0,
+      "base_height": 0.0,
+      "command": 0.0,
+      "clipped_action": 0.0
+    },
+    "source_checkpoint_sha256": "8BC8B90DDEAAA3DA4B0A7CCCB434C73C6FBA4DE9A2043B131F385876060B975F",
+    "policy_sha256": "241F22CC746214A9CF33348176CFEBEDBEEDB617713A81AC0FFD4C8EA4972841",
+    "model_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+    "new_telemetry": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-jitter-indicators-20261011-182657\\supplemental-traces\\reverse\\control.csv",
+    "purpose": "diagnostic joint telemetry only, not an additional training run or formal suite",
+    "clipped_action_reference": "original logged clipped_action columns"
+  },
+  {
+    "scenario": "forward_stop_reverse",
+    "completed_frames": 500,
+    "failure_reason": null,
+    "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\action-smooth2-run03-fresh1000-20261011-161144\\mujoco_command_practice\\forward_stop_reverse.csv",
+    "reference_sha256": "7F2E449402F05759C4F5AA9E61C67C480156FFDBE1C07F84FDB06672A22B6205",
+    "max_abs_difference_vs_existing_evaluation": {
+      "raw_action": 0.0,
+      "vx": 0.0,
+      "yaw_rate": 0.0,
+      "base_height": 0.0,
+      "command": 0.0,
+      "clipped_action": 0.0
+    },
+    "source_checkpoint_sha256": "8BC8B90DDEAAA3DA4B0A7CCCB434C73C6FBA4DE9A2043B131F385876060B975F",
+    "policy_sha256": "241F22CC746214A9CF33348176CFEBEDBEEDB617713A81AC0FFD4C8EA4972841",
+    "model_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+    "new_telemetry": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-jitter-indicators-20261011-182657\\supplemental-traces\\forward_stop_reverse\\control.csv",
+    "purpose": "diagnostic joint telemetry only, not an additional training run or formal suite",
+    "clipped_action_reference": "clip(original raw action, -1, +1)"
+  }
+]

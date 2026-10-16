@@ -1,0 +1,81 @@
+{
+  "control_frames": 2296,
+  "episode_count": 1,
+  "source_completed_iterations": 1401,
+  "joints": {
+    "jIJ": {
+      "raw_action_min": -0.2552490532398224,
+      "raw_action_max": 0.8947861790657043,
+      "action_clipped_fraction": 0.0,
+      "mean_abs_action_change": 0.07572127489742371,
+      "max_abs_action_change": 0.2657441720366478,
+      "large_action_change_fraction_gt_0_5": 0.0,
+      "target_tracking_mae": 0.025375662143325525,
+      "target_tracking_unit": "rad",
+      "velocity_rms_rad_s": 0.6656060145619708,
+      "torque_last_limit_fraction": 0.0
+    },
+    "jIO": {
+      "raw_action_min": -0.4200778007507324,
+      "raw_action_max": 0.9821169972419739,
+      "action_clipped_fraction": 0.0,
+      "mean_abs_action_change": 0.06190711102064918,
+      "max_abs_action_change": 0.3150329738855362,
+      "large_action_change_fraction_gt_0_5": 0.0,
+      "target_tracking_mae": 0.02020248113830544,
+      "target_tracking_unit": "rad",
+      "velocity_rms_rad_s": 0.6305484696833925,
+      "torque_last_limit_fraction": 0.0
+    },
+    "jAB": {
+      "raw_action_min": -4.972177028656006,
+      "raw_action_max": 0.021956145763397217,
+      "action_clipped_fraction": 0.9995644599303136,
+      "mean_abs_action_change": 0.0008905935910792133,
+      "max_abs_action_change": 1.0219561457633972,
+      "large_action_change_fraction_gt_0_5": 0.0008714596949891067,
+      "target_tracking_mae": 0.015200016683297733,
+      "target_tracking_unit": "rad",
+      "velocity_rms_rad_s": 0.20848981334991412,
+      "torque_last_limit_fraction": 0.0
+    },
+    "jAG": {
+      "raw_action_min": -4.255376815795898,
+      "raw_action_max": 0.5998284816741943,
+      "action_clipped_fraction": 0.9995644599303136,
+      "mean_abs_action_change": 0.001394186040674679,
+      "max_abs_action_change": 1.5998284816741943,
+      "large_action_change_fraction_gt_0_5": 0.0008714596949891067,
+      "target_tracking_mae": 0.02047351443071234,
+      "target_tracking_unit": "rad",
+      "velocity_rms_rad_s": 0.20265946594737583,
+      "torque_last_limit_fraction": 0.00043554006968641115
+    },
+    "jwheel_left": {
+      "raw_action_min": -3.5694961547851562,
+      "raw_action_max": 3.53244948387146,
+      "action_clipped_fraction": 0.5814459930313589,
+      "mean_abs_action_change": 0.6330456730392244,
+      "max_abs_action_change": 2.0,
+      "large_action_change_fraction_gt_0_5": 0.5080610021786492,
+      "target_tracking_mae": 16.20015470236452,
+      "target_tracking_unit": "rad_s",
+      "velocity_rms_rad_s": 9.711072071903802,
+      "torque_last_limit_fraction": 0.5383275261324042
+    },
+    "jwheel_right": {
+      "raw_action_min": -2.954787015914917,
+      "raw_action_max": 5.515015125274658,
+      "action_clipped_fraction": 0.4538327526132404,
+      "mean_abs_action_change": 0.9100189063089346,
+      "max_abs_action_change": 2.0,
+      "large_action_change_fraction_gt_0_5": 0.681045751633987,
+      "target_tracking_mae": 14.665149951749042,
+      "target_tracking_unit": "rad_s",
+      "velocity_rms_rad_s": 9.616672203412897,
+      "torque_last_limit_fraction": 0.4642857142857143
+    }
+  },
+  "caution": "A changing policy output is an observed boundary, not proof of the ultimate cause; forces include the closed chain.",
+  "jitter_marks": []
+}

@@ -1,0 +1,24 @@
+{
+  "pid": 51084,
+  "command": [
+    "C:\\Users\\changba01\\.local\\bin\\uv.exe",
+    "run",
+    "--offline",
+    "--frozen",
+    "--project",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco",
+    "python",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\interactive-mujoco-20261010-v1\\play_keyboard.py",
+    "--export",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\resume-run03-1000-to-1500-20261011-133153\\stopped-export",
+    "--max-speed",
+    "10",
+    "--joint-telemetry",
+    "--session",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\joint-telemetry-20261011-141922"
+  ],
+  "session": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\joint-telemetry-20261011-141922",
+  "source_completed_iterations": 1401,
+  "source_seed": 41882943,
+  "launched_at": "2026-10-11T14:19:22.917288+08:00"
+}

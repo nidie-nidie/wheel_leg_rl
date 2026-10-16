@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "independent_normalization_comparison_errors": {
+    "angular_velocity": 0.0,
+    "leg_position": 0.0,
+    "joint_velocity_and_right_wheel_sign": 0.0,
+    "command": 0.0
+  },
+  "gravity_unit_norm_max_error": 2.9831298098415004e-08,
+  "protected_file_count": 90,
+  "protected_files_unchanged": true,
+  "checks": [
+    "same-time velocity",
+    "full trace replay",
+    "history rolling",
+    "previous action alignment",
+    "joint signs and scales",
+    "finite tensors",
+    "Actor reconstruction",
+    "temporal attribution completeness",
+    "multiple constant-command windows"
+  ]
+}

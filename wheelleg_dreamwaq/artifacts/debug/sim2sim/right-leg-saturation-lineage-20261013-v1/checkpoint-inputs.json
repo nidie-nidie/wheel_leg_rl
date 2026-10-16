@@ -1,0 +1,92 @@
+[
+  {
+    "stage": "fresh1000",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_0.pt",
+    "sha256": "05F231FDE786BF32C8573DA837D8EF251A3013C24178D53D8BF9C73D0502F68D"
+  },
+  {
+    "stage": "fresh1000",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_100.pt",
+    "sha256": "4D8788593BA4C2A4207F7E6A2A9387B981225C52E562E15DC0ED0CA3BB7D9575"
+  },
+  {
+    "stage": "fresh1000",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_200.pt",
+    "sha256": "BF7D88F3411141685F40176F4FCDDBA941C3D219F43ABBD04FA0C0DE7AB5E8F1"
+  },
+  {
+    "stage": "fresh1000",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_300.pt",
+    "sha256": "E3D7B86A8B21CB155E9E35E739EBC50AFCB30DF0638ADBD3C30E805E4C8DC1F7"
+  },
+  {
+    "stage": "fresh1000",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_400.pt",
+    "sha256": "F98EB1AE5576EEC62EBBDDAFCBAA025645FBDDCE699A0BEDAE7B8BBA86DE30E9"
+  },
+  {
+    "stage": "fresh1000",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_500.pt",
+    "sha256": "7B5B68757BC17D715C105963722E3DA20FC4A594BBADE50849594C84A9C61603"
+  },
+  {
+    "stage": "fresh1000",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_600.pt",
+    "sha256": "3504144CCE3AF92A9C7BF229323F9BF7744144E7A8C800137ED3099DD5C472B8"
+  },
+  {
+    "stage": "fresh1000",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_700.pt",
+    "sha256": "F747F65313C1E876BF04C44EAB9506F90C313AB4D04E36889A6FC60AEFFBB78A"
+  },
+  {
+    "stage": "fresh1000",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_800.pt",
+    "sha256": "272CE8B3CEF10CAFAB87182D278EF5B8D5635D75B8CE4A70028BFF87BA986E37"
+  },
+  {
+    "stage": "fresh1000",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_900.pt",
+    "sha256": "18EB99A27FE88351BC7E8024E8307C4C15C639DADE3D9270ADF48CE973854773"
+  },
+  {
+    "stage": "fresh1000",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_04-20-34_rtx5070_fudan-v1_dreamwaq-v1-suite-20261011-024927-run03-seed41882943\\model_999.pt",
+    "sha256": "3D621280CF7F11088C972B0DD84CF2E698C29A4C8CDA8BC370BB80A2669DF885"
+  },
+  {
+    "stage": "baseline200",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200\\model_0.pt",
+    "sha256": "77AEB686B0BA2C8BC3D57A08434B057E37E141D1842C5C8109B4AD92E8B6B0B7"
+  },
+  {
+    "stage": "baseline200",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200\\model_100.pt",
+    "sha256": "B96CD0B0294E6264ABE91C2AC844B758C8518452589C6CFC6F161A206DA47C26"
+  },
+  {
+    "stage": "baseline200",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200\\model_199.pt",
+    "sha256": "BCDD726CE5D6F89600547F34CA285282053D4D07B07575604172E6A11A5912B7"
+  },
+  {
+    "stage": "budget85_200",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_02-02-02_rtx5070_fudan-v1_leg-accel-budget-search-20261012-budget85-200\\model_0.pt",
+    "sha256": "50065812B32918A94455FD6D63139431FE2CC88E9794B9DF5EC371E02A6C9616"
+  },
+  {
+    "stage": "budget85_200",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_02-02-02_rtx5070_fudan-v1_leg-accel-budget-search-20261012-budget85-200\\model_100.pt",
+    "sha256": "960C8D2625AD6BB2FE2A9DCA74115902293199C7C22775C7108B8F0483E77581"
+  },
+  {
+    "stage": "budget85_200",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_02-02-02_rtx5070_fudan-v1_leg-accel-budget-search-20261012-budget85-200\\model_199.pt",
+    "sha256": "38E9817801ED5EDEDAB777BA8466CFF524A95BCE2482378F8F91916961279B08"
+  },
+  {
+    "stage": "budget_search_baseline200",
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_01-27-01_rtx5070_fudan-v1_leg-accel-budget-search-20261012-baseline-200\\model_199.pt",
+    "sha256": "6C093A50533EF026A4334B53FAAD27C324702D2C6D508E383548FDAC63E1CC3A"
+  }
+]

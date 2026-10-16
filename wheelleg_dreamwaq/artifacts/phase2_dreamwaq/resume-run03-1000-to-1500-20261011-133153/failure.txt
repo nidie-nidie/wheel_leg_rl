@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "E:\wheel_leg_rl-main\.git\run_resume500.py", line 44, in <module>
+    assert code==0 and run_dir is not None,(code,run_dir)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (4294967295, WindowsPath('E:/wheel_leg_rl-main/wheelleg_dreamwaq/logs/rsl_rl/wheelleg_flat_dreamwaq/2026-10-11_13-32-11_rtx5070_fudan-v1_dreamwaq-stop-reverse-run03-resume1500-20261011-133153-seed41882943'))

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import math
 
 import torch
 
@@ -36,6 +37,28 @@ class RewardWeights:
     soft_leg_limit: float = 0.95
 
 
+SPLIT_SMOOTH_REWARD_SCHEMA_VERSION = "RewardSchemaV3SplitSmooth"
+
+
+@dataclass(frozen=True)
+class SplitSmoothRewardWeights(RewardWeights):
+    action_smooth: float = 0.0
+    action_smooth_leg: float = -0.02
+    action_smooth_wheel: float = -0.01
+
+    def __post_init__(self) -> None:
+        if self.action_smooth != 0.0:
+            raise ValueError("Split smooth must disable the composite action_smooth")
+        for value in (self.action_smooth_leg, self.action_smooth_wheel):
+            if not math.isfinite(value) or value >= 0.0:
+                raise ValueError("Split smooth weights must be finite and negative")
+
+
+def reward_schema_version(weights: RewardWeights) -> str:
+    return (SPLIT_SMOOTH_REWARD_SCHEMA_VERSION
+            if isinstance(weights, SplitSmoothRewardWeights) else REWARD_SCHEMA_VERSION)
+
+
 def compute_reward_terms(
     state: WheelLegState,
     weights: RewardWeights,
@@ -49,7 +72,7 @@ def compute_reward_terms(
     lower_violation = torch.clamp(soft_lower - state.joint_position[:, :4], min=0.0)
     upper_violation = torch.clamp(state.joint_position[:, :4] - soft_upper, min=0.0)
     upright_cosine = upright_cosine_from_projected_gravity(state.projected_gravity)
-    return {
+    terms = {
         "tracking_vx": torch.exp(-vx_error / weights.tracking_sigma),
         "tracking_vx_enhance": torch.exp(-vx_error / (weights.tracking_sigma * 10.0)) - 1.0,
         "tracking_yaw_rate": torch.exp(-yaw_error / weights.tracking_sigma),
@@ -76,6 +99,14 @@ def compute_reward_terms(
         "phi0_symmetry": phi0_symmetry_error(state.virtual_leg_phi0_true),
         "termination": terminated.float(),
     }
+    if isinstance(weights, SplitSmoothRewardWeights):
+        weights.__post_init__()
+        second_difference = (state.last_applied_action - 2.0 * state.previous_applied_action
+                             + state.previous_previous_applied_action)
+        terms.pop("action_smooth")
+        terms["action_smooth_leg"] = second_difference[:, :4].square().sum(dim=-1)
+        terms["action_smooth_wheel"] = second_difference[:, 4:].square().sum(dim=-1)
+    return terms
 
 
 def compute_reward(

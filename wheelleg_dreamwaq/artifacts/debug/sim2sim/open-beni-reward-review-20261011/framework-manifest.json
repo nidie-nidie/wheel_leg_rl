@@ -1,0 +1,43 @@
+{
+  "package": "mjlab",
+  "version": "1.6.0",
+  "wheel": {
+    "url": "https://files.pythonhosted.org/packages/79/94/af6f1aab987675670e11a09862fed90a3258a10f1b51c149cec39ba427a4/mjlab-1.6.0-py3-none-any.whl",
+    "hash": "sha256:03d003854e2f44c48330c6dcf4c2253ff7641bb569747846825a21b9efa8540b",
+    "size": 14211492,
+    "upload-time": "2026-08-09T00:23:40.762Z"
+  },
+  "verified": true,
+  "read_only_extraction": [
+    {
+      "path": "mjlab/entity/data.py",
+      "sha256": "E37635975E0D758C279FA98903666D699B2BF100D2C4AA23D42EBF6740302FB3",
+      "lines": 631
+    },
+    {
+      "path": "mjlab/envs/mdp/actions/actions.py",
+      "sha256": "9CAE83A2B0006320A8E15E040A0EDBF5B4AE76D023832563F1AC36630F3B28D1",
+      "lines": 386
+    },
+    {
+      "path": "mjlab/envs/mdp/rewards.py",
+      "sha256": "02E42A1E15DC1A27A0CCE4E3D2863A165094914118789A1EC4CFBF6ED97A9C60",
+      "lines": 159
+    },
+    {
+      "path": "mjlab/managers/action_manager.py",
+      "sha256": "FEC79F933FD9437DC9FCB784E4F214B9BAE4AAD2252C2D2D1387B11B605A5332",
+      "lines": 208
+    },
+    {
+      "path": "mjlab/managers/reward_manager.py",
+      "sha256": "A1E12ECDCACC8F90C5FE9E7BD014A6DDBC5AFEAD45B822465257005865D9F401",
+      "lines": 175
+    },
+    {
+      "path": "mjlab/tasks/velocity/mdp/rewards.py",
+      "sha256": "5149776C24C8499C05C1F4941A295647779867EFD645F78BE02408FD85C96DFB",
+      "lines": 466
+    }
+  ]
+}

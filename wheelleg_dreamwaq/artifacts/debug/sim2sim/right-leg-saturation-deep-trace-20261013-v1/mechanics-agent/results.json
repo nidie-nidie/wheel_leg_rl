@@ -1,0 +1,1010 @@
+{
+  "schema": "MechanicsReflectionAuditV1",
+  "input_hashes": {
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\models\\wheel_leg_urdf4_v1.xml": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\sim2sim\\mujoco\\model_manifest.json": "E83642558F85AE261F60FBC90A38BE830B61A9F438F43A33E34C7726512C6811",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase1_v4\\usd-anchor-audit.json": "6231C16A830401B46516880821D3E8C4225BF8D2963367619D0F7FBC9D69BB5F",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\85\\export\\actor.ts": "0314C48A295EAA6E99709FE600FA717B264814BAFF02444AF8D62C1C699896F2",
+    "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\85\\export\\policy_manifest.json": "8EA6E172DF3ADE236EE6FB407BF803CF40565EC57E801EF9294E9665F9C7D8B8"
+  },
+  "mapping": [
+    {
+      "index": 0,
+      "joint": "jIJ",
+      "joint_id": 11,
+      "actuator_id": 0,
+      "actuator_joint_id": 11,
+      "gear": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -18.0,
+        18.0
+      ],
+      "key_q": -0.33367151
+    },
+    {
+      "index": 1,
+      "joint": "jIO",
+      "joint_id": 1,
+      "actuator_id": 1,
+      "actuator_joint_id": 1,
+      "gear": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -18.0,
+        18.0
+      ],
+      "key_q": 0.33367157
+    },
+    {
+      "index": 2,
+      "joint": "jAB",
+      "joint_id": 19,
+      "actuator_id": 3,
+      "actuator_joint_id": 19,
+      "gear": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -18.0,
+        18.0
+      ],
+      "key_q": -0.33367088
+    },
+    {
+      "index": 3,
+      "joint": "jAG",
+      "joint_id": 6,
+      "actuator_id": 2,
+      "actuator_joint_id": 6,
+      "gear": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -18.0,
+        18.0
+      ],
+      "key_q": 0.33367112
+    },
+    {
+      "index": 4,
+      "joint": "jwheel_left",
+      "joint_id": 3,
+      "actuator_id": 4,
+      "actuator_joint_id": 3,
+      "gear": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -9.0,
+        9.0
+      ],
+      "key_q": 0.0
+    },
+    {
+      "index": 5,
+      "joint": "jwheel_right",
+      "joint_id": 8,
+      "actuator_id": 5,
+      "actuator_joint_id": 8,
+      "gear": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ctrlrange": [
+        -9.0,
+        9.0
+      ],
+      "key_q": 0.0
+    }
+  ],
+  "q_nominal": [
+    -0.33367134,
+    0.33367134,
+    -0.33367134,
+    0.33367134
+  ],
+  "hip_midpoint_world_m": [
+    0.00041867963889008486,
+    0.0038844924916399126,
+    0.2619994
+  ],
+  "base_com_offset_from_hip_midpoint_m": [
+    -0.00041899951481817743,
+    -0.003885011672973615,
+    -0.05152239984663723
+  ],
+  "full_com_offset_from_hip_midpoint_m": [
+    -0.0003063606049816416,
+    -0.01879742324869096,
+    -0.0787063654752316
+  ],
+  "side_mass_kg": [
+    0.7187150046229362,
+    0.7185310050845146
+  ],
+  "body_pairs": [
+    {
+      "left": "jIO",
+      "right": "jAG",
+      "mass_left": 0.07734400033950806,
+      "mass_right": 0.07734400033950806,
+      "mirror_origin_error_m": 0.0,
+      "mirror_com_error_m": 4.7992846605781906e-08,
+      "mirror_inertia_max_error": 1.757826392854555e-10
+    },
+    {
+      "left": "jOP",
+      "right": "jGH",
+      "mass_left": 0.12646499276161194,
+      "mass_right": 0.1262809932231903,
+      "mirror_origin_error_m": 9.673837330752205e-08,
+      "mirror_com_error_m": 0.00015010659084012151,
+      "mirror_inertia_max_error": 1.4530488352251444e-08
+    },
+    {
+      "left": "jwheel_left",
+      "right": "jwheel_right",
+      "mass_left": 0.40035301446914673,
+      "mass_right": 0.40035301446914673,
+      "mirror_origin_error_m": 3.6067167687748077e-06,
+      "mirror_com_error_m": 3.6710906614244906e-05,
+      "mirror_inertia_max_error": 4.641575877985364e-07
+    },
+    {
+      "left": "jIJ",
+      "right": "jAB",
+      "mass_left": 0.019355999305844307,
+      "mass_right": 0.019355999305844307,
+      "mirror_origin_error_m": 0.0,
+      "mirror_com_error_m": 2.5897297105730092e-08,
+      "mirror_inertia_max_error": 1.0912486815865471e-11
+    },
+    {
+      "left": "jJM",
+      "right": "jBE",
+      "mass_left": 0.006769999861717224,
+      "mass_right": 0.006769999861717224,
+      "mirror_origin_error_m": 3.102952628508245e-07,
+      "mirror_com_error_m": 0.0005000002303505355,
+      "mirror_inertia_max_error": 9.30346966745841e-12
+    },
+    {
+      "left": "jMK",
+      "right": "jEC",
+      "mass_left": 0.019805999472737312,
+      "mass_right": 0.019805999472737312,
+      "mirror_origin_error_m": 0.000500000199250747,
+      "mirror_com_error_m": 4.72621373962707e-07,
+      "mirror_inertia_max_error": 7.449066093706438e-11
+    },
+    {
+      "left": "jKN",
+      "right": "jCF",
+      "mass_left": 0.00862099975347519,
+      "mass_right": 0.00862099975347519,
+      "mirror_origin_error_m": 5.434920033176594e-07,
+      "mirror_com_error_m": 5.214015148160762e-07,
+      "mirror_inertia_max_error": 1.1940770958490757e-11
+    },
+    {
+      "left": "jIO_dummy_child_link1",
+      "right": "jAG_dummy_child_link1",
+      "mass_left": 0.009999999776482582,
+      "mass_right": 0.009999999776482582,
+      "mirror_origin_error_m": 1.3141722468855818e-07,
+      "mirror_com_error_m": 1.3141722468855818e-07,
+      "mirror_inertia_max_error": 6.776263578034403e-20
+    },
+    {
+      "left": "jIO_dummy_child_link2",
+      "right": "jAG_dummy_child_link2",
+      "mass_left": 0.009999999776482582,
+      "mass_right": 0.009999999776482582,
+      "mirror_origin_error_m": 0.007499876642394138,
+      "mirror_com_error_m": 0.007499876642394138,
+      "mirror_inertia_max_error": 1.3552527156068805e-20
+    },
+    {
+      "left": "jMK_dummy_child1",
+      "right": "jEC_dummy_child_link1",
+      "mass_left": 0.009999999776482582,
+      "mass_right": 0.009999999776482582,
+      "mirror_origin_error_m": 4.875864324240127e-07,
+      "mirror_com_error_m": 4.875864324240127e-07,
+      "mirror_inertia_max_error": 4.0657581468206416e-20
+    },
+    {
+      "left": "jMK_dummy_child2",
+      "right": "jEC_dummy_child_link2",
+      "mass_left": 0.009999999776482582,
+      "mass_right": 0.009999999776482582,
+      "mirror_origin_error_m": 0.0006001220638663737,
+      "mirror_com_error_m": 0.0006001220638663737,
+      "mirror_inertia_max_error": 2.710505431213761e-20
+    },
+    {
+      "left": "jKN_dummy_child_link1",
+      "right": "jCF_dummy_child_link1",
+      "mass_left": 0.009999999776482582,
+      "mass_right": 0.009999999776482582,
+      "mirror_origin_error_m": 1.5155400025252426e-06,
+      "mirror_com_error_m": 1.5155400025252426e-06,
+      "mirror_inertia_max_error": 8.131516293641283e-20
+    },
+    {
+      "left": "jKN_dummy_child_link2",
+      "right": "jCF_dummy_child_link2",
+      "mass_left": 0.009999999776482582,
+      "mass_right": 0.009999999776482582,
+      "mirror_origin_error_m": 1.5072812117928596e-06,
+      "mirror_com_error_m": 1.5072812117928596e-06,
+      "mirror_inertia_max_error": 1.2197274440461925e-19
+    }
+  ],
+  "joint_pairs": [
+    {
+      "left": "jIO",
+      "right": "jAG",
+      "mirror_q_sign": 1,
+      "keyframe_q_error_rad": -4.4999999998518447e-07,
+      "damping": [
+        0.0,
+        0.0
+      ],
+      "armature": [
+        0.05,
+        0.05
+      ]
+    },
+    {
+      "left": "jOP",
+      "right": "jGH",
+      "mirror_q_sign": -1,
+      "keyframe_q_error_rad": -1.418000000003028e-05,
+      "damping": [
+        0.05,
+        0.05
+      ],
+      "armature": [
+        0.005,
+        0.005
+      ]
+    },
+    {
+      "left": "jwheel_left",
+      "right": "jwheel_right",
+      "mirror_q_sign": -1,
+      "keyframe_q_error_rad": 0.0,
+      "damping": [
+        0.0,
+        0.0
+      ],
+      "armature": [
+        0.05,
+        0.05
+      ]
+    },
+    {
+      "left": "jIJ",
+      "right": "jAB",
+      "mirror_q_sign": 1,
+      "keyframe_q_error_rad": 6.300000000014627e-07,
+      "damping": [
+        0.0,
+        0.0
+      ],
+      "armature": [
+        0.05,
+        0.05
+      ]
+    },
+    {
+      "left": "jJM",
+      "right": "jBE",
+      "mirror_q_sign": -1,
+      "keyframe_q_error_rad": -1.8999999999991246e-06,
+      "damping": [
+        0.05,
+        0.05
+      ],
+      "armature": [
+        0.005,
+        0.005
+      ]
+    },
+    {
+      "left": "jMK",
+      "right": "jEC",
+      "mirror_q_sign": 1,
+      "keyframe_q_error_rad": -2.8299999999953362e-06,
+      "damping": [
+        0.05,
+        0.05
+      ],
+      "armature": [
+        0.005,
+        0.005
+      ]
+    },
+    {
+      "left": "jKN",
+      "right": "jCF",
+      "mirror_q_sign": -1,
+      "keyframe_q_error_rad": -3.5000000003782006e-07,
+      "damping": [
+        0.05,
+        0.05
+      ],
+      "armature": [
+        0.005,
+        0.005
+      ]
+    },
+    {
+      "left": "jIO_dummy_child_link1",
+      "right": "jAG_dummy_child_link1",
+      "mirror_q_sign": 1,
+      "keyframe_q_error_rad": 0.011411029999999999,
+      "damping": [
+        0.05,
+        0.05
+      ],
+      "armature": [
+        0.005,
+        0.005
+      ]
+    },
+    {
+      "left": "jIO_dummy_child_link2",
+      "right": "jAG_dummy_child_link2",
+      "mirror_q_sign": 1,
+      "keyframe_q_error_rad": 0.01141102,
+      "damping": [
+        0.05,
+        0.05
+      ],
+      "armature": [
+        0.005,
+        0.005
+      ]
+    },
+    {
+      "left": "jMK_dummy_child1",
+      "right": "jEC_dummy_child_link1",
+      "mirror_q_sign": 1,
+      "keyframe_q_error_rad": 0.07176384,
+      "damping": [
+        0.05,
+        0.05
+      ],
+      "armature": [
+        0.005,
+        0.005
+      ]
+    },
+    {
+      "left": "jMK_dummy_child2",
+      "right": "jEC_dummy_child_link2",
+      "mirror_q_sign": 1,
+      "keyframe_q_error_rad": 0.07176781,
+      "damping": [
+        0.05,
+        0.05
+      ],
+      "armature": [
+        0.005,
+        0.005
+      ]
+    },
+    {
+      "left": "jKN_dummy_child_link1",
+      "right": "jCF_dummy_child_link1",
+      "mirror_q_sign": -1,
+      "keyframe_q_error_rad": -0.05002008,
+      "damping": [
+        0.05,
+        0.05
+      ],
+      "armature": [
+        0.005,
+        0.005
+      ]
+    },
+    {
+      "left": "jKN_dummy_child_link2",
+      "right": "jCF_dummy_child_link2",
+      "mirror_q_sign": -1,
+      "keyframe_q_error_rad": -0.050043229999999994,
+      "damping": [
+        0.05,
+        0.05
+      ],
+      "armature": [
+        0.005,
+        0.005
+      ]
+    }
+  ],
+  "fk_grid": {
+    "points": 10201,
+    "valid_both": 10201,
+    "wheel_vector_max_abs_difference_m": 3.740243405547794e-07,
+    "length_max_abs_difference_m": 3.795925149763235e-07,
+    "phi0_max_abs_difference_deg": 6.866734889574674e-05,
+    "length_min_max_m": [
+      0.11727653183920081,
+      0.30414971393764834
+    ],
+    "phi0_min_max_deg": [
+      70.48621053162123,
+      110.59325619077883
+    ]
+  },
+  "fk_samples": [
+    {
+      "action_pair": [
+        0,
+        0
+      ],
+      "target_rad": [
+        -0.33367134,
+        0.33367134
+      ],
+      "fk": [
+        {
+          "side": "left",
+          "length_m": 0.19950681111331628,
+          "phi0_deg": 90.53973336120005,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            -0.0018793511510782346,
+            -0.1994979591871942
+          ]
+        },
+        {
+          "side": "right",
+          "length_m": 0.1995067740001368,
+          "phi0_deg": 90.53973302645706,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            -0.0018793496359325035,
+            -0.19949792208664124
+          ]
+        }
+      ]
+    },
+    {
+      "action_pair": [
+        -1,
+        -1
+      ],
+      "target_rad": [
+        -0.68367134,
+        -0.016328659999999995
+      ],
+      "fk": [
+        {
+          "side": "left",
+          "length_m": 0.19950681111331614,
+          "phi0_deg": 110.59325619077883,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            -0.07017282398630706,
+            -0.1867585137400466
+          ]
+        },
+        {
+          "side": "right",
+          "length_m": 0.19950677400013694,
+          "phi0_deg": 110.5932558560359,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            -0.07017280984132254,
+            -0.18675847940833987
+          ]
+        }
+      ]
+    },
+    {
+      "action_pair": [
+        1,
+        1
+      ],
+      "target_rad": [
+        0.016328659999999995,
+        0.68367134
+      ],
+      "fk": [
+        {
+          "side": "left",
+          "length_m": 0.1995068111133162,
+          "phi0_deg": 70.48621053162123,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            0.06664200160794484,
+            -0.18804736451833381
+          ]
+        },
+        {
+          "side": "right",
+          "length_m": 0.19950677400013675,
+          "phi0_deg": 70.48621019687823,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            0.0666419903095331,
+            -0.18804732914754663
+          ]
+        }
+      ]
+    },
+    {
+      "action_pair": [
+        -1,
+        1
+      ],
+      "target_rad": [
+        -0.68367134,
+        0.68367134
+      ],
+      "fk": [
+        {
+          "side": "left",
+          "length_m": 0.30414971393764834,
+          "phi0_deg": 90.86844139469207,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            -0.004609869878246131,
+            -0.30411477699720374
+          ]
+        },
+        {
+          "side": "right",
+          "length_m": 0.30414933434513336,
+          "phi0_deg": 90.86837272734317,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            -0.004609499652532628,
+            -0.3041144029728632
+          ]
+        }
+      ]
+    },
+    {
+      "action_pair": [
+        1,
+        -1
+      ],
+      "target_rad": [
+        0.016328659999999995,
+        -0.016328659999999995
+      ],
+      "fk": [
+        {
+          "side": "left",
+          "length_m": 0.11727653183920081,
+          "phi0_deg": 89.96857106296092,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            6.433068162814415e-05,
+            -0.11727651419527477
+          ]
+        },
+        {
+          "side": "right",
+          "length_m": 0.11727652775413101,
+          "phi0_deg": 89.96858230926887,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            6.430765975554142e-05,
+            -0.11727651012283047
+          ]
+        }
+      ]
+    },
+    {
+      "action_pair": [
+        -0.5,
+        -0.5
+      ],
+      "target_rad": [
+        -0.50867134,
+        0.15867134
+      ],
+      "fk": [
+        {
+          "side": "left",
+          "length_m": 0.19950681111331606,
+          "phi0_deg": 100.56649477598941,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            -0.03658486508219366,
+            -0.19612372454020463
+          ]
+        },
+        {
+          "side": "right",
+          "length_m": 0.19950677400013708,
+          "phi0_deg": 100.56649444124653,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            -0.03658485713068174,
+            -0.19612368827010515
+          ]
+        }
+      ]
+    },
+    {
+      "action_pair": [
+        0.5,
+        0.5
+      ],
+      "target_rad": [
+        -0.15867134,
+        0.50867134
+      ],
+      "fk": [
+        {
+          "side": "left",
+          "length_m": 0.1995068111133164,
+          "phi0_deg": 80.51297194641064,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            0.032883571173417336,
+            -0.19677814519780212
+          ]
+        },
+        {
+          "side": "right",
+          "length_m": 0.1995067740001371,
+          "phi0_deg": 80.51297161166772,
+          "valid": true,
+          "wheel_vector_body": [
+            0.0,
+            0.03288356620591318,
+            -0.19677810840010407
+          ]
+        }
+      ]
+    }
+  ],
+  "fk_jacobians": [
+    {
+      "common_action": 0.0,
+      "jacobian_wrt_q": [
+        [
+          -0.14158169264237916,
+          0.14158169264237916
+        ],
+        [
+          -0.5109734672082213,
+          -0.489026532791779
+        ]
+      ],
+      "jacobian_wrt_common_differential_radians": [
+        [
+          0.0,
+          -0.2831633852847583
+        ],
+        [
+          -1.0000000000000004,
+          -0.021946934416442354
+        ]
+      ]
+    },
+    {
+      "common_action": -1.0,
+      "jacobian_wrt_q": [
+        [
+          -0.1415816926423792,
+          0.1415816926423792
+        ],
+        [
+          -0.5109734672082216,
+          -0.4890265327917781
+        ]
+      ],
+      "jacobian_wrt_common_differential_radians": [
+        [
+          0.0,
+          -0.2831633852847584
+        ],
+        [
+          -0.9999999999999997,
+          -0.021946934416443464
+        ]
+      ]
+    },
+    {
+      "common_action": 1.0,
+      "jacobian_wrt_q": [
+        [
+          -0.14158169264237905,
+          0.1415816926423792
+        ],
+        [
+          -0.5109734672082215,
+          -0.4890265327917783
+        ]
+      ],
+      "jacobian_wrt_common_differential_radians": [
+        [
+          1.3877787807814457e-16,
+          -0.28316338528475826
+        ],
+        [
+          -0.9999999999999998,
+          -0.02194693441644313
+        ]
+      ]
+    }
+  ],
+  "equality_spacings": [
+    {
+      "pair": "site_mk_io",
+      "a_span_m": 0.004599999999999993,
+      "b_span_m": 0.004599999999999993,
+      "closure_error_max_m": 2.5883662474346034e-07
+    },
+    {
+      "pair": "site_ec_ag",
+      "a_span_m": 0.0040000000000000036,
+      "b_span_m": 0.0040000000000000036,
+      "closure_error_max_m": 3.843915862816066e-07
+    },
+    {
+      "pair": "site_kn_op",
+      "a_span_m": 0.006500000000000006,
+      "b_span_m": 0.006499999999999978,
+      "closure_error_max_m": 7.047626795046114e-07
+    },
+    {
+      "pair": "site_cf_gh",
+      "a_span_m": 0.006500000000000006,
+      "b_span_m": 0.006499999999999978,
+      "closure_error_max_m": 6.528927704675373e-07
+    }
+  ],
+  "reset_zero_torque_qacc_control_rad_s2": [
+    0.023003046632885306,
+    -0.051350764831235955,
+    0.1532329422618379,
+    -0.07296639395691674,
+    -0.0024025889349497597,
+    0.005452479447623051
+  ],
+  "reset_direct_unit_torque_response": [
+    {
+      "torque_scale_nm": 0.5,
+      "response_matrix_control_rad_s2_per_nm": [
+        [
+          18.053259634272127,
+          1.4694431999209947,
+          0.027023406980777695,
+          0.21829151108254924,
+          -0.02030063281660712,
+          0.013293938493559691
+        ],
+        [
+          1.4694431999210325,
+          16.41858178908714,
+          0.21833622597025898,
+          0.6621095818811359,
+          -0.0458974553836546,
+          0.051106017000404264
+        ],
+        [
+          0.027023406980802356,
+          0.2183362259703578,
+          18.05447207632723,
+          1.4686959539091342,
+          0.013263294867571107,
+          -0.020269825909526196
+        ],
+        [
+          0.21829151108274114,
+          0.6621095818818845,
+          1.4686959539091853,
+          16.421945502653745,
+          0.051048956373709264,
+          -0.046190226272568774
+        ],
+        [
+          -0.020300632816629173,
+          -0.04589745538377939,
+          0.013263294867546007,
+          0.05104895637355238,
+          19.779184575945884,
+          0.0013638695263773516
+        ],
+        [
+          0.013293938493569291,
+          0.0511060170004521,
+          -0.020269825909524062,
+          -0.04619022627256175,
+          0.001363869526383987,
+          19.77917876790593
+        ]
+      ],
+      "max_reflection_response_difference": 0.0033637135666069184,
+      "relative_frobenius_reflection_error": 0.00011918801755738729
+    },
+    {
+      "torque_scale_nm": 1.0,
+      "response_matrix_control_rad_s2_per_nm": [
+        [
+          18.053259634272102,
+          1.4694431999209518,
+          0.027023406980830313,
+          0.2182915110826636,
+          -0.020300632816653025,
+          0.013293938493568455
+        ],
+        [
+          1.4694431999209316,
+          16.418581789086883,
+          0.21833622597054542,
+          0.6621095818817098,
+          -0.04589745538388513,
+          0.05110601700045055
+        ],
+        [
+          0.027023406980780484,
+          0.21833622597030053,
+          18.054472076327272,
+          1.4686959539092097,
+          0.013263294867530057,
+          -0.020269825909519618
+        ],
+        [
+          0.2182915110826386,
+          0.6621095818815763,
+          1.4686959539094773,
+          16.421945502654314,
+          0.051048956373472565,
+          -0.04619022627252607
+        ],
+        [
+          -0.020300632816633038,
+          -0.04589745538379132,
+          0.01326329486755717,
+          0.05104895637357537,
+          19.779184575945877,
+          0.0013638695263791273
+        ],
+        [
+          0.013293938493565182,
+          0.05110601700044142,
+          -0.02026982590951293,
+          -0.046190226272539235,
+          0.0013638695263748554,
+          19.779178767905933
+        ]
+      ],
+      "max_reflection_response_difference": 0.003363713567431148,
+      "relative_frobenius_reflection_error": 0.00011918801757777154
+    },
+    {
+      "torque_scale_nm": -1.0,
+      "response_matrix_control_rad_s2_per_nm": [
+        [
+          18.053259634272095,
+          1.4694431999209412,
+          0.027023406980837873,
+          0.21829151108263453,
+          -0.02030063281667211,
+          0.013293938493555275
+        ],
+        [
+          1.4694431999209583,
+          16.418581789086943,
+          0.21833622597059377,
+          0.6621095818815891,
+          -0.04589745538399081,
+          0.05110601700039719
+        ],
+        [
+          0.02702340698078426,
+          0.2183362259703201,
+          18.054472076327283,
+          1.468695953909219,
+          0.013263294867509268,
+          -0.02026982590953022
+        ],
+        [
+          0.21829151108264766,
+          0.6621095818816497,
+          1.468695953909511,
+          16.421945502654165,
+          0.051048956373367496,
+          -0.04619022627258569
+        ],
+        [
+          -0.020300632816632316,
+          -0.04589745538378804,
+          0.013263294867559016,
+          0.05104895637356985,
+          19.779184575945873,
+          0.001363869526376964
+        ],
+        [
+          0.013293938493565588,
+          0.05110601700044357,
+          -0.020269825909511277,
+          -0.046190226272544294,
+          0.0013638695263706738,
+          19.779178767905925
+        ]
+      ],
+      "max_reflection_response_difference": 0.003363713567221538,
+      "relative_frobenius_reflection_error": 0.00011918801757178987
+    }
+  ],
+  "reset_ncon": 0,
+  "runtime_reset_metrics": {
+    "base_height_m": 0.21047700015336276,
+    "roll_rad": 0.0,
+    "pitch_rad": -0.0,
+    "yaw_rad": 0.0,
+    "vx_mps": 0.0,
+    "yaw_rate_rad_s": 0.0,
+    "phi0_left_rad": 1.5802149363316336,
+    "phi0_right_rad": 1.5802046713663545,
+    "phi0_delta_abs_rad": 1.0264965279116467e-05,
+    "l0_left_m": 0.19950672808442899,
+    "l0_right_m": 0.19950375917007093,
+    "max_loop_closure_error_m": 7.047626795046114e-07,
+    "tilt_rad": 0.0,
+    "root_linear_speed_mps": 0.0,
+    "root_angular_speed_rad_s": 0.0,
+    "max_controlled_joint_speed_rad_s": 0.0,
+    "max_hinge_speed_rad_s": 0.0
+  },
+  "production_files_unchanged": true,
+  "training_started": false,
+  "isaac_started": false
+}

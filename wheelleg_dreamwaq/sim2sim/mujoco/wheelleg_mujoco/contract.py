@@ -85,6 +85,30 @@ class AdapterContract:
         )
 
 
+def _validate_split_smooth_metadata(manifest: dict) -> None:
+    """Training identity only; this never changes motor targets or physics."""
+    weights = manifest.get("training_reward_weights")
+    expected = {
+        "tracking_vx": 2.0, "tracking_vx_enhance": 2.0,
+        "tracking_yaw_rate": 1.0, "tracking_yaw_rate_enhance": 1.0,
+        "tracking_base_height": 1.0, "lin_vel_z": -1.0, "ang_vel_xy": -0.20,
+        "orientation": -100.0, "dof_vel": -5e-5, "dof_acc": -2.5e-7,
+        "torques": -1e-4, "action_rate": -0.01, "action_smooth": 0.0,
+        "dof_pos_limits": -1.0, "phi0_symmetry": -1.0, "termination": -5.0,
+        "tracking_sigma": 0.25, "height_sigma": 0.001, "soft_leg_limit": 0.95,
+        "action_smooth_wheel": -0.01,
+    }
+    if not isinstance(weights, dict) or weights.get("action_smooth_leg") not in (-0.02, -0.04):
+        raise ValueError("Invalid split smooth reward weights")
+    expected["action_smooth_leg"] = weights["action_smooth_leg"]
+    sampling = manifest.get("command_sampling", {})
+    if (weights != expected or sampling.get("practice_schedule") != "StopReverseCommandPracticeV1"
+            or sampling.get("hold_for_episode") is not False
+            or manifest.get("training_leg_reversal") is not None
+            or manifest.get("training_leg_acceleration") is not None):
+        raise ValueError("Invalid split smooth training metadata")
+
+
 def load_policy_contract(
     manifest_path: Path,
     actor_path: Path,
@@ -104,7 +128,6 @@ def load_policy_contract(
         "critic_observation": "CriticObsV1",
         "normalization": "NormalizationV2",
         "physics": PHYSICS_SCHEMA_VERSION,
-        "reward": "RewardSchemaV2",
         "virtual_leg_kinematics": "VirtualLegKinematicsV1",
     }
     schemas = manifest.get("schemas")
@@ -119,6 +142,13 @@ def load_policy_contract(
         if schemas.get("randomization") != "RandomizationSchemaV1":
             raise ValueError("Randomized policy manifest is missing RandomizationSchemaV1")
     validate_command_practice(manifest)
+    reward_schema = schemas.get("reward")
+    if reward_schema == "RewardSchemaV3SplitSmooth" and schema_version == "DreamWaQPolicyExportV1":
+        _validate_split_smooth_metadata(manifest)
+    elif reward_schema != "RewardSchemaV2":
+        raise ValueError("Unsupported policy reward schema")
+    elif {"action_smooth_leg", "action_smooth_wheel"}.intersection(manifest.get("training_reward_weights", {})):
+        raise ValueError("Split smooth fields require RewardSchemaV3SplitSmooth")
     if manifest["network"]["output_dimension"] != 6:
         raise ValueError("Policy manifest output dimension does not match ActionV1")
     if schema_version == "PpoActorExportV1":

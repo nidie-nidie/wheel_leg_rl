@@ -1,0 +1,30 @@
+{
+  "schema": "MujocoJointTelemetryV1",
+  "joint_order": [
+    "jIJ",
+    "jIO",
+    "jAB",
+    "jAG",
+    "jwheel_left",
+    "jwheel_right"
+  ],
+  "joint_labels": [
+    "left_front",
+    "left_rear",
+    "right_front",
+    "right_rear",
+    "left_wheel",
+    "right_wheel"
+  ],
+  "joint_coordinates": "MuJoCo; right wheel control-to-MuJoCo sign = -1",
+  "control_dt_s": 0.02,
+  "physics_dt_s": 0.001,
+  "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_13-32-11_rtx5070_fudan-v1_dreamwaq-stop-reverse-run03-resume1500-20261011-133153-seed41882943\\model_1400.pt",
+  "source_completed_iterations": 1401,
+  "actor_sha256": "D43C57A409EE60CEAE2367896DD102EEA2A1C180D359F057CF990472C64EB301",
+  "source_seed": 41882943,
+  "model_xml_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "force_timestamp": "Forces/qacc produced by mj_step are evaluated at time_before_s; integrated qpos/qvel at time_after_s.",
+  "constraint_force": "Total generalized constraint force includes closed-chain constraints and contacts.",
+  "command_events": "Every processed key, resets, falls and M symptom markers; R retains the current command."
+}

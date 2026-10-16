@@ -1,0 +1,10 @@
+{
+  "protected_files_unchanged": 211,
+  "user_visual_acceptance": false,
+  "control_logic_unchanged": true,
+  "viewer_log_source": "viewer-20261013-130401",
+  "viewer_source_sha256": "121F15543CD20503329D246544BCA6B3D44F2637CE051DBD14ABE6E624DE27EF",
+  "candidate_not_formal_solution": true,
+  "production_modified": false,
+  "training_started": false
+}

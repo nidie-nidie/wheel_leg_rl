@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "control_frames": 2296,
+  "physics_steps": 45920,
+  "comparison_max_abs_errors": {
+    "time_before": 0.0,
+    "full_history": 0.0,
+    "joint_position_before": 0.0,
+    "joint_velocity_before": 0.0,
+    "policy_raw_action": 0.0,
+    "recorded_estimated_vx": 0.0,
+    "joint_position_after": 0.0,
+    "joint_velocity_after": 0.0,
+    "vx_after": 0.0,
+    "torque_after": 0.0,
+    "time_after": 0.0
+  },
+  "history_rolling_max_abs_error": 0.0,
+  "previous_action_max_abs_error": 0.0,
+  "protected_files_unchanged": true,
+  "protected_file_count": 90,
+  "elapsed_wall_s": 2.7666949999984354,
+  "source_completed_iterations": 1401
+}

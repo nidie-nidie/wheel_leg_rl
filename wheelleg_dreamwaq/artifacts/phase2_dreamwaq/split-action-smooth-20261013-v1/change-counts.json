@@ -1,0 +1,26 @@
+{
+  "scripts/train_dreamwaq.py": {
+    "added": 1,
+    "removed": 1
+  },
+  "sim2sim/mujoco/wheelleg_mujoco/contract.py": {
+    "added": 31,
+    "removed": 1
+  },
+  "source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/dreamwaq_manifest.py": {
+    "added": 2,
+    "removed": 2
+  },
+  "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py": {
+    "added": 2,
+    "removed": 1
+  },
+  "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/rewards.py": {
+    "added": 32,
+    "removed": 1
+  },
+  "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/training_profiles.py": {
+    "added": 35,
+    "removed": 2
+  }
+}

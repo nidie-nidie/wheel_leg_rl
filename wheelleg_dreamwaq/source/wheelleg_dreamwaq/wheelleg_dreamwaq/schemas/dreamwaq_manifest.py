@@ -52,7 +52,7 @@ from wheelleg_dreamwaq.schemas.randomization import (
 )
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.commands import COMMAND_SAMPLING_VERSION, CommandRanges, command_contract_payload
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.control import ControlLimits
-from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.rewards import REWARD_SCHEMA_VERSION, RewardWeights
+from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.rewards import RewardWeights, reward_schema_version
 from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.terminations import TerminationLimits
 
 
@@ -149,7 +149,7 @@ def _base_task_payload(
             "control_frame": CONTROL_FRAME_VERSION,
             "command_sampling": COMMAND_SAMPLING_VERSION,
             "physics": PHYSICS_SCHEMA_VERSION,
-            "reward": REWARD_SCHEMA_VERSION,
+            "reward": reward_schema_version(reward_weights),
             "virtual_leg_kinematics": VIRTUAL_LEG_KINEMATICS_VERSION,
             "randomization": RANDOMIZATION_SCHEMA_VERSION,
             "closed_chain_reset_cache": CLOSED_CHAIN_RESET_CACHE_SCHEMA_VERSION,
@@ -295,6 +295,11 @@ def build_base_task_contract_from_configs(*, asset_bundle_hash: str, env_cfg: An
         from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.leg_reversal import reversal_contract_payload
         payload["task"]["leg_reversal"] = reversal_contract_payload(
             reversal, float(env_cfg.sim.dt) * int(env_cfg.decimation))
+    acceleration = getattr(env_cfg, "leg_acceleration", None)
+    if acceleration is not None and acceleration.enabled:
+        from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.leg_acceleration import acceleration_contract_payload
+        payload["task"]["leg_acceleration"] = acceleration_contract_payload(
+            acceleration, float(env_cfg.sim.dt) * int(env_cfg.decimation))
     return _with_hash(payload)
 
 

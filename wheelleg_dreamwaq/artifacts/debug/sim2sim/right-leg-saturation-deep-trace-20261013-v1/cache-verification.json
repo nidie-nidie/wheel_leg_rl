@@ -1,0 +1,11 @@
+{
+  "same_inputs_reused": true,
+  "mismatched_inputs_rejected": {
+    "changed_commands": true,
+    "changed_bandwidth": true,
+    "changed_velocity_mode": true
+  },
+  "case_variant": "cache_identity_smoke_d5b5d196",
+  "production_modified": false,
+  "training_started": false
+}

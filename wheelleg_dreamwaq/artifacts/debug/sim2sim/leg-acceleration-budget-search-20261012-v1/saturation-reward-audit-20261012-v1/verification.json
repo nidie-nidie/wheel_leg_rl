@@ -1,0 +1,131 @@
+{
+  "passed": true,
+  "trajectories": 17,
+  "control_ticks": 10120,
+  "physics_steps": 202400,
+  "replay_max_abs_error": 0,
+  "verification": {
+    "85_combined": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "85_forward": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "85_high_stand": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "85_interactive": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "85_left_turn": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "85_low_stand": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "85_nominal_stand": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "85_reverse": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "85_right_turn": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "baseline_combined": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "baseline_forward": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "baseline_high_stand": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "baseline_left_turn": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "baseline_low_stand": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "baseline_nominal_stand": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "baseline_reverse": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    },
+    "baseline_right_turn": {
+      "action_clip_check": true,
+      "control_acceleration_telescope_check": true,
+      "original_csv_check": true,
+      "reward_summary_and_history_check": true
+    }
+  },
+  "training_iterations_checked": 800,
+  "protected_file_count": 160,
+  "protected_files_unchanged": true,
+  "production_source_or_model_changed": false,
+  "training_started": false,
+  "isaac_started": false,
+  "subagents_called": false,
+  "artifact_sha256": {
+    "analysis.json": "4192E3C6EE492DDBA20802BF827C27CF9C164404FB30AA893B67FDCDEB2C82E5",
+    "analyze.py": "344989830BCB54DAD05EA1A94C22341BBBFE7253927286ADB47847078F5CB96D",
+    "capture-verification.json": "DE25F214985B28DA91EF5BA14EF6DAA06D79FCC6F15CC3D3D25EA93BDE3675FE",
+    "capture.py": "8EBC511FACB83113EDB0442937743CD9436C15B7FC4A32A574F68DECD470DEE5",
+    "plan.md": "9DADFAE2EE56CFF882FAA444DB5B8312F6456C176278EF730BE08AB5A1556407",
+    "protected-before.json": "CEFDBC96DBDD7A72C8AF5FD5E4536CAB5CACB8C978756A062ECFDC88C6DE74C9",
+    "report.md": "AE55B670C86154CAB8BF84E935B37E3989C48BEE4E406198BCCCD64C2A80D06E",
+    "saturation-reward-audit.png": "B980E14752DA891C91A8F9EC32273AF2EDE4D66AB4280F7CE9B872E6508A5F48",
+    "trajectories.npz": "FAE88AC72442E73BE398D450B9C688CA521F5EC168CE8D57D1177DFA64A22D94",
+    "verify.py": "190D8D2B283A31E9B2C8EE843BC78D59C1A365E85CA72218FE2F554518F2FA49",
+    "weighted-rewards.npz": "FE8F1FBFD73660E917717051D6291EDD2BA4260988F07ACBD8D0E9C26D24A64D"
+  }
+}

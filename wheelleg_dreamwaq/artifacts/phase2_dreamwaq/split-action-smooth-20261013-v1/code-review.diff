@@ -1,0 +1,252 @@
+--- before/scripts/train_dreamwaq.py
++++ after/scripts/train_dreamwaq.py
+@@ -39,7 +39,7 @@
+ initialization_group.add_argument("--resume", type=Path, default=None)
+ initialization_group.add_argument("--initialize-from", type=Path, default=None,
+     help="Experimental weights-only initialization; new optimizer/RNG/iteration, never ordinary resume.")
+-parser.add_argument("--task-profile", choices=("legacy_v1", "stop_reverse_v1", "stop_reverse_smooth_v1", "stop_reverse_reversal12_v1", "stop_reverse_reversal8_v1", "stop_reverse_accel80_v1", "stop_reverse_accel75_v1", "stop_reverse_accel70_v1", "stop_reverse_accel85_v1", "stop_reverse_accel90_v1"), default=None)
++parser.add_argument("--task-profile", choices=("legacy_v1", "stop_reverse_v1", "stop_reverse_smooth_v1", "stop_reverse_reversal12_v1", "stop_reverse_reversal8_v1", "stop_reverse_accel80_v1", "stop_reverse_accel75_v1", "stop_reverse_accel70_v1", "stop_reverse_accel85_v1", "stop_reverse_accel90_v1", "stop_reverse_split_smooth_v1", "stop_reverse_split_smooth04_v1"), default=None)
+ AppLauncher.add_app_launcher_args(parser)
+ args_cli = parser.parse_args()
+ RUNTIME_INFO = validate_runtime(PROJECT_ROOT, device=args_cli.device)
+--- before/sim2sim/mujoco/wheelleg_mujoco/contract.py
++++ after/sim2sim/mujoco/wheelleg_mujoco/contract.py
+@@ -85,6 +85,30 @@
+         )
+ 
+ 
++def _validate_split_smooth_metadata(manifest: dict) -> None:
++    """Training identity only; this never changes motor targets or physics."""
++    weights = manifest.get("training_reward_weights")
++    expected = {
++        "tracking_vx": 2.0, "tracking_vx_enhance": 2.0,
++        "tracking_yaw_rate": 1.0, "tracking_yaw_rate_enhance": 1.0,
++        "tracking_base_height": 1.0, "lin_vel_z": -1.0, "ang_vel_xy": -0.20,
++        "orientation": -100.0, "dof_vel": -5e-5, "dof_acc": -2.5e-7,
++        "torques": -1e-4, "action_rate": -0.01, "action_smooth": 0.0,
++        "dof_pos_limits": -1.0, "phi0_symmetry": -1.0, "termination": -5.0,
++        "tracking_sigma": 0.25, "height_sigma": 0.001, "soft_leg_limit": 0.95,
++        "action_smooth_wheel": -0.01,
++    }
++    if not isinstance(weights, dict) or weights.get("action_smooth_leg") not in (-0.02, -0.04):
++        raise ValueError("Invalid split smooth reward weights")
++    expected["action_smooth_leg"] = weights["action_smooth_leg"]
++    sampling = manifest.get("command_sampling", {})
++    if (weights != expected or sampling.get("practice_schedule") != "StopReverseCommandPracticeV1"
++            or sampling.get("hold_for_episode") is not False
++            or manifest.get("training_leg_reversal") is not None
++            or manifest.get("training_leg_acceleration") is not None):
++        raise ValueError("Invalid split smooth training metadata")
++
++
+ def load_policy_contract(
+     manifest_path: Path,
+     actor_path: Path,
+@@ -104,7 +128,6 @@
+         "critic_observation": "CriticObsV1",
+         "normalization": "NormalizationV2",
+         "physics": PHYSICS_SCHEMA_VERSION,
+-        "reward": "RewardSchemaV2",
+         "virtual_leg_kinematics": "VirtualLegKinematicsV1",
+     }
+     schemas = manifest.get("schemas")
+@@ -119,6 +142,13 @@
+         if schemas.get("randomization") != "RandomizationSchemaV1":
+             raise ValueError("Randomized policy manifest is missing RandomizationSchemaV1")
+     validate_command_practice(manifest)
++    reward_schema = schemas.get("reward")
++    if reward_schema == "RewardSchemaV3SplitSmooth" and schema_version == "DreamWaQPolicyExportV1":
++        _validate_split_smooth_metadata(manifest)
++    elif reward_schema != "RewardSchemaV2":
++        raise ValueError("Unsupported policy reward schema")
++    elif {"action_smooth_leg", "action_smooth_wheel"}.intersection(manifest.get("training_reward_weights", {})):
++        raise ValueError("Split smooth fields require RewardSchemaV3SplitSmooth")
+     if manifest["network"]["output_dimension"] != 6:
+         raise ValueError("Policy manifest output dimension does not match ActionV1")
+     if schema_version == "PpoActorExportV1":
+--- before/source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/dreamwaq_manifest.py
++++ after/source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas/dreamwaq_manifest.py
+@@ -52,7 +52,7 @@
+ )
+ from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.commands import COMMAND_SAMPLING_VERSION, CommandRanges, command_contract_payload
+ from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.control import ControlLimits
+-from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.rewards import REWARD_SCHEMA_VERSION, RewardWeights
++from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.rewards import RewardWeights, reward_schema_version
+ from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.terminations import TerminationLimits
+ 
+ 
+@@ -149,7 +149,7 @@
+             "control_frame": CONTROL_FRAME_VERSION,
+             "command_sampling": COMMAND_SAMPLING_VERSION,
+             "physics": PHYSICS_SCHEMA_VERSION,
+-            "reward": REWARD_SCHEMA_VERSION,
++            "reward": reward_schema_version(reward_weights),
+             "virtual_leg_kinematics": VIRTUAL_LEG_KINEMATICS_VERSION,
+             "randomization": RANDOMIZATION_SCHEMA_VERSION,
+             "closed_chain_reset_cache": CLOSED_CHAIN_RESET_CACHE_SCHEMA_VERSION,
+--- before/source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py
++++ after/source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py
+@@ -67,7 +67,7 @@
+ from .env_cfg import WheelLegFlatEnvCfg
+ from .observations import build_observations
+ from .randomization import WheelLegRandomizationRuntime
+-from .rewards import compute_reward
++from .rewards import SplitSmoothRewardWeights, compute_reward
+ from .leg_reversal import LegReversalReward
+ from .leg_acceleration import LegAccelerationReward
+ from .state import WheelLegState
+@@ -158,6 +158,7 @@
+             name: torch.zeros(self.num_envs, device=self.device)
+             for name in vars(self.cfg.reward_weights)
+             if name not in {"tracking_sigma", "height_sigma", "soft_leg_limit"}
++            and (name != "action_smooth" or not isinstance(self.cfg.reward_weights, SplitSmoothRewardWeights))
+         }
+         self._leg_reversal_reward = None
+         if self.cfg.leg_reversal.enabled:
+--- before/source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/rewards.py
++++ after/source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/rewards.py
+@@ -1,6 +1,7 @@
+ from __future__ import annotations
+ 
+ from dataclasses import dataclass
++import math
+ 
+ import torch
+ 
+@@ -36,6 +37,28 @@
+     soft_leg_limit: float = 0.95
+ 
+ 
++SPLIT_SMOOTH_REWARD_SCHEMA_VERSION = "RewardSchemaV3SplitSmooth"
++
++
++@dataclass(frozen=True)
++class SplitSmoothRewardWeights(RewardWeights):
++    action_smooth: float = 0.0
++    action_smooth_leg: float = -0.02
++    action_smooth_wheel: float = -0.01
++
++    def __post_init__(self) -> None:
++        if self.action_smooth != 0.0:
++            raise ValueError("Split smooth must disable the composite action_smooth")
++        for value in (self.action_smooth_leg, self.action_smooth_wheel):
++            if not math.isfinite(value) or value >= 0.0:
++                raise ValueError("Split smooth weights must be finite and negative")
++
++
++def reward_schema_version(weights: RewardWeights) -> str:
++    return (SPLIT_SMOOTH_REWARD_SCHEMA_VERSION
++            if isinstance(weights, SplitSmoothRewardWeights) else REWARD_SCHEMA_VERSION)
++
++
+ def compute_reward_terms(
+     state: WheelLegState,
+     weights: RewardWeights,
+@@ -49,7 +72,7 @@
+     lower_violation = torch.clamp(soft_lower - state.joint_position[:, :4], min=0.0)
+     upper_violation = torch.clamp(state.joint_position[:, :4] - soft_upper, min=0.0)
+     upright_cosine = upright_cosine_from_projected_gravity(state.projected_gravity)
+-    return {
++    terms = {
+         "tracking_vx": torch.exp(-vx_error / weights.tracking_sigma),
+         "tracking_vx_enhance": torch.exp(-vx_error / (weights.tracking_sigma * 10.0)) - 1.0,
+         "tracking_yaw_rate": torch.exp(-yaw_error / weights.tracking_sigma),
+@@ -76,6 +99,14 @@
+         "phi0_symmetry": phi0_symmetry_error(state.virtual_leg_phi0_true),
+         "termination": terminated.float(),
+     }
++    if isinstance(weights, SplitSmoothRewardWeights):
++        weights.__post_init__()
++        second_difference = (state.last_applied_action - 2.0 * state.previous_applied_action
++                             + state.previous_previous_applied_action)
++        terms.pop("action_smooth")
++        terms["action_smooth_leg"] = second_difference[:, :4].square().sum(dim=-1)
++        terms["action_smooth_wheel"] = second_difference[:, 4:].square().sum(dim=-1)
++    return terms
+ 
+ 
+ def compute_reward(
+--- before/source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/training_profiles.py
++++ after/source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/training_profiles.py
+@@ -1,6 +1,6 @@
+ from __future__ import annotations
+ 
+-from dataclasses import replace
++from dataclasses import asdict, fields, replace
+ from typing import Any
+ 
+ from .commands import STOP_REVERSE_COMMAND_PRACTICE_VERSION, command_contract_payload
+@@ -9,6 +9,8 @@
+     acceleration_contract_payload,
+ )
+ from .leg_reversal import LegReversalConfig, reversal_contract_payload
++from .rewards import (RewardWeights, SplitSmoothRewardWeights,
++                      SPLIT_SMOOTH_REWARD_SCHEMA_VERSION)
+ 
+ REVERSAL_PROFILE_BUDGETS = {
+     "stop_reverse_reversal12_v1": 12.0,
+@@ -21,12 +23,17 @@
+     "stop_reverse_accel85_v1": 0.85,
+     "stop_reverse_accel90_v1": 0.90,
+ }
++SPLIT_SMOOTH_PROFILE_WEIGHTS = {
++    "stop_reverse_split_smooth_v1": -0.02,
++    "stop_reverse_split_smooth04_v1": -0.04,
++}
+ TASK_PROFILE_NAMES = (
+     "legacy_v1",
+     "stop_reverse_v1",
+     "stop_reverse_smooth_v1",
+     *REVERSAL_PROFILE_BUDGETS,
+     *ACCELERATION_PROFILE_FRACTIONS,
++    *SPLIT_SMOOTH_PROFILE_WEIGHTS,
+ )
+ 
+ 
+@@ -39,12 +46,22 @@
+         hold_for_episode=not enabled,
+         practice_schedule=STOP_REVERSE_COMMAND_PRACTICE_VERSION if enabled else "disabled",
+     )
++    # Rebuild the legacy type so switching back cannot retain split fields.
++    base_weights = RewardWeights(**{
++        field.name: getattr(env_cfg.reward_weights, field.name) for field in fields(RewardWeights)
++    })
+     env_cfg.reward_weights = replace(
+-        env_cfg.reward_weights,
++        base_weights,
+         tracking_vx=2.0 if enabled else 1.0,
+         tracking_vx_enhance=2.0 if enabled else 1.0,
+         action_smooth=-0.02 if name == "stop_reverse_smooth_v1" else -0.01,
+     )
++    if name in SPLIT_SMOOTH_PROFILE_WEIGHTS:
++        env_cfg.reward_weights = SplitSmoothRewardWeights(**{
++            **asdict(env_cfg.reward_weights), "action_smooth": 0.0,
++            "action_smooth_leg": SPLIT_SMOOTH_PROFILE_WEIGHTS[name],
++            "action_smooth_wheel": -0.01,
++        })
+     env_cfg.leg_reversal = LegReversalConfig(
+         enabled=name in REVERSAL_PROFILE_BUDGETS,
+         budget_per_second=REVERSAL_PROFILE_BUDGETS.get(name, 12.0),
+@@ -59,6 +76,22 @@
+ def task_profile_from_contract(contract: dict) -> str:
+     commands = contract["task"]["commands"]
+     schedule = commands.get("practice_schedule", "disabled")
++    reward = contract["task"]["reward_weights"]
++    split_fields = {"action_smooth_leg", "action_smooth_wheel"}
++    saved_schema = contract.get("schemas", {}).get("reward")
++    if split_fields.intersection(reward) or saved_schema == SPLIT_SMOOTH_REWARD_SCHEMA_VERSION:
++        if (saved_schema != SPLIT_SMOOTH_REWARD_SCHEMA_VERSION
++                or schedule != STOP_REVERSE_COMMAND_PRACTICE_VERSION
++                or commands.get("hold_for_episode") is not False
++                or contract["task"].get("leg_reversal") is not None
++                or contract["task"].get("leg_acceleration") is not None):
++            raise ValueError("Invalid saved split smooth schema/schedule or combined experiment")
++        for name, leg_weight in SPLIT_SMOOTH_PROFILE_WEIGHTS.items():
++            expected = asdict(SplitSmoothRewardWeights(
++                tracking_vx=2.0, tracking_vx_enhance=2.0, action_smooth_leg=leg_weight))
++            if reward == expected:
++                return name
++        raise ValueError("Unknown or incomplete saved split smooth weights")
+     acceleration = contract["task"].get("leg_acceleration")
+     if acceleration is not None:
+         if schedule != STOP_REVERSE_COMMAND_PRACTICE_VERSION:

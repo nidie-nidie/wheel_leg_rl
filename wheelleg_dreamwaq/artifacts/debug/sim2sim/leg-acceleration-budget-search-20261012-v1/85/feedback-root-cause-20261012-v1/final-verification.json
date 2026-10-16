@@ -1,0 +1,24 @@
+{
+  "diagnostic_evidence_verified": true,
+  "stable_policy_claimed": false,
+  "experiments": [
+    {
+      "file": "isolation-results.json",
+      "branches": 27,
+      "completed_branches": 25
+    },
+    {
+      "file": "gyro-followup-isolation-results.json",
+      "branches": 15,
+      "completed_branches": 13
+    }
+  ],
+  "closed_loop_control_ticks": 10380,
+  "closed_loop_physics_steps": 207600,
+  "exact_replay_frames": 2120,
+  "actuator_audited_physics_steps": 42400,
+  "protected_file_count": 94,
+  "protected_files_unchanged": true,
+  "summary_statistics_independently_recomputed": true,
+  "baseline_branches_match_recorded_actions_exactly": true
+}

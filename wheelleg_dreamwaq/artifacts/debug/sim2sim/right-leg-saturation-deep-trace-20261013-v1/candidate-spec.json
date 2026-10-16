@@ -1,0 +1,54 @@
+{
+  "schema": "ObservableFeedbackCandidateV1",
+  "model_source": "85% adaptive acceleration diagnostic checkpoint, not accepted model",
+  "source_actor_sha256": "0314C48A295EAA6E99709FE600FA717B264814BAFF02444AF8D62C1C699896F2",
+  "source_checkpoint_sha256": "38E9817801ED5EDEDAB777BA8466CFF524A95BCE2482378F8F91916961279B08",
+  "model_xml_sha256": "691C607271ED85EFFA388237E00A7B8F8F41CB66F6BA9C49EA64ABD186D803D1",
+  "control_dt_s": 0.02,
+  "filter_hz_legs_wheels": [
+    6,
+    2
+  ],
+  "filter_alpha_legs_wheels": [
+    0.5295107822801821,
+    0.22223232082821098
+  ],
+  "filter_equation": "processed=(1-alpha)*previous_processed+alpha*clip(raw,-1,1)",
+  "feedback_sensors": "vx=0.0625*mean(controlled_wheel_qdot); yaw=control_IMU_gyro_z; first-order 1Hz filtered",
+  "feedback_mode": "only both original commanded vx and yaw exactly zero; 25-sample gate: cold reset first activates at decision tick24 / physical 0.48s, after an original command change at elapsed 0.50s",
+  "integral_gain_vx_yaw": [
+    0.3,
+    0.3
+  ],
+  "proportional_gain_vx_yaw": [
+    0,
+    0
+  ],
+  "integral_bounds_vx_yaw": [
+    0.06,
+    0.06
+  ],
+  "movement_behavior": "freeze integrator, applied command correction zero; no altered user command for metrics",
+  "reset_behavior": "processed action, low-pass sensor states and integrators reset to zero; history same original reset with real zero action",
+  "command_refresh": "current frame command refreshed before CENet; all older frames retained with real command/sensors/processed-action timing",
+  "production_installed": false,
+  "training_started": false,
+  "extra_controller_torque": false,
+  "limitations": [
+    "Flat rolling-contact odometry assumption; no proof for wheel slip or rough terrain.",
+    "Persistent leg asymmetry still present.",
+    "No position setpoint; reduced net drift is not position locking.",
+    "Isaac and real-robot operation untested."
+  ],
+  "feedback_gate_timing": {
+    "definition": "stable_steps increments before the first control step; a changed original command resets stable_steps to zero",
+    "required_sample_count": 25,
+    "cold_reset_first_activation_before_step_s": 0.48,
+    "after_command_change_elapsed_s": 0.5,
+    "count_includes_complete_original_command": [
+      0,
+      1,
+      2
+    ]
+  }
+}

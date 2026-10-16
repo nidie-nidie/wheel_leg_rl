@@ -1,0 +1,482 @@
+{
+  "captures": [
+    {
+      "arm": "baseline",
+      "capture": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\reversal-noise-diagnosis-20261011-v1\\captures\\baseline-nominal_stand.npz",
+      "capture_sha256": "B220A17E9AB7DB38A57E6B664AB5B1F6BDAE3E6CDFA22347708E067E0D9DB6E2",
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200\\model_199.pt",
+      "checkpoint_sha256": "BCDD726CE5D6F89600547F34CA285282053D4D07B07575604172E6A11A5912B7",
+      "command": [
+        0.0,
+        0.0,
+        0.2
+      ],
+      "dt": 0.02,
+      "frames": 500,
+      "joint_order": [
+        "jIJ",
+        "jIO",
+        "jAB",
+        "jAG",
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "leg_action_scale": 0.35,
+      "max_errors": {
+        "acceleration": 0.0,
+        "clipped_action": 0.0,
+        "metric": 0.0,
+        "network_mean": 0.0,
+        "qvel": 0.0,
+        "target": 0.0,
+        "torque": 0.0
+      },
+      "q_nominal": [
+        -0.33367134,
+        0.33367134,
+        -0.33367134,
+        0.33367134
+      ],
+      "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\baseline\\mujoco\\nominal_stand.csv",
+      "reference_sha256": "975E731DD75BD83745B9FEE33C5C22A3FB4D4E5641E9A2BCBABFB69C94A6124C",
+      "scenario": "nominal_stand",
+      "target_lower": [
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "target_upper": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "arm": "baseline",
+      "capture": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\reversal-noise-diagnosis-20261011-v1\\captures\\baseline-forward.npz",
+      "capture_sha256": "A3A90CB68D2AEC556D2601F64EF5B435182A6FD8F389952ACE1B0EEB50C3D237",
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200\\model_199.pt",
+      "checkpoint_sha256": "BCDD726CE5D6F89600547F34CA285282053D4D07B07575604172E6A11A5912B7",
+      "command": [
+        1.0,
+        0.0,
+        0.2
+      ],
+      "dt": 0.02,
+      "frames": 500,
+      "joint_order": [
+        "jIJ",
+        "jIO",
+        "jAB",
+        "jAG",
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "leg_action_scale": 0.35,
+      "max_errors": {
+        "acceleration": 0.0,
+        "clipped_action": 0.0,
+        "metric": 0.0,
+        "network_mean": 0.0,
+        "qvel": 0.0,
+        "target": 0.0,
+        "torque": 0.0
+      },
+      "q_nominal": [
+        -0.33367134,
+        0.33367134,
+        -0.33367134,
+        0.33367134
+      ],
+      "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\baseline\\mujoco\\forward.csv",
+      "reference_sha256": "E89DED895532EC5D0A2FFD4BF018BD02E97FAFEA5A3B76FEE51A2FE764B476B8",
+      "scenario": "forward",
+      "target_lower": [
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "target_upper": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "arm": "baseline",
+      "capture": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\reversal-noise-diagnosis-20261011-v1\\captures\\baseline-reverse.npz",
+      "capture_sha256": "1BAC790CC3CBD3BEC62BD9AC22F644AC7912A3936AD385E6B67B11D99BB5F367",
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200\\model_199.pt",
+      "checkpoint_sha256": "BCDD726CE5D6F89600547F34CA285282053D4D07B07575604172E6A11A5912B7",
+      "command": [
+        -1.0,
+        0.0,
+        0.2
+      ],
+      "dt": 0.02,
+      "frames": 500,
+      "joint_order": [
+        "jIJ",
+        "jIO",
+        "jAB",
+        "jAG",
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "leg_action_scale": 0.35,
+      "max_errors": {
+        "acceleration": 0.0,
+        "clipped_action": 0.0,
+        "metric": 0.0,
+        "network_mean": 0.0,
+        "qvel": 0.0,
+        "target": 0.0,
+        "torque": 0.0
+      },
+      "q_nominal": [
+        -0.33367134,
+        0.33367134,
+        -0.33367134,
+        0.33367134
+      ],
+      "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\baseline\\mujoco\\reverse.csv",
+      "reference_sha256": "6F12EAAB5B9511BABFC3803667E1F345645B372F63CF05C30C52B9595F1A1A03",
+      "scenario": "reverse",
+      "target_lower": [
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "target_upper": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "arm": "budget12",
+      "capture": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\reversal-noise-diagnosis-20261011-v1\\captures\\budget12-nominal_stand.npz",
+      "capture_sha256": "0EC1DCBF865D3A8E27B5F67D339377E0BBFDF4D91E64494A704E4531D55333CB",
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_22-05-56_rtx5070_fudan-v1_leg-reversal-trial-budget12-200\\model_199.pt",
+      "checkpoint_sha256": "FA8068BBA18F0B95013FE3B7B1ED1853672DFF8A11E0874EF16721EDB9B3ED30",
+      "command": [
+        0.0,
+        0.0,
+        0.2
+      ],
+      "dt": 0.02,
+      "frames": 500,
+      "joint_order": [
+        "jIJ",
+        "jIO",
+        "jAB",
+        "jAG",
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "leg_action_scale": 0.35,
+      "max_errors": {
+        "acceleration": 0.0,
+        "clipped_action": 0.0,
+        "metric": 0.0,
+        "network_mean": 0.0,
+        "qvel": 0.0,
+        "target": 0.0,
+        "torque": 0.0
+      },
+      "q_nominal": [
+        -0.33367134,
+        0.33367134,
+        -0.33367134,
+        0.33367134
+      ],
+      "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget12\\mujoco\\nominal_stand.csv",
+      "reference_sha256": "BEB58B8163F3FE4EC396C6C9AF6E51B3E3C758E8FD5C5EF378ABD49428211DD3",
+      "scenario": "nominal_stand",
+      "target_lower": [
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "target_upper": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "arm": "budget12",
+      "capture": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\reversal-noise-diagnosis-20261011-v1\\captures\\budget12-forward.npz",
+      "capture_sha256": "C475093AA1864275EEDBC3EC4C8000308DDA7560D0656B5F343CBE93B749A649",
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_22-05-56_rtx5070_fudan-v1_leg-reversal-trial-budget12-200\\model_199.pt",
+      "checkpoint_sha256": "FA8068BBA18F0B95013FE3B7B1ED1853672DFF8A11E0874EF16721EDB9B3ED30",
+      "command": [
+        1.0,
+        0.0,
+        0.2
+      ],
+      "dt": 0.02,
+      "frames": 500,
+      "joint_order": [
+        "jIJ",
+        "jIO",
+        "jAB",
+        "jAG",
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "leg_action_scale": 0.35,
+      "max_errors": {
+        "acceleration": 0.0,
+        "clipped_action": 0.0,
+        "metric": 0.0,
+        "network_mean": 0.0,
+        "qvel": 0.0,
+        "target": 0.0,
+        "torque": 0.0
+      },
+      "q_nominal": [
+        -0.33367134,
+        0.33367134,
+        -0.33367134,
+        0.33367134
+      ],
+      "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget12\\mujoco\\forward.csv",
+      "reference_sha256": "DA1C3CCCC54DA8358AD47EF6F563188BD445FDFE6513D592BD8401DDA10864CD",
+      "scenario": "forward",
+      "target_lower": [
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "target_upper": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "arm": "budget12",
+      "capture": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\reversal-noise-diagnosis-20261011-v1\\captures\\budget12-reverse.npz",
+      "capture_sha256": "B4D11AAE71C023F48E1A8A083F214A8FBA4DA7EF719DC848D1F467726B52A307",
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_22-05-56_rtx5070_fudan-v1_leg-reversal-trial-budget12-200\\model_199.pt",
+      "checkpoint_sha256": "FA8068BBA18F0B95013FE3B7B1ED1853672DFF8A11E0874EF16721EDB9B3ED30",
+      "command": [
+        -1.0,
+        0.0,
+        0.2
+      ],
+      "dt": 0.02,
+      "frames": 500,
+      "joint_order": [
+        "jIJ",
+        "jIO",
+        "jAB",
+        "jAG",
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "leg_action_scale": 0.35,
+      "max_errors": {
+        "acceleration": 0.0,
+        "clipped_action": 0.0,
+        "metric": 0.0,
+        "network_mean": 0.0,
+        "qvel": 0.0,
+        "target": 0.0,
+        "torque": 0.0
+      },
+      "q_nominal": [
+        -0.33367134,
+        0.33367134,
+        -0.33367134,
+        0.33367134
+      ],
+      "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget12\\mujoco\\reverse.csv",
+      "reference_sha256": "B6A828D117E2F48C61D6161478A23E9180365E9D1B56FE177A04527510BC87CA",
+      "scenario": "reverse",
+      "target_lower": [
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "target_upper": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "arm": "budget8",
+      "capture": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\reversal-noise-diagnosis-20261011-v1\\captures\\budget8-nominal_stand.npz",
+      "capture_sha256": "2AD19C4A97A90C5D12A36F675DA96DDE8672BC46841CDCA7D951061948814D8B",
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_22-16-23_rtx5070_fudan-v1_leg-reversal-trial-budget8-200\\model_199.pt",
+      "checkpoint_sha256": "55F2EAC3C4F83541C33D7F71C0F107E01EF4B2ADF4848101D209AD14746779EC",
+      "command": [
+        0.0,
+        0.0,
+        0.2
+      ],
+      "dt": 0.02,
+      "frames": 500,
+      "joint_order": [
+        "jIJ",
+        "jIO",
+        "jAB",
+        "jAG",
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "leg_action_scale": 0.35,
+      "max_errors": {
+        "acceleration": 0.0,
+        "clipped_action": 0.0,
+        "metric": 0.0,
+        "network_mean": 0.0,
+        "qvel": 0.0,
+        "target": 0.0,
+        "torque": 0.0
+      },
+      "q_nominal": [
+        -0.33367134,
+        0.33367134,
+        -0.33367134,
+        0.33367134
+      ],
+      "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget8\\mujoco\\nominal_stand.csv",
+      "reference_sha256": "2FC5FB5654F495CAEFF561FE297B196AC4FD3908C10111005A8FFA932747A3E4",
+      "scenario": "nominal_stand",
+      "target_lower": [
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "target_upper": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "arm": "budget8",
+      "capture": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\reversal-noise-diagnosis-20261011-v1\\captures\\budget8-forward.npz",
+      "capture_sha256": "D3BD367B0DCA2CD0F9E7CF5BA8B0E0C314ABD6658067C91F122AB5A4BC3F8BAF",
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_22-16-23_rtx5070_fudan-v1_leg-reversal-trial-budget8-200\\model_199.pt",
+      "checkpoint_sha256": "55F2EAC3C4F83541C33D7F71C0F107E01EF4B2ADF4848101D209AD14746779EC",
+      "command": [
+        1.0,
+        0.0,
+        0.2
+      ],
+      "dt": 0.02,
+      "frames": 500,
+      "joint_order": [
+        "jIJ",
+        "jIO",
+        "jAB",
+        "jAG",
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "leg_action_scale": 0.35,
+      "max_errors": {
+        "acceleration": 0.0,
+        "clipped_action": 0.0,
+        "metric": 0.0,
+        "network_mean": 0.0,
+        "qvel": 0.0,
+        "target": 0.0,
+        "torque": 0.0
+      },
+      "q_nominal": [
+        -0.33367134,
+        0.33367134,
+        -0.33367134,
+        0.33367134
+      ],
+      "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget8\\mujoco\\forward.csv",
+      "reference_sha256": "662778FC375005961ED4903A985787FC09482DCA589AB765C29935DE05214584",
+      "scenario": "forward",
+      "target_lower": [
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "target_upper": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "arm": "budget8",
+      "capture": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\reversal-noise-diagnosis-20261011-v1\\captures\\budget8-reverse.npz",
+      "capture_sha256": "F869B0E2751051177A9586D6EB341A38E89EE11667E01CFC58422C2532D5E7E6",
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_22-16-23_rtx5070_fudan-v1_leg-reversal-trial-budget8-200\\model_199.pt",
+      "checkpoint_sha256": "55F2EAC3C4F83541C33D7F71C0F107E01EF4B2ADF4848101D209AD14746779EC",
+      "command": [
+        -1.0,
+        0.0,
+        0.2
+      ],
+      "dt": 0.02,
+      "frames": 500,
+      "joint_order": [
+        "jIJ",
+        "jIO",
+        "jAB",
+        "jAG",
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "leg_action_scale": 0.35,
+      "max_errors": {
+        "acceleration": 0.0,
+        "clipped_action": 0.0,
+        "metric": 0.0,
+        "network_mean": 0.0,
+        "qvel": 0.0,
+        "target": 0.0,
+        "torque": 0.0
+      },
+      "q_nominal": [
+        -0.33367134,
+        0.33367134,
+        -0.33367134,
+        0.33367134
+      ],
+      "reference": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\budget8\\mujoco\\reverse.csv",
+      "reference_sha256": "4A851831F73EB8939BEAE5C330AFFDCB691D32B1F9851F117171F3DBD1F6AB90",
+      "scenario": "reverse",
+      "target_lower": [
+        -1.0,
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "target_upper": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "completed": true
+}

@@ -1,0 +1,704 @@
+{
+  "anomalies": [
+    "phi0_symmetry_degraded"
+  ],
+  "captured_at": "2026-10-11T22:27:18.053206+08:00",
+  "event_file": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_22-16-23_rtx5070_fudan-v1_leg-reversal-trial-budget8-200\\events.out.tfevents.1791728184.DESKTOP-P89OA5C.44312.0",
+  "hard_anomalies": [],
+  "latest": {
+    "Action/saturation_fraction": {
+      "step": 199,
+      "value": 0.547960102558136
+    },
+    "Actuator/effort_saturation_fraction": {
+      "step": 199,
+      "value": 0.2109375
+    },
+    "Loss/auxiliary_gradient_norm": {
+      "step": 199,
+      "value": 0.04403139278292656
+    },
+    "Loss/auxiliary_to_ppo_gradient_norm_ratio": {
+      "step": 199,
+      "value": 0.009760553017258644
+    },
+    "Loss/context_mu_feature_std_mean_final_window": {
+      "step": 199,
+      "value": 0.04049628973007202
+    },
+    "Loss/context_mu_feature_std_mean_rollout": {
+      "step": 199,
+      "value": 0.03960593789815903
+    },
+    "Loss/context_mu_feature_std_threshold": {
+      "step": 199,
+      "value": 0.005120009183883667
+    },
+    "Loss/context_mu_gate_partial_pass": {
+      "step": 199,
+      "value": 1.0
+    },
+    "Loss/entropy": {
+      "step": 199,
+      "value": 4.83512020111084
+    },
+    "Loss/kl": {
+      "step": 199,
+      "value": 0.0009592369315214455
+    },
+    "Loss/learning_rate": {
+      "step": 199,
+      "value": 3.3749998692655936e-05
+    },
+    "Loss/ppo_gradient_norm": {
+      "step": 199,
+      "value": 5.8000264167785645
+    },
+    "Loss/pre_clip_gradient_norm": {
+      "step": 199,
+      "value": 5.801535129547119
+    },
+    "Loss/reconstruction": {
+      "step": 199,
+      "value": 0.007239843253046274
+    },
+    "Loss/surrogate": {
+      "step": 199,
+      "value": -0.0008978250552900136
+    },
+    "Loss/total": {
+      "step": 199,
+      "value": -0.006326940841972828
+    },
+    "Loss/value_function": {
+      "step": 199,
+      "value": 0.026427680626511574
+    },
+    "Loss/velocity": {
+      "step": 199,
+      "value": 0.008295324631035328
+    },
+    "Metric/loop_closure_error_max_m": {
+      "step": 199,
+      "value": 0.00010654504876583815
+    },
+    "Metric/phi0_delta_abs_rad": {
+      "step": 199,
+      "value": 0.43138188123703003
+    },
+    "Policy/mean_noise_std": {
+      "step": 199,
+      "value": 0.7140682935714722
+    },
+    "Reward/action_rate": {
+      "step": 199,
+      "value": -0.0005663251504302025
+    },
+    "Reward/action_smooth": {
+      "step": 199,
+      "value": -0.0015309917507693172
+    },
+    "Reward/ang_vel_xy": {
+      "step": 199,
+      "value": -0.003526924178004265
+    },
+    "Reward/dof_acc": {
+      "step": 199,
+      "value": -0.0003317984228488058
+    },
+    "Reward/dof_pos_limits": {
+      "step": 199,
+      "value": 0.0
+    },
+    "Reward/dof_vel": {
+      "step": 199,
+      "value": -5.2653012971859425e-06
+    },
+    "Reward/leg_reversal": {
+      "step": 199,
+      "value": -0.002245125360786915
+    },
+    "Reward/lin_vel_z": {
+      "step": 199,
+      "value": -0.000267839030129835
+    },
+    "Reward/orientation": {
+      "step": 199,
+      "value": -0.002823352813720703
+    },
+    "Reward/phi0_symmetry": {
+      "step": 199,
+      "value": -0.004095718264579773
+    },
+    "Reward/termination": {
+      "step": 199,
+      "value": 0.0
+    },
+    "Reward/torques": {
+      "step": 199,
+      "value": -0.00043785496382042766
+    },
+    "Reward/tracking_base_height": {
+      "step": 199,
+      "value": 0.01735106110572815
+    },
+    "Reward/tracking_vx": {
+      "step": 199,
+      "value": 0.03394478186964989
+    },
+    "Reward/tracking_vx_enhance": {
+      "step": 199,
+      "value": -0.0011864530388265848
+    },
+    "Reward/tracking_yaw_rate": {
+      "step": 199,
+      "value": 0.012193790636956692
+    },
+    "Reward/tracking_yaw_rate_enhance": {
+      "step": 199,
+      "value": -0.001634481130167842
+    },
+    "Termination/height_terminated": {
+      "step": 199,
+      "value": 0.0
+    },
+    "Termination/invalid": {
+      "step": 199,
+      "value": 0.0
+    },
+    "Termination/joint_velocity_terminated": {
+      "step": 199,
+      "value": 0.0
+    },
+    "Termination/root_angular_terminated": {
+      "step": 199,
+      "value": 0.0
+    },
+    "Termination/root_linear_terminated": {
+      "step": 199,
+      "value": 0.0
+    },
+    "Termination/tilt_terminated": {
+      "step": 199,
+      "value": 0.0
+    },
+    "Tracking/base_height_abs_error": {
+      "step": 199,
+      "value": 0.01047519501298666
+    },
+    "Tracking/vx_abs_error": {
+      "step": 199,
+      "value": 0.17504894733428955
+    },
+    "Tracking/yaw_rate_abs_error": {
+      "step": 199,
+      "value": 0.3777947425842285
+    },
+    "Train/mean_episode_length": {
+      "step": 199,
+      "value": 495.30999755859375
+    },
+    "Train/mean_reward": {
+      "step": 199,
+      "value": 22.201873779296875
+    }
+  },
+  "reason": "post_run",
+  "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_22-16-23_rtx5070_fudan-v1_leg-reversal-trial-budget8-200",
+  "series": {
+    "Action/saturation_fraction": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.5849881172180176,
+      "last_step": 199,
+      "last_value": 0.547960102558136,
+      "maximum": 0.6539984941482544,
+      "minimum": 0.5252007842063904,
+      "non_finite_count": 0
+    },
+    "Actuator/effort_saturation_fraction": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.2561306655406952,
+      "last_step": 199,
+      "last_value": 0.2109375,
+      "maximum": 0.2608236074447632,
+      "minimum": 0.1876085251569748,
+      "non_finite_count": 0
+    },
+    "Loss/auxiliary_gradient_norm": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.2776750922203064,
+      "last_step": 199,
+      "last_value": 0.04403139278292656,
+      "maximum": 0.5238916277885437,
+      "minimum": 0.034878093749284744,
+      "non_finite_count": 0
+    },
+    "Loss/auxiliary_to_ppo_gradient_norm_ratio": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.26776593923568726,
+      "last_step": 199,
+      "last_value": 0.009760553017258644,
+      "maximum": 0.26776593923568726,
+      "minimum": 0.007130886893719435,
+      "non_finite_count": 0
+    },
+    "Loss/context_mu_feature_std_mean_final_window": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.05120009183883667,
+      "last_step": 199,
+      "last_value": 0.04049628973007202,
+      "maximum": 0.0595088005065918,
+      "minimum": 0.0394454263150692,
+      "non_finite_count": 0
+    },
+    "Loss/context_mu_feature_std_mean_rollout": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.05120009183883667,
+      "last_step": 199,
+      "last_value": 0.03960593789815903,
+      "maximum": 0.062207385897636414,
+      "minimum": 0.038464732468128204,
+      "non_finite_count": 0
+    },
+    "Loss/context_mu_feature_std_threshold": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.005120009183883667,
+      "last_step": 199,
+      "last_value": 0.005120009183883667,
+      "maximum": 0.005120009183883667,
+      "minimum": 0.005120009183883667,
+      "non_finite_count": 0
+    },
+    "Loss/context_mu_gate_partial_pass": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 1.0,
+      "last_step": 199,
+      "last_value": 1.0,
+      "maximum": 1.0,
+      "minimum": 1.0,
+      "non_finite_count": 0
+    },
+    "Loss/entropy": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 4.891201972961426,
+      "last_step": 199,
+      "last_value": 4.83512020111084,
+      "maximum": 5.187106609344482,
+      "minimum": 4.824497222900391,
+      "non_finite_count": 0
+    },
+    "Loss/kl": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.00492850411683321,
+      "last_step": 199,
+      "last_value": 0.0009592369315214455,
+      "maximum": 0.005393187049776316,
+      "minimum": 0.0009592369315214455,
+      "non_finite_count": 0
+    },
+    "Loss/learning_rate": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 9.999999747378752e-06,
+      "last_step": 199,
+      "last_value": 3.3749998692655936e-05,
+      "maximum": 0.00011390625149942935,
+      "minimum": 9.999999747378752e-06,
+      "non_finite_count": 0
+    },
+    "Loss/ppo_gradient_norm": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 2.7996630668640137,
+      "last_step": 199,
+      "last_value": 5.8000264167785645,
+      "maximum": 18.692848205566406,
+      "minimum": 2.7996630668640137,
+      "non_finite_count": 0
+    },
+    "Loss/pre_clip_gradient_norm": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 2.8301520347595215,
+      "last_step": 199,
+      "last_value": 5.801535129547119,
+      "maximum": 18.69334602355957,
+      "minimum": 2.8301520347595215,
+      "non_finite_count": 0
+    },
+    "Loss/reconstruction": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.017354516312479973,
+      "last_step": 199,
+      "last_value": 0.007239843253046274,
+      "maximum": 0.02495570294559002,
+      "minimum": 0.0071466839872300625,
+      "non_finite_count": 0
+    },
+    "Loss/surrogate": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.10276710242033005,
+      "last_step": 199,
+      "last_value": -0.0008978250552900136,
+      "maximum": 0.10276710242033005,
+      "minimum": -0.013640539720654488,
+      "non_finite_count": 0
+    },
+    "Loss/total": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.20866918563842773,
+      "last_step": 199,
+      "last_value": -0.006326940841972828,
+      "maximum": 10.2062349319458,
+      "minimum": -0.030318643897771835,
+      "non_finite_count": 0
+    },
+    "Loss/value_function": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.10506962239742279,
+      "last_step": 199,
+      "last_value": 0.026427680626511574,
+      "maximum": 10.210639953613281,
+      "minimum": 0.006535690277814865,
+      "non_finite_count": 0
+    },
+    "Loss/velocity": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.027461467310786247,
+      "last_step": 199,
+      "last_value": 0.008295324631035328,
+      "maximum": 0.027508573606610298,
+      "minimum": 0.007982466369867325,
+      "non_finite_count": 0
+    },
+    "Metric/loop_closure_error_max_m": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.00013867218513041735,
+      "last_step": 199,
+      "last_value": 0.00010654504876583815,
+      "maximum": 0.0001573440240463242,
+      "minimum": 9.469343785895035e-05,
+      "non_finite_count": 0
+    },
+    "Metric/phi0_delta_abs_rad": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.30063021183013916,
+      "last_step": 199,
+      "last_value": 0.43138188123703003,
+      "maximum": 0.4877548813819885,
+      "minimum": 0.11584776639938354,
+      "non_finite_count": 0
+    },
+    "Policy/mean_noise_std": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.6920034289360046,
+      "last_step": 199,
+      "last_value": 0.7140682935714722,
+      "maximum": 0.7140923738479614,
+      "minimum": 0.6920034289360046,
+      "non_finite_count": 0
+    },
+    "Reward/action_rate": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": -0.000577232101932168,
+      "last_step": 199,
+      "last_value": -0.0005663251504302025,
+      "maximum": -0.0005351640284061432,
+      "minimum": -0.0008224024204537272,
+      "non_finite_count": 0
+    },
+    "Reward/action_smooth": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": -0.0015694210305809975,
+      "last_step": 199,
+      "last_value": -0.0015309917507693172,
+      "maximum": -0.0014550667256116867,
+      "minimum": -0.0024919300340116024,
+      "non_finite_count": 0
+    },
+    "Reward/ang_vel_xy": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": -0.007986464537680149,
+      "last_step": 199,
+      "last_value": -0.003526924178004265,
+      "maximum": -0.003526924178004265,
+      "minimum": -0.011702632531523705,
+      "non_finite_count": 0
+    },
+    "Reward/dof_acc": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": -0.0004450967535376549,
+      "last_step": 199,
+      "last_value": -0.0003317984228488058,
+      "maximum": -0.00032592524075880647,
+      "minimum": -0.0004870722477789968,
+      "non_finite_count": 0
+    },
+    "Reward/dof_pos_limits": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 199,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Reward/dof_vel": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": -1.3880349797545932e-05,
+      "last_step": 199,
+      "last_value": -5.2653012971859425e-06,
+      "maximum": -5.07899221702246e-06,
+      "minimum": -1.3880349797545932e-05,
+      "non_finite_count": 0
+    },
+    "Reward/leg_reversal": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 199,
+      "last_value": -0.002245125360786915,
+      "maximum": 0.0,
+      "minimum": -0.002806583419442177,
+      "non_finite_count": 0
+    },
+    "Reward/lin_vel_z": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": -0.0006501136813312769,
+      "last_step": 199,
+      "last_value": -0.000267839030129835,
+      "maximum": -0.0002595056139398366,
+      "minimum": -0.0031656238716095686,
+      "non_finite_count": 0
+    },
+    "Reward/orientation": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": -0.005313078872859478,
+      "last_step": 199,
+      "last_value": -0.002823352813720703,
+      "maximum": -0.0020825068932026625,
+      "minimum": -0.1974436491727829,
+      "non_finite_count": 0
+    },
+    "Reward/phi0_symmetry": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": -0.002646483015269041,
+      "last_step": 199,
+      "last_value": -0.004095718264579773,
+      "maximum": -0.0006099305464886129,
+      "minimum": -0.00523656141012907,
+      "non_finite_count": 0
+    },
+    "Reward/termination": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 199,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": -0.001708984375,
+      "non_finite_count": 0
+    },
+    "Reward/torques": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": -0.0006216051988303661,
+      "last_step": 199,
+      "last_value": -0.00043785496382042766,
+      "maximum": -0.00043785496382042766,
+      "minimum": -0.0007345012854784727,
+      "non_finite_count": 0
+    },
+    "Reward/tracking_base_height": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.01734679564833641,
+      "last_step": 199,
+      "last_value": 0.01735106110572815,
+      "maximum": 0.01795772835612297,
+      "minimum": 0.013220995664596558,
+      "non_finite_count": 0
+    },
+    "Reward/tracking_vx": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.025433003902435303,
+      "last_step": 199,
+      "last_value": 0.03394478186964989,
+      "maximum": 0.03482530266046524,
+      "minimum": 0.0130361532792449,
+      "non_finite_count": 0
+    },
+    "Reward/tracking_vx_enhance": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": -0.004059284925460815,
+      "last_step": 199,
+      "last_value": -0.0011864530388265848,
+      "maximum": -0.0008922116830945015,
+      "minimum": -0.009027572348713875,
+      "non_finite_count": 0
+    },
+    "Reward/tracking_yaw_rate": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.009667712263762951,
+      "last_step": 199,
+      "last_value": 0.012193790636956692,
+      "maximum": 0.012193790636956692,
+      "minimum": 0.0024962141178548336,
+      "non_finite_count": 0
+    },
+    "Reward/tracking_yaw_rate_enhance": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": -0.0032597535755485296,
+      "last_step": 199,
+      "last_value": -0.001634481130167842,
+      "maximum": -0.001634481130167842,
+      "minimum": -0.008675000630319118,
+      "non_finite_count": 0
+    },
+    "Termination/height_terminated": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 199,
+      "last_value": 0.0,
+      "maximum": 0.00016276042151730508,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/invalid": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 199,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/joint_velocity_terminated": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 199,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/root_angular_terminated": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 199,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/root_linear_terminated": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 199,
+      "last_value": 0.0,
+      "maximum": 0.0,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Termination/tilt_terminated": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.0,
+      "last_step": 199,
+      "last_value": 0.0,
+      "maximum": 0.01708984375,
+      "minimum": 0.0,
+      "non_finite_count": 0
+    },
+    "Tracking/base_height_abs_error": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.010116334073245525,
+      "last_step": 199,
+      "last_value": 0.01047519501298666,
+      "maximum": 0.01959615759551525,
+      "minimum": 0.008884215727448463,
+      "non_finite_count": 0
+    },
+    "Tracking/vx_abs_error": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.38162335753440857,
+      "last_step": 199,
+      "last_value": 0.17504894733428955,
+      "maximum": 0.7300118803977966,
+      "minimum": 0.15629661083221436,
+      "non_finite_count": 0
+    },
+    "Tracking/yaw_rate_abs_error": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 0.5790305733680725,
+      "last_step": 199,
+      "last_value": 0.3777947425842285,
+      "maximum": 1.2012814283370972,
+      "minimum": 0.3777947425842285,
+      "non_finite_count": 0
+    },
+    "Train/mean_episode_length": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": 13.75,
+      "last_step": 199,
+      "last_value": 495.30999755859375,
+      "maximum": 499.0,
+      "minimum": 13.75,
+      "non_finite_count": 0
+    },
+    "Train/mean_reward": {
+      "count": 200,
+      "first_step": 0,
+      "first_value": -0.07559013366699219,
+      "last_step": 199,
+      "last_value": 22.201873779296875,
+      "maximum": 22.287353515625,
+      "minimum": -12.2236909866333,
+      "non_finite_count": 0
+    }
+  },
+  "status": "warning",
+  "warnings": [
+    "phi0_symmetry_degraded"
+  ]
+}

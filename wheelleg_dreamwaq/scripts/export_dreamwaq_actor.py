@@ -56,7 +56,7 @@ def _manifest_payload(
         raise ValueError("Checkpoint physics differs from PhysicsV5; old checkpoints cannot be relabeled")
     algorithm = run_manifest["dreamwaq_algorithm_contract"]
     export = run_manifest["dreamwaq_export_contract"]
-    return {
+    payload = {
         "dreamwaq_export_contract_version": DREAMWAQ_EXPORT_CONTRACT_VERSION,
         "source_checkpoint": str(checkpoint),
         "source_checkpoint_sha256": sha256_file(checkpoint),
@@ -117,6 +117,9 @@ def _manifest_payload(
             "actuator_effort_limits_nm": model_manifest["actuator_effort_limits_nm"],
         },
     }
+    if "leg_acceleration" in base["task"]:
+        payload["training_leg_acceleration"] = base["task"]["leg_acceleration"]
+    return payload
 
 
 def main() -> None:

@@ -1,0 +1,63 @@
+{
+  "export": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\debug\\sim2sim\\leg-acceleration-budget-search-20261012-v1\\baseline\\export",
+  "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_01-27-01_rtx5070_fudan-v1_leg-accel-budget-search-20261012-baseline-200",
+  "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200\\model_199.pt",
+  "source_checkpoint_sha256": "BCDD726CE5D6F89600547F34CA285282053D4D07B07575604172E6A11A5912B7",
+  "training_summary": {
+    "base_task_contract_hash": "EC40FC36DA937CC9A7994CA3B47D20D7AD1814C5B835F9962F056940E4F592E3",
+    "closed_chain_reset_cache": {
+      "file_sha256": "FA5A60436F6159DC93B6537E2D729E2CA77DFF0A8DAB11CA62AAD8687B436B92",
+      "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_01-27-01_rtx5070_fudan-v1_leg-accel-budget-search-20261012-baseline-200\\closed_chain_reset_cache.pt",
+      "tensor_sha256": "221CDF4C68EE979D1462977FC5B9D40A87DF42829997DC0B83006A9E8155E62C"
+    },
+    "completed_iterations": 200,
+    "context_acceptance": true,
+    "context_acceptance_threshold": 0.005176066624403553,
+    "context_final_window_mean": 0.04046624701581587,
+    "dreamwaq_algorithm_contract_hash": "2924363841CF0104ED897ACD6AAA0AA03EF59B88B8DD198350D5451D815A2CED",
+    "dreamwaq_export_contract_hash": "3048CB2CEAC5DEE99E26F9B1D96DA04A5089122943169CAD542A8095B7682C19",
+    "duration_seconds": 854.3329829000868,
+    "estimator_monitor_state": {
+      "completed_rollouts": 200,
+      "context_mu_feature_std_mean_initial": 0.051760666244035525,
+      "recent_context_mu_feature_std_mean": [
+        0.039828432715420414,
+        0.04010914796068085,
+        0.04070832959041652,
+        0.040185883729398006,
+        0.038754128656430464,
+        0.040851830342160514,
+        0.04259742706719172,
+        0.03838232016980064,
+        0.03986504582175546,
+        0.04337992410490411
+      ],
+      "schema_version": "EstimatorMonitorStateV1"
+    },
+    "event_files": [
+      "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_01-27-01_rtx5070_fudan-v1_leg-accel-budget-search-20261012-baseline-200\\events.out.tfevents.1791739623.DESKTOP-P89OA5C.37816.0"
+    ],
+    "final_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_01-27-01_rtx5070_fudan-v1_leg-accel-budget-search-20261012-baseline-200\\model_199.pt",
+    "initial_model_tensor_sha256": "97DBCD7E7114918077E47C2AD9884F69D4487E70421A38F5D130F6D9C4A59049",
+    "iterations_executed": 200,
+    "iterations_requested": 200,
+    "restored_learning_rate": null,
+    "resume_sequence_trace": null,
+    "resumed_from": null,
+    "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-12_01-27-01_rtx5070_fudan-v1_leg-accel-budget-search-20261012-baseline-200",
+    "run_manifest_sha256": "DAC9DF0BC391C08ABE25526002B7943A6936A13EF9FD569920D29C37F19623A5",
+    "runner_final_iteration_index": 199,
+    "starting_completed_iterations": 0,
+    "weights_initialization": {
+      "mode": "weights_only_new_optimizer_rng_environment",
+      "schema_version": "WeightsOnlyInitializationV1",
+      "source_base_task_contract_hash": "EC40FC36DA937CC9A7994CA3B47D20D7AD1814C5B835F9962F056940E4F592E3",
+      "source_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200\\model_199.pt",
+      "source_checkpoint_sha256": "BCDD726CE5D6F89600547F34CA285282053D4D07B07575604172E6A11A5912B7",
+      "source_completed_iterations": 200,
+      "source_run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-11_21-56-09_rtx5070_fudan-v1_leg-reversal-trial-baseline-200\\run_manifest.json",
+      "source_run_manifest_sha256": "B9893DA2826258110CAEA57B8AAA4CA68683E8AAE2A3E3B8604C0C49C3EFB8BD",
+      "target_base_task_contract_hash": "EC40FC36DA937CC9A7994CA3B47D20D7AD1814C5B835F9962F056940E4F592E3"
+    }
+  }
+}
