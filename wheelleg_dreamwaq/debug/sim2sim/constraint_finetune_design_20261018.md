@@ -15,7 +15,7 @@
 ## 训练边界
 
 - 新实验只写入 `debug/sim2sim/runs/` 下的独立目录。
-- 只读取旧 debug checkpoint `debug/no_action_clip/runs/fresh1000-split-straight-lambda01-env4096-20261016/model_700.pt`。
+- 训练输入使用已严格验收的正式复现 model_700.pt；它与旧 debug model_700.pt 已逐位相同，旧 debug SHA 继续作为基线锚点记录。 `debug/no_action_clip/runs/fresh1000-split-straight-lambda01-env4096-20261016/model_700.pt`。
 - 4096 环境、seed、任务 profile、观测、动力学、随机化、控制周期和网络结构沿用 701 基线。
 - 初始模型只加载 701 的网络权重；Adam 的一阶、二阶历史清零，不带入原训练的优化器动量。
 - 首阶段只做 20 次更新 smoke；未通过验收时不继续训练。
@@ -58,4 +58,5 @@
 - 这次 smoke 只能验证约束方向和局部微调效果，不能证明多种子泛化。
 - 即使速度和 RMS 同时改善，也不能把结果归因于某一个原始 reward 分量；需要保留约束项、KL、Adam 重置和同场景对照证据。
 - 失败时保留完整日志和 checkpoint，不修改正式工程，也不自动追加训练。
+
 

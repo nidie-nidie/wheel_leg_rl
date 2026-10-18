@@ -145,11 +145,11 @@ Preflight must reject a missing source checkpoint, a nonmatching SHA, an existin
 
 - [ ] **Step 2: Run preflight to verify the boundary**
 
-With a missing checkpoint, expect a clear failure. With the approved 701 checkpoint, expect JSON preflight_ok=true and no CUDA/Isaac process.
+With a missing checkpoint, expect a clear failure. With the approved formal 701 checkpoint, expect JSON preflight_ok=true and no CUDA/Isaac process.
 
 - [ ] **Step 3: Write minimal launcher**
 
-Parse source checkpoint, 4096 envs, 20 iterations, seed 41882943, rtx5070, cuda:0, and the existing yaw1 headingOFF task profile. Set the same seeds and TF32 flags as formal training. Build the same env and runner configs/contracts. Load only source model_state_dict, never call resume; the runner creates a new Adam. Temporarily wrap registration so formal classes are registered first and rsl_rl.runners.on_policy_runner.DreamWaQPPO points to the debug subclass. Construct ConstrainedWheelLegEnv and the history wrapper, then call set_reference_from_policy after loading weights. Write debug_constraint_manifest.json with source SHA, baseline values, budget, window, KL coefficient, reset_adam=true, command, contract hashes, debug module hashes, and Git HEAD. Write constraint_metrics.jsonl and update_metrics.jsonl. Refuse to overwrite an existing run; on exception write failure.json and never restart.
+Parse formal source checkpoint, with the old debug checkpoint SHA recorded as an exact-equality anchor, 4096 envs, 20 iterations, seed 41882943, rtx5070, cuda:0, and the existing yaw1 headingOFF task profile. Set the same seeds and TF32 flags as formal training. Build the same env and runner configs/contracts. Load only source model_state_dict, never call resume; the runner creates a new Adam. Temporarily wrap registration so formal classes are registered first and rsl_rl.runners.on_policy_runner.DreamWaQPPO points to the debug subclass. Construct ConstrainedWheelLegEnv and the history wrapper, then call set_reference_from_policy after loading weights. Write debug_constraint_manifest.json with source SHA, baseline values, budget, window, KL coefficient, reset_adam=true, command, contract hashes, debug module hashes, and Git HEAD. Write constraint_metrics.jsonl and update_metrics.jsonl. Refuse to overwrite an existing run; on exception write failure.json and never restart.
 
 Use run directory wheelleg_dreamwaq/debug/sim2sim/runs/constraint-finetune-4096-fresh20-20261018. Keep formal checkpoint metadata valid and put debug-only data in sidecars.
 
@@ -175,7 +175,7 @@ Expected: preflight_ok=true; --dry-run verifies registration and manifest withou
 
 - [ ] **Step 1: Start the only smoke run**
 
-Set project, source, and MuJoCo PYTHONPATH; set OPENBLAS_NUM_THREADS=1 only for this process. Run the launcher with the approved source checkpoint, 4096 envs, max_iterations 20, seed 41882943, rtx5070, cuda:0, the existing task profile, and --headless. Expected: exactly one run, 20 completed updates, model_19.pt, optimizer step 800, finite tensors.
+Set project, source, and MuJoCo PYTHONPATH; set OPENBLAS_NUM_THREADS=1 only for this process. Run the launcher with the approved formal source checkpoint, with the old debug checkpoint SHA recorded as an exact-equality anchor, 4096 envs, max_iterations 20, seed 41882943, rtx5070, cuda:0, the existing task profile, and --headless. Expected: exactly one run, 20 completed updates, model_19.pt, optimizer step 800, finite tensors.
 
 - [ ] **Step 2: Read-only monitoring**
 
@@ -219,4 +219,5 @@ State whether speed MAE decreased, whether sustained leg RMS stayed within basel
 - [ ] 701 network weights are loaded with reset_adam=true and no resume.
 - [ ] Exactly one smoke run ends with model_19.pt and optimizer step 800.
 - [ ] MuJoCo behavior metrics show speed improvement without leg RMS degradation, or the report states failure clearly.
+
 
