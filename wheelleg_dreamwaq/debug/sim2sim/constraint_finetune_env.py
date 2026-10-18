@@ -49,7 +49,9 @@ class QddotWindowTracker:
         slots = self.write_index
         old = self.buffer[rows, slots]
         full = self.count == self.window_steps
-        self.sum_squared = self.sum_squared - torch.where(full, old.square().sum(dim=-1), torch.zeros_like(self.sum_squared))
+        self.sum_squared = self.sum_squared - torch.where(
+            full, old.square().sum(dim=-1), torch.zeros_like(self.sum_squared)
+        )
         self.buffer[rows, slots] = values
         self.sum_squared = self.sum_squared + values.square().sum(dim=-1)
         self.count = torch.minimum(self.count + 1, torch.full_like(self.count, self.window_steps))
@@ -66,8 +68,15 @@ def make_constrained_wheelleg_env_class():
     from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.env import WheelLegFlatEnv
 
     class ConstrainedWheelLegEnv(WheelLegFlatEnv):
-        def __init__(self, cfg, render_mode: str | None = None, *, qddot_budget: float = DEFAULT_BUDGET,
-                     qddot_penalty_coef: float = DEFAULT_PENALTY_COEF, **kwargs: Any):
+        def __init__(
+            self,
+            cfg,
+            render_mode: str | None = None,
+            *,
+            qddot_budget: float = DEFAULT_BUDGET,
+            qddot_penalty_coef: float = DEFAULT_PENALTY_COEF,
+            **kwargs: Any,
+        ):
             self._debug_qddot_budget = float(qddot_budget)
             self._debug_qddot_penalty_coef = float(qddot_penalty_coef)
             super().__init__(cfg, render_mode, **kwargs)
@@ -76,6 +85,7 @@ def make_constrained_wheelleg_env_class():
             )
             self._debug_qddot_reward_before_constraint = torch.zeros(self.num_envs, device=self.device)
             self._debug_qddot_penalty = torch.zeros(self.num_envs, device=self.device)
+            self._debug_metric_records: list[dict[str, float]] = []
 
         def _reset_idx(self, env_ids):
             super()._reset_idx(env_ids)
@@ -91,7 +101,18 @@ def make_constrained_wheelleg_env_class():
             penalty = -self._debug_qddot_penalty_coef * excess
             self._debug_qddot_reward_before_constraint = reward_before.detach().clone()
             self._debug_qddot_penalty = penalty.detach().clone()
+            self._debug_metric_records.append({
+                "qddot_window_rms": float(rms.mean().item()),
+                "qddot_excess": float(excess.mean().item()),
+                "qddot_penalty": float(penalty.mean().item()),
+                "reward_before_constraint": float(reward_before.mean().item()),
+            })
             return reward_before + penalty
+
+        def drain_debug_metric_records(self) -> list[dict[str, float]]:
+            records = list(self._debug_metric_records)
+            self._debug_metric_records.clear()
+            return records
 
         @property
         def debug_constraint_metrics(self) -> dict[str, torch.Tensor]:
