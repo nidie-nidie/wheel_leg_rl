@@ -15,6 +15,8 @@ from typing import Any
 
 
 os.environ.setdefault("OMNI_KIT_ACCEPT_EULA", "YES")
+import tensordict  # noqa: F401
+import torch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_SOURCE_CHECKPOINT = (
@@ -386,6 +388,7 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
 
 
 
