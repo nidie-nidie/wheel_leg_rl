@@ -263,6 +263,7 @@ def run_training(args: argparse.Namespace, app: Any) -> Path:
         "dreamwaq_algorithm_contract_version": algorithm_contract["manifest_version"],
         "dreamwaq_algorithm_contract_hash": algorithm_contract["contract_hash"],
         "dreamwaq_export_contract_version": export_contract["manifest_version"],
+        "dreamwaq_export_contract_hash": export_contract["contract_hash"],
         "hardware_profile": {
             "name": args.profile,
             "declared_num_envs": profile["num_envs"],
@@ -388,6 +389,7 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
 
 
 
