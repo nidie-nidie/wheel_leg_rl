@@ -14,6 +14,8 @@ from pathlib import Path
 from typing import Any
 
 
+os.environ.setdefault("OMNI_KIT_ACCEPT_EULA", "YES")
+
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_SOURCE_CHECKPOINT = (
     PROJECT_ROOT
@@ -384,4 +386,6 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
 
