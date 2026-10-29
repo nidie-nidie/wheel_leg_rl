@@ -11,7 +11,7 @@ import pytest
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SPEC = importlib.util.spec_from_file_location(
     "run_training_suite",
-    PROJECT_ROOT / "scripts" / "run_training_suite.py",
+    PROJECT_ROOT / "training" / "scripts" / "run_training_suite.py",
 )
 assert SPEC is not None and SPEC.loader is not None
 MODULE = importlib.util.module_from_spec(SPEC)
@@ -20,7 +20,7 @@ sys.modules["run_training_suite"] = MODULE
 
 DREAMWAQ_SPEC = importlib.util.spec_from_file_location(
     "run_dreamwaq_training_suite",
-    PROJECT_ROOT / "scripts" / "run_dreamwaq_training_suite.py",
+    PROJECT_ROOT / "training" / "scripts" / "run_dreamwaq_training_suite.py",
 )
 assert DREAMWAQ_SPEC is not None and DREAMWAQ_SPEC.loader is not None
 DREAMWAQ_MODULE = importlib.util.module_from_spec(DREAMWAQ_SPEC)
@@ -150,8 +150,8 @@ def test_suite_source_fingerprint_covers_mujoco_runtime_and_lock() -> None:
     assert "sim2sim/mujoco/uv.lock" in payload["files"]
     assert "sim2sim/mujoco/pyproject.toml" in payload["files"]
     assert "sim2sim/mujoco/wheelleg_mujoco/evaluation.py" in payload["files"]
-    assert "scripts/evaluate_mujoco.py" in payload["files"]
-    assert "scripts/rank_mujoco_runs.py" in payload["files"]
+    assert "training/scripts/evaluate_mujoco.py" in payload["files"]
+    assert "training/scripts/rank_mujoco_runs.py" in payload["files"]
 
 
 def test_dreamwaq_training_gate_rejects_hard_invalid_or_missing_runs() -> None:
@@ -214,14 +214,14 @@ def test_failed_isaac_artifact_still_runs_both_mujoco_evaluations(tmp_path, monk
             "seed": 123, "resume_provenance": {"schema_version": "ResumeMetadataV2", "mode": "fresh"}}))
         return 0, run
     def evaluate(command, log):
-        script = next(item for item in command if item.startswith("scripts/"))
+        script = next(item for item in command if item.startswith("training/scripts/"))
         calls.append(script)
         output = Path(command[command.index("--output") + 1])
         output.mkdir(parents=True, exist_ok=True)
-        if script == "scripts/evaluate_isaac.py":
+        if script == "training/scripts/evaluate_isaac.py":
             assert "--candidate-only" in command and "--baseline-report" not in command
             raise RuntimeError("missing Isaac artifact")
-        if script == "scripts/export_dreamwaq_actor.py":
+        if script == "training/scripts/export_dreamwaq_actor.py":
             for name in ("actor.ts", "policy_manifest.json", "golden_vectors.pt"):
                 (output / name).write_text("test fixture")
         else:
@@ -233,8 +233,8 @@ def test_failed_isaac_artifact_still_runs_both_mujoco_evaluations(tmp_path, monk
                                     "--task-profile", "stop_reverse_v1", "--candidate-only", "--output", str(suite)])
     with pytest.raises(RuntimeError, match="complete export"):
         DREAMWAQ_MODULE.main()
-    assert calls == ["scripts/export_dreamwaq_actor.py", "scripts/evaluate_isaac.py",
-                     "scripts/evaluate_mujoco.py", "scripts/evaluate_command_practice_mujoco.py"]
+    assert calls == ["training/scripts/export_dreamwaq_actor.py", "training/scripts/evaluate_isaac.py",
+                     "training/scripts/evaluate_mujoco.py", "training/scripts/evaluate_command_practice_mujoco.py"]
     report = json.loads((suite / "training-suite-manifest.json").read_text())
     assert report["runs"][0]["status"] == "evaluation_incomplete"
     assert "isaac" in report["runs"][0]["evaluation_errors"]

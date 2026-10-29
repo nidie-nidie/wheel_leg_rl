@@ -239,8 +239,8 @@ def main():
     except Exception:
         check("probe_exception", False, traceback=traceback.format_exc())
     finally:
-        sources = [Path(__file__), PROJECT / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py",
-                   PROJECT / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/algorithms/dreamwaq/history_wrapper.py",
+        sources = [Path(__file__), PROJECT / "training/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py",
+                   PROJECT / "training/wheelleg_dreamwaq/algorithms/dreamwaq/history_wrapper.py",
                    PROJECT / "debug/sim2sim/isaac_debug_env.py"]
         for name in ("articulation.py", "articulation_data.py"):
             sources.append(PROJECT / "dependencies/IsaacLab-v2.3.2/source/isaaclab/isaaclab/assets/articulation" / name)

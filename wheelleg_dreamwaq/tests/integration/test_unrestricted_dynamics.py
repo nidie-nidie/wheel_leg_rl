@@ -12,7 +12,7 @@ from conftest import run_project_script
 @pytest.mark.parametrize("randomized", (False, True))
 def test_isaac_has_no_operational_velocity_caps(tmp_path: Path, randomized: bool) -> None:
     output = tmp_path / "unrestricted-dynamics.json"
-    arguments = ["scripts/check_unrestricted_dynamics.py", "--output", str(output), "--headless"]
+    arguments = ["training/scripts/check_unrestricted_dynamics.py", "--output", str(output), "--headless"]
     if randomized:
         arguments.append("--randomized")
     run_project_script(arguments)

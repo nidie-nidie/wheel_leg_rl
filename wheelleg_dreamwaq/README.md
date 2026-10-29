@@ -1,19 +1,34 @@
 # WheelLeg DreamWaQ
 
+当前训练代码统一位于 [training](training/README.md)。阅读代码从该页开始，依次查看训练入口、环境、观测与动作、奖励及策略更新。
+
+| 目录 | 内容 |
+| --- | --- |
+| `training/wheelleg_dreamwaq/` | 当前行走算法、任务环境及共用约定 |
+| `training/recovery/` | 当前起身训练、交接监督器、导出及测试 |
+| `training/scripts/` | 行走训练、回放、导出和评估入口 |
+| `debug/` | 诊断工具；`archive/` 保存历史源码副本，`cache/` 保存测试缓存 |
+| `configs/`、`tests/` | 硬件配置和行走测试 |
+| `sim2sim/`、`PACE/` | MuJoCo 运行工具和电机实验工程 |
+| `logs/`、`artifacts/`、`recovery/artifacts/` | 既有模型、配置、日志及实验报告 |
+| `docs/`、`dependencies/` | 设计与验证资料、第三方依赖 |
+
+2026-10-28 调整了源码路径与 Python 包安装配置。历史模型和报告继续保留原身份，恢复训练时仍须通过源码与配置一致性校验。旧文档中的源码位置可通过 [迁移说明](debug/README.md) 查找。
+
 Independent Isaac Lab project for the WheelLeg robot. The current code implements the `Phase1RandomizedContractV3` asymmetric PPO baseline, the Architecture v0.26 Phase 2 DreamWaQ/CENet stack, explicit current-physics Isaac evaluation, and the frozen MuJoCo sim2sim path. The DreamWaQ implementation and pure-Python tests are present; real Isaac integration, final independent code review, four fresh 1000-iteration runs, and their evaluation evidence remain mandatory before a Phase 2 result can be accepted.
 
 ## Runtime
 
 ```powershell
-./scripts/bootstrap.ps1
+./training/scripts/bootstrap.ps1
 uv run pytest tests/unit -q
-uv run python scripts/audit_asset.py --headless
-uv run python scripts/smoke_random_actions.py --num-envs 16 --steps 1000 --headless
+uv run python training/scripts/audit_asset.py --headless
+uv run python training/scripts/smoke_random_actions.py --num-envs 16 --steps 1000 --headless
 uv run pytest tests/integration -q
-uv run python scripts/train_ppo.py --profile rtx5070 --max-iterations 1000 --headless
-uv run python scripts/train_ppo.py --profile portable --max-iterations 1200 --resume <checkpoint> --headless
-uv run python scripts/play.py --num-envs 16 --steps 1000 --headless
-./scripts/tensorboard.ps1
+uv run python training/scripts/train_ppo.py --profile rtx5070 --max-iterations 1000 --headless
+uv run python training/scripts/train_ppo.py --profile portable --max-iterations 1200 --resume <checkpoint> --headless
+uv run python training/scripts/play.py --num-envs 16 --steps 1000 --headless
+./training/scripts/tensorboard.ps1
 ```
 
 New V4 runs load `../wheel_leg_urdf4_usd_v2/wheel_leg_urdf4/wheel_leg_urdf4.usd`. This self-contained `AssetBundleV2` differs from the immutable V1 source only by deleting the embedded GroundPlane; both bundles are hash-verified and the V1 source remains unchanged.
@@ -45,9 +60,9 @@ baseline comparison is unassessed (`null`), never counted as a pass. Failed perf
 goals still produce all fixed and dynamic MuJoCo evidence.
 
 ```powershell
-.venv/Scripts/python.exe scripts/train_dreamwaq.py --profile portable --task-profile stop_reverse_v1 --max-iterations 2 --headless
+.venv/Scripts/python.exe training/scripts/train_dreamwaq.py --profile portable --task-profile stop_reverse_v1 --max-iterations 2 --headless
 .venv/Scripts/python.exe -m pytest tests/integration/test_command_practice.py -q
-.venv/Scripts/python.exe scripts/run_dreamwaq_training_suite.py --mode formal --profile rtx5070 --task-profile stop_reverse_v1 --candidate-only --runs 4 --iterations 1000 --monitor-interval-seconds 1800
+.venv/Scripts/python.exe training/scripts/run_dreamwaq_training_suite.py --mode formal --profile rtx5070 --task-profile stop_reverse_v1 --candidate-only --runs 4 --iterations 1000 --monitor-interval-seconds 1800
 ```
 
 The formal command runs four fresh seeds sequentially, records half-hour monitoring,

@@ -9,7 +9,7 @@ from typing import Any
 
 import numpy as np
 
-from .contract import sha256_file
+from .contract import sha256_file, _validate_raw_heading_metadata
 from .physics import PHYSICS_SCHEMA_VERSION, unrestricted_velocity_policy, validate_policy_physics
 from .model_semantics import stable_hash
 
@@ -42,8 +42,8 @@ def build_evaluation_source_fingerprint() -> dict:
     files = sorted(
         [path for path in (SIM2SIM_ROOT / "wheelleg_mujoco").rglob("*.py") if path.is_file()]
         + [
-            PROJECT_ROOT / "scripts" / "evaluate_mujoco.py",
-            PROJECT_ROOT / "scripts" / "rank_mujoco_runs.py",
+            PROJECT_ROOT / "training" / "scripts" / "evaluate_mujoco.py",
+            PROJECT_ROOT / "training" / "scripts" / "rank_mujoco_runs.py",
             SIM2SIM_ROOT / "pyproject.toml",
             SIM2SIM_ROOT / "uv.lock",
         ],
@@ -259,7 +259,7 @@ def build_evaluation_contract(
     else:
         task_contract_version = policy_manifest["phase1_contract_version"]
         task_contract_hash = policy_manifest["phase1_contract_hash"]
-    return {
+    result = {
         "schema_version": EVALUATION_CONTRACT_VERSION,
         "evaluation_schema_version": EVALUATION_SCHEMA_VERSION,
         "ranking_version": RANKING_VERSION,
@@ -299,6 +299,37 @@ def build_evaluation_contract(
             "virtual_leg_min_length_m": 0.05,
         },
     }
+    result.update(_heading_evaluation_fields(policy_manifest))
+    return result
+
+
+def _heading_evaluation_fields(policy_manifest: dict) -> dict:
+    raw_identity = (
+        policy_manifest.get("base_task_contract_version") == "WheelLegBaseTaskContractV2RawHeading"
+        or policy_manifest.get("dreamwaq_algorithm_contract_version") == "DreamWaQAlgorithmContractV2RawActions"
+        or policy_manifest.get("dreamwaq_export_contract_version") == "DreamWaQExportContractV2RawHeading"
+        or policy_manifest.get("schemas", {}).get("action") == "RawActionV1"
+        or policy_manifest.get("schemas", {}).get("normalization") == "RawActionNormalizationV1"
+        or policy_manifest.get("schemas", {}).get("reward") == "RewardSchemaV4RawSplitStraight"
+        or ("action" in policy_manifest and policy_manifest["action"].get("clip_actions", 1.0) is None)
+    )
+    if not raw_identity:
+        if "heading_hold" in policy_manifest:
+            raise ValueError("MuJoCo evaluation old policy contains heading metadata")
+        return {}
+    _validate_raw_heading_metadata(policy_manifest)
+    import wheelleg_dreamwaq.schemas.heading_control as heading_module
+    expected = dict(policy_manifest["heading_hold"])
+    return {"heading_hold": expected, "heading_mode": "enabled" if expected["enabled"] else "disabled",
+            "heading_source_sha256": sha256_file(Path(heading_module.__file__))}
+
+
+def validate_heading_evaluation_contract(contract: dict, policy_manifest: dict) -> None:
+    expected = _heading_evaluation_fields(policy_manifest)
+    actual = {key: contract[key] for key in
+              ("heading_hold", "heading_mode", "heading_source_sha256") if key in contract}
+    if actual != expected:
+        raise ValueError("MuJoCo evaluation heading identity differs from the bound policy or current source")
 
 
 def _assert_equivalent(expected: Any, actual: Any, path: str) -> None:
@@ -510,6 +541,7 @@ def validate_evaluation_reports_for_ranking(reports: list[dict]) -> dict:
         checkpoint_hashes.add(checkpoint_hash)
         policy_manifest = _load_bound_policy_manifest(report, training_run)
         validate_policy_physics(policy_manifest)
+        validate_heading_evaluation_contract(contract, policy_manifest)
         manifest_task_hash = policy_manifest.get(
             "base_task_contract_hash",
             policy_manifest.get("phase1_contract_hash"),

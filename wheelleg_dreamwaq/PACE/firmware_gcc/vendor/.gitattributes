@@ -1,0 +1,2 @@
+# Preserve pinned upstream bytes and their recorded SHA256 across platforms.
+* -text whitespace=cr-at-eol,-blank-at-eof

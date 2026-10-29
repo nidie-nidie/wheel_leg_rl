@@ -4,7 +4,7 @@ import pytest
 import torch
 from tensordict import TensorDict
 
-from wheelleg_dreamwaq.algorithms.dreamwaq.actor_critic import DreamWaQActorCritic
+from wheelleg_dreamwaq.algorithms.dreamwaq.actor_critic import DreamWaQActorCritic, EXPECTED_OBS_GROUPS
 from wheelleg_dreamwaq.algorithms.dreamwaq.cenet import CENet
 from wheelleg_dreamwaq.deployment.dreamwaq_inference import DreamWaQInferenceActorV1
 from wheelleg_dreamwaq.schemas.observation import (
@@ -175,3 +175,20 @@ def test_torchscript_inference_actor_has_dynamic_batch_and_matches_eager() -> No
             actual = scripted(history)
         assert actual.shape == (batch_size, 6)
         assert torch.max(torch.abs(expected - actual)).item() <= 1.0e-7
+
+
+def test_raw_decoder_condition_uses_detached_original_actions():
+    observations = _observations(3)
+    policy = DreamWaQActorCritic(observations, EXPECTED_OBS_GROUPS, 6, decoder_action_clip=None)
+    actions = torch.tensor([[3., -2., 4., -3., 2., -4.]]).repeat(3, 1).requires_grad_()
+    torch.manual_seed(41882943)
+    result = policy.batch_forward(observations, actions)
+    encoding = policy.cenet.encode(observations["policy_history"])
+    torch.manual_seed(41882943)
+    context = policy.cenet.sample_context(encoding.context_mu, encoding.context_logvar)
+    expected = policy.cenet.decode(context, encoding.estimated_velocity, actions)
+    torch.testing.assert_close(result.predicted_next_proprio, expected, rtol=0, atol=0)
+    result.predicted_next_proprio.sum().backward()
+    assert actions.grad is None
+    clipped = policy.cenet.decode(context, encoding.estimated_velocity, actions.clamp(-1, 1))
+    assert not torch.allclose(expected, clipped)

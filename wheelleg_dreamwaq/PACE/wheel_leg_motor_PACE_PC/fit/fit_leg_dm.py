@@ -9,6 +9,7 @@ from scipy.optimize import lsq_linear
 
 from pace_raw.decoder import decode_file
 from pace_raw.normalize import NormalizedDataset, normalize_session
+from pace_raw.quality import require_fit_quality
 from validation.crossval import aggregate_metrics, error_metrics
 
 from .common import (
@@ -21,6 +22,9 @@ from .common import (
     require_dm_baseline,
     select_rows,
     smooth_direction,
+    segment_rows,
+    series_segments,
+    validate_delay_period,
 )
 from .model_manifest import (
     create_model_manifest,
@@ -44,7 +48,9 @@ def _design(
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     command, delay_valid = delayed(series.command, delay_steps)
     direction = smooth_direction(series.velocity, PACE_FRICTION_TRANSITION_VELOCITY)
-    target = series.kp * (command - series.position) - series.kd * series.velocity
+    desired_velocity = np.zeros_like(command) if series.desired_velocity is None else delayed(series.desired_velocity, delay_steps)[0]
+    feedforward = np.zeros_like(command) if series.feedforward is None else delayed(series.feedforward, delay_steps)[0]
+    target = series.kp * (command - series.position) + series.kd * (desired_velocity - series.velocity) + feedforward
     design = np.column_stack(
         [
             series.acceleration,
@@ -54,16 +60,28 @@ def _design(
         ]
     )
     finite = np.isfinite(target) & np.all(np.isfinite(design), axis=1)
-    valid = series.valid & delay_valid & finite
+    delayed_source_valid = delayed(series.valid, delay_steps)[0]
+    valid = series.valid & delayed_source_valid & delay_valid & finite
+    return design, target, valid
+
+
+def _segmented_design(series, delay_steps):
+    matrices, targets, masks = [], [], []
+    for segment in series_segments(series):
+        design, target, valid = _design(segment, delay_steps)
+        matrices.append(design)
+        targets.append(target)
+        masks.append(valid)
+    design, target, valid = np.concatenate(matrices), np.concatenate(targets), np.concatenate(masks)
     if np.count_nonzero(valid) < 32:
-        raise ValueError("DM fitting requires at least 32 valid dynamic samples")
+        raise ValueError("DM fitting requires at least 32 valid dynamic samples across its segments")
     if np.linalg.matrix_rank(design[valid]) < design.shape[1]:
-        raise ValueError("DM fitting trajectory does not excite the full PACE parameter family")
+        raise ValueError("DM fitting trajectories do not excite the full PACE parameter family")
     return design, target, valid
 
 
 def _fit_channel(series: DynamicsSeries, delay_steps: int) -> Tuple[dict, np.ndarray, np.ndarray]:
-    design, target, valid = _design(series, delay_steps)
+    design, target, valid = _segmented_design(series, delay_steps)
     result = lsq_linear(
         design[valid],
         target[valid],
@@ -104,7 +122,7 @@ def _residual_for_parameters(
     parameters: Mapping[str, float],
     delay_steps: int,
 ) -> Tuple[np.ndarray, np.ndarray]:
-    design, target, valid = _design(series, delay_steps)
+    design, target, valid = _segmented_design(series, delay_steps)
     values = np.asarray(
         [
             parameters["armature"],
@@ -124,6 +142,9 @@ def fit_leg_series(
 ) -> Tuple[int, Sequence[dict], Sequence[dict], Sequence[dict]]:
     if len(fit_series) != 4 or len(validation_series) != 4:
         raise ValueError("leg fitting requires exactly four DM channels")
+    validate_delay_period([*fit_series, *validation_series])
+    if max_delay_steps < 0:
+        raise ValueError("max_delay_steps cannot be negative")
     candidates = []
     candidate_parameters = []
     for delay_steps in range(max_delay_steps + 1):
@@ -161,7 +182,7 @@ def fit_leg_series(
                 fit_error,
                 delay_steps,
                 delay_steps,
-                fitted_series.saturated[fit_valid],
+                np.concatenate([segment.saturated for segment in series_segments(fitted_series)])[fit_valid],
             )
         )
         validation_metrics.append(
@@ -169,7 +190,7 @@ def fit_leg_series(
                 held_out_error,
                 delay_steps,
                 estimated_validation_delay,
-                held_out_series.saturated[held_out_valid],
+                np.concatenate([segment.saturated for segment in series_segments(held_out_series)])[held_out_valid],
             )
         )
     return delay_steps, parameters, fit_metrics, validation_metrics
@@ -180,17 +201,22 @@ def fit_leg_dm(
     model: Optional[MutableMapping[str, object]] = None,
     max_delay_steps: int = 10,
 ) -> MutableMapping[str, object]:
+    require_fit_quality(dataset)
     header = dataset.decoded.header
     if header is None:
         raise ValueError("DM fitting requires a session header")
-    fit_role, validation_role = fit_and_validation_roles(header.session_type)
-    fit_rows = select_rows(dataset.rows, STAGE_DM_FIT, fit_role)
-    validation_rows = select_rows(dataset.rows, STAGE_DM_VALIDATION, validation_role)
+    fit_role, validation_role = ("FIT", "VALIDATION")
+    fit_rows = [segment_rows(dataset.rows, index, stage_id=STAGE_DM_FIT, role=fit_role) for index in range(4)]
+    validation_rows = [segment_rows(dataset.rows, index, stage_id=STAGE_DM_VALIDATION, role=validation_role) for index in range(4)]
     for index in range(4):
-        require_dm_baseline(fit_rows, index)
-        require_dm_baseline(validation_rows, index)
-    fit_data = [dm_series(fit_rows, index) for index in range(4)]
-    validation_data = [dm_series(validation_rows, index) for index in range(4)]
+        for segment in fit_rows[index] + validation_rows[index]:
+            require_dm_baseline(segment, index)
+        gains = {(float(row[f"m{index}_kp"]), float(row[f"m{index}_kd"])) for segment in fit_rows[index] + validation_rows[index] for row in segment}
+        if len(gains) != 1:
+            raise ValueError("one exported actuator controller cannot mix different Kp/Kd contracts")
+    fit_data = [[dm_series(segment, index) for segment in fit_rows[index]] for index in range(4)]
+    validation_data = [[dm_series(segment, index) for segment in validation_rows[index]] for index in range(4)]
+    sample_period = validate_delay_period([*fit_data, *validation_data])
     delay_steps, parameters, fit_metrics, validation_metrics = fit_leg_series(
         fit_data, validation_data, max_delay_steps=max_delay_steps
     )
@@ -199,6 +225,8 @@ def fit_leg_dm(
         model = create_model_manifest(dataset)
     else:
         validate_model_manifest(model, require_complete=False)
+        from .model_manifest import require_matching_source
+        require_matching_source(model, dataset)
     model["fit_backend"]["leg_dm"] = {
         "name": "pace_parameter_family_local_initializer",
         "parameter_layout": "armature[4], viscous[4], static_dynamic_friction[4], encoder_bias[4], global_delay[1]",
@@ -211,9 +239,12 @@ def fit_leg_dm(
         actuator_model = {
             "type": "pace_dm_pd_v1",
             **parameters[index],
+            "delay_s": delay_steps * sample_period,
+            "delay_semantics": "target_before_pd",
+            "identification_sample_period_s": sample_period,
             "controller": {
-                "kp": 20.0,
-                "kd": 0.6,
+                "kp": float(fit_rows[index][0][0][f"m{index}_kp"]),
+                "kd": float(fit_rows[index][0][0][f"m{index}_kd"]),
                 "dq_des_rad_s": 0.0,
                 "torque_feedforward_nm": 0.0,
             },
@@ -223,12 +254,15 @@ def fit_leg_dm(
         fit_result = {
             "stage_id": STAGE_DM_FIT,
             "role": fit_role,
+            "segment_ids": [segment[0]["segment_id"] for segment in fit_rows[index]],
             "method": "bounded_torque_balance",
             "metrics": fit_metrics[index],
         }
         validation_result = {
             "stage_id": STAGE_DM_VALIDATION,
             "role": validation_role,
+            "available": True,
+            "segment_ids": [segment[0]["segment_id"] for segment in validation_rows[index]],
             "metric_quantity": "effective_torque_balance_nm",
             **validation_metrics[index],
         }

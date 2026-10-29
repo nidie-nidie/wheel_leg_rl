@@ -17,6 +17,7 @@ from wheelleg_mujoco.evaluation import (
     aggregate_run,
     build_evaluation_source_fingerprint,
     build_ranking_summary,
+    validate_heading_evaluation_contract,
     rank_runs,
     summarize_scenario,
     unwrap_yaw,
@@ -24,6 +25,85 @@ from wheelleg_mujoco.evaluation import (
 )
 from wheelleg_mujoco.model_semantics import stable_hash
 from wheelleg_mujoco.contract import sha256_file
+
+
+def _raw_heading_policy():
+    from dataclasses import asdict
+    from wheelleg_dreamwaq.schemas.heading_control import HeadingHoldConfig, RUNTIME_GEOMETRY, heading_contract
+    from wheelleg_dreamwaq.schemas.normalization import RawActionNormalizationV1
+    from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.control import ControlLimits
+    from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.rewards import RawSplitStraightRewardWeights
+
+    return {"schema_version": "DreamWaQPolicyExportV1",
+            "base_task_contract_version": "WheelLegBaseTaskContractV2RawHeading",
+            "dreamwaq_algorithm_contract_version": "DreamWaQAlgorithmContractV2RawActions",
+            "dreamwaq_export_contract_version": "DreamWaQExportContractV2RawHeading",
+            "schemas": {"action": "RawActionV1", "normalization": "RawActionNormalizationV1",
+                        "reward": "RewardSchemaV4RawSplitStraight"},
+            "heading_hold": heading_contract(HeadingHoldConfig()), "runtime_geometry": RUNTIME_GEOMETRY,
+            "training_reward_weights": asdict(RawSplitStraightRewardWeights()),
+            "normalization": asdict(RawActionNormalizationV1()),
+            "control": json.loads(json.dumps(asdict(ControlLimits()))),
+            "action": {"clip_actions": None}, "network": {"runtime_action_clip": None},
+            "timing": {"control_dt_s": .02},
+            "command_sampling": {"practice_schedule": "StopReverseCommandPracticeV1", "hold_for_episode": False}}
+
+
+@pytest.mark.parametrize("change", ["remove", "parameters", "mode", "source"])
+def test_heading_ranking_rejects_rehashed_identity_changes(change):
+    from copy import deepcopy
+    import wheelleg_dreamwaq.schemas.heading_control as heading_module
+
+    heading = heading_module.heading_contract(heading_module.HeadingHoldConfig())
+    policy = _raw_heading_policy()
+    contract = {"heading_hold": deepcopy(heading), "heading_mode": "enabled",
+                "heading_source_sha256": sha256_file(Path(heading_module.__file__))}
+    validate_heading_evaluation_contract(contract, policy)
+    if change == "remove":
+        contract.clear()
+    elif change == "parameters":
+        contract["heading_hold"]["kp"] = 3.0
+    elif change == "mode":
+        contract["heading_mode"] = "disabled"
+    else:
+        contract["heading_source_sha256"] = "0" * 64
+    contract["contract_hash"] = stable_hash(contract)
+    with pytest.raises(ValueError, match="heading identity"):
+        validate_heading_evaluation_contract(contract, policy)
+
+
+def test_old_policy_rejects_added_heading_identity():
+    validate_heading_evaluation_contract({}, {})
+    with pytest.raises(ValueError, match="heading identity"):
+        validate_heading_evaluation_contract({"heading_mode": "enabled"}, {})
+
+
+def test_disabled_training_policy_requires_disabled_default_evaluation_identity():
+    import wheelleg_dreamwaq.schemas.heading_control as heading_module
+
+    policy = _raw_heading_policy()
+    policy["heading_hold"] = heading_module.heading_contract(heading_module.HeadingHoldConfig(enabled=False))
+    contract = {"heading_hold": policy["heading_hold"], "heading_mode": "disabled",
+                "heading_source_sha256": sha256_file(Path(heading_module.__file__))}
+    validate_heading_evaluation_contract(contract, policy)
+    contract["heading_mode"] = "enabled"
+    with pytest.raises(ValueError, match="heading identity"):
+        validate_heading_evaluation_contract(contract, policy)
+
+
+def test_ranking_rejects_new_policy_missing_heading_metadata():
+    policy = _raw_heading_policy()
+    del policy["heading_hold"]
+    with pytest.raises(ValueError, match="baseline"):
+        validate_heading_evaluation_contract({}, policy)
+
+
+def test_ranking_rejects_heading_metadata_added_to_old_policy():
+    from wheelleg_dreamwaq.schemas.heading_control import HeadingHoldConfig, heading_contract
+    policy = {"dreamwaq_export_contract_version": "DreamWaQExportContractV1",
+              "heading_hold": heading_contract(HeadingHoldConfig())}
+    with pytest.raises(ValueError, match="old policy"):
+        validate_heading_evaluation_contract({}, policy)
 
 
 def _rows(count: int, *, vx_error: float, yaw_rate_error: float = 0.0) -> list[dict[str, float]]:
@@ -318,8 +398,8 @@ def test_evaluation_source_fingerprint_covers_runtime_scripts_and_lock() -> None
     assert "sim2sim/mujoco/wheelleg_mujoco/evaluation.py" in files
     assert "sim2sim/mujoco/wheelleg_mujoco/angular_limit.py" not in files
     assert "sim2sim/mujoco/wheelleg_mujoco/physics.py" in files
-    assert "scripts/evaluate_mujoco.py" in files
-    assert "scripts/rank_mujoco_runs.py" in files
+    assert "training/scripts/evaluate_mujoco.py" in files
+    assert "training/scripts/rank_mujoco_runs.py" in files
 
 
 @pytest.mark.parametrize("mutation", ("missing", "enabled", "old_adapter", "legacy", "old_physics"))

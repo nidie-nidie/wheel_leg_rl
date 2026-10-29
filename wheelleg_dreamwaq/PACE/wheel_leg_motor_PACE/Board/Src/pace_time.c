@@ -28,12 +28,10 @@ uint32_t pace_time_now_us(void)
 
 uint32_t pace_time_expand_fdcan_timestamp(uint16_t raw_timestamp, uint32_t observed_now_us)
 {
-    uint32_t expanded = (observed_now_us & 0xFFFF0000UL) | raw_timestamp;
-    if ((int32_t)(expanded - observed_now_us) > 0)
-    {
-        expanded -= 0x00010000UL;
-    }
-    return expanded;
+    /* Compatibility entry point: FDCAN has an independent epoch. V2 uses
+     * TIM5 ISR service time, not a fabricated hardware receive timestamp. */
+    (void)raw_timestamp;
+    return observed_now_us;
 }
 
 void pace_time_set_tick_callback(pace_time_tick_callback_t callback)

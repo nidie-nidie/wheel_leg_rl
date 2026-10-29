@@ -4,6 +4,7 @@ import argparse
 import dataclasses
 import json
 import pathlib
+import math
 import struct
 from typing import Dict, List, Optional
 
@@ -20,6 +21,8 @@ from .schema import (
     StatusFrame,
     decode_frame,
 )
+
+from .scanner import FrameScanner
 
 
 @dataclasses.dataclass(frozen=True)
@@ -41,6 +44,8 @@ class DecodedSession:
     header: Optional[SessionHeaderFrame]
     footer: Optional[FooterFrame]
     issues: List[DecodeIssue]
+    metadata: Optional[dict] = None
+    source_path: Optional[pathlib.Path] = None
 
     @property
     def fit_samples(self) -> List[SampleFrame]:
@@ -65,6 +70,8 @@ class DecodedSession:
             "stage_configs": sorted(self.stage_configs),
             "session_type": self.header.session_type if self.header else None,
             "footer_present": self.footer is not None,
+            "protocol_version": self.header.header.version if self.header else None,
+            "segments": [stage.segment_id for stage in self.stage_configs.values()],
             "communication": {
                 "tx_count_delta_total": tx_count,
                 "rx_count_delta_total": rx_count,
@@ -136,10 +143,12 @@ def _attach_sample_context(
     sample.extended_time_us = raw_time + wraps * (1 << 32)
     if last_extended_time is not None:
         delta = sample.extended_time_us - last_extended_time
-        expected = 1_000_000 // (header.sample_rate_hz if header else 500)
+        rate = header.sample_rate_hz if header else 500
+        expected = 1_000_000 / rate if rate > 0 else 0
+        tolerance = max(1.0, expected * 0.25) if header and header.header.version == 2 else 1.0
         if delta <= 0:
             sample.fit_eligible = False
-        elif abs(delta - expected) > 1:
+        elif expected <= 0 or abs(delta - expected) > tolerance:
             sample.fit_eligible = False
             issues.append(
                 DecodeIssue(
@@ -163,7 +172,20 @@ def _attach_sample_context(
         )
     else:
         sample.stage_config = stage
-    sample.role = _role_for_sample(header.session_type if header else None, sample.stage_id)
+        if stage.header.version == 2 and sample.active_mask != stage.group_mask:
+            sample.fit_eligible = False
+            issues.append(DecodeIssue(offset, "active_group_mismatch", "sample active mask differs from its stage group", sample.header.sequence))
+        if stage.header.version == 2 and stage.config_seq != next(reversed(stage_configs)):
+            sample.fit_eligible = False
+            issues.append(DecodeIssue(offset, "stale_stage_config", "sample references an earlier segment after a new stage", sample.header.sequence))
+    sample.role = (
+        {0: "DIAGNOSTIC", 1: "FIT", 2: "VALIDATION", 3: "STATIC", 4: "STOP"}.get(stage.experiment_role, "DIAGNOSTIC")
+        if stage and stage.header.version == 2 else
+        _role_for_sample(header.session_type if header else None, sample.stage_id)
+    )
+    if any(mask & ~0x3F for mask in (sample.active_mask, sample.online_mask, sample.tx_valid_mask, sample.rx_valid_mask, sample.saturation_mask)):
+        issues.append(DecodeIssue(offset, "invalid_sample_mask", "sample motor mask has undefined bits", sample.header.sequence))
+        sample.fit_eligible = False
     if sample.safety_flags or sample.can_error_flags or sample.saturation_mask:
         sample.fit_eligible = False
 
@@ -191,35 +213,16 @@ def decode_bytes(data: bytes) -> DecodedSession:
     wraps = 0
     offset = 0
 
-    while offset < len(data):
-        magic_offset = data.find(MAGIC, offset)
-        if magic_offset < 0:
-            issues.append(DecodeIssue(offset, "trailing_bytes", f"{len(data) - offset} non-frame bytes at stream end"))
-            break
-        if magic_offset > offset:
-            issues.append(DecodeIssue(offset, "resync", f"skipped {magic_offset - offset} bytes before magic"))
-            offset = magic_offset
-        if len(data) - offset < 6:
-            issues.append(DecodeIssue(offset, "truncated_header", "stream ended before frame length"))
-            break
-        frame_length = struct.unpack_from("<H", data, offset + 4)[0]
-        if frame_length < 14 or frame_length > STATUS_MAX_SIZE:
-            issues.append(DecodeIssue(offset, "invalid_length", f"implausible frame length {frame_length}"))
-            offset += 1
+    scanner = FrameScanner()
+    scanned = scanner.feed(data) + scanner.finish()
+    issues.extend(DecodeIssue(issue.offset, issue.code, issue.message) for issue in scanner.issues)
+    closed_offset = None
+    segment_ids = set()
+    for offset, frame in scanned:
+        frame_length = frame.header.frame_length
+        if closed_offset is not None:
+            issues.append(DecodeIssue(offset, "post_footer_data", "frame follows closed session", frame.header.sequence))
             continue
-        if offset + frame_length > len(data):
-            issues.append(DecodeIssue(offset, "truncated_frame", f"need {frame_length} bytes, stream ended early"))
-            break
-        raw_frame = data[offset : offset + frame_length]
-        sequence_hint = struct.unpack_from("<I", raw_frame, 6)[0] if frame_length >= 10 else None
-        try:
-            frame = decode_frame(raw_frame)
-        except FrameDecodeError as error:
-            code = "crc_error" if "CRC" in str(error) else "malformed_frame"
-            issues.append(DecodeIssue(offset, code, str(error), sequence_hint))
-            offset += frame_length
-            continue
-
         sequence = frame.header.sequence
         if expected_sequence is None:
             if sequence != 0:
@@ -231,6 +234,8 @@ def decode_bytes(data: bytes) -> DecodedSession:
             )
         expected_sequence = (sequence + 1) & 0xFFFFFFFF
         frames.append(frame)
+        if session_header is not None and frame.header.version != session_header.header.version:
+            issues.append(DecodeIssue(offset, "mixed_protocol_version", "frame version differs from session header", sequence))
 
         if isinstance(frame, SessionHeaderFrame):
             if session_header is not None:
@@ -242,7 +247,9 @@ def decode_bytes(data: bytes) -> DecodedSession:
                 # Protocol v1 recordings exist at the original wired 500 Hz
                 # rate and at the wireless-safe 250 Hz export rate.
                 if frame.sample_rate_hz not in (250, 500) or frame.status_rate_hz != 10:
-                    issues.append(DecodeIssue(offset, "header_rate", "session rates do not match protocol v1", sequence))
+                    issues.append(DecodeIssue(offset, "header_rate", "unsupported sample/status rates", sequence))
+                if frame.header.version == 2 and (frame.timestamp_timebase != 1 or frame.control_rate_hz != 500):
+                    issues.append(DecodeIssue(offset, "header_timebase", "V2 requires TIM5 service time and 500 Hz control", sequence))
                 if frame.experiment_config_hash == 0:
                     issues.append(DecodeIssue(offset, "zero_config_hash", "session config hash is zero", sequence))
                 if frame.sample_frame_size_bytes != 126:
@@ -254,6 +261,30 @@ def decode_bytes(data: bytes) -> DecodedSession:
                 issues.append(DecodeIssue(offset, "stage_before_header", "stage config precedes session header", sequence))
             elif frame.experiment_config_hash != session_header.experiment_config_hash:
                 issues.append(DecodeIssue(offset, "config_hash_mismatch", "stage config hash differs from session header", sequence))
+            if any(value > 4095 for value in (*frame.dm_kp_raw, *frame.dm_kd_raw)):
+                issues.append(DecodeIssue(offset, "invalid_controller_gain", "controller gain raw value exceeds 12-bit range", sequence))
+            if any(mode != 1 for mode in frame.command_mode[:4]) or any(mode not in (5, 6) for mode in frame.command_mode[4:]):
+                issues.append(DecodeIssue(offset, "invalid_command_mode", "unsupported motor command mode", sequence))
+            if any(rate <= 0 or rate > 500 or 500 % rate for rate in frame.command_rate_hz):
+                issues.append(DecodeIssue(offset, "invalid_command_rate", "invalid CAN command rate", sequence))
+            values = (frame.amplitude, frame.frequency_start_hz, frame.frequency_end_hz)
+            if not all(math.isfinite(value) for value in values) or frame.duration_ms <= 0:
+                issues.append(DecodeIssue(offset, "invalid_stage", "invalid trajectory values/duration", sequence))
+            if frame.header.version == 2:
+                if frame.config_seq == 0:
+                    issues.append(DecodeIssue(offset, "invalid_config_seq", "V2 config_seq must be nonzero", sequence))
+                if frame.segment_id == 0 or frame.segment_id in segment_ids:
+                    issues.append(DecodeIssue(offset, "duplicate_segment", "segment ID must be nonzero and unique", sequence))
+                segment_ids.add(frame.segment_id)
+                if frame.experiment_role not in range(5) or frame.group_mask & ~0x3F:
+                    issues.append(DecodeIssue(offset, "invalid_stage_role", "invalid role/group mask", sequence))
+                allowed_stages = {1: (2,4,5), 2: (3,4,5), 3: (1,), 4: (6,)}
+                if frame.stage_id not in range(1,7) or (frame.experiment_role in allowed_stages and frame.stage_id not in allowed_stages[frame.experiment_role]):
+                    issues.append(DecodeIssue(offset, "invalid_stage_role", "stage category disagrees with experiment role", sequence))
+                if frame.action_update_rate_hz != 50 or frame.command_hold_method != 1 or frame.center_source not in (1, 2):
+                    issues.append(DecodeIssue(offset, "invalid_control_contract", "V2 requires declared 50 Hz ZOH and center source", sequence))
+                if not all(math.isfinite(value) for value in (*frame.dm_center_rad, *frame.excitation_multiplier, frame.phase_rad)):
+                    issues.append(DecodeIssue(offset, "invalid_stage", "nonfinite V2 center/excitation", sequence))
             stage_configs[frame.config_seq] = frame
         elif isinstance(frame, SampleFrame):
             if session_header is None:
@@ -286,6 +317,7 @@ def decode_bytes(data: bytes) -> DecodedSession:
             if footer is not None:
                 issues.append(DecodeIssue(offset, "duplicate_footer", "multiple session footers", sequence))
             footer = frame
+            closed_offset = offset + frame_length
             if frame.total_frames != sequence + 1:
                 issues.append(DecodeIssue(offset, "footer_frame_count", "footer total_frames disagrees with its sequence", sequence))
             if session_header and frame.experiment_config_hash != session_header.experiment_config_hash:
@@ -294,6 +326,9 @@ def decode_bytes(data: bytes) -> DecodedSession:
                 issues.append(DecodeIssue(offset, "invalid_session_footer", "footer marks the session incomplete", sequence))
         offset += frame_length
 
+    if closed_offset is not None and closed_offset != len(data):
+        if not any(issue.code == "post_footer_data" for issue in issues):
+            issues.append(DecodeIssue(closed_offset, "post_footer_data", "bytes follow closed session"))
     if frames and session_header is None:
         issues.append(DecodeIssue(0, "missing_session_header", "stream has no session header"))
     if frames and footer is None:
@@ -313,7 +348,11 @@ def decode_bytes(data: bytes) -> DecodedSession:
 
 def decode_file(path: pathlib.Path) -> DecodedSession:
     path = pathlib.Path(path)
-    return decode_bytes(path.read_bytes())
+    decoded = decode_bytes(path.read_bytes())
+    decoded.source_path = path
+    from .session_metadata import load_session_metadata
+    decoded.metadata = load_session_metadata(path)
+    return decoded
 
 
 def main() -> None:

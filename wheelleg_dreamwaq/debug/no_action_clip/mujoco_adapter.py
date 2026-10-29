@@ -17,6 +17,27 @@ from debug.no_action_clip.rewards import (
 )
 
 
+COMPATIBILITY_RECORD_SHA256 = "1F4CD984A204A3E007A0DF2973AC62615790F633FFE46084771B95906F3EE42D"
+
+
+def _verified_runtime_compatibility(export_dir: Path, path: Path, expected: str, actual: str) -> bool:
+    record_path = Path(__file__).with_name("baseline_runtime_compatibility.json")
+    if sha256(record_path) != COMPATIBILITY_RECORD_SHA256:
+        raise ValueError("MuJoCo 兼容记录自身指纹不符")
+    record = json.loads(record_path.read_text(encoding="utf-8"))
+    if (record["schema_version"] != "BaselineRuntimeCompatibilityV1" or record["exact_equal"] is not True
+            or any(v != 0.0 for result in record["max_abs_difference"].values() for v in result.values())):
+        raise ValueError("MuJoCo 兼容记录没有通过精确轨迹比较")
+    verified_export = record["after_identity"]["debug701"]
+    if export_dir.resolve() != Path(verified_export["export"]).resolve():
+        return False
+    if any(sha256(export_dir / filename) != value for filename, value in verified_export["files"].items()):
+        return False
+    relative = str(path.relative_to(PROJECT_ROOT))
+    return (record["before_identity"]["runtime_files"].get(relative) == expected
+            and record["after_identity"]["runtime_files"].get(relative) == actual)
+
+
 class RawActionController(MixedActionController):
     def prepare(self, action):
         raw = np.asarray(action, dtype=np.float64)
@@ -89,7 +110,8 @@ def load_runtime(export_dir: Path):
     model_manifest_path = PROJECT_ROOT / "sim2sim/mujoco/model_manifest.json"
     adapter_root = PROJECT_ROOT / "sim2sim/mujoco/wheelleg_mujoco"
     for path in [model_manifest_path, *adapter_root.glob("*.py")]:
-        if frozen.get(str(path.resolve())) != sha256(path):
+        expected, actual = frozen.get(str(path.resolve())), sha256(path)
+        if expected != actual and not _verified_runtime_compatibility(export_dir, path, expected, actual):
             raise ValueError(f"MuJoCo 当前正式文件与训练时身份不同：{path}")
     model_manifest = json.loads(model_manifest_path.read_text(encoding="utf-8"))
     model_path = PROJECT_ROOT / "sim2sim/mujoco/models" / model_manifest["model_xml"]["path"]

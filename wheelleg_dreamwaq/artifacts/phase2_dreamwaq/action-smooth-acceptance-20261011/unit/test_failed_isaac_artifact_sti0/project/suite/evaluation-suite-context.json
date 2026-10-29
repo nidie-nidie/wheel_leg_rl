@@ -1,0 +1,10 @@
+{
+  "context_hash": "0DAF91167568E03671F087CE5F71F5BEB5DEDC26D2CAC9298F1C78D9C115D2E9",
+  "iterations_per_run": 1,
+  "run_count": 1,
+  "schema_version": "DreamWaQTrainingEvaluationContextV1",
+  "suite_id": "20261011-160711",
+  "suite_mode": "smoke",
+  "suite_source_fingerprint_hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "training_fingerprint_hash": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+}

@@ -1,1 +1,1 @@
-E:\wheel_leg_rl-main\wheelleg_dreamwaq\logs\rsl_rl\wheelleg_flat_dreamwaq\2026-10-13_19-10-09_rtx5070_fudan-v1_split-smooth-leg02-fresh1000-20261013
+E:\wheel_leg_rl-main\wheelleg_dreamwaq\logs\rsl_rl\wheelleg_flat_dreamwaq\2026-10-18_00-26-31_rtx5070_fudan-v1_baseline-yaw1-headingoff-env6144-causal-capture401-retry-20261018

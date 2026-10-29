@@ -7,8 +7,9 @@ from typing import Mapping, MutableMapping, Optional, Sequence, Tuple
 import numpy as np
 
 from pace_raw.normalize import NormalizedDataset
+from pace_raw.quality import require_fit_quality
 
-from .common import STAGE_DM_FIT, fit_and_validation_roles, require_dm_baseline, select_rows
+from .common import STAGE_DM_FIT, fit_and_validation_roles, require_dm_baseline, select_rows, _sample_period
 from .model_manifest import replace_motor_result, validate_model_manifest
 
 
@@ -54,12 +55,23 @@ def parse_pace_parameter_vector(
     return parameters, delay_steps
 
 
-def export_pace_dataset(dataset: NormalizedDataset, output: pathlib.Path) -> None:
+def export_pace_dataset(dataset: NormalizedDataset, output: pathlib.Path, *, segment_id=None) -> None:
+    require_fit_quality(dataset)
     header = dataset.decoded.header
     if header is None:
         raise ValueError("PACE export requires a session header")
-    fit_role, _ = fit_and_validation_roles(header.session_type)
-    rows = select_rows(dataset.rows, STAGE_DM_FIT, fit_role)
+    rows = select_rows(dataset.rows, STAGE_DM_FIT, "FIT")
+    ids = {row["segment_id"] for row in rows}
+    if segment_id is None:
+        if len(ids) != 1:
+            raise ValueError("formal PACE export requires one continuous segment_id; export each segment separately")
+        segment_id = next(iter(ids))
+    rows = [row for row in rows if row["segment_id"] == segment_id]
+    if not rows:
+        raise ValueError("requested FIT segment_id is absent")
+    if any(not all(row[f"m{index}_fit_eligible"] for index in range(4)) for row in rows):
+        raise ValueError("formal PACE segment contains invalid/stale/saturated samples")
+    _sample_period(np.asarray([row["time_s"] for row in rows], dtype=np.float64))
     for index in range(4):
         require_dm_baseline(rows, index)
     time = np.asarray([row["time_s"] for row in rows], dtype=np.float32)
@@ -123,6 +135,8 @@ def apply_pace_parameter_vector(
     validation_metrics: Sequence[Mapping[str, object]],
 ) -> MutableMapping[str, object]:
     validate_model_manifest(model, require_complete=False)
+    if model.get("source_session", {}).get("quality_passed") is not True:
+        raise ValueError("formal optimizer import requires a verified source model")
     parameters, delay_steps = parse_pace_parameter_vector(values, 4)
     if len(validation_metrics) != 4:
         raise ValueError("formal PACE import requires four validation metric sets")
@@ -132,9 +146,12 @@ def apply_pace_parameter_vector(
         actuator_model = {
             "type": "pace_dm_pd_v1",
             **parameters_for_motor,
+            "delay_s": delay_steps * float(model["sample_period_s"]),
+            "delay_semantics": "target_before_pd",
+            "identification_sample_period_s": float(model["sample_period_s"]),
             "controller": {
-                "kp": 20.0,
-                "kd": 0.6,
+                "kp": model["motors"][index]["model"]["controller"]["kp"],
+                "kd": model["motors"][index]["model"]["controller"]["kd"],
                 "dq_des_rad_s": 0.0,
                 "torque_feedforward_nm": 0.0,
             },

@@ -5,6 +5,7 @@
 #include "pace_crc.h"
 
 typedef char pace_sample_wire_size_check[(26U + (4U * 16U) + (2U * 16U) + 4U == PACE_SAMPLE_FRAME_SIZE) ? 1 : -1];
+typedef char pace_stage_wire_size_check[(124U + 4U == PACE_STAGE_CONFIG_FRAME_SIZE) ? 1 : -1];
 typedef char pace_status_wire_size_check[(60U + 4U == PACE_STATUS_BASE_FRAME_SIZE) ? 1 : -1];
 
 static void pace_put_u16(uint8_t *output, size_t offset, uint16_t value)
@@ -86,12 +87,14 @@ size_t pace_frame_encode_session_header(uint8_t *output,
     output[10] = (uint8_t)data->session_type;
     output[11] = data->motor_order_version;
     output[12] = data->wire_endianness;
+    output[13] = data->timestamp_timebase;
     pace_put_u32(output, 14U, data->session_id);
     pace_put_u16(output, 18U, data->sample_rate_hz);
     pace_put_u16(output, 20U, data->status_rate_hz);
     pace_put_u32(output, 22U, data->start_timestamp_us);
     pace_put_u32(output, 26U, data->experiment_config_hash);
     pace_put_u16(output, 30U, data->sample_frame_size_bytes);
+    pace_put_u16(output, 32U, data->control_rate_hz);
     pace_put_u32(output, 34U, data->uart_baud);
     pace_put_u32(output, 38U, data->can_nominal_bitrate);
     pace_put_u32(output, 42U, data->scale_manifest_hash);
@@ -181,6 +184,21 @@ size_t pace_frame_encode_stage_config(uint8_t *output,
     pace_put_u32(output, 60U, data->duration_ms);
     pace_put_u16(output, 64U, data->safety_limit_set_id);
     pace_put_u32(output, 68U, data->experiment_config_hash);
+    output[72] = data->role;
+    output[73] = data->group_mask;
+    pace_put_u16(output, 74U, data->segment_id);
+    pace_put_u16(output, 76U, data->action_update_rate_hz);
+    output[78] = data->command_hold_method;
+    output[79] = data->center_source;
+    pace_put_float(output, 80U, data->phase_rad);
+    for (index = 0U; index < PACE_DM_MOTOR_COUNT; ++index)
+    {
+        pace_put_float(output, 84U + ((size_t)index * 4U), data->dm_center_rad[index]);
+    }
+    for (index = 0U; index < PACE_MOTOR_COUNT; ++index)
+    {
+        pace_put_float(output, 100U + ((size_t)index * 4U), data->excitation_multiplier[index]);
+    }
     return pace_frame_finish(output, PACE_STAGE_CONFIG_FRAME_SIZE);
 }
 
@@ -282,7 +300,7 @@ bool pace_frame_validate(const uint8_t *frame,
 
     if ((frame == 0) || (available < 14U) ||
         (frame[0] != PACE_FRAME_MAGIC_0) || (frame[1] != PACE_FRAME_MAGIC_1) ||
-        (frame[2] != PACE_PROTOCOL_VERSION))
+        ((frame[2] != PACE_PROTOCOL_VERSION) && (frame[2] != PACE_LEGACY_PROTOCOL_VERSION)))
     {
         return false;
     }
@@ -307,7 +325,8 @@ bool pace_frame_validate(const uint8_t *frame,
         }
         break;
     case PACE_FRAME_STAGE_CONFIG:
-        if (length != PACE_STAGE_CONFIG_FRAME_SIZE)
+        if (length != ((frame[2] == PACE_LEGACY_PROTOCOL_VERSION) ?
+            PACE_LEGACY_STAGE_CONFIG_FRAME_SIZE : PACE_STAGE_CONFIG_FRAME_SIZE))
         {
             return false;
         }

@@ -131,8 +131,8 @@ def independent_run_report(
 
 def _current_production_source_paths(project_root: Path) -> dict[str, Path]:
     debug_root = project_root / "debug/sim2sim"
-    formal_task = project_root / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat"
-    schemas = project_root / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas"
+    formal_task = project_root / "training/wheelleg_dreamwaq/tasks/direct/wheelleg_flat"
+    schemas = project_root / "training/wheelleg_dreamwaq/schemas"
     return {
         "collector": debug_root / "collect_isaac_production_reference.py",
         "debug_environment": debug_root / "isaac_debug_env.py",

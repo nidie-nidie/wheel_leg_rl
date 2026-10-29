@@ -11,6 +11,7 @@ sys.path.insert(0, str(ROOT))
 
 from pace_raw.decoder import decode_file
 from pace_raw.normalize import normalize_session
+from pace_raw.quality import quality_report
 
 
 def main() -> None:
@@ -30,6 +31,7 @@ def main() -> None:
     if args.pt:
         dataset.export_pt(args.pt)
     summary = decoded.summary()
+    summary["quality_report"] = quality_report(decoded)
     text = json.dumps(summary, indent=2, sort_keys=True)
     print(text)
     if args.summary:

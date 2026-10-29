@@ -1,7 +1,9 @@
 # WheelLeg DreamWaQ Isaac Lab Architecture
 
-日期：2026-10-13
-状态：Architecture v0.29；v0.29 按用户授权新增腿轮 action_smooth 分项和一种子 fresh1000 对照，见 §34；v0.28 按用户授权增加四腿目标换向软约束、ROGER-style有界单项调权与一种子三组200轮探索，见 §33；v0.27 按用户授权新增 action_smooth 加倍的独立配置与一种子从零对照，见 §32；v0.26 按用户授权加入具名停车/换向训练配置与 vx 两项奖励翻倍，默认 PPO 保持原行为，详见 §31；Phase 2 DreamWaQ/CENet 实现契约已冻结；v0.25 按用户授权删除三类人工限速作用，当前动力学为 PhysicsV5 / UnrestrictedVelocityPolicyV1 / MujocoEvaluationContractV3，见 §30；§29 的 PhysxRigidAngularBiasV1 仅作为历史记录；v0.23 的两个 reset 派生缓存失效修复继续有效；保留 deterministic Isaac evaluation 499-step timeout、网络维度、数学契约、termination 与 MuJoCo 500-tick 语义；旧 PhysicsV4 训练工件继续作为历史对照，不可当作 PhysicsV5 续训来源
+日期：2026-10-17
+
+当前版本：Architecture v0.31。§35.4 增加关闭训练航向保持的具名对照配置；原始动作、分项平滑、直行差速与 P=9 航向保持 baseline 见 §35；以下历史配置说明继续约束各自版本。
+状态：Architecture v0.32；正式具名 baseline 见 §35；停车/换向、平滑实验的既有版本见 §31–34。Phase 2 DreamWaQ/CENet 的网络维度和数学契约继续有效；动力学采用 PhysicsV5 / UnrestrictedVelocityPolicyV1，保留 reset 派生缓存失效修复、Isaac 499-step timeout 与 MuJoCo 500-tick 语义。旧 PhysicsV4 工件保留历史身份。
 适用范围：新建轮腿机器人平地强化学习工程，不修改或继承旧 WheelLeg 任务实现
 
 ## 1. 文档目的
@@ -1951,3 +1953,53 @@ base task contract 的 reward schema 和全部权重进入 hash。保存的分�
 
 
 文档复核修订：MuJoCo contract.py 仅增加 DreamWaQ 新训练奖励元数据识别；PPO 仍限 V2，必须验证完整权重和停车/换向 schedule，再执行原有动作/模型/物理检查。真实 loader smoke 纳入训练前验证。1ms qddot 固定为相邻原物理步 qdot 差/0.001s，从原 reset 后 qdot 起算；舍弃前2秒，再按1000样本/1秒的8个窗口逐关节RMS，依次等权平均窗口、四关节、三个主场景，另报逐关节p90。时间区间与20ms指标一致，不能替换为 data.qacc。
+
+## 35. v0.30：原始动作与航向保持 baseline
+
+具名配置为 `stop_reverse_raw_split_straight_yaw2_headingp9_v1`，由正式 `train_dreamwaq.py --task-profile` 选择。完整参数和验收协议见 `wheelleg_dreamwaq/docs/2026-10-16-dreamwaq-baseline-modification-design.md`。旧 profile 保留原有载荷和身份；普通 PPO 默认配置沿用原行为。
+
+### 35.1 动作、奖励与几何
+
+六维执行动作、上一动作观测、decoder 条件、动作奖励使用原始动作，decoder 条件继续 detach。有效高斯均值 ±20、标准差范围、PPO/CENet 数学契约与网络结构保持原配置。腿目标仍为 `clip(q_reference+0.35*a[:4],-1,+1)` rad；轮目标为 `25*a[4:6]` rad/s，保留原关节符号、PD、扭矩边界和接触反馈。
+
+奖励采用 `RewardSchemaV4RawSplitStraight`：vx 主项/增强项各 2；偏航主项/增强项各 2；六维 action_rate=-0.01；合并 action_smooth=0，腿/轮二阶动作变化分别为 -0.02/-0.01。差速项为 `dt*(-0.1)*(a_left-a_right)^2`，仅在有效 vx 非零且有效 yaw 严格等于零时启用；停车、转向或任何非零纠偏命令均关闭。其余权重与 sigma 保持原值，本配置关闭 ROGER。
+
+运行几何模式为 `actual_geometry_fk_diagnostic_v1`：真实腿长须大于 0.05 m，闭链间隙不超过 0.005 m，状态和 FK 数值有限；FK 分歧与 valid 标记作诊断。初始化保持原严格检查，reset 对应行仍执行严格检查。USD/XML、PhysicsV5、随机化与命令抽样范围、控制周期 0.02 s、reset 缓存失效及时间语义保持原配置。
+
+### 35.2 航向命令与数据时序
+
+`schemas/heading_control.py` 提供纯 Torch 批量 `HeadingHoldV1`，参数 `enabled=true,kp=9,kd=0,max_yaw_rate=1,control_dt_s=0.02`。航向来自实际姿态 `R_control_from_model @ R_world_from_body @ R_control_from_model.T`。源 yaw 非零时直接传递并更新参考；源 yaw 从非零转为零时捕获当前航向；源 yaw 为零时用最短角差产生 ±1 rad/s 内的目标。vx 换向或停车不改变参考，reset 只捕获对应环境，H 开关捕获当前参考。
+
+环境分别保存源命令和有效命令。顺序为源命令、当前有效命令、当前观测/策略、物理推进、本步奖励、练习源命令推进、下一步有效命令。Actor/Critic 和奖励统一使用有效命令。25/41/125 维度和五帧 t−4…t 排列保留；旧历史帧保留各自命令。MuJoCo 新配置在推理前调用 `prepare_policy_observation(source_command)`，只更新最后一帧的命令字段，step 每控制步追加一次 history；重复准备相同输入不推进状态。
+
+控制器位于 Actor 外部，只产生偏航速度命令。网络仍产生全部六维动作。航向保持需要同一坐标定义的机身航向反馈，不保证保持世界位置。
+
+### 35.3 保存、恢复与部署身份
+
+新增版本为 `RawActionV1`、`RawActionNormalizationV1`、`WheelLegBaseTaskContractV2RawHeading`、`DreamWaQAlgorithmContractV2RawActions`、`DreamWaQExportContractV2RawHeading`。航向的完整配置、参考捕获、坐标、时序、差速门控和运行几何模式参与具名身份。加载时缺失或更改这些字段、跨 profile 续训必须拒绝。
+
+checkpoint 沿用权重/优化器/RNG 加新环境的恢复语义。新物理 episode 从 reset 后姿态重新捕获航向参考，首次观测填充五帧。航向参考与转向状态不从旧物理 episode 搬入新环境。
+
+正式导出外层继续为 `DreamWaQPolicyExportV1`，目录严格包含 actor.ts、policy_manifest.json、golden_vectors.pt。原固定 [32,125] 同 batch 最大绝对误差 ≤1e-7，另验 batch=1/3 同输入误差。航向控制由 manifest 恢复，补充航向验收向量放在验证目录。
+
+MuJoCo control.py/observation.py 字节保持原值，原始动作 None 仅在内存转换为无穷裁剪区间；JSON 不写入 Infinity。非有限动作或电机目标在物理步进前失败。无裁剪的 action_saturation_fraction=0，另外记录超过旧 ±1 区间的比例。
+
+评估报告保存共享航向源码 SHA256、开关状态、源/有效目标。正式排名根据绑定 policy 的新旧版本核对完整航向参数、开启模式及当前共享源码，拒绝缺失、篡改、过期或跨版本混合身份。正式四模型各 1000 轮入口和排名门槛保留；独立单模型诊断使用 `DreamWaQSingleModelDiagnosticV1` 身份，复用八场景 500 控制步及原失败判定。旧 debug 工件只在固定指纹兼容记录列明并通过修改前后精确轨迹比较时接受新运行器。
+
+本次首先执行 8 环境 fresh 1 次更新及 resume 到总计 2 次更新的接口验收。6144 环境正式训练与其行为结论另行执行和记录；接口通过不能证明速度、偏航或腿部抖动已经改善。
+
+### 35.4 v0.31：关闭训练航向保持的具名对照
+
+`stop_reverse_raw_split_straight_yaw2_headingoff_v1` 与 §35 的开启配置共用动作、奖励、命令、随机化、几何和算法定义，唯一有效任务配置差异为 `heading_hold.enabled=false`。P=9、D=0、最大偏航速度 1 rad/s 及原时序保持。关闭时有效命令等于源命令，网络继续学习前进、后退、停车和转向。差速门控仍依据有效命令，关闭纠偏可能增加直行差速项启用比例，需要在实验解释中保留此影响。
+
+关闭状态进入原有 base/export 契约及 hash，加载可恢复真实开关，禁止将开启模型改名或跨配置 resume。完整航向配置只允许两个具名状态，非法类型、缺失字段及未知参数继续拒绝。原开启配置及旧版本 hash 保持。部署保留 H 开关，训练后在相同 MuJoCo 协议中分别开启/关闭反馈。
+
+用户批准该配置从零训练 6144 环境、seed41882943、1000 轮；其余条件与已完成的 6144 环境 1000 轮开启模型相同。先完成独立训练接口、checkpoint、导出和 MuJoCo 加载验收，再启动目标训练。设计、监控和结果入口见 `wheelleg_dreamwaq/debug/sim2sim/2026-10-17-heading-off-training.md`。此单种子对照检验训练反馈相关的行为差异，不提前承诺减抖效果。
+
+### 35.5 v0.32：偏航跟踪两项权重恢复为 1
+
+新增 `stop_reverse_raw_split_straight_yaw1_headingoff_v1`，相对 §35.4 仅将 tracking_yaw_rate、tracking_yaw_rate_enhance 各由 2 改为 1，航向保持继续关闭。其余动作、控制、平滑、差速、命令、网络、随机化、物理、资产和失败语义保持。既有 yaw2 配置及其默认奖励值保留。
+
+具名身份按完整航向配置与完整奖励权重共同识别，未知组合和跨配置普通 resume 拒绝。新旧模型分别保存真实权重和派生 base task hash；algorithm/export 契约保持相等，旧工件身份不变。MuJoCo 仅扩展训练元数据识别。
+
+用户批准以相同 6144 环境、seed41882943 从零训练 1000 轮。对照为 §35.4 的已完成 1000 轮模型，行为按相同部署开关、八场景 500 控制步和三组切换协议比较；排除初始 1 秒另报持续实际关节角加速度，同时检查速度、停车、偏航、饱和与存活。设计及验收见 `wheelleg_dreamwaq/debug/sim2sim/2026-10-17-yaw-weight-one-training.md`。单种子结果不提前归因为某个偏航分量，也不自动追加训练。

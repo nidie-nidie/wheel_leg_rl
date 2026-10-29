@@ -23,7 +23,10 @@
       "type": "string"
     },
     "model_maturity": {
-      "enum": ["provisional", "final"]
+      "enum": [
+        "provisional",
+        "final"
+      ]
     },
     "sample_period_s": {
       "type": "number",
@@ -56,8 +59,50 @@
         "robot_variant",
         "sample_rate_hz",
         "footer_valid",
-        "decode_issue_counts"
-      ]
+        "decode_issue_counts",
+        "protocol_version",
+        "quality_passed",
+        "raw_sha256",
+        "calibration_sha256",
+        "metadata_sha256"
+      ],
+      "properties": {
+        "protocol_version": {
+          "const": 2
+        },
+        "quality_passed": {
+          "const": true
+        },
+        "raw_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "calibration_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "metadata_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "footer_valid": {
+          "const": true
+        },
+        "decode_issue_counts": {
+          "type": "object",
+          "maxProperties": 0
+        },
+        "firmware_binary_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "fixture": {
+          "type": "string"
+        }
+      }
     },
     "fit_backend": {
       "type": "object"
@@ -87,13 +132,34 @@
         "saturation_rate"
       ],
       "properties": {
-        "sample_count": {"type": "integer", "minimum": 0},
-        "rmse": {"type": "number", "minimum": 0},
-        "p95_abs_error": {"type": "number", "minimum": 0},
-        "max_abs_error": {"type": "number", "minimum": 0},
-        "estimated_delay_steps": {"type": "integer", "minimum": 0},
-        "delay_error_steps": {"type": "integer"},
-        "saturation_rate": {"type": "number", "minimum": 0, "maximum": 1}
+        "sample_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rmse": {
+          "type": "number",
+          "minimum": 0
+        },
+        "p95_abs_error": {
+          "type": "number",
+          "minimum": 0
+        },
+        "max_abs_error": {
+          "type": "number",
+          "minimum": 0
+        },
+        "estimated_delay_steps": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "delay_error_steps": {
+          "type": "integer"
+        },
+        "saturation_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
       }
     },
     "motor": {
@@ -115,20 +181,284 @@
         "validation"
       ],
       "properties": {
-        "canonical_index": {"type": "integer", "minimum": 0, "maximum": 5},
-        "name": {"type": "string"},
-        "motor_type": {"enum": ["DM8009", "LK9025"]},
-        "actuator_family": {"enum": ["leg_dm", "wheel_lk"]},
-        "mujoco_joint": {"type": "string"},
-        "isaac_joint": {"type": "string"},
-        "position_sign": {"enum": [-1, 1]},
-        "velocity_sign": {"enum": [-1, 1]},
-        "torque_sign": {"enum": [-1, 1]},
-        "position_zero_rad": {"type": "number"},
-        "gear_ratio": {"type": "number", "exclusiveMinimum": 0},
-        "model": {"type": "object"},
-        "fit": {"type": "object"},
-        "validation": {"type": "object"}
+        "canonical_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "name": {
+          "type": "string"
+        },
+        "motor_type": {
+          "enum": [
+            "DM8009",
+            "LK9025"
+          ]
+        },
+        "actuator_family": {
+          "enum": [
+            "leg_dm",
+            "wheel_lk"
+          ]
+        },
+        "mujoco_joint": {
+          "type": "string"
+        },
+        "isaac_joint": {
+          "type": "string"
+        },
+        "position_sign": {
+          "enum": [
+            -1,
+            1
+          ]
+        },
+        "velocity_sign": {
+          "enum": [
+            -1,
+            1
+          ]
+        },
+        "torque_sign": {
+          "enum": [
+            -1,
+            1
+          ]
+        },
+        "position_zero_rad": {
+          "type": "number"
+        },
+        "gear_ratio": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "model": {
+          "oneOf": [
+            {
+              "$ref": "#/definitions/dmModel"
+            },
+            {
+              "$ref": "#/definitions/lkModel"
+            }
+          ]
+        },
+        "fit": {
+          "type": "object"
+        },
+        "validation": {
+          "type": "object"
+        },
+        "calibration_verified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "controller": {
+      "type": "object",
+      "required": [
+        "kp",
+        "kd",
+        "dq_des_rad_s",
+        "torque_feedforward_nm"
+      ],
+      "properties": {
+        "kp": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "kd": {
+          "type": "number",
+          "minimum": 0
+        },
+        "dq_des_rad_s": {
+          "type": "number"
+        },
+        "torque_feedforward_nm": {
+          "type": "number"
+        }
+      }
+    },
+    "dmModel": {
+      "type": "object",
+      "required": [
+        "type",
+        "armature",
+        "viscous_friction",
+        "static_friction",
+        "dynamic_friction",
+        "encoder_bias_rad",
+        "delay_steps",
+        "delay_s",
+        "identification_sample_period_s",
+        "delay_semantics",
+        "controller",
+        "effort_limit_nm"
+      ],
+      "properties": {
+        "armature": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "viscous_friction": {
+          "type": "number",
+          "minimum": 0
+        },
+        "static_friction": {
+          "type": "number",
+          "minimum": 0
+        },
+        "dynamic_friction": {
+          "type": "number",
+          "minimum": 0
+        },
+        "delay_steps": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "delay_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "identification_sample_period_s": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "friction_transition_velocity_rad_s": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "type": {
+          "const": "pace_dm_pd_v1"
+        },
+        "encoder_bias_rad": {
+          "type": "number"
+        },
+        "delay_semantics": {
+          "const": "target_before_pd"
+        },
+        "controller": {
+          "$ref": "#/definitions/controller"
+        },
+        "effort_limit_nm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "parameter_semantics": {
+          "type": "string"
+        }
+      }
+    },
+    "lkTorque": {
+      "type": "object",
+      "required": [
+        "armature",
+        "viscous_friction",
+        "static_friction",
+        "dynamic_friction",
+        "delay_steps",
+        "delay_s",
+        "identification_sample_period_s",
+        "delay_semantics"
+      ],
+      "properties": {
+        "armature": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "viscous_friction": {
+          "type": "number",
+          "minimum": 0
+        },
+        "static_friction": {
+          "type": "number",
+          "minimum": 0
+        },
+        "dynamic_friction": {
+          "type": "number",
+          "minimum": 0
+        },
+        "delay_steps": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "delay_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "identification_sample_period_s": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "friction_transition_velocity_rad_s": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "delay_semantics": {
+          "const": "command_before_response"
+        }
+      }
+    },
+    "lkVelocity": {
+      "type": "object",
+      "required": [
+        "command_gain",
+        "time_constant_s",
+        "delay_steps",
+        "delay_s",
+        "identification_sample_period_s",
+        "delay_semantics"
+      ],
+      "properties": {
+        "command_gain": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "time_constant_s": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "delay_steps": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "delay_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "identification_sample_period_s": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "delay_semantics": {
+          "const": "command_before_response"
+        }
+      }
+    },
+    "lkModel": {
+      "type": "object",
+      "required": [
+        "type",
+        "torque_mode",
+        "velocity_mode",
+        "effort_limit_nm"
+      ],
+      "properties": {
+        "type": {
+          "const": "lk9025_dual_mode_v1"
+        },
+        "torque_mode": {
+          "$ref": "#/definitions/lkTorque"
+        },
+        "velocity_mode": {
+          "$ref": "#/definitions/lkVelocity"
+        },
+        "effort_limit_nm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "parameter_semantics": {
+          "type": "string"
+        }
       }
     }
   }

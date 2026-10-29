@@ -5,7 +5,7 @@
 #include "task.h"
 
 static osThreadId pace_capture_task_handle;
-static uint32_t pace_capture_task_buffer[768];
+static uint32_t pace_capture_task_buffer[1024];
 static osStaticThreadDef_t pace_capture_task_control;
 
 static osThreadId pace_transport_task_handle;
@@ -27,7 +27,7 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **task_control,
 void MX_FREERTOS_Init(void)
 {
     osThreadStaticDef(PACE_Capture, pace_app_capture_task, osPriorityAboveNormal,
-                      0, 768, pace_capture_task_buffer, &pace_capture_task_control);
+                      0, 1024, pace_capture_task_buffer, &pace_capture_task_control);
     pace_capture_task_handle = osThreadCreate(osThread(PACE_Capture), 0);
 
     osThreadStaticDef(PACE_Transport, pace_app_transport_task, osPriorityNormal,

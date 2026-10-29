@@ -47,12 +47,12 @@ FORMAL_FILES: Mapping[str, tuple[Path, str]] = {
     ),
     "formal_env": (
         PROJECT_ROOT
-        / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py",
+        / "training/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py",
         "5399B29B92B54851EB0A5FA880EA9386C82F202A5C337F19ABE4EDF300C2969C",
     ),
     "formal_env_cfg": (
         PROJECT_ROOT
-        / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env_cfg.py",
+        / "training/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env_cfg.py",
         "AB7BAA693A73EFBB0F933A605EF02F94C0BDBCF95E468D3CF400E590F59101F5",
     ),
     "asset_manifest": (
@@ -177,9 +177,8 @@ def controlled_project_snapshot() -> dict[str, dict[str, Any]]:
     candidates: set[Path] = set()
     search_roots = (
         PROJECT_ROOT / "debug",
-        PROJECT_ROOT / "source",
+        PROJECT_ROOT / "training",
         PROJECT_ROOT / "sim2sim",
-        PROJECT_ROOT / "scripts",
         PROJECT_ROOT / "tests",
         PROJECT_ROOT / "apps",
         PROJECT_ROOT / "dependencies/IsaacLab-v2.3.2/source",
@@ -196,7 +195,7 @@ def controlled_project_snapshot() -> dict[str, dict[str, Any]]:
             directories[:] = [
                 name
                 for name in directories
-                if name not in {".venv", "artifacts", "runs"}
+                if name not in {".venv", "artifacts", "runs", "archive", "cache"}
             ]
     candidates.update(path for path in PROJECT_ROOT.iterdir() if path.is_file())
     root_pytest = PROJECT_ROOT / ".pytest_cache"

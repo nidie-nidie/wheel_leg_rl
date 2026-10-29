@@ -9,6 +9,7 @@ from scipy.optimize import lsq_linear
 
 from pace_raw.decoder import decode_file
 from pace_raw.normalize import NormalizedDataset, normalize_session
+from pace_raw.quality import require_fit_quality
 from validation.crossval import aggregate_metrics, error_metrics
 
 from .common import (
@@ -21,6 +22,9 @@ from .common import (
     fit_and_validation_roles,
     smooth_direction,
     wheel_series,
+    segment_rows,
+    series_segments,
+    validate_delay_period,
 )
 from .model_manifest import (
     create_model_manifest,
@@ -57,7 +61,27 @@ def _mode_rows(
     return rows
 
 
-def _torque_design(series: DynamicsSeries, delay_steps: int):
+def _combine_design(segments, delay_steps, design_function):
+    pieces = [design_function(segment, delay_steps, validate=False) for segment in series_segments(segments)]
+    combined = tuple(np.concatenate([piece[index] for piece in pieces]) for index in range(3))
+    _validate_design(*combined, label="LK")
+    return combined
+
+
+def _saturation(series):
+    return np.concatenate([segment.saturated for segment in series_segments(series)])
+
+
+def _validate_design(design, target, valid, *, label):
+    if np.count_nonzero(valid) < 32:
+        raise ValueError(f"{label} fitting requires at least 32 valid samples across its segments")
+    if np.linalg.matrix_rank(design[valid]) < design.shape[1]:
+        raise ValueError(f"{label} trajectory does not excite the model parameters")
+
+
+def _torque_design(series: DynamicsSeries, delay_steps: int, *, validate=True):
+    if not isinstance(series, DynamicsSeries):
+        return _combine_design(series, delay_steps, _torque_design)
     command, delay_valid = delayed(series.command, delay_steps)
     design = np.column_stack(
         [
@@ -67,11 +91,10 @@ def _torque_design(series: DynamicsSeries, delay_steps: int):
         ]
     )
     finite = np.isfinite(command) & np.all(np.isfinite(design), axis=1)
-    valid = series.valid & delay_valid & finite
-    if np.count_nonzero(valid) < 32:
-        raise ValueError("LK torque fitting requires at least 32 valid samples")
-    if np.linalg.matrix_rank(design[valid]) < design.shape[1]:
-        raise ValueError("LK torque trajectory does not excite inertia and friction")
+    delayed_source_valid = delayed(series.valid, delay_steps)[0]
+    valid = series.valid & delayed_source_valid & delay_valid & finite
+    if validate:
+        _validate_design(design, command, valid, label="LK torque")
     return design, command, valid
 
 
@@ -120,16 +143,17 @@ def _torque_residual(series: DynamicsSeries, parameters: Mapping[str, float], de
     return design[valid] @ values - target[valid], valid
 
 
-def _velocity_design(series: DynamicsSeries, delay_steps: int):
+def _velocity_design(series: DynamicsSeries, delay_steps: int, *, validate=True):
+    if not isinstance(series, DynamicsSeries):
+        return _combine_design(series, delay_steps, _velocity_design)
     command, delay_valid = delayed(series.command, delay_steps)
     design = np.column_stack([command, -series.acceleration])
     target = series.velocity
     finite = np.isfinite(target) & np.all(np.isfinite(design), axis=1)
-    valid = series.valid & delay_valid & finite
-    if np.count_nonzero(valid) < 32:
-        raise ValueError("LK velocity fitting requires at least 32 valid samples")
-    if np.linalg.matrix_rank(design[valid]) < design.shape[1]:
-        raise ValueError("LK velocity trajectory does not excite gain and time constant")
+    delayed_source_valid = delayed(series.valid, delay_steps)[0]
+    valid = series.valid & delayed_source_valid & delay_valid & finite
+    if validate:
+        _validate_design(design, target, valid, label="LK velocity")
     return design, target, valid
 
 
@@ -182,161 +206,61 @@ def _validation_delay(series: DynamicsSeries, parameters, residual_function, max
     return int(np.argmin(scores))
 
 
-def fit_wheel_lk(
-    dataset: NormalizedDataset,
-    model: Optional[MutableMapping[str, object]] = None,
-    max_delay_steps: int = 10,
-) -> MutableMapping[str, object]:
-    header = dataset.decoded.header
-    if header is None:
-        raise ValueError("LK fitting requires a session header")
-    fit_role, validation_role = fit_and_validation_roles(header.session_type)
-    commissioning = header.session_type == 1
-    torque_fit_rows = _mode_rows(
-        dataset,
-        COMMAND_LK_TORQUE,
-        fit_role,
-        STAGE_LK_TORQUE if commissioning else None,
-    )
-    velocity_fit_rows = _mode_rows(
-        dataset,
-        COMMAND_LK_VELOCITY,
-        fit_role,
-        STAGE_LK_VELOCITY if commissioning else None,
-    )
-    if not torque_fit_rows or not velocity_fit_rows:
-        raise ValueError("LK fitting requires separate torque-mode and velocity-mode stages")
-    torque_validation_rows = [] if commissioning else _mode_rows(
-        dataset, COMMAND_LK_TORQUE, validation_role
-    )
-    velocity_validation_rows = [] if commissioning else _mode_rows(
-        dataset, COMMAND_LK_VELOCITY, validation_role
-    )
-    if not commissioning and (not torque_validation_rows or not velocity_validation_rows):
-        raise ValueError("a final LK model requires held-out validation data for both command modes")
-
+def fit_wheel_lk(dataset, model=None, max_delay_steps=10):
+    require_fit_quality(dataset)
+    if max_delay_steps < 0:
+        raise ValueError("max_delay_steps cannot be negative")
     if model is None:
         model = create_model_manifest(dataset)
     else:
         validate_model_manifest(model, require_complete=False)
+        from .model_manifest import require_matching_source
+        require_matching_source(model, dataset)
     model["fit_backend"]["wheel_lk"] = {
-        "name": "separate_torque_and_velocity_identification",
+        "name": "segmented_torque_and_velocity_identification",
+        "primary_report": "velocity_mode",
         "torque_metric_quantity": "effective_torque_balance_nm",
         "velocity_metric_quantity": "wheel_velocity_rad_s",
-        "max_delay_steps": int(max_delay_steps),
-        "held_out_validation_available": not commissioning,
+        "max_delay_steps": max_delay_steps,
+        "held_out_validation_available": True,
     }
-
-    validation_metric_sets = []
+    all_validation, velocity_validation_metrics = [], []
     for motor_index in (4, 5):
-        torque_series = wheel_series(torque_fit_rows, motor_index, "cmd_torque_nm")
-        velocity_series = wheel_series(
-            velocity_fit_rows, motor_index, "cmd_velocity_rad_s"
-        )
-        torque_delay, (torque_parameters, torque_error, torque_valid) = _fit_with_delay(
-            torque_series, _fit_torque, max_delay_steps
-        )
-        velocity_delay, (velocity_parameters, velocity_error, velocity_valid) = _fit_with_delay(
-            velocity_series, _fit_velocity, max_delay_steps
-        )
-        torque_fit_metrics = error_metrics(
-            torque_error,
-            torque_delay,
-            torque_delay,
-            torque_series.saturated[torque_valid],
-        )
-        velocity_fit_metrics = error_metrics(
-            velocity_error,
-            velocity_delay,
-            velocity_delay,
-            velocity_series.saturated[velocity_valid],
-        )
-
-        if commissioning:
-            validation_result = {
-                "available": False,
-                "reason": "commissioning session has no independent LK holdout stage",
-            }
-        else:
-            torque_held_out = wheel_series(
-                torque_validation_rows, motor_index, "cmd_torque_nm"
-            )
-            velocity_held_out = wheel_series(
-                velocity_validation_rows, motor_index, "cmd_velocity_rad_s"
-            )
-            torque_estimated_delay = _validation_delay(
-                torque_held_out,
-                torque_parameters,
-                _torque_residual,
-                max_delay_steps,
-            )
-            velocity_estimated_delay = _validation_delay(
-                velocity_held_out,
-                velocity_parameters,
-                _velocity_residual,
-                max_delay_steps,
-            )
-            torque_held_error, torque_held_valid = _torque_residual(
-                torque_held_out, torque_parameters, torque_delay
-            )
-            velocity_held_error, velocity_held_valid = _velocity_residual(
-                velocity_held_out, velocity_parameters, velocity_delay
-            )
-            torque_validation = error_metrics(
-                torque_held_error,
-                torque_delay,
-                torque_estimated_delay,
-                torque_held_out.saturated[torque_held_valid],
-            )
-            velocity_validation = error_metrics(
-                velocity_held_error,
-                velocity_delay,
-                velocity_estimated_delay,
-                velocity_held_out.saturated[velocity_held_valid],
-            )
-            validation_metric_sets.extend([torque_validation, velocity_validation])
-            validation_result = {
-                "available": True,
-                "role": validation_role,
-                "torque_mode": torque_validation,
-                "velocity_mode": velocity_validation,
-            }
-
-        actuator_model = {
-            "type": "lk9025_dual_mode_v1",
-            "torque_mode": torque_parameters,
-            "velocity_mode": velocity_parameters,
-            "effort_limit_nm": LK_EFFORT_LIMIT_NM,
-            "parameter_semantics": "effective_joint_space_initializer",
-        }
-        fit_result = {
-            "role": fit_role,
-            "method": "bounded_mode_specific_regression",
-            "torque_mode": {
-                "stage_id": STAGE_LK_TORQUE,
-                "metrics": torque_fit_metrics,
-            },
-            "velocity_mode": {
-                "stage_id": STAGE_LK_VELOCITY,
-                "metrics": velocity_fit_metrics,
-            },
-        }
-        replace_motor_result(
-            model,
-            motor_index,
-            actuator_model,
-            fit_result,
-            validation_result,
-        )
-
-    model["aggregate_metrics"]["wheel_lk_validation"] = (
-        aggregate_metrics(validation_metric_sets)
-        if validation_metric_sets
-        else {
-            "available": False,
-            "reason": "commissioning session provides provisional LK fits only",
-        }
-    )
+        mode_results = {}
+        fit_result = {"role": "FIT", "method": "segmented_bounded_mode_specific_regression"}
+        validation_result = {"available": True, "role": "VALIDATION"}
+        for mode_name, mode, command_key, fitter, residual_function in (
+            ("torque", COMMAND_LK_TORQUE, "cmd_torque_nm", _fit_torque, _torque_residual),
+            ("velocity", COMMAND_LK_VELOCITY, "cmd_velocity_rad_s", _fit_velocity, _velocity_residual),
+        ):
+            category = STAGE_LK_TORQUE if mode == COMMAND_LK_TORQUE else STAGE_LK_VELOCITY
+            fit_rows = segment_rows(dataset.rows, motor_index, stage_id=category, role="FIT", mode=mode)
+            held_rows = segment_rows(dataset.rows, motor_index, stage_id=category, role="VALIDATION", mode=mode)
+            fit_ids = {segment[0]["segment_id"] for segment in fit_rows}
+            held_ids = {segment[0]["segment_id"] for segment in held_rows}
+            if fit_ids & held_ids:
+                raise ValueError("FIT and VALIDATION segment IDs overlap")
+            fit_series = [wheel_series(segment, motor_index, command_key) for segment in fit_rows]
+            held_series = [wheel_series(segment, motor_index, command_key) for segment in held_rows]
+            sample_period = validate_delay_period([fit_series, held_series])
+            delay, (parameters, fit_error, fit_valid) = _fit_with_delay(fit_series, fitter, max_delay_steps)
+            parameters.update(delay_s=delay * sample_period, delay_semantics="command_before_response",
+                              identification_sample_period_s=sample_period)
+            fit_metrics = error_metrics(fit_error, delay, delay, _saturation(fit_series)[fit_valid])
+            estimated = _validation_delay(held_series, parameters, residual_function, max_delay_steps)
+            held_error, held_valid = residual_function(held_series, parameters, delay)
+            metrics = error_metrics(held_error, delay, estimated, _saturation(held_series)[held_valid])
+            all_validation.append(metrics)
+            if mode_name == "velocity":
+                velocity_validation_metrics.append(metrics)
+            mode_results[mode_name + "_mode"] = parameters
+            fit_result[mode_name + "_mode"] = {"segment_ids": sorted(fit_ids), "metrics": fit_metrics}
+            validation_result[mode_name + "_mode"] = {"segment_ids": sorted(held_ids), **metrics}
+        actuator = {"type": "lk9025_dual_mode_v1", **mode_results, "effort_limit_nm": LK_EFFORT_LIMIT_NM,
+                    "parameter_semantics": "effective_joint_space_initializer"}
+        replace_motor_result(model, motor_index, actuator, fit_result, validation_result)
+    model["aggregate_metrics"]["wheel_lk_validation"] = aggregate_metrics(all_validation)
+    model["aggregate_metrics"]["wheel_velocity_validation"] = aggregate_metrics(velocity_validation_metrics)
     return model
 
 

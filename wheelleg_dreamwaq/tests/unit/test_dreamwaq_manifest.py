@@ -197,3 +197,24 @@ def test_named_contract_rejects_tampering_before_comparison() -> None:
 
     with pytest.raises(DreamWaQContractMismatchError, match="embedded hash"):
         validate_named_contract(tampered, current, DREAMWAQ_EXPORT_CONTRACT_VERSION)
+
+
+@pytest.mark.parametrize("signal", ["version", "normalization", "action", "clip"])
+def test_raw_identity_cannot_relabel_an_old_task_contract(signal: str) -> None:
+    from wheelleg_dreamwaq.schemas.dreamwaq_manifest import dreamwaq_contract_versions
+    from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.training_profiles import task_profile_from_contract
+
+    base = build_base_task_contract_from_phase1_contract(_phase1_contract())
+    if signal == "version":
+        base["manifest_version"] = "WheelLegBaseTaskContractV2RawHeading"
+        base["schemas"]["normalization"] = "RawActionNormalizationV1"
+    elif signal == "normalization":
+        base["schemas"]["normalization"] = "RawActionNormalizationV1"
+    elif signal == "action":
+        base["schemas"]["action"] = "RawActionV1"
+    else:
+        base["action"]["clip_actions"] = None
+    with pytest.raises(ValueError):
+        task_profile_from_contract(base)
+    with pytest.raises((ValueError, DreamWaQContractMismatchError)):
+        dreamwaq_contract_versions(base)

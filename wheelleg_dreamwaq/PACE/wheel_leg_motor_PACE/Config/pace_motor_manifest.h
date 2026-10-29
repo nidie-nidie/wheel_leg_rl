@@ -33,8 +33,9 @@ typedef struct
 } pace_motor_manifest_entry_t;
 
 /*
- * Firmware source of truth for order and IDs. Signs and zero offsets remain
- * unverified until the first unloaded hardware commissioning check.
+ * Firmware source of truth for order and IDs. Preserve existing axis signs,
+ * confirmed by the user. calibration_verified describes the joint zero /
+ * mechanical range contract, which remains unverified for mounted acquisition.
  */
 #define PACE_MOTOR_MANIFEST_ROWS(X) \
     X(PACE_MOTOR_L_FRONT, "L_front", PACE_MOTOR_TYPE_DM8009, 0U, 1U, 0x001U, 0x011U, "jIJ", "jIJ", 1, 1, 1, 0.0f, 1.0f, PACE_ACTUATOR_LEG_DM, false) \

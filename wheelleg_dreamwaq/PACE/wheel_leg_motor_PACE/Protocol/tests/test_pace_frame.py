@@ -10,7 +10,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 FRAME_HEADER = ROOT / "Protocol" / "Inc" / "pace_frame.h"
 
 MAGIC = bytes([0x50, 0x41])
-VERSION = 1
+VERSION = 2
+LEGACY_VERSION = 1
 SAMPLE_SIZE = 126
 STATUS_BASE_SIZE = 64
 STATUS_MAX_SIZE = 128
@@ -56,12 +57,14 @@ def status_fixture(extension: bytes, sequence: int = 8) -> bytes:
 
 
 def validate(frame: bytes) -> bool:
-    if len(frame) < 14 or frame[:2] != MAGIC or frame[2] != VERSION:
+    if len(frame) < 14 or frame[:2] != MAGIC or frame[2] not in (LEGACY_VERSION, VERSION):
         return False
     length = struct.unpack_from("<H", frame, 4)[0]
     if length != len(frame):
         return False
     frame_type = frame[3]
+    if frame_type == 0x03 and length != (76 if frame[2] == LEGACY_VERSION else 128):
+        return False
     if frame_type == 0x02 and length != SAMPLE_SIZE:
         return False
     if frame_type == 0x04:
@@ -76,6 +79,9 @@ def validate(frame: bytes) -> bool:
 class PaceFrameTest(unittest.TestCase):
     def test_constants_match_c_header(self) -> None:
         text = FRAME_HEADER.read_text(encoding="utf-8")
+        self.assertIn("#define PACE_PROTOCOL_VERSION 2U", text)
+        self.assertIn("#define PACE_LEGACY_STAGE_CONFIG_FRAME_SIZE 76U", text)
+        self.assertIn("#define PACE_STAGE_CONFIG_FRAME_SIZE 128U", text)
         self.assertIn("#define PACE_SAMPLE_FRAME_SIZE 126U", text)
         self.assertIn("#define PACE_STATUS_BASE_FRAME_SIZE 64U", text)
         self.assertIn("#define PACE_STATUS_MAX_FRAME_SIZE 128U", text)
@@ -109,6 +115,18 @@ class PaceFrameTest(unittest.TestCase):
         bad_status = bytearray(status_fixture(bytes([1, 0])))
         bad_status[59] = 3
         self.assertFalse(validate(bytes(bad_status)))
+
+    def test_stage_lengths_are_explicitly_versioned(self) -> None:
+        current = common(0x03, 128, 2)
+        current[72:80] = bytes([1, 3, 2, 0, 50, 0, 1, 1])
+        self.assertTrue(validate(finish(current)))
+        legacy = common(0x03, 76, 1)
+        legacy[2] = LEGACY_VERSION
+        self.assertTrue(validate(finish(legacy)))
+        legacy[2] = VERSION
+        self.assertFalse(validate(finish(legacy)))
+        current[2] = LEGACY_VERSION
+        self.assertFalse(validate(finish(current)))
 
     def test_sequence_gap_is_reportable(self) -> None:
         frames = [sample_fixture(10), sample_fixture(11), sample_fixture(13)]

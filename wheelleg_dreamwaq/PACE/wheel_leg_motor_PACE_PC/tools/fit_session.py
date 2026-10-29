@@ -16,53 +16,9 @@ from pace_raw.decoder import decode_file
 from pace_raw.normalize import normalize_session
 
 
-CRITICAL_DECODE_ISSUES = {
-    "crc_error",
-    "malformed_frame",
-    "sequence_gap",
-    "sequence_reorder",
-    "timestamp_discontinuity",
-    "timestamp_backwards",
-    "missing_stage_config",
-    "stage_mismatch",
-    "missing_session_header",
-    "missing_footer",
-    "invalid_session_footer",
-    "footer_frame_count",
-    "config_hash_mismatch",
-    "can_enqueue_failure",
-    "tx_event_loss",
-    "can_error",
-    "can_state_fault",
-    "header_endianness",
-    "header_rate",
-    "header_sample_size",
-    "zero_config_hash",
-    "duplicate_header",
-    "duplicate_config",
-    "duplicate_footer",
-    "stage_before_header",
-    "invalid_length",
-    "truncated_header",
-    "truncated_frame",
-    "trailing_bytes",
-    "resync",
-}
+from pace_raw.quality import require_fit_quality
 
-
-def _require_fit_quality(decoded) -> None:
-    critical = [issue for issue in decoded.issues if issue.code in CRITICAL_DECODE_ISSUES]
-    if critical:
-        counts = {}
-        for issue in critical:
-            counts[issue.code] = counts.get(issue.code, 0) + 1
-        raise ValueError(f"raw session is not fit-eligible: {counts}")
-    if decoded.footer is None:
-        raise ValueError("raw session has no footer")
-    if decoded.footer.overflow or decoded.footer.dropped_frames:
-        raise ValueError("raw session footer reports dropped data")
-    if not decoded.footer.statistics_complete:
-        raise ValueError("raw session footer reports incomplete statistics")
+_require_fit_quality = require_fit_quality
 
 
 def main() -> None:

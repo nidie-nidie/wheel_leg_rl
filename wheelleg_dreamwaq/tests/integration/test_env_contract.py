@@ -13,7 +13,7 @@ def test_environment_observation_reset_and_frame_contract(tmp_path: Path) -> Non
     output = tmp_path / "random-action-smoke.json"
     run_project_script(
         [
-            "scripts/smoke_random_actions.py",
+            "training/scripts/smoke_random_actions.py",
             "--num-envs",
             "8",
             "--steps",

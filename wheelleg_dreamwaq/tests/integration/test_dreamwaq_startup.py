@@ -24,7 +24,7 @@ from wheelleg_dreamwaq.training.checkpoint import sha256_file
 
 
 def _run_training(arguments: list[str]) -> Path:
-    result = run_project_script(["scripts/train_dreamwaq.py", *arguments, "--headless"], timeout=900)
+    result = run_project_script(["training/scripts/train_dreamwaq.py", *arguments, "--headless"], timeout=900)
     prefix = "[INFO] DreamWaQ run directory: "
     for line in result.stdout.splitlines():
         if line.startswith(prefix):
@@ -191,7 +191,7 @@ def test_dreamwaq_play_export_and_torchscript_golden(dreamwaq_runs: dict[str, ob
         output = root / f"play-{index}.json"
         run_project_script(
             [
-                "scripts/play_dreamwaq.py",
+                "training/scripts/play_dreamwaq.py",
                 "--checkpoint",
                 str(checkpoint),
                 "--num-envs",
@@ -218,7 +218,7 @@ def test_dreamwaq_play_export_and_torchscript_golden(dreamwaq_runs: dict[str, ob
     export_dir = root / "export"
     run_project_script(
         [
-            "scripts/export_dreamwaq_actor.py",
+            "training/scripts/export_dreamwaq_actor.py",
             "--checkpoint",
             str(checkpoint),
             "--output",
@@ -255,7 +255,7 @@ def test_dreamwaq_and_phase1r_share_frozen_isaac_evaluation(dreamwaq_runs: dict[
     candidate_dir = root / "isaac-dreamwaq"
     run_project_script(
         [
-            "scripts/evaluate_isaac.py",
+            "training/scripts/evaluate_isaac.py",
             "--checkpoint",
             PHASE1R_ISAAC_BASELINE["checkpoint"],
             "--reset-cache",
@@ -268,7 +268,7 @@ def test_dreamwaq_and_phase1r_share_frozen_isaac_evaluation(dreamwaq_runs: dict[
     )
     run_project_script(
         [
-            "scripts/evaluate_isaac.py",
+            "training/scripts/evaluate_isaac.py",
             "--checkpoint",
             str(checkpoint),
             "--reset-cache",

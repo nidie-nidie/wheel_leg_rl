@@ -98,6 +98,8 @@ bool pace_can_port_start(void)
         return false;
     }
     notifications = FDCAN_IT_RX_FIFO0_NEW_MESSAGE |
+                    FDCAN_IT_RX_FIFO0_FULL |
+                    FDCAN_IT_RX_FIFO0_MESSAGE_LOST |
                     FDCAN_IT_TX_EVT_FIFO_NEW_DATA |
                     FDCAN_IT_TX_EVT_FIFO_FULL |
                     FDCAN_IT_TX_EVT_FIFO_ELT_LOST |
@@ -293,15 +295,23 @@ void HAL_FDCAN_TxEventFifoCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t tx_even
 
 void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t rx_fifo0_its)
 {
-    (void)rx_fifo0_its;
     if ((hfdcan != &hfdcan3) || (pace_registry == 0))
     {
         return;
     }
+    if ((rx_fifo0_its & FDCAN_IT_RX_FIFO0_MESSAGE_LOST) != 0U)
+    {
+        pace_can_stats.rx_fifo_lost_count++;
+    }
+    if ((rx_fifo0_its & FDCAN_IT_RX_FIFO0_FULL) != 0U)
+    {
+        pace_can_stats.rx_fifo_full_count++;
+    }
     while (HAL_FDCAN_GetRxFifoFillLevel(&hfdcan3, FDCAN_RX_FIFO0) > 0U)
     {
         FDCAN_RxHeaderTypeDef header = {0};
-        uint8_t data[8];
+        /* HAL copies by DLC before application validation, up to 64 bytes. */
+        uint8_t data[64] = {0};
         uint8_t motor_index;
         uint32_t timestamp_us;
         if (HAL_FDCAN_GetRxMessage(&hfdcan3, FDCAN_RX_FIFO0, &header, data) != HAL_OK)
@@ -309,7 +319,24 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t rx_fifo0_it
             pace_can_stats.hal_error_count++;
             break;
         }
+        if ((header.IdType != FDCAN_STANDARD_ID) ||
+            (header.RxFrameType != FDCAN_DATA_FRAME) ||
+            (header.FDFormat != FDCAN_CLASSIC_CAN) ||
+            (header.DataLength != FDCAN_DLC_BYTES_8) ||
+            (header.Identifier > 0x7FFU))
+        {
+            pace_can_stats.rx_invalid_count++;
+            continue;
+        }
         motor_index = pace_motor_index_from_feedback_id((uint16_t)header.Identifier);
+        if ((motor_index == PACE_MOTOR_INDEX_INVALID) ||
+            ((motor_index >= PACE_DM_MOTOR_COUNT) &&
+             (data[0] != 0xA1U) && (data[0] != 0xA2U)))
+        {
+            /* LK State1/special replies have a different payload layout. */
+            pace_can_stats.rx_invalid_count++;
+            continue;
+        }
         timestamp_us = pace_time_expand_fdcan_timestamp((uint16_t)header.RxTimestamp,
                                                         pace_time_now_us());
         if ((motor_index != PACE_MOTOR_INDEX_INVALID) &&

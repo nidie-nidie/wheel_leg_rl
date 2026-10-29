@@ -1,120 +1,35 @@
-# wheel_leg_motor_PACE_PC
+# PACE PC 工具
 
-PC 端工具负责保存原始串口流、严格解码、数据归一化、DM/LK 分模型辨识，以及向 Isaac 和 MuJoCo 提供同一份六通道 actuator manifest。
+完整试采步骤见 [PACE README](../README.md) 与 [软件交付说明](../docs/software-release.md)。本目录负责原始串口录制、V1/V2 解码、质量检查、分段初始拟合和独立仿真适配。
 
-## 依赖
-
-基础链路：
-
-```text
-Python 3.8+
-numpy
-scipy
-pyserial
-jsonschema
-```
-
-安装基础依赖：
+使用 PACE 独立 Python 3.11 环境，依赖固定于 `../requirements.lock.txt`，不修改 DreamWaQ 环境。以下命令在 PACE 目录运行。
 
 ```powershell
-python -m pip install -r requirements.txt
+& .\.venv\Scripts\python.exe tools/prepare_session.py --output data/commissioning_001.plan.json --firmware-binary build/firmware_gcc/commissioning/wheel_leg_motor_PACE.hex
+& .\.venv\Scripts\python.exe wheel_leg_motor_PACE_PC/tools/capture_session.py --port COM7 --output data/commissioning_001.raw --metadata-plan data/commissioning_001.plan.json
 ```
 
-可选依赖：
+默认 passive：不清空串口 buffer、不发送 START，等待板子自启动。看到保存路径再复位板子。主动模式需固件 `PACE_ONE_WAY_AUTOSTART=0` 且 RX 连线可用，再显式加 `--active`；默认 HEX 为单向自启动模式，PC 不能使它停止。
 
-- `torch`：导出 PACE `.pt` 数据和运行 Isaac/PACE；
-- `cmaes`、Isaac Sim、Isaac Lab、`pace_sim2real`：正式 CMA-ES 回放优化；
-
-当前电脑没有 `torch` 和 `cmaes`，但原始数据、CSV/NPZ、确定性初始拟合和适配层测试可直接运行。
-
-## 一次工程试采
+保存三类结果：原始 `.raw`、`.session_manifest.json` 固定快照和 `.quality.json` 报告。录制中断/超时也保留原始来源，并标记不完整；同名文件不覆盖。metadata plan 中 `firmware_binary={path,sha256}` 会在采集时重新核验文件；缺少新 build 时不编造二进制身份。
 
 ```powershell
-python tools/capture_session.py `
-  --port COM7 `
-  --output data/commissioning_001.raw
+& .\.venv\Scripts\python.exe wheel_leg_motor_PACE_PC/tools/decode_session.py data/commissioning_001.raw --summary data/commissioning_001.summary.json --csv data/commissioning_001.csv --npz data/commissioning_001.npz
+& .\.venv\Scripts\python.exe wheel_leg_motor_PACE_PC/tools/fit_session.py data/commissioning_001.raw data/commissioning_001.actuator.json
 ```
 
-脚本先发送 `CONFIGURE(COMMISSIONING)`，再发送 `START`，并将 UART 字节原样写入 `.raw`。不要把终端日志混入该文件。
+增量录制与离线解码共用 scanner。CRC/长度/version/sequence/阶段上下文/末尾多余数据等问题保留用于诊断；V1 可以读，但缺失 V2 合同不能作为已验证拟合输入。库入口与 CLI 共用 `require_fit_quality`，不允许绕过快照、fault、有效性及独立验证段要求。
 
-按需提前停止：
+分段求导和延迟，每个分段保留 role、group、segment、中心、50 Hz 保持方式。温度取过去最近一条状态消息并附 age。时戳是 TIM5 回调服务时刻，不能将其称为电机执行时刻。
+
+DM 与 LK 使用不同初始模型；commissioning 输出仅为 provisional。装机闭链拟合的等效惯量不能直接当作 motor-only armature 写入已有资产。DreamWaQ 当前训练代码尚未加载该模型；本轮只保存实际控制基线与按关节名字的映射，后续实际模型接入需独立验证。
+
+MuJoCo replay 必须显式给 `runtime_period_s`，Isaac 参数/目标适配也检查延迟语义，避免采样周期被误用为 physics 周期。没有实测 final 合同、零位和工作范围时，不输出正式模型。
+
+统一验证：
 
 ```powershell
-python tools/capture_session.py --port COM7 --output data/short.raw --stop-after 15
+& .\.venv\Scripts\python.exe tools/verify_software.py --include-target
 ```
 
-`--session-type final` 已预留，但当前固件合同锁会拒绝正式会话。
-
-## 解码与归一化
-
-```powershell
-python tools/decode_session.py data/commissioning_001.raw `
-  --csv derived/commissioning_001.csv `
-  --npz derived/commissioning_001.npz `
-  --summary derived/commissioning_001.summary.json
-```
-
-解码器会检查：
-
-- magic、版本、长度和 CRC；
-- 全流 sequence 的丢失、重复和乱序；
-- 32 bit 时间回绕与 2 ms 采样间隔；
-- `config_seq` 与 stage config 关联；
-- session header、stage config 与 footer 的配置哈希一致；
-- Tx/Rx age、饱和和有效位；
-- status 中的 CAN 入队失败、Tx Event 丢失、CAN 错误与总线故障状态；
-- footer overflow、drop 和统计完整性；
-- 固件 motor manifest 版本及哈希。
-
-raw 二进制文件是唯一源数据，CSV/NPZ/PT 都是可重建产物。
-
-## 六通道拟合
-
-```powershell
-python tools/fit_session.py data/commissioning_001.raw `
-  models/commissioning_001.actuator.json `
-  --normalized-npz derived/commissioning_001.npz
-```
-
-输出遵循 `models/motor_model_schema.json`：
-
-- DM8009：PACE 参数族 `armature + viscous friction + static/dynamic friction + encoder bias + global delay`；
-- LK9025：转矩模式的惯量/摩擦模型和速度模式的一阶闭环模型；
-- commissioning 输出固定标记为 `model_maturity = provisional`；
-- final session 才能输出 `model_maturity = final`，且轮毂两种模式必须各有独立 holdout 数据。
-
-本地 DM 拟合器是确定性的有效转矩平衡 initializer，主要用于打通工程链路和给正式优化提供初值。正式 Isaac 模型使用 `fit/pace_optimizer_bridge.py` 导出的 PACE 数据合同，并复用参考包中的 `pace_sim2real.CMAESOptimizer`。
-
-导出正式 PACE 输入：
-
-```python
-from fit.pace_optimizer_bridge import export_pace_dataset
-export_pace_dataset(dataset, "derived/dm_fit.pt")
-```
-
-## Isaac 与 MuJoCo
-
-Isaac 合同：
-
-```powershell
-python -m isaac.leg_dm_adapter models/commissioning_001.actuator.json
-python -m isaac.wheel_lk_adapter models/commissioning_001.actuator.json
-```
-
-MuJoCo 参数和有状态延迟执行器：
-
-```powershell
-python mujoco/actuator_replay.py models/commissioning_001.actuator.json
-```
-
-`mujoco/actuator_replay.py` 中的 `ActuatorReplay` 先计算带编码器偏置的 DM MIT-PD，再延迟并限幅实际转矩；LK 的转矩和速度模式分别处理。`joint_parameter_patch()` 同时返回 MuJoCo 的 armature、damping 和 frictionloss，避免继续使用理想转矩直通模型。
-
-## 测试
-
-```powershell
-python tests/test_commands.py
-python tests/test_decoder.py
-python tests/test_fitting.py
-```
-
-合成拟合测试使用已知六通道参数，检查参数与延迟恢复，并确认两个仿真适配器不重排通道。
+测试包括真实 C passive/active 完整 raw 经碎片 FakeSerial 录制，以及坏 CRC、假 magic、内嵌帧、缺头缺尾、末尾多余数据、启动等待、source tamper、fault 和延迟有效性反例。合成动力学数据仅验证拟合器能否恢复已知参数，不代表实际电机参数。

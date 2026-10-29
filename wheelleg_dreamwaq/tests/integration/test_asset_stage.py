@@ -11,7 +11,7 @@ from conftest import run_project_script
 @pytest.mark.integration
 def test_asset_bundle_v2_reference_and_runtime_overrides(tmp_path: Path) -> None:
     output = tmp_path / "asset-audit.json"
-    run_project_script(["scripts/audit_asset.py", "--output", str(output), "--headless"])
+    run_project_script(["training/scripts/audit_asset.py", "--output", str(output), "--headless"])
 
     report = json.loads(output.read_text(encoding="utf-8"))
     source_v1 = report["source_v1"]

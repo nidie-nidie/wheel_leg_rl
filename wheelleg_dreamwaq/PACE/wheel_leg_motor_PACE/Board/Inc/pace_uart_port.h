@@ -20,6 +20,8 @@ typedef struct
     uint32_t tx_error_count;
     uint32_t rx_event_count;
     uint32_t rx_error_count;
+    uint32_t rx_restart_count;
+    uint32_t rx_restart_fail_count;
 } pace_uart_port_stats_t;
 
 void pace_uart_port_init(void);
@@ -29,6 +31,8 @@ bool pace_uart_port_start_rx(uint8_t *buffer, uint16_t capacity,
 bool pace_uart_port_send_dma(const uint8_t *data, uint16_t length);
 bool pace_uart_port_send_blocking(const uint8_t *data, uint16_t length,
                                   uint32_t timeout_ms);
+/* Called by the capture task, never from the HAL error ISR. */
+bool pace_uart_port_service_rx(void);
 bool pace_uart_port_is_busy(void);
 const pace_uart_port_stats_t *pace_uart_port_stats(void);
 

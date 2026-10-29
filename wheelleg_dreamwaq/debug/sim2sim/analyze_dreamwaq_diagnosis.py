@@ -25,8 +25,8 @@ FORMAL_INPUT_HASHES = {
     "sim2sim/mujoco/wheelleg_mujoco/runner.py": "B0C973A5335856E3991ECCF6014BA9B5CF65E638A8BD4701FC07EED1A446EDBB",
     "sim2sim/mujoco/wheelleg_mujoco/control.py": "83080BC57A0399B11610CE5E06B4F607ADA1C0FB995344E23E531658EBBEFD62",
     "sim2sim/mujoco/wheelleg_mujoco/observation.py": "DD7F972D77FCCA25378BF403F61A67755C8AB4BA28738C97ABF2BBDD733970BD",
-    "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py": "5399B29B92B54851EB0A5FA880EA9386C82F202A5C337F19ABE4EDF300C2969C",
-    "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env_cfg.py": "AB7BAA693A73EFBB0F933A605EF02F94C0BDBCF95E468D3CF400E590F59101F5",
+    "training/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py": "5399B29B92B54851EB0A5FA880EA9386C82F202A5C337F19ABE4EDF300C2969C",
+    "training/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env_cfg.py": "AB7BAA693A73EFBB0F933A605EF02F94C0BDBCF95E468D3CF400E590F59101F5",
 }
 
 

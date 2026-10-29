@@ -120,3 +120,23 @@ $env:PYTHONPATH = (Get-Location).Path + ';' + (Join-Path (Get-Location) 'source/
 该 checkpoint 的 SHA256 为 `A351C42E999F873FDA0921940BA9F2C57FB2143485971DF50A8757B067507FB9`，导出 Actor 的 SHA256 为 `FDCA84A3B9B4F993DF481F09DBAD14CC7AFBCDB861D530642EA522EE50837464`。checkpoint 重载与导出检查通过，TorchScript golden-vector 最大绝对误差 `7.152557373046875e-7`。已使用该导出打开 MuJoCo 键盘可视化，会话位于同一 runs 目录下的 `viewer-701-20261016-164336/`。当前尚未完成该模型的完整八场景评估。
 
 停止证据为该运行的 `progress.json`、`monitor_snapshot.json`，以及同名 `-launch/` 目录中的 `user_stop.json`；导出身份见 `export/experiment_export.json`。训练权重、runs 日志和运行时会话继续遵循仓库已有忽略规则。本次 GitHub 提交保存代码、配置契约和诊断文档，模型文件保存在本地。用户已确定下一次训练采用 6144 个环境；当前代码默认值仍为本次运行使用的 4096，不在此次提交中启动下一次训练。
+
+## 2026-10-16 MuJoCo 航向保持开关对照
+
+用户要求接入航向控制器。本次新增 debug 可视化航向保持，设计、控制公式和验证见 [heading_control.md](heading_control.md)。航向误差通过 Kp=0.5、Kd=0 产生网络的偏航速度指令，限制为 ±1 rad/s；六维动作仍由原模型产生。停车和直行保持参考朝向，非零用户转向指令直接传递，结束转向后捕获新朝向。H 切换，R 重置时重新捕获；未训练、未修改正式代码和 XML。
+
+使用上述完成 701 次更新的同一导出，真实 MuJoCo 的开启/关闭两组各八场景、500 控制步全部完成。10 秒末停车、前进、后退的航向偏移绝对值分别由 22.10°/21.72°/33.06° 降至 4.35°/4.65°/6.34°，速度跟踪误差基本相同，仍有残余偏航。控制间隔上的四驱动关节角加速度 RMS 变化均小于 0.1%，不作为腿部抖动已经消除的证据。
+
+`runs/heading-hold-verification-20261016/summary.json` 和 CSV 记录原始命令、纠偏命令、实际运动、六维动作、目标角/轮速和角加速度。关闭组与独立旧固定命令路径逐步相同；转向场景开关两组轨迹相同。针对性测试 `23 passed, 1 deselected`，100 个正式文件及 Actor 指纹不变。任意键盘切换与长时间保持效果需继续观察。
+
+## 2026-10-16 正式 baseline 接入
+
+正式配置 `stop_reverse_raw_split_straight_yaw2_headingp9_v1` 接入原始动作、腿轮平滑 -0.02/-0.01、直行差速 -0.1，并设置偏航两项权重各 2，加入 P=9/D=0 航向命令处理。主架构更新到 v0.30；本实验已有模型、checkpoint 和导出文件保持原身份。
+
+正式 MuJoCo 运行器与解析器升级后，旧 debug 加载器通过 `baseline_runtime_compatibility.json` 固定指纹记录逐文件核对允许的变更，仍核对原训练清单、模型、源 checkpoint 和全部导出 SHA256。当前覆盖完成 701 次更新的模型；未实测的旧 debug 导出继续拒绝该运行器变更。修改前后用八场景各 32 步比较动作、目标、观测/history、力矩与 qpos/qvel，具体结果与实现验收记录保存到 `docs/2026-10-16-dreamwaq-baseline-implementation-results.md`。
+
+正式新模型可视化使用 `play_mujoco_viewer.py --formal-export <正式三件套目录>`；航向参数从 manifest 恢复，键盘 H 使用正式共享控制器开关。原有 `--export` 分支继续使用 debug 控制方式。两个分支分别执行自己的单个航向控制器。
+
+本次正式接入的最终检查为 260 项单元测试、77 项 MuJoCo 测试通过，真实 8 环境 fresh 1 次更新及恢复到总计 2 次更新、部分 reset/history、优化器步数 40→80 和导出检查通过；正式同 batch golden-vector 最大绝对误差为 0。单个复核 agent 指出的两处身份校验问题已修复并复查。旧 701 轮工件经当前加载器执行八场景各 500 步，全部存活；修改前后两份旧模型各八场景 32 步的数组精确相等。
+
+接口模型只完成 2 次更新，其八场景仍因倾斜提前结束，不能据此评价新 baseline 的训练效果。正式 6144 环境/1000 轮训练尚未启动。完整证据与待完成的行为验收见 [实现验收记录](../../docs/2026-10-16-dreamwaq-baseline-implementation-results.md)。

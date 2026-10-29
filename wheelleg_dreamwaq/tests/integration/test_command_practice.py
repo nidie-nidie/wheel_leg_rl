@@ -48,7 +48,7 @@ def test_profile_fresh_resume_fixed_play_export_and_current_evaluation(tmp_path,
         assert manifest["resume_provenance"]["same_num_envs"] is (count == 32)
         _load_resume_trace(target_dir, summary, num_envs=count)
     environment = {**os.environ, "OMNI_KIT_ACCEPT_EULA": "YES"}
-    denied = subprocess.run([sys.executable, "scripts/train_dreamwaq.py", "--resume", str(source[2]),
+    denied = subprocess.run([sys.executable, "training/scripts/train_dreamwaq.py", "--resume", str(source[2]),
                              "--profile", "portable", "--task-profile",
                              "stop_reverse_v1" if task_profile == "stop_reverse_smooth_v1" else "stop_reverse_smooth_v1",
                              "--max-iterations", "3",
@@ -58,14 +58,14 @@ def test_profile_fresh_resume_fixed_play_export_and_current_evaluation(tmp_path,
     assert denied.returncode != 0
     assert "profile" in denied.stderr.lower() or "profile" in denied.stdout.lower()
     play_path = tmp_path / "play.json"
-    run_project_script(["scripts/play_dreamwaq.py", "--checkpoint", str(checkpoint), "--num-envs", "2",
+    run_project_script(["training/scripts/play_dreamwaq.py", "--checkpoint", str(checkpoint), "--num-envs", "2",
                         "--steps", "160", "--fixed-command", "0", "0", ".2",
                         "--output", str(play_path), "--headless"], timeout=900)
     play = json.loads(play_path.read_text(encoding="utf-8"))
     assert play["runtime_command_practice"] == "disabled" and play["task_profile"] == task_profile
     assert play["completed_steps"] == 160 and play["finite"]
     export = tmp_path / "export"
-    run_project_script(["scripts/export_dreamwaq_actor.py", "--checkpoint", str(checkpoint), "--output", str(export)])
+    run_project_script(["training/scripts/export_dreamwaq_actor.py", "--checkpoint", str(checkpoint), "--output", str(export)])
     manifest = json.loads((export / "policy_manifest.json").read_text(encoding="utf-8"))
     assert manifest["training_reward_weights"]["tracking_vx"] == manifest["training_reward_weights"]["tracking_vx_enhance"] == 2.
     assert manifest["training_reward_weights"]["action_smooth"] == smooth_weight
@@ -78,7 +78,7 @@ def test_profile_fresh_resume_fixed_play_export_and_current_evaluation(tmp_path,
         assert actor(golden["history"][:3]).shape == (3, 6)
     assert float((actual - golden["expected_action_mean"]).abs().max()) <= 1.e-7
     isaac = tmp_path / "isaac"
-    run_project_script(["scripts/evaluate_isaac.py", "--checkpoint", str(checkpoint), "--candidate-only",
+    run_project_script(["training/scripts/evaluate_isaac.py", "--checkpoint", str(checkpoint), "--candidate-only",
                         "--reset-cache", str(tmp_path / "eval-cache.pt"), "--output", str(isaac), "--headless"], timeout=900)
     report = json.loads((isaac / "summary.json").read_text(encoding="utf-8"))
     assert report["evaluation_schema_version"] == "IsaacEvaluationV2"
@@ -91,7 +91,7 @@ def test_profile_fresh_resume_fixed_play_export_and_current_evaluation(tmp_path,
     dynamic = tmp_path / "dynamic"
     result = subprocess.run(
         [str(PROJECT_ROOT / "sim2sim/mujoco/.venv/Scripts/python.exe"),
-         "scripts/evaluate_command_practice_mujoco.py", "--policy", str(export / "actor.ts"),
+         "training/scripts/evaluate_command_practice_mujoco.py", "--policy", str(export / "actor.ts"),
          "--manifest", str(export / "policy_manifest.json"), "--output", str(dynamic), "--smoke"],
         cwd=PROJECT_ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=240)
     assert result.returncode == 0, result.stdout + result.stderr

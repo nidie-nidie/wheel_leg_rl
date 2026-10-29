@@ -26,13 +26,16 @@ dev = [
 ]
 
 [tool.setuptools]
-package-dir = {"" = "source/wheelleg_dreamwaq"}
+package-dir = {"" = "training"}
 
 [tool.setuptools.packages.find]
-where = ["source/wheelleg_dreamwaq"]
+where = ["training"]
+include = ["wheelleg_dreamwaq*", "recovery*"]
+exclude = ["recovery.tests*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["training", "sim2sim/mujoco"]
 addopts = "-ra"
 markers = [
     "integration: launches Isaac Sim in an isolated subprocess",

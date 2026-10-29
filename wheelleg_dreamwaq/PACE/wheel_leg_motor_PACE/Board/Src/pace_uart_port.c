@@ -10,6 +10,7 @@ static pace_uart_tx_callback_t pace_uart_tx_callback;
 static uint8_t *pace_uart_rx_buffer;
 static uint16_t pace_uart_rx_capacity;
 static uint16_t pace_uart_rx_last_position;
+static volatile bool pace_uart_rx_restart_pending;
 
 void pace_uart_port_init(void)
 {
@@ -19,6 +20,7 @@ void pace_uart_port_init(void)
     pace_uart_rx_buffer = 0;
     pace_uart_rx_capacity = 0U;
     pace_uart_rx_last_position = 0U;
+    pace_uart_rx_restart_pending = false;
 }
 
 void pace_uart_port_set_tx_callback(pace_uart_tx_callback_t callback)
@@ -88,6 +90,24 @@ bool pace_uart_port_send_blocking(const uint8_t *data, uint16_t length,
     return true;
 }
 
+bool pace_uart_port_service_rx(void)
+{
+    if (!pace_uart_rx_restart_pending)
+    {
+        return true;
+    }
+    if ((HAL_UART_AbortReceive(&huart7) != HAL_OK) ||
+        !pace_uart_port_start_rx(pace_uart_rx_buffer, pace_uart_rx_capacity,
+                                  pace_uart_rx_callback))
+    {
+        pace_uart_stats.rx_restart_fail_count++;
+        return false;
+    }
+    pace_uart_rx_restart_pending = false;
+    pace_uart_stats.rx_restart_count++;
+    return true;
+}
+
 bool pace_uart_port_is_busy(void)
 {
     return pace_uart_stats.tx_busy;
@@ -142,13 +162,20 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {
     if (huart == &huart7)
     {
-        pace_uart_stats.tx_busy = false;
-        pace_uart_stats.tx_error = true;
-        pace_uart_stats.tx_error_count++;
-        pace_uart_stats.rx_error_count++;
-        if (pace_uart_tx_callback != 0)
+        if (pace_uart_stats.tx_busy)
         {
-            pace_uart_tx_callback(false);
+            pace_uart_stats.tx_busy = false;
+            pace_uart_stats.tx_error = true;
+            pace_uart_stats.tx_error_count++;
+            if (pace_uart_tx_callback != 0)
+            {
+                pace_uart_tx_callback(false);
+            }
+        }
+        if (pace_uart_rx_buffer != 0)
+        {
+            pace_uart_stats.rx_error_count++;
+            pace_uart_rx_restart_pending = true;
         }
     }
 }

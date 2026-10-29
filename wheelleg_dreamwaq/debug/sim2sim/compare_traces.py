@@ -95,8 +95,8 @@ def current_engine_source_paths(
         "pitch_torque_pulse": debug_root / "pitch_torque_pulse.py",
     }
     if engine == "isaac_sim":
-        formal_task = root / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat"
-        schemas = root / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas"
+        formal_task = root / "training/wheelleg_dreamwaq/tasks/direct/wheelleg_flat"
+        schemas = root / "training/wheelleg_dreamwaq/schemas"
         return {
             "collector": debug_root / "collect_isaac_trace.py",
             "debug_environment": debug_root / "isaac_debug_env.py",

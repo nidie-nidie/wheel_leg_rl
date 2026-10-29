@@ -91,12 +91,12 @@ FORMAL_FILES = {
     ),
     "formal_env": (
         PROJECT_ROOT
-        / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py",
+        / "training/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env.py",
         "5399B29B92B54851EB0A5FA880EA9386C82F202A5C337F19ABE4EDF300C2969C",
     ),
     "formal_env_cfg": (
         PROJECT_ROOT
-        / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env_cfg.py",
+        / "training/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/env_cfg.py",
         "AB7BAA693A73EFBB0F933A605EF02F94C0BDBCF95E468D3CF400E590F59101F5",
     ),
     "asset_manifest": (

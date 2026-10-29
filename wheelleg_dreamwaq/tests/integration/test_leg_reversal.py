@@ -8,7 +8,7 @@ import pytest
 import torch
 
 from conftest import run_project_script, PROJECT_ROOT
-sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
+sys.path.insert(0, str(PROJECT_ROOT / "training" / "scripts"))
 from export_dreamwaq_actor import _build_policy
 from wheelleg_dreamwaq.deployment.dreamwaq_inference import DreamWaQInferenceActorV1
 from test_dreamwaq_startup import _load_run, _run_training
@@ -49,12 +49,12 @@ def test_real_weights_initialization_resume_play_and_golden(tmp_path):
     assert resumed[3]["infos"]["leg_reversal_gain_state"]["completed_rollouts"] == 4
     assert resumed[1]["weights_initialization"] == manifest["weights_initialization"]
     play = tmp_path / "play.json"
-    run_project_script(["scripts/play_dreamwaq.py", "--checkpoint", str(resumed[2]),
+    run_project_script(["training/scripts/play_dreamwaq.py", "--checkpoint", str(resumed[2]),
         "--num-envs", "2", "--steps", "8", "--fixed-command", "0", "0", ".2",
         "--output", str(play), "--headless"], timeout=900)
     assert json.loads(play.read_text(encoding="utf-8"))["finite"]
     export = tmp_path / "export"
-    run_project_script(["scripts/export_dreamwaq_actor.py", "--checkpoint", str(resumed[2]),
+    run_project_script(["training/scripts/export_dreamwaq_actor.py", "--checkpoint", str(resumed[2]),
         "--output", str(export)], timeout=900)
     actor = torch.jit.load(str(export / "actor.ts"), map_location="cpu").eval()
     golden = torch.load(export / "golden_vectors.pt", map_location="cpu", weights_only=False)

@@ -134,12 +134,22 @@ void pace_motor_registry_refresh_ages(pace_motor_registry_t *registry,
         pace_motor_state_t *state = &registry->motors[index];
         if (state->rx_valid)
         {
-            state->rx_age_us = now_us - state->last_rx_timestamp_us;
-            state->online = state->rx_age_us <= offline_timeout_us;
+            /* A future timestamp is not an age of 2^32 microseconds. The
+             * app snapshots latest state together with its current clock. */
+            const int32_t age = (int32_t)(now_us - state->last_rx_timestamp_us);
+            state->rx_age_us = (age < 0) ? 0U : (uint32_t)age;
+            state->online = (age >= 0) &&
+                            (state->rx_age_us <= offline_timeout_us);
         }
         if (state->tx_valid)
         {
-            state->tx_age_us = now_us - state->last_tx_timestamp_us;
+            const int32_t age = (int32_t)(now_us - state->last_tx_timestamp_us);
+            state->tx_age_us = (age < 0) ? 0U : (uint32_t)age;
+            if (age < 0)
+            {
+                /* Never export a future confirmation as a fresh command. */
+                state->tx_valid = false;
+            }
         }
     }
 }

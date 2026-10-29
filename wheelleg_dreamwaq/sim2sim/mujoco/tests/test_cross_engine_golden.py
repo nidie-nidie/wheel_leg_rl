@@ -8,7 +8,7 @@ import torch
 
 
 ROOT_PROJECT = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(ROOT_PROJECT / "source" / "wheelleg_dreamwaq"))
+sys.path.insert(0, str(ROOT_PROJECT / "training"))
 
 from wheelleg_dreamwaq.schemas.normalization import NormalizationV2  # noqa: E402
 from wheelleg_dreamwaq.schemas.observation import assemble_actor_obs  # noqa: E402

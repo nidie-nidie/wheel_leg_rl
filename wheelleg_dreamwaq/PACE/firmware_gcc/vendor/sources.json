@@ -1,0 +1,50 @@
+{
+  "schema_version": "PaceGccVendorSourcesV1",
+  "files": [
+    {
+      "path": "st/startup_stm32h723xx.s",
+      "url": "https://raw.githubusercontent.com/STMicroelectronics/cmsis-device-h7/faccfec37f82f7a1319c21638111b0f7335de7fe/Source/Templates/gcc/startup_stm32h723xx.s",
+      "upstream_tag": "v1.10.4",
+      "commit": "faccfec37f82f7a1319c21638111b0f7335de7fe",
+      "license": "Apache-2.0",
+      "sha256": "1b311c18124d5095f90ef307aa24c4f14d49c9dce4c4b72b6dfac5ea6329c393",
+      "bytes": 30082
+    },
+    {
+      "path": "st/LICENSE.md",
+      "url": "https://raw.githubusercontent.com/STMicroelectronics/cmsis-device-h7/faccfec37f82f7a1319c21638111b0f7335de7fe/LICENSE.md",
+      "upstream_tag": "v1.10.4",
+      "commit": "faccfec37f82f7a1319c21638111b0f7335de7fe",
+      "license": "Apache-2.0",
+      "sha256": "49d37f1f2e5c1f9fc9da194b44ffbfa41f966b7cf446fbab4d1e2b0c1e3d20df",
+      "bytes": 11348
+    },
+    {
+      "path": "freertos/ARM_CM7/r0p1/port.c",
+      "url": "https://raw.githubusercontent.com/FreeRTOS/FreeRTOS-Kernel/88e32327e975ddde97c390bc5b6c1f8e7d9d239e/portable/GCC/ARM_CM7/r0p1/port.c",
+      "upstream_tag": "V10.3.1-kernel-only",
+      "commit": "88e32327e975ddde97c390bc5b6c1f8e7d9d239e",
+      "license": "MIT",
+      "sha256": "d9b888fa09e8d034f7e9116916105585f77a09ea0cd51bcc259d1202425d353d",
+      "bytes": 29747
+    },
+    {
+      "path": "freertos/ARM_CM7/r0p1/portmacro.h",
+      "url": "https://raw.githubusercontent.com/FreeRTOS/FreeRTOS-Kernel/88e32327e975ddde97c390bc5b6c1f8e7d9d239e/portable/GCC/ARM_CM7/r0p1/portmacro.h",
+      "upstream_tag": "V10.3.1-kernel-only",
+      "commit": "88e32327e975ddde97c390bc5b6c1f8e7d9d239e",
+      "license": "MIT",
+      "sha256": "6037be06fd2f0e63b213bcf295139105a7543488ffb54fd5f3d6de538e7e64f2",
+      "bytes": 8630
+    },
+    {
+      "path": "freertos/LICENSE",
+      "url": "https://raw.githubusercontent.com/FreeRTOS/FreeRTOS-Kernel/88e32327e975ddde97c390bc5b6c1f8e7d9d239e/LICENSE",
+      "upstream_tag": "V10.3.1-kernel-only",
+      "commit": "88e32327e975ddde97c390bc5b6c1f8e7d9d239e",
+      "license": "MIT",
+      "sha256": "a74efb143c66527cdb7a96461fc4e9652cbd33700bd2a129a0407e31ae03084a",
+      "bytes": 1101
+    }
+  ]
+}

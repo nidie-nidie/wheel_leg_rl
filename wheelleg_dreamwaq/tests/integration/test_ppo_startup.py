@@ -48,7 +48,7 @@ TRACE_TENSOR_FIELDS = (
 
 
 def _run_training(arguments: list[str]) -> Path:
-    run_project_script(["scripts/train_ppo.py", *arguments, "--headless"], timeout=360)
+    run_project_script(["training/scripts/train_ppo.py", *arguments, "--headless"], timeout=360)
     latest_path = PROJECT_ROOT / "artifacts" / "phase1" / "latest_run.txt"
     return Path(latest_path.read_text(encoding="utf-8").strip())
 
@@ -236,7 +236,7 @@ def test_rtx5070_checkpoint_resume_same_and_cross_environment_counts() -> None:
 
     run_project_script(
         [
-            "scripts/play.py",
+            "training/scripts/play.py",
             "--checkpoint",
             str(cross_runs[0][2]),
             "--num-envs",

@@ -28,7 +28,7 @@ def test_split_fresh_resume_export_and_real_mujoco_loader(tmp_path):
     assert "Reward/action_smooth_leg" in tags and "Reward/action_smooth_wheel" in tags
     assert "Reward/action_smooth" not in tags
     export = tmp_path / "export"
-    run_project_script(["scripts/export_dreamwaq_actor.py", "--checkpoint", str(checkpoint), "--output", str(export)])
+    run_project_script(["training/scripts/export_dreamwaq_actor.py", "--checkpoint", str(checkpoint), "--output", str(export)])
     actor = torch.jit.load(str(export / "actor.ts")).eval()
     golden = torch.load(export / "golden_vectors.pt", weights_only=False, map_location="cpu")
     with torch.inference_mode():
@@ -39,7 +39,7 @@ def test_split_fresh_resume_export_and_real_mujoco_loader(tmp_path):
         assert actor(golden["history"][:3]).shape == (3, 6)
     output = tmp_path / "mujoco-loader-smoke"
     subprocess.run([str(PROJECT_ROOT / "sim2sim/mujoco/.venv/Scripts/python.exe"),
-                    "scripts/evaluate_command_practice_mujoco.py", "--policy", str(export / "actor.ts"),
+                    "training/scripts/evaluate_command_practice_mujoco.py", "--policy", str(export / "actor.ts"),
                     "--manifest", str(export / "policy_manifest.json"), "--output", str(output), "--smoke"],
                    cwd=PROJECT_ROOT, check=True, timeout=180, capture_output=True)
     report = json.loads((output / "summary.json").read_text(encoding="utf-8"))

@@ -608,8 +608,8 @@ def main() -> None:
             "stopped_reason_code": stopped_reason,
         }
         metadata["stopped_reason"] = metadata["termination_reason_codes"][str(stopped_reason)]
-        formal_task_root = root / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat"
-        schema_root = root / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas"
+        formal_task_root = root / "training/wheelleg_dreamwaq/tasks/direct/wheelleg_flat"
+        schema_root = root / "training/wheelleg_dreamwaq/schemas"
         formal_sources = {
             "formal_environment": formal_task_root / "env.py",
             "formal_environment_config": formal_task_root / "env_cfg.py",

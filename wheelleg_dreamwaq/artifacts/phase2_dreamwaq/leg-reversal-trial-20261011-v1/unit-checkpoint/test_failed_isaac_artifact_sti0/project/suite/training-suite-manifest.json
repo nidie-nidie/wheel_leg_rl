@@ -1,0 +1,64 @@
+{
+  "baseline_isaac_report": null,
+  "baseline_status": "not_comparable",
+  "candidate_only": true,
+  "created_at": "2026-10-11T21:43:59.470881+08:00",
+  "fresh_start": true,
+  "iterations_per_run": 1,
+  "mujoco_ranking_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\unit-checkpoint\\test_failed_isaac_artifact_sti0\\project\\suite\\mujoco-ranking-summary.json",
+  "profile": "rtx5070",
+  "run_count": 1,
+  "runs": [
+    {
+      "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\unit-checkpoint\\test_failed_isaac_artifact_sti0\\project\\run\\model_0.pt",
+      "command_practice_acceptance": false,
+      "command_practice_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\unit-checkpoint\\test_failed_isaac_artifact_sti0\\project\\suite\\mujoco_command_practice\\run-01\\summary.json",
+      "context_acceptance": false,
+      "evaluation_errors": {
+        "isaac": "RuntimeError: missing Isaac artifact"
+      },
+      "export_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\unit-checkpoint\\test_failed_isaac_artifact_sti0\\project\\suite\\exports\\run-01",
+      "index": 1,
+      "monitor": {
+        "hard_anomalies": [],
+        "status": "ok",
+        "warnings": []
+      },
+      "mujoco_evaluation": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\unit-checkpoint\\test_failed_isaac_artifact_sti0\\project\\suite\\mujoco_evaluation\\run-01\\summary.json",
+      "mujoco_speed_acceptance": false,
+      "mujoco_speed_target_failures": [
+        "nominal_stand:incomplete",
+        "low_stand:incomplete",
+        "high_stand:incomplete",
+        "forward:incomplete",
+        "reverse:incomplete",
+        "left_turn:incomplete",
+        "right_turn:incomplete",
+        "combined:incomplete"
+      ],
+      "run_dir": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\unit-checkpoint\\test_failed_isaac_artifact_sti0\\project\\run",
+      "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\unit-checkpoint\\test_failed_isaac_artifact_sti0\\project\\run\\run_manifest.json",
+      "run_name": "dreamwaq-v1-suite-20261011-214359-run01-seed123",
+      "seed": 123,
+      "status": "evaluation_incomplete",
+      "training_fingerprint_hash": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+      "training_summary": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\unit-checkpoint\\test_failed_isaac_artifact_sti0\\project\\run\\training_summary.json"
+    }
+  ],
+  "schema_version": "DreamWaQTrainingSuiteV1",
+  "seeds": [
+    123
+  ],
+  "shared_isaac_reset_cache": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\artifacts\\phase2_dreamwaq\\leg-reversal-trial-20261011-v1\\unit-checkpoint\\test_failed_isaac_artifact_sti0\\project\\suite\\isaac_evaluation\\evaluation-reset-cache.pt",
+  "status": "incomplete",
+  "suite_id": "20261011-214359",
+  "suite_mode": "smoke",
+  "suite_source_fingerprint_hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "task_profile": "stop_reverse_v1",
+  "training_fingerprint_hash": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "training_monitor_gate": {
+    "hard_anomalies": [],
+    "status": "ok",
+    "warnings": []
+  }
+}

@@ -1,11 +1,17 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from dataclasses import asdict
 import hashlib
 import json
 from pathlib import Path
 
 import numpy as np
+
+from wheelleg_dreamwaq.schemas.heading_control import RUNTIME_GEOMETRY
+from wheelleg_dreamwaq.schemas.normalization import RawActionNormalizationV1
+from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.training_profiles import raw_task_profile_name
+from wheelleg_dreamwaq.tasks.direct.wheelleg_flat.control import ControlLimits
 
 from .versions import ACTION_ADAPTER_VERSION, HISTORY_ADAPTER_VERSION, OBSERVATION_ADAPTER_VERSION
 from .model_semantics import stable_hash
@@ -48,6 +54,7 @@ class AdapterContract:
     history_length: int = 1
     history_layout: str = "current_frame"
     isaac_physics_dt_s: float = 0.005
+    heading_hold: dict | None = None
 
     @classmethod
     def from_policy_manifest(cls, payload: dict) -> "AdapterContract":
@@ -58,9 +65,11 @@ class AdapterContract:
         timing = payload["timing"]
         action = payload["action"]
         control = payload["control"]
+        if action["clip_actions"] is None:
+            _validate_raw_heading_metadata(payload)
         return cls(
             q_nominal=np.asarray(payload["q_nominal"], dtype=np.float64),
-            action_clip=float(action["clip_actions"]),
+            action_clip=np.inf if action["clip_actions"] is None else float(action["clip_actions"]),
             leg_action_scale=float(control["leg_action_scale"]),
             wheel_action_scale=float(control["wheel_action_scale"]),
             leg_target_lower=np.asarray(control["leg_target_lower"], dtype=np.float64),
@@ -82,7 +91,32 @@ class AdapterContract:
             history_length=int(payload["network"].get("history_length", 1)),
             history_layout=str(payload["network"].get("history_layout", "current_frame")),
             isaac_physics_dt_s=float(timing["isaac_sim_dt_s"]),
+            heading_hold=payload.get("heading_hold"),
         )
+
+
+def _validate_raw_heading_metadata(manifest: dict) -> None:
+    raw_task_profile_name(manifest.get("training_reward_weights"), manifest.get("heading_hold"))
+    sampling = manifest.get("command_sampling", {})
+    if (manifest.get("schema_version") != "DreamWaQPolicyExportV1"
+            or manifest.get("base_task_contract_version") != "WheelLegBaseTaskContractV2RawHeading"
+            or manifest.get("dreamwaq_algorithm_contract_version") != "DreamWaQAlgorithmContractV2RawActions"
+            or manifest.get("dreamwaq_export_contract_version") != "DreamWaQExportContractV2RawHeading"
+            or manifest.get("runtime_geometry") != RUNTIME_GEOMETRY
+            or manifest.get("normalization") != asdict(RawActionNormalizationV1())
+            or manifest.get("control") != json.loads(json.dumps(asdict(ControlLimits())))
+            or manifest.get("action", {}).get("clip_actions", 1.0) is not None
+            or manifest.get("network", {}).get("runtime_action_clip", [-1, 1]) is not None
+            or manifest.get("timing", {}).get("control_dt_s") != 0.02
+            or sampling.get("practice_schedule") != "StopReverseCommandPracticeV1"
+            or sampling.get("hold_for_episode") is not False
+            or manifest.get("training_leg_reversal") is not None
+            or manifest.get("training_leg_acceleration") is not None):
+        raise ValueError("原始动作/航向 baseline 部署契约不完整或已更改")
+    expected = {"action": "RawActionV1", "normalization": "RawActionNormalizationV1",
+                "reward": "RewardSchemaV4RawSplitStraight"}
+    if any(manifest.get("schemas", {}).get(key) != value for key, value in expected.items()):
+        raise ValueError("原始动作/航向 baseline schema 无效")
 
 
 def _validate_split_smooth_metadata(manifest: dict) -> None:
@@ -132,6 +166,12 @@ def load_policy_contract(
     }
     schemas = manifest.get("schemas")
     schema_version = manifest.get("schema_version")
+    raw_heading = manifest.get("dreamwaq_export_contract_version") == "DreamWaQExportContractV2RawHeading"
+    if raw_heading:
+        _validate_raw_heading_metadata(manifest)
+        expected_schemas.update(action="RawActionV1", normalization="RawActionNormalizationV1")
+    elif "heading_hold" in manifest or manifest.get("action", {}).get("clip_actions") != 1.0:
+        raise ValueError("旧 profile 的动作或航向身份无效")
     if (
         schema_version not in {"PpoActorExportV1", "DreamWaQPolicyExportV1"}
         or not isinstance(schemas, dict)
@@ -143,7 +183,9 @@ def load_policy_contract(
             raise ValueError("Randomized policy manifest is missing RandomizationSchemaV1")
     validate_command_practice(manifest)
     reward_schema = schemas.get("reward")
-    if reward_schema == "RewardSchemaV3SplitSmooth" and schema_version == "DreamWaQPolicyExportV1":
+    if raw_heading:
+        pass
+    elif reward_schema == "RewardSchemaV3SplitSmooth" and schema_version == "DreamWaQPolicyExportV1":
         _validate_split_smooth_metadata(manifest)
     elif reward_schema != "RewardSchemaV2":
         raise ValueError("Unsupported policy reward schema")

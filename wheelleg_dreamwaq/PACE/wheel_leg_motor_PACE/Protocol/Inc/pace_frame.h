@@ -11,7 +11,9 @@
 extern "C" {
 #endif
 
-#define PACE_PROTOCOL_VERSION 1U
+#define PACE_PROTOCOL_VERSION 2U
+#define PACE_LEGACY_PROTOCOL_VERSION 1U
+#define PACE_TIMESTAMP_TIM5_ISR_SERVICE 1U
 #define PACE_FRAME_MAGIC_0 0x50U
 #define PACE_FRAME_MAGIC_1 0x41U
 #define PACE_COMMON_HEADER_SIZE 10U
@@ -20,7 +22,8 @@ extern "C" {
 #define PACE_STATUS_MAX_FRAME_SIZE 128U
 #define PACE_STATUS_MAX_EXTENSION_SIZE 64U
 #define PACE_SESSION_HEADER_FRAME_SIZE 58U
-#define PACE_STAGE_CONFIG_FRAME_SIZE 76U
+#define PACE_LEGACY_STAGE_CONFIG_FRAME_SIZE 76U
+#define PACE_STAGE_CONFIG_FRAME_SIZE 128U
 #define PACE_EVENT_FRAME_SIZE 30U
 #define PACE_FOOTER_FRAME_SIZE 34U
 
@@ -39,6 +42,26 @@ typedef enum
     PACE_SESSION_COMMISSIONING = 1,
     PACE_SESSION_FINAL_IDENTIFICATION = 2
 } pace_session_type_t;
+
+typedef enum
+{
+    PACE_ROLE_DIAGNOSTIC = 0,
+    PACE_ROLE_FIT = 1,
+    PACE_ROLE_VALIDATION = 2,
+    PACE_ROLE_STATIC = 3,
+    PACE_ROLE_STOP = 4
+} pace_experiment_role_t;
+
+typedef enum
+{
+    PACE_HOLD_ZERO_ORDER = 1
+} pace_command_hold_method_t;
+
+typedef enum
+{
+    PACE_CENTER_INITIAL_FEEDBACK = 1,
+    PACE_CENTER_VERIFIED_CONTRACT = 2
+} pace_center_source_t;
 
 typedef struct
 {
@@ -102,12 +125,14 @@ typedef struct
     pace_session_type_t session_type;
     uint8_t motor_order_version;
     uint8_t wire_endianness;
+    uint8_t timestamp_timebase;
     uint32_t session_id;
     uint16_t sample_rate_hz;
     uint16_t status_rate_hz;
     uint32_t start_timestamp_us;
     uint32_t experiment_config_hash;
     uint16_t sample_frame_size_bytes;
+    uint16_t control_rate_hz;
     uint32_t uart_baud;
     uint32_t can_nominal_bitrate;
     uint32_t scale_manifest_hash;
@@ -130,6 +155,15 @@ typedef struct
     uint32_t duration_ms;
     uint16_t safety_limit_set_id;
     uint32_t experiment_config_hash;
+    uint8_t role;
+    uint8_t group_mask;
+    uint16_t segment_id;
+    uint16_t action_update_rate_hz;
+    uint8_t command_hold_method;
+    uint8_t center_source;
+    float phase_rad;
+    float dm_center_rad[PACE_DM_MOTOR_COUNT];
+    float excitation_multiplier[PACE_MOTOR_COUNT];
 } pace_stage_config_frame_data_t;
 
 typedef struct

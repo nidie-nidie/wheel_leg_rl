@@ -1,0 +1,812 @@
+{
+  "schema_version": "Wheelleg4096CheckpointProvenanceV1",
+  "recorded_at": "2026-10-18T16:04:56.1154787+08:00",
+  "purpose": "固定4096环境、seed41882943、701次更新checkpoint的来源与训练契约，作为后续debug约束微调基线",
+  "reference_checkpoint": {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\debug\\no_action_clip\\runs\\fresh1000-split-straight-lambda01-env4096-20261016",
+    "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\debug\\no_action_clip\\runs\\fresh1000-split-straight-lambda01-env4096-20261016\\model_700.pt",
+    "checkpoint_sha256": "A351C42E999F873FDA0921940BA9F2C57FB2143485971DF50A8757B067507FB9",
+    "manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\debug\\no_action_clip\\runs\\fresh1000-split-straight-lambda01-env4096-20261016\\manifest.json",
+    "manifest_sha256": "82AB66E75ABA245860EA260B10D68748D8678E313A03951A35ADA2829217BB38",
+    "experiment_id": "DebugNoActionClipSplitStraightV1",
+    "task_profile": "no_clip_split_straight_v1",
+    "num_envs": 4096,
+    "seed": 41882943,
+    "requested_max_iterations": 1000,
+    "checkpoint_index": 700,
+    "completed_updates": 701,
+    "fresh_initialization": true,
+    "starting_completed_iterations": 0,
+    "later_run_progress_completed_iterations": 729,
+    "later_run_stop_context": "stopped_by_user",
+    "reward_weights": {
+      "action_rate": -0.01,
+      "action_smooth": 0.0,
+      "action_smooth_leg": -0.02,
+      "action_smooth_wheel": -0.01,
+      "ang_vel_xy": -0.2,
+      "dof_acc": -2.5E-07,
+      "dof_pos_limits": -1.0,
+      "dof_vel": -5E-05,
+      "height_sigma": 0.001,
+      "lin_vel_z": -1.0,
+      "orientation": -100.0,
+      "phi0_symmetry": -1.0,
+      "soft_leg_limit": 0.95,
+      "termination": -5.0,
+      "torques": -0.0001,
+      "tracking_base_height": 1.0,
+      "tracking_sigma": 0.25,
+      "tracking_vx": 2.0,
+      "tracking_vx_enhance": 2.0,
+      "tracking_yaw_rate": 1.0,
+      "tracking_yaw_rate_enhance": 1.0,
+      "wheel_differential": -0.1
+    },
+    "reward_contract": {
+      "control_dt_s": 0.02,
+      "schema_version": "DebugSplitStraightRewardV1",
+      "smooth": {
+        "composite_weight": 0.0,
+        "formula": "sum((a_t-2*a_previous+a_previous_previous)^2)",
+        "leg_indices": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "leg_weight": -0.02,
+        "wheel_indices": [
+          4,
+          5
+        ],
+        "wheel_weight": -0.01
+      },
+      "wheel_differential": {
+        "action_frame": "canonical_same_forward_direction",
+        "command_timing": "before_command_practice_advance",
+        "command_vx_not_equal": 0.0,
+        "command_yaw_rate_equal": 0.0,
+        "formula": "(raw_action_left-raw_action_right)^2",
+        "weight": -0.1
+      }
+    },
+    "action_contract": {
+      "decoder_action": "detached_raw_six_dimensional_action",
+      "effective_mean_clip": [
+        -20.0,
+        20.0
+      ],
+      "history": "five_frames_t_minus_4_through_t",
+      "id": "DebugNoActionClipV2",
+      "leg_scale": 0.35,
+      "leg_target_clip_rad": [
+        -1.0,
+        1.0
+      ],
+      "previous_action": "raw_six_dimensional_action",
+      "reward_action": "raw_six_dimensional_action",
+      "runtime_clip": null,
+      "wheel_scale": 25.0
+    },
+    "runtime": {
+      "python": "3.11.16",
+      "torch": "2.7.0+cu128",
+      "rsl_rl": "3.1.2",
+      "isaac_sim": "5.1.0.0",
+      "isaac_lab_commit": "37ddf626871758333d6ed89cf64ad702aef127d0",
+      "cuda_device_name": "NVIDIA GeForce RTX 5070"
+    },
+    "randomization": {
+      "master_seed": 41882943,
+      "profile_hash": "28C4E8DEB19C35F447BE71C5C803986CE9105A0A0D95DD641E8C9C40885DFA18",
+      "actuator_plan_hash": "8A12661D983796022D80450873A2F777C5F09F36B5D5D56695F0EE14C874D387",
+      "realized_plan_hash": "A70971475071E60788A54242A76A83F444237B844CEC1F1188A88546382070E0",
+      "reset_cache_tensor_sha256": "B7718AE916DCBE858D82FFD939FF6BF589F177C98875CD219D0C5B19ABEC2F1A",
+      "asset_bundle_hash": "E754AE888F5C5379B3B6152CFA5AD6BBAE20E8C7480CF7AD6960782A5267CB46"
+    }
+  },
+  "formal_reproduction": {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-17_17-56-29_rtx5070_fudan-v1_baseline-yaw1-headingoff-env4096-fresh701-20261017",
+    "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-17_17-56-29_rtx5070_fudan-v1_baseline-yaw1-headingoff-env4096-fresh701-20261017\\model_700.pt",
+    "checkpoint_sha256": "21DEB4222A2B260008DE6B9829447C92E64B21BE268CF0AB66AF6E163062E984",
+    "run_manifest": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-17_17-56-29_rtx5070_fudan-v1_baseline-yaw1-headingoff-env4096-fresh701-20261017\\run_manifest.json",
+    "run_manifest_sha256": "631782A8F4C34D438155EB304405D742D8C35C465AE8B0972C814B02AB6ECBFB",
+    "training_summary_file": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-17_17-56-29_rtx5070_fudan-v1_baseline-yaw1-headingoff-env4096-fresh701-20261017\\training_summary.json",
+    "training_summary_sha256": "D4E3530844F68BC0DC60CAD25088659D95F695F2D3562653A76011D8E4BA8682",
+    "launch_directory": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\debug\\sim2sim\\runs\\baseline-yaw1-headingoff-env4096-fresh701-seed41882943-20261017-launch",
+    "training_md": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\debug\\sim2sim\\runs\\baseline-yaw1-headingoff-env4096-fresh701-seed41882943-20261017-launch\\training.md",
+    "training_md_sha256": "00C1E16D02334482B3E157CD8D4C42FFE91B66EEE26AE35E46802603097A69E4",
+    "command": [
+      "scripts/train_dreamwaq.py",
+      "--profile",
+      "rtx5070",
+      "--num-envs",
+      "4096",
+      "--max-iterations",
+      "701",
+      "--seed",
+      "41882943",
+      "--run-name",
+      "baseline-yaw1-headingoff-env4096-fresh701-20261017",
+      "--task-profile",
+      "stop_reverse_raw_split_straight_yaw1_headingoff_v1",
+      "--headless",
+      "--device",
+      "cuda:0"
+    ],
+    "profile": {
+      "num_envs": 256,
+      "num_mini_batches": 8
+    },
+    "profile_name": "rtx5070",
+    "task_profile": "stop_reverse_raw_split_straight_yaw1_headingoff_v1",
+    "num_envs": 4096,
+    "seed": 41882943,
+    "device": "cuda:0",
+    "num_steps_per_env": 24,
+    "num_mini_batches": 8,
+    "max_iterations": 701,
+    "training_summary": {
+      "starting_completed_iterations": 0,
+      "completed_iterations": 701,
+      "iterations_executed": 701,
+      "resumed_from": null,
+      "final_checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-17_17-56-29_rtx5070_fudan-v1_baseline-yaw1-headingoff-env4096-fresh701-20261017\\model_700.pt",
+      "runner_final_iteration_index": 700
+    },
+    "task_contract": {
+      "control_dt": 0.02,
+      "sim_dt": 0.005,
+      "decimation": 4,
+      "episode_length_s": 10.0,
+      "commands": {
+        "base_height": [
+          0.16,
+          0.24
+        ],
+        "hold_for_episode": false,
+        "mode_probabilities": [
+          0.2,
+          0.3,
+          0.2,
+          0.3
+        ],
+        "practice_contract": {
+          "clock": "real_completed_control_steps_per_environment",
+          "control_dt_s": 0.02,
+          "factors": [
+            1,
+            0,
+            -1,
+            0,
+            1,
+            0
+          ],
+          "final_phase_behavior": "hold_last_factor",
+          "height_behavior": "hold_reset_sample",
+          "stage_end_control_steps": [
+            100,
+            150,
+            250,
+            300,
+            400,
+            500
+          ],
+          "update_timing": "after_reward_before_next_observation",
+          "version": "StopReverseCommandPracticeV1"
+        },
+        "practice_schedule": "StopReverseCommandPracticeV1",
+        "vx": [
+          -1.5,
+          1.5
+        ],
+        "yaw_rate": [
+          -1.0,
+          1.0
+        ]
+      },
+      "control": {
+        "leg_action_scale": 0.35,
+        "leg_target_lower": [
+          -1.0,
+          -1.0,
+          -1.0,
+          -1.0
+        ],
+        "leg_target_upper": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "wheel_action_scale": 25.0
+      },
+      "heading_hold": {
+        "command_timing": "prepare_before_policy_reward_before_source_advance",
+        "control_dt_s": 0.02,
+        "enabled": false,
+        "error": "atan2(sin(reference-yaw),cos(reference-yaw))",
+        "kd": 0.0,
+        "kp": 9.0,
+        "max_yaw_rate": 1.0,
+        "orientation": "R_control_from_model@R_world_from_body@R_control_from_model.T",
+        "reference_capture": "reset_toggle_and_first_zero_after_nonzero_source_yaw",
+        "version": "HeadingHoldV1",
+        "wheel_differential_gate": "effective_vx_ne_0_and_effective_yaw_eq_0"
+      },
+      "reward_weights": {
+        "action_rate": -0.01,
+        "action_smooth": 0.0,
+        "action_smooth_leg": -0.02,
+        "action_smooth_wheel": -0.01,
+        "ang_vel_xy": -0.2,
+        "dof_acc": -2.5E-07,
+        "dof_pos_limits": -1.0,
+        "dof_vel": -5E-05,
+        "height_sigma": 0.001,
+        "lin_vel_z": -1.0,
+        "orientation": -100.0,
+        "phi0_symmetry": -1.0,
+        "soft_leg_limit": 0.95,
+        "termination": -5.0,
+        "torques": -0.0001,
+        "tracking_base_height": 1.0,
+        "tracking_sigma": 0.25,
+        "tracking_vx": 2.0,
+        "tracking_vx_enhance": 2.0,
+        "tracking_yaw_rate": 1.0,
+        "tracking_yaw_rate_enhance": 1.0,
+        "wheel_differential": -0.1
+      },
+      "termination": {
+        "grace_steps": 10,
+        "max_base_height": 0.4,
+        "max_joint_velocity": 80.0,
+        "max_root_angular_velocity": 35.0,
+        "max_root_linear_velocity": 20.0,
+        "max_tilt_rad": 0.8,
+        "min_base_height": 0.1
+      },
+      "physics": {
+        "control_dt": 0.02,
+        "decimation": 4,
+        "sim_dt": 0.005,
+        "solver_position_iterations": 96,
+        "solver_velocity_iterations": 4,
+        "velocity_limit_policy": {
+          "external_speed_limit_force": false,
+          "external_speed_limit_torque": false,
+          "isaac_velocity_sentinel": 3.4028234663852886E+38,
+          "joint_speed_limit": "disabled",
+          "rigid_body_angular_speed_limit": "disabled",
+          "rigid_body_linear_speed_limit": "disabled",
+          "runtime_velocity_write": false,
+          "version": "UnrestrictedVelocityPolicyV1"
+        }
+      }
+    },
+    "action_contract": {
+      "canonical_joint_order": [
+        "jIJ",
+        "jIO",
+        "jAB",
+        "jAG",
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "clip_actions": null,
+      "dimension": 6,
+      "packet_leg_order": [
+        "jIO",
+        "jAG",
+        "jIJ",
+        "jAB"
+      ],
+      "packet_to_policy_leg": [
+        2,
+        0,
+        3,
+        1
+      ],
+      "policy_to_packet_leg": [
+        1,
+        3,
+        0,
+        2
+      ],
+      "wheel_joint_order": [
+        "jwheel_left",
+        "jwheel_right"
+      ],
+      "wheel_joint_sign_usd": [
+        1.0,
+        -1.0
+      ]
+    },
+    "randomization": {
+      "master_seed": 41882943,
+      "profile_hash": "28C4E8DEB19C35F447BE71C5C803986CE9105A0A0D95DD641E8C9C40885DFA18",
+      "profile_contract": {
+        "actor_observation": "physical_noise_then_normalize",
+        "critic_actor_features": "clean_then_normalize",
+        "generator_device_rules": {
+          "cpu_streams": [
+            "actuator_gain_rng",
+            "command_rng",
+            "effort_limit_rng",
+            "joint_reference_rng",
+            "material_rng",
+            "reset_velocity_rng"
+          ],
+          "environment_device_streams": [
+            "observation_noise_rng"
+          ]
+        },
+        "implicit_torque_semantics": "implicit_pd_estimate",
+        "profile": {
+          "angular_velocity_noise_rad_s": 0.2,
+          "effort_limit_scale_range": [
+            0.95,
+            1.05
+          ],
+          "enabled": true,
+          "friction_bucket_count": 64,
+          "friction_range": [
+            0.6,
+            1.4
+          ],
+          "joint_reference_resample_limit": 32,
+          "joint_velocity_noise_rad_s": 1.5,
+          "kd_scale_range": [
+            0.95,
+            1.05
+          ],
+          "kp_scale_range": [
+            0.95,
+            1.05
+          ],
+          "leg_position_noise_rad": 0.02,
+          "leg_reference_offset_range_rad": [
+            -0.03,
+            0.03
+          ],
+          "max_leg_length_delta_m": 0.01,
+          "max_leg_phi0_delta_rad": 0.08726646259971647,
+          "max_lr_phi0_delta_rad": 0.08726646259971647,
+          "name": "FudanStyleDomainRandomizationV1",
+          "projected_gravity_noise": 0.05,
+          "root_angular_range_rad_s": [
+            -0.1,
+            0.1
+          ],
+          "root_linear_xy_range_mps": [
+            -0.1,
+            0.1
+          ],
+          "root_linear_z_range_mps": [
+            -0.05,
+            0.05
+          ]
+        },
+        "schema_version": "RandomizationSchemaV1",
+        "seed_derivation_version": "RandomizationSeedDerivationV1",
+        "stream_lifecycle": {
+          "process_start": [
+            "material_rng",
+            "joint_reference_rng",
+            "actuator_gain_rng",
+            "effort_limit_rng"
+          ],
+          "runtime": [
+            "reset_velocity_rng",
+            "observation_noise_rng",
+            "command_rng"
+          ]
+        },
+        "streams": [
+          "material_rng",
+          "joint_reference_rng",
+          "actuator_gain_rng",
+          "effort_limit_rng",
+          "reset_velocity_rng",
+          "observation_noise_rng",
+          "command_rng"
+        ]
+      },
+      "stream_seeds": {
+        "actuator_gain_rng": {
+          "device": "cpu",
+          "generator": "torch.Generator",
+          "seed": 6034842072995632435
+        },
+        "command_rng": {
+          "device": "cpu",
+          "generator": "torch.Generator",
+          "seed": 6595559918548262835
+        },
+        "effort_limit_rng": {
+          "device": "cpu",
+          "generator": "torch.Generator",
+          "seed": 6968449058066602035
+        },
+        "joint_reference_rng": {
+          "device": "cpu",
+          "generator": "torch.Generator",
+          "seed": 494815780320264010
+        },
+        "material_rng": {
+          "device": "cpu",
+          "generator": "torch.Generator",
+          "seed": 3692697337608525457
+        },
+        "observation_noise_rng": {
+          "device": "cuda:0",
+          "generator": "torch.Generator",
+          "seed": 8889870467103181656
+        },
+        "reset_velocity_rng": {
+          "device": "cpu",
+          "generator": "torch.Generator",
+          "seed": 7013632384229513208
+        }
+      }
+    },
+    "algorithm_contract": {
+      "algorithm_class": "DreamWaQPPO",
+      "policy_class": "DreamWaQActorCritic",
+      "ppo": {
+        "clip_param": 0.2,
+        "desired_kl": 0.01,
+        "entropy_coef": 0.01,
+        "gamma": 0.99,
+        "lam": 0.95,
+        "learning_rate": 0.001,
+        "max_grad_norm": 1.0,
+        "normalize_advantage_per_mini_batch": false,
+        "num_learning_epochs": 5,
+        "schedule": "adaptive",
+        "use_clipped_value_loss": true,
+        "value_loss_coef": 1.0
+      },
+      "loss": {
+        "kl_beta": 1.0,
+        "reconstruction_coef": 1.0,
+        "velocity_coef": 1.0
+      },
+      "optimizer": {
+        "count": 1,
+        "global_gradient_clip": 1.0,
+        "type": "Adam"
+      },
+      "network": {
+        "activation": "elu",
+        "actor": [
+          44,
+          256,
+          128,
+          64,
+          6
+        ],
+        "actor_context_mode": "deterministic_context_mu",
+        "critic": [
+          41,
+          256,
+          128,
+          64,
+          1
+        ],
+        "decoder": [
+          25,
+          64,
+          128,
+          16
+        ],
+        "decoder_condition": "sampled_context_z+detached_velocity+detached_raw_action",
+        "encoder": [
+          125,
+          128,
+          64,
+          35
+        ],
+        "encoder_output_slices": {
+          "context_logvar": [
+            19,
+            35
+          ],
+          "context_mu": [
+            3,
+            19
+          ],
+          "velocity": [
+            0,
+            3
+          ]
+        }
+      },
+      "history": {
+        "current_observation_dim": 25,
+        "flat_dimension": 125,
+        "layout": "frame_major",
+        "length": 5,
+        "reset_fill": "five_copies_of_first_policy_observation",
+        "schema_version": "HistoryLayoutV1"
+      }
+    },
+    "export_contract": {
+      "actor": {
+        "effective_mean_clip": [
+          -20.0,
+          20.0
+        ],
+        "excluded": [
+          "critic",
+          "decoder",
+          "gaussian_sampling",
+          "empirical_normalizer",
+          "history_buffer"
+        ],
+        "format": "torch.jit.script",
+        "input": {
+          "dimension": 125,
+          "dtype": "float32",
+          "dynamic_batch": true,
+          "name": "history",
+          "rank": 2
+        },
+        "output": {
+          "dimension": 6,
+          "dtype": "float32",
+          "name": "action_mean",
+          "rank": 2
+        },
+        "runtime_action_clip": null,
+        "stateful": false
+      },
+      "golden_vectors": {
+        "dtype": "float32",
+        "generator": "cpu_torch_randn",
+        "max_abs_error": 1E-07,
+        "seed": 20261007,
+        "shape": [
+          32,
+          125
+        ]
+      },
+      "artifacts": [
+        "actor.ts",
+        "policy_manifest.json",
+        "golden_vectors.pt"
+      ]
+    },
+    "integrity": {
+      "architecture_sha256": "51E7A4E6629F884EA671D8FE79694492A35D8904F38CEA5BF6F5DEBD0FAA5DB7",
+      "project_source_sha256": "0C45709FAAD367C9504F9CEE06FBD678CCDF5B490BC83D985B2A0D6FF36E6444",
+      "resolved_config_sha256": {
+        "agent": "2C78133A68EE82813361AC082284A60CA85AB3B0466CC83745D934CA3FEF63F2",
+        "environment": "EFAB08AB664F03EF9518F64CF7576EEC4F08D9BF36358E6FEAC3E524486A3C26",
+        "hardware": "77A59ABE4094F65F85AA07DF6CA97DC9FE54670B3E3CCE94F8B3810BDB61CDF4"
+      },
+      "asset_bundle_hash": "E754AE888F5C5379B3B6152CFA5AD6BBAE20E8C7480CF7AD6960782A5267CB46",
+      "closed_chain_reset_cache_sha256": "B7718AE916DCBE858D82FFD939FF6BF589F177C98875CD219D0C5B19ABEC2F1A"
+    }
+  },
+  "reward_formula_source": {
+    "path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\rewards.py",
+    "formulas": [
+      "tracking_vx=exp(-((vx-command_vx)^2)/tracking_sigma)",
+      "tracking_vx_enhance=exp(-((vx-command_vx)^2)/(tracking_sigma*10))-1",
+      "tracking_yaw_rate=exp(-((yaw_rate-command_yaw_rate)^2)/tracking_sigma)",
+      "tracking_yaw_rate_enhance=exp(-((yaw_rate-command_yaw_rate)^2)/(tracking_sigma*10))-1",
+      "dof_acc=sum(joint_acceleration^2)",
+      "action_rate=sum((last_applied_action-previous_applied_action)^2)",
+      "action_smooth=sum((a_t-2*a_previous+a_previous_previous)^2)",
+      "wheel_differential=gate*(raw_action_left-raw_action_right)^2",
+      "weighted_term=weight*control_dt*term"
+    ],
+    "line_refs": "RewardWeights 18-37; SplitSmoothRewardWeights 43-54; RawSplitStraightRewardWeights 60-71; term formulas 85-132; weighted sum 135-148",
+    "qddot_semantics": "dof_acc uses measured state.joint_acceleration (rad/s^2), separate from action_smooth",
+    "old_debug_rewards_sha256": "150D64C582DA20C5BCD5C3C39A76CC440C2E08D2A03AC01CB021E845EF183AE4",
+    "old_debug_environment_sha256": "D8040CCB081EA569052F7AA3A13BCDC24F5AD6B55AB239727262B1D069C096EA",
+    "current_formal_rewards_sha256": "6893CB691B06F77D3D8E8AE1869B9039487E175CFF0B1764A6C5E7C49FC96194",
+    "old_debug_rewards_path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\debug\\no_action_clip\\rewards.py",
+    "old_debug_environment_path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\debug\\no_action_clip\\environment.py",
+    "current_formal_rewards_path": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\source\\wheelleg_dreamwaq\\wheelleg_dreamwaq\\tasks\\direct\\wheelleg_flat\\rewards.py",
+    "implementation_migration_note": "旧model_700的debug环境在debug/no_action_clip/environment.py中先调用正式父环境奖励，再额外加入wheel_differential；当前正式入口在正式rewards.py的RawSplitStraightRewardWeights/compute_reward_terms中加入同名项。权重manifest相同，但两份实现文件SHA不同，因此必须把实现等价性作为后续debug检查项，不能仅凭权重相同声称完全复现。"
+  },
+  "baseline_for_next_step": {
+    "checkpoint": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\debug\\no_action_clip\\runs\\fresh1000-split-straight-lambda01-env4096-20261016\\model_700.pt",
+    "completed_updates": 701,
+    "stability_reference": "Use measured sustained joint-acceleration RMS from this checkpoint as the ceiling/reference; do not infer it from reward scalar",
+    "speed_objective": "Any constrained continuation must reduce speed-tracking MAE relative to this checkpoint while preserving the stability budget",
+    "next_experiment_scope": "debug folder only; no formal source/config changes"
+  },
+  "formal_source_unchanged_this_turn": true,
+  "formal_source_git_status_at_recording": " M source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat/rewards.py",
+  "behavior_reference": {
+    "post_training_analysis": "E:\\wheel_leg_rl-main\\wheelleg_dreamwaq\\logs\\rsl_rl\\wheelleg_flat_dreamwaq\\2026-10-17_17-56-29_rtx5070_fudan-v1_baseline-yaw1-headingoff-env4096-fresh701-20261017\\post_training_analysis.json",
+    "post_training_analysis_sha256": "82A94CB9358A319BCCACA5E4979B48B0D9B64B552AB3A0B2B883303B0BEA9B23",
+    "source_completed_iterations": 500,
+    "disabled_aggregate": {
+      "vx_mae": 0.03731354048572227,
+      "yaw_rate_mae": 0.03413364369617059,
+      "height_mae": 0.0014708772534431222,
+      "roll_rms": 0.002368879336918647,
+      "pitch_rms": 0.018259271097544605,
+      "yaw_drift_rms": 0.22945411734860546,
+      "phi0_delta_rms": 0.02430748753815873,
+      "action_saturation_fraction": 0.0,
+      "effort_saturation_fraction": 0.0005625,
+      "max_tilt_rad": 0.026214287183776584,
+      "max_loop_closure_error_m": 0.00018876774381554575
+    },
+    "disabled_pooled_sustained_rms_rad_s2": 0.17272677856097493,
+    "disabled_pooled_sustained_mean_absolute_rad_s2": 0.03454021392687349,
+    "disabled_full_survival": 1.0,
+    "checkpoint_tensor_comparisons": [
+      {
+        "checkpoint": "model_0.pt",
+        "completed_updates": 1,
+        "model_tensors_exact_equal": true,
+        "model_max_absolute_error": 0.0,
+        "optimizer_tensors_exact_equal": true,
+        "optimizer_tensor_count": 87,
+        "learning_rates_equal": true,
+        "torch_cpu_rng_exact_equal": true,
+        "torch_cuda_rng_exact_equal": true,
+        "environment_rng_tensor_count": 7,
+        "environment_rng_tensors_exact_equal": true
+      },
+      {
+        "checkpoint": "model_100.pt",
+        "completed_updates": 101,
+        "model_tensors_exact_equal": true,
+        "model_max_absolute_error": 0.0,
+        "optimizer_tensors_exact_equal": true,
+        "optimizer_tensor_count": 87,
+        "learning_rates_equal": true,
+        "torch_cpu_rng_exact_equal": true,
+        "torch_cuda_rng_exact_equal": true,
+        "environment_rng_tensor_count": 7,
+        "environment_rng_tensors_exact_equal": true
+      },
+      {
+        "checkpoint": "model_200.pt",
+        "completed_updates": 201,
+        "model_tensors_exact_equal": true,
+        "model_max_absolute_error": 0.0,
+        "optimizer_tensors_exact_equal": true,
+        "optimizer_tensor_count": 87,
+        "learning_rates_equal": true,
+        "torch_cpu_rng_exact_equal": true,
+        "torch_cuda_rng_exact_equal": true,
+        "environment_rng_tensor_count": 7,
+        "environment_rng_tensors_exact_equal": true
+      },
+      {
+        "checkpoint": "model_300.pt",
+        "completed_updates": 301,
+        "model_tensors_exact_equal": true,
+        "model_max_absolute_error": 0.0,
+        "optimizer_tensors_exact_equal": true,
+        "optimizer_tensor_count": 87,
+        "learning_rates_equal": true,
+        "torch_cpu_rng_exact_equal": true,
+        "torch_cuda_rng_exact_equal": true,
+        "environment_rng_tensor_count": 7,
+        "environment_rng_tensors_exact_equal": true
+      },
+      {
+        "checkpoint": "model_400.pt",
+        "completed_updates": 401,
+        "model_tensors_exact_equal": true,
+        "model_max_absolute_error": 0.0,
+        "optimizer_tensors_exact_equal": true,
+        "optimizer_tensor_count": 87,
+        "learning_rates_equal": true,
+        "torch_cpu_rng_exact_equal": true,
+        "torch_cuda_rng_exact_equal": true,
+        "environment_rng_tensor_count": 7,
+        "environment_rng_tensors_exact_equal": true
+      },
+      {
+        "checkpoint": "model_500.pt",
+        "completed_updates": 501,
+        "model_tensors_exact_equal": true,
+        "model_max_absolute_error": 0.0,
+        "optimizer_tensors_exact_equal": true,
+        "optimizer_tensor_count": 87,
+        "learning_rates_equal": true,
+        "torch_cpu_rng_exact_equal": true,
+        "torch_cuda_rng_exact_equal": true,
+        "environment_rng_tensor_count": 7,
+        "environment_rng_tensors_exact_equal": true
+      },
+      {
+        "checkpoint": "model_600.pt",
+        "completed_updates": 601,
+        "model_tensors_exact_equal": true,
+        "model_max_absolute_error": 0.0,
+        "optimizer_tensors_exact_equal": true,
+        "optimizer_tensor_count": 87,
+        "learning_rates_equal": true,
+        "torch_cpu_rng_exact_equal": true,
+        "torch_cuda_rng_exact_equal": true,
+        "environment_rng_tensor_count": 7,
+        "environment_rng_tensors_exact_equal": true
+      },
+      {
+        "checkpoint": "model_700.pt",
+        "completed_updates": 701,
+        "model_tensors_exact_equal": true,
+        "model_max_absolute_error": 0.0,
+        "optimizer_tensors_exact_equal": true,
+        "optimizer_tensor_count": 87,
+        "learning_rates_equal": true,
+        "torch_cpu_rng_exact_equal": true,
+        "torch_cuda_rng_exact_equal": true,
+        "environment_rng_tensor_count": 7,
+        "environment_rng_tensors_exact_equal": true
+      }
+    ],
+    "checkpoint_comparison_limitation": "comparison_of_saved_states_only_does_not_verify_every_unsaved_step_or_final_behavior",
+    "historical_disabled_evaluation_exact_comparison": {
+      "nominal_stand": {
+        "common_numeric_columns": 43,
+        "common_numeric_values_exact_equal": true,
+        "common_numeric_max_absolute_error": 0.0,
+        "old_sustained_rms": 0.0065334680254045315,
+        "new_sustained_rms": 0.0065334680254045315
+      },
+      "low_stand": {
+        "common_numeric_columns": 43,
+        "common_numeric_values_exact_equal": true,
+        "common_numeric_max_absolute_error": 0.0,
+        "old_sustained_rms": 0.003675909304786999,
+        "new_sustained_rms": 0.003675909304786999
+      },
+      "high_stand": {
+        "common_numeric_columns": 43,
+        "common_numeric_values_exact_equal": true,
+        "common_numeric_max_absolute_error": 0.0,
+        "old_sustained_rms": 0.0055747247166781705,
+        "new_sustained_rms": 0.0055747247166781705
+      },
+      "forward": {
+        "common_numeric_columns": 43,
+        "common_numeric_values_exact_equal": true,
+        "common_numeric_max_absolute_error": 0.0,
+        "old_sustained_rms": 0.32805090161103045,
+        "new_sustained_rms": 0.32805090161103045
+      },
+      "reverse": {
+        "common_numeric_columns": 43,
+        "common_numeric_values_exact_equal": true,
+        "common_numeric_max_absolute_error": 0.0,
+        "old_sustained_rms": 0.07186877457188402,
+        "new_sustained_rms": 0.07186877457188402
+      },
+      "left_turn": {
+        "common_numeric_columns": 43,
+        "common_numeric_values_exact_equal": true,
+        "common_numeric_max_absolute_error": 0.0,
+        "old_sustained_rms": 0.0057104261438870535,
+        "new_sustained_rms": 0.0057104261438870535
+      },
+      "right_turn": {
+        "common_numeric_columns": 43,
+        "common_numeric_values_exact_equal": true,
+        "common_numeric_max_absolute_error": 0.0,
+        "old_sustained_rms": 0.0064123573877263385,
+        "new_sustained_rms": 0.0064123573877263385
+      },
+      "combined": {
+        "common_numeric_columns": 43,
+        "common_numeric_values_exact_equal": true,
+        "common_numeric_max_absolute_error": 0.0,
+        "old_sustained_rms": 0.35458821481657676,
+        "new_sustained_rms": 0.35458821481657676
+      }
+    }
+  }
+}

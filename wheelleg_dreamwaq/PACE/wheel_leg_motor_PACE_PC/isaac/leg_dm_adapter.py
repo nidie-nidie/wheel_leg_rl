@@ -5,7 +5,7 @@ import json
 import pathlib
 from typing import Mapping, Union
 
-from fit.model_manifest import load_model_manifest, verify_against_firmware_manifest
+from fit.model_manifest import load_model_manifest, verify_against_firmware_manifest, delay_steps_for_period, require_identified_motor_properties
 from pace_raw.manifest import load_firmware_manifest
 
 
@@ -32,6 +32,8 @@ def load_leg_dm_contract(value: Union[pathlib.Path, str, Mapping[str, object]]) 
         "dynamic_friction": [motor["model"]["dynamic_friction"] for motor in motors],
         "encoder_bias_rad": [motor["model"]["encoder_bias_rad"] for motor in motors],
         "delay_steps": delay_steps,
+        "delay_s": [motor["model"].get("delay_s", delay_steps * model["sample_period_s"]) for motor in motors],
+        "delay_semantics": "target_before_pd",
         "stiffness": [motor["model"]["controller"]["kp"] for motor in motors],
         "damping": [motor["model"]["controller"]["kd"] for motor in motors],
         "effort_limit_nm": [motor["model"]["effort_limit_nm"] for motor in motors],
@@ -42,8 +44,14 @@ def load_leg_dm_contract(value: Union[pathlib.Path, str, Mapping[str, object]]) 
     }
 
 
-def pace_dc_motor_cfg_kwargs(value: Union[pathlib.Path, str, Mapping[str, object]]) -> dict:
+def pace_dc_motor_cfg_kwargs(value: Union[pathlib.Path, str, Mapping[str, object]], *, runtime_period_s=None, actuator_delay_semantics=None) -> dict:
     contract = load_leg_dm_contract(value)
+    if runtime_period_s is None or actuator_delay_semantics != "target_before_pd":
+        raise ValueError("Isaac adapter requires runtime_period_s and a verified target_before_pd actuator; effort-delay actuators are incompatible")
+    model = load_model_manifest(value)
+    delays = {delay_steps_for_period(motor["model"], runtime_period_s, model["sample_period_s"]) for motor in model["motors"][:4]}
+    if len(delays) != 1:
+        raise ValueError("Isaac actuator needs one representable global physical delay")
     joints = contract["joint_order"]
     return {
         "joint_names_expr": list(joints),
@@ -56,12 +64,15 @@ def pace_dc_motor_cfg_kwargs(value: Union[pathlib.Path, str, Mapping[str, object
         "friction": dict(zip(joints, contract["static_friction"])),
         "dynamic_friction": dict(zip(joints, contract["dynamic_friction"])),
         "viscous_friction": dict(zip(joints, contract["viscous_friction"])),
-        "max_delay": contract["delay_steps"],
+        "min_delay": delays.copy().pop(),
+        "max_delay": delays.pop(),
     }
 
 
 def apply_joint_properties(articulation, joint_ids, value) -> None:
-    contract = load_leg_dm_contract(value)
+    model = load_model_manifest(value)
+    require_identified_motor_properties(model)
+    contract = load_leg_dm_contract(model)
     try:
         import torch
     except ImportError as error:

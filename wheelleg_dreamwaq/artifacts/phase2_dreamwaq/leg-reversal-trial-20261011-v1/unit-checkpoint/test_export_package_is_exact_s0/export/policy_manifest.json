@@ -1,0 +1,14 @@
+{
+  "actor_file": "actor.ts",
+  "actor_sha256": "00C631EB353BDA0A8B5AD76544DC0EA1E9672BDD6458674692B6F8D5B5D2F0A2",
+  "base_task_contract_hash": "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "dreamwaq_algorithm_contract_hash": "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+  "dreamwaq_export_contract_hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "dreamwaq_export_contract_version": "DreamWaQExportContractV1",
+  "export_verification_max_abs_error": 0.0,
+  "golden_vectors_file": "golden_vectors.pt",
+  "golden_vectors_sha256": "02C8C5D0496922E5B5C4C9F3765539639E243156F57B70625536A0FC21D27FB5",
+  "manifest_hash": "A4D469F8D0451AB82AF68A8932293A6CF7F90C953B3B9DC1F247B9E4A135F5B8",
+  "schema_version": "DreamWaQPolicyExportV1",
+  "torch_version": "2.7.0+cu128"
+}

@@ -169,8 +169,8 @@ def main() -> None:
         trace = _rows_to_arrays(rows)
         save_npz(output / "reference_trace.npz", trace)
         articulation_props = env.cfg.robot_cfg.spawn.articulation_props
-        formal_task_root = root / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/tasks/direct/wheelleg_flat"
-        schema_root = root / "source/wheelleg_dreamwaq/wheelleg_dreamwaq/schemas"
+        formal_task_root = root / "training/wheelleg_dreamwaq/tasks/direct/wheelleg_flat"
+        schema_root = root / "training/wheelleg_dreamwaq/schemas"
         formal_sources = {
             "formal_environment": formal_task_root / "env.py",
             "formal_environment_config": formal_task_root / "env_cfg.py",

@@ -119,6 +119,17 @@ mevius2-master/
 wheel_leg/third_party/
 
 # Local diagnostic caches and baseline copies
+wheelleg_dreamwaq/artifacts/phase2_dreamwaq/baseline-heading-implementation-20261016/
 wheelleg_dreamwaq/artifacts/**/kit-*/
 wheelleg_dreamwaq/artifacts/**/source-before/
 wheelleg_dreamwaq/wheel_leg_rl-mainwheelleg_dreamwaqdebugsim2simroot_cause_suiteruns*/
+
+# 实验源码副本、上传副本和测试缓存集中保存在 debug
+wheelleg_dreamwaq/debug/archive/*
+!wheelleg_dreamwaq/debug/archive/source_snapshots/
+wheelleg_dreamwaq/debug/archive/source_snapshots/*
+!wheelleg_dreamwaq/debug/archive/source_snapshots/split-action-smooth-20261013/
+!wheelleg_dreamwaq/debug/archive/source_snapshots/open-beni-reward-review-20261011/
+wheelleg_dreamwaq/debug/archive/source_snapshots/open-beni-reward-review-20261011/source/uv.lock
+wheelleg_dreamwaq/debug/cache/
+wheelleg_dreamwaq/debug/workspace-layout-20261028/relocations.json
