@@ -291,6 +291,12 @@ def load_resolved_config(path: str | Path) -> dict[str, Any]:
 
 
 def validate_resolved_config(payload: dict[str, Any], *, check_paths: bool = True) -> None:
+    if isinstance(payload, dict) and payload.get("schema_version") == "RecoveryIndependentStandV1":
+        from .independent_config import validate_independent_config
+
+        validate_independent_config(payload, check_paths=check_paths)
+        return
+
     from .randomization import RecoveryRandomizationV1
     from .supervisor import SupervisorConfig
 

@@ -11,7 +11,7 @@ import xml.etree.ElementTree as ET
 from recovery.contracts import PROJECT_ROOT, file_sha256, source_sha256, write_json
 
 
-MUJOCO_FILES = ("test_geometry_guard.py", "test_mujoco_recovery.py")
+MUJOCO_FILES = ("test_geometry_guard.py", "test_mujoco_recovery.py", "test_independent_mujoco.py")
 
 
 def test_inventory():

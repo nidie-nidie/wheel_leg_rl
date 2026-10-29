@@ -25,6 +25,10 @@ from .randomization import RecoveryRandomization, RecoveryRandomizationV1
 
 
 def preflight(config: dict) -> dict:
+    if config["schema_version"] == "RecoveryIndependentStandV1":
+        from .independent_preflight import independent_preflight
+
+        return independent_preflight(config)
     environment = config["environment"]
     for key in ("pose_bank_path", "walker_export_dir", "run_dir"):
         if not environment[key]:
@@ -267,6 +271,11 @@ def main() -> None:
     if (arguments.import_compatible is None) != (arguments.import_evidence is None):
         raise ValueError("兼容导入必须同时指定父checkpoint和完整等价证据")
     config = load_resolved_config(arguments.config)
+    if config["schema_version"] == "RecoveryIndependentStandV1":
+        from .independent_train import run_independent_training
+
+        run_independent_training(arguments, config)
+        return
     if config["schema_version"] == "RecoveryResolvedConfigV3" and arguments.import_compatible is not None:
         raise ValueError("辅助训练禁止兼容导入，必须使用新网络或同身份严格恢复")
     if arguments.device != config["environment"]["device"]:

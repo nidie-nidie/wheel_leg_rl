@@ -11,12 +11,18 @@ def main() -> None:
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--create", metavar="PATH")
     group.add_argument("--check", metavar="PATH")
+    parser.add_argument("--independent-standing", action="store_true")
     args = parser.parse_args()
     if args.create:
         path = Path(args.create)
         if path.exists():
             raise FileExistsError(path)
-        write_json(path, default_resolved_config())
+        if args.independent_standing:
+            from .independent_config import default_independent_config
+
+            write_json(path, default_independent_config())
+        else:
+            write_json(path, default_resolved_config())
         print(str(path.resolve()))
     else:
         print(stable_hash(load_resolved_config(args.check)))

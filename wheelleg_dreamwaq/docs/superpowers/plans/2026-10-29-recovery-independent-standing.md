@@ -1,12 +1,12 @@
 # 倒地起身与独立持续站立方案
 
-> 执行说明：使用 executing-plans 按本文的任务清单实施，并分别核验动作分布、奖励、持续站立判据、真实物理运行和模型导出。本文交付采集结果与设计；生产训练代码、奖励和配置尚未按本方案修改，也没有启动新训练。
+> 执行状态（2026-10-29）：独立审阅后已实现新schema，通过271项单元检查和真实4环境2+2更新、保存恢复与局部reset检查。正式4096环境训练及最终行为评估尚未执行。实施证据和待补检查见[实施报告](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/docs/2026-10-29-recovery-independent-standing-implementation.md)。
 
 **Goal：** 机器人从六类倒地初态自行恢复到与 checkpoint401 相近的双轮站姿，并由恢复策略持续保持站立。
 
 **Architecture：** 使用五帧本体观测、前馈 Actor 和普通 PPO；使用401实测的配套关节角度与高度作为站姿参考。扶正、抬高、腿姿态、机身稳定、关节速度和轮子承重分别计算奖励，通过连续站立时间决定成功。
 
-**使用的技术：** PyTorch、现有 rsl_rl PPO、Isaac 训练环境、MuJoCo CPU 独立测评、NumPy 数据归档。
+**使用的技术：** PyTorch、有界普通PPO、Isaac训练环境、MuJoCo CPU独立测评、NumPy数据归档。新PPO实现独立于原有GuidancePPO成本分支。
 
 文中“实测”表示本次已经运行并核验的结果；“设计值”表示建议实施的具体参数。新策略的起身能力和成功率需要按本文训练、测评后才能确定。
 
@@ -63,7 +63,9 @@
 
 该角度与现有执行器名义偏置 `[-0.33367134,+0.33367134,-0.33367134,+0.33367134]` 有明确差别。执行器零点和站立目标分别保存，奖励使用采集站姿。轮子角度具有累计相位，排除在姿态距离以外；左右腿保持原控制符号，不额外强制原始角度相等。
 
-401站立时存在轮子往复平衡，轮速与轮目标也有明显区别：实际轮速约±5.3rad/s；本次轮目标绝对最大值约26.54rad/s，实际轮力矩可达到±9Nm。参考站姿与承重值得使用，饱和轮力矩和快速变动的控制命令不作为模仿目标。
+上述中位数使用完整2800帧统计。实现时策略初始化读取冻结560组配套参考库本身的中位数 `[-0.44769123,0.15432957,-0.39427116,0.19342631]`，两种窗口的最大差异小于0.00056rad；奖励仍按同一索引选择成对q/h，不使用两套中位数混搭目标。
+
+401站立时存在轮子往复平衡，轮速与轮目标也有明显区别：第2秒后的名义站立片段实际轮速约±5.3rad/s，轮目标绝对最大值约26.54rad/s；完整30秒数据包含起始过渡和扰动，左右轮目标绝对最大值约34.97/35.45rad/s，实际轮力矩可达到±9Nm。参考站姿与承重值得使用，饱和轮力矩和快速变动的控制命令不作为模仿目标。新动作范围仍固定为±30rad/s；奖励回放中只比较当前及前两步目标都处于新范围内的有效动作帧，不裁剪旧记录。
 
 已核验的门限覆盖结果：
 
@@ -71,7 +73,7 @@
 - 逐帧要求总轮承重为0.8–1.2倍体重，也会排除正常动力学波动。
 - 轮速包络采用6rad/s、总承重使用尾随0.20秒平均，配合第7节运动学候选条件后，20段数据的第2–30秒均满足候选条件，连续28秒。
 
-最后一项只证明候选条件可以接受参考策略的站立表现。它还没有证明候选条件能够排除全部异常支撑状态，也没有证明恢复策略能够到达这些状态。
+最后一项证明候选条件可以接受参考策略的站立表现。实施阶段另采集单轮、机身支撑、滑动、倒置和低位共300帧真实物理反例，完整成功误接受为零；仍不代表穷尽异常支撑，也不证明恢复策略能够到达目标。
 
 ## 3. 目标行为与边界
 
@@ -270,7 +272,7 @@ B = 0.5 * [min(clip(F_L/(0.25mg),0,1), clip(F_R/(0.25mg),0,1))
 | 配套稳定站立 | 20% | recovery_contact名义参考的完整状态，按现有约束重建并物理核验 |
 | 近站立扰动 | 20% | 从同一参考出发，对roll/pitch独立施加±0.08rad均匀扰动，四腿±0.05rad，root水平速度±0.05m/s，角速度每轴±0.10rad/s |
 
-MuJoCo的qpos/qvel通过现有关节名称、控制符号、自由基姿态、root与COM偏移和闭链从动关节转换为Isaac初态，禁止直接复制数组。四腿和root扰动后重新求解闭链并调整root使轮地面高度一致，使用现有几何检查；只接受有效、无穿透的初态。无效样本记入生成报告并在同一来源分组重新生成，不能静默替换成其他来源的站立初态。实际reset后核验q、h、投影重力、两轮支撑与闭链误差，再进入策略采样。
+MuJoCo的qpos/qvel通过现有关节名称、控制符号、自由基姿态、root与COM偏移和闭链从动关节转换为Isaac初态，禁止直接复制数组。四腿和root扰动后重新求解闭链并调整root使最低轮几何接近地面，使用现有几何检查；只接受有限、构型正确、无穿透的初态。近站立扰动允许单轮接近地面或短暂离地。无效样本记入生成报告并在同一来源分组重新生成。实际reset后核验q、h、投影重力与闭链误差；接触传感器清零，双轮承重窗口从后续真实物理步骤建立。配套稳定站立来源使用零辅助物理生成、经过完整门控的接受状态，记录保存前真实双轮承重证据；reset写入状态本身不产生可用接触力。
 
 训练和最终测评初态ID严格分离。401参考训练状态可用于站姿奖励；最终测试从留出的倒地记录及独立生成的物理有效扰动开始。40%站立相关样本提供“保持站立”的直接学习信号；训练统计分别报告五个倒地类别、配套站立和近站立扰动的成绩。
 
@@ -310,8 +312,9 @@ MuJoCo的qpos/qvel通过现有关节名称、控制符号、自由基姿态、ro
 5. 有界动作的采样、概率、熵、KL、history与导出映射一致；高斯潜在量取±20时所有公式数值有限。
 6. 真实4环境至少2次更新、保存与恢复检查，覆盖局部reset和HOLD中断；有限参数实际变化，归档/模型identity匹配。
 7. CPU MuJoCo与训练环境的坐标、关节符号、COM高度、目标与接触力语义一致，动作边界检查通过。
+8. 新schema使用独立站立准入协议，检查参考及完整门控校准、60/20/20初态来源、几何身份、实际资源和本次验证证据。名义训练与测试允许使用相同物理参数计划，轨迹ID与初态ID必须分离。旧版本的行走交接标定和walker_fall比例要求只适用于旧schema。
 
-第1项已经完成；第2–7项属于新方案实施后的准入检查。旧225项通过不能代替新动作与成功语义的检查。
+第1项已经完成；第2–8项属于新方案实施后的准入检查。旧225项通过不能代替新动作与成功语义的检查。
 
 ### 9.2 最终独立测评集合
 
@@ -344,65 +347,61 @@ MuJoCo的qpos/qvel通过现有关节名称、控制符号、自由基姿态、ro
 
 ### 任务1：参考数据与校准配置
 
-文件：新增 `E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/standing_reference.py`、`training/recovery/tests/test_standing_reference.py`；修改 [calibrate.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/calibrate.py)。
+实际文件：`training/recovery/standing_reference.py`、`standing_calibration.py`、`independent_preflight.py`、`independent_poses.py`及对应测试。
 
-- [ ] 读取并核验manifest与NPZ哈希、关节顺序、COM高度语义、560组配套参考及有限性；拒绝没有身份信息的参考。
-- [ ] 实现第6节最近配套参考索引，返回同一索引的q、h和距离；相同距离时固定选择较小索引。
-- [ ] 对20段401、已有6200轨迹和实际异常支撑初态计算完整门控，保存每项拒绝原因、连续合格最长时间和完整保持结果。
-- [ ] 生成具备全部第7节阈值与证据哈希的 `standing_calibration.json`；缺失值直接报错。
-- [ ] 运行CPU实际参考读取与配套选择检查，验证轮相位/yaw改变不会改变参考索引、同时改变q与h会选择同一实际参考。
+- [x] 核验manifest、560组成对参考、最近索引、轮相位与yaw无关性、有限性及哈希。
+- [x] 20段401完整门控校准；12段6200共4066帧均违反必要运动学条件，旧数据接触身份限制单独记录。
+- [x] 五类异常支撑共300帧真实物理采集，完整成功误接受零；保存完整校准报告及哈希。
+- [x] 独立准入和60/20/20姿态库校验；轨迹和初态ID分离，名义物理计划可共用；预先检查定期测评所需12个ID。
 
 ### 任务2：新契约与有界策略
 
-文件：修改 [contracts.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/contracts.py)、[config.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/config.py)、[control.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/control.py)；新增 `training/recovery/bounded_actor_critic.py`、`training/recovery/tests/test_bounded_actor_critic.py`。
+实际文件：`training/recovery/independent_config.py`、`bounded_actor_critic.py`、`independent_ppo.py`；现有contracts/config/train增加新schema分发。
 
-- [ ] 新契约固定110维Actor、41维Critic及第5节动作语义；注册新schema并拒绝旧模型恢复。
-- [ ] 实现潜在高斯、tanh变换、稳定Jacobian、重参数熵估计、潜在KL、逐组有界标准差和确定性均值导出。
-- [ ] storage保存u与a；PPO新旧概率使用相同u，环境与动作历史使用a。
-- [ ] 用真实分布采样核验范围，检查零策略、饱和潜在量、梯度有限性，以及未更新策略的PPO比率为1；对比PyTorch变换分布的概率数值。
-- [ ] 运行真实六类初态的目标边界与几何检查，输出每个关节和姿态的结果。
+- [x] 固定110维Actor、41维Critic；潜在高斯、tanh、稳定Jacobian、变换后熵、潜在KL、有界标准差及确定性导出。
+- [x] storage同时保存u/a；PPO复用u，执行与history使用a；极值有限性、梯度、未更新比率1及PyTorch概率对比通过。
+- [x] 六类初态×六关节×正负边界共72例真实MuJoCo检查通过，所记录硬物理失败零。
 
 ### 任务3：独立奖励
 
-文件：修改 [rewards.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/rewards.py)；新增 `training/recovery/tests/test_independent_stand_rewards.py`。
+实际文件：`training/recovery/independent_rewards.py`及对应测试。
 
-- [ ] 实现第6节全部公式、dt系数及独立项返回值；新schema不调用旧stable/potential奖励。
-- [ ] 使用参考实际状态与已有真实倒地轨迹验证数值有限、同姿态速度降低提高独立稳定分数、同支撑条件改善q/h提高对应分数。
-- [ ] 实际回放验证倒置区域扶正分数存在，theta从0.50到0.15rad时g_u连续增加，h从0.12到0.18m时g_s连续增加。
-- [ ] 验证腿姿态差不会把机身角速度分数乘为零；速度过大不会关闭姿态奖励；终态每项只记录一次。
-- [ ] 用真实轨迹生成每项奖励分布报告，包含401、6200与六类初态；训练前检查长期近零与单项尺度。核验连续奖励每步不超过0.107、成功终奖20，并比较实际HOLD片段及时完成和中断/拖延后的折扣回报。
+- [x] 实现第6节独立公式、dt、连续启用系数和终奖；新schema不调用旧stable/potential。
+- [x] 读取实际401/6200数据进行有限性及排序检查；在实测输入上单独改变误差，核验分项梯度方向与非乘积关系。这属于函数检查，未把改变后的输入宣称为额外真实物理轨迹。
+- [x] 实际HOLD片段及时完成与延迟完成的折扣回报比较通过，校准报告保留每段结果。
+- [ ] 正式准入时汇总401、6200与全部六类初态的完整分项分布，检查长期近零和量级；不能用小规模PPO检查代替此报告。
 
 ### 任务4：持续站立状态与物理测量
 
-文件：修改 [observations.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/observations.py)、[env.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/env.py)、[batched_supervisor.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/batched_supervisor.py)、[supervisor.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/supervisor.py)、[pose_pool.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/pose_pool.py)。新增 `training/recovery/tests/test_independent_stand_state.py`。
+实际文件：`training/recovery/independent_state.py`、`independent_env.py`、`independent_env_cfg.py`、`independent_poses.py`及对应测试。
 
-- [ ] 接入真实左右轮和非轮法向力，十步窗口带有效计数；奖励与判据读取同一物理量。
-- [ ] 实现第7节GETUP/HOLD状态与50/100步骤计数、8/10秒截止、物理失败优先和保持位移限制。
-- [ ] 训练与评估共享每步物理门控，训练HOLD为100步、位移0.10m、总预算500步，中断后按第7.2节返回GETUP；评估HOLD为500步、位移0.20m、总预算900步，进入HOLD后发生一次中断即记录完整保持失败，不重新尝试成功。
-- [ ] 完成41维Critic各字段和20/20/60初态来源；每回合记录真实来源类别。
-- [ ] 在真实多环境执行局部reset，核验其他环境的history、承重均值、阶段、位移起点与计数保持原值。
-- [ ] 核验49/50步、99/100步、第400/500/900步边界，物理失败与成功同一步的优先关系；合格中断清零，有限时限终态无bootstrap。
+- [x] 真实法向力、10步窗口、共享门控、GETUP/HOLD、训练与评估的不同时限/位移、物理失败优先及41维Critic。
+- [x] 92个实际初态、60/20/20来源、闭链和几何校验；reset及restore正确区分root link与COM速度并清理Isaac缓存。
+- [x] 实际4环境局部reset只改变env0，另3环境的物理状态、history、接触窗口与任务计数逐项精确不变。
+- [x] 单元检查覆盖49/50、99/100、400/500/900边界、中断和终态优先级；真实401轨迹校准覆盖完整持续判据。
+- [ ] 正式准入前补GPU在线HOLD成功与中断覆盖。本次每环境96个训练控制步骤没有到达完整HOLD回合，不能标作已经覆盖。
 
 ### 任务5：PPO、模型与紧凑日志
 
-文件：修改 [ppo_runner.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/ppo_runner.py)、[checkpoint.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/checkpoint.py)、[export.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/export.py)、[train.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/train.py)、[metrics.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/metrics.py)及现有metrics协议/worker文件。
+实际文件：`training/recovery/independent_ppo.py`、`independent_runner.py`、`independent_checkpoint.py`、`compact_metrics.py`、`independent_train.py`。
 
-- [ ] 新schema选择有界普通PPO，不构建GuidancePPO成本分支；KL调节和熵使用第5节定义。现有RSL自适应调度上限为1e−2，需要在本项目的PPO适配中使用第8节明确的范围，保存调度配置与学习率，并核验每个mini-batch及恢复后均位于[1e−5,3e−4]。
-- [ ] 保存模型、优化器、std参数、控制映射、观测与校准身份；恢复完整检查并拒绝旧schema混用。
-- [ ] 新schema也直接输出TensorBoard回合奖励与长度，按初态来源分组统计；没有完整回合时写null并记录计数。
-- [ ] 实现第10节紧凑日志、轨迹配额、checkpoint小index和明确logging barrier；恢复入口不扫描历史大归档。
-- [ ] 真实4环境运行至少2更新、保存与恢复，再运行2更新；检查参数发生变化、概率有限、HOLD/局部reset正确、提交与消费一致。
-- [ ] 导出Actor，在同一组实际110维输入上核对训练确定性动作与CPU TorchScript动作及物理目标。
+- [x] 有界普通PPO、[1e−5,3e−4]学习率调度、完整策略/优化器/环境/RNG保存恢复与旧schema拒绝。
+- [x] 紧凑update/episode日志、TensorBoard、512MiB选定失败轨迹配额、小index及同步fsync确认；不读父20GB归档。
+- [x] 实际4环境2+2更新通过，384个训练环境步骤；恢复观测精确一致，恢复后策略继续变化，提交=消费且pending0。
+- [x] 实际训练观测的CPU导出最大动作误差8.94e−8；导出策略另完成两回合CPU接口评估，成功0/2，仅作接口检查。
+- [ ] 用有完整终态和HOLD的GPU验证补足回合TensorBoard/选定失败完整轨迹路径；当前小运行episode_count为0。
 
 ### 任务6：独立测评与正式实验记录
 
-文件：修改 [verify_mujoco.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/verify_mujoco.py)、[evaluate.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/evaluate.py)、[mujoco_runtime.py](/E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/mujoco_runtime.py)；新增 `debug/sim2sim/evaluate_independent_stand.py` 与新artifact内的冻结配置、准入报告和验收报告。
+实际文件：`training/recovery/independent_evaluate.py`、`debug/sim2sim/prepare_independent_standing_*.py`、`verify_independent_*.py`及新artifact。
 
 - [ ] 固定本方案参考/校准/代码/物理身份，保存第9.1节完整准入证据与其他项目进程、资源状态。
 - [ ] 使用独立CPU评估器运行参考与6200对照，核验数据口径和完整持续判据；每个策略按自身模型契约构造观测与目标，禁止给旧6200套用新有界动作映射。
 - [ ] 准入通过后按第8节固定预算启动正式训练，定期12姿态测评，记录故障且禁止自动重启。
 - [ ] 对候选最终模型运行600+100评估，保存实际成功率、区间、连续保持、失败原因与完整12案例轨迹。
 - [ ] 综合核验模型、连续更新、真实耗时、日志退出和行为验收；分别记录训练完成与行为达标，维护最终报告。
+
+600+100套件与12姿态周期评估代码已实现；上列正式实验及行为验收仍待执行。参考401和旧6200的本轮结论来自原始采集回放，没有冒称已重新运行旧6200策略。
 
 ### 实施时的验证命令
 
@@ -420,7 +419,7 @@ $env:PYTHONPATH='E:/wheel_leg_rl-main/wheelleg_dreamwaq/training;E:/wheel_leg_rl
 & 'E:/wheel_leg_rl-main/wheelleg_dreamwaq/sim2sim/mujoco/.venv/Scripts/python.exe' -m pytest 'E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/tests/test_standing_reference.py' 'E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/tests/test_bounded_actor_critic.py' 'E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/tests/test_independent_stand_rewards.py' 'E:/wheel_leg_rl-main/wheelleg_dreamwaq/training/recovery/tests/test_independent_stand_state.py' -q
 ```
 
-GPU物理更新检查与正式训练在实施任务时使用新artifact中完整解析的配置；入口仍为 `-u -m recovery.train --config <新artifact>/training_config.json --headless --device cuda:0`。脚本不得加入自动降规模、旧模型恢复或失败重启。用户本次要求的数据采集与方案编写不执行这些训练命令。
+本轮已用新artifact的 `interface_config_v3.json` 运行4环境4次更新并执行保存恢复检查。正式训练入口仍为 `-u -m recovery.train --config <新artifact>/training_config.json --headless --device cuda:0`，须先补齐专用正式准入。脚本不得自动降规模、导入旧模型或重启失败训练。本轮没有执行正式训练。
 
 ## 12. 本次交付状态
 
@@ -428,8 +427,8 @@ GPU物理更新检查与正式训练在实施任务时使用新artifact中完整
 - [x] 两套模型完成20段CPU采集，保存实际观测、动作、目标、力矩和接触。
 - [x] 348项离线核验通过；原入口300步一致性通过。
 - [x] 已形成数据约束、网络、动作、奖励、持续站立、初态、预算、日志及完整验收设计。
-- [x] 两项独立方案复核均无未处理P1/P2；连续奖励上界与成功终奖关系已计算核验。
-- [ ] 新契约、奖励、分布、校准和训练实现，按第11节执行。
+- [x] 独立复核已明确初态接触测量与新schema准入规则；连续奖励上界与成功终奖关系已计算核验。
+- [x] 新契约、奖励、分布、校准、训练及测评代码已实现；271项单元检查、实际4环境2+2更新和局部reset通过，具体边界见第11节。
 - [ ] 新策略的实际起身、持续站立与扰动成功率，经第9节测评后填写。
 
-本次生产source SHA256仍为 `F06D42C9DFBD3D5D8CFC06E11414A83D1531C3BDD22A25087B2088B6247C0FB8`。采集脚本、独立检查脚本和本文为新增诊断与设计文件。
+实施前source SHA256为 `F06D42C9DFBD3D5D8CFC06E11414A83D1531C3BDD22A25087B2088B6247C0FB8`，实施后受验source为 `14388C314C12C225FDAE57C99A44E416C8E468C2EA963324F2C0244AFDDBE00C`。实施前代码已普通提交并推送到GitHub；正式4096环境训练仍需单独执行完整准入与启动授权。
